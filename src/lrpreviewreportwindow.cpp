@@ -98,8 +98,8 @@ void PreviewReportWindow::restoreSetting()
 
 PreviewReportWindow::~PreviewReportWindow()
 {
-    if (m_ownedSettings)
-        delete m_settings;
+    delete m_settings;
+	delete m_previewPage;
     delete ui;
 }
 
