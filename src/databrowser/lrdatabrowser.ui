@@ -166,6 +166,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="addDataSource">
+           <property name="toolTip">
+            <string>Add new datasource</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -188,6 +191,9 @@
           <widget class="QToolButton" name="viewDataSource">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>View data</string>
            </property>
            <property name="text">
             <string>...</string>
@@ -212,6 +218,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>Change datasource</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -235,6 +244,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>Delete datasource</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -257,6 +269,9 @@
           <widget class="QToolButton" name="errorMessage">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Show error</string>
            </property>
            <property name="text">
             <string>...</string>
@@ -338,6 +353,9 @@
          </property>
          <item>
           <widget class="QToolButton" name="addVariable">
+           <property name="toolTip">
+            <string>Add new variable</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -364,6 +382,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>Edit variable</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -386,6 +407,9 @@
           <widget class="QToolButton" name="deleteVariable">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Delete variable</string>
            </property>
            <property name="text">
             <string>...</string>

@@ -252,12 +252,27 @@ void DataSourceManager::connectAllDatabases()
     }
 }
 
-void DataSourceManager::addModel(const QString &name, QAbstractItemModel *model, bool owned)
+bool DataSourceManager::addModel(const QString &name, QAbstractItemModel *model, bool owned)
 {
+    if (m_datasources.contains(name.toLower()))
+        removeDatasource(name.toLower());
     ModelHolder* mh = new ModelHolder(model,owned);
-    putHolder(name, mh);
-    connect(mh, SIGNAL(modelStateChanged()), this, SIGNAL(datasourcesChanged()));
+    try{
+        putHolder(name, mh);
+        connect(mh, SIGNAL(modelStateChanged()), this, SIGNAL(datasourcesChanged()));
+    } catch (ReportError e){
+        putError(e.what());
+        setLastError(e.what());
+        return false;
+    }
     emit datasourcesChanged();
+    return true;
+}
+
+void DataSourceManager::removeModel(const QString &name)
+{
+    if (m_datasources.contains(name.toLower()))
+        removeDatasource(name.toLower());
 }
 
 ICallbackDatasource *DataSourceManager::createCallbackDatasouce(const QString& name)
@@ -611,6 +626,10 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
     clearErrorsList();
     QString lastError ="";
 
+    foreach(QString datasourceName, dataSourceNames()){
+        dataSourceHolder(datasourceName)->clearErrors();
+    }
+
     if (!QSqlDatabase::contains(connectionDesc->name())){
         {
             QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
@@ -630,10 +649,11 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
         return false;
     } else {
         foreach(QString datasourceName, dataSourceNames()){
-            if (isQuery(datasourceName) || isSubQuery(datasourceName)){
+            if (isQuery(datasourceName)){
                QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
                if (qh){
                    qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+                   invalidateChildren(datasourceName);
                }
             }
         }
@@ -645,9 +665,32 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
                }
             }
         }
-        emit datasourcesChanged();
+        if (designTime()) emit datasourcesChanged();
     }
     return true;
+}
+
+QList<QString> DataSourceManager::childDatasources(const QString &parentDatasourceName)
+{
+    QList<QString> result;
+    foreach(QString datasourceName, dataSourceNames()){
+        if (isSubQuery(datasourceName)){
+            SubQueryHolder* sh = dynamic_cast<SubQueryHolder*>(dataSourceHolder(datasourceName));
+            if (sh->masterDatasource().compare(parentDatasourceName,Qt::CaseInsensitive)==0){
+                result.append(datasourceName);
+            }
+        }
+    }
+    return result;
+}
+
+void DataSourceManager::invalidateChildren(const QString &parentDatasourceName)
+{
+    foreach(QString datasourceName, childDatasources(parentDatasourceName)){
+        SubQueryHolder* sh = dynamic_cast<SubQueryHolder*>(dataSourceHolder(datasourceName));
+        sh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+        invalidateChildren(datasourceName);
+    }
 }
 
 bool DataSourceManager::containsDatasource(const QString &dataSourceName)
@@ -707,7 +750,7 @@ IDataSource *DataSourceManager::dataSource(const QString &name)
     IDataSourceHolder* holder = m_datasources.value(name.toLower());
     if (holder) {
         if (holder->isInvalid()) {
-            setLastError(holder->lastError());
+            setLastError(name+" : "+holder->lastError());
             return 0;
         } else {
             return holder->dataSource(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
@@ -927,7 +970,7 @@ void DataSourceManager::setSystemVariable(const QString &name, const QVariant &v
 
 void DataSourceManager::setLastError(const QString &value){
     m_lastError =  value;
-    if (!value.isEmpty()) {
+    if (!value.isEmpty() && !m_errorsList.contains(value)) {
         m_errorsList.append(value);
     }
 }

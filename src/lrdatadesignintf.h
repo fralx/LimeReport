@@ -76,6 +76,7 @@ public:
     virtual bool isRemovable() const = 0;
     virtual void invalidate(IDataSource::DatasourceMode mode) = 0;
     virtual void update() = 0;
+    virtual void clearErrors() = 0;
     virtual ~IDataSourceHolder(){}
 };
 
@@ -92,6 +93,7 @@ public:
     bool isRemovable() const { return false; }
     void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
     void update(){}
+    void clearErrors(){}
 signals:
     void modelStateChanged();
 private:
@@ -179,13 +181,16 @@ public:
     bool isInvalid() const { return !m_lastError.isEmpty(); }
     bool isEditable() const { return true; }
     bool isRemovable() const { return true; }
+    bool isPrepared() const {return m_prepared;}
     QString lastError() const { return m_lastError; }
     void setLastError(QString value){m_lastError=value; if (m_query) {delete m_query; m_query=0;}}
     void invalidate(IDataSource::DatasourceMode mode);
     void update();
+    void clearErrors(){setLastError("");}
     DataSourceManager* dataManager() const {return m_dataManager;}
 protected:
     void setDatasource(IDataSource::Ptr value);
+    void setPrepared(bool prepared){ m_prepared = prepared;}
     virtual void fillParams(QSqlQuery* query);
     virtual void extractParams();
     QString replaceVariables(QString query);
@@ -199,6 +204,7 @@ private:
     IDataSource::Ptr m_dataSource;
     IDataSource::DatasourceMode m_mode;
     DataSourceManager* m_dataManager;
+    bool m_prepared;
 };
 
 class SubQueryDesc : public QueryDesc{
@@ -309,6 +315,7 @@ public:
     QString lastError() const { return m_lastError; }
     void invalidate(IDataSource::DatasourceMode mode);
     void update(){}
+    void clearErrors(){m_lastError = "";}
     DataSourceManager* dataManager() const {return m_dataManger;}
 private slots:
     void slotChildModelDestoroyed();
@@ -408,6 +415,7 @@ public:
     void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
     ~CallbackDatasourceHolder(){if (m_datasource) delete m_datasource;}
     void update(){}
+    void clearErrors(){}
 private:
     IDataSource* m_datasource;
     bool m_owned;

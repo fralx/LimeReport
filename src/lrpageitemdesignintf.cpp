@@ -29,6 +29,8 @@
  ****************************************************************************/
 #include "lrpageitemdesignintf.h"
 #include "lrbanddesignintf.h"
+#include "lrpagedesignintf.h"
+
 #include <QGraphicsScene>
 #include <QPrinter>
 
@@ -50,6 +52,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     setFixedPos(true);
     setPosibleResizeDirectionFlags(Fixed);
     initPageSize(m_pageSize);
+    selectionMarker()->setColor(Qt::transparent);
 }
 
 PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &rect, QObject *owner, QGraphicsItem *parent) :
@@ -192,15 +195,12 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     QSet<BandDesignIntf::BandsType> groupFooterIgnoredBands;
     groupFooterIgnoredBands << BandDesignIntf::DataFooter << BandDesignIntf::GroupHeader;
 
-    QSet<BandDesignIntf::BandsType> dataFooterIgnoredBands;
-    dataFooterIgnoredBands << BandDesignIntf::GroupHeader;
-
     int bandIndex=-1;
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
     foreach(BandDesignIntf* band,m_bands){
         if ((band->bandType()==BandDesignIntf::GroupHeader)&&(band->bandType()>bandType)) break;
         if ((band->bandType()>bandType)) break;
-        if (bandIndex<band->bandIndex()) bandIndex=band->maxChildIndex()+1;
+        if (bandIndex<=band->bandIndex()) bandIndex=band->maxChildIndex()+1;
     }
 
     if (bandIndex==-1) {
@@ -291,21 +291,49 @@ void PageItemDesignIntf::registerBand(BandDesignIntf *band)
     }
 }
 
+void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos, int columnCount){
+    posByColumns.clear();
+    for(int i=0;i<columnCount;++i){
+        posByColumns.append(pos);
+    }
+}
+
 void PageItemDesignIntf::relocateBands()
 {
     if (isLoading()) return;
 
     int bandSpace = (itemMode() & DesignMode)?4:0;
 
+    QVector<qreal> posByColumn;
+
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
 
-    if (m_bands.count()>0) m_bands[0]->setPos(pageRect().x(),pageRect().y());
+    if (m_bands.count()>0) {
+        initColumnsPos(posByColumn,pageRect().x(),m_bands[0]->columnsCount());
+        m_bands[0]->setPos(pageRect().x(),pageRect().y());
+        posByColumn[0]+=m_bands[0]->height()+bandSpace;
+    }
     if(m_bands.count()>1){
-        //m_bands[0]->setBandIndex(0);
+
         for(int i=0;i<(m_bands.count()-1);i++){
-            if ((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) || (itemMode() & DesignMode))
-                m_bands[i+1]->setPos(pageRect().x(),m_bands[i]->pos().y()+m_bands[i]->height()+bandSpace);
-            //m_bands[i+1]->setBandIndex(i+1);
+            if ((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) || (itemMode() & DesignMode)){
+                if (m_bands[i+1]->columnsCount()>1 &&
+                    m_bands[i]->columnsCount() != m_bands[i+1]->columnsCount())
+                {
+                    qreal curPos = posByColumn[0];
+                    initColumnsPos(posByColumn,
+                                   curPos,
+                                   m_bands[i+1]->columnsCount());
+                }
+                if (m_bands[i+1]->columnIndex()==0){
+                    m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
+                    posByColumn[0] += m_bands[i+1]->height()+bandSpace;
+                } else {
+                    m_bands[i+1]->setPos(m_bands[i+1]->pos().x(),posByColumn[m_bands[i+1]->columnIndex()]);
+                    posByColumn[m_bands[i+1]->columnIndex()] += m_bands[i+1]->height()+bandSpace;
+                }
+            }
+
         }
     }
 }
@@ -457,7 +485,7 @@ void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
 #endif
             BandDesignIntf* item = dynamic_cast<BandDesignIntf*>(obj);
             if (item) {
-              registerBand(item);
+                registerBand(item);
             }
         }
     }
@@ -503,6 +531,25 @@ void PageItemDesignIntf::paintGrid(QPainter *ppainter)
     };
     ppainter->drawRect(pageRect());
     ppainter->restore();
+}
+
+QList<BandDesignIntf *>& PageItemDesignIntf::bands()
+{
+    return m_bands;
+}
+
+void PageItemDesignIntf::setGridStep(int value)
+{
+    if (page()) {
+        page()->setHorizontalGridStep(value);
+        page()->setVerticalGridStep(value);
+    }
+}
+
+int PageItemDesignIntf::gridStep()
+{
+    if (page()) return page()->horizontalGridStep();
+    else return 2;
 }
 
 PageItemDesignIntf::Ptr PageItemDesignIntf::create(QObject *owner)

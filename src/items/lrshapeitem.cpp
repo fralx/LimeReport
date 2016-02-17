@@ -55,7 +55,8 @@ ShapeItem::ShapeItem(QObject *owner, QGraphicsItem *parent)
       m_shapeBrushType(Qt::NoBrush),
       m_lineWidth(1),
       m_penStyle(Qt::SolidLine),
-      m_opacity(100)
+      m_opacity(100),
+      m_cornerRadius(0)
 {
 }
 
@@ -85,8 +86,12 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawEllipse(rect());
         break;
     case Rectangle:
-        painter->setRenderHint(QPainter::Antialiasing);
-        painter->drawRect(rect());
+        if (m_cornerRadius!=0){
+            painter->setRenderHint(QPainter::Antialiasing);
+            painter->drawRoundedRect(rect(),m_cornerRadius,m_cornerRadius);
+        } else {
+            painter->drawRect(rect());
+        }
         break;
     }
     painter->restore();
@@ -163,6 +168,21 @@ void ShapeItem::setPenStyle(const Qt::PenStyle &value)
 BaseDesignIntf *ShapeItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
     return new ShapeItem(owner,parent);
+}
+
+int ShapeItem::cornerRadius() const
+{
+    return m_cornerRadius;
+}
+
+void ShapeItem::setCornerRadius(int borderRadius)
+{
+    if (m_cornerRadius != borderRadius){
+        int oldValue = m_cornerRadius;
+        m_cornerRadius = borderRadius;
+        update();
+        notify("cornerRadius",oldValue,m_cornerRadius);
+    }
 }
 int ShapeItem::opacity() const
 {

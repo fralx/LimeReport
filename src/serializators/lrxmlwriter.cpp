@@ -98,6 +98,14 @@ QString XMLWriter::saveToString()
     return res;
 }
 
+QByteArray XMLWriter::saveToByteArray()
+{
+    QByteArray res;
+    QTextStream buffer(&res);
+    m_doc->save(buffer,2);
+    return res;
+}
+
 QDomElement XMLWriter::putQObjectItem(QString name, QObject *item)
 {
     Q_UNUSED(name)

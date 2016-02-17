@@ -40,6 +40,7 @@ class ItemDesignIntf : public BaseDesignIntf
     Q_OBJECT
     Q_PROPERTY(LocationType itemLocation READ itemLocation WRITE setItemLocation)
     Q_PROPERTY(bool stretchToMaxHeight READ stretchToMaxHeight WRITE setStretchToMaxHeight)
+    Q_PROPERTY(ItemAlign itemAlign READ itemAlign WRITE setItemAlign)
     Q_ENUMS(LocationType)
 public:
     enum LocationType{Band,Page};
@@ -74,13 +75,13 @@ public:
         :ItemDesignIntf(xmlTypeName,owner,parent){}
     virtual QString content() const;
     virtual void setContent(const QString& value)=0;
-    enum ExpandType {EscapeSymbols, NoEscapeSymbols};
+    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
 protected:
     QString escapeSimbols(const QString& value);
+    QString replaceHTMLSymbols(const QString& value);
     virtual QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
     virtual QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
     virtual QString expandScripts(QString context, DataSourceManager *dataManager);
-
 };
 
 class LayoutDesignIntf : public ItemDesignIntf{

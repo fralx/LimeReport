@@ -44,7 +44,7 @@ namespace LimeReport {
 
 QWidget *GroupFieldPropItem::createProperyEditor(QWidget *parent) const
 {
-    ComboBoxEditor *editor = new ComboBoxEditor(parent);
+    ComboBoxEditor *editor = new ComboBoxEditor(parent,true);
     editor->setEditable(true);
     GroupBandHeader *item=dynamic_cast<GroupBandHeader*>(object());
     if (item){

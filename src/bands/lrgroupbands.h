@@ -42,6 +42,7 @@ class GroupBandHeader : public BandDesignIntf, public IGroupBand{
     Q_PROPERTY(bool keepGroupTogether READ tryToKeepTogether WRITE setTryToKeepTogether)
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
     Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
+    Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
 public:
     GroupBandHeader(QObject* owner = 0, QGraphicsItem* parent=0);
     virtual bool isUnique() const;
@@ -50,10 +51,12 @@ public:
     QString groupFieldName(){return m_groupFiledName;}
     void setGroupFieldName(QString fieldName){m_groupFiledName=fieldName;}
     QColor bandColor() const;
-    bool startNewPage() const {return m_startNewPage;}
-    void setStartNewPage(bool value);
+    bool startNewPage() const;
+    void setStartNewPage(bool startNewPage);
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
+    bool isHeader() const{return true;}
+    bool isGroupHeader() const {return true;}
 private:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     void startGroup(DataSourceManager* dataManager);
@@ -65,7 +68,7 @@ private:
     QVariant m_groupFieldValue;
     QString m_groupFiledName;
     bool m_groupStarted;
-    bool m_startNewPage;
+    //bool m_startNewPage;
     bool m_resetPageNumber;
 };
 

@@ -63,7 +63,7 @@ namespace LimeReport{
 
 GroupBandHeader::GroupBandHeader(QObject *owner, QGraphicsItem *parent)
     : BandDesignIntf(BandDesignIntf::GroupHeader, xmlTagHeader, owner,parent),
-      m_groupFiledName(""), m_groupStarted(false), m_startNewPage(false), m_resetPageNumber(false)
+      m_groupFiledName(""), m_groupStarted(false), m_resetPageNumber(false)
 {
     setBandTypeText(tr("GroupHeader"));
     setFixedPos(false);
@@ -104,11 +104,6 @@ QColor GroupBandHeader::bandColor() const
     return QColor(Qt::darkBlue);
 }
 
-void GroupBandHeader::setStartNewPage(bool value)
-{
-    m_startNewPage = value;
-}
-
 bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
 {
     //if (m_groupFieldValue.isNull()) return false;
@@ -139,6 +134,16 @@ void GroupBandHeader::closeGroup()
 int GroupBandHeader::index()
 {
     return bandIndex();
+}
+
+bool GroupBandHeader::startNewPage() const
+{
+    return BandDesignIntf::startNewPage();
+}
+
+void GroupBandHeader::setStartNewPage(bool startNewPage)
+{
+    BandDesignIntf::setStartNewPage(startNewPage);
 }
 
 bool GroupBandHeader::resetPageNumber() const

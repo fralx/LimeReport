@@ -3,7 +3,7 @@ REPORT_PATH = $$PWD
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 3
-LIMEREPORT_VERSION_RELEASE = 1
+LIMEREPORT_VERSION_RELEASE = 9
 
 LIMEREPORT_VERSION = '\\"$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}\\"'
 DEFINES += LIMEREPORT_VERSION_STR=\"$${LIMEREPORT_VERSION}\"
@@ -71,6 +71,7 @@ SOURCES += \
     $$REPORT_PATH/objectinspector/propertyItems/lrcolorpropitem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrdatasourcepropitem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrgroupfieldpropitem.cpp \
+    $$REPORT_PATH/objectinspector/propertyItems/lrcontentpropitem.cpp \
     $$REPORT_PATH/objectsbrowser/lrobjectbrowser.cpp \
     $$REPORT_PATH/databrowser/lrdatabrowser.cpp \
     $$REPORT_PATH/databrowser/lrsqleditdialog.cpp \
@@ -105,7 +106,6 @@ SOURCES += \
     $$REPORT_PATH/lrreportengine.cpp \
     $$REPORT_PATH/lrdatasourcemanager.cpp \
     $$REPORT_PATH/lrreportdesignwindow.cpp \
-    $$REPORT_PATH/waitform.cpp \
     $$REPORT_PATH/lrreportrender.cpp \
     $$REPORT_PATH/lrscriptenginemanager.cpp \
     $$REPORT_PATH/lrpreviewreportwindow.cpp \
@@ -162,6 +162,7 @@ HEADERS += \
     $$REPORT_PATH/objectinspector/editors/lrcheckboxeditor.h \
     $$REPORT_PATH/objectinspector/editors/lrbuttonlineeditor.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrgroupfieldpropitem.h \
+    $$REPORT_PATH/objectinspector/propertyItems/lrcontentpropitem.h \
     $$REPORT_PATH/objectsbrowser/lrobjectbrowser.h \
     $$REPORT_PATH/items/lrtextitem.h \
     $$REPORT_PATH/items/lrsubitemparentpropitem.h \
@@ -179,7 +180,6 @@ HEADERS += \
     $$REPORT_PATH/lrreportengine_p.h \
     $$REPORT_PATH/lrdatasourcemanager.h \
     $$REPORT_PATH/lrreportdesignwindow.h \
-    $$REPORT_PATH/waitform.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
     $$REPORT_PATH/bands/lrsubdetailband.h \
     $$REPORT_PATH/lrreportrender.h \
@@ -216,7 +216,6 @@ FORMS += \
     $$REPORT_PATH/databrowser/lrdatabrowser.ui \
     $$REPORT_PATH/databrowser/lrvariabledialog.ui \
     $$REPORT_PATH/objectinspector/editors/ltextitempropertyeditor.ui \
-    $$REPORT_PATH/waitform.ui \
     $$REPORT_PATH/lrpreviewreportwindow.ui \
     $$REPORT_PATH/items/lrtextitemeditor.ui \
     $$REPORT_PATH/lraboutdialog.ui
@@ -226,3 +225,6 @@ RESOURCES += \
     $$REPORT_PATH/databrowser/lrdatabrowser.qrc \
     $$REPORT_PATH/report.qrc \
     $$REPORT_PATH/items/items.qrc
+
+
+TRANSLATIONS += limereport_ru.ts

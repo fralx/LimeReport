@@ -111,7 +111,8 @@ public:
     void addQuery(const QString& name, const QString& sqlText, const QString& connectionName="");
     void addSubQuery(const QString& name, const QString& sqlText, const QString& connectionName, const QString& masterDatasource);
     void addProxy(const QString& name, QString master, QString detail, QList<FieldsCorrelation> fields);
-    void addModel(const QString& name, QAbstractItemModel *model, bool owned);
+    bool addModel(const QString& name, QAbstractItemModel *model, bool owned);
+    void removeModel(const QString& name);
     ICallbackDatasource* createCallbackDatasouce(const QString &name);
     void addCallbackDatasource(ICallbackDatasource *datasource, const QString &name);
     void setReportVariable(const QString& name, const QVariant& value);
@@ -192,6 +193,8 @@ protected:
     void putSubQueryDesc(SubQueryDesc *subQueryDesc);
     void putProxyDesc(ProxyDesc *proxyDesc);
     bool connectConnection(ConnectionDesc* connectionDesc);
+    QList<QString> childDatasources(const QString& datasourceName);
+    void invalidateChildren(const QString& parentDatasourceName);
     //ICollectionContainer
     virtual QObject* createElement(const QString& collectionName,const QString&);
     virtual int elementsCount(const QString& collectionName);

@@ -117,6 +117,7 @@ private:
     void    cutGroups();
     void    checkFooterGroup(BandDesignIntf* groupBand);
     void    pasteGroups();
+    void    checkLostHeadersOnPrevPage();
 
     BandDesignIntf* findEnclosingGroup();
     bool    registerBand(BandDesignIntf* band, bool registerInChildren=true);
@@ -133,14 +134,20 @@ private:
 
 private:
     void initColumns();
+    bool isNeedToRearrangeColumnsItems();
+    BandDesignIntf* lastColumnItem(int columnIndex);
+    void rearrangeColumnsItems();
+    int  columnItemsCount(int columnIndex);
+    qreal columnHeigth(int columnIndex);
+    qreal maxColumnHeight();
 private:
     DataSourceManager* m_datasources;
-
     PageItemDesignIntf* m_renderPageItem;
     PageItemDesignIntf* m_patternPageItem;
     QList<PageItemDesignIntf::Ptr> m_renderedPages;
-
     QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
+    QList<BandDesignIntf*> m_reprintableBands;
+//    QList<BandDesignIntf*> m_lastRenderedHeaders;
 
     //int m_maxHeightByColumn[0];
     //int m_currentStartDataPos;
@@ -160,6 +167,7 @@ private:
     QVector<qreal>  m_currentStartDataPos;
     int             m_currentColumn;
     QList<PagesRange> m_ranges;
+    QVector<BandDesignIntf*> m_columnedBandItems;
 };
 } // namespace LimeReport
 #endif // LRREPORTRENDER_H

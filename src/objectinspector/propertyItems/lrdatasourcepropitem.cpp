@@ -57,7 +57,7 @@ namespace{
 }
 
 QWidget* LimeReport::DatasourcePropItem::createProperyEditor(QWidget *parent) const{
-    ComboBoxEditor *editor = new ComboBoxEditor(parent);
+    ComboBoxEditor *editor = new ComboBoxEditor(parent,true);
     editor->setEditable(true);
     LimeReport::BaseDesignIntf *item=dynamic_cast<LimeReport::BaseDesignIntf*>(object());
     if (item){

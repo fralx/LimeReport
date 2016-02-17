@@ -44,6 +44,7 @@ class ShapeItem: public LimeReport::ItemDesignIntf
     Q_PROPERTY(qreal lineWidth READ lineWidth WRITE setLineWidth)
     Q_PROPERTY(Qt::PenStyle penStyle READ penStyle WRITE setPenStyle)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(int cornerRadius READ cornerRadius WRITE setCornerRadius)
 public:
     enum ShapeType{HorizontalLine,VerticalLine,Ellipse,Rectangle};
     ShapeItem(QObject *owner, QGraphicsItem *parent);
@@ -62,6 +63,8 @@ public:
     void setPenStyle(const Qt::PenStyle &value);
     int opacity() const;
     void setOpacity(int opacity);
+    int cornerRadius() const;
+    void setCornerRadius(int cornerRadius);
 
 protected:
     BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -74,6 +77,7 @@ private:
     qreal m_lineWidth;
     Qt::PenStyle m_penStyle;
     int m_opacity;
+    int m_cornerRadius;
 };
 
 }

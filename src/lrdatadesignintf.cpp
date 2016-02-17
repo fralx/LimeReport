@@ -58,7 +58,7 @@ IDataSource * ModelHolder::dataSource(IDataSource::DatasourceMode mode)
 
 QueryHolder::QueryHolder(QString queryText, QString connectionName, DataSourceManager *dataManager)
     : m_query(0), m_queryText(queryText), m_connectionName(connectionName),
-      m_mode(IDataSource::RENDER_MODE), m_dataManager(dataManager)
+      m_mode(IDataSource::RENDER_MODE), m_dataManager(dataManager), m_prepared(true)
 {
     extractParams();
 }
@@ -75,6 +75,11 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
     if (!db.isValid()) {
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
         return false;
+    }
+
+    if (!m_prepared){
+        extractParams();
+        if (!m_prepared) return false;
     }
 
     if (!m_query){
@@ -371,7 +376,13 @@ void SubQueryHolder::setMasterDatasource(const QString &value)
 
 void SubQueryHolder::extractParams()
 {
-    m_preparedSQL = replaceFields(replaceVariables(queryText()));
+    if (!dataManager()->containsDatasource(m_masterDatasource)){
+        setLastError(QObject::tr("Master datasource \"%1\" not found!!!").arg(m_masterDatasource));
+        setPrepared(false);
+    } else {
+        m_preparedSQL = replaceFields(replaceVariables(queryText()));
+        setPrepared(true);
+    }
 }
 
 QString SubQueryHolder::extractField(QString source)

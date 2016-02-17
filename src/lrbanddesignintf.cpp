@@ -57,7 +57,7 @@ void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**opt
     painter->setPen(Qt::white);
     painter->drawEllipse(r.adjusted(5,5,-5,-5));
     if (m_band->isSelected()){
-        painter->setBrush(m_color);
+        painter->setBrush(LimeReport::Const::SELECTION_COLOR);
         painter->drawEllipse(r.adjusted(7,7,-7,-7));
     }
     painter->restore();
@@ -140,7 +140,9 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_printIfEmpty(false),
     m_columnsCount(1),
     m_columnIndex(0),
-    m_columnsFillDirection(Horizontal)
+    m_columnsFillDirection(Horizontal),
+    m_reprintOnEachPage(false),
+    m_startNewPage(false)
 {
     setPosibleResizeDirectionFlags(ResizeBottom);
     setPosibleMoveFlags(TopBotom);
@@ -299,7 +301,7 @@ bool BandDesignIntf::isConnectedToBand(BandDesignIntf::BandsType bandType) const
 int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{
     int curIndex = bandIndex();
     foreach(BandDesignIntf* childBand, childBands()){
-        if (!ignoredBands.contains(childBand->bandType())){
+        if (!ignoredBands.contains(childBand->bandType()) && childBand->bandIndex()>bandIndex()){
             curIndex = std::max(curIndex,childBand->maxChildIndex(ignoredBands));
         }
     }
@@ -666,6 +668,9 @@ QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
 
         }
     }
+    if (change==ItemChildAddedChange || change==ItemChildRemovedChange){
+        update(rect());
+    }
     return BaseDesignIntf::itemChange(change,value);
 }
 
@@ -692,6 +697,26 @@ void BandDesignIntf::childBandDeleted(QObject *band)
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
 }
 
+bool BandDesignIntf::startNewPage() const
+{
+    return m_startNewPage;
+}
+
+void BandDesignIntf::setStartNewPage(bool startNewPage)
+{
+    m_startNewPage = startNewPage;
+}
+
+bool BandDesignIntf::reprintOnEachPage() const
+{
+    return m_reprintOnEachPage;
+}
+
+void BandDesignIntf::setReprintOnEachPage(bool reprintOnEachPage)
+{
+    m_reprintOnEachPage = reprintOnEachPage;
+}
+
 int BandDesignIntf::columnIndex() const
 {
     return m_columnIndex;
@@ -715,7 +740,8 @@ void BandDesignIntf::setPrintIfEmpty(bool printIfEmpty)
 BandDesignIntf *BandDesignIntf::bandHeader()
 {
     foreach (BandDesignIntf* band, childBands()) {
-        if (band->isHeader()) return band;
+        if (band->isHeader() && !band->isGroupHeader())
+            return band;
     }
     return 0;
 }
@@ -770,7 +796,10 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (keepBottomSpaceOption()) spaceBorder=height()-findMaxBottom();
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);
-    if (autoHeight() && height()<findMaxBottom()) setHeight(findMaxBottom()+spaceBorder);
+    if (autoHeight()){
+        //if keepBottomSpace()&& height()<findMaxBottom()
+        setHeight(findMaxBottom()+spaceBorder);
+    }
     if ((maxHeight>0)&&(height()>maxHeight)){
         trimToMaxHeight(maxHeight);
         setHeight(maxHeight);

@@ -57,17 +57,17 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(AngleType angle READ angle WRITE setAngle)
     Q_PROPERTY(int foregroundOpacity READ foregroundOpacity WRITE setForegroundOpacity())
     Q_PROPERTY(bool trimValue READ trimValue WRITE setTrimValue)
+    Q_PROPERTY(bool allowHTML READ allowHTML WRITE setAllowHTML)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
     enum AngleType{Angle0,Angle90,Angle180,Angle270,Angle45,Angle315};
 
     void Init();
-    TextItem(QObject* owner,QGraphicsItem* parent);
-    TextItem(const QString& content,QObject* owner = 0, QGraphicsItem* parent = 0);
+    TextItem(QObject* owner=0, QGraphicsItem* parent=0);
     ~TextItem();
 
-    void paint(QPainter* ppainter, const QStyleOptionGraphicsItem*, QWidget*);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*);
     QString content() const;
     void setContent(const QString& value);
 
@@ -111,17 +111,21 @@ public:
     bool trimValue() const;
     void setTrimValue(bool trimValue);
 
+    bool allowHTML() const;
+    void setAllowHTML(bool allowHTML);
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
     QString replaceBR(QString text);
     QString replaceReturns(QString text);
+    int fakeMarginSize();
 private:
     void initText();
 private:
     QString m_strText;
 
-    QTextLayout m_layout;
+    //QTextLayout m_layout;
     QTextDocument* m_text;
     Qt::Alignment m_alignment;
     bool m_autoHeight;
@@ -130,6 +134,7 @@ private:
     AngleType m_angle;
     int m_foregroundOpacity;
     bool m_trimValue;
+    bool m_allowHTML;
 };
 
 }

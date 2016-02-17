@@ -141,7 +141,9 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
                         }
                     }
                 } else {
-                    fieldValue = dataManager->fieldData(field).toString();
+                    if (expandType == ReplaceHTMLSymbols)
+                        fieldValue = replaceHTMLSymbols(dataManager->fieldData(field).toString());
+                    else fieldValue = dataManager->fieldData(field).toString();
                 }
 
                 context.replace(rx.cap(0),fieldValue);
@@ -172,10 +174,16 @@ QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass p
             pos += rx.matchedLength();
             if (dataManager->containsVariable(variable) ){
                 if (pass==dataManager->variablePass(variable)){
-                    if (expandType==EscapeSymbols){
+                    switch (expandType){
+                    case EscapeSymbols:
                         context.replace(rx.cap(0),escapeSimbols(dataManager->variable(variable).toString()));
-                    } else {
+                    break;
+                    case NoEscapeSymbols:
                         context.replace(rx.cap(0),dataManager->variable(variable).toString());
+                    break;
+                    case ReplaceHTMLSymbols:
+                        context.replace(rx.cap(0),replaceHTMLSymbols(dataManager->variable(variable).toString()));
+                    break;
                     }
                     pos=0;
                 }
@@ -228,7 +236,16 @@ QString ContentItemDesignIntf::content() const
 QString ContentItemDesignIntf::escapeSimbols(const QString &value)
 {
     QString result = value;
-    return result.replace("\"","\\\"");
+    result.replace("\"","\\\"");
+    return result;
+}
+
+QString ContentItemDesignIntf::replaceHTMLSymbols(const QString &value)
+{
+    QString result = value;
+    result.replace("<","&lt;");
+    result.replace(">","&gt;");
+    return result;
 }
 
 Spacer::Spacer(QObject *owner, QGraphicsItem *parent)

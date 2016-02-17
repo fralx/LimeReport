@@ -60,6 +60,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_fontColor(Qt::black),
     m_mmFactor(Const::mmFACTOR),
     m_fixedPos(false),
+    m_borderLineSize(1),
     m_BGMode(OpaqueMode),
     m_opacity(100),
     m_borderLinesFlags(0),
@@ -287,14 +288,14 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         m_resizeDirectionFlags = resizeDirectionFlags(event->pos());
-        m_startScenePos = event->scenePos();
+        //m_startScenePos = event->scenePos();
         m_startPos = pos();
         m_oldGeometry = geometry();
         QGraphicsItem::mousePressEvent(event);
         QApplication::processEvents();
         emit(itemSelected(this));
     }
-    else QGraphicsItem::mouseMoveEvent(event);
+    else QGraphicsItem::mousePressEvent(event);
 }
 
 void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -341,13 +342,34 @@ void BaseDesignIntf::prepareRect(QPainter *ppainter, const QStyleOptionGraphicsI
 void BaseDesignIntf::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     if (page()) {
-        if (!page()->isItemInsertMode()) {
+        if (!page()->isItemInsertMode() && isSelected()) {
             if (m_resizeDirectionFlags != resizeDirectionFlags(event->pos())) {
                 m_resizeDirectionFlags = resizeDirectionFlags(event->pos());
                 QVector<QRectF *>oldResizeAreas(m_resizeAreas);
                 initResizeZones();
                 invalidateRects(oldResizeAreas);
                 invalidateRects(m_resizeAreas);
+                switch (m_resizeDirectionFlags) {
+                case ResizeRight:
+                case ResizeLeft:
+                    setCursor(Qt::SizeHorCursor);
+                break;
+                case ResizeBottom:
+                case ResizeTop:
+                    setCursor(Qt::SizeVerCursor);
+                break;
+                case ResizeRight | ResizeBottom:
+                case ResizeLeft  | ResizeTop:
+                    setCursor(Qt::SizeFDiagCursor);
+                break;
+                case ResizeLeft  | ResizeBottom:
+                case ResizeRight | ResizeTop:
+                    setCursor(Qt::SizeBDiagCursor);
+                break;
+                default:
+                    setCursor(Qt::ArrowCursor);
+                break;
+                }
             }
         }
     }
@@ -356,7 +378,7 @@ void BaseDesignIntf::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 void BaseDesignIntf::invalidateRects(QVector<QRectF *> rects)
 {
     foreach(QRectF * rect, rects)
-    scene()->update(mapToScene(*rect).boundingRect());
+      scene()->update(mapToScene(*rect).boundingRect());
 }
 
 void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
@@ -371,20 +393,39 @@ void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 
+//    if (!scene()->items(event->scenePos()).contains(parentItem())){
+//        BandDesignIntf* band = 0;
+//        PageItemDesignIntf* pageItem = 0;
+//        foreach (QGraphicsItem* item, scene()->items(event->scenePos())) {
+//            band = dynamic_cast<BandDesignIntf*>(item);
+//            if (band){
+//                 break;
+//            }
+//            pageItem = dynamic_cast<PageItemDesignIntf*>(item);
+//        }
+//        if (band)
+//            qDebug()<<"band found"<<band->objectName();
+//        if (pageItem)
+//            qDebug()<<"page found"<<pageItem->objectName();
+//    }
+
+    int hStep = dynamic_cast<PageDesignIntf*>(scene())->horizontalGridStep();
+    int vStep = dynamic_cast<PageDesignIntf*>(scene())->verticalGridStep();
+
     if (m_resizeDirectionFlags & ResizeLeft) {
         if ((event->scenePos().x()) <= (mapToScene(0, 0).x() + (width() - Const::MINIMUM_ITEM_WIDTH)) &&
              (width() + (event->lastScenePos().x() - event->scenePos().x()) > Const::MINIMUM_ITEM_WIDTH)
            ) {
             qreal posRightConner = mapToScene(0, 0).x() + width();
-            setItemPos(mapToParent(mapFromScene(div(event->scenePos().x(), 2).quot * 2, y())).x(), y());
-            setWidth(posRightConner - div(event->scenePos().x(), 2).quot * 2);
+            setItemPos(mapToParent(mapFromScene(div(event->scenePos().x(), vStep).quot * vStep, y())).x(), y());
+            setWidth(posRightConner - div(event->scenePos().x(), vStep).quot * vStep);
         }
     }
 
     if (m_resizeDirectionFlags & ResizeRight) {
         if ((event->scenePos().x() >= (mapToScene(0, 0).x() + Const::MINIMUM_ITEM_WIDTH)) ||
              (event->scenePos().x() >= (mapToScene(0, 0).x() + width()))) {
-            setWidth(div(int(event->scenePos().x()) - int(mapToScene(0, 0).x()), 2).quot * 2);
+            setWidth(div(int(event->scenePos().x()) - int(mapToScene(0, 0).x()), vStep).quot * vStep);
         }
     }
 
@@ -392,7 +433,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if ((event->scenePos().y() > (mapToScene(0, 0).y() + height())) ||
              (event->scenePos().y() > (mapToScene(0, 0).y() + Const::MINIMUM_ITEM_HEIGHT))
            ) {
-            setHeight(div(int(event->scenePos().y()) - int(mapToScene(0, 0).y()), 2).quot * 2);
+            setHeight(div(int(event->scenePos().y()) - int(mapToScene(0, 0).y()), hStep).quot * hStep);
         }
     }
 
@@ -402,8 +443,8 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
              (height() + (event->lastScenePos().y() - event->scenePos().y()) > Const::MINIMUM_ITEM_HEIGHT)
            ) {
             qreal posBottomConner = int(mapToScene(0, 0).y()) + int(height());
-            setItemPos(x(), div(mapToParent(event->pos()).y(), 2).quot * 2);
-            setHeight(posBottomConner - div(event->scenePos().y(), 2).quot * 2);
+            setItemPos(x(), div(mapToParent(event->pos()).y(), hStep).quot * hStep);
+            setHeight(posBottomConner - div(event->scenePos().y(), hStep).quot * hStep);
         }
     }
 
@@ -413,16 +454,16 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QPointF delta;
         switch (posibleMoveDirectionFlags()) {
         case LeftRight: {
-            delta = QPoint(div(m_startScenePos.x() - event->scenePos().x(), 2).quot * 2, 0);
+            delta = QPoint(div(event->buttonDownScenePos(Qt::LeftButton).x() - event->scenePos().x(), hStep).quot * hStep, 0);
             break;
         }
         case TopBotom: {
-            delta = QPoint(0, div(m_startScenePos.y() - event->scenePos().y(), 2).quot * 2);
+            delta = QPoint(0, div(event->buttonDownScenePos(Qt::LeftButton).y() - event->scenePos().y(), vStep).quot * vStep);
             break;
         }
         case All: {
-            delta = QPoint(div(m_startScenePos.x() - event->scenePos().x(), 2).quot * 2,
-                           div(m_startScenePos.y() - event->scenePos().y(), 2).quot * 2);
+            delta = QPoint(div(event->buttonDownScenePos(Qt::LeftButton).x() - event->scenePos().x(), hStep).quot * hStep,
+                           div(event->buttonDownScenePos(Qt::LeftButton).y() - event->scenePos().y(), vStep).quot * vStep);
             break;
         }
         };
@@ -590,32 +631,45 @@ void BaseDesignIntf::emitObjectNamePropertyChanged(const QString &oldName, const
     emit propertyObjectNameChanged(oldName,newName);
 }
 
+int BaseDesignIntf::borderLineSize() const
+{
+    return m_borderLineSize;
+}
+
+void BaseDesignIntf::setBorderLineSize(int value)
+{
+    int oldValue = m_borderLineSize;
+    m_borderLineSize = value;
+    update();
+    notify("borderLineSize",oldValue,value);
+}
+
 
 void BaseDesignIntf::moveRight()
 {
-    if (!m_fixedPos) setItemPos(pos().x() + 2, pos().y());
+    if (!m_fixedPos) setItemPos(pos().x() + page()->horizontalGridStep(), pos().y());
 }
 
 void BaseDesignIntf::moveLeft()
 {
-    if (!m_fixedPos) setItemPos(pos().x() - 2, pos().y());
+    if (!m_fixedPos) setItemPos(pos().x() - page()->horizontalGridStep(), pos().y());
 }
 
 void BaseDesignIntf::moveDown()
 {
-    if (!m_fixedPos) setItemPos(pos().x(), pos().y() + 2);
+    if (!m_fixedPos) setItemPos(pos().x(), pos().y() + page()->verticalGridStep());
 }
 
 void BaseDesignIntf::moveUp()
 {
-    if (!m_fixedPos) setItemPos(pos().x(), pos().y() - 2);
+    if (!m_fixedPos) setItemPos(pos().x(), pos().y() - page()->verticalGridStep());
 }
 
 void BaseDesignIntf::sizeRight()
 {
     if ((m_posibleResizeDirectionFlags & ResizeLeft) ||
          (m_posibleResizeDirectionFlags & ResizeRight)) {
-        setWidth(width() + 2);
+        setWidth(width() + page()->horizontalGridStep());
     }
 }
 
@@ -623,7 +677,7 @@ void BaseDesignIntf::sizeLeft()
 {
     if ((m_posibleResizeDirectionFlags & ResizeLeft) ||
          (m_posibleResizeDirectionFlags & ResizeRight)) {
-        setWidth(width() - 2);
+        setWidth(width() - page()->horizontalGridStep());
     }
 }
 
@@ -631,7 +685,7 @@ void BaseDesignIntf::sizeUp()
 {
     if ((m_posibleResizeDirectionFlags & ResizeTop) ||
          (m_posibleResizeDirectionFlags & ResizeBottom)) {
-        setHeight(height() - 2);
+        setHeight(height() - page()->verticalGridStep());
     }
 }
 
@@ -639,7 +693,7 @@ void BaseDesignIntf::sizeDown()
 {
     if ((m_posibleResizeDirectionFlags & ResizeTop) ||
          (m_posibleResizeDirectionFlags & ResizeBottom)) {
-        setHeight(height() + 2);
+        setHeight(height() + page()->verticalGridStep());
     }
 }
 
@@ -718,10 +772,10 @@ void BaseDesignIntf::setGeometry(QRectF rect)
     if (!isLoading())
         prepareGeometryChange();
     m_rect = rect;
-    m_topRect = QRectF(0, 0, width(), resizeHandleSize());
-    m_bottomRect = QRectF(0, height() - resizeHandleSize(),  width(), resizeHandleSize());
-    m_leftRect = QRectF(0, 0, resizeHandleSize(), height());
-    m_rightRect = QRectF(width() - resizeHandleSize(), 0, resizeHandleSize(), height());
+    m_topRect = QRectF(0-resizeHandleSize(), 0-resizeHandleSize(), width()+resizeHandleSize()*2, resizeHandleSize()*2);
+    m_bottomRect = QRectF(0-resizeHandleSize(), height() - resizeHandleSize(),  width()+resizeHandleSize()*2, resizeHandleSize()*2);
+    m_leftRect = QRectF(0-resizeHandleSize(), 0-resizeHandleSize(), resizeHandleSize()*2, height()+resizeHandleSize()*2);
+    m_rightRect = QRectF(width() - resizeHandleSize(), 0-resizeHandleSize(), resizeHandleSize()*2, height()+resizeHandleSize()*2);
     m_boundingRect = QRectF();
     updateSelectionMarker();
     if (!isLoading()){
@@ -751,10 +805,8 @@ void BaseDesignIntf::setGeometryProperty(QRectF rect)
             setWidth(rect.width());
         if (rect.height() != geometry().height())
             setHeight(rect.height());
-
         if (!isLoading()) notify("geometry",oldValue,rect);
     }
-
 }
 
 PageDesignIntf *BaseDesignIntf::page()
@@ -770,8 +822,15 @@ void BaseDesignIntf::setPosibleResizeDirectionFlags(int directionsFlags)
 QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
 {
     QPen pen;
-    if (m_borderLinesFlags & side) {pen.setColor(Qt::black); pen.setStyle(Qt::SolidLine);}
-    else {pen.setColor(Qt::darkGray); pen.setStyle(Qt::SolidLine);}
+    if (m_borderLinesFlags & side) {
+        pen.setColor(Qt::black);
+        pen.setStyle(Qt::SolidLine);
+        pen.setWidth(m_borderLineSize);
+    } else {
+        pen.setColor(Qt::darkGray);
+        pen.setStyle(Qt::SolidLine);
+        pen.setWidth(1);
+    }
     return pen;
 }
 
@@ -969,17 +1028,17 @@ void BaseDesignIntf::updateSelectionMarker()
     }
 }
 
-void BaseDesignIntf::drawResizeZone(QPainter *painter)
+void BaseDesignIntf::drawResizeZone(QPainter* /*painter*/)
 {
 
-    if (m_resizeAreas.count() > 0) {
-        painter->save();
-        painter->setPen(QPen(Const::RESIZE_ZONE_COLOR));
-        (isSelected()) ? painter->setOpacity(Const::SELECTED_RESIZE_ZONE_OPACITY) : painter->setOpacity(Const::RESIZE_ZONE_OPACITY);
-        painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
-        foreach(QRectF * resizeArea, m_resizeAreas) painter->drawRect(*resizeArea);
-        painter->restore();
-    }
+//    if (m_resizeAreas.count() > 0) {
+//        painter->save();
+//        painter->setPen(QPen(Const::RESIZE_ZONE_COLOR));
+//        (isSelected()) ? painter->setOpacity(Const::SELECTED_RESIZE_ZONE_OPACITY) : painter->setOpacity(Const::RESIZE_ZONE_OPACITY);
+//        painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
+//        foreach(QRectF * resizeArea, m_resizeAreas) painter->drawRect(*resizeArea);
+//        painter->restore();
+//    }
 
 }
 
@@ -1178,22 +1237,74 @@ void BaseDesignIntf::notify(const QVector<QString>& propertyNames)
 SelectionMarker::SelectionMarker(QGraphicsItem *parent)//, QGraphicsScene *scene)
     : QGraphicsItem(parent)//, scene)
 {
+    setAcceptHoverEvents(true);
 }
 
 QRectF SelectionMarker::boundingRect() const
 {
-    return m_rect;
+    return m_rect.adjusted(-15,-15,15,15);
 }
 
 void SelectionMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QPen pen;
+    const int markerSize = 5;
     pen.setColor(m_color);
     pen.setWidth(2);
-    pen.setStyle(Qt::DashLine);
+    pen.setStyle(Qt::DotLine);
     painter->setPen(pen);
     painter->setOpacity(Const::SELECTION_COLOR_OPACITY);
-    painter->drawRect(boundingRect());
+    painter->drawRect(m_rect);
+    painter->setBrush(m_color);
+    painter->setPen(Qt::transparent);
+    painter->setOpacity(1);
+    painter->drawRect(QRectF(-markerSize,-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.right()-markerSize,m_rect.bottom()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.right()-markerSize,m_rect.top()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.left()-markerSize,m_rect.bottom()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.left()-markerSize,
+                                m_rect.bottom()-m_rect.height()/2-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.right()-markerSize,
+                                m_rect.bottom()-m_rect.height()/2-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.left()+m_rect.width()/2-markerSize,
+                                m_rect.top()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(m_rect.left()+m_rect.width()/2-markerSize,
+                                m_rect.bottom()-markerSize,markerSize*2,markerSize*2));
+
+    //painter->drawRect();
+}
+
+void SelectionMarker::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(parentItem());
+    if(baseItem) baseItem->hoverMoveEvent(event);
+}
+
+void SelectionMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    parentItem()->setSelected(true);
+    BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(parentItem());
+    if(baseItem) baseItem->mousePressEvent(event);
+    QGraphicsItem::mousePressEvent(event);
+}
+
+void SelectionMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(parentItem());
+    if(baseItem) baseItem->mouseReleaseEvent(event);
+}
+
+void SelectionMarker::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(parentItem());
+    if(baseItem) baseItem->mouseDoubleClickEvent(event);
+    QGraphicsItem::mouseDoubleClickEvent(event);
+}
+
+void SelectionMarker::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(parentItem());
+    if(baseItem) baseItem->mouseMoveEvent(event);
 }
 
 

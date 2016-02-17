@@ -93,6 +93,7 @@ public:
     ReportEnginePrivate* report(){return m_report;}
     QString reportFileName();
     bool isNeedToSave();
+    bool emitLoadReport();
 public slots:
     void saveToFile(const QString&);
     bool save();
@@ -117,7 +118,7 @@ public slots:
     void editLayoutMode(bool value);
     void addHLayout();
     void setFont(const QFont &font);
-    void setTextAlign(const Qt::Alignment& alignment);
+    void setTextAlign(const bool &horizontalAlign, const Qt::AlignmentFlag &alignment);
     void setBorders(const BaseDesignIntf::BorderLines& borders);
 private slots:
     void slotItemSelected(LimeReport::BaseDesignIntf *item);

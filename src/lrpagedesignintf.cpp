@@ -82,7 +82,14 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_isLoading(false),
     m_executingGroupCommand(false),
     m_settings(0),
-    m_selectionRect(0)
+    m_selectionRect(0),
+    //m_verticalGridStep(1*Const::mmFACTOR),
+    //m_horizontalGridStep(1*Const::mmFACTOR)
+    m_verticalGridStep(2),
+    m_horizontalGridStep(2),
+    m_updating(false),
+    m_currentObjectIndex(1),
+    m_multiSelectStarted(false)
 {
     m_reportEditor = dynamic_cast<ReportEnginePrivate *>(parent);
     updatePageRect();
@@ -289,16 +296,13 @@ void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
         saveCommand(command);
         emit itemInserted(this, event->scenePos(), m_insertItemType);
     }
-    if (event->buttons() & Qt::LeftButton && !selectedItems().isEmpty()){
-        m_startMovePoint = event->scenePos();
-    }
-
     if (event->buttons() & Qt::LeftButton && event->modifiers()==Qt::ShiftModifier){
-        m_startSelectionPoint = event->scenePos();
+        m_multiSelectStarted = true;
     } else {
         QGraphicsScene::mousePressEvent(event);
     }
 }
+
 
 void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -315,7 +319,7 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     }
 
-    if (event->buttons() & Qt::LeftButton && event->modifiers()==Qt::ShiftModifier){
+    if (event->buttons() & Qt::LeftButton && m_multiSelectStarted/*event->modifiers()==Qt::ShiftModifier*/){
         if (!m_selectionRect){
             m_selectionRect = new QGraphicsRectItem();
             QBrush brush(QColor(140,190,30,50));
@@ -323,15 +327,20 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             m_selectionRect->setPen(Qt::DashLine);
             addItem(m_selectionRect);
         }
-        m_selectionRect->setRect(m_startSelectionPoint.x(),m_startSelectionPoint.y(),
-                                 event->scenePos().x()-m_startSelectionPoint.x(),
-                                 event->scenePos().y()-m_startSelectionPoint.y());
-        setSelectionRect(m_selectionRect->rect());
+
+        QRectF selectionRect;
+        selectionRect.setX(qMin(event->buttonDownScenePos(Qt::LeftButton).x(),event->scenePos().x()));
+        selectionRect.setY(qMin(event->buttonDownScenePos(Qt::LeftButton).y(),event->scenePos().y()));
+        selectionRect.setRight(qMax(event->buttonDownScenePos(Qt::LeftButton).x(),event->scenePos().x()));
+        selectionRect.setBottom(qMax(event->buttonDownScenePos(Qt::LeftButton).y(),event->scenePos().y()));
+        m_selectionRect->setRect(selectionRect);
     }
 
     if ((m_insertMode) && (pageItem()->rect().contains(pageItem()->mapFromScene(event->scenePos())))) {
         if (!m_itemInsertRect->isVisible()) m_itemInsertRect->setVisible(true);
-        m_itemInsertRect->setPos(pageItem()->mapFromScene(event->scenePos()));
+        qreal posY = div(pageItem()->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
+        qreal posX = div(pageItem()->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
+        m_itemInsertRect->setPos(posX,posY);
     }
     else { if (m_insertMode) m_itemInsertRect->setVisible(false); }
 
@@ -344,8 +353,10 @@ void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         checkSizeOrPosChanges();
     }
     if (m_selectionRect) {
+        setSelectionRect(m_selectionRect->rect());
         delete m_selectionRect;
         m_selectionRect = 0;
+        m_multiSelectStarted = false;
     }
     QGraphicsScene::mouseReleaseEvent(event);
 }
@@ -423,6 +434,16 @@ void PageDesignIntf::bandGeometryChanged(QObject* /*object*/, QRectF newGeometry
     pageItem()->relocateBands();
 }
 
+QPointF PageDesignIntf::placePosOnGrid(QPointF point){
+    return QPointF(div(point.x(), horizontalGridStep()).quot * horizontalGridStep(),
+                   div(point.y(), verticalGridStep()).quot * verticalGridStep());
+}
+
+QSizeF PageDesignIntf::placeSizeOnGrid(QSizeF size){
+    return QSizeF(div(size.width(), horizontalGridStep()).quot * horizontalGridStep(),
+                   div(size.height(), verticalGridStep()).quot * verticalGridStep());
+}
+
 BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF pos, QSizeF size)
 {
     BandDesignIntf *band=0;
@@ -433,13 +454,17 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
 
     if (band) {
         BaseDesignIntf *reportItem = addReportItem(itemType, band, band);
-        reportItem->setPos(band->mapFromScene(pos));
-        reportItem->setSize(size);
+//        QPointF insertPos = band->mapFromScene(pos);
+//        insertPos = QPointF(div(insertPos.x(), horizontalGridStep()).quot * horizontalGridStep(),
+//                          div(insertPos.y(), verticalGridStep()).quot * verticalGridStep());
+
+        reportItem->setPos(placePosOnGrid(band->mapFromScene(pos)));
+        reportItem->setSize(placeSizeOnGrid(size));
         return reportItem;
     } else {
         BaseDesignIntf *reportItem = addReportItem(itemType, pageItem(), pageItem());
-        reportItem->setPos(pageItem()->mapFromScene(pos));
-        reportItem->setSize(size);
+        reportItem->setPos(placePosOnGrid(pageItem()->mapFromScene(pos)));
+        reportItem->setSize(placeSizeOnGrid(size));
         ItemDesignIntf* ii = dynamic_cast<ItemDesignIntf*>(reportItem);
         if (ii)
             ii->setItemLocation(ItemDesignIntf::Page);
@@ -563,27 +588,27 @@ void PageDesignIntf::bandPosChanged(QObject * /*object*/, QPointF /*newPos*/, QP
 
 QString PageDesignIntf::genObjectName(const QObject &object)
 {
-    int index = 1;
+    //int index = 1;
     QString className(object.metaObject()->className());
     className = className.right(className.length() - (className.lastIndexOf("::") + 2));
 
-    QString tmpName = QString("%1%2").arg(className).arg(index);
+    QString tmpName = QString("%1%2").arg(className).arg(m_currentObjectIndex);
 
-    while (isExistsObjectName(tmpName)) {
-        index++;
-        tmpName = QString("%1%2").arg(className).arg(index);
+    QList<QGraphicsItem*> itemsList = items();
+    while (isExistsObjectName(tmpName,itemsList)) {
+        ++m_currentObjectIndex;
+        tmpName = QString("%1%2").arg(className).arg(m_currentObjectIndex);
     }
 
     return tmpName;
 }
 
-bool PageDesignIntf::isExistsObjectName(const QString &objectName) const
+bool PageDesignIntf::isExistsObjectName(const QString &objectName, QList<QGraphicsItem*>& itemsList) const
 {
     QObject *item = 0;
-
-    for (int i = 0; i < items().count(); i++) {
-        item = dynamic_cast<QObject *>(items()[i]);
-
+    //QList<QGraphicsItem*> itemList = items();
+    for (int i = 0; i < itemsList.count(); i++) {
+        item = dynamic_cast<QObject *>(itemsList[i]);
         if (item)
             if (item->objectName() == objectName) return true;
     }
@@ -658,9 +683,11 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
             ((event->mimeData()->text().indexOf("field:")==0) ||
              (event->mimeData()->text().indexOf("variable:")==0))
     ){
+        bool isVar = event->mimeData()->text().indexOf("variable:")==0;
         BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
         TextItem* ti = dynamic_cast<TextItem*>(item);
         QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
+        if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
         ti->setContent(data);
     }
 }
@@ -779,22 +806,31 @@ void PageDesignIntf::saveSelectedItemsGeometry()
 void PageDesignIntf::checkSizeOrPosChanges()
 {
 
+    CommandIf::Ptr posCommand;
     if ((selectedItems().count() > 0) && (m_positionStamp.count() > 0)) {
         if (m_positionStamp[0].pos != selectedItems().at(0)->pos()) {
-            createChangePosCommand();
+            posCommand = createChangePosCommand();
         }
-
         m_positionStamp.clear();
     }
 
+    CommandIf::Ptr sizeCommand;
     if ((selectedItems().count() > 0) && (m_geometryStamp.count() > 0)) {
         BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(selectedItems()[0]);
-
         if (reportItem && (m_geometryStamp[0].size != reportItem->size())) {
-            createChangeSizeCommand();
+            sizeCommand = createChangeSizeCommand();
         }
-
         m_geometryStamp.clear();
+    }
+
+    if (sizeCommand && posCommand){
+        CommandGroup::Ptr cm = CommandGroup::create();
+        cm->addCommand(sizeCommand, false);
+        cm->addCommand(posCommand, false);
+        saveCommand(cm);
+    } else {
+        if (sizeCommand) saveCommand(sizeCommand);
+        if (posCommand) saveCommand(posCommand);
     }
 
     m_changeSizeMode = false;
@@ -803,7 +839,7 @@ void PageDesignIntf::checkSizeOrPosChanges()
 
 }
 
-void PageDesignIntf::createChangePosCommand()
+CommandIf::Ptr PageDesignIntf::createChangePosCommand()
 {
     QVector<ReportItemPos> newPoses;
     foreach(ReportItemPos itemPos, m_positionStamp) {
@@ -816,11 +852,11 @@ void PageDesignIntf::createChangePosCommand()
             newPoses.append(newPos);
         }
     }
-    CommandIf::Ptr command = PosChangedCommand::create(this, m_positionStamp, newPoses);
-    saveCommand(command);
+    return PosChangedCommand::create(this, m_positionStamp, newPoses);
+
 }
 
-void PageDesignIntf::createChangeSizeCommand()
+CommandIf::Ptr PageDesignIntf::createChangeSizeCommand()
 {
     QVector<ReportItemSize> newSizes;
 
@@ -834,8 +870,7 @@ void PageDesignIntf::createChangeSizeCommand()
             newSizes.append(newSize);
         }
     }
-    CommandIf::Ptr command = SizeChangedCommand::create(this, m_geometryStamp, newSizes);
-    saveCommand(command);
+    return SizeChangedCommand::create(this, m_geometryStamp, newSizes);
 }
 
 void PageDesignIntf::reactivatePageItem(PageItemDesignIntf::Ptr pageItem)
@@ -960,6 +995,66 @@ void PageDesignIntf::changeSelectedGroupProperty(const QString &name, const QVar
     }
 }
 
+int PageDesignIntf::horizontalGridStep() const
+{
+    return m_horizontalGridStep;
+}
+
+void PageDesignIntf::setHorizontalGridStep(int horizontalGridStep)
+{
+    m_horizontalGridStep = horizontalGridStep;
+}
+
+void PageDesignIntf::endUpdate()
+{
+    m_updating = false;
+    emit pageUpdateFinished(this);
+}
+
+int PageDesignIntf::verticalGridStep() const
+{
+    return m_verticalGridStep;
+}
+
+void PageDesignIntf::setVerticalGridStep(int verticalGridStep)
+{
+    m_verticalGridStep = verticalGridStep;
+}
+
+Qt::AlignmentFlag transformFlags(bool horizontalAlign, Qt::AlignmentFlag value, Qt::AlignmentFlag flag){
+    int tmpValue = value;
+    if (horizontalAlign){
+        tmpValue &= ~(Qt::AlignHCenter  | Qt::AlignLeft | Qt::AlignRight | Qt::AlignJustify);
+        tmpValue |= flag;
+    } else {
+        tmpValue &= ~(Qt::AlignVCenter | Qt::AlignTop | Qt::AlignBottom);
+        tmpValue |= flag;
+    }
+    return Qt::AlignmentFlag(tmpValue);
+}
+
+void PageDesignIntf::changeSelectedGrpoupTextAlignPropperty(const bool& horizontalAlign, Qt::AlignmentFlag flag)
+{
+    if (selectedItems().count() > 0) {
+        CommandGroup::Ptr cm = CommandGroup::create();
+        m_executingCommand = true;
+        foreach(QGraphicsItem * item, selectedItems()) {
+            BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
+            if (bdItem) {
+                QVariant oldValue = bdItem->property("alignment");
+                if (oldValue.isValid()){
+                    QVariant value = transformFlags(horizontalAlign, Qt::AlignmentFlag(oldValue.toInt()), flag);
+                    bdItem->setProperty("alignment",value);
+                    CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "alignment", oldValue, value);
+                    cm->addCommand(command, false);
+                }
+            }
+        }
+        m_executingCommand = false;
+        saveCommand(cm, false);
+    }
+}
+
 void PageDesignIntf::undo()
 {
     if (m_currentCommand >= 0) {
@@ -1035,7 +1130,8 @@ void PageDesignIntf::deleteSelected(bool createCommand)
     }
 
     foreach(QGraphicsItem* item, selectedItems()){
-        removeReportItem(dynamic_cast<BaseDesignIntf*>(item),createCommand);
+        if (!dynamic_cast<PageItemDesignIntf*>(item))
+            removeReportItem(dynamic_cast<BaseDesignIntf*>(item),createCommand);
     }
 }
 
@@ -1223,10 +1319,22 @@ void PageDesignIntf::sameHeight()
 void PageDesignIntf::addHLayout()
 {
 
-    if (selectedItems().size()==0) return;
+    if (selectedItems().isEmpty()) return;
 
     QList<QGraphicsItem *> si = selectedItems();
     QList<QGraphicsItem *>::iterator it = si.begin();
+
+    int itemsCount = 0;
+    for (; it != si.end();) {
+        if (dynamic_cast<ItemDesignIntf *>(*it)){
+            itemsCount++;
+            break;
+        }
+        ++it;
+    };
+
+    if (itemsCount == 0) return;
+
     for (; it != si.end();) {
         if (!dynamic_cast<ItemDesignIntf *>(*it)) {
             (*it)->setSelected(false);
@@ -1235,17 +1343,20 @@ void PageDesignIntf::addHLayout()
         else ++it;
     }
 
-    it = si.begin();
-    QGraphicsItem* elementsParent = (*it)->parentItem();
-    for (; it != si.end();++it) {
-        if ((*it)->parentItem()!=elementsParent){
-            QMessageBox::information(0,QObject::tr("Attention!"),QObject::tr("Selected elements have different parent containers"));
-            return;
+    if (!si.isEmpty()){
+        it = si.begin();
+        QGraphicsItem* elementsParent = (*it)->parentItem();
+        for (; it != si.end();++it) {
+            if ((*it)->parentItem()!=elementsParent){
+                QMessageBox::information(0,QObject::tr("Attention!"),QObject::tr("Selected elements have different parent containers"));
+                return;
+            }
         }
+        CommandIf::Ptr cm = InsertHLayoutCommand::create(this);
+        saveCommand(cm,true);
     }
 
-    CommandIf::Ptr cm = InsertHLayoutCommand::create(this);
-    saveCommand(cm,true);
+
 }
 
 bool hLayoutLessThen(QGraphicsItem *c1, QGraphicsItem *c2)
@@ -1493,16 +1604,18 @@ CommandIf::Ptr PasteCommand::create(PageDesignIntf *page, const QString &itemsXM
 bool PasteCommand::doIt()
 {
     m_itemNames.clear();
+
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(m_itemsXML);
 
     if (reader->first() && reader->itemType() == "Object") {
+        page()->beginUpdate();
         insertItem(reader);
 
         while (reader->next()) {
             insertItem(reader);
         }
+        page()->endUpdate();
     }
-
     else return false;
 
     page()->selectedItems().clear();

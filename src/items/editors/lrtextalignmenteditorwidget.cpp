@@ -157,8 +157,17 @@ void TextAlignmentEditorWidget::slotTextHAttribsChanged(bool)
     m_textAliginRight->setChecked(sender()==m_textAliginRight);
     m_textAliginJustify->setChecked(sender()==m_textAliginJustify);
 
-    if (reportEditor()) reportEditor()->setTextAlign(createAlignment());
-    if (page()) page()->setTextAlign(createAlignment());
+    int flag = 0;
+    if (sender()==m_textAliginLeft) flag |= Qt::AlignLeft;
+    if (sender()==m_textAliginHCenter) flag |= Qt::AlignHCenter;
+    if (sender()==m_textAliginRight) flag |= Qt::AlignRight;
+    if (sender()==m_textAliginJustify) flag |= Qt::AlignJustify;
+
+    if (reportEditor()) reportEditor()->setTextAlign(true,Qt::AlignmentFlag(flag));
+    if (page()) {
+        //page()->setTextAlign(createAlignment());
+        page()->changeSelectedGrpoupTextAlignPropperty(true,Qt::AlignmentFlag(flag));
+    }
     m_textAttibutesIsChanging = false;
 }
 
@@ -171,8 +180,13 @@ void TextAlignmentEditorWidget::slotTextVAttribsChanged(bool)
     m_textAliginVCenter->setChecked(sender()==m_textAliginVCenter);
     m_textAliginBottom->setChecked(sender()==m_textAliginBottom);
 
-    if (reportEditor()) reportEditor()->setTextAlign(createAlignment());
-    if (page()) page()->setTextAlign(createAlignment());
+    int flag = 0;
+    if (sender()==m_textAliginTop) flag |= Qt::AlignTop;
+    if (sender()==m_textAliginVCenter) flag |= Qt::AlignVCenter;
+    if (sender()==m_textAliginBottom) flag |= Qt::AlignBottom;
+
+    if (reportEditor()) reportEditor()->setTextAlign(false,Qt::AlignmentFlag(flag));
+    if (page()) page()->changeSelectedGrpoupTextAlignPropperty(false,Qt::AlignmentFlag(flag) );
     m_textAttibutesIsChanging = false;
 }
 

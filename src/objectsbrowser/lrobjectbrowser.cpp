@@ -112,7 +112,8 @@ void ObjectBrowser::buildTree(BaseDesignIntf* ignoredItem){
     m_itemsMap.insert(m_report->activePage(),topLevelItem);
 
     m_treeView->addTopLevelItem(topLevelItem);
-    foreach (QGraphicsItem* item, m_report->activePage()->items()) {
+    QList<QGraphicsItem*> itemsList = m_report->activePage()->items();
+    foreach (QGraphicsItem* item, itemsList) {
         if (item != ignoredItem){
             BaseDesignIntf* reportItem = dynamic_cast<BaseDesignIntf*>(item);
             if (reportItem && reportItem->parentItem()==0){
@@ -186,9 +187,9 @@ void ObjectBrowser::slotBandDeleted(PageDesignIntf *, BandDesignIntf * item)
     buildTree(item);
 }
 
-void ObjectBrowser::slotItemAdded(PageDesignIntf *, BaseDesignIntf *)
+void ObjectBrowser::slotItemAdded(PageDesignIntf *page, BaseDesignIntf *)
 {
-    buildTree();
+    if (!page->isUpdating()) buildTree();
 }
 
 void ObjectBrowser::slotItemDeleted(PageDesignIntf *, BaseDesignIntf *item)
@@ -237,18 +238,22 @@ void ObjectBrowser::slotItemSelected(LimeReport::BaseDesignIntf *item)
 
 void ObjectBrowser::slotMultiItemSelected()
 {
-    m_changingItemSelection = true;
+    if (!m_changingItemSelection){
+        m_changingItemSelection = true;
 
-    m_treeView->selectionModel()->clear();
+        m_treeView->selectionModel()->clear();
 
-    foreach(QGraphicsItem* item, m_report->activePage()->selectedItems()){
-        BaseDesignIntf* bg = dynamic_cast<BaseDesignIntf*>(item);
-        if (bg){
-            m_itemsMap.value(bg)->setSelected(true);
+        foreach(QGraphicsItem* item, m_report->activePage()->selectedItems()){
+            BaseDesignIntf* bg = dynamic_cast<BaseDesignIntf*>(item);
+            if (bg){
+                ObjectBrowserNode* node = m_itemsMap.value(bg);
+                if (node)
+                  node->setSelected(true);
+            }
         }
-    }
 
-    m_changingItemSelection = false;
+        m_changingItemSelection = false;
+    }
 }
 
 void ObjectBrowser::slotItemDoubleClicked(QTreeWidgetItem *item, int)

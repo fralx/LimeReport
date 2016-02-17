@@ -53,7 +53,7 @@ class ComboBoxEditor : public QWidget
     Q_OBJECT
 public:
     //explicit ComboBoxEditor(QWidget *parent = 0);
-    ComboBoxEditor(QWidget *parent=0, bool clearable=true);
+    ComboBoxEditor(QWidget *parent=0, bool clearable=false);
     void addItems(const QStringList& values);
     void setTextValue(const QString& value);
     QString text();

@@ -37,6 +37,7 @@
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QScrollBar>
+#include <QDesktopWidget>
 
 PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
@@ -75,6 +76,17 @@ void PreviewReportWindow::restoreSetting()
     QVariant v = settings()->value("Geometry");
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
+    } else {
+        QDesktopWidget *desktop = QApplication::desktop();
+
+        int screenWidth = desktop->width();
+        int screenHeight = desktop->height();
+
+        int x = screenWidth*0.1;
+        int y = screenHeight*0.1;
+
+        resize(screenWidth*0.8, screenHeight*0.8);
+        move(x, y);
     }
     v = settings()->value("State");
     if (v.isValid()){

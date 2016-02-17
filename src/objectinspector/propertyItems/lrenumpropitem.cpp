@@ -69,8 +69,8 @@ void EnumPropItem::slotEnumChanged(const QString &text)
 {
     if ( nameByType(object()->property(propertyName().toLatin1()).toInt())!=text){
         beginChangeValue();
-        setValueToObject(propertyName(),typeByName(text));
         setPropertyValue(typeByName(text));
+        setValueToObject(propertyName(),typeByName(text));
         endChangeValue();
     }
 }

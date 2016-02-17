@@ -130,6 +130,18 @@ namespace LimeReport {
             void emitItemRemoved(BaseDesignIntf* item);
 
             DataSourceManager* datasourceManager();
+            bool isSaved(){ return !m_hasHanges;}
+            void changeSelectedGrpoupTextAlignPropperty(const bool& horizontalAlign, Qt::AlignmentFlag flag);
+
+            int verticalGridStep() const;
+            void setVerticalGridStep(int verticalGridStep);
+
+            int horizontalGridStep() const;
+            void setHorizontalGridStep(int horizontalGridStep);
+
+            void beginUpdate(){m_updating = true;}
+            bool isUpdating(){return m_updating;}
+            void endUpdate();
     protected:
 
             virtual void keyPressEvent(QKeyEvent *event);
@@ -146,7 +158,7 @@ namespace LimeReport {
             LimeReport::BandDesignIntf::BandsType findPriorType(LimeReport::BandDesignIntf::BandsType bandType);
 
 
-            bool isExistsObjectName (const QString& objectName) const;
+            bool isExistsObjectName (const QString& objectName, QList<QGraphicsItem *> &itemsList) const;
             QRectF getRectByPageSize(PageSize pageSize);
 
             bool isLoading();
@@ -154,19 +166,23 @@ namespace LimeReport {
             void objectLoadFinished();
 
             HorizontalLayout* internalAddHLayout();
-        signals:
+            QPointF placePosOnGrid(QPointF point);
+            QSizeF placeSizeOnGrid(QSizeF size);
+    signals:
             void geometryChanged(QRectF newGeometry);
             void insertModeStarted();
             void itemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
             void itemInsertCanceled(const QString& ItemType);
             void itemSelected(LimeReport::BaseDesignIntf *item);
             void multiItemsSelected(QList<QObject*>* objectsList);
+            void miltiItemsSelectionFinished();
             void commandHistoryChanged();
             void itemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
-            void itemAdded(LimeReport::PageDesignIntf* report, LimeReport::BaseDesignIntf* item);
-            void itemRemoved(LimeReport::PageDesignIntf* report, LimeReport::BaseDesignIntf* item);
-            void bandAdded(LimeReport::PageDesignIntf* report, LimeReport::BandDesignIntf* band);
-            void bandRemoved(LimeReport::PageDesignIntf* report, LimeReport::BandDesignIntf* band);
+            void itemAdded(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
+            void itemRemoved(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
+            void bandAdded(LimeReport::PageDesignIntf* page, LimeReport::BandDesignIntf* band);
+            void bandRemoved(LimeReport::PageDesignIntf* page, LimeReport::BandDesignIntf* band);
+            void pageUpdateFinished(LimeReport::PageDesignIntf* page);
         public slots:
             BaseDesignIntf* addBand(const QString& bandType);
             BaseDesignIntf* addBand(BandDesignIntf::BandsType bandType);
@@ -210,10 +226,11 @@ namespace LimeReport {
             void saveSelectedItemsPos();
             void saveSelectedItemsGeometry();
             void checkSizeOrPosChanges();
-            void createChangePosCommand();
-            void createChangeSizeCommand();
+            CommandIf::Ptr createChangePosCommand();
+            CommandIf::Ptr createChangeSizeCommand();
             void saveChangeProppertyCommand(const QString& objectName, const QString& propertyName, const QVariant& oldPropertyValue, const QVariant& newPropertyValue);
             void changeSelectedGroupProperty(const QString& name,const QVariant& value);
+
         private:
             PageSize m_pageSize;
             QSizeF m_pageSizeValue;
@@ -244,7 +261,11 @@ namespace LimeReport {
             QList<QObject*> m_animationList;
             QPointF m_startSelectionPoint;
             QGraphicsRectItem* m_selectionRect;
-            QPointF m_startMovePoint;
+            int m_verticalGridStep;
+            int m_horizontalGridStep;
+            bool m_updating;
+            int m_currentObjectIndex;
+            bool m_multiSelectStarted;
     };
 
     class AbstractPageCommand : public CommandIf{

@@ -54,7 +54,8 @@ QSettings* ReportEngine::m_settings = 0;
 
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
-    m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false), m_showProgressDialog(true)
+    m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
+    m_showProgressDialog(true), m_reportName("")
 {
     m_datasources= new DataSourceManager(this);
     m_datasources->setObjectName("datasources");
@@ -313,6 +314,32 @@ PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
     return result;
 }
 
+void ReportEnginePrivate::emitSaveReport()
+{
+    emit onSave();
+}
+
+bool ReportEnginePrivate::emitLoadReport()
+{
+    bool result = false;
+    emit onLoad(result);
+    return result;
+}
+
+bool ReportEnginePrivate::isSaved()
+{
+    foreach (PageDesignIntf* page, m_pages) {
+        if (!page->isSaved()) return false;
+    }
+    return true;
+}
+
+void ReportEnginePrivate::setCurrentReportsDir(const QString &dirName)
+{
+    if (QDir(dirName).exists())
+        m_reportsDir = dirName;
+}
+
 void ReportEnginePrivate::cancelRender()
 {
     if (m_reportRender)
@@ -366,22 +393,42 @@ QSettings*ReportEnginePrivate::settings()
 bool ReportEnginePrivate::loadFromFile(const QString &fileName)
 {
     clearReport();
+
     ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName=fileName;
+            QFileInfo fi(fileName);
+            m_reportName = fi.fileName();
             return true;
         };
     }
     return false;
 }
 
-bool ReportEnginePrivate::loadFromByteArray(QByteArray* data){
+bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &name){
     clearReport();
+
     ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
     if (reader->first()){
         if (reader->readItem(this)){
-            m_fileName="";
+            m_fileName = "";
+            m_reportName = name;
+            return true;
+        };
+    }
+    return false;
+}
+
+bool ReportEnginePrivate::loadFromString(const QString &report, const QString &name)
+{
+    clearReport();
+
+    ItemsReaderIntf::Ptr reader = StringXMLreader::create(report);
+    if (reader->first()){
+        if (reader->readItem(this)){
+            m_fileName = "";
+            m_reportName = name;
             return true;
         };
     }
@@ -406,6 +453,31 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
         }
     }
     return saved;
+}
+
+QByteArray ReportEnginePrivate::saveToByteArray()
+{
+    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->putItem(this);
+    QByteArray result = writer->saveToByteArray();
+    if (!result.isEmpty()){
+        foreach(PageDesignIntf* page, m_pages){
+            page->setToSaved();
+        }
+    }
+    return result;
+}
+
+QString ReportEnginePrivate::saveToString(){
+    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->putItem(this);
+    QString result = writer->saveToString();
+    if (!result.isEmpty()){
+        foreach(PageDesignIntf* page, m_pages){
+            page->setToSaved();
+        }
+    }
+    return result;
 }
 
 bool ReportEnginePrivate::isNeedToSave()
@@ -465,6 +537,8 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
+    connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
+    connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
 }
 
 ReportEngine::~ReportEngine()
@@ -535,6 +609,12 @@ bool ReportEngine::loadFromByteArray(QByteArray* data){
     return d->loadFromByteArray(data);
 }
 
+bool ReportEngine::loadFromString(const QString &data)
+{
+    Q_D(ReportEngine);
+    return d->loadFromString(data);
+}
+
 QString ReportEngine::reportFileName()
 {
     Q_D(ReportEngine);
@@ -553,10 +633,40 @@ bool ReportEngine::saveToFile(const QString &fileName)
     return d->saveToFile(fileName);
 }
 
+QByteArray ReportEngine::saveToByteArray()
+{
+    Q_D(ReportEngine);
+    return d->saveToByteArray();
+}
+
+QString ReportEngine::saveToString()
+{
+    Q_D(ReportEngine);
+    return d->saveToString();
+}
+
 QString ReportEngine::lastError()
 {
     Q_D(ReportEngine);
     return d->lastError();
+}
+
+void ReportEngine::setCurrentReportsDir(const QString &dirName)
+{
+    Q_D(ReportEngine);
+    return d->setCurrentReportsDir(dirName);
+}
+
+void ReportEngine::setReportName(const QString &name)
+{
+    Q_D(ReportEngine);
+    return d->setReportName(name);
+}
+
+QString ReportEngine::reportName()
+{
+    Q_D(ReportEngine);
+    return d->reportName();
 }
 
 void ReportEngine::cancelRender()

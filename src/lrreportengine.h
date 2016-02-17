@@ -78,14 +78,22 @@ public:
 
     bool    loadFromFile(const QString& fileName);
     bool    loadFromByteArray(QByteArray *data);
+    bool    loadFromString(const QString& data);
     QString reportFileName();
     bool    saveToFile();
     bool    saveToFile(const QString& fileName);
+    QByteArray  saveToByteArray();
+    QString saveToString();
     QString lastError();
+    void setCurrentReportsDir(const QString& dirName);
+    void setReportName(const QString& name);
+    QString reportName();
 signals:
     void renderStarted();
     void renderFinished();
     void renderPageFinished(int renderedPageCount);
+    void onLoad(bool& loaded);
+    void onSave();
 public slots:
     void cancelRender();
 protected:

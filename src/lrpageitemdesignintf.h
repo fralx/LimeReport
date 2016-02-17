@@ -47,7 +47,7 @@ class PageItemDesignIntf : public LimeReport::BaseDesignIntf
     Q_PROPERTY(int rightMargin READ rightMargin WRITE setRightMargin)
     Q_PROPERTY(int leftMargin READ leftMargin WRITE setLeftMargin)
     Q_PROPERTY(Orientation pageOrientation READ pageOrientation WRITE setPageOrientation)
-    Q_PROPERTY(PageSize pageSize READ pageSize WRITE setPageSize )
+    Q_PROPERTY(PageSize pageSize READ pageSize WRITE setPageSize)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -99,7 +99,9 @@ public:
     Orientation pageOrientation() const {return m_pageOrientaion;}
     PageSize pageSize() const {return m_pageSize;}
     void setPageSize(const PageSize &size);
-
+    QList<BandDesignIntf *>& bands();
+    void setGridStep(int value);
+    int gridStep();
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* /*object*/, QRectF newGeometry, QRectF oldGeometry);
@@ -112,6 +114,7 @@ protected:
     void    initPageSize(const QSizeF &size);
 private:
     void paintGrid(QPainter *ppainter);
+    void initColumnsPos(QVector<qreal>&posByColumns, qreal pos, int columnCount);
 private:
     int m_topMargin;
     int m_bottomMargin;

@@ -44,9 +44,11 @@ public:
     XMLWriter(QSharedPointer<QDomDocument> doc);
     ~XMLWriter() {}
 private:
-    virtual void  putItem(QObject* item);
-    virtual bool  saveToFile(QString fileName);
-    virtual QString saveToString();
+    void  putItem(QObject* item);
+    bool  saveToFile(QString fileName);
+    QString saveToString();
+    QByteArray saveToByteArray();
+
     QDomElement putQObjectItem(QString name, QObject* item);
     void putChildQObjectItem(QString name, QObject* item, QDomElement* parentNode);
     void putCollectionItem(QObject* item, QDomElement* parentNode=0);

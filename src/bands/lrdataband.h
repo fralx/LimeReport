@@ -45,6 +45,7 @@ class DataBand : public DataBandDesignIntf
     Q_PROPERTY(bool sliceLastRow READ sliceLastRow WRITE setSliceLastRow)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
 public:
     DataBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
@@ -58,6 +59,8 @@ private:
 class DataHeaderBand : public BandDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
+    Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
 public:
     DataHeaderBand(QObject* owner=0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}

@@ -36,6 +36,7 @@
 
 Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
+Q_DECLARE_METATYPE(LimeReport::ScriptEngineManager *)
 
 QScriptValue constructColor(QScriptContext *context, QScriptEngine *engine)
 {
@@ -217,7 +218,25 @@ QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     return res;
 }
 
+QScriptValue timeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+    QVariant value = pcontext->argument(0).toVariant();
+    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"hh:mm";
+    QScriptValue res = pengine->newVariant(QLocale().toString(value.toTime(),format));
+    return res;
+}
+
+QScriptValue dateTimeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+    QVariant value = pcontext->argument(0).toVariant();
+    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy hh:mm";
+    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDateTime(),format));
+    return res;
+}
+
 QScriptValue now(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
+    return pengine->newVariant(QDateTime::currentDateTime());
+}
+
+QScriptValue date(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
     return pengine->newVariant(QDate::currentDate());
 }
 
@@ -348,8 +367,11 @@ ScriptEngineManager::ScriptEngineManager()
     //addFunction("dateToStr",dateToStr,"DATE", "dateToStr(\"value\",\"format\")");
     addFunction("line",line,"SYSTEM", "line(\""+tr("BandName")+"\")");
     addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+tr("Precision")+"\")");
-    addFunction("dateFormat",dateFormat,"DATE", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-    addFunction("now",now,"DATE","now()");
+    addFunction("dateFormat",dateFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("timeFormat",timeFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("date",date,"DATE&TIME","date()");
+    addFunction("now",now,"DATE&TIME","now()");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);

@@ -82,14 +82,24 @@ public:
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
     QSettings*  settings();
     bool    loadFromFile(const QString& fileName);
-    bool    loadFromByteArray(QByteArray *data);
+    bool    loadFromByteArray(QByteArray *data, const QString& name = "");
+    bool    loadFromString(const QString& report, const QString& name = "");
     QString reportFileName(){return m_fileName;}
     bool    saveToFile();
     bool    saveToFile(const QString& fileName);
+    QByteArray  saveToByteArray();
+    QString saveToString();
     bool    isNeedToSave();
     QString lastError();
     ReportEngine * q_ptr;
     PageDesignIntf *createPreviewScene(QObject *parent);
+    void emitSaveReport();
+    bool emitLoadReport();
+    bool isSaved();
+    void setCurrentReportsDir(const QString& dirName);
+    QString currentReportsDir(){ return m_reportsDir;}
+    void setReportName(const QString& reportName){ m_reportName=reportName;}
+    QString reportName(){ return m_reportName;}
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -97,6 +107,8 @@ signals:
     void    renderStarted();
     void    renderFinished();
     void    renderPageFinished(int renderedPageCount);
+    void    onLoad(bool& loaded);
+    void    onSave();
 public slots:
     void    cancelRender();
 protected:
@@ -125,7 +137,8 @@ private:
     QScopedPointer<QPrinter> m_printer;
     bool m_printerSelected;
     bool m_showProgressDialog;
-
+    QString m_reportsDir;
+    QString m_reportName;
 };
 
 }

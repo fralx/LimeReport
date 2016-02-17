@@ -43,8 +43,8 @@ public:
     virtual bool isStarted() = 0;
     virtual void closeGroup() = 0;
     virtual int  index() = 0;
-    virtual bool startNewPage()const = 0 ;
-    virtual bool resetPageNumber()const = 0 ;
+    virtual bool startNewPage() const = 0 ;
+    virtual bool resetPageNumber() const = 0 ;
     virtual ~IGroupBand(){}
 };
 
@@ -113,18 +113,18 @@ public:
     };
 
     enum BandColumnsLayoutType{
-        Horizontal, Vertical
+        Horizontal, Vertical, VerticalUniform
     };
 
     BandDesignIntf(BandsType bandType, const QString& xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0);
     ~BandDesignIntf();
 
-    virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual BandsType bandType() const;
     virtual QString bandTitle() const;
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
-    virtual void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
+    void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
 
     virtual QColor selectionColor() const;
     int bandIndex() const;
@@ -156,11 +156,12 @@ public:
     QList<BandDesignIntf*> childBands() const{return m_childBands;}
     QList<BandDesignIntf*> childrenByType(BandDesignIntf::BandsType type);
 
-    virtual bool canBeSplitted(int height) const;
-    virtual bool isEmpty() const;
+    bool canBeSplitted(int height) const;
+    bool isEmpty() const;
     virtual bool isNeedRender() const;
     virtual bool isFooter() const {return false;}
     virtual bool isHeader() const {return false;}
+    virtual bool isGroupHeader() const {return false;}
     virtual bool isData() const {return false;}
 
     void setTryToKeepTogether(bool value);
@@ -195,6 +196,12 @@ public:
     int columnIndex() const;
     void setColumnIndex(int columnIndex);
     
+    bool reprintOnEachPage() const;
+    void setReprintOnEachPage(bool reprintOnEachPage);
+
+    bool startNewPage() const;
+    void setStartNewPage(bool startNewPage);
+
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -209,19 +216,20 @@ protected:
 
     void setBandTypeText(const QString& value);
     QString bandTypeText(){return m_bandTypeText;}
-    virtual void moveDown(){}
-    virtual void moveUp(){}
+    void moveDown(){}
+    void moveUp(){}
     QSet<BandsType> groupBands();
     QSet<BandsType> subdetailBands();
     BandDesignIntf *findParentBand();
-    virtual void geometryChangedEvent(QRectF, QRectF);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-    virtual void initMode(ItemMode mode);
+    void geometryChangedEvent(QRectF, QRectF);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    void initMode(ItemMode mode);
     virtual QColor bandColor() const;
     void setMarkerColor(QColor color);
     void checkEmptyTable();
     void setColumnsCount(int value);
     void setColumnsFillDirection(BandColumnsLayoutType value);
+
 private slots:
     void childBandDeleted(QObject* band);
 private:
@@ -246,6 +254,8 @@ private:
     int                         m_columnsCount;
     int                         m_columnIndex;
     BandColumnsLayoutType       m_columnsFillDirection;
+    bool                        m_reprintOnEachPage;
+    bool                        m_startNewPage;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

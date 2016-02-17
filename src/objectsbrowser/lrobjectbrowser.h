@@ -68,7 +68,7 @@ private slots:
     void slotActivePageChanged();
     void slotBandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*);
     void slotBandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*item);
-    void slotItemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);
+    void slotItemAdded(LimeReport::PageDesignIntf*page, LimeReport::BaseDesignIntf*);
     void slotItemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*item);
     void slotObjectTreeItemSelectionChanged();
     void slotItemSelected(LimeReport::BaseDesignIntf* item);

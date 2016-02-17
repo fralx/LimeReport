@@ -39,6 +39,7 @@
 #include <QMenuBar>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#include <QDesktopWidget>
 
 #include "lrreportdesignwindow.h"
 #include "lrbandsmanager.h"
@@ -230,15 +231,15 @@ void ReportDesignWindow::createToolBars()
 {
     createBandsButton();
 
-    m_mainToolBar = addToolBar("Main Tools");
+    m_mainToolBar = addToolBar(tr("Main Tools"));
     m_mainToolBar->setIconSize(QSize(16,16));
     m_mainToolBar->setAllowedAreas(Qt::LeftToolBarArea | Qt::RightToolBarArea | Qt::TopToolBarArea );
     m_mainToolBar->setFloatable(false);
     m_mainToolBar->setObjectName("mainTools");
 
     m_mainToolBar->addAction(m_newReportAction);
-    m_mainToolBar->addAction(m_saveReportAction);
     m_mainToolBar->addAction(m_loadReportAction);
+    m_mainToolBar->addAction(m_saveReportAction);
     m_mainToolBar->addSeparator();
 
     m_mainToolBar->addAction(m_copyAction);
@@ -294,6 +295,7 @@ void ReportDesignWindow::createBandsButton()
     m_newBandButton = new QToolButton(this);
     m_newBandButton->setPopupMode(QToolButton::InstantPopup);
     m_newBandButton->setIcon(QIcon(":/report/images/addBand"));
+    m_newBandButton->setToolTip(tr("Report bands"));
 
     m_bandsAddSignalsMap = new QSignalMapper(this);
 
@@ -501,6 +503,17 @@ void ReportDesignWindow::restoreSetting()
     QVariant v = settings()->value("Geometry");
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
+    } else {
+        QDesktopWidget *desktop = QApplication::desktop();
+
+        int screenWidth = desktop->width();
+        int screenHeight = desktop->height();
+
+        int x = screenWidth*0.1;
+        int y = screenHeight*0.1;
+
+        resize(screenWidth*0.8, screenHeight*0.8);
+        move(x, y);
     }
     v = settings()->value("State");
     if (v.isValid()){
@@ -731,17 +744,25 @@ void ReportDesignWindow::slotSaveReportAs()
 void ReportDesignWindow::slotLoadReport()
 {
     if (checkNeedToSave()){
-        QString fileName = QFileDialog::getOpenFileName(this,tr("Report file name"),"","Report files(*.lrxml);; All files(*)");
-        if (!fileName.isEmpty()) {
-            QApplication::processEvents();
-            setCursor(Qt::WaitCursor);
-            m_reportDesignWidget->clear();
-            m_reportDesignWidget->loadFromFile(fileName);
-            m_lblReportName->setText(fileName);
-            m_propertyModel->setObject(0);
-            updateRedoUndo();
-            unsetCursor();
+        if (!m_reportDesignWidget->emitLoadReport()){
+            QString fileName = QFileDialog::getOpenFileName(
+                        this,tr("Report file name"),
+                        m_reportDesignWidget->report()->currentReportsDir(),
+                        "Report files(*.lrxml);; All files(*)"
+                        );
+            if (!fileName.isEmpty()) {
+                QApplication::processEvents();
+                setCursor(Qt::WaitCursor);
+                m_reportDesignWidget->clear();
+                m_reportDesignWidget->loadFromFile(fileName);
+                m_lblReportName->setText(fileName);
+                m_propertyModel->setObject(0);
+                updateRedoUndo();
+                unsetCursor();
+                setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
+            }
         }
+
     }
 }
 

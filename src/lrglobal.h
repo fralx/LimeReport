@@ -52,7 +52,7 @@ namespace Const{
     double const SELECTED_RESIZE_ZONE_OPACITY = 0.6;
     Qt::GlobalColor const RESIZE_ZONE_COLOR = Qt::green;
     Qt::GlobalColor const SELECTION_COLOR = Qt::red;
-    double const SELECTION_COLOR_OPACITY = 0.9;
+    double const SELECTION_COLOR_OPACITY = 0.6;
     const qreal fontFACTOR = 3.5;
     const int mmFACTOR = 10;
     const int itemPaleteIconSize = 24;
@@ -65,8 +65,8 @@ namespace Const{
     const qreal BAND_NAME_AREA_OPACITY = 0.3;
     const qreal BAND_NAME_TEXT_OPACITY = 0.6;
     const qreal SELECTION_OPACITY = 0.3;
-    const QString FIELD_RX = "\\$D\\s*\\{\\s*([^\\s{}]*)\\s*\\}";
-    const QString VARIABLE_RX = "\\$V\\s*\\{\\s*([^\\s{}]*)\\s*\\}";
+    const QString FIELD_RX = "\\$D\\s*\\{\\s*([^{}]*)\\s*\\}";
+    const QString VARIABLE_RX = "\\$V\\s*\\{\\s*([^{}]*)\\s*\\}";
     const QString SCRIPT_RX = "\\$S\\s*\\{(.*)\\}";
     const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(((?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"))(\\w+\\.?\\w+)((?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,\\s*\\\"(\\w+)\\\"\\s*\\)";
     const int DATASOURCE_INDEX = 6;

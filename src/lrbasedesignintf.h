@@ -55,10 +55,16 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
     void setColor(QColor color){m_color=color;}
+protected:
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 private:
     QRectF m_rect;
     QColor m_color;
-
+    BaseDesignIntf* m_object;
 };
 
 class DataSourceManager;
@@ -77,7 +83,9 @@ class  BaseDesignIntf :
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
     Q_PROPERTY(QString parentName READ parentReportItem WRITE setParentReportItem DESIGNABLE false)
-    Q_PROPERTY(ItemAlign itemAlign READ itemAlign WRITE setItemAlign)
+    Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
+    Q_PROPERTY(bool isVisible READ isVisible WRITE setVisible DESIGNABLE false)
+
 public:
     enum BGMode { TransparentMode,OpaqueMode};
     enum BrushMode{Solid,None};
@@ -101,6 +109,7 @@ public:
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)
+    friend class SelectionMarker;
 public:
     BaseDesignIntf(const QString& storageTypeName, QObject* owner = 0, QGraphicsItem* parent = 0);
     virtual ~BaseDesignIntf();
@@ -215,6 +224,8 @@ public:
     QString itemTypeName() const;
     void setItemTypeName(const QString &itemTypeName);
     void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
+    int borderLineSize() const;
+    void setBorderLineSize(int value);
     void showEditorDialog();
     ItemAlign itemAlign() const;
     virtual void setItemAlign(const ItemAlign &itemAlign);
@@ -254,7 +265,7 @@ protected:
     void drawBorder(QPainter* painter, QRectF rect) const;
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
     void drawRenderModeBorder(QPainter *painter, QRectF rect) const;
-    void drawResizeZone(QPainter *painter);
+    void drawResizeZone(QPainter*);
     void drawSelection(QPainter* painter, QRectF) const;
     void drawPinArea(QPainter* painter) const;
 
@@ -266,7 +277,7 @@ protected:
     RenderPass currentRenderPass(){return m_currentPass;}
 
     virtual bool drawDesignBorders() const {return true;}
-
+    SelectionMarker* selectionMarker() {return m_selectionMarker;}
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -276,7 +287,7 @@ private:
     void updatePosibleDirectionFlags();
 private:
     QPointF m_startPos;
-    QPointF m_startScenePos;
+    //QPointF m_startScenePos;
     int     m_resizeHandleSize;
     int     m_selectionPenSize;
     int     m_posibleResizeDirectionFlags;
@@ -288,6 +299,7 @@ private:
     QColor  m_fontColor;
     qreal   m_mmFactor;
     bool    m_fixedPos;
+    int     m_borderLineSize;
 
     QRectF  m_rect;
     mutable QRectF  m_boundingRect;

@@ -50,6 +50,7 @@ public:
     virtual void putItem(QObject* item)=0;
     virtual bool saveToFile(QString fileName) = 0;
     virtual QString saveToString() = 0;
+    virtual QByteArray saveToByteArray() = 0;
     virtual ~ItemsWriterIntf(){}
 };
 

@@ -51,6 +51,38 @@ void QObjectPropertyModel::translatePropertyName()
     tr("BottomLine");
     tr("LeftLine");
     tr("RightLine");
+    tr("reprintOnEachPage");
+    tr("borderLineSize");
+    tr("autoHeight");
+    tr("backgroundColor");
+    tr("columnCount");
+    tr("columnsFillDirection");
+    tr("datasource");
+    tr("keepBottomSpace");
+    tr("keepFooterTogether");
+    tr("keepSubdetailTogether");
+    tr("printIfEmpty");
+    tr("sliceLastRow");
+    tr("splittable");
+    tr("alignment");
+    tr("angle");
+    tr("autoWidth");
+    tr("backgroundMode");
+    tr("backgroundOpacity");
+    tr("content");
+    tr("font");
+    tr("fontColor");
+    tr("foregroundOpacity");
+    tr("itemLocation");
+    tr("margin");
+    tr("stretchToMaxHeight");
+    tr("trimValue");
+    tr("lineWidth");
+    tr("opacity");
+    tr("penStyle");
+    tr("shape");
+    tr("shapeBrush");
+    tr("shapeBrushColor");
 }
 
 QObjectPropertyModel::QObjectPropertyModel(QObject *parent/*=0*/)
@@ -93,13 +125,17 @@ void QObjectPropertyModel::setMultiObjects(QList<QObject *>* list)
 {
     m_objects.clear();
     submit();
-    if (m_object!=list->at(0)){
+
+    if (!list->contains(m_object)){
         m_object=list->at(0);
         list->removeAt(0);
+    } else {
+        list->removeOne(m_object);
     }
+
     foreach(QObject* item, *list)
         m_objects.append(item);
-    initModel();
+    //initModel();
 }
 
 void QObjectPropertyModel::slotObjectDestroyed(QObject *obj)

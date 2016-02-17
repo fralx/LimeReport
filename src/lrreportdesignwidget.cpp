@@ -225,6 +225,8 @@ bool ReportDesignWidget::save()
         return m_report->saveToFile();
     }
     else {
+        m_report->emitSaveReport();
+        if (m_report->isSaved()) return true;
         return m_report->saveToFile(QFileDialog::getSaveFileName(this,tr("Report file name"),"","Report files (*.lrxml);; All files (*)"));
     }
 }
@@ -248,6 +250,11 @@ QString ReportDesignWidget::reportFileName()
 bool ReportDesignWidget::isNeedToSave()
 {
     return m_report->isNeedToSave();
+}
+
+bool ReportDesignWidget::emitLoadReport()
+{
+    return m_report->emitLoadReport();
 }
 
 void ReportDesignWidget::updateSize()
@@ -349,9 +356,10 @@ void ReportDesignWidget::setFont(const QFont& font)
     activePage()->setFont(font);
 }
 
-void ReportDesignWidget::setTextAlign(const Qt::Alignment& alignment)
+void ReportDesignWidget::setTextAlign(const bool& horizontalAlign, const Qt::AlignmentFlag& alignment)
 {
-    activePage()->setTextAlign(alignment);
+    //activePage()->setTextAlign(alignment);
+    activePage()->changeSelectedGrpoupTextAlignPropperty(horizontalAlign, alignment);
 }
 
 void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
