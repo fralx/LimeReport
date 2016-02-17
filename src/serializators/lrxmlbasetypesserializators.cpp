@@ -177,7 +177,7 @@ void XmlFontSerializator::save(const QVariant &value, QString name)
     _node.setAttribute("pointSize",font.pointSize());
     saveBool(_node,"bold",font.bold());
     saveBool(_node,"italic",font.italic());
-    saveBool(_node,"undeline",font.underline());
+    saveBool(_node,"underline",font.underline());
 
     node()->appendChild(_node);
 }
