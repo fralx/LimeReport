@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/items">
+        <file alias="clear.png">images/clear.png</file>
+        <file alias="edit.ico">images/edit_16.ico</file>
+        <file>images/check.png</file>
+        <file>images/uncheck.png</file>
+        <file alias="checked.png">images/check_w.png</file>
+        <file alias="unchecked.png">images/uncheck_w.png</file>
+    </qresource>
+</RCC>

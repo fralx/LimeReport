@@ -1,8 +1,8 @@
 # LimeReport
 
 ##How to use it
-* Build limereport.pro. It will create a limereport shared library  
-* In your project connect the limereport library then in source code add:
+1. Build limereport.pro. It will create a limereport shared library  
+2. In your project connect the limereport library then in source code add:
  
 ```C
   #include "lrreportengine.h" to add report engine 
@@ -15,4 +15,4 @@
   report->printReport(); to print report 	 
 
 ```
-For more samples see a demo\r1
+For more samples see a demo

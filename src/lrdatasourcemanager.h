@@ -1,0 +1,229 @@
+/***************************************************************************
+ *   This file is part of the Lime Report project                          *
+ *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   arin_a@bk.ru                                                          *
+ *                                                                         *
+ **                   GNU General Public License Usage                    **
+ *                                                                         *
+ *   This library is free software: you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ *                                                                         *
+ **                  GNU Lesser General Public License                    **
+ *                                                                         *
+ *   This library is free software: you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation, either version 3 of the    *
+ *   License, or (at your option) any later version.                       *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library.                                      *
+ *   If not, see <http://www.gnu.org/licenses/>.                           *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ ****************************************************************************/
+#ifndef LRDATASOURCEMANAGER_H
+#define LRDATASOURCEMANAGER_H
+
+#include <QObject>
+#include <QIcon>
+#include "lrdatasourcemanager.h"
+#include "lrdatadesignintf.h"
+#include "lrcollection.h"
+#include "lrglobal.h"
+#include "lrvariablesholder.h"
+#include "lrgroupfunctions.h"
+#include "lrdatasourcemanagerintf.h"
+
+namespace LimeReport{
+
+
+class DataSourceManager;
+
+class DataNode {
+public:
+    enum NodeType{Root,Connection,DataSources,Query,SubQuery,Model,Field,Variables,Variable};
+    DataNode(const QString& name="", NodeType type=Root, DataNode* parent=0, const QIcon& icon=QIcon())
+        :m_name(name), m_icon(icon), m_type(type), m_parent(parent){}
+    virtual ~DataNode();
+    int       childCount(){return m_childs.count();}
+    DataNode* child(int index){return m_childs[index];}
+    DataNode* parent(){return m_parent;}
+    DataNode* addChild(const QString& name="", NodeType type=Root, const QIcon& icon=QIcon());
+    int       row();
+    QString   name(){return m_name;}
+    QIcon     icon(){return m_icon;}
+    void      clear();
+    NodeType  type(){return m_type;}
+private:
+    QString     m_name;
+    QIcon       m_icon;
+    NodeType    m_type;
+    DataNode*   m_parent;
+    QVector<DataNode*> m_childs;
+};
+
+class DataSourceModel : public QAbstractItemModel{
+    Q_OBJECT
+public:
+    DataSourceModel():m_rootNode(new DataNode()){}
+    DataSourceModel(DataSourceManager* dataManager);
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    ~DataSourceModel();
+    QModelIndex parent(const QModelIndex &child) const;
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    void setDataSourceManager(DataSourceManager* dataManager);
+private slots:
+    void slotDatasourcesChanged();
+private:
+    DataNode* nodeFromIndex(const QModelIndex &index) const;
+    void fillFields(DataNode* parent);
+    void updateModel();
+private:
+    DataSourceManager* m_dataManager;
+    DataNode* m_rootNode;
+};
+
+class DataSourceManager : public QObject, public ICollectionContainer, public IVariablesContainer, public IDataSourceManager
+{
+    Q_OBJECT
+    Q_PROPERTY(ACollectionProperty connections READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty queries READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty subqueries READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty subproxies READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty variables READ fakeCollectionReader)
+    friend class ReportEnginePrivate;
+    friend class ReportRender;
+public:
+    static DataSourceManager* instance(){return m_instance;}
+public:
+    typedef QHash<QString,IDataSourceHolder*> DataSourcesMap;
+    enum ClearMethod {All,Owned};
+    ~DataSourceManager();
+    void connectAllDatabases();
+    void addConnection(const QString& connectionName);
+    void addConnectionDesc(ConnectionDesc *);
+    void addQuery(const QString& name, const QString& sqlText, const QString& connectionName="");
+    void addSubQuery(const QString& name, const QString& sqlText, const QString& connectionName, const QString& masterDatasource);
+    void addProxy(const QString& name, QString master, QString detail, QList<FieldsCorrelation> fields);
+    void addModel(const QString& name, QAbstractItemModel *model, bool owned);
+    ICallbackDatasource* createCallbackDatasouce(const QString &name);
+    void addCallbackDatasource(ICallbackDatasource *datasource, const QString &name);
+    void setReportVariable(const QString& name, const QVariant& value);
+    void deleteVariable(const QString& name);
+    bool containsVariable(const QString& variableName);
+    void clearUserVariables();
+    QVariant variable(const QString& variableName);
+    RenderPass variablePass(const QString& name);
+    QStringList variableNames();
+    VarDesc::VarType variableType(const QString& name);
+
+    bool variableIsSystem(const QString& name);
+    QString queryText(const QString& dataSourceName);
+    QString connectionName(const QString& dataSourceName);
+    void removeDatasource(const QString& name);
+    void removeConnection(const QString& name);
+    bool isQuery(const QString& dataSourceName);
+    bool containsDatasource(const QString& dataSourceName);
+    bool isSubQuery(const QString& dataSourceName);
+    bool isProxy(const QString& dataSourceName);
+    bool isConnection(const QString& connectionName);
+    bool isConnectionConnected(const QString& connectionName);
+    bool connectConnection(const QString &connectionName);
+    void disconnectConnection(const QString &connectionName);
+    QueryDesc* queryByName(const QString& dataSourceName);
+    SubQueryDesc* subQueryByName(const QString& dataSourceName);
+    ProxyDesc* proxyByName(QString datasourceName);
+    ConnectionDesc *connectionByName(const QString& connectionName);
+    int queryIndexByName(const QString& dataSourceName);
+    int subQueryIndexByName(const QString& dataSourceName);
+    int proxyIndexByName(const QString& dataSourceName);
+    int connectionIndexByName(const QString& connectionName);
+
+    bool dataSourceIsValid(const QString& name);
+    IDataSource* dataSource(const QString& name);
+    IDataSourceHolder* dataSourceHolder(const QString& name);
+    QStringList dataSourceNames();
+    QStringList dataSourceNames(const QString& connectionName);
+    QStringList connectionNames();
+    QStringList fieldNames(const QString& datasourceName);
+    bool containsField(const QString& fieldName);
+    QVariant fieldData(const QString& fieldName);
+
+    QString extractDataSource(const QString& fieldName);
+    QString extractFieldName(const QString& fieldName);
+    void setAllDatasourcesToFirst();
+    void clear(ClearMethod method);
+    void clearGroupFunction();
+    void clearGroupFunctionValues(const QString &bandObjectName);
+
+    QList<QString> groupFunctionNames(){return m_groupFunctionFactory.functionNames();}
+    GroupFunction* addGroupFunction(const QString& name, const QString& expression, const QString& band, const QString &dataBand);
+    GroupFunction* groupFunction(const QString& name, const QString &expression, const QString& band);
+    QList<GroupFunction*> groupFunctionsByBand(const QString& band);
+    void updateChildrenData(const QString& datasourceName);
+
+    DataSourceModel* datasourcesModel(){return &m_datasourcesModel;}
+    QString lastError() const { return m_lastError;}
+
+    void putError(QString error){ if (!m_errorsList.contains(error)) m_errorsList.append(error);}
+    void clearErrorsList(){ m_errorsList.clear();}
+    QStringList errorsList(){ return m_errorsList;}
+    bool designTime() const;
+    void setDesignTime(bool designTime);
+    QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText);
+
+signals:
+    void loadCollectionFinished(const QString& collectionName);
+    void cleared();
+    void datasourcesChanged();
+protected:
+    void addQueryDesc(QueryDesc *);
+    void putHolder(QString name, LimeReport::IDataSourceHolder* dataSource);
+    void putQueryDesc(QueryDesc *queryDesc);
+    void putSubQueryDesc(SubQueryDesc *subQueryDesc);
+    void putProxyDesc(ProxyDesc *proxyDesc);
+    bool connectConnection(ConnectionDesc* connectionDesc);
+    //ICollectionContainer
+    virtual QObject* createElement(const QString& collectionName,const QString&);
+    virtual int elementsCount(const QString& collectionName);
+    virtual QObject *elementAt(const QString& collectionName,int index);
+    virtual void collectionLoadFinished(const QString& collectionName);
+
+    void addVariable(const QString& name, const QVariant& value, VarDesc::VarType type=VarDesc::User, RenderPass pass=FirstPass);
+    void changeVariable(const QString& name,const QVariant& value);
+    void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
+    void setLastError(const QString& value);
+    void invalidateLinkedDatasources(QString datasourceName);
+private slots:
+    void slotConnectionRenamed(const QString& oldName,const QString& newName);
+private:
+    explicit DataSourceManager(QObject *parent = 0);
+    Q_DISABLE_COPY(DataSourceManager)
+private:
+    static DataSourceManager* m_instance;
+    QList<ConnectionDesc*> m_connections;
+    QList<QueryDesc*> m_queries;
+    QList<SubQueryDesc*> m_subqueries;
+    QList<ProxyDesc*> m_proxies;
+    QList<VarDesc*> m_tempVars;
+
+    QMultiMap<QString,GroupFunction*> m_groupFunctions;
+    GroupFunctionFactory m_groupFunctionFactory;
+    AVariablesHolder m_varHolder;
+    DataSourcesMap m_datasources;
+    DataSourceModel m_datasourcesModel;
+    QString m_lastError;
+    QStringList m_errorsList;
+    bool m_designTime;
+};
+
+}
+#endif // LRDATASOURCEMANAGER_H

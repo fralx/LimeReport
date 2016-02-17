@@ -1,0 +1,587 @@
+/***************************************************************************
+ *   This file is part of the Lime Report project                          *
+ *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   arin_a@bk.ru                                                          *
+ *                                                                         *
+ **                   GNU General Public License Usage                    **
+ *                                                                         *
+ *   This library is free software: you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ *                                                                         *
+ **                  GNU Lesser General Public License                    **
+ *                                                                         *
+ *   This library is free software: you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation, either version 3 of the    *
+ *   License, or (at your option) any later version.                       *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library.                                      *
+ *   If not, see <http://www.gnu.org/licenses/>.                           *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ ****************************************************************************/
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QMessageBox>
+#include <QApplication>
+#include <QDesktopWidget>
+
+#include "time.h"
+
+#include "lrreportengine_p.h"
+#include "lrreportengine.h"
+
+#include "lrpagedesignintf.h"
+#include "lrdatasourcemanager.h"
+#include "lrdatabrowser.h"
+#include "lrreportdesignwindow.h"
+
+#include "serializators/lrxmlwriter.h"
+#include "serializators/lrxmlreader.h"
+#include "lrreportrender.h"
+#include "lrpreviewreportwindow.h"
+
+namespace LimeReport{
+
+QSettings* ReportEngine::m_settings = 0;
+
+ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
+    QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
+    m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false), m_showProgressDialog(true)
+{
+    m_datasources= new DataSourceManager(this);
+    m_datasources->setObjectName("datasources");
+    //m_reportRender=ReportRender::Ptr(new ReportRender());
+    //m_reportRender->setDatasources(m_datasources);
+    connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
+}
+
+ReportEnginePrivate::~ReportEnginePrivate()
+{
+    foreach(PageDesignIntf* page,m_pages) delete page;
+    m_pages.clear();
+    if (m_ownedSettings&&m_settings) delete m_settings;
+}
+
+QObject* ReportEnginePrivate::createElement(const QString &, const QString &)
+{
+    return appendPage();
+}
+
+QObject *ReportEnginePrivate::elementAt(const QString &, int index)
+{
+    return pageAt(index);
+}
+
+PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
+{
+    PageDesignIntf* page =new PageDesignIntf(this);
+    page->setObjectName(pageName);
+    page->setReportEditor(this);
+    //m_pages.append(page);
+    return page;
+}
+
+PageDesignIntf *ReportEnginePrivate::appendPage(const QString &pageName)
+{
+    PageDesignIntf* page = createPage(pageName);
+    m_pages.append(page);
+    return page;
+}
+
+PageDesignIntf *ReportEnginePrivate::createPreviewPage()
+{
+    return createPage();
+}
+
+int ReportEnginePrivate::elementsCount(const QString &)
+{
+    return m_pages.count();
+}
+
+void ReportEnginePrivate::collectionLoadFinished(const QString &)
+{
+    foreach (PageDesignIntf* page, m_pages) {
+        page->setReportEditor(this);
+        page->setSceneRect(-SCENE_MARGIN,-SCENE_MARGIN,
+                           page->pageItem()->width()+SCENE_MARGIN*2,
+                           page->pageItem()->height()+SCENE_MARGIN*2);
+    }
+    emit pagesLoadFinished();
+}
+
+void ReportEnginePrivate::saveError(QString message)
+{
+    m_lastError = message;
+}
+
+void ReportEnginePrivate::showError(QString message)
+{
+    QMessageBox::critical(0,tr("Error"),message);
+}
+
+void ReportEnginePrivate::slotDataSourceCollectionLoaded(const QString &collectionName)
+{
+    emit datasourceCollectionLoadFinished(collectionName);
+}
+
+void ReportEnginePrivate::clearReport()
+{
+    foreach(PageDesignIntf* page,m_pages) delete page;
+    m_pages.clear();
+    m_datasources->clear(DataSourceManager::Owned);
+    m_fileName="";
+    emit cleared();
+}
+
+void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& printer)
+{
+    LimeReport::PageDesignIntf renderPage;
+    renderPage.setItemMode(PrintMode);
+    if (reader->first()){
+        reader->readItem(renderPage.pageItem());
+        printer.setPageMargins(renderPage.pageItem()->leftMargin(),
+                               renderPage.pageItem()->topMargin(),
+                               renderPage.pageItem()->rightMargin(),
+                               renderPage.pageItem()->bottomMargin(),
+                               QPrinter::Millimeter);
+        printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
+        renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
+
+        QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
+                    QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
+                    renderPage.pageItem()->sizeMM();
+        printer.setPaperSize(pageSize,QPrinter::Millimeter);
+
+        QPainter painter(&printer);
+        renderPage.render(&painter);
+
+        while (reader->next()){
+            printer.newPage();
+            renderPage.removeAllItems();
+            reader->readItem(renderPage.pageItem());
+            renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
+            renderPage.render(&painter);
+        }
+    }
+}
+
+void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, const PrintRange& printRange)
+{
+    LimeReport::PageDesignIntf renderPage;
+    renderPage.setItemMode(PrintMode);
+    QPainter* painter=0;
+
+    bool isFirst = true;
+    int currenPage = 1;
+    foreach(PageItemDesignIntf::Ptr page,pages){
+
+        if (
+                (printRange.rangeType()==QPrintDialog::AllPages) ||
+                (   (printRange.rangeType()==QPrintDialog::PageRange) &&
+                    (currenPage>=printRange.fromPage()) &&
+                    (currenPage<=printRange.toPage())
+                )
+           )
+        {
+
+            QPointF pagePos = page->pos();
+            page->setPos(0,0);
+            renderPage.setPageItem(page);
+
+            renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
+            printer.setPageMargins(renderPage.pageItem()->leftMargin(),
+                                   renderPage.pageItem()->topMargin(),
+                                   renderPage.pageItem()->rightMargin(),
+                                   renderPage.pageItem()->bottomMargin(),
+                                   QPrinter::Millimeter);
+            printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
+
+            QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
+                        QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
+                        renderPage.pageItem()->sizeMM();
+            printer.setPaperSize(pageSize,QPrinter::Millimeter);
+
+            if (!isFirst){
+                printer.newPage();
+            } else {
+                isFirst=false;
+                painter = new QPainter(&printer);
+            }
+
+            renderPage.render(painter);
+            page->setPos(pagePos);
+        }
+
+        currenPage++;
+    }
+    if (painter) delete painter;
+
+}
+
+bool ReportEnginePrivate::printReport(QPrinter* printer)
+{
+    //QScopedPointer<QPrinter>l_printer(new QPrinter(QPrinter::HighResolution));
+    if (!printer&&!m_printerSelected){
+        QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
+        m_printerSelected = dialog.exec()!=QDialog::Rejected;
+    }
+    if (!printer&&!m_printerSelected) return false;
+
+    printer =(printer)?printer:m_printer.data();
+    if (printer&&printer->isValid()){
+        try{
+            dataManager()->setDesignTime(false);
+            printReport(renderToPages(),*printer,PrintRange());
+            dataManager()->setDesignTime(true);
+        } catch(ReportError &exception){
+            saveError(exception.what());
+        }
+        return true;
+    } else return false;
+}
+
+void ReportEnginePrivate::printToFile(const QString &fileName)
+{
+    if (!fileName.isEmpty()){
+        QFile file(fileName);
+        if (file.open(QIODevice::WriteOnly)){
+            QTextStream out(&file);
+            try {
+                dataManager()->setDesignTime(false);
+                out<<renderToString();
+                dataManager()->setDesignTime(true);
+            }  catch( ReportError &exception){
+                saveError(exception.what());
+            }
+        }
+        file.close();
+    }
+}
+
+void ReportEnginePrivate::previewReport()
+{ 
+    QTime start = QTime::currentTime();
+    try{
+        dataManager()->setDesignTime(false);
+        ReportPages pages = renderToPages();
+        dataManager()->setDesignTime(true);
+        if (pages.count()>0){
+            PreviewReportWindow* w = new PreviewReportWindow(this,QApplication::activeWindow(),settings());
+            w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint);
+            w->setAttribute(Qt::WA_DeleteOnClose,true);
+            w->setWindowModality(Qt::ApplicationModal);
+            w->setWindowIcon(QIcon(":/report/images/main.ico"));
+            w->setSettings(settings());
+            w->setPages(pages);
+            if (!dataManager()->errorsList().isEmpty()){
+                w->setErrorMessages(dataManager()->errorsList());
+            }
+            qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
+            w->exec();
+        }
+    } catch (ReportError &exception){
+        saveError(exception.what());
+        showError(exception.what());
+    }
+}
+
+PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
+    PageDesignIntf* result = 0;
+    try {
+        ReportPages pages = renderToPages();
+        result = new PageDesignIntf(parent);
+        result->setPageItems(pages);
+    } catch (ReportError &exception){
+        saveError(exception.what());
+        showError(exception.what());
+    }
+    return result;
+}
+
+void ReportEnginePrivate::cancelRender()
+{
+    if (m_reportRender)
+        m_reportRender->cancelRender();
+}
+
+//PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
+//    Q_D(ReportEngine);
+//    return d->createPreviewScene(parent);
+//}
+
+void ReportEnginePrivate::designReport()
+{
+    LimeReport::ReportDesignWindow* w = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
+    w->setAttribute(Qt::WA_DeleteOnClose,true);
+    w->setWindowIcon(QIcon(":report/images/main"));
+    w->setShowProgressDialog(m_showProgressDialog);
+#if defined(Q_OS_MAC)
+    //w->showModal();
+#elif defined(Q_OS_UNIX)
+    //w->showModal();
+#endif
+#ifdef Q_OS_WIN
+    w->setWindowFlags(Qt::Window|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint);
+    w->setWindowModality(Qt::ApplicationModal);
+    //w->showModal();
+#endif
+    if (QApplication::activeWindow()==0){
+        w->show();
+    } else {
+        w->showModal();
+    }
+}
+
+void ReportEnginePrivate::setSettings(QSettings* value)
+{
+    if (value){
+        if (m_ownedSettings&&m_settings)
+            delete m_settings;
+        m_settings = value;
+        m_ownedSettings = false;
+    }
+}
+
+QSettings*ReportEnginePrivate::settings()
+{
+    if (m_settings){
+        return m_settings;
+    } else {
+        m_settings = new QSettings("LimeReport",QApplication::applicationName());
+        m_ownedSettings=true;
+        return m_settings;
+    }
+}
+
+bool ReportEnginePrivate::loadFromFile(const QString &fileName)
+{
+    clearReport();
+    //QScopedPointer< ItemsReaderIntf > reader(new FileXMLReader(fileName));
+    ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
+    if (reader->first()){
+        if (reader->readItem(this)){
+            m_fileName=fileName;
+            return true;
+        };
+    }
+    return false;
+}
+
+bool ReportEnginePrivate::loadFromByteArray(QByteArray* data){
+    clearReport();
+    ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
+    if (reader->first()){
+        if (reader->readItem(this)){
+            m_fileName="";
+            return true;
+        };
+    }
+    return false;
+}
+
+bool ReportEnginePrivate::saveToFile(const QString &fileName)
+{
+    if (fileName.isEmpty()) return false;
+    QFileInfo fi(fileName);
+    QString fn = fileName;
+    if (fi.suffix().isEmpty())
+        fn+=".lrxml";
+
+    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->putItem(this);
+    m_fileName=fn;
+    bool saved = writer->saveToFile(fn);
+    if (saved){
+        foreach(PageDesignIntf* page, m_pages){
+            page->setToSaved();
+        }
+    }
+    return saved;
+}
+
+bool ReportEnginePrivate::isNeedToSave()
+{
+    foreach(PageDesignIntf* page, m_pages){
+        if (page->isHasChanges()) return true;
+    }
+    return false;
+}
+
+bool ReportEnginePrivate::saveToFile()
+{
+    if (m_fileName.isEmpty()) return false;
+    return saveToFile(m_fileName);
+}
+
+QString ReportEnginePrivate::renderToString()
+{
+    LimeReport::ReportRender render;
+    dataManager()->connectAllDatabases();
+    dataManager()->setDesignTime(false);
+    if (m_pages.count()){
+        render.setDatasources(dataManager());
+        return render.renderPageToString(m_pages.at(0));
+    }else return QString();
+}
+
+ReportPages ReportEnginePrivate::renderToPages()
+{
+
+    //ReportRender render;
+    m_reportRender = ReportRender::Ptr(new ReportRender);
+    dataManager()->clearErrorsList();
+    dataManager()->connectAllDatabases();
+    dataManager()->setDesignTime(false);
+    connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
+            this, SIGNAL(renderPageFinished(int)));
+    if (m_pages.count()){
+        emit renderStarted();
+        m_reportRender->setDatasources(dataManager());
+        ReportPages result = m_reportRender->renderPageToPages(m_pages.at(0));
+        emit renderFinished();
+        return result;
+    }else return ReportPages();
+    m_reportRender.clear();
+}
+
+QString ReportEnginePrivate::lastError()
+{
+    return m_lastError;
+}
+
+ReportEngine::ReportEngine(QObject *parent)
+    : QObject(parent), d_ptr(new ReportEnginePrivate())
+{
+    Q_D(ReportEngine);
+    d->q_ptr=this;
+    connect(d, SIGNAL(renderStarted()), this, SIGNAL(renderStarted()));
+    connect(d, SIGNAL(renderPageFinished(int)),
+            this, SIGNAL(renderPageFinished(int)));
+    connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
+}
+
+ReportEngine::~ReportEngine()
+{
+    if (d_ptr) delete d_ptr;
+}
+
+bool ReportEngine::printReport(QPrinter *printer)
+{
+    Q_D(ReportEngine);
+    return d->printReport(printer);
+}
+
+//void ReportEngine::printReport(ReportPages pages, QPrinter &printer){
+//    Q_D(ReportEngine);
+//    d->printReport(pages,printer,PrintRange());
+//}
+
+void ReportEngine::printToFile(const QString &fileName)
+{
+    Q_D(ReportEngine);
+    d->printToFile(fileName);
+}
+
+void ReportEngine::previewReport()
+{
+    Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
+    d->previewReport();
+}
+
+void ReportEngine::designReport()
+{
+    Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
+    d->designReport();
+}
+
+void ReportEngine::setShowProgressDialog(bool value)
+{
+    Q_D(ReportEngine);
+    d->setShowProgressDialog(value);
+}
+
+IDataSourceManager *ReportEngine::dataManager()
+{
+    Q_D(ReportEngine);
+    return d->dataManagerIntf();
+}
+
+IScriptEngineManager* ReportEngine::scriptManager()
+{
+    Q_D(ReportEngine);
+    return d->scriptManagerIntf();
+}
+
+bool ReportEngine::loadFromFile(const QString &fileName)
+{
+    Q_D(ReportEngine);
+    return d->loadFromFile(fileName);
+}
+
+bool ReportEngine::loadFromByteArray(QByteArray* data){
+    Q_D(ReportEngine);
+    return d->loadFromByteArray(data);
+}
+
+QString ReportEngine::reportFileName()
+{
+    Q_D(ReportEngine);
+    return d->reportFileName();
+}
+
+//void ReportDesignIntf::setPrinter(QPrinter *printer)
+//{
+//    Q_D(ReportDesignIntf);
+//    d->setPrinter(printer);
+//}
+
+bool ReportEngine::saveToFile()
+{
+    Q_D(ReportEngine);
+    return d->saveToFile();
+}
+
+bool ReportEngine::saveToFile(const QString &fileName)
+{
+    Q_D(ReportEngine);
+    return d->saveToFile(fileName);
+}
+
+QString ReportEngine::lastError()
+{
+    Q_D(ReportEngine);
+    return d->lastError();
+}
+
+void ReportEngine::cancelRender()
+{
+    Q_D(ReportEngine);
+    d->cancelRender();
+}
+
+ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
+    :QObject(parent),d_ptr(&dd)
+{
+    Q_D(ReportEngine);
+    d->q_ptr=this;
+    connect(d, SIGNAL(renderStarted()), this, SIGNAL(renderStarted()));
+    connect(d, SIGNAL(renderPageFinished(int)),
+            this, SIGNAL(renderPageFinished(int)));
+    connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
+}
+
+
+
+}

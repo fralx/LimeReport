@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/databrowser">
+        <file>images/data_add.png</file>
+        <file>images/data_delete.png</file>
+        <file>images/table.png</file>
+        <file>images/table_delete.png</file>
+        <file>images/data.png</file>
+        <file>images/row.png</file>
+        <file>images/edit_table.png</file>
+        <file>images/table_view.png</file>
+        <file>images/value_add.png</file>
+        <file>images/value_delete.png</file>
+        <file>images/value_edit.png</file>
+        <file>images/value.png</file>
+        <file>images/data_edit.png</file>
+        <file>images/add.png</file>
+        <file>images/remove.png</file>
+        <file>images/plug-connect.png</file>
+        <file>images/plug-disconnect.png</file>
+        <file>images/database_connect.png</file>
+        <file>images/database_disconnect.png</file>
+        <file>images/database_connected.png</file>
+        <file>images/database_connected2.png</file>
+        <file>images/table_error.png</file>
+        <file>images/table_good.png</file>
+        <file>images/error_message.png</file>
+        <file>images/error_message_2.png</file>
+        <file alias="/images/database_disconnected">images/data1.png</file>
+        <file alias="/images/database_connected">images/database_connected3.png</file>
+        <file alias="/images/field">images/field.png</file>
+        <file alias="/images/table_error">images/table_error1.png</file>
+        <file alias="/images/table_good">images/table_good1.png</file>
+        <file alias="/images/database_add">images/data_add1.png</file>
+        <file alias="/images/database_delete">images/data_delete1.png</file>
+        <file alias="/images/database_edit">images/data_edit1.png</file>
+        <file alias="/images/table_add">images/table_add.png</file>
+        <file alias="/images/table_delete">images/table_delete1.png</file>
+        <file alias="/images/table_edit">images/table_edit.png</file>
+        <file alias="/images/table_view">images/table_view1.png</file>
+        <file>images/value_add1.png</file>
+        <file alias="/images/value_delete">images/value_delete1.png</file>
+        <file>images/value_edit1.png</file>
+        <file alias="/images/value_add">images/value_add2.png</file>
+        <file alias="/images/value_edit">images/value_edit2.png</file>
+        <file alias="/images/value">images/value1.png</file>
+    </qresource>
+</RCC>

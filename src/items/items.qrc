@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/items">
+        <file>images/insert-text.png</file>
+        <file alias="BarcodeItem">images/barcode2.png</file>
+        <file>images/imageItem.png</file>
+        <file>images/shape2.png</file>
+        <file>images/shape4.png</file>
+        <file>images/insert-text_2.png</file>
+        <file>images/insert-text_3.png</file>
+        <file>images/hlayout.png</file>
+        <file alias="TextItem">images/insert-text_5.png</file>
+        <file alias="ShapeItem">images/shape5.png</file>
+        <file>images/imageItem1.png</file>
+        <file alias="ImageItem">images/imageItem2.png</file>
+        <file>images/settings.png</file>
+        <file>images/settings2.png</file>
+        <file alias="HorizontalLayout">images/hlayuot_3_24.png</file>
+        <file alias="Band">images/addBand1.png</file>
+        <file>images/DataBand.png</file>
+        <file>images/PageHeader.png</file>
+        <file>images/PageFooter.png</file>
+        <file>images/ReportHeader.png</file>
+        <file>images/ReportFooter.png</file>
+        <file>images/ReportPage.png</file>
+        <file alias="PageFooter">images/PageFooter16.png</file>
+        <file alias="PageHeader">images/PageHeader16.png</file>
+        <file alias="ReportFooter">images/ReportFooter16.png</file>
+        <file alias="ReportHeader">images/ReportHeader16.png</file>
+        <file alias="SubDetailBand">images/SubDetailBand16.png</file>
+        <file alias="SubDetailFooterBand">images/SubDetailFooterBand16.png</file>
+        <file alias="SubDetailHeaderBand">images/SubDetailHeaderBand16.png</file>
+        <file alias="DataBand">images/DataBand16.png</file>
+        <file alias="GroupBandFooter">images/GroupFooter16.png</file>
+        <file alias="GroupBandHeader">images/GroupHeader16.png</file>
+        <file alias="PageItemDesignIntf">images/ReportPage16.png</file>
+    </qresource>
+</RCC>

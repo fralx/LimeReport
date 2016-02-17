@@ -1,0 +1,158 @@
+<RCC>
+    <qresource prefix="/report">
+        <file alias="/images/pin">images/pin_green.png</file>
+        <file>images/addBand.png</file>
+        <file alias="images/addText">images/Control-Edit Box.png</file>
+        <file>images/disk_blue.png</file>
+        <file alias="/images/folderBig">images/folder.png</file>
+        <file>images/delete.png</file>
+        <file>images/document_add.png</file>
+        <file>images/document_zoom_in.png</file>
+        <file>images/document_zoom_out.png</file>
+        <file alias="/images/printPreviewBig">images/prin-preview2.png</file>
+        <file>images/dialog-close.png</file>
+        <file>images/go-next.png</file>
+        <file alias="/images/printBig">images/print2_big.png</file>
+        <file>images/next.png</file>
+        <file>images/prior.png</file>
+        <file alias="/images/close">images/dialog-close_red.png</file>
+        <file alias="/images/hourglass">images/Hourglass_80.png</file>
+        <file alias="/images/closebox">images/closebox.png</file>
+        <file alias="/images/designBig">images/design.png</file>
+        <file alias="ImageItem">images/barcode.png</file>
+        <file alias="/images/addBarcode">images/barcode2.png</file>
+        <file>images/edit_pecil2.png</file>
+        <file>images/undo1.png</file>
+        <file>images/redo1.png</file>
+        <file>images/copy24.png</file>
+        <file>images/edit-copy_1_24.png</file>
+        <file>images/edit-paste_1_24.png</file>
+        <file>images/cut24.png</file>
+        <file alias="/images/saveas">images/save_as_1_24.png</file>
+        <file>images/move_top_1.png</file>
+        <file>images/move_back.png</file>
+        <file>images/bringToFront.png</file>
+        <file>images/sendToBack.png</file>
+        <file>images/to_left.png</file>
+        <file>images/to_right.png</file>
+        <file>images/to_center.png</file>
+        <file>images/to_same_width.png</file>
+        <file>images/to_same_height.png</file>
+        <file>images/to_top.png</file>
+        <file>images/cut_24.png</file>
+        <file>images/paste_1_24.png</file>
+        <file>images/to_bottom.png</file>
+        <file>images/to_h_center.png</file>
+        <file>images/folder1.png</file>
+        <file>images/document_add_1.png</file>
+        <file>images/zoom-in_2_16.png</file>
+        <file>images/document_zoom_in_1.png</file>
+        <file>images/document_zoom_out_1.png</file>
+        <file>images/prin-preview_4_24.png</file>
+        <file>images/print_2_24.png</file>
+        <file>images/hlayout.png</file>
+        <file>images/vlayout.png</file>
+        <file>images/edit_layout.png</file>
+        <file>images/layuot_move.png</file>
+        <file>images/hlayuot_1_24.png</file>
+        <file>images/layuot_select.png</file>
+        <file>images/layuot_create.png</file>
+        <file>images/layuot_create_24.png</file>
+        <file>images/layuot_select_24.png</file>
+        <file alias="/images/deletelayout">images/layuot_delete_24.png</file>
+        <file>images/hlayuot_2_24.png</file>
+        <file>images/edit_layout_2_24.png</file>
+        <file>images/edit_control_24.png</file>
+        <file>images/edit_control_2_24.png</file>
+        <file>images/edit_layout_3_24.png</file>
+        <file>images/text_align_center.png</file>
+        <file>images/text-align-justify.png</file>
+        <file>images/text_align_left.png</file>
+        <file>images/text_align_right.png</file>
+        <file>images/text_bold.png</file>
+        <file>images/text_italic.png</file>
+        <file>images/text_underline.png</file>
+        <file>images/text-align-botom.png</file>
+        <file>images/text-align-top.png</file>
+        <file>images/text-align-v-center.png</file>
+        <file>images/allLines.png</file>
+        <file>images/bottomLine.png</file>
+        <file>images/leftLine.png</file>
+        <file>images/noLines.png</file>
+        <file>images/rightLine.png</file>
+        <file>images/topLine.png</file>
+        <file>images/new_leaf.png</file>
+        <file alias="/images/save">images/save.png</file>
+        <file>images/copy.png</file>
+        <file>images/paste.png</file>
+        <file>images/cut.png</file>
+        <file alias="/images/cut">images/cut1.png</file>
+        <file alias="/images/redo">images/redo.png</file>
+        <file alias="/images/undo">images/undo.png</file>
+        <file>images/zoom_in.png</file>
+        <file>images/zoom_out.png</file>
+        <file alias="/images/print">images/print.png</file>
+        <file>images/print_preview1.png</file>
+        <file>images/print_preview.png</file>
+        <file alias="/images/render">images/print_preview2.png</file>
+        <file alias="/images/allLines">images/allLines1.png</file>
+        <file alias="/images/noLines">images/noLines1.png</file>
+        <file alias="/images/leftLine">images/leftLine1.png</file>
+        <file alias="/images/bottomLine">images/bottomLine1.png</file>
+        <file alias="/images/rightLine">images/rightLine1.png</file>
+        <file alias="/images/topLine">images/topLine1.png</file>
+        <file alias="/images/sendToBack">images/toBack.png</file>
+        <file alias="/images/bringToTop">images/toFront.png</file>
+        <file alias="/images/alignToBottom">images/toBottom.png</file>
+        <file alias="/images/alignToVCenter">images/toCenter.png</file>
+        <file alias="/images/alignToLeft">images/toLeft1.png</file>
+        <file alias="/images/alignToRight">images/toRight.png</file>
+        <file alias="/images/sameHeight">images/toSameHeight.png</file>
+        <file alias="/images/sameWidth">images/toSameWidth.png</file>
+        <file alias="/images/alignToTop">images/toTop.png</file>
+        <file alias="/images/alignToHCenter">images/toVCernter.png</file>
+        <file alias="/images/textAlignVBottom">images/text-align-botom1.png</file>
+        <file alias="/images/textAlignHCenter">images/text_align_center1.png</file>
+        <file alias="/images/textAlignHJustify">images/text-align-justify1.png</file>
+        <file alias="/images/textAlignHLeft">images/text_align_left1.png</file>
+        <file alias="/images/textAlignHRight">images/text_align_right1.png</file>
+        <file alias="/images/textAlignVTop">images/text-align-top1.png</file>
+        <file alias="/images/textAlignVCenter">images/text-align-v-center1.png</file>
+        <file alias="/images/textBold">images/text_bold1.png</file>
+        <file alias="/images/textItalic">images/text_italic1.png</file>
+        <file alias="/images/textUnderline">images/text_underline1.png</file>
+        <file alias="/images/editMode">images/edit_control_3_24.png</file>
+        <file alias="/images/editlayout">images/edit_layout_4_24.png</file>
+        <file alias="/images/hlayout">images/hlayuot_3_24.png</file>
+        <file alias="/images/addBand">images/addBand1.png</file>
+        <file alias="/images/delete">images/delete1.png</file>
+        <file alias="/images/copy">images/copy2.png</file>
+        <file alias="/images/newReport">images/new_leaf1.png</file>
+        <file alias="/images/paste">images/paste1.png</file>
+        <file alias="/images/zoomIn">images/zoom_in1.png</file>
+        <file alias="/images/zoomOut">images/zoom_out1.png</file>
+        <file alias="/images/folder">images/folder3.png</file>
+        <file alias="/images/databases">images/dasabases.png</file>
+        <file alias="/images/database">images/database.png</file>
+        <file alias="/images/edit">images/edit.png</file>
+        <file alias="/images/table">images/table1.png</file>
+        <file alias="/images/value">images/value.png</file>
+        <file alias="/images/field">images/field.png</file>
+        <file>images/function2.png</file>
+        <file alias="/images/function">images/function3.png</file>
+        <file>images/var1.png</file>
+        <file>images/variable.png</file>
+        <file alias="/images/variable">images/variable1.png</file>
+        <file>images/next1.png</file>
+        <file>images/prior1.png</file>
+        <file alias="/images/next">images/next2.png</file>
+        <file alias="/images/prior">images/prior2.png</file>
+        <file alias="/images/errors">images/errors.png</file>
+        <file alias="/images/main">images/main.png</file>
+        <file alias="/images/first">images/first2.png</file>
+        <file alias="/images/last">images/last2.png</file>
+        <file>images/logo.png</file>
+        <file alias="/images/copyright">images/cpyright_logo.png</file>
+        <file>images/logo_100.png</file>
+    </qresource>
+</RCC>

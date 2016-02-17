@@ -1,0 +1,5 @@
+release/*
+debug/*
+*.so.1.0.0.debug
+*.so.1.0.0
+/ReportGenerator.app/

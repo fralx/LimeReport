@@ -1,0 +1,151 @@
+/***************************************************************************
+ *   This file is part of the Lime Report project                          *
+ *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   arin_a@bk.ru                                                          *
+ *                                                                         *
+ **                   GNU General Public License Usage                    **
+ *                                                                         *
+ *   This library is free software: you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ *                                                                         *
+ **                  GNU Lesser General Public License                    **
+ *                                                                         *
+ *   This library is free software: you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation, either version 3 of the    *
+ *   License, or (at your option) any later version.                       *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library.                                      *
+ *   If not, see <http://www.gnu.org/licenses/>.                           *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ ****************************************************************************/
+#ifndef LRREPORTRENDER_H
+#define LRREPORTRENDER_H
+#include <QObject>
+#include "lrcollection.h"
+#include "lrdatasourcemanager.h"
+#include "lrpageitemdesignintf.h"
+#include "serializators/lrstorageintf.h"
+
+namespace LimeReport{
+
+class PageDesignIntf;
+class BandDesignIntf;
+
+class GroupBandsHolder: public QList<BandDesignIntf*>{
+public:
+    GroupBandsHolder(bool tryToKeepTogether):QList<BandDesignIntf*>(),m_tryToKeepTogether(tryToKeepTogether),
+        m_dataGroup(true), m_footerGroup(false){}
+    bool tryToKeepTogether(){return m_tryToKeepTogether;}
+    void setTryToKeepTogether(bool value){m_tryToKeepTogether=value;}
+    bool isDataGroup(){return m_dataGroup;}
+    bool isFooterGroup(){ return m_footerGroup;}
+    void setIsFooterGroup(){m_footerGroup=true;m_dataGroup=false;}
+private:
+    bool m_tryToKeepTogether;
+    bool m_dataGroup;
+    bool m_footerGroup;
+};
+
+typedef QList<PageItemDesignIntf::Ptr> ReportPages;
+
+class ReportRender: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QObject* datasourcesManager READ datasources())
+public:
+    enum DataRenderMode {StartNewPage,NotStartNewPage};
+    enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
+    typedef QSharedPointer<ReportRender> Ptr;    
+    ~ReportRender();
+    ReportRender(QObject *parent = 0);
+    void setDatasources(DataSourceManager* value);
+    DataSourceManager*  datasources(){return m_datasources;}
+    void    renderPage(PageDesignIntf *patternPage);
+    int     pageCount();
+    PageItemDesignIntf::Ptr pageAt(int index);
+    QString renderPageToString(PageDesignIntf *patternPage);
+    ReportPages renderPageToPages(PageDesignIntf *patternPage);
+signals:
+    void    pageRendered(int renderedPageCount);
+public slots:
+    void    cancelRender();
+private:
+    void    initRenderPage();
+    void    initVariables();
+    void    clearPageMap();
+    void    renderBand(BandDesignIntf *patternBand, DataRenderMode mode = NotStartNewPage, bool isLast = false);
+    void    renderDataBand(BandDesignIntf* dataBand);
+    void    renderPageHeader(PageItemDesignIntf* patternPage);
+    void    renderPageFooter(PageItemDesignIntf* patternPage);
+    void    renderPageItems(PageItemDesignIntf* patternPage);
+    qreal   calcPageFooterHeight(PageItemDesignIntf* patternPage);
+    qreal   calcSlicePercent(qreal height);
+    void    renderChildHeader(BandDesignIntf* parent, BandPrintMode printMode);
+    void    renderChildFooter(BandDesignIntf* parent, BandPrintMode printMode);
+    void    renderChildBands(BandDesignIntf* parentBand);
+    void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource);
+    void    renderGroupFooter(BandDesignIntf* parentBand);
+
+    void    initGroupFunctions();
+    void    extractGroupsFunction(BandDesignIntf* band);
+    void    replaceGroupsFunction(BandDesignIntf* band);
+
+    void    popPageFooterGroupValues(BandDesignIntf* dataBand);
+    void    pushPageFooterGroupValues(BandDesignIntf* dataBand);
+
+    enum    GroupType{DATA,FOOTER};
+    void    closeGroup(BandDesignIntf* band);
+    void    openDataGroup(BandDesignIntf* band);
+    void    closeDataGroup(BandDesignIntf* band);
+    void    openFooterGroup(BandDesignIntf* band);
+    void    closeFooterGroup(BandDesignIntf* band);
+    void    cutGroups();
+    void    checkFooterGroup(BandDesignIntf* groupBand);
+    void    pasteGroups();
+
+    BandDesignIntf* findEnclosingGroup();
+    bool    registerBand(BandDesignIntf* band, bool registerInChildren=true);
+    BandDesignIntf *sliceBand(BandDesignIntf* band, BandDesignIntf *patternBand, bool isLast);
+    void    secondRenderPass();
+    BandDesignIntf* saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf *patternBand);
+    BandDesignIntf* renderData(BandDesignIntf* patternBand);
+    void    startNewPage();
+    void    savePage();
+    QString toString();
+
+private:
+    DataSourceManager* m_datasources;
+
+    PageItemDesignIntf* m_renderPageItem;
+    PageItemDesignIntf* m_patternPageItem;
+    QList<PageItemDesignIntf::Ptr> m_renderedPages;
+
+    QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
+
+    int m_currentMaxHeight;
+    int m_currentStartDataPos;
+    int m_currentIndex;
+    int m_pageCount;
+
+    QMap<QString,QVariant> m_popupedValues;
+    QMultiMap<BandDesignIntf*,QString> m_popupedExpression;
+
+    qreal m_pageFooterHeight;
+    qreal m_dataAreaSize;
+    qreal m_reportFooterHeight;
+    int   m_renderedDataBandCount;
+    BandDesignIntf* m_lastDataBand;
+    bool m_renderCanceled;
+
+};
+} // namespace LimeReport
+#endif // LRREPORTRENDER_H
