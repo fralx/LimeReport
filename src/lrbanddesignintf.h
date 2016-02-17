@@ -34,7 +34,7 @@
 
 namespace LimeReport {
 
-class IGropBand
+class IGroupBand
 {
 public:
     virtual void startGroup()=0;
@@ -42,7 +42,7 @@ public:
     virtual bool isStarted()=0;
     virtual void closeGroup()=0;
     virtual int  index()=0;
-    virtual ~IGropBand(){}
+    virtual ~IGroupBand(){}
 };
 
 class BandDesignIntf;
@@ -82,14 +82,16 @@ public:
     enum BandsType {
         PageHeader=0,
         ReportHeader=1,
+        DataHeader=2,
+        GroupHeader=3,
         Data=4,
         SubDetailHeader=5,
         SubDetailBand=6,
         SubDetailFooter=7,
-        GroupHeader=3,
         GroupFooter=8,
-        ReportFooter=9,
-        PageFooter=10
+        DataFooter=9,
+        ReportFooter=10,
+        PageFooter=11
     };
 
     BandDesignIntf(BandsType bandType, const QString& xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0);
@@ -124,9 +126,8 @@ public:
 
     bool isConnectedToBand(BandDesignIntf::BandsType bandType) const;
 
-    int maxChildIndex(QSet<BandsType> bandTypes) const;
-    int groupFooterIndex(int groupHeaderIndex);
-    int groupHeaderIndex();
+    int minChildIndex(BandsType bandType);
+    int maxChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>()) const;
 
     BandDesignIntf* parentBand() const {return m_parentBand;}
 
@@ -137,6 +138,7 @@ public:
     virtual bool isEmpty() const;
     virtual bool isNeedRender() const;
     virtual bool isFooter() const {return false;}
+    virtual bool isHeader() const {return false;}
     virtual bool isData() const {return false;}
 
     void setTryToKeepTogether(bool value);
@@ -162,6 +164,9 @@ public:
 
     bool printIfEmpty() const;
     void setPrintIfEmpty(bool printIfEmpty);
+
+    virtual BandDesignIntf* bandHeader();
+    virtual BandDesignIntf* bandFooter();
 
 signals:
     void bandRendered(BandDesignIntf* band);

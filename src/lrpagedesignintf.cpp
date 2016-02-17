@@ -371,7 +371,9 @@ BaseDesignIntf *PageDesignIntf::internalAddBand(T bandType)
                     << BandDesignIntf::SubDetailHeader
                     << BandDesignIntf::SubDetailFooter
                     << BandDesignIntf::GroupHeader
-                    << BandDesignIntf::GroupFooter;
+                    << BandDesignIntf::GroupFooter
+                    << BandDesignIntf::DataHeader
+                    << BandDesignIntf::DataFooter;
 
     BandsManager bandsManager;
     BandDesignIntf *band = bandsManager.createBand(bandType, pageItem(), pageItem());
@@ -1005,10 +1007,20 @@ void PageDesignIntf::paste()
     }
 }
 
-void PageDesignIntf::deleteSelected()
+void PageDesignIntf::deleteSelected(bool createCommand)
 {
+    int bandCount = 0;
     foreach(QGraphicsItem* item, selectedItems()){
-        removeReportItem(dynamic_cast<BaseDesignIntf*>(item),false);
+        BandDesignIntf* bd = dynamic_cast<BandDesignIntf*>(item);
+        if (bd) bandCount++;
+    }
+    if (bandCount>1) {
+        QMessageBox::warning(0,tr("Warning"),tr("Multi band deletion not allowed"));
+        return;
+    }
+
+    foreach(QGraphicsItem* item, selectedItems()){
+        removeReportItem(dynamic_cast<BaseDesignIntf*>(item),createCommand);
     }
 }
 
@@ -1384,11 +1396,7 @@ void DeleteItemCommand::undoIt()
     if (reader->first()) reader->readItem(item);
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
     if (band){
-        bool increaseBandIndex = false;
-        BandDesignIntf* parentBand = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(band->parentBandName()));
-        band->setBandIndex(page()->pageItem()->calcBandIndex(band->bandType(), parentBand, increaseBandIndex));
-        if (increaseBandIndex)
-            page()->pageItem()->increaseBandIndex(band->bandIndex());
+        page()->pageItem()->increaseBandIndex(band->bandIndex());
     }
     page()->registerItem(item);
 

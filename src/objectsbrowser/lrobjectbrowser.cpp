@@ -58,7 +58,6 @@ void ObjectBrowser::setReportEditor(ReportDesignWidget *report)
             this, SLOT(slotItemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
     connect(m_report, SIGNAL(itemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
             this, SLOT(slotItemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-
     connect(m_report, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(m_report, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
@@ -67,9 +66,10 @@ void ObjectBrowser::setReportEditor(ReportDesignWidget *report)
             this, SLOT(slotObjectTreeItemSelectionChanged()) );
     connect(m_report, SIGNAL(itemSelected(LimeReport::BaseDesignIntf*)),
             this, SLOT(slotItemSelected(LimeReport::BaseDesignIntf*)));
-
     connect(m_report, SIGNAL(multiItemSelected()),
             this, SLOT(slotMultiItemSelected()) );
+    connect(m_treeView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*,int)));
 
     buildTree();
 }
@@ -208,7 +208,6 @@ void ObjectBrowser::slotObjectTreeItemSelectionChanged()
         foreach(QTreeWidgetItem* item, m_treeView->selectedItems()){
             ObjectBrowserNode* tn = dynamic_cast<ObjectBrowserNode*>(item);
             if (tn){
-
                 BaseDesignIntf* si = dynamic_cast<BaseDesignIntf*>(tn->object());
                 if (si) {
                     m_report->activePage()->animateItem(si);
@@ -250,6 +249,17 @@ void ObjectBrowser::slotMultiItemSelected()
     }
 
     m_changingItemSelection = false;
+}
+
+void ObjectBrowser::slotItemDoubleClicked(QTreeWidgetItem *item, int)
+{
+    ObjectBrowserNode* node = dynamic_cast<ObjectBrowserNode*>(item);
+    if (node){
+        BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(node->object());
+        if (baseItem) {
+            baseItem->showEditorDialog();
+        }
+    }
 }
 
 void ObjectBrowserNode::setObject(QObject *value)

@@ -132,7 +132,7 @@ void FlagPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mod
     int flags = object()->property(parent()->propertyName().toLatin1()).toInt();
     if (value) flags=flags | valueByName(displayName());
     else if (flags&valueByName(displayName())) flags=flags ^ valueByName(displayName());
-    object()->setProperty(parent()->propertyName().toLatin1(),flags);
+    setValueToObject(propertyName(),propertyValue());
     parent()->setPropertyValue(flags);
 }
 

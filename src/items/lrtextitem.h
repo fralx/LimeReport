@@ -98,7 +98,7 @@ public:
     void objectLoadFinished();
 
     void setTextItemFont(QFont value);
-    virtual QWidget* defaultEditor();
+    QWidget* defaultEditor();
     void setBackgroundOpacity(int value);
     void setBackgroundModeProperty(BGMode value);
     void setBackgroundColorProperty(QColor value);

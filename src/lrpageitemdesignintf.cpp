@@ -188,15 +188,19 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
 {
 
     increaseBandIndex = false;
-    QSet<BandDesignIntf::BandsType> subDetailsBands;
-    subDetailsBands << BandDesignIntf::SubDetailBand << BandDesignIntf::SubDetailHeader << BandDesignIntf::SubDetailFooter;
+
+    QSet<BandDesignIntf::BandsType> groupFooterIgnoredBands;
+    groupFooterIgnoredBands << BandDesignIntf::DataFooter << BandDesignIntf::GroupHeader;
+
+    QSet<BandDesignIntf::BandsType> dataFooterIgnoredBands;
+    dataFooterIgnoredBands << BandDesignIntf::GroupHeader;
 
     int bandIndex=-1;
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
     foreach(BandDesignIntf* band,m_bands){
         if ((band->bandType()==BandDesignIntf::GroupHeader)&&(band->bandType()>bandType)) break;
-        if ((band->bandType()>bandType)&&(band->parentBand()==0)) break;
-        if (bandIndex<band->bandIndex()) bandIndex=band->bandIndex()+1;
+        if ((band->bandType()>bandType)) break;
+        if (bandIndex<band->bandIndex()) bandIndex=band->maxChildIndex()+1;
     }
 
     if (bandIndex==-1) {
@@ -205,6 +209,12 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     }
 
     if (parentBand) {
+
+        BandDesignIntf* dataBand = parentBand;
+        while (dataBand->parentBand() && dataBand->bandType()==BandDesignIntf::GroupHeader){
+            dataBand = dataBand->parentBand();
+        }
+
         switch (bandType) {
         case BandDesignIntf::SubDetailBand:
             bandIndex = parentBand->bandIndex() + 1;
@@ -215,15 +225,27 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
             increaseBandIndex = true;
             break;
         case BandDesignIntf::SubDetailFooter:
-            bandIndex = parentBand->maxChildIndex(subDetailsBands) + 1;
+            bandIndex = parentBand->maxChildIndex()+1;
             increaseBandIndex = true;
             break;
         case BandDesignIntf::GroupHeader:
-            bandIndex = parentBand->groupHeaderIndex();
+            if (parentBand->bandType()==BandDesignIntf::GroupHeader)
+                bandIndex = parentBand->bandIndex()+1;
+            else
+                bandIndex = parentBand->minChildIndex(BandDesignIntf::GroupHeader);
             increaseBandIndex = true;
             break;
         case BandDesignIntf::GroupFooter:
-            bandIndex = parentBand->parentBand()->groupFooterIndex(parentBand->bandIndex()) + 1;
+            bandIndex = std::max(parentBand->maxChildIndex(),
+                                 dataBand->maxChildIndex(groupFooterIgnoredBands))  + 1;
+            increaseBandIndex = true;
+            break;
+        case BandDesignIntf::DataHeader:
+            bandIndex = parentBand->minChildIndex(BandDesignIntf::DataHeader);
+            increaseBandIndex = true;
+            break;
+        case BandDesignIntf::DataFooter:
+            bandIndex = parentBand->maxChildIndex()+1;
             increaseBandIndex = true;
             break;
         default :
@@ -279,11 +301,11 @@ void PageItemDesignIntf::relocateBands()
 
     if (m_bands.count()>0) m_bands[0]->setPos(pageRect().x(),pageRect().y());
     if(m_bands.count()>1){
-        m_bands[0]->setBandIndex(0);
+        //m_bands[0]->setBandIndex(0);
         for(int i=0;i<(m_bands.count()-1);i++){
             if ((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) || (itemMode() & DesignMode))
                 m_bands[i+1]->setPos(pageRect().x(),m_bands[i]->pos().y()+m_bands[i]->height()+bandSpace);
-            m_bands[i+1]->setBandIndex(i+1);
+            //m_bands[i+1]->setBandIndex(i+1);
         }
     }
 }

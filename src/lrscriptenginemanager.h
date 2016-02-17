@@ -56,20 +56,22 @@ struct ScriptFunctionDesc{
 class ScriptEngineNode {
 public:
     enum NodeType{Root,Category,Function};
-    ScriptEngineNode(const QString& name="", NodeType type=Root, ScriptEngineNode* parent=0, const QIcon& icon=QIcon())
-        :m_name(name), m_icon(icon), m_type(type), m_parent(parent){}
+    ScriptEngineNode(const QString& name="", const QString& description ="", NodeType type=Root, ScriptEngineNode* parent=0, const QIcon& icon=QIcon())
+        :m_name(name), m_description(description), m_icon(icon), m_type(type), m_parent(parent){}
     virtual ~ScriptEngineNode();
     int       childCount(){return m_childs.count();}
     ScriptEngineNode* child(int index){return m_childs[index];}
     ScriptEngineNode* parent(){return m_parent;}
-    ScriptEngineNode* addChild(const QString& name="", NodeType type=Root, const QIcon& icon=QIcon());
+    ScriptEngineNode* addChild(const QString& name="", const QString &description="", NodeType type=Root, const QIcon& icon=QIcon());
     int       row();
     QString   name(){return m_name;}
+    QString   description(){return m_description;}
     QIcon     icon(){return m_icon;}
     void      clear();
     NodeType  type(){return m_type;}
 private:
     QString     m_name;
+    QString     m_description;
     QIcon       m_icon;
     NodeType    m_type;
     ScriptEngineNode*   m_parent;

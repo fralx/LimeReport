@@ -31,18 +31,37 @@
 #include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
 
-const QString xmlTag ="Data";
+const QString xmlTag = "Data";
+const QString xmlTagHeader = "DataHeader";
+const QString xmlTagFooter = "DataFooter";
 
 namespace{
 
 LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new LimeReport::DataBand(owner,parent);
 }
+LimeReport::BaseDesignIntf * createHeader(QObject* owner, LimeReport::BaseDesignIntf*  parent){
+    return new LimeReport::DataHeaderBand(owner,parent);
+}
+LimeReport::BaseDesignIntf * createFooter(QObject* owner, LimeReport::BaseDesignIntf*  parent){
+    return new LimeReport::DataFooterBand(owner,parent);
+}
+
 bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTag,
         LimeReport::ItemAttribs(QObject::tr("Data"),LimeReport::bandTAG),
         createBand
     );
+bool registredHeader = LimeReport::DesignElementsFactory::instance().registerCreator(
+            xmlTagHeader,
+            LimeReport::ItemAttribs(QObject::tr("DataHeader"),LimeReport::bandTAG),
+            createHeader
+        );
+bool registredFooter = LimeReport::DesignElementsFactory::instance().registerCreator(
+            xmlTagFooter,
+            LimeReport::ItemAttribs(QObject::tr("DataFooter"),LimeReport::bandTAG),
+            createFooter
+        );
 
 }
 
@@ -68,6 +87,20 @@ QColor DataBand::bandColor() const
 BaseDesignIntf *DataBand::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
     return new DataBand(owner,parent);
+}
+
+DataHeaderBand::DataHeaderBand(QObject *owner, QGraphicsItem *parent)
+    :BandDesignIntf(BandDesignIntf::DataHeader,xmlTagHeader,owner,parent)
+{
+    setBandTypeText(tr("DataHeader"));
+    setMarkerColor(bandColor());
+}
+
+DataFooterBand::DataFooterBand(QObject *owner, QGraphicsItem *parent)
+    :BandDesignIntf(BandDesignIntf::DataFooter,xmlTagFooter,owner,parent)
+{
+    setBandTypeText(tr("DataFooter"));
+    setMarkerColor(bandColor());
 }
 
 }

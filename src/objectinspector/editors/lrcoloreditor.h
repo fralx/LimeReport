@@ -34,6 +34,19 @@
 #include <QPushButton>
 #include <QToolButton>
 
+class ColorIndicator : public QWidget{
+    Q_OBJECT
+public:
+    ColorIndicator(QWidget* parent = 0);
+    QColor color() const;
+    void setColor(const QColor &color);
+    QSize sizeHint() const;
+protected:
+    void paintEvent(QPaintEvent *event);
+private:
+    QColor m_color;
+};
+
 class ColorEditor : public QWidget
 {
     Q_OBJECT
@@ -42,15 +55,18 @@ public:
     QColor color(){return m_color;}
     void setColor(const QColor& value);
 protected:
-    void showEvent(QShowEvent *);
+    bool eventFilter(QObject *obj, QEvent *event);
+private:
+    void setFocusToParent();
 signals:
    void editingFinished();
 private slots:
    void slotClicked();
 private:
    QColor m_color;
-//   QPushButton* m_button;
    QToolButton* m_button;
+   ColorIndicator* m_colorIndicator;
+   bool m_buttonPressed;
 };
 
 #endif // LRCOLOREDITOR_H

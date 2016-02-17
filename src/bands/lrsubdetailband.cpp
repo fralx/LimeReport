@@ -108,6 +108,7 @@ QColor SubDetailBand::bandColor() const
 SubDetailHeaderBand::SubDetailHeaderBand(QObject *owner, QGraphicsItem *parent)
     :BandDesignIntf(BandDesignIntf::SubDetailHeader,xmlTagHeader,owner,parent), m_printAlways(false)
 {
+    setBandTypeText(tr("SubDetailHeader"));
     setMarkerColor(bandColor());
 }
 

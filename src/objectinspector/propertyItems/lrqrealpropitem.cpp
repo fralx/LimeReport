@@ -61,7 +61,8 @@ void QRealPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelI
 void QRealPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
 {
     model->setData(index,qobject_cast<QDoubleSpinBox*>(propertyEditor)->value());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
+    //object()->setProperty(propertyName().toLatin1(),propertyValue());
+    setValueToObject(propertyName(),propertyValue());
 }
 
 }

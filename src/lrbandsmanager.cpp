@@ -85,6 +85,10 @@ BandDesignIntf *BandsManager::createBand(BandDesignIntf::BandsType bandType, QOb
         return new GroupBandHeader(owner, parent);
     case BandDesignIntf::GroupFooter:
         return new GroupBandFooter(owner, parent);
+    case BandDesignIntf::DataHeader:
+        return new DataHeaderBand(owner, parent);
+    case BandDesignIntf::DataFooter:
+        return new DataFooterBand(owner, parent);
     }
 
     return 0;

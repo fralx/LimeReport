@@ -284,43 +284,24 @@ bool BandDesignIntf::isConnectedToBand(BandDesignIntf::BandsType bandType) const
     return false;
 }
 
-int BandDesignIntf::maxChildIndex(QSet<BandsType> bandTypes) const
-{
-    if (childBands().isEmpty()) return bandIndex();
-    else{
-        int curIndex=-1;
-        BandDesignIntf* curBand=0;
-        foreach(BandDesignIntf* band,childBands()){
-            if (curIndex<band->bandIndex()&&bandTypes.contains(band->bandType())){
-                curIndex=band->bandIndex();curBand=band;
-            }
-        } 
-        return (curBand)?std::max(curBand->maxChildIndex(bandTypes),bandIndex()):bandIndex();
-    }
-}
-
-int BandDesignIntf::groupFooterIndex(int groupHeaderIndex)
-{
-    foreach(BandDesignIntf* band, childBands()){
-        if ((band->bandType()==BandDesignIntf::GroupHeader)&&
-            (band->bandIndex()>groupHeaderIndex)&&
-            (band->hasChildren())
-           ){
-            return dynamic_cast<BandDesignIntf*>(band->childBands().at(0))->bandIndex();
+int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if (!ignoredBands.contains(childBand->bandType())){
+            curIndex = std::max(curIndex,childBand->maxChildIndex(ignoredBands));
         }
     }
-    return maxChildIndex(subdetailBands());
+    return curIndex;
 }
 
-int BandDesignIntf::groupHeaderIndex()
-{
-    int index=bandIndex();
-    foreach(BandDesignIntf* band, childBands()){
-        if (subdetailBands().contains(band->bandType())){
-            if (index>band->bandIndex()) index=band->bandIndex();
+int BandDesignIntf::minChildIndex(BandDesignIntf::BandsType bandType){
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if (curIndex>childBand->bandIndex() && (childBand->bandType()>bandType)){
+            curIndex = childBand->bandIndex();
         }
     }
-    return index;
+    return curIndex;
 }
 
 QList<BandDesignIntf *> BandDesignIntf::childrenByType(BandDesignIntf::BandsType type)
@@ -339,7 +320,6 @@ bool BandDesignIntf::canBeSplitted(int height) const
         foreach(QGraphicsItem* qgItem,childItems()){
             BaseDesignIntf* item=dynamic_cast<BaseDesignIntf*>(qgItem);
             if (item)
-                //if (!item->canBeSplitted(height-item->pos().y())) return false;
                 if ((item->minHeight()>height) && (item->minHeight()>(this->height()-height))) return false;
         }
     }
@@ -658,6 +638,7 @@ void BandDesignIntf::childBandDeleted(QObject *band)
 {
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
 }
+
 bool BandDesignIntf::printIfEmpty() const
 {
     return m_printIfEmpty;
@@ -666,6 +647,22 @@ bool BandDesignIntf::printIfEmpty() const
 void BandDesignIntf::setPrintIfEmpty(bool printIfEmpty)
 {
     m_printIfEmpty = printIfEmpty;
+}
+
+BandDesignIntf *BandDesignIntf::bandHeader()
+{
+    foreach (BandDesignIntf* band, childBands()) {
+        if (band->isHeader()) return band;
+    }
+    return 0;
+}
+
+BandDesignIntf *BandDesignIntf::bandFooter()
+{
+    foreach (BandDesignIntf* band, childBands()) {
+        if (band->isFooter()) return band;
+    }
+    return 0;
 }
 
 bool BandDesignIntf::sliceLastRow() const

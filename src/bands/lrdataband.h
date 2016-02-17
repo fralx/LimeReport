@@ -35,6 +35,7 @@
 #include <QObject>
 
 namespace LimeReport{
+
 class DataBand : public DataBandDesignIntf
 {
     Q_OBJECT
@@ -51,5 +52,34 @@ protected:
 private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 };
+
+class DataHeaderBand : public BandDesignIntf
+{
+    Q_OBJECT
+public:
+    DataHeaderBand(QObject* owner=0, QGraphicsItem* parent=0);
+    bool isUnique() const {return false;}
+    bool isHeader() const {return true;}
+    QColor bandColor() const {return QColor(Qt::darkGreen);}
+private:
+    BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0){
+        return new DataHeaderBand(owner,parent);
+    }
+};
+
+class DataFooterBand : public BandDesignIntf
+{
+    Q_OBJECT
+public:
+    DataFooterBand(QObject* owner=0, QGraphicsItem* parent=0);
+    bool isUnique() const {return false;}
+    bool isFooter() const {return true;}
+    QColor bandColor() const{return QColor(Qt::darkGreen);}
+private:
+    BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0){
+        return new DataFooterBand(owner,parent);
+    }
+};
+
 }
 #endif // LRDATABAND_H

@@ -50,13 +50,14 @@ public:
 signals:
     void editingFinished();
 public slots:
-    void editButtonClicked();
+    virtual void editButtonClicked();
     void editingByEditorFinished();
+protected:
+    QString propertyName(){return m_propertyName;}
 private:
     QLineEdit* m_lineEdit;
     QToolButton* m_buttonEdit;
     bool m_overButton;
-    TextItemPropertyEditor *m_editor;
     QString m_propertyName;
 private:
     bool eventFilter(QObject *, QEvent *);

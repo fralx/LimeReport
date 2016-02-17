@@ -150,7 +150,7 @@ void ReportDesignWidget::deleteItem(QGraphicsItem *item){
 }
 
 void ReportDesignWidget::deleteSelectedItems(){
-    foreach(QGraphicsItem *item,activePage()->selectedItems()) deleteItem(item);
+    activePage()->deleteSelected(true);
 }
 
 QStringList ReportDesignWidget::datasourcesNames(){

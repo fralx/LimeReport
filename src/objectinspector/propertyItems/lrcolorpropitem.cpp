@@ -51,18 +51,28 @@ void ColorPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelI
 void ColorPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
 {
     model->setData(index,qobject_cast<ColorEditor*>(propertyEditor)->color());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
+    setValueToObject(propertyName(),propertyValue());
 }
 
 bool ColorPropItem::paint(QPainter *painter, const QStyleOptionViewItemV4 &option, const QModelIndex &index)
 {
     if (index.column()==1){
         painter->save();
+        QPen pen;
+
+        if (option.state & QStyle::State_Selected){
+            pen.setColor(option.palette.brightText().color());
+            pen.setWidth(2);
+            painter->setPen(pen);
+        }else
+            pen.setColor(Qt::gray);
+            painter->setPen(pen);
+
         painter->setBrush(propertyValue().value<QColor>());
-        painter->setPen(Qt::gray);
         QRect rect = option.rect.adjusted(4,4,-4,-6);
         rect.setWidth(rect.height());
-        painter->drawRect(rect);
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->drawEllipse(rect);
         painter->restore();
         return true;
     } else return false;

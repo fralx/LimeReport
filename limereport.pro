@@ -1,5 +1,5 @@
 #CONFIG +=zint
-#QMAKE_CFLAGS += -std=c99
+QMAKE_CFLAGS += -std=c99
 #ZINT_PATH = $$PWD/../zint-2.4.3
 #ZINT_VERSION = 2.4.3
 #include(qzint.pri)

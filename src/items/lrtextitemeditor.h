@@ -79,11 +79,10 @@ private slots:
     void on_twScriptEngine_doubleClicked(const QModelIndex &index);
     void on_splitter_splitterMoved(int, int);
     void on_editorFont_currentFontChanged(const QFont &f);
-
     void on_editorFontSize_valueChanged(int arg1);
-
     void on_toolButton_clicked(bool checked);
-
+    void on_twScriptEngine_activated(const QModelIndex &index);
+    void slotScriptItemsSelectionChanged(const QModelIndex &to, const QModelIndex);
 private:
     void initUI();
     void readSetting();

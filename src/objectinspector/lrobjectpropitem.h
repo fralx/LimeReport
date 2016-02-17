@@ -99,10 +99,12 @@ namespace LimeReport{
     private:
         bool m_valid;
         void invalidate(){m_object=0; m_valid = false; m_name = ""; m_value=QVariant(), m_isClass=false;}
+
     protected:
         void beginChangeValue(){ m_changingValue = true; }
         void endChangeValue(){ m_changingValue = false; }
         bool isValueChanging(){ return m_changingValue; }
+        void setValueToObject(const QString& propertyName, QVariant propertyValue);
     private:
         QObject* m_object;
         ObjectsList m_objects;

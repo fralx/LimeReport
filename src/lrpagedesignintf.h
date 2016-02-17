@@ -178,7 +178,7 @@ namespace LimeReport {
             void redo();
             void copy();
             void paste();
-            void deleteSelected();
+            void deleteSelected(bool createCommand);
             void cut();
             void setToSaved();
             void bringToFront();

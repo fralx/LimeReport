@@ -69,7 +69,7 @@ void EnumPropItem::slotEnumChanged(const QString &text)
 {
     if ( nameByType(object()->property(propertyName().toLatin1()).toInt())!=text){
         beginChangeValue();
-        object()->setProperty(propertyName().toLatin1(),typeByName(text));
+        setValueToObject(propertyName(),typeByName(text));
         setPropertyValue(typeByName(text));
         endChangeValue();
     }
@@ -83,7 +83,7 @@ void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIn
 
 void EnumPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
 {
-    object()->setProperty(propertyName().toLatin1(),typeByName(qobject_cast<ComboBoxEditor*>(propertyEditor)->text()));
+    setValueToObject(propertyName(),typeByName(qobject_cast<ComboBoxEditor*>(propertyEditor)->text()));
     model->setData(index,object()->property(propertyName().toLatin1()));
 }
 

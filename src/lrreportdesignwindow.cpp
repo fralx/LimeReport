@@ -302,6 +302,18 @@ void ReportDesignWindow::createBandsButton()
     m_bandsAddSignalsMap->setMapping(m_newData,BandDesignIntf::Data);
     m_newBandButton->addAction(m_newData);
 
+    m_newDataHeader=new QAction(QIcon(),tr("Data Header"),this);
+    m_newDataHeader->setEnabled(false);
+    connect(m_newDataHeader,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
+    m_bandsAddSignalsMap->setMapping(m_newDataHeader,BandDesignIntf::DataHeader);
+    m_newBandButton->addAction(m_newDataHeader);
+
+    m_newDataFooter=new QAction(QIcon(),tr("Data Footer"),this);
+    m_newDataFooter->setEnabled(false);
+    connect(m_newDataFooter,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
+    m_bandsAddSignalsMap->setMapping(m_newDataFooter,BandDesignIntf::DataFooter);
+    m_newBandButton->addAction(m_newDataFooter);
+
     m_newSubDetail=new QAction(QIcon(),tr("SubDetail"),this);
     m_newSubDetail->setEnabled(false);
     connect(m_newSubDetail,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
@@ -572,6 +584,8 @@ void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
         m_newSubDetailFooter->setEnabled(false);
         m_newGroupHeader->setEnabled(false);
         m_newGroupFooter->setEnabled(false);
+        m_newDataHeader->setEnabled(false);
+        m_newDataFooter->setEnabled(false);
 
         m_objectInspector->commitActiveEditorData();
         m_propertyModel->setObject(item);
@@ -593,10 +607,16 @@ void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
             }
             if (band->bandType()==BandDesignIntf::GroupHeader){
                 m_newGroupFooter->setEnabled(!band->isConnectedToBand(BandDesignIntf::GroupFooter));
+                m_newGroupHeader->setEnabled(!band->isConnectedToBand(BandDesignIntf::GroupHeader));
             }
             if (band->bandType()==BandDesignIntf::SubDetailBand){
                 m_newSubDetailHeader->setEnabled(!band->isConnectedToBand(BandDesignIntf::SubDetailHeader));
                 m_newSubDetailFooter->setEnabled(!band->isConnectedToBand(BandDesignIntf::SubDetailFooter));
+            }
+            if (band->bandType()==BandDesignIntf::Data){
+                m_newDataHeader->setEnabled(!band->isConnectedToBand(BandDesignIntf::DataHeader));
+                m_newDataFooter->setEnabled(!band->isConnectedToBand(BandDesignIntf::DataFooter));
+                m_newGroupHeader->setEnabled(!band->isConnectedToBand(BandDesignIntf::GroupHeader));
             }
         }
 

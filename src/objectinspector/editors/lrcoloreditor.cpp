@@ -31,14 +31,20 @@
 
 #include <QHBoxLayout>
 #include <QColorDialog>
+#include <QPaintEvent>
+#include <QPainter>
 
 ColorEditor::ColorEditor(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent), m_buttonPressed(false)
 {
-    //m_button = new QPushButton(this);
+    m_colorIndicator = new ColorIndicator(this);
+    m_colorIndicator->setColor(m_color);
     m_button = new QToolButton(this);
-    m_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    m_button->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    m_button->setText("...");
+    m_button->installEventFilter(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->addWidget(m_colorIndicator);
     layout->addWidget(m_button);
     layout->setSpacing(0);
     layout->setContentsMargins(1,1,1,1);
@@ -51,22 +57,72 @@ ColorEditor::ColorEditor(QWidget *parent) :
 void ColorEditor::setColor(const QColor &value)
 {
     m_color=value;
+    m_colorIndicator->setColor(m_color);
 }
 
-void ColorEditor::showEvent(QShowEvent *)
+bool ColorEditor::eventFilter(QObject *obj, QEvent *event)
 {
-    QPixmap pixmap(m_button->width()-8,m_button->height()-8);
-    pixmap.fill(m_color);
-    m_button->setIcon(QIcon(pixmap));
-    m_button->setIconSize(QSize(m_button->width()-8,m_button->height()-8));
+    if (obj == m_button){
+        if (event->type() == QEvent::FocusOut && !m_buttonPressed){
+            QFocusEvent* focusEvent = dynamic_cast<QFocusEvent*>(event);
+            if (focusEvent && focusEvent->reason()!=Qt::MouseFocusReason){
+                setFocusToParent();
+                emit(editingFinished());
+            }
+            return false;
+        }
+    }
+    return false;
+}
+
+void ColorEditor::setFocusToParent(){
+    if (parentWidget())
+        parentWidget()->setFocus();
 }
 
 void ColorEditor::slotClicked()
 {
+    m_buttonPressed = true;
     QColorDialog* dialog = new QColorDialog(this);
     dialog->setCurrentColor(m_color);
     if (dialog->exec()) m_color=dialog->currentColor();
     delete dialog;
+    setFocusToParent();
     emit(editingFinished());
 }
 
+
+void ColorIndicator::paintEvent(QPaintEvent* event)
+{
+    QPainter painter(this);
+    painter.save();
+    painter.setBrush(m_color);
+    painter.setPen(Qt::gray);
+    QRect rect = event->rect().adjusted(3,3,-4,-4);
+    rect.setWidth(rect.height());
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.drawEllipse(rect);
+    painter.restore();
+}
+
+ColorIndicator::ColorIndicator(QWidget *parent)
+    :QWidget(parent), m_color(Qt::white){
+    setAttribute(Qt::WA_StaticContents);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    setFocusPolicy(Qt::NoFocus);
+}
+
+QColor ColorIndicator::color() const
+{
+    return m_color;
+}
+
+void ColorIndicator::setColor(const QColor &color)
+{
+    m_color = color;
+}
+
+QSize ColorIndicator::sizeHint() const
+{
+    return QSize(20,20);
+}

@@ -73,6 +73,7 @@ private slots:
     void slotObjectTreeItemSelectionChanged();
     void slotItemSelected(LimeReport::BaseDesignIntf* item);
     void slotMultiItemSelected();
+    void slotItemDoubleClicked(QTreeWidgetItem* item,int);
 private:
     ReportDesignWidget* m_report;
     QMainWindow*        m_mainWindow;

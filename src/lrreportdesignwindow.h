@@ -167,6 +167,8 @@ private:
     QAction* m_newReportHeader;
     QAction* m_newReportFooter;
     QAction* m_newData;
+    QAction* m_newDataHeader;
+    QAction* m_newDataFooter;
     QAction* m_newSubDetail;
     QAction* m_newSubDetailHeader;
     QAction* m_newSubDetailFooter;

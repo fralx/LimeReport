@@ -52,9 +52,9 @@ ScriptEngineNode::~ScriptEngineNode()
     }
 }
 
-ScriptEngineNode*ScriptEngineNode::addChild(const QString& name, ScriptEngineNode::NodeType type, const QIcon& icon)
+ScriptEngineNode*ScriptEngineNode::addChild(const QString& name, const QString& description,  ScriptEngineNode::NodeType type, const QIcon& icon)
 {
-    ScriptEngineNode* res = new ScriptEngineNode(name,type,this,icon);
+    ScriptEngineNode* res = new ScriptEngineNode(name, description, type,this,icon);
     m_childs.push_back(res);
     return res;
 }
@@ -181,28 +181,28 @@ void ScriptEngineModel::updateModel()
         if (categories.contains(categoryName)){
             categ = categories.value(categoryName);
         } else {
-            categ = m_rootNode->addChild(categoryName,ScriptEngineNode::Category,QIcon(":/report/images/folder"));
+            categ = m_rootNode->addChild(categoryName,"",ScriptEngineNode::Category,QIcon(":/report/images/folder"));
             categories.insert(categoryName,categ);
         }
-        categ->addChild(funcDesc.name,ScriptEngineNode::Function,QIcon(":/report/images/function"));
+        categ->addChild(funcDesc.name,funcDesc.description,ScriptEngineNode::Function,QIcon(":/report/images/function"));
     }
     //reset();
     endResetModel();
 }
 
-QScriptValue dateToStr(QScriptContext* pcontext, QScriptEngine* pengine){
-    DataSourceManager* dm = DataSourceManager::instance();
-    QString field = pcontext->argument(0).toString();
-    QString format = pcontext->argument(1).toString();
-    QScriptValue res;
-    if (dm->containsField(field)){
-        res=pengine->newVariant(QLocale().toString(dm->fieldData(field).toDate(),format));
-    } else {
-        QString error = (!dm->lastError().isNull())?dm->lastError():QString("Field %1 not found").arg(field);
-        res=pengine->newVariant(error);
-    }
-    return res;
-}
+//QScriptValue dateToStr(QScriptContext* pcontext, QScriptEngine* pengine){
+//    DataSourceManager* dm = DataSourceManager::instance();
+//    QString field = pcontext->argument(0).toString();
+//    QString format = pcontext->argument(1).toString();
+//    QScriptValue res;
+//    if (dm->containsField(field)){
+//        res=pengine->newVariant(QLocale().toString(dm->fieldData(field).toDate(),format));
+//    } else {
+//        QString error = (!dm->lastError().isNull())?dm->lastError():QString("Field %1 not found").arg(field);
+//        res=pengine->newVariant(error);
+//    }
+//    return res;
+//}
 
 QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){
     DataSourceManager* dm=DataSourceManager::instance();
@@ -285,7 +285,7 @@ QScriptValue ScriptEngineManager::addFunction(const QString& name,
     return funct.scriptValue;
 }
 
-QScriptValue ScriptEngineManager::addFunction(const QString& name,const QString& script, const QString& category, const QString& description)
+QScriptValue ScriptEngineManager::addFunction(const QString& name, const QString& script, const QString& category, const QString& description)
 {
     QScriptSyntaxCheckResult cr = m_scriptEngine->checkSyntax(script);
     if (cr.state() == QScriptSyntaxCheckResult::Valid){
@@ -318,11 +318,11 @@ ScriptEngineManager::ScriptEngineManager()
 {
     m_scriptEngine = new QScriptEngine;
 
-    addFunction("dateToStr",dateToStr,"DATE");
-    addFunction("line",line,"SYSTEM");
-    addFunction("numberFormat",numberFormat,"NUMBER");
-    addFunction("dateFormat",dateFormat,"DATE");
-    addFunction("now",now,"DATE");
+    //addFunction("dateToStr",dateToStr,"DATE", "dateToStr(\"value\",\"format\")");
+    addFunction("line",line,"SYSTEM", "line(\""+tr("BandName")+"\")");
+    addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+tr("Precision")+"\")");
+    addFunction("dateFormat",dateFormat,"DATE", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("now",now,"DATE","now()");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
@@ -334,7 +334,7 @@ ScriptEngineManager::ScriptEngineManager()
 
     DataSourceManager* dm=DataSourceManager::instance();
     foreach(QString func, dm->groupFunctionNames()){
-        addFunction(func,groupFunction,"GROUP FUNCTIONS");
+        addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
     }
 
     foreach(ScriptFunctionDesc func, m_functions){

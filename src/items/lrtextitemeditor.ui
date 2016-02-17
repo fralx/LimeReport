@@ -107,26 +107,21 @@
            <string>Functions</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_4">
-           <property name="spacing">
-            <number>3</number>
-           </property>
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
            <item>
-            <widget class="QTreeView" name="twScriptEngine">
-             <attribute name="headerVisible">
-              <bool>false</bool>
-             </attribute>
+            <widget class="QSplitter" name="splitter_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <widget class="QTreeView" name="twScriptEngine">
+              <attribute name="headerVisible">
+               <bool>false</bool>
+              </attribute>
+             </widget>
+             <widget class="QLabel" name="lblDescription">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
             </widget>
            </item>
           </layout>

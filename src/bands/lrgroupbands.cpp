@@ -88,7 +88,11 @@ BaseDesignIntf *GroupBandHeader::createSameTypeItem(QObject *owner, QGraphicsIte
 void GroupBandHeader::startGroup()
 {
     m_groupStarted=true;
+
     DataSourceManager* dm = DataSourceManager::instance();
+    QString lineVar = QLatin1String("line_")+objectName().toLower();
+    dm->setReportVariable(lineVar,1);
+
     if ((dm->dataSource(parentBand()->datasourceName()))){
         IDataSource* ds = dm->dataSource(parentBand()->datasourceName());
         if (ds->columnIndexByName(m_groupFiledName)!=-1)
@@ -103,11 +107,15 @@ QColor GroupBandHeader::bandColor() const
 
 bool GroupBandHeader::isNeedToClose()
 {
-    if (m_groupFieldValue.isNull()) return false;
+    //if (m_groupFieldValue.isNull()) return false;
 
-    DataSourceManager* dm = DataSourceManager::instance();
+    if (!m_groupStarted) return false;
+    DataSourceManager* dm = DataSourceManager::instance(); 
+    if (m_groupFiledName.isNull() || m_groupFiledName.isEmpty())
+        dm->putError("Group Field Not found");
     if ((dm->dataSource(parentBand()->datasourceName()))){
         IDataSource* ds = dm->dataSource(parentBand()->datasourceName());
+        if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
         return ds->data(m_groupFiledName)!=m_groupFieldValue;
     }
 
@@ -116,7 +124,7 @@ bool GroupBandHeader::isNeedToClose()
 
 bool GroupBandHeader::isStarted()
 {
-    return !m_groupFieldValue.isNull();
+    return m_groupStarted;//!m_groupFieldValue.isNull();
 }
 
 void GroupBandHeader::closeGroup()

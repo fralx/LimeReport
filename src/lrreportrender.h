@@ -79,6 +79,7 @@ signals:
 public slots:
     void    cancelRender();
 private:
+    void    initDatasources();
     void    initRenderPage();
     void    initVariables();
     void    clearPageMap();
@@ -145,6 +146,7 @@ private:
     int   m_renderedDataBandCount;
     BandDesignIntf* m_lastDataBand;
     bool m_renderCanceled;
+
 
 };
 } // namespace LimeReport

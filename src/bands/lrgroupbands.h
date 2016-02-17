@@ -35,7 +35,7 @@
 
 namespace LimeReport{
 
-class GroupBandHeader : public BandDesignIntf, public IGropBand{
+class GroupBandHeader : public BandDesignIntf, public IGroupBand{
     Q_OBJECT
     Q_PROPERTY(QString groupFieldName READ groupFieldName WRITE setGroupFieldName)
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )

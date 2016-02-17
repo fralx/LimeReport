@@ -60,6 +60,11 @@ void IntPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mode
 {
     model->setData(index,qobject_cast<QSpinBox*>(propertyEditor)->value());
     object()->setProperty(propertyName().toLatin1(),propertyValue());
+    foreach(QObject* item, *objects()){
+        if (item->metaObject()->indexOfProperty(propertyName().toLatin1())!=-1){
+            item->setProperty(propertyName().toLatin1(),propertyValue());
+        }
+    }
 }
 
 } // namespace LimeReport

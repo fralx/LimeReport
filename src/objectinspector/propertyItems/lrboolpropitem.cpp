@@ -64,7 +64,7 @@ void BoolPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIn
 void BoolPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
 {
     model->setData(index,qobject_cast<CheckBoxEditor*>(propertyEditor)->isChecked());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
+    setValueToObject(propertyName(),propertyValue());
 }
 
 bool BoolPropItem::paint(QPainter *painter, const QStyleOptionViewItemV4 &option, const QModelIndex &index)

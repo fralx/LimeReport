@@ -133,6 +133,8 @@ void TextItemEditor::initUI()
 
     m_completer->setModel(new QStringListModel(dataWords,m_completer));
     ui->gbSettings->setVisible(false);
+    connect(ui->twScriptEngine->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(slotScriptItemsSelectionChanged(QModelIndex,QModelIndex)));
 }
 
 QStringListModel *TextItemEditor::getDataSources()
@@ -354,3 +356,21 @@ void TextItemEditor::on_toolButton_clicked(bool checked)
 {
     ui->gbSettings->setVisible(checked);
 }
+
+
+void TextItemEditor::on_twScriptEngine_activated(const QModelIndex &index)
+{
+    LimeReport::ScriptEngineNode* node = static_cast<LimeReport::ScriptEngineNode*>(index.internalPointer());
+    if (node->type()==LimeReport::ScriptEngineNode::Function){
+       ui->lblDescription->setText(node->name());
+    }
+}
+
+void TextItemEditor::slotScriptItemsSelectionChanged(const QModelIndex &to, const QModelIndex)
+{
+    LimeReport::ScriptEngineNode* node = static_cast<LimeReport::ScriptEngineNode*>(to.internalPointer());
+    if (node->type()==LimeReport::ScriptEngineNode::Function){
+       ui->lblDescription->setText(node->description());
+    }
+}
+

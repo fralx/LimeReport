@@ -38,7 +38,7 @@
 #include "lrtextitempropertyeditor.h"
 
 ButtonLineEditor::ButtonLineEditor(const QString &propertyName, QWidget *parent) :
-    QWidget(parent), m_overButton(false), m_editor(0), m_propertyName(propertyName)
+    QWidget(parent), m_overButton(false), m_propertyName(propertyName)
 {
     m_lineEdit = new QLineEdit(this);
     m_lineEdit->installEventFilter(this);
@@ -58,25 +58,17 @@ ButtonLineEditor::ButtonLineEditor(const QString &propertyName, QWidget *parent)
     //connect(m_lineEdit,SIGNAL(editingFinished()),this,SLOT(lineEditEditingFinished()));
 }
 
-ButtonLineEditor::~ButtonLineEditor()
-{
-    if (m_editor) {
-        delete m_editor;
-        m_editor = 0;
-    }
-}
+ButtonLineEditor::~ButtonLineEditor(){}
 
 void ButtonLineEditor::editButtonClicked()
 {
-
-    if (!m_editor){
-        m_editor =  new TextItemPropertyEditor(QApplication::activeWindow());
-        m_editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, m_editor->size(), QApplication::desktop()->availableGeometry()));
-        m_editor->setWindowTitle(m_propertyName);
-        m_editor->setText(m_lineEdit->text());
-        connect(m_editor,SIGNAL(accepted()),this,SLOT(editingByEditorFinished()));
-        m_editor->exec();
-    } else m_editor->exec();
+    TextItemPropertyEditor* editor = new TextItemPropertyEditor(QApplication::activeWindow());
+    editor->setAttribute(Qt::WA_DeleteOnClose);
+    editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QApplication::desktop()->availableGeometry()));
+    editor->setWindowTitle(m_propertyName);
+    editor->setText(m_lineEdit->text());
+    connect(editor,SIGNAL(accepted()),this,SLOT(editingByEditorFinished()));
+    editor->exec();
 }
 
 void ButtonLineEditor::setText(const QString &value){

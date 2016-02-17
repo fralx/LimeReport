@@ -83,10 +83,10 @@ void DataBrowser::slotAddConnection()
 {
     ConnectionDialog *connectionEdit = new ConnectionDialog(this,0,this);
     connectionEdit->setAttribute(Qt::WA_DeleteOnClose,true);
-#if defined(WIN32) || defined(WIN64)
-    connectionEdit->setWindowModality(Qt::ApplicationModal);
-#else
+#ifdef Q_OS_MAC
     connectionEdit->setWindowModality(Qt::WindowModal);
+#else
+    connectionEdit->setWindowModality(Qt::ApplicationModal);
 #endif
     //connect(connectionEdit,SIGNAL(finished(int)),this,SLOT(slotConnectionEditFinished(int)));
     //connect(connectionEdit,SIGNAL(conectionRegistred(QString)),this,SLOT(slotConnectionRegistred(QString)));
@@ -146,10 +146,10 @@ void DataBrowser::slotAddDataSource()
 {
     SQLEditDialog *sqlEdit = new SQLEditDialog(this,m_report->dataManager(),SQLEditDialog::AddMode);
     sqlEdit->setAttribute(Qt::WA_DeleteOnClose,true);
-#if defined(WIN64) || defined(WIN32)
-    sqlEdit->setWindowModality(Qt::ApplicationModal);
-#else
+#ifdef Q_OS_MAC
     sqlEdit->setWindowModality(Qt::WindowModal);
+#else
+    sqlEdit->setWindowModality(Qt::ApplicationModal);
 #endif
     sqlEdit->setSettings(settings());
     sqlEdit->setDataSources(m_report->dataManager());
@@ -345,10 +345,10 @@ void DataBrowser::slotEditDatasource()
        closeDataWindow(getDatasourceName());
        SQLEditDialog *sqlEdit = new SQLEditDialog(this,m_report->dataManager(),SQLEditDialog::EditMode);
        sqlEdit->setAttribute(Qt::WA_DeleteOnClose);
-#if defined(WIN32) || defined(WIN64)
-       sqlEdit->setWindowModality(Qt::ApplicationModal);
-#else
+#ifdef Q_OS_MAC
        sqlEdit->setWindowModality(Qt::WindowModal);
+#else
+       sqlEdit->setWindowModality(Qt::ApplicationModal);
 #endif
        sqlEdit->setSettings(settings());
        sqlEdit->setDataSources(m_report->dataManager(),getDatasourceName());
@@ -467,10 +467,10 @@ void DataBrowser::slotChangeConnection()
             this
         );
         connectionEdit->setAttribute(Qt::WA_DeleteOnClose,true);
-#if defined(WIN32) || defined(WIN64)
-        connectionEdit->setWindowModality(Qt::ApplicationModal);
-#else
+#ifdef Q_OS_MAC
         connectionEdit->setWindowModality(Qt::WindowModal);
+#else
+        connectionEdit->setWindowModality(Qt::ApplicationModal);
 #endif
         //connect(connectionEdit,SIGNAL(finished(int)),this,SLOT(slotConnectionEditFinished(int)));
         connectionEdit->exec();
@@ -632,10 +632,10 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
 void LimeReport::DataBrowser::on_addVariable_clicked()
 {
     LRVariableDialog dialog(this);
-#if defined(WIN32) || defined(WIN64)
-    dialog.setWindowModality(Qt::ApplicationModal);
-#else
+#ifdef Q_OS_MAC
     dialog.setWindowModality(Qt::WindowModal);
+#else
+    dialog.setWindowModality(Qt::ApplicationModal);
 #endif
     dialog.setVariableContainer(m_report->dataManager());
     connect(&dialog,SIGNAL(signalVariableAccepted(QString)),this,SLOT(slotVariableEditorAccept(QString)));
@@ -648,10 +648,10 @@ void DataBrowser::on_editVariable_clicked()
     if (!getVariable().isEmpty())
     {
         LRVariableDialog dialog(this);
-#if defined(WIN32) || defined(WIN64)
-        dialog.setWindowModality(Qt::ApplicationModal);
-#else
+#ifdef Q_OS_MAC
         dialog.setWindowModality(Qt::WindowModal);
+#else
+        dialog.setWindowModality(Qt::ApplicationModal);
 #endif
         dialog.setVariableContainer(m_report->dataManager());
         QString varName = getVariable();

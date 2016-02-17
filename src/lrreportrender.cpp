@@ -51,6 +51,16 @@ void ReportRender::setDatasources(DataSourceManager *value)
     m_datasources=value;
 }
 
+void ReportRender::initDatasources(){
+    try{
+        datasources()->setAllDatasourcesToFirst();
+    } catch(ReportError &exception){
+        //TODO posible should thow exeption
+        QMessageBox::critical(0,tr("Error"),exception.what());
+        return;
+    }
+}
+
 void ReportRender::renderPage(PageDesignIntf* patternPage)
 {
     m_patternPageItem=patternPage->pageItem();
@@ -64,15 +74,6 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
     initGroupFunctions();
 
     clearPageMap();
-
-    try{
-        datasources()->setAllDatasourcesToFirst();
-    } catch(ReportError &exception){
-        //TODO posible should thow exeption
-        QMessageBox::critical(0,tr("Error"),exception.what());
-        return;
-    }
-
     startNewPage();
 
     renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader),StartNewPage);
@@ -80,6 +81,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
     BandDesignIntf* lastRenderedBand = 0;
     for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
         lastRenderedBand = m_patternPageItem->dataBandAt(i);
+        initDatasources();
         renderDataBand(lastRenderedBand);
         if (i<m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
     }
@@ -236,9 +238,13 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
     IDataSource* bandDatasource = 0;
     if (dataBand)
        bandDatasource = datasources()->dataSource(dataBand->datasourceName());
+
     if(bandDatasource && !bandDatasource->eof() && !m_renderCanceled){
+
         QString varName = QLatin1String("line_")+dataBand->objectName().toLower();
         datasources()->setReportVariable(varName,1);
+
+        renderBand(dataBand->bandHeader());
         renderChildHeader(dataBand,PrintNotAlwaysPrintable);
         renderGroupHeader(dataBand,bandDatasource);
         while(!bandDatasource->eof() && !m_renderCanceled){
@@ -250,18 +256,25 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
             datasources()->updateChildrenData(dataBand->datasourceName());
             m_lastDataBand = dataBand;
+
             renderBand(dataBand,StartNewPage,!bandDatasource->hasNext());
             renderChildBands(dataBand);
 
             bandDatasource->next();
 
             datasources()->setReportVariable(varName,datasources()->variable(varName).toInt()+1);
+            foreach (BandDesignIntf* band, dataBand->childrenByType(BandDesignIntf::GroupHeader)){
+                QString groupLineVar = QLatin1String("line_")+band->objectName().toLower();
+                if (datasources()->containsVariable(groupLineVar))
+                    datasources()->setReportVariable(groupLineVar,datasources()->variable(groupLineVar).toInt()+1);
+            }
+
             renderGroupHeader(dataBand,bandDatasource);
             if (dataBand->tryToKeepTogether()) closeDataGroup(dataBand);
         }
-
+        renderBand(dataBand->bandFooter());
         renderGroupFooter(dataBand);
-        renderChildFooter(dataBand,PrintNotAlwaysPrintable);
+        //renderChildFooter(dataBand,PrintNotAlwaysPrintable);
         datasources()->deleteVariable(varName);
     } else if (bandDatasource==0) {
         renderBand(dataBand,StartNewPage);
@@ -348,17 +361,25 @@ void ReportRender::renderChildBands(BandDesignIntf *parentBand)
 void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* dataSource)
 {
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){
-        IGropBand* gb = dynamic_cast<IGropBand*>(band);
+        IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb&&gb->isNeedToClose()){
             if (band->childBands().count()>0){
                 dataSource->prior();
+                foreach (BandDesignIntf* subBand, parentBand->childrenByType(BandDesignIntf::GroupHeader)) {
+                    if ( (subBand->bandIndex() > band->bandIndex()) &&
+                         (subBand->childBands().count()>0)
+                    ){
+                        renderBand(subBand->childBands().at(0));
+                        closeDataGroup(subBand);
+                    }
+                }
                 renderBand(band->childBands().at(0),StartNewPage);
                 dataSource->next();
             }
             closeDataGroup(band);
         }
         if (!gb->isStarted()){
-            gb->startGroup();
+            gb->startGroup();            
             openDataGroup(band);
             renderBand(band,StartNewPage);
         }
@@ -368,7 +389,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
 void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
 {
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){
-        IGropBand* gb = dynamic_cast<IGropBand*>(band);
+        IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb->isStarted()){
             if (band->childBands().count()>0){
                 renderBand(band->childBands().at(0),StartNewPage);
@@ -449,7 +470,7 @@ void ReportRender::openFooterGroup(BandDesignIntf *band)
 
 void ReportRender::closeDataGroup(BandDesignIntf *band)
 {
-    IGropBand* groupBand = dynamic_cast<IGropBand*>(band);
+    IGroupBand* groupBand = dynamic_cast<IGroupBand*>(band);
     if (groupBand)
         groupBand->closeGroup();
     closeGroup(band);
@@ -544,8 +565,8 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
     } else delete upperBandPart;
     savePage();
     startNewPage();
-    if (!bottomBandPart->isEmpty() && patternBand->keepFooterTogether())
-        openFooterGroup(patternBand);
+//    if (!bottomBandPart->isEmpty() && patternBand->keepFooterTogether())
+//        openFooterGroup(patternBand);
     delete band;
     return bottomBandPart;
 }

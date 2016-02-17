@@ -124,7 +124,6 @@ public:
     RenderPass variablePass(const QString& name);
     QStringList variableNames();
     VarDesc::VarType variableType(const QString& name);
-
     bool variableIsSystem(const QString& name);
     QString queryText(const QString& dataSourceName);
     QString connectionName(const QString& dataSourceName);

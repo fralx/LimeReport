@@ -84,7 +84,7 @@ void FontPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIn
 void FontPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex &index)
 {
     model->setData(index,qobject_cast<FontEditor*>(propertyEditor)->fontValue());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
+    setValueToObject(propertyName(),propertyValue());
 }
 
 void FontPropItem::setPropertyValue(QVariant value)
@@ -127,9 +127,10 @@ void FontFamilyPropItem::setPropertyEditorData(QWidget *propertyEditor, const QM
 
 void FontFamilyPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
 {
-    QFont font = qobject_cast<QFontComboBox*>(propertyEditor)->currentFont();
+    QFont font = object()->property(parent()->propertyName().toLatin1()).value<QFont>();
+    font.setFamily(qobject_cast<QFontComboBox*>(propertyEditor)->currentFont().family());
     model->setData(index,font);
-    object()->setProperty(parent()->propertyName().toLatin1(),font);
+    setValueToObject(parent()->propertyName(),font);
 }
 
 void FontAttribPropItem::setModelData(QWidget *propertyEditor , QAbstractItemModel *model, const QModelIndex &index)
@@ -145,7 +146,7 @@ void FontAttribPropItem::setModelData(QWidget *propertyEditor , QAbstractItemMod
     if (propertyName()=="underline"){
         font.setUnderline(propertyValue().toBool());
     }
-    object()->setProperty(parent()->propertyName().toLatin1(),font);
+    setValueToObject(parent()->propertyName(),font);
 }
 
 void FontPointSizePropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
@@ -153,7 +154,7 @@ void FontPointSizePropItem::setModelData(QWidget *propertyEditor, QAbstractItemM
     model->setData(index,qobject_cast<QSpinBox*>(propertyEditor)->value());
     QFont font = object()->property(parent()->propertyName().toLatin1()).value<QFont>();
     font.setPointSize(propertyValue().toInt());
-    object()->setProperty(parent()->propertyName().toLatin1(),font);
+    setValueToObject(parent()->propertyName(),font);
 }
 
 }

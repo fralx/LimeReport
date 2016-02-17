@@ -56,13 +56,13 @@ class SubDetailHeaderBand : public BandDesignIntf
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
 public:
     SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
-    virtual bool isUnique() const;
+    bool isUnique() const;
     void setPrintAlways(bool value){m_printAlways=value;}
     bool printAlways(){return m_printAlways;}
 protected:
-    virtual QColor bandColor() const;
+    QColor bandColor() const;
 private:
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 private:
     bool m_printAlways;
 };
@@ -76,11 +76,11 @@ public:
     void setPrintAlways(bool value){m_printAlways=value;}
     bool printAlways(){return m_printAlways;}
     virtual bool isUnique() const;
-    virtual bool isFooter() const{return true;}
+    bool isFooter() const{return true;}
 protected:
-    virtual QColor bandColor() const;
+    QColor bandColor() const;
 private:
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 private:
     bool m_printAlways;
 };

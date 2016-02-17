@@ -58,7 +58,6 @@ void QObjectPropertyModel::initModel()
             connect(item,SIGNAL(destroyed(QObject*)),this,SLOT(slotObjectDestroyed(QObject*)));
         addObjectProperties(m_object->metaObject(), m_object, &m_objects);
     }
-    //reset();
     endResetModel();
 }
 
@@ -79,11 +78,10 @@ void QObjectPropertyModel::setMultiObjects(QList<QObject *>* list)
     if (m_object!=list->at(0)){
         m_object=list->at(0);
         list->removeAt(0);
-        foreach(QObject* item, *list)
-            m_objects.append(item);
-        initModel();
     }
-
+    foreach(QObject* item, *list)
+        m_objects.append(item);
+    initModel();
 }
 
 void QObjectPropertyModel::slotObjectDestroyed(QObject *obj)

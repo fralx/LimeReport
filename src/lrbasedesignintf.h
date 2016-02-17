@@ -223,6 +223,7 @@ public:
     QString itemTypeName() const;
     void setItemTypeName(const QString &itemTypeName);
     void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
+    void showEditorDialog();
 protected:
 
     //ICollectionContainer
