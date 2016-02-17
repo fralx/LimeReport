@@ -899,6 +899,13 @@ void PageDesignIntf::emitItemRemoved(BaseDesignIntf *item)
         emit itemRemoved(this,item);
     }
 }
+
+DataSourceManager *PageDesignIntf::datasourceManager()
+{
+    if (m_reportEditor) return m_reportEditor->dataManager();
+    return 0;
+}
+
 void PageDesignIntf::registerBand(BandDesignIntf *band)
 {
     if (pageItem()&&!pageItem()->isBandRegistred(band)) {
@@ -912,14 +919,22 @@ void PageDesignIntf::slotUpdateItemSize()
     foreach(QGraphicsItem * item, items()) {
         BandDesignIntf *reportBand = dynamic_cast<BandDesignIntf *>(item);
 
-        if (reportBand) reportBand->updateItemSize();
+        if (reportBand) reportBand->updateItemSize(0);
     }
 }
 
 void PageDesignIntf::saveChangeProppertyCommand(const QString &objectName, const QString &propertyName, const QVariant &oldPropertyValue, const QVariant &newPropertyValue)
 {
     if (!m_executingCommand) {
-        CommandIf::Ptr command = PropertyChangedCommand::create(this, objectName, propertyName, oldPropertyValue, newPropertyValue);
+        CommandIf::Ptr command;
+        if (propertyName.compare("ItemAlign",Qt::CaseInsensitive)==0){
+            command = PropertyItemAlignChangedCommand::create(this, objectName,
+                                                              BaseDesignIntf::ItemAlign(oldPropertyValue.toInt()),
+                                                              BaseDesignIntf::ItemAlign(newPropertyValue.toInt())
+            );
+        } else {
+            command = PropertyChangedCommand::create(this, objectName, propertyName, oldPropertyValue, newPropertyValue);
+        }
         saveCommand(command, false);
     }
 }
@@ -1819,6 +1834,51 @@ void PropertyObjectNameChangedCommand::undoIt()
         reportItem->emitObjectNamePropertyChanged(m_newName,m_oldName);
     }
 
+}
+
+CommandIf::Ptr PropertyItemAlignChangedCommand::create(PageDesignIntf *page, const QString &objectName,
+                                                       BaseDesignIntf::ItemAlign oldValue, BaseDesignIntf::ItemAlign newValue)
+{
+    PropertyItemAlignChangedCommand *command = new PropertyItemAlignChangedCommand();
+    command->setPage(page);
+    command->m_objectName = objectName;
+    command->m_propertyName = "itemAlign";
+    command->m_oldValue = oldValue;
+    command->m_newValue = newValue;
+
+    BaseDesignIntf *reportItem = page->reportItemByName(objectName);
+    if (oldValue == BaseDesignIntf::DesignedItemAlign){
+        command->m_savedPos = reportItem->pos();
+    }
+
+    return CommandIf::Ptr(command);
+}
+
+bool PropertyItemAlignChangedCommand::doIt()
+{
+    BaseDesignIntf *reportItem = page()->reportItemByName(m_objectName);
+
+    //if (m_oldValue == BaseDesignIntf::DesignedItemAlign){
+    //    m_savedPos = reportItem->pos();
+    //}
+
+    if (reportItem && (reportItem->property(m_propertyName.toLatin1()) != m_newValue)) {
+        reportItem->setProperty(m_propertyName.toLatin1(), m_newValue);
+    }
+
+    return true;
+}
+
+void PropertyItemAlignChangedCommand::undoIt()
+{
+    BaseDesignIntf *reportItem = page()->reportItemByName(m_objectName);
+
+    if (reportItem && (reportItem->property(m_propertyName.toLatin1()) != m_oldValue)) {
+        reportItem->setProperty(m_propertyName.toLatin1(), m_oldValue);
+    }
+    if (m_oldValue == BaseDesignIntf::DesignedItemAlign){
+        reportItem->setPos(m_savedPos);
+    }
 }
 
 }

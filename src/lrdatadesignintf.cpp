@@ -56,8 +56,9 @@ IDataSource * ModelHolder::dataSource(IDataSource::DatasourceMode mode)
     return m_dataSource;
 }
 
-QueryHolder::QueryHolder(QString queryText, QString connectionName)
-    : m_query(0), m_queryText(queryText), m_connectionName(connectionName), m_mode(IDataSource::RENDER_MODE)
+QueryHolder::QueryHolder(QString queryText, QString connectionName, DataSourceManager *dataManager)
+    : m_query(0), m_queryText(queryText), m_connectionName(connectionName),
+      m_mode(IDataSource::RENDER_MODE), m_dataManager(dataManager)
 {
     extractParams();
 }
@@ -98,7 +99,7 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         return false;
     } else setLastError("");
 
-        setDatasource(IDataSource::Ptr(new ModelToDataSource(model,true)));
+    setDatasource(IDataSource::Ptr(new ModelToDataSource(model,true)));
     return true;
 }
 
@@ -110,6 +111,18 @@ QString QueryHolder::connectionName()
 void QueryHolder::setConnectionName(QString connectionName)
 {
     m_connectionName=connectionName;
+}
+
+void QueryHolder::invalidate(IDataSource::DatasourceMode mode){
+    QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+    if (!db.isValid()){
+        setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
+        delete m_query;
+        m_dataSource.clear();
+    } else {
+        runQuery(mode);
+    }
+
 }
 
 void QueryHolder::update()
@@ -124,14 +137,13 @@ void QueryHolder::setDatasource(IDataSource::Ptr value){
 
 void QueryHolder::fillParams(QSqlQuery *query)
 {
-    DataSourceManager* dm=DataSourceManager::instance();
     foreach(QString param,m_aliasesToParam.keys()){
         QVariant value;
         if (param.contains(".")){
-            value = dm->fieldData(m_aliasesToParam.value(param));
+            value = dataManager()->fieldData(m_aliasesToParam.value(param));
             param=param.right(param.length()-param.indexOf('.')-1);
         } else {
-            value = dm->variable(m_aliasesToParam.value(param));
+            value = dataManager()->variable(m_aliasesToParam.value(param));
         }
         if (value.isValid() || m_mode == IDataSource::DESIGN_MODE)
             query->bindValue(':'+param,value);
@@ -344,18 +356,16 @@ QueryDesc::QueryDesc(QString queryName, QString queryText, QString connection)
     :m_queryName(queryName), m_query(queryText), m_connectionName(connection)
 {}
 
-SubQueryHolder::SubQueryHolder(QString queryText, QString connectionName, QString masterDatasource)
-    : QueryHolder(queryText,connectionName), m_masterDatasource(masterDatasource), m_invalid(false)
+SubQueryHolder::SubQueryHolder(QString queryText, QString connectionName, QString masterDatasource, DataSourceManager* dataManager)
+    : QueryHolder(queryText, connectionName, dataManager), m_masterDatasource(masterDatasource)/*, m_invalid(false)*/
 {
     extractParams();
 }
 
 void SubQueryHolder::setMasterDatasource(const QString &value)
 {
-    DataSourceManager* dm = DataSourceManager::instance();
-    if (dm->dataSource(value)){
+    if (dataManager()->dataSource(value)){
         m_masterDatasource = value;
-        m_invalid = false;
     }
 }
 
@@ -429,8 +439,9 @@ QObject *ProxyDesc::elementAt(const QString &collectionName, int index)
     return m_maps.at(index);
 }
 
-ProxyHolder::ProxyHolder(ProxyDesc* desc)
-    :m_desc(desc), m_lastError(""), m_mode(IDataSource::RENDER_MODE), m_invalid(false)
+ProxyHolder::ProxyHolder(ProxyDesc* desc, DataSourceManager* dataManager)
+    :m_model(0), m_desc(desc), m_lastError(""), m_mode(IDataSource::RENDER_MODE),
+     m_invalid(false), m_dataManger(dataManager)
 {}
 
 QString ProxyHolder::masterDatasource()
@@ -442,12 +453,12 @@ QString ProxyHolder::masterDatasource()
 void ProxyHolder::filterModel()
 {
     if (!m_datasource){
-        DataSourceManager* dm=DataSourceManager::instance();
-        if (dm){
-            IDataSource* master = dm->dataSource(m_desc->master());
-            IDataSource* child = dm->dataSource(m_desc->child());
+
+        if (dataManager()){
+            IDataSource* master = dataManager()->dataSource(m_desc->master());
+            IDataSource* child = dataManager()->dataSource(m_desc->child());
             if (master&&child){
-                m_model = new MasterDetailProxyModel();
+                m_model = new MasterDetailProxyModel(dataManager());
                 connect(child->model(),SIGNAL(destroyed()), this, SLOT(slotChildModelDestoroyed()));
                 m_model->setSourceModel(child->model());
                 m_model->setMaster(m_desc->master());
@@ -459,6 +470,8 @@ void ProxyHolder::filterModel()
                 } catch (ReportError& exception) {
                     m_lastError = exception.what();
                 }
+                m_invalid = false;
+                m_lastError.clear();
             } else {
                 m_lastError.clear();
                 if(!master) m_lastError+=QObject::tr("Master datasouce \"%1\" not found!").arg(m_desc->master());
@@ -484,6 +497,22 @@ IDataSource *ProxyHolder::dataSource(IDataSource::DatasourceMode mode)
     return m_datasource.data();
 }
 
+void ProxyHolder::invalidate(IDataSource::DatasourceMode mode)
+{
+    Q_UNUSED(mode)
+    if (m_model && m_model->isInvalid()){
+        m_invalid = true;
+        m_lastError = tr("Datasource has been invalidated");
+    } else {
+        filterModel();
+    }
+}
+
+void ProxyHolder::slotChildModelDestoroyed(){
+    m_datasource.clear();
+    m_model = 0;
+}
+
 void ProxyDesc::addFieldsCorrelation(const FieldsCorrelation& fieldsCorrelation)
 {
     m_maps.append(new FieldMapDesc(fieldsCorrelation));
@@ -491,6 +520,15 @@ void ProxyDesc::addFieldsCorrelation(const FieldsCorrelation& fieldsCorrelation)
 
 void MasterDetailProxyModel::setMaster(QString name){
     m_masterName=name;
+}
+
+bool MasterDetailProxyModel::isInvalid() const
+{
+    if (m_masterName.isEmpty() || m_childName.isEmpty()) return true;
+    IDataSource* masterData = dataManager()->dataSource(m_masterName);
+    IDataSource* childData = dataManager()->dataSource(m_childName);
+    if (!masterData || !childData) return true;
+    return masterData->isInvalid() || childData->isInvalid();
 }
 
 bool MasterDetailProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -529,7 +567,7 @@ QVariant MasterDetailProxyModel::sourceData(QString fieldName, int row) const
 
 QVariant MasterDetailProxyModel::masterData(QString fieldName) const
 {
-    IDataSource* master = DataSourceManager::instance()->dataSource(m_masterName);
+    IDataSource* master = dataManager()->dataSource(m_masterName);
     int columnIndex = master->columnIndexByName(fieldName);
     if (columnIndex!=-1){
         return master->data(fieldName);

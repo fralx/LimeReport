@@ -137,7 +137,10 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_keepFooterTogether(false),
     m_maxScalePercent(0),
     m_sliceLastRow(false),
-    m_printIfEmpty(false)
+    m_printIfEmpty(false),
+    m_columnsCount(1),
+    m_columnIndex(0),
+    m_columnsFillDirection(Horizontal)
 {
     setPosibleResizeDirectionFlags(ResizeBottom);
     setPosibleMoveFlags(TopBotom);
@@ -375,6 +378,30 @@ void BandDesignIntf::checkEmptyTable(){
     }
 }
 
+void BandDesignIntf::setColumnsCount(int value)
+{
+    if (m_columnsCount!=value && value>0){
+        qreal oldValue = m_columnsCount;
+        qreal fullWidth = m_columnsCount * width();
+        m_columnsCount = value;
+        if (!isLoading()){
+            setWidth(fullWidth/m_columnsCount);
+            notify("columnsCount",oldValue,value);
+        }
+    }
+}
+
+void BandDesignIntf::setColumnsFillDirection(BandDesignIntf::BandColumnsLayoutType value)
+{
+    if (m_columnsFillDirection!=value){
+        qreal oldValue = m_columnsFillDirection;
+        m_columnsFillDirection = value;
+        if (!isLoading())
+            notify("columnsFillDirection",oldValue,value);
+    }
+
+}
+
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int maxBottom = 0;
@@ -473,6 +500,15 @@ void BandDesignIntf::emitBandRendered(BandDesignIntf* band)
     emit bandRendered(band);
 }
 
+void BandDesignIntf::setSplittable(bool value){
+    if (m_splitable!=value){
+        bool oldValue = m_splitable;
+        m_splitable = value;
+        if (!isLoading())
+            notify("splittable",oldValue,value);
+    }
+}
+
 bool itemSortContainerLessThen(const PItemSortContainer c1, const PItemSortContainer c2)
 {
     VSegment vS1(c1->m_rect),vS2(c2->m_rect);
@@ -496,13 +532,13 @@ void BandDesignIntf::snapshotItemsLayout()
     qSort(m_bandItems.begin(),m_bandItems.end(),itemSortContainerLessThen);
 }
 
-void BandDesignIntf::arrangeSubItems(RenderPass pass, ArrangeType type)
+void BandDesignIntf::arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type)
 {
     bool needArrage=(type==Force);
 
     foreach (PItemSortContainer item, m_bandItems) {
         if (item->m_item->isNeedUpdateSize(pass)){
-            item->m_item->updateItemSize(pass);
+            item->m_item->updateItemSize(dataManager, pass);
             needArrage=true;
         }
     }
@@ -656,6 +692,16 @@ void BandDesignIntf::childBandDeleted(QObject *band)
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
 }
 
+int BandDesignIntf::columnIndex() const
+{
+    return m_columnIndex;
+}
+
+void BandDesignIntf::setColumnIndex(int columnIndex)
+{
+    m_columnIndex = columnIndex;
+}
+
 bool BandDesignIntf::printIfEmpty() const
 {
     return m_printIfEmpty;
@@ -707,24 +753,29 @@ bool BandDesignIntf::keepFooterTogether() const
     return m_keepFooterTogether;
 }
 
-void BandDesignIntf::setKeepFooterTogether(bool keepFooterTogether)
+void BandDesignIntf::setKeepFooterTogether(bool value)
 {
-    m_keepFooterTogether = keepFooterTogether;
+    if (m_keepFooterTogether!=value){
+        bool oldValue = m_keepFooterTogether;
+        m_keepFooterTogether = value;
+        if (!isLoading())
+            notify("keepFooterTogether",oldValue,value);
+    }
 }
 
 
-void BandDesignIntf::updateItemSize(RenderPass pass,int maxHeight)
+void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     qreal spaceBorder=0;
     if (keepBottomSpaceOption()) spaceBorder=height()-findMaxBottom();
     snapshotItemsLayout();
-    arrangeSubItems(pass);
+    arrangeSubItems(pass, dataManager);
     if (autoHeight() && height()<findMaxBottom()) setHeight(findMaxBottom()+spaceBorder);
     if ((maxHeight>0)&&(height()>maxHeight)){
         trimToMaxHeight(maxHeight);
         setHeight(maxHeight);
     }
-    BaseDesignIntf::updateItemSize(pass,maxHeight);
+    BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
 QColor BandDesignIntf::selectionColor() const

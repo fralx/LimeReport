@@ -61,7 +61,7 @@ bool lessThen(BaseDesignIntf *c1, BaseDesignIntf* c2){
 
 
 HorizontalLayout::HorizontalLayout(QObject *owner, QGraphicsItem *parent)
-    : LayoutDesignIntf(xmlTag, owner, parent),m_isRelocating(false)
+    : LayoutDesignIntf(xmlTag, owner, parent),m_isRelocating(false),m_layoutType(Layout)
 {
     setPosibleResizeDirectionFlags(ResizeBottom);
     m_layoutMarker = new LayoutMarker(this);
@@ -101,6 +101,9 @@ void HorizontalLayout::geometryChangedEvent(QRectF newRect, QRectF )
 {
     m_layoutMarker->setHeight(newRect.height());
     relocateChildren();
+    if (m_layoutType == Table && !m_isRelocating){
+        divideSpace();
+    }
 }
 
 void HorizontalLayout::setChildVisibility(bool value){
@@ -186,6 +189,13 @@ BaseDesignIntf *HorizontalLayout::cloneBottomPart(int height, QObject *owner, QG
     return bottomPart;
 }
 
+void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
+{
+    if (itemAlign == ParentWidthItemAlign)
+        setLayoutType(Table);
+    BaseDesignIntf::setItemAlign(itemAlign);
+}
+
 void HorizontalLayout::restoreChild(BaseDesignIntf* item){
     if (m_children.contains(item)) return;
 
@@ -200,7 +210,11 @@ void HorizontalLayout::restoreChild(BaseDesignIntf* item){
     }
 
     connect(item,SIGNAL(destroyed(QObject*)),this,SLOT(slotOnChildDestroy(QObject*)));
-    connect(item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF)));
+    connect(item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),
+            this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF)));
+    connect(item, SIGNAL(itemAlignChanged(BaseDesignIntf*,ItemAlign,ItemAlign)),
+            this, SLOT(slotOnChildItemAlignChanged(BaseDesignIntf*,ItemAlign,ItemAlign)));
+
     item->setFixedPos(true);
     item->setPosibleResizeDirectionFlags(ResizeRight | ResizeBottom);
     item->setParent(this);
@@ -319,17 +333,18 @@ void HorizontalLayout::beforeDelete()
     }
 }
 
-void HorizontalLayout::updateItemSize(RenderPass pass, int maxHeight)
+void HorizontalLayout::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     m_isRelocating=true;
-    ItemDesignIntf::updateItemSize(pass,maxHeight);
+    ItemDesignIntf::updateItemSize(dataManager, pass, maxHeight);
     foreach(QGraphicsItem *child, childItems()){
         BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(child);
-        if (item) item->updateItemSize(pass,maxHeight);
+        if (item) item->updateItemSize(dataManager, pass, maxHeight);
     }
     updateLayoutSize();
     relocateChildren();
     m_isRelocating=false;
+    BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
 bool HorizontalLayout::isNeedUpdateSize(RenderPass pass) const
@@ -359,13 +374,87 @@ void HorizontalLayout::slotOnChildDestroy(QObject* child)
     }
 }
 
-void HorizontalLayout::slotOnChildGeometryChanged(QObject *, QRectF newGeometry, QRectF)
+BaseDesignIntf* HorizontalLayout::findNext(BaseDesignIntf* item){
+    if (m_children.count()<childItems().size()-1){
+        m_children.clear();
+        foreach (BaseDesignIntf* item, childBaseItems()) {
+            m_children.append(item);
+        }
+    }
+    qSort(m_children.begin(),m_children.end(),lessThen);
+    for (int i=0; i<m_children.count();++i){
+        if (m_children[i]==item && m_children.size()>i+1){ return m_children[i+1];}
+    }
+    return 0;
+}
+
+BaseDesignIntf* HorizontalLayout::findPrior(BaseDesignIntf* item){
+    if (m_children.count()<childItems().size()-1){
+        m_children.clear();
+        foreach (BaseDesignIntf* item, childBaseItems()) {
+            m_children.append(item);
+        }
+    }
+    qSort(m_children.begin(),m_children.end(),lessThen);
+    for (int i=0; i<m_children.count();++i){
+        if (m_children[i]==item && i!=0){ return m_children[i-1];}
+    }
+    return 0;
+}
+
+void HorizontalLayout::divideSpace(){
+    m_isRelocating = true;
+    qreal itemsSumSize = 0;
+    foreach(BaseDesignIntf* item, m_children){
+        itemsSumSize += item->width();
+    }
+    qreal delta = (width() - itemsSumSize)/m_children.size();
+    for (int i=0; i<m_children.size(); ++i){
+        m_children[i]->setWidth(m_children[i]->width()+(delta));
+        if ((i+1)<m_children.size())
+            m_children[i+1]->setPos(m_children[i+1]->pos().x()+delta*(i+1),m_children[i+1]->pos().y());
+    }
+    m_isRelocating = false;
+}
+void HorizontalLayout::slotOnChildGeometryChanged(QObject *item, QRectF newGeometry, QRectF oldGeometry)
 {
     if (!m_isRelocating){
         setHeight(newGeometry.height());
-        relocateChildren();
-        updateLayoutSize();
+        if (m_layoutType == Layout){
+            relocateChildren();
+            updateLayoutSize();
+        } else {
+            m_isRelocating = true;
+            qreal delta = newGeometry.width()-oldGeometry.width();
+            BaseDesignIntf* resizingItem = findNext(dynamic_cast<BaseDesignIntf*>(item));
+            if (resizingItem) {
+                resizingItem->setWidth(resizingItem->width()-delta);
+                resizingItem->setPos(resizingItem->pos().x()+delta,resizingItem->pos().y());
+            }
+            updateLayoutSize();
+            m_isRelocating = false;
+        }
     }
+}
+
+void HorizontalLayout::slotOnChildItemAlignChanged(BaseDesignIntf *item, const BaseDesignIntf::ItemAlign &, const BaseDesignIntf::ItemAlign&)
+{
+    item->setPosibleResizeDirectionFlags(ResizeBottom | ResizeRight);
+}
+
+HorizontalLayout::LayoutType HorizontalLayout::layoutType() const
+{
+    return m_layoutType;
+}
+
+void HorizontalLayout::setLayoutType(const LayoutType &layoutType)
+{
+    if (m_layoutType != layoutType){
+        LayoutType oldValue = m_layoutType;
+        m_layoutType = layoutType;
+        notify("layoutType",oldValue,layoutType);
+    }
+
 }
 
 LayoutMarker::LayoutMarker(HorizontalLayout *layout, QGraphicsItem *parent)

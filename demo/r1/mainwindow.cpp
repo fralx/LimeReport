@@ -115,6 +115,9 @@ void MainWindow::on_pushButton_2_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,"Select report file",QApplication::applicationDirPath()+"/demo_reports/","*.lrxml");
     if (!fileName.isEmpty()) {
         report->loadFromFile(fileName);
+        if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
+            report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
+        }
         report->previewReport();
     }
 }

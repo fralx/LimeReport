@@ -70,7 +70,9 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_selectionMarker(0),
     m_backgroundBrush(Solid),
     m_backgroundBrushcolor(Qt::white),
-    m_margin(4)
+    m_margin(4),
+    m_itemAlign(DesignedItemAlign),
+    m_changingItemAlign(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -164,6 +166,8 @@ qreal BaseDesignIntf::width() const
 void BaseDesignIntf::setWidth(qreal width)
 {
     setGeometry(QRectF(rect().x(), rect().y(), width, rect().height()));
+    if  (!m_changingItemAlign)
+        updateItemAlign();
 }
 
 qreal BaseDesignIntf::height() const
@@ -493,17 +497,83 @@ void BaseDesignIntf::setZValueProperty(qreal value)
     }
 }
 
-//void BaseDesignIntf::slotObjectNameChanged(const QString &newName)
-//{
-//    if (!isLoading() &&  page() && this->itemMode()==LimeReport::DesignMode){
-//        QList<BaseDesignIntf*> list = page()->reportItemsByName(newName);
-//        if (list.size()>1){
-//            setObjectName(page()->genObjectName(*this));
-//            notify("objectName",newName,objectName());
-//        }
+BaseDesignIntf::ItemAlign BaseDesignIntf::itemAlign() const
+{
+    return m_itemAlign;
+}
 
-//    }
-//}
+QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
+    QPointF result = pos;
+    BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(parentItem());
+    PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
+    if (parent){
+        qreal leftBorder = parentPage?parentPage->leftMargin()*mmFactor():0;
+        qreal rightBorder = parentPage?parentPage->rightMargin()*mmFactor():0;
+        qreal aviableSpace = parent->width()-(leftBorder+rightBorder);
+
+        switch(m_itemAlign){
+        case LeftItemAlign:
+            result.setX(leftBorder);
+            break;
+        case RightItemAlign:
+            result.setX(parent->width()-rightBorder);
+            break;
+        case CenterItemAlign:
+            result.setX((aviableSpace-width())/2);
+            break;
+        case ParentWidthItemAlign:
+            result.setX(leftBorder);
+        case DesignedItemAlign:
+           break;
+        }
+    }
+    return result;
+}
+
+void BaseDesignIntf::updateItemAlign(){
+    BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(parentItem());
+    PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
+    m_changingItemAlign = true;
+    if (parent){
+        qreal leftBorder = parentPage?parentPage->leftMargin()*mmFactor():0;
+        qreal rightBorder = parentPage?parentPage->rightMargin()*mmFactor():0;
+        qreal aviableSpace = parent->width()-(leftBorder+rightBorder);
+
+        setPos(modifyPosForAlignedItem(pos()));
+        if (m_itemAlign == ParentWidthItemAlign)
+            setWidth(aviableSpace);
+    }
+    m_changingItemAlign = false;
+}
+
+void BaseDesignIntf::updatePosibleDirectionFlags(){
+    setPosibleResizeDirectionFlags(AllDirections);
+    switch(m_itemAlign){
+    case LeftItemAlign:
+        setPosibleResizeDirectionFlags(AllDirections^ResizeLeft);
+        break;
+    case RightItemAlign:
+        setPosibleResizeDirectionFlags(AllDirections^ResizeRight);
+        break;
+    case ParentWidthItemAlign:
+        setPosibleResizeDirectionFlags(ResizeBottom|ResizeTop);
+    case CenterItemAlign:
+    case DesignedItemAlign:
+       break;
+    }
+}
+
+void BaseDesignIntf::setItemAlign(const ItemAlign &itemAlign)
+{
+    if (m_itemAlign != itemAlign){
+        ItemAlign oldValue = m_itemAlign;
+        m_itemAlign = itemAlign;
+        notify("itemAlign",oldValue,itemAlign);
+        updatePosibleDirectionFlags();
+        updateItemAlign();
+        emit itemAlignChanged(this, oldValue, itemAlign);
+    }
+}
 
 QString BaseDesignIntf::itemTypeName() const
 {
@@ -738,12 +808,21 @@ QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
         updateSelectionMarker();
         m_selectionMarker->setVisible(value.toBool());
     }
+    if (change == QGraphicsItem::ItemParentHasChanged) {
+        parentChangedEvent(dynamic_cast<BaseDesignIntf*>(value.value<QGraphicsItem*>()));
+    }
+
     return QGraphicsItem::itemChange(change, value);
 }
 
 void BaseDesignIntf::childAddedEvent(BaseDesignIntf *child)
 {
     Q_UNUSED(child)
+}
+
+void BaseDesignIntf::parentChangedEvent(BaseDesignIntf *)
+{
+
 }
 
 QPainterPath BaseDesignIntf::shape() const
@@ -804,8 +883,9 @@ void BaseDesignIntf::setItemMode(ItemMode mode)
 void BaseDesignIntf::setItemPos(const QPointF &newPos)
 {
     QPointF oldPos = pos();
-    QGraphicsItem::setPos(newPos);
-    emit posChanged(this, newPos, oldPos);
+    QPointF finalPos = modifyPosForAlignedItem(newPos);
+    QGraphicsItem::setPos(finalPos);
+    emit posChanged(this, finalPos, oldPos);
 }
 
 void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -925,10 +1005,12 @@ ReportEnginePrivate *BaseDesignIntf::reportEditor()
     else return 0;
 }
 
-void BaseDesignIntf::updateItemSize(RenderPass pass, int maxHeight)
+void BaseDesignIntf::updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight)
 {
     Q_UNUSED(maxHeight);
+    Q_UNUSED(dataManager);
     m_currentPass = pass;
+    updateItemAlign();
 }
 
 bool BaseDesignIntf::isNeedUpdateSize(RenderPass /*pass*/) const
@@ -943,8 +1025,10 @@ QObject *BaseDesignIntf::createElement(const QString& /*collectionName*/, const 
 {
     BaseDesignIntf* obj = 0;
     try{
-        obj = LimeReport::DesignElementsFactory::instance().objectCreator(elementType)(this, this);
-        connect(obj,SIGNAL(propertyChanged(QString,QVariant,QVariant)),page(),SLOT(slotItemPropertyChanged(QString,QVariant,QVariant)));
+        if (LimeReport::DesignElementsFactory::instance().objectCreator(elementType)){
+            obj = LimeReport::DesignElementsFactory::instance().objectCreator(elementType)(this, this);
+            connect(obj,SIGNAL(propertyChanged(QString,QVariant,QVariant)),page(),SLOT(slotItemPropertyChanged(QString,QVariant,QVariant)));
+        }
     } catch (ReportError error){
         qDebug()<<error.what();
     }

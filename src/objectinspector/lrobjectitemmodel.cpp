@@ -35,6 +35,24 @@
 
 namespace LimeReport {
 
+void QObjectPropertyModel::translatePropertyName()
+{
+    tr("leftMargin");
+    tr("rightMargin");
+    tr("topMargin");
+    tr("bottomMargin");
+    tr("objectName");
+    tr("borders");
+    tr("geometry");
+    tr("itemAlign");
+    tr("pageOrientation");
+    tr("pageSize");
+    tr("TopLine");
+    tr("BottomLine");
+    tr("LeftLine");
+    tr("RightLine");
+}
+
 QObjectPropertyModel::QObjectPropertyModel(QObject *parent/*=0*/)
     :QAbstractItemModel(parent),m_rootNode(0),m_object(0),m_dataChanging(false), m_subclassesAsLevel(true), m_validator(0)
 {}
@@ -290,7 +308,6 @@ void QObjectPropertyModel::setValidator(ValidatorIntf *validator)
 {
     m_validator = validator;
 }
-
 
 void QObjectPropertyModel::addObjectProperties(const QMetaObject *metaObject, QObject *object, ObjectPropItem::ObjectsList *objects, int level)
 {

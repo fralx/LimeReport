@@ -190,13 +190,13 @@ void ReportDesignWindow::createActions()
 
     m_hideLeftPanel = new QAction(tr("Hide left panel"),this);
     m_hideLeftPanel->setCheckable(true);
-    m_hideLeftPanel->setChecked(true);
+//    m_hideLeftPanel->setChecked(true);
     m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
     connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
 
-    m_hideRightPanel = new QAction(tr("Hide left panel"),this);
+    m_hideRightPanel = new QAction(tr("Hide right panel"),this);
     m_hideRightPanel->setCheckable(true);
-    m_hideRightPanel->setChecked(true);
+//    m_hideRightPanel->setChecked(true);
     m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
     connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
 }
@@ -279,7 +279,7 @@ void ReportDesignWindow::createItemsActions()
 {
     foreach(ItemAttribs items,DesignElementsFactory::instance().attribsMap().values()){
         if (items.m_tag.compare("Item",Qt::CaseInsensitive)==0){
-            QAction* tmpAction = new QAction(items.m_alias,this);
+            QAction* tmpAction = new QAction(QObject::tr(items.m_alias.toLatin1()),this);
             tmpAction->setWhatsThis(DesignElementsFactory::instance().attribsMap().key(items));
             tmpAction->setIcon(QIcon(":/items/"+tmpAction->whatsThis()));
             connect(tmpAction,SIGNAL(triggered()),this,SLOT(slotItemActionCliked()));
@@ -900,22 +900,21 @@ void ReportDesignWindow::slotShowAbout()
     about->exec();
 }
 
-void ReportDesignWindow::hideDockWidgets(Qt::DockWidgetArea area, bool value){
-    QList<QDockWidget *> dockWidgets = findChildren<QDockWidget *>();
-    foreach (QDockWidget* dw, dockWidgets) {
-        if (dockWidgetArea(dw) == area)
-            value ? dw->show(): dw->hide();
-    }
-}
-
-bool ReportDesignWindow::isDockAreaVisible(Qt::DockWidgetArea area)
-{
+bool ReportDesignWindow::isDockAreaVisible(Qt::DockWidgetArea area){
     QList<QDockWidget *> dockWidgets = findChildren<QDockWidget *>();
     foreach (QDockWidget* dw, dockWidgets){
         if ((dockWidgetArea(dw) == area) && !dw->isHidden())
             return true;
     }
     return false;
+}
+
+void ReportDesignWindow::hideDockWidgets(Qt::DockWidgetArea area, bool value){
+    QList<QDockWidget *> dockWidgets = findChildren<QDockWidget *>();
+    foreach (QDockWidget* dw, dockWidgets) {
+        if (dockWidgetArea(dw) == area)
+            value ? dw->show(): dw->hide();
+    }
 }
 
 void ReportDesignWindow::slotHideLeftPanel(bool value)

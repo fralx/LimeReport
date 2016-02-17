@@ -57,12 +57,17 @@ private:
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;
 
+struct PagesRange{
+    int firstPage;
+    int lastPage;
+};
+
 class ReportRender: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject* datasourcesManager READ datasources())
 public:
-    enum DataRenderMode {StartNewPage,NotStartNewPage};
+    enum DataRenderMode {StartNewPageAsNeeded, NotStartNewPage, ForcedStartPage};
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
     typedef QSharedPointer<ReportRender> Ptr;    
     ~ReportRender();
@@ -93,7 +98,7 @@ private:
     void    renderChildHeader(BandDesignIntf* parent, BandPrintMode printMode);
     void    renderChildFooter(BandDesignIntf* parent, BandPrintMode printMode);
     void    renderChildBands(BandDesignIntf* parentBand);
-    void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource);
+    void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource, bool firstTime);
     void    renderGroupFooter(BandDesignIntf* parentBand);
 
     void    initGroupFunctions();
@@ -119,10 +124,15 @@ private:
     void    secondRenderPass();
     BandDesignIntf* saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf *patternBand);
     BandDesignIntf* renderData(BandDesignIntf* patternBand);
+    void    startNewColumn();
     void    startNewPage();
+    void    resetPageNumber();
+    int     findLastPageNumber(int currentPage);
     void    savePage();
     QString toString();
 
+private:
+    void initColumns();
 private:
     DataSourceManager* m_datasources;
 
@@ -132,22 +142,24 @@ private:
 
     QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
 
-    int m_currentMaxHeight;
-    int m_currentStartDataPos;
+    //int m_maxHeightByColumn[0];
+    //int m_currentStartDataPos;
     int m_currentIndex;
     int m_pageCount;
 
     QMap<QString,QVariant> m_popupedValues;
     QMultiMap<BandDesignIntf*,QString> m_popupedExpression;
 
-    qreal m_pageFooterHeight;
-    qreal m_dataAreaSize;
-    qreal m_reportFooterHeight;
-    int   m_renderedDataBandCount;
+    qreal           m_pageFooterHeight;
+    qreal           m_dataAreaSize;
+    qreal           m_reportFooterHeight;
+    int             m_renderedDataBandCount;
     BandDesignIntf* m_lastDataBand;
-    bool m_renderCanceled;
-
-
+    bool            m_renderCanceled;
+    QVector<qreal>  m_maxHeightByColumn;
+    QVector<qreal>  m_currentStartDataPos;
+    int             m_currentColumn;
+    QList<PagesRange> m_ranges;
 };
 } // namespace LimeReport
 #endif // LRREPORTRENDER_H

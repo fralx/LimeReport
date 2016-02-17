@@ -34,6 +34,7 @@
 #include "lrscriptenginemanager.h"
 #include "lrdatadesignintf.h"
 #include "lrdatasourcemanager.h"
+
 #include <QMenu>
 #include <QScrollBar>
 
@@ -111,10 +112,13 @@ void TextItemEditor::initUI()
 
     m_datasourcesMenu = new QMenu(this);
 
-    LimeReport::DataSourceManager* dm = LimeReport::DataSourceManager::instance();
+    LimeReport::DataSourceManager* dm =  m_page->datasourceManager();
+    LimeReport::ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
+    se.setDataManager(dm);
+
     if (dm){
         ui->twData->setModel(dm->datasourcesModel());
-        ui->twScriptEngine->setModel(LimeReport::ScriptEngineManager::instance().model());
+        ui->twScriptEngine->setModel(se.model());
 
         foreach(QString dsName,dm->dataSourceNames()){
             foreach(QString field, dm->fieldNames(dsName)){
@@ -124,8 +128,6 @@ void TextItemEditor::initUI()
     } else {
         ui->tabWidget->setVisible(false);
     }
-
-    LimeReport::ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
 
     foreach (LimeReport::ScriptFunctionDesc functionDesc, se.functionsDescriber()) {
         dataWords<<functionDesc.name;
@@ -139,29 +141,29 @@ void TextItemEditor::initUI()
 
 QStringListModel *TextItemEditor::getDataSources()
 {
-    LimeReport::DataSourceManager* dm= LimeReport::DataSourceManager::instance();
+    LimeReport::DataSourceManager* dm = m_page->datasourceManager();
     QStringList dataSources;
     foreach(QString dsName,dm->dataSourceNames()){
         dataSources<<dsName;
     }
-    return new QStringListModel(dataSources,m_completer);
+    return new QStringListModel(dataSources, m_completer);
 }
 
 QStringListModel *TextItemEditor::getPrefixes()
 {
     QStringList prefixes;
     prefixes<<"D{"<<"S{";
-    return new QStringListModel(prefixes,m_completer);
+    return new QStringListModel(prefixes, m_completer);
 }
 
 QStringListModel *TextItemEditor::getColumns(QString datasource)
 {
     QStringList fields;
-    LimeReport::DataSourceManager* dm= LimeReport::DataSourceManager::instance();
+    LimeReport::DataSourceManager* dm = m_page->datasourceManager();
     foreach(QString field, dm->fieldNames(datasource)){
         fields<<field;
     }
-    return new QStringListModel(fields,m_completer);
+    return new QStringListModel(fields, m_completer);
 }
 
 void TextItemEditor::on_pbCancel_clicked()

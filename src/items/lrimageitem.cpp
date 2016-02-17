@@ -54,11 +54,10 @@ BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *par
     return new ImageItem(owner,parent);
 }
 
-void ImageItem::updateItemSize(RenderPass , int )
+void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
    if (!m_datasource.isEmpty() && !m_field.isEmpty() && m_picture.isNull()){
-       DataSourceManager* dm = DataSourceManager::instance();
-       IDataSource* ds = dm->dataSource(m_datasource);
+       IDataSource* ds = dataManager->dataSource(m_datasource);
        if (ds) {
           QVariant data = ds->data(m_field);
           if (data.isValid()){
@@ -73,6 +72,7 @@ void ImageItem::updateItemSize(RenderPass , int )
        setWidth(m_picture.width());
        setHeight(m_picture.height());
    }
+   BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
 bool ImageItem::isNeedUpdateSize(RenderPass) const

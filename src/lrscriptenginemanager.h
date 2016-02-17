@@ -44,6 +44,8 @@
 
 namespace LimeReport{
 
+class DataSourceManager;
+
 struct ScriptFunctionDesc{
     enum FuncType {Native,Script};
     QScriptValue scriptValue;
@@ -110,6 +112,8 @@ public:
     QScriptEngine* scriptEngine(){return m_scriptEngine;}
     ~ScriptEngineManager();
     friend class Singleton<ScriptEngineManager>;
+    bool isFunctionExists(const QString& functionName) const;
+    void deleteFunction(const QString& functionsName);
     QScriptValue addFunction(const QString& name, QScriptEngine::FunctionSignature function,
                              const QString& category="", const QString& description="");
     QScriptValue addFunction(const QString &name, const QString& script,
@@ -118,6 +122,8 @@ public:
     QStringList functionsNames();
     const QList<ScriptFunctionDesc>& functionsDescriber(){return m_functions;}
     ScriptEngineModel* model(){return m_model;}
+    DataSourceManager* dataManager() const {return m_dataManager;}
+    void setDataManager(DataSourceManager* dataManager);
 private:
     Q_DISABLE_COPY(ScriptEngineManager)
 private:
@@ -126,6 +132,7 @@ private:
     QString m_lastError;
     QList<ScriptFunctionDesc> m_functions;
     ScriptEngineModel* m_model;
+    DataSourceManager* m_dataManager;
 };
 
 class ScriptExtractor

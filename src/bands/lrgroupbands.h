@@ -40,6 +40,8 @@ class GroupBandHeader : public BandDesignIntf, public IGroupBand{
     Q_PROPERTY(QString groupFieldName READ groupFieldName WRITE setGroupFieldName)
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )
     Q_PROPERTY(bool keepGroupTogether READ tryToKeepTogether WRITE setTryToKeepTogether)
+    Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
+    Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
 public:
     GroupBandHeader(QObject* owner = 0, QGraphicsItem* parent=0);
     virtual bool isUnique() const;
@@ -48,17 +50,23 @@ public:
     QString groupFieldName(){return m_groupFiledName;}
     void setGroupFieldName(QString fieldName){m_groupFiledName=fieldName;}
     QColor bandColor() const;
+    bool startNewPage() const {return m_startNewPage;}
+    void setStartNewPage(bool value);
+    bool resetPageNumber() const;
+    void setResetPageNumber(bool resetPageNumber);
 private:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
-    virtual void startGroup();
-    virtual bool isNeedToClose();
-    virtual bool isStarted();
-    virtual void closeGroup();
-    virtual int index();
+    void startGroup(DataSourceManager* dataManager);
+    bool isNeedToClose(DataSourceManager *dataManager);
+    bool isStarted();
+    void closeGroup();
+    int index();
 private:
     QVariant m_groupFieldValue;
     QString m_groupFiledName;
     bool m_groupStarted;
+    bool m_startNewPage;
+    bool m_resetPageNumber;
 };
 
 class GroupBandFooter : public BandDesignIntf{

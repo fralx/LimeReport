@@ -68,7 +68,7 @@ public:
 
 protected:
     BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
-    void updateItemSize(RenderPass, int);
+    void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
     bool isNeedUpdateSize(RenderPass) const;
     bool drawDesignBorders() const {return m_picture.isNull();}
 private:

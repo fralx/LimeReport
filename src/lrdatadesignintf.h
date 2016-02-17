@@ -43,6 +43,8 @@
 
 namespace LimeReport{
 
+class DataSourceManager;
+
 class IDataSource {
 public:
     enum DatasourceMode{DESIGN_MODE,RENDER_MODE};
@@ -72,7 +74,7 @@ public:
     virtual bool isOwned() const = 0;
     virtual bool isEditable() const = 0;
     virtual bool isRemovable() const = 0;
-    virtual void invalidate() = 0;
+    virtual void invalidate(IDataSource::DatasourceMode mode) = 0;
     virtual void update() = 0;
     virtual ~IDataSourceHolder(){}
 };
@@ -88,7 +90,7 @@ public:
     QString lastError() const { return m_dataSource->lastError(); }
     bool isEditable() const { return false; }
     bool isRemovable() const { return false; }
-    void invalidate(){}
+    void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
     void update(){}
 signals:
     void modelStateChanged();
@@ -165,7 +167,7 @@ private:
 
 class QueryHolder:public IDataSourceHolder{
 public:
-    QueryHolder(QString queryText, QString connectionName);
+    QueryHolder(QString queryText, QString connectionName, DataSourceManager* dataManager);
     ~QueryHolder();
     virtual bool runQuery(IDataSource::DatasourceMode mode = IDataSource::RENDER_MODE);
     IDataSource* dataSource(IDataSource::DatasourceMode mode = IDataSource::RENDER_MODE);
@@ -179,8 +181,9 @@ public:
     bool isRemovable() const { return true; }
     QString lastError() const { return m_lastError; }
     void setLastError(QString value){m_lastError=value; if (m_query) {delete m_query; m_query=0;}}
-    void invalidate(){}
+    void invalidate(IDataSource::DatasourceMode mode);
     void update();
+    DataSourceManager* dataManager() const {return m_dataManager;}
 protected:
     void setDatasource(IDataSource::Ptr value);
     virtual void fillParams(QSqlQuery* query);
@@ -195,6 +198,7 @@ private:
     QString m_lastError;
     IDataSource::Ptr m_dataSource;
     IDataSource::DatasourceMode m_mode;
+    DataSourceManager* m_dataManager;
 };
 
 class SubQueryDesc : public QueryDesc{
@@ -211,18 +215,18 @@ private:
 
 class SubQueryHolder:public QueryHolder{
 public:
-    SubQueryHolder(QString queryText, QString connectionName, QString masterDatasource);
+    SubQueryHolder(QString queryText, QString connectionName, QString masterDatasource, DataSourceManager *dataManager);
     QString masterDatasource(){return m_masterDatasource;}
     void setMasterDatasource(const QString& value);
-    void invalidate(){m_invalid = true;}
-    bool isInvalid() const{ return QueryHolder::isInvalid() || m_invalid;}
+    //void invalidate(){m_invalid = true;}
+    bool isInvalid() const{ return QueryHolder::isInvalid(); /*|| m_invalid;*/}
 protected:
     void extractParams();
     QString extractField(QString source);
     QString replaceFields(QString query);
 private:
     QString m_masterDatasource;
-    bool m_invalid;
+    //bool m_invalid;
 };
 
 struct FieldsCorrelation{
@@ -273,10 +277,12 @@ private:
 
 class MasterDetailProxyModel : public QSortFilterProxyModel{    
 public:
-    MasterDetailProxyModel():m_maps(0){}
+    MasterDetailProxyModel(DataSourceManager* dataManager):m_maps(0),m_dataManager(dataManager){}
     void setMaster(QString name);
     void setChildName(QString name){m_childName=name;}
     void setFieldsMap(QList<FieldMapDesc*> *fieldsMap){m_maps=fieldsMap;}
+    bool isInvalid() const;
+    DataSourceManager* dataManager() const {return m_dataManager;}
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
     int fieldIndexByName(QString fieldName) const;
@@ -286,13 +292,13 @@ private:
     QList<FieldMapDesc*>* m_maps;
     QString m_masterName;
     QString m_childName;
-
+    DataSourceManager* m_dataManager;
 };
 
 class ProxyHolder: public QObject, public IDataSourceHolder{
     Q_OBJECT
 public:
-    ProxyHolder(ProxyDesc *desc);
+    ProxyHolder(ProxyDesc *desc, DataSourceManager *dataManager);
     QString masterDatasource();
     void filterModel();
     IDataSource* dataSource(IDataSource::DatasourceMode mode = IDataSource::RENDER_MODE);
@@ -301,10 +307,11 @@ public:
     bool isEditable() const { return true; }
     bool isRemovable() const { return true; }
     QString lastError() const { return m_lastError; }
-    void invalidate(){m_invalid = true; m_lastError = tr("Datasource has been invalidated");}
-    void update(){};
+    void invalidate(IDataSource::DatasourceMode mode);
+    void update(){}
+    DataSourceManager* dataManager() const {return m_dataManger;}
 private slots:
-    void slotChildModelDestoroyed(){m_datasource.clear();}
+    void slotChildModelDestoroyed();
 private:
     IDataSource::Ptr m_datasource;
     MasterDetailProxyModel  *m_model;
@@ -312,6 +319,7 @@ private:
     QString m_lastError;
     IDataSource::DatasourceMode m_mode;
     bool m_invalid;
+    DataSourceManager* m_dataManger;
 };
 
 class ModelToDataSource : public QObject, public IDataSource{
@@ -397,7 +405,7 @@ public:
     bool isOwned() const {return m_owned;}
     bool isEditable() const {return false;}
     bool isRemovable() const {return false;}
-    void invalidate(){}
+    void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
     ~CallbackDatasourceHolder(){if (m_datasource) delete m_datasource;}
     void update(){}
 private:

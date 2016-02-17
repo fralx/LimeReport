@@ -190,22 +190,9 @@ void ScriptEngineModel::updateModel()
     endResetModel();
 }
 
-//QScriptValue dateToStr(QScriptContext* pcontext, QScriptEngine* pengine){
-//    DataSourceManager* dm = DataSourceManager::instance();
-//    QString field = pcontext->argument(0).toString();
-//    QString format = pcontext->argument(1).toString();
-//    QScriptValue res;
-//    if (dm->containsField(field)){
-//        res=pengine->newVariant(QLocale().toString(dm->fieldData(field).toDate(),format));
-//    } else {
-//        QString error = (!dm->lastError().isNull())?dm->lastError():QString("Field %1 not found").arg(field);
-//        res=pengine->newVariant(error);
-//    }
-//    return res;
-//}
-
-QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){
-    DataSourceManager* dm=DataSourceManager::instance();
+QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){    
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
     QString band = pcontext->argument(0).toString();
     QScriptValue res;
     QString varName = QLatin1String("line_")+band.toLower();
@@ -236,7 +223,9 @@ QScriptValue now(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
 
 QScriptValue callGroupFunction(const QString& functionName, QScriptContext* pcontext, QScriptEngine* pengine){
 
-    DataSourceManager* dm=DataSourceManager::instance();
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
+
     QString expression = pcontext->argument(0).toString();
     QString band = pcontext->argument(1).toString();
     QScriptValue res;
@@ -267,6 +256,26 @@ ScriptEngineManager::~ScriptEngineManager()
     delete m_scriptEngine;
 }
 
+bool ScriptEngineManager::isFunctionExists(const QString &functionName) const
+{
+    foreach (ScriptFunctionDesc desc, m_functions) {
+        if (desc.name.compare(functionName,Qt::CaseInsensitive)==0){
+            return true;
+        }
+    }
+    return false;
+}
+
+void ScriptEngineManager::deleteFunction(const QString &functionsName)
+{
+    QMutableListIterator<ScriptFunctionDesc> it(m_functions);
+    while(it.hasNext()){
+        if (it.next().name.compare(functionsName, Qt::CaseInsensitive)==0){
+            it.remove();
+        }
+    }
+}
+
 QScriptValue ScriptEngineManager::addFunction(const QString& name,
                                               QScriptEngine::FunctionSignature function,
                                               const QString& category,
@@ -278,6 +287,7 @@ QScriptValue ScriptEngineManager::addFunction(const QString& name,
     funct.category = category;
     funct.scriptValue = scriptEngine()->newFunction(function);
     funct.scriptValue.setProperty("functionName",name);
+    funct.scriptValue.setData(m_scriptEngine->toScriptValue(this));
     funct.type = ScriptFunctionDesc::Native;
     m_functions.append(funct);
     if (m_model)
@@ -295,6 +305,7 @@ QScriptValue ScriptEngineManager::addFunction(const QString& name, const QString
         funct.category = category;
         funct.description = description;
         funct.type = ScriptFunctionDesc::Script;
+        funct.scriptValue.setData(m_scriptEngine->toScriptValue(this));
         m_functions.append(funct);
         m_model->updateModel();
         return funct.scriptValue;
@@ -313,8 +324,24 @@ QStringList ScriptEngineManager::functionsNames()
     return res;
 }
 
+void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
+    if (m_dataManager != dataManager){
+        m_dataManager =  dataManager;
+        if (m_dataManager){
+            foreach(QString func, m_dataManager->groupFunctionNames()){
+                if (isFunctionExists(func)) deleteFunction(func);
+                addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
+            }
+            foreach(ScriptFunctionDesc func, m_functions){
+                if (func.type==ScriptFunctionDesc::Native)
+                    m_scriptEngine->globalObject().setProperty(func.name,func.scriptValue);
+            }
+        }
+    }
+}
+
 ScriptEngineManager::ScriptEngineManager()
-    :m_model(0)
+    :m_model(0), m_dataManager(0)
 {
     m_scriptEngine = new QScriptEngine;
 
@@ -332,10 +359,9 @@ ScriptEngineManager::ScriptEngineManager()
     QScriptValue fontConstructor = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
     m_scriptEngine->globalObject().setProperty("QFont", fontConstructor);
 
-    DataSourceManager* dm=DataSourceManager::instance();
-    foreach(QString func, dm->groupFunctionNames()){
-        addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
-    }
+//    foreach(QString func, dataManager()->groupFunctionNames()){
+//        addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
+//    }
 
     foreach(ScriptFunctionDesc func, m_functions){
         if (func.type==ScriptFunctionDesc::Native)

@@ -70,7 +70,7 @@ public:
     bool                        subclassesAsLevel(){return m_subclassesAsLevel;}
     ValidatorIntf*              validator() const;
     void                        setValidator(ValidatorIntf* validator);
-
+    void                        translatePropertyName();
 signals:
     void objectPropetyChanged(const QString& , const QVariant&, const QVariant&);
 private slots:

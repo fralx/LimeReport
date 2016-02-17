@@ -63,7 +63,7 @@ namespace LimeReport{
 
 GroupBandHeader::GroupBandHeader(QObject *owner, QGraphicsItem *parent)
     : BandDesignIntf(BandDesignIntf::GroupHeader, xmlTagHeader, owner,parent),
-      m_groupFiledName(""), m_groupStarted(false)
+      m_groupFiledName(""), m_groupStarted(false), m_startNewPage(false), m_resetPageNumber(false)
 {
     setBandTypeText(tr("GroupHeader"));
     setFixedPos(false);
@@ -85,16 +85,15 @@ BaseDesignIntf *GroupBandHeader::createSameTypeItem(QObject *owner, QGraphicsIte
     return new GroupBandHeader(owner, parent);
 }
 
-void GroupBandHeader::startGroup()
+void GroupBandHeader::startGroup(DataSourceManager* dataManager)
 {
     m_groupStarted=true;
 
-    DataSourceManager* dm = DataSourceManager::instance();
     QString lineVar = QLatin1String("line_")+objectName().toLower();
-    dm->setReportVariable(lineVar,1);
+    dataManager->setReportVariable(lineVar,1);
 
-    if ((dm->dataSource(parentBand()->datasourceName()))){
-        IDataSource* ds = dm->dataSource(parentBand()->datasourceName());
+    if ((dataManager->dataSource(parentBand()->datasourceName()))){
+        IDataSource* ds = dataManager->dataSource(parentBand()->datasourceName());
         if (ds->columnIndexByName(m_groupFiledName)!=-1)
             m_groupFieldValue=ds->data(m_groupFiledName);
     }
@@ -105,16 +104,20 @@ QColor GroupBandHeader::bandColor() const
     return QColor(Qt::darkBlue);
 }
 
-bool GroupBandHeader::isNeedToClose()
+void GroupBandHeader::setStartNewPage(bool value)
+{
+    m_startNewPage = value;
+}
+
+bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
 {
     //if (m_groupFieldValue.isNull()) return false;
 
     if (!m_groupStarted) return false;
-    DataSourceManager* dm = DataSourceManager::instance(); 
     if (m_groupFiledName.isNull() || m_groupFiledName.isEmpty())
-        dm->putError("Group Field Not found");
-    if ((dm->dataSource(parentBand()->datasourceName()))){
-        IDataSource* ds = dm->dataSource(parentBand()->datasourceName());
+        dataManager->putError("Group Field Not found");
+    if ((dataManager->dataSource(parentBand()->datasourceName()))){
+        IDataSource* ds = dataManager->dataSource(parentBand()->datasourceName());
         if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
         return ds->data(m_groupFiledName)!=m_groupFieldValue;
     }
@@ -136,6 +139,16 @@ void GroupBandHeader::closeGroup()
 int GroupBandHeader::index()
 {
     return bandIndex();
+}
+
+bool GroupBandHeader::resetPageNumber() const
+{
+    return m_resetPageNumber;
+}
+
+void GroupBandHeader::setResetPageNumber(bool resetPageNumber)
+{
+    m_resetPageNumber = resetPageNumber;
 }
 
 GroupBandFooter::GroupBandFooter(QObject *owner, QGraphicsItem *parent)

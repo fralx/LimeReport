@@ -102,8 +102,6 @@ class DataSourceManager : public QObject, public ICollectionContainer, public IV
     friend class ReportEnginePrivate;
     friend class ReportRender;
 public:
-    static DataSourceManager* instance(){return m_instance;}
-public:
     typedef QHash<QString,IDataSourceHolder*> DataSourcesMap;
     enum ClearMethod {All,Owned};
     ~DataSourceManager();
@@ -211,7 +209,6 @@ private:
     explicit DataSourceManager(QObject *parent = 0);
     Q_DISABLE_COPY(DataSourceManager)
 private:
-    static DataSourceManager* m_instance;
     QList<ConnectionDesc*> m_connections;
     QList<QueryDesc*> m_queries;
     QList<SubQueryDesc*> m_subqueries;

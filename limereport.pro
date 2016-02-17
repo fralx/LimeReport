@@ -43,3 +43,8 @@ INCLUDEPATH += report report/bands report/base report/databrowser report/items r
 CONFIG(release, debug|release): DESTDIR = $$PWD/lib/release/
 else:CONFIG(debug, debug|release): DESTDIR = $$PWD/lib/debug/
 
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../zint-2.4.3/build-backend_dll-Desktop_Qt_5_5_0_MSVC2010_32bit-Release/release/ -lQtZint22
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../zint-2.4.3/build-backend_dll-Desktop_Qt_5_5_0_MSVC2010_32bit-Release/debug/ -lQtZint22
+
+#INCLUDEPATH += $$PWD/../zint-2.4.3/backend $$PWD/../zint-2.4.3/backend_qt4
+#DEPENDPATH += $$PWD/../zint-2.4.3/backend $$PWD/../zint-2.4.3/backend_qt4

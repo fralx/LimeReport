@@ -129,7 +129,7 @@ namespace LimeReport {
             void emitRegisterdItem(BaseDesignIntf *item);
             void emitItemRemoved(BaseDesignIntf* item);
 
-
+            DataSourceManager* datasourceManager();
     protected:
 
             virtual void keyPressEvent(QKeyEvent *event);
@@ -394,6 +394,19 @@ namespace LimeReport {
     private:
         QString m_oldName;
         QString m_newName;
+    };
+
+    class PropertyItemAlignChangedCommand : public AbstractPageCommand{
+    public:
+        static CommandIf::Ptr create(PageDesignIntf* page, const QString& objectName, BaseDesignIntf::ItemAlign oldValue, BaseDesignIntf::ItemAlign newValue);
+        bool doIt();
+        void undoIt();
+    private:
+        QString m_objectName;
+        QString m_propertyName;
+        BaseDesignIntf::ItemAlign m_oldValue;
+        BaseDesignIntf::ItemAlign m_newValue;
+        QPointF m_savedPos;
     };
 
     class CommandGroup : public AbstractPageCommand{

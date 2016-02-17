@@ -173,10 +173,10 @@ void TextItem::setContent(const QString &value)
     }
 }
 
-void TextItem::updateItemSize(RenderPass pass, int /*maxHeight*/)
+void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     if (isNeedExpandContent())
-        expandContent(pass);
+        expandContent(dataManager, pass);
     if (!isLoading())
         initText();
 
@@ -187,6 +187,7 @@ void TextItem::updateItemSize(RenderPass pass, int /*maxHeight*/)
     if ((m_textSize.height()>height()) && (m_autoHeight) ){
         setHeight(m_textSize.height()+5);
     }
+    BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
 void TextItem::updateLayout()
@@ -298,18 +299,18 @@ void TextItem::setAlignment(Qt::Alignment value)
     }
 }
 
-void TextItem::expandContent(RenderPass pass)
+void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
     QString context=content();
     switch(pass){
     case FirstPass:
-        context=expandUserVariables(context, pass, NoEscapeSymbols);
-        context=expandScripts(context);
-        context=expandDataFields(context, NoEscapeSymbols);
+        context=expandUserVariables(context, pass, NoEscapeSymbols, dataManager);
+        context=expandScripts(context, dataManager);
+        context=expandDataFields(context, NoEscapeSymbols, dataManager);
         break;
     case SecondPass:;
-        context=expandUserVariables(context, pass, NoEscapeSymbols);
-        context=expandScripts(context);
+        context=expandUserVariables(context, pass, NoEscapeSymbols, dataManager);
+        context=expandScripts(context, dataManager);
     }
 
     setContent(context);

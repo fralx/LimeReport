@@ -132,7 +132,7 @@ public:
     ~BarcodeItem();
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    virtual void updateItemSize(RenderPass pass, int);
+    virtual void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
     virtual bool isNeedUpdateSize(RenderPass pass) const;
     void setContent(const QString& content);
     QString content() const {return m_content;}

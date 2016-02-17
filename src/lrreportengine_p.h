@@ -66,7 +66,11 @@ public:
     int                 pageCount() {return m_pages.count();}
     DataSourceManager*  dataManager(){return m_datasources;}
     IDataSourceManager* dataManagerIntf(){return m_datasources;}
-    IScriptEngineManager* scriptManagerIntf(){return &ScriptEngineManager::instance();}
+
+    IScriptEngineManager* scriptManagerIntf(){
+        ScriptEngineManager::instance().setDataManager(dataManager());
+        return &ScriptEngineManager::instance();
+    }
 
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
@@ -121,6 +125,7 @@ private:
     QScopedPointer<QPrinter> m_printer;
     bool m_printerSelected;
     bool m_showProgressDialog;
+
 };
 
 }

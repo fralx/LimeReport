@@ -77,9 +77,9 @@ public:
     enum ExpandType {EscapeSymbols, NoEscapeSymbols};
 protected:
     QString escapeSimbols(const QString& value);
-    virtual QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType);
-    virtual QString expandDataFields(QString context, ExpandType expandType);
-    virtual QString expandScripts(QString context);
+    virtual QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
+    virtual QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
+    virtual QString expandScripts(QString context, DataSourceManager *dataManager);
 
 };
 

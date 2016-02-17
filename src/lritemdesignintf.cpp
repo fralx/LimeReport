@@ -113,23 +113,22 @@ void ItemDesignIntf::initFlags()
     }
 }
 
-QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expandType)
-{
-    DataSourceManager* dm = DataSourceManager::instance();
+QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expandType, DataSourceManager* dataManager)
+{   
     QRegExp rx(Const::FIELD_RX);
 
     if (context.contains(rx)){
         while ((rx.indexIn(context))!=-1){
             QString field=rx.cap(1);
 
-            if (dm->containsField(field)) {
+            if (dataManager->containsField(field)) {
                 QString fieldValue;
                 if (expandType == EscapeSymbols) {
-                    if (dm->fieldData(field).isNull()) {
+                    if (dataManager->fieldData(field).isNull()) {
                         fieldValue="\"\"";
                     } else {
-                        fieldValue = escapeSimbols(dm->fieldData(field).toString());
-                        switch (dm->fieldData(field).type()) {
+                        fieldValue = escapeSimbols(dataManager->fieldData(field).toString());
+                        switch (dataManager->fieldData(field).type()) {
                         case QVariant::Char:
                         case QVariant::String:
                         case QVariant::StringList:
@@ -142,18 +141,18 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
                         }
                     }
                 } else {
-                    fieldValue = dm->fieldData(field).toString();
+                    fieldValue = dataManager->fieldData(field).toString();
                 }
 
                 context.replace(rx.cap(0),fieldValue);
 
             } else {
                 QString error;
-                if (dm->lastError().isEmpty()){
+                if (dataManager->lastError().isEmpty()){
                     error = QString("Field %1 not found in %2 !!! ").arg(field).arg(this->objectName());
-                    dm->putError(error);
+                    dataManager->putError(error);
                 } else {
-                    error = dm->lastError();
+                    error = dataManager->lastError();
                 }
                 context.replace(rx.cap(0),error);
             }
@@ -163,21 +162,20 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
     return context;
 }
 
-QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass pass, ExpandType expandType)
+QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager* dataManager)
 {
-    DataSourceManager* dm=DataSourceManager::instance();    
     QRegExp rx(Const::VARIABLE_RX);
     if (context.contains(rx)){
         int pos = 0;
         while ((pos = rx.indexIn(context,pos))!=-1){
             QString variable=rx.cap(1);
             pos += rx.matchedLength();
-            if (dm->containsVariable(variable) ){
-                if (pass==dm->variablePass(variable)){
+            if (dataManager->containsVariable(variable) ){
+                if (pass==dataManager->variablePass(variable)){
                     if (expandType==EscapeSymbols){
-                        context.replace(rx.cap(0),escapeSimbols(dm->variable(variable).toString()));
+                        context.replace(rx.cap(0),escapeSimbols(dataManager->variable(variable).toString()));
                     } else {
-                        context.replace(rx.cap(0),dm->variable(variable).toString());
+                        context.replace(rx.cap(0),dataManager->variable(variable).toString());
                     }
                     pos=0;
                 }
@@ -189,11 +187,12 @@ QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass p
     return context;
 }
 
-QString ContentItemDesignIntf::expandScripts(QString context)
+QString ContentItemDesignIntf::expandScripts(QString context, DataSourceManager* dataManager)
 {
     QRegExp rx(Const::SCRIPT_RX);
 
     if (context.contains(rx)){
+        ScriptEngineManager::instance().setDataManager(dataManager);
         QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
 
         QScriptValue svThis =  se->globalObject().property("THIS");
@@ -207,8 +206,8 @@ QString ContentItemDesignIntf::expandScripts(QString context)
         ScriptExtractor scriptExtractor(context);
         if (scriptExtractor.parse()){
             for(int i=0; i<scriptExtractor.count();++i){
-                QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols);
-                scriptBody = expandUserVariables(scriptBody,FirstPass, EscapeSymbols);
+                QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols, dataManager);
+                scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, dataManager);
                 QScriptValue value = se->evaluate(scriptBody);
                 if (!se->hasUncaughtException()) {
                     context.replace(scriptExtractor.scriptAt(i),value.toString());

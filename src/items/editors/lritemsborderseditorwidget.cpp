@@ -97,19 +97,19 @@ void ItemsBordersEditorWidget::initEditor()
     connect(m_topLine,SIGNAL(toggled(bool)),this,SLOT(buttonClicked(bool)));
     addAction(m_topLine);
 
-    m_bottomLine = new QAction(tr("Top line"),this);
+    m_bottomLine = new QAction(tr("Bottom line"),this);
     m_bottomLine->setIcon(QIcon(":/report/images/bottomLine"));
     m_bottomLine->setCheckable(true);
     connect(m_bottomLine,SIGNAL(toggled(bool)),this,SLOT(buttonClicked(bool)));
     addAction(m_bottomLine);
 
-    m_leftLine = new QAction(tr("Top line"),this);
+    m_leftLine = new QAction(tr("Left line"),this);
     m_leftLine->setIcon(QIcon(":/report/images/leftLine"));
     m_leftLine->setCheckable(true);
     connect(m_leftLine,SIGNAL(toggled(bool)),this,SLOT(buttonClicked(bool)));
     addAction(m_leftLine);
 
-    m_rightLine = new QAction(tr("Top line"),this);
+    m_rightLine = new QAction(tr("Right line"),this);
     m_rightLine->setIcon(QIcon(":/report/images/rightLine"));
     m_rightLine->setCheckable(true);
     connect(m_rightLine,SIGNAL(toggled(bool)),this,SLOT(buttonClicked(bool)));

@@ -57,7 +57,11 @@ private:
 class HorizontalLayout : public LayoutDesignIntf
 {
     Q_OBJECT
+    Q_ENUMS(LayoutType)
+    Q_PROPERTY(LayoutType layoutType READ layoutType WRITE setLayoutType)
 public:
+    friend class LayoutMarker;
+    enum LayoutType{Layout,Table};
     HorizontalLayout(QObject *owner = 0, QGraphicsItem *parent = 0);
     ~HorizontalLayout();
     BaseDesignIntf *createSameTypeItem(QObject *owner = 0, QGraphicsItem *parent = 0);
@@ -68,13 +72,17 @@ public:
     friend class BaseDesignIntf;
     void restoreChild(BaseDesignIntf *item);
     bool isEmpty() const;
+    LayoutType layoutType() const;
+    void setLayoutType(const LayoutType &layoutType);
 protected:
     void collectionLoadFinished(const QString &collectionName);
     void objectLoadFinished();
     void updateLayoutSize();
     void relocateChildren();
+    BaseDesignIntf *findNext(BaseDesignIntf *item);
+    BaseDesignIntf *findPrior(BaseDesignIntf *item);
     void beforeDelete();
-    void updateItemSize(RenderPass pass, int maxHeight);
+    void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
     bool isNeedUpdateSize(RenderPass pass) const;
     void childAddedEvent(BaseDesignIntf *child);
     void setChildVisibility(bool value);
@@ -85,16 +93,19 @@ protected:
     BaseDesignIntf* cloneUpperPart(int height, QObject* owner=0, QGraphicsItem* parent=0);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner=0, QGraphicsItem *parent=0);
 
+    void setItemAlign(const ItemAlign &itemAlign);
 private slots:
     void slotOnChildDestroy(QObject *child);
-    void slotOnChildGeometryChanged(QObject*, QRectF newGeometry, QRectF);
+    void slotOnChildGeometryChanged(QObject*item, QRectF newGeometry, QRectF oldGeometry);
+    void slotOnChildItemAlignChanged(BaseDesignIntf* item, const ItemAlign&, const ItemAlign&);
     //void slotOnPosChanged(QObject*, QPointF newPos, QPointF );
+private:
+    void divideSpace();
 private:
     QList<BaseDesignIntf *> m_children;
     bool m_isRelocating;
     LayoutMarker* m_layoutMarker;
-
-    friend class LayoutMarker;
+    LayoutType m_layoutType;
 };
 
 } //namespace LimeReport

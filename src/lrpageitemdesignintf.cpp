@@ -285,7 +285,7 @@ void PageItemDesignIntf::registerBand(BandDesignIntf *band)
 
         band->setParent(this);
         band->setParentItem(this);
-        band->setWidth(pageRect().width());
+        band->setWidth(pageRect().width()/band->columnsCount());
         connect(band, SIGNAL(destroyed(QObject*)),this,SLOT(bandDeleted(QObject*)));
         connect(band, SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(bandGeometryChanged(QObject*,QRectF,QRectF)));
     }
@@ -472,6 +472,11 @@ void PageItemDesignIntf::updateMarginRect()
     foreach(BandDesignIntf* band,m_bands){
         band->setWidth(pageRect().width());
         relocateBands();
+    }
+    foreach (BaseDesignIntf* item, childBaseItems()) {
+        if (item->itemAlign()!=DesignedItemAlign){
+            item->updateItemAlign();
+        }
     }
     update();
 }

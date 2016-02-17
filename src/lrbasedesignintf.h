@@ -61,6 +61,8 @@ private:
 
 };
 
+class DataSourceManager;
+
 class  BaseDesignIntf :
         public QObject, public QGraphicsItem, public ICollectionContainer, public ObjectLoadingStateIntf {
     Q_OBJECT
@@ -68,12 +70,14 @@ class  BaseDesignIntf :
     Q_ENUMS(BGMode)
     Q_ENUMS(Qt::BrushStyle)
     Q_ENUMS(BrushMode)
+    Q_ENUMS(ItemAlign)
     Q_FLAGS(BorderLines)
     Q_PROPERTY(QRectF geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
     Q_PROPERTY(ACollectionProperty children READ fakeCollectionReader DESIGNABLE false)
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
     Q_PROPERTY(QString parentName READ parentReportItem WRITE setParentReportItem DESIGNABLE false)
+    Q_PROPERTY(ItemAlign itemAlign READ itemAlign WRITE setItemAlign)
 public:
     enum BGMode { TransparentMode,OpaqueMode};
     enum BrushMode{Solid,None};
@@ -94,6 +98,7 @@ public:
                        RightLine = 8
                     };
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
+    enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)
 public:
@@ -170,7 +175,7 @@ public:
     QString storageTypeName() const {return m_storageTypeName;}
     ReportEnginePrivate *reportEditor();
 
-    virtual void updateItemSize(RenderPass pass=FirstPass,int maxHeight=0);
+    virtual void updateItemSize(DataSourceManager* dataManager, RenderPass pass=FirstPass, int maxHeight=0);
     virtual bool isNeedUpdateSize(RenderPass) const;
     virtual BaseDesignIntf* cloneItem(LimeReport::BaseDesignIntf::ItemMode mode, QObject* owner=0, QGraphicsItem* parent=0);
     virtual BaseDesignIntf* cloneItemWOChild(LimeReport::BaseDesignIntf::ItemMode mode, QObject* owner=0, QGraphicsItem* parent=0);
@@ -192,7 +197,6 @@ public:
     virtual void parentObjectLoadFinished();
     virtual void beforeDelete();
 
-
     QList<BaseDesignIntf*> childBaseItems();
     BaseDesignIntf* childByName(const QString& name);
 
@@ -212,6 +216,10 @@ public:
     void setItemTypeName(const QString &itemTypeName);
     void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
     void showEditorDialog();
+    ItemAlign itemAlign() const;
+    virtual void setItemAlign(const ItemAlign &itemAlign);
+    void updateItemAlign();
+    QPointF modifyPosForAlignedItem(const QPointF &pos);
 protected:
 
     //ICollectionContainer
@@ -236,6 +244,7 @@ protected:
     virtual void initMode(LimeReport::BaseDesignIntf::ItemMode mode);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void childAddedEvent(BaseDesignIntf* child);
+    virtual void parentChangedEvent(BaseDesignIntf*);
 
     void drawTopLine(QPainter *painter, QRectF rect) const;
     void drawBootomLine(QPainter *painter, QRectF rect) const;
@@ -257,14 +266,14 @@ protected:
     RenderPass currentRenderPass(){return m_currentPass;}
 
     virtual bool drawDesignBorders() const {return true;}
+
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPosibleCursor(int cursorFlags);
     void setZValueProperty(qreal value);
-private slots:
-//    void slotObjectNameChanged(const QString& newName);
+    void updatePosibleDirectionFlags();
 private:
     QPointF m_startPos;
     QPointF m_startScenePos;
@@ -306,6 +315,8 @@ private:
     RenderPass m_currentPass;
     int     m_margin;
     QString m_itemTypeName;
+    ItemAlign m_itemAlign;
+    bool    m_changingItemAlign;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
@@ -316,6 +327,7 @@ signals:
     void propertyChanged(const QString& propertName, const QVariant& oldValue,const QVariant& newValue);
     void propertyObjectNameChanged(const QString& oldValue, const QString& newValue);
     void propertyesChanged(QVector<QString> propertyNames);
+    void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
 };
 
 } //namespace LimeReport

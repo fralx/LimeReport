@@ -77,10 +77,10 @@ public:
     void setAlignment(Qt::Alignment value);
     Qt::Alignment alignment(){return m_alignment;}
 
-    virtual void geometryChangedEvent(QRectF, QRectF);
-    virtual bool isNeedUpdateSize(RenderPass) const;
-    virtual void updateItemSize(RenderPass pass, int);
-    void expandContent(RenderPass pass);
+    void geometryChangedEvent(QRectF, QRectF);
+    bool isNeedUpdateSize(RenderPass) const;
+    void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
+    void expandContent(DataSourceManager *dataManager, RenderPass pass);
 
     void setAutoHeight(bool value);
     bool autoHeight() const {return m_autoHeight;}

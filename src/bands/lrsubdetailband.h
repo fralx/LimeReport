@@ -39,6 +39,8 @@ class SubDetailBand : public DataBandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
+    Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
 public:
     SubDetailBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}

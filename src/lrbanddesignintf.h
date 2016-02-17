@@ -30,6 +30,7 @@
 #ifndef LRBANDDESIGNINTF_H
 #define LRBANDDESIGNINTF_H
 #include "lrbasedesignintf.h"
+#include "lrdatasourcemanager.h"
 #include <QObject>
 
 namespace LimeReport {
@@ -37,11 +38,13 @@ namespace LimeReport {
 class IGroupBand
 {
 public:
-    virtual void startGroup()=0;
-    virtual bool isNeedToClose()=0;
-    virtual bool isStarted()=0;
-    virtual void closeGroup()=0;
-    virtual int  index()=0;
+    virtual void startGroup(DataSourceManager* dataManager) = 0;
+    virtual bool isNeedToClose(DataSourceManager* dataManager) = 0;
+    virtual bool isStarted() = 0;
+    virtual void closeGroup() = 0;
+    virtual int  index() = 0;
+    virtual bool startNewPage()const = 0 ;
+    virtual bool resetPageNumber()const = 0 ;
     virtual ~IGroupBand(){}
 };
 
@@ -89,6 +92,7 @@ class BandDesignIntf : public BaseDesignIntf
     Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
+    Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
     friend class BandNameLabel;
 public:
@@ -108,6 +112,10 @@ public:
         PageFooter=11
     };
 
+    enum BandColumnsLayoutType{
+        Horizontal, Vertical
+    };
+
     BandDesignIntf(BandsType bandType, const QString& xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0);
     ~BandDesignIntf();
 
@@ -116,7 +124,7 @@ public:
     virtual QString bandTitle() const;
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
-    virtual void updateItemSize(RenderPass pass=FirstPass, int maxHeight=0);
+    virtual void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
 
     virtual QColor selectionColor() const;
     int bandIndex() const;
@@ -165,10 +173,10 @@ public:
     void emitBandRendered(BandDesignIntf *band);
 
     bool isSplittable() const {return m_splitable;}
-    void setSplittable(bool value){m_splitable=value;}
+    void setSplittable(bool value);
 
     bool keepFooterTogether() const;
-    void setKeepFooterTogether(bool keepFooterTogether);
+    void setKeepFooterTogether(bool value);
 
     int maxScalePercent() const;
     void setMaxScalePercent(int maxScalePercent);
@@ -182,11 +190,16 @@ public:
     virtual BandDesignIntf* bandHeader();
     virtual BandDesignIntf* bandFooter();
 
+    int columnsCount() const {return m_columnsCount;}
+    BandColumnsLayoutType columnsFillDirection(){ return m_columnsFillDirection;}
+    int columnIndex() const;
+    void setColumnIndex(int columnIndex);
+    
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
     void  snapshotItemsLayout();
-    void  arrangeSubItems(RenderPass pass, ArrangeType type = AsNeeded);
+    void  arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type = AsNeeded);
     qreal findMaxBottom();
     qreal findMaxHeight();
     void  trimToMaxHeight(int maxHeight);
@@ -207,6 +220,8 @@ protected:
     virtual QColor bandColor() const;
     void setMarkerColor(QColor color);
     void checkEmptyTable();
+    void setColumnsCount(int value);
+    void setColumnsFillDirection(BandColumnsLayoutType value);
 private slots:
     void childBandDeleted(QObject* band);
 private:
@@ -228,6 +243,9 @@ private:
     bool                        m_sliceLastRow;
     bool                        m_printIfEmpty;
     BandNameLabel*              m_bandNameLabel;
+    int                         m_columnsCount;
+    int                         m_columnIndex;
+    BandColumnsLayoutType       m_columnsFillDirection;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

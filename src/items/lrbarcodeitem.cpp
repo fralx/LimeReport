@@ -231,15 +231,16 @@ void BarcodeItem::setPdf417CodeWords(int pdf417CodeWords)
     }
 }
 
-void BarcodeItem::updateItemSize(RenderPass pass, int)
+void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     switch(pass){
     case FirstPass:
-        setContent(expandUserVariables(content(),pass,NoEscapeSymbols));
-        setContent(expandDataFields(content(),NoEscapeSymbols));
+        setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
+        setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
         break;
     default:;
     }
+    BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
 bool BarcodeItem::isNeedUpdateSize(RenderPass pass) const
