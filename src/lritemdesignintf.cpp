@@ -116,7 +116,7 @@ void ItemDesignIntf::initFlags()
 QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expandType)
 {
     DataSourceManager* dm = DataSourceManager::instance();
-    QRegExp rx(FIELD_RX);
+    QRegExp rx(Const::FIELD_RX);
 
     if (context.contains(rx)){
         while ((rx.indexIn(context))!=-1){
@@ -165,9 +165,8 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
 
 QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass pass, ExpandType expandType)
 {
-    DataSourceManager* dm=DataSourceManager::instance();
-    //QRegExp rx("\\$V\\{([^{}]*)\\}");
-    QRegExp rx(VARIABLE_RX);
+    DataSourceManager* dm=DataSourceManager::instance();    
+    QRegExp rx(Const::VARIABLE_RX);
     if (context.contains(rx)){
         int pos = 0;
         while ((pos = rx.indexIn(context,pos))!=-1){
@@ -192,7 +191,7 @@ QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass p
 
 QString ContentItemDesignIntf::expandScripts(QString context)
 {
-    QRegExp rx(SCRIPT_RX);
+    QRegExp rx(Const::SCRIPT_RX);
 
     if (context.contains(rx)){
         QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();

@@ -50,15 +50,15 @@ namespace LimeReport
 
 BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, QGraphicsItem *parent) :
     QObject(owner), QGraphicsItem(parent),
-    m_resizeHandleSize(Consts::RESIZE_HANDLE_SIZE),
-    m_selectionPenSize(Consts::SELECTION_PEN_SIZE),
+    m_resizeHandleSize(Const::RESIZE_HANDLE_SIZE),
+    m_selectionPenSize(Const::SELECTION_PEN_SIZE),
     m_posibleResizeDirectionFlags(ResizeTop | ResizeBottom | ResizeLeft | ResizeRight),
     m_posibleMoveDirectionFlags(All),
     m_resizeDirectionFlags(0),
     m_width(200),
     m_height(50),
     m_fontColor(Qt::black),
-    m_mmFactor(mmFACTOR),
+    m_mmFactor(Const::mmFACTOR),
     m_fixedPos(false),
     m_BGMode(OpaqueMode),
     m_opacity(100),
@@ -80,7 +80,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     }
     initFlags();
     m_selectionMarker = new SelectionMarker(this);
-    m_selectionMarker->setColor(Consts::SELECTION_COLOR);
+    m_selectionMarker->setColor(Const::SELECTION_COLOR);
     m_selectionMarker->setVisible(false);
     //connect(this,SIGNAL(objectNameChanged(QString)),this,SLOT(slotObjectNameChanged(QString)));
 }
@@ -184,7 +184,7 @@ void BaseDesignIntf::setHeight(qreal height)
 QFont BaseDesignIntf::transformToSceneFont(const QFont& value) const
 {
     QFont f = value;
-    f.setPixelSize(f.pointSize()*fontFACTOR);
+    f.setPixelSize(f.pointSize()*Const::fontFACTOR);
     return f;
 }
 
@@ -304,6 +304,18 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     drawResizeZone(ppainter);
 }
 
+QColor calcColor(QColor color){
+
+    int R = color.red();
+    int G = color.green();
+    int B = color.blue();
+
+    if (0.222*R + 0.707*G + 0.071*B <= 127)
+      return Qt::white;
+    else
+      return Qt::black;
+};
+
 void BaseDesignIntf::prepareRect(QPainter *ppainter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
 {
     ppainter->save();
@@ -314,6 +326,9 @@ void BaseDesignIntf::prepareRect(QPainter *ppainter, const QStyleOptionGraphicsI
         if (m_BGMode == OpaqueMode) {
             ppainter->setOpacity(qreal(m_opacity) / 100);
             ppainter->fillRect(rect(), QBrush(m_backgroundBrushcolor));
+        } else if (itemMode() & DesignMode){
+            ppainter->setOpacity(0.1);
+            ppainter->fillRect(rect(), QBrush(QPixmap(":/report/empty")));
         }
     }
     ppainter->restore();
@@ -353,8 +368,8 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 
     if (m_resizeDirectionFlags & ResizeLeft) {
-        if ((event->scenePos().x()) <= (mapToScene(0, 0).x() + (width() - Consts::MINIMUM_ITEM_WIDTH)) &&
-             (width() + (event->lastScenePos().x() - event->scenePos().x()) > Consts::MINIMUM_ITEM_WIDTH)
+        if ((event->scenePos().x()) <= (mapToScene(0, 0).x() + (width() - Const::MINIMUM_ITEM_WIDTH)) &&
+             (width() + (event->lastScenePos().x() - event->scenePos().x()) > Const::MINIMUM_ITEM_WIDTH)
            ) {
             qreal posRightConner = mapToScene(0, 0).x() + width();
             setItemPos(mapToParent(mapFromScene(div(event->scenePos().x(), 2).quot * 2, y())).x(), y());
@@ -363,7 +378,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 
     if (m_resizeDirectionFlags & ResizeRight) {
-        if ((event->scenePos().x() >= (mapToScene(0, 0).x() + Consts::MINIMUM_ITEM_WIDTH)) ||
+        if ((event->scenePos().x() >= (mapToScene(0, 0).x() + Const::MINIMUM_ITEM_WIDTH)) ||
              (event->scenePos().x() >= (mapToScene(0, 0).x() + width()))) {
             setWidth(div(int(event->scenePos().x()) - int(mapToScene(0, 0).x()), 2).quot * 2);
         }
@@ -371,7 +386,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_resizeDirectionFlags & ResizeBottom) {
         if ((event->scenePos().y() > (mapToScene(0, 0).y() + height())) ||
-             (event->scenePos().y() > (mapToScene(0, 0).y() + Consts::MINIMUM_ITEM_HEIGHT))
+             (event->scenePos().y() > (mapToScene(0, 0).y() + Const::MINIMUM_ITEM_HEIGHT))
            ) {
             setHeight(div(int(event->scenePos().y()) - int(mapToScene(0, 0).y()), 2).quot * 2);
         }
@@ -379,8 +394,8 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_resizeDirectionFlags & ResizeTop) {
 
-        if ((event->scenePos().y()) <= (mapToScene(0, 0).y() + (height() - Consts::MINIMUM_ITEM_HEIGHT)) &&
-             (height() + (event->lastScenePos().y() - event->scenePos().y()) > Consts::MINIMUM_ITEM_HEIGHT)
+        if ((event->scenePos().y()) <= (mapToScene(0, 0).y() + (height() - Const::MINIMUM_ITEM_HEIGHT)) &&
+             (height() + (event->lastScenePos().y() - event->scenePos().y()) > Const::MINIMUM_ITEM_HEIGHT)
            ) {
             qreal posBottomConner = int(mapToScene(0, 0).y()) + int(height());
             setItemPos(x(), div(mapToParent(event->pos()).y(), 2).quot * 2);
@@ -619,7 +634,7 @@ void BaseDesignIntf::drawRenderModeBorder(QPainter *painter, QRectF rect) const
 void BaseDesignIntf::drawBorder(QPainter *painter, QRectF rect) const
 {
     painter->save();
-    if (itemMode() & DesignMode) {
+    if (itemMode() & DesignMode && drawDesignBorders()) {
         drawDesignModeBorder(painter, rect);
     }
     else drawRenderModeBorder(painter, rect);
@@ -692,7 +707,7 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
 
 QColor BaseDesignIntf::selectionColor() const
 {
-    return Consts::SELECTION_COLOR;
+    return Const::SELECTION_COLOR;
 }
 
 void BaseDesignIntf::initFlags()
@@ -879,8 +894,8 @@ void BaseDesignIntf::drawResizeZone(QPainter *painter)
 
     if (m_resizeAreas.count() > 0) {
         painter->save();
-        painter->setPen(QPen(Consts::RESIZE_ZONE_COLOR));
-        (isSelected()) ? painter->setOpacity(Consts::SELECTED_RESIZE_ZONE_OPACITY) : painter->setOpacity(Consts::RESIZE_ZONE_OPACITY);
+        painter->setPen(QPen(Const::RESIZE_ZONE_COLOR));
+        (isSelected()) ? painter->setOpacity(Const::SELECTED_RESIZE_ZONE_OPACITY) : painter->setOpacity(Const::RESIZE_ZONE_OPACITY);
         painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
         foreach(QRectF * resizeArea, m_resizeAreas) painter->drawRect(*resizeArea);
         painter->restore();
@@ -1093,7 +1108,7 @@ void SelectionMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     pen.setWidth(2);
     pen.setStyle(Qt::DashLine);
     painter->setPen(pen);
-    painter->setOpacity(Consts::SELECTION_COLOR_OPACITY);
+    painter->setOpacity(Const::SELECTION_COLOR_OPACITY);
     painter->drawRect(boundingRect());
 }
 

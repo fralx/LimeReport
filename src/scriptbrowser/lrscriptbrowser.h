@@ -27,72 +27,51 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef LRPREVIEWREPORTWINDOW_H
-#define LRPREVIEWREPORTWINDOW_H
+#ifndef LRSCRIPTBROWSER_H
+#define LRSCRIPTBROWSER_H
 
+#include <QWidget>
 #include <QMainWindow>
-#include <QDomComment>
-#include <QSpinBox>
-
-#include "lrpagedesignintf.h"
-#include "lrreportrender.h"
-#include "serializators/lrstorageintf.h"
-#include "serializators/lrxmlreader.h"
+#include <QTreeWidgetItem>
+#include "lrreportdesignwidget.h"
 
 namespace Ui {
-class PreviewReportWindow;
+class ScriptBrowser;
 }
-using namespace LimeReport;
-class PreviewReportWindow : public QMainWindow
+
+namespace LimeReport{
+
+class ScriptBrowser : public QWidget
 {
-    Q_OBJECT   
+    Q_OBJECT
+    
 public:
-    explicit PreviewReportWindow(ReportEnginePrivate *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=0);
-    ~PreviewReportWindow();
-    void setReportReader(ItemsReaderIntf::Ptr reader);
-    void setPages(ReportPages pages);
-    void exec();
-    void initPreview(int pagesCount);
-    void setSettings(QSettings* value);
-    void setErrorMessages(const QStringList& value);
-    QSettings* settings();
+    explicit ScriptBrowser(QWidget *parent = 0);
+    ~ScriptBrowser();
+    void setReportEditor(LimeReport::ReportDesignWidget* report);
+    inline ReportDesignWidget* reportEditor(){return m_report;}
+    void updateFunctionTree();
+#ifdef HAVE_UI_LOADER
+    void updateDialogsTree();
+#endif
 protected:
-    void writeSetting();
-    void restoreSetting();
-    void closeEvent(QCloseEvent *);
-    void resizeEvent(QResizeEvent *e);
-    void moveEvent(QMoveEvent *e);
-public slots:
-    void slotPrint();
-    void slotPriorPage();
-    void slotNextPage();
-    void slotZoomIn();
-    void slotZoomOut();
-    void slotPageNavigatorChanged(int value);
-    void slotShowErrors();
-    void on_actionSaveToFile_triggered();
-    void slotFirstPage();
-    void slotLastPage();
-    void slotPrintToPDF();
+#ifdef HAVE_UI_LOADER
+    void fillDialog(QTreeWidgetItem *dialogItem, const QString &description);
+    void fillProperties(QTreeWidgetItem *objectItem, QObject *item);
+#endif
 private slots:
-    void slotSliderMoved(int value);
+    void slotClear();
+    void slotUpdate();
+#ifdef HAVE_UI_LOADER
+    void on_tbAddDialog_clicked();
+    void on_tbRunDialog_clicked();
+    void on_tbDeleteDialog_clicked();
+#endif
+
 private:
-    ItemsReaderIntf* reader();
-    bool pageIsVisible(PageItemDesignIntf::Ptr page);
-    QRectF calcPageShift(PageItemDesignIntf::Ptr page);
-private:
-    Ui::PreviewReportWindow *ui;
-    QSpinBox* m_pagesNavigator;
-    QSharedPointer<ItemsReaderIntf> m_reader;
-    int m_currentPage;
-    PageDesignIntf* m_previewPage;
-    QGraphicsScene* m_simpleScene;
-    ReportPages m_reportPages;
-    QEventLoop m_eventLoop;
-    bool m_changingPage;
-    QSettings* m_settings;
-    bool m_ownedSettings;
-    int m_priorScrolValue;
+    Ui::ScriptBrowser *ui;
+    ReportDesignWidget*  m_report;
 };
 
-#endif // LRPREVIEWREPORTWINDOW_H
+} // namespace LimeReport
+#endif // LRSCRIPTBROWSER_H

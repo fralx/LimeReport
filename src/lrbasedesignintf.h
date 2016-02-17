@@ -44,18 +44,6 @@ namespace LimeReport {
 
 enum ItemModes{ DesignMode=1, PreviewMode=2, PrintMode=4, EditMode=8, LayoutEditMode=16 };
 
-namespace Consts {
-    int const RESIZE_HANDLE_SIZE = 10;
-    int const SELECTION_PEN_SIZE = 4;
-    int const MINIMUM_ITEM_WIDTH = 2*RESIZE_HANDLE_SIZE;
-    int const MINIMUM_ITEM_HEIGHT = 2*RESIZE_HANDLE_SIZE;
-    double const RESIZE_ZONE_OPACITY = 0.5;
-    double const SELECTED_RESIZE_ZONE_OPACITY = 0.6;
-    QColor const RESIZE_ZONE_COLOR = Qt::green;
-    QColor const SELECTION_COLOR = Qt::red;
-    double const SELECTION_COLOR_OPACITY = 0.9;
-}
-
 class ReportEnginePrivate;
 class PageDesignIntf;
 class  BaseDesignIntf;
@@ -268,6 +256,7 @@ protected:
 
     RenderPass currentRenderPass(){return m_currentPass;}
 
+    virtual bool drawDesignBorders() const {return true;}
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);

@@ -73,6 +73,7 @@ public:
     virtual bool isEditable() const = 0;
     virtual bool isRemovable() const = 0;
     virtual void invalidate() = 0;
+    virtual void update() = 0;
     virtual ~IDataSourceHolder(){}
 };
 
@@ -88,6 +89,7 @@ public:
     bool isEditable() const { return false; }
     bool isRemovable() const { return false; }
     void invalidate(){}
+    void update(){}
 signals:
     void modelStateChanged();
 private:
@@ -178,12 +180,13 @@ public:
     QString lastError() const { return m_lastError; }
     void setLastError(QString value){m_lastError=value; if (m_query) {delete m_query; m_query=0;}}
     void invalidate(){}
+    void update();
 protected:
     void setDatasource(IDataSource::Ptr value);
     virtual void fillParams(QSqlQuery* query);
     virtual void extractParams();
-    QString replaceVriables(QString query);
-    QList<QString> m_params;
+    QString replaceVariables(QString query);
+    QMap<QString,QString> m_aliasesToParam;
     QSqlQuery* m_query;
     QString m_preparedSQL;
 private:
@@ -299,6 +302,7 @@ public:
     bool isRemovable() const { return true; }
     QString lastError() const { return m_lastError; }
     void invalidate(){m_invalid = true; m_lastError = tr("Datasource has been invalidated");}
+    void update(){};
 private slots:
     void slotChildModelDestoroyed(){m_datasource.clear();}
 private:
@@ -395,6 +399,7 @@ public:
     bool isRemovable() const {return false;}
     void invalidate(){}
     ~CallbackDatasourceHolder(){if (m_datasource) delete m_datasource;}
+    void update(){}
 private:
     IDataSource* m_datasource;
     bool m_owned;

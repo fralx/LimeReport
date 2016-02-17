@@ -41,7 +41,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
@@ -56,6 +56,7 @@
      <string>Report</string>
     </property>
     <addaction name="actionPrint"/>
+    <addaction name="actionPrint_To_PDF"/>
    </widget>
    <addaction name="menuReport"/>
    <addaction name="menuView"/>
@@ -78,7 +79,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionPrint"/>
-   <addaction name="actionSaveToFile"/>
+   <addaction name="actionPrint_To_PDF"/>
    <addaction name="separator"/>
    <addaction name="actionZoomIn"/>
    <addaction name="actionZoomOut"/>
@@ -220,10 +221,19 @@
     <string>Last Page</string>
    </property>
   </action>
+  <action name="actionPrint_To_PDF">
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/pdf</normaloff>:/report/images/pdf</iconset>
+   </property>
+   <property name="text">
+    <string>Print To PDF</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="databrowser/lrdatabrowser.qrc"/>
   <include location="report.qrc"/>
+  <include location="databrowser/lrdatabrowser.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -354,6 +364,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPrint_To_PDF</sender>
+   <signal>triggered()</signal>
+   <receiver>PreviewReportWindow</receiver>
+   <slot>slotPrintToPDF()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slotNextPage()</slot>
@@ -363,5 +389,6 @@
   <slot>slotPrint()</slot>
   <slot>slotFirstPage()</slot>
   <slot>slotLastPage()</slot>
+  <slot>slotPrintToPDF()</slot>
  </slots>
 </ui>

@@ -107,10 +107,14 @@ private slots:
     void renderPageFinished(int renderedPageCount);
     void renderFinished();
     void slotShowAbout();
+    void slotHideLeftPanel(bool value);
+    void slotHideRightPanel(bool value);
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
     void moveEvent(QMoveEvent *);
+    void hideDockWidgets(Qt::DockWidgetArea area, bool value);
+    bool isDockAreaVisible(Qt::DockWidgetArea area);
 private:
     void createActions();
     void createBandsButton();
@@ -177,6 +181,8 @@ private:
     QAction* m_aboutAction;
     QAction* m_editLayoutMode;
     QAction* m_addHLayout;
+    QAction* m_hideLeftPanel;
+    QAction* m_hideRightPanel;
 
     QSignalMapper* m_bandsAddSignalsMap;
 

@@ -71,6 +71,7 @@ public:
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
     void    printToFile(const QString& fileName);
+    bool    printToPDF(const QString& fileName);
     void    previewReport();
     void    designReport();
     void    setSettings(QSettings* value);

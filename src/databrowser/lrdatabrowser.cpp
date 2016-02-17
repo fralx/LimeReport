@@ -192,7 +192,7 @@ void DataBrowser::updateDataTree()
 
             } else item->setIcon(0,QIcon(":/databrowser/images/table_error"));
 
-        } catch(ReportError& exception) {
+        } catch(ReportError& /*exception*/) {
             item->setIcon(0,QIcon(":/databrowser/images/table_error"));
             //qDebug()<<exception.what();
         }
@@ -414,6 +414,8 @@ QDockWidget *DataBrowser::createDataWindow(QString datasourceName)
     //TODO: exception or message ?
 
     try {
+        IDataSourceHolder* holder = m_report->dataManager()->dataSourceHolder(datasourceName);
+        if (holder) holder->update();
         IDataSource* datasource = m_report->dataManager()->dataSource(datasourceName);
         if (datasource){
             tableView->setModel(datasource->model());
@@ -594,6 +596,7 @@ void DataBrowser::addConnectionDesc(ConnectionDesc *connection)
 void DataBrowser::changeConnectionDesc(ConnectionDesc *connection)
 {
     Q_UNUSED(connection)
+    if (connection->autoconnect()) m_report->dataManager()->connectConnection(connection->name());
     updateDataTree();
 }
 

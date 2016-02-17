@@ -30,6 +30,7 @@
 #include "lrdatasourcemanager.h"
 #include "lrdatadesignintf.h"
 #include <QStringList>
+#include <QSqlQuery>
 #include <QRegExp>
 #include <QSqlError>
 #include <QSqlQueryModel>
@@ -284,12 +285,34 @@ void DataSourceManager::addCallbackDatasource(ICallbackDatasource *datasource, c
     }
 }
 
-QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &connectionName, const QString &sqlText)
+QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &connectionName, const QString &sqlText, QString masterDatasource)
 {
     QSqlDatabase db = QSqlDatabase::database(connectionName);
+
     if (db.isValid() && db.isOpen()){
+
         QSqlQueryModel* model = new QSqlQueryModel();
-        model->setQuery(sqlText,db);
+        QMap<QString,QString> aliasesToParam;
+        QString queryText = replaceVariables(sqlText,aliasesToParam);
+        queryText = replaceFields(queryText,aliasesToParam,masterDatasource);
+        QSqlQuery query(db);
+        query.prepare(queryText);
+
+
+        foreach(QString param,aliasesToParam.keys()){
+            QVariant value;
+            if (param.contains(".")){
+                value = fieldData(aliasesToParam.value(param));
+                param=param.right(param.length()-param.indexOf('.')-1);
+            } else {
+                value = variable(aliasesToParam.value(param));
+            }
+            if (value.isValid() || m_designTime)
+                query.bindValue(':'+param,value);
+        }
+
+        query.exec();
+        model->setQuery(query);
         m_lastError = model->lastError().text();
         if (model->query().isActive())
             return QSharedPointer<QAbstractItemModel>(model);
@@ -299,6 +322,86 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
     if (!db.isOpen())
         m_lastError = tr("Connection \"%1\" is not open").arg(connectionName);
     return QSharedPointer<QAbstractItemModel>(0);
+}
+
+QString DataSourceManager::extractField(QString source)
+{
+    if (source.contains('.')) {
+        return source.right(source.length()-(source.indexOf('.')+1));
+    }
+    return source;
+}
+
+QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
+{
+    QRegExp rx(Const::VARIABLE_RX);
+    int curentAliasIndex = 0;
+    if (query.contains(rx)){
+        int pos = -1;
+        while ((pos=rx.indexIn(query))!=-1){
+
+            QString var=rx.cap(0);
+            var.remove("$V{");
+            var.remove("}");
+
+            if (aliasesToParam.contains(var)){
+                curentAliasIndex++;
+                aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
+                var += "_v_alias"+QString::number(curentAliasIndex);
+            } else {
+                aliasesToParam.insert(var,var);
+            }
+
+            query.replace(pos,rx.cap(0).length(),":"+var);
+
+        }
+    }
+    return query;
+}
+
+QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
+{
+    QRegExp rx(Const::FIELD_RX);
+    int curentAliasIndex=0;
+    if (query.contains(rx)){
+        int pos;
+        while ((pos=rx.indexIn(query))!=-1){
+            QString field=rx.cap(0);
+            field.remove("$D{");
+            field.remove("}");
+
+            if (!aliasesToParam.contains(field)){
+                if (field.contains("."))
+                    aliasesToParam.insert(field,field);
+                else
+                    aliasesToParam.insert(field,masterDatasource+"."+field);
+            } else {
+                curentAliasIndex++;
+                if (field.contains("."))
+                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex),field);
+                else
+                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex),masterDatasource+"."+field);
+                field+="_f_alias"+QString::number(curentAliasIndex);
+            }
+            query.replace(pos,rx.cap(0).length(),":"+extractField(field));
+        }
+    }
+    return query;
+
+//    QRegExp rx(Const::FIELD_RX);
+//    if (query.contains(rx)){
+//        while ((rx.indexIn(query))!=-1){
+//            QString field=rx.cap(0);
+//            field.remove("$D{");
+//            field.remove("}");
+//            if (field.contains("."))
+//                aliasesToParam.append(field);
+//            else
+//                aliasesToParam.append(masterDatasource+"."+field);
+//            query.replace(rx.cap(0),":"+extractField(field));
+//        }
+//    }
+//    return query;
 }
 
 void DataSourceManager::setReportVariable(const QString &name, const QVariant &value)
@@ -525,18 +628,22 @@ void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
 
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 {
-    if (QSqlDatabase::contains(connectionDesc->name())) return QSqlDatabase::database(connectionDesc->name()).isOpen();
-
     bool connected = false;
+    clearErrorsList();
     QString lastError ="";
-    {
-        QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-        db.setHostName(connectionDesc->host());
-        db.setUserName(connectionDesc->userName());
-        db.setPassword(connectionDesc->password());
-        db.setDatabaseName(connectionDesc->databaseName());
-        connected=db.open();
-        if (!connected) lastError=db.lastError().text();
+
+    if (!QSqlDatabase::contains(connectionDesc->name())){
+        {
+            QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
+            db.setHostName(connectionDesc->host());
+            db.setUserName(connectionDesc->userName());
+            db.setPassword(connectionDesc->password());
+            db.setDatabaseName(connectionDesc->databaseName());
+            connected=db.open();
+            if (!connected) lastError=db.lastError().text();
+        }
+    } else {
+        connected = QSqlDatabase::database(connectionDesc->name()).isOpen();
     }
     if (!connected) {
         QSqlDatabase::removeDatabase(connectionDesc->name());
@@ -865,14 +972,6 @@ void DataSourceManager::slotConnectionRenamed(const QString &oldName, const QStr
 
 void DataSourceManager::clear(ClearMethod method)
 {
-
-    QList<ConnectionDesc*>::iterator cit = m_connections.begin();
-    while( cit != m_connections.end() ){
-        QSqlDatabase::removeDatabase( (*cit)->name() );
-        delete (*cit);
-        cit = m_connections.erase(cit);
-    }
-
     DataSourcesMap::iterator dit;
     for( dit = m_datasources.begin(); dit != m_datasources.end(); ){
         bool owned = (*dit)->isOwned() && (*dit)->isRemovable();
@@ -892,6 +991,13 @@ void DataSourceManager::clear(ClearMethod method)
             }
         }
 
+    }
+
+    QList<ConnectionDesc*>::iterator cit = m_connections.begin();
+    while( cit != m_connections.end() ){
+        QSqlDatabase::removeDatabase( (*cit)->name() );
+        delete (*cit);
+        cit = m_connections.erase(cit);
     }
 
     //TODO: add smart pointes to collections

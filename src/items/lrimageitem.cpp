@@ -185,7 +185,7 @@ void ImageItem::setDatasource(const QString &datasource)
 void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     ppainter->save();
-    if (isSelected()) ppainter->setOpacity(SELECTION_OPACITY);
+    if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
     else ppainter->setOpacity(qreal(opacity())/100);
 
     QPointF point = rect().topLeft();

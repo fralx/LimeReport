@@ -124,6 +124,7 @@ void ReportRender::initRenderPage()
     if (!m_renderPageItem) {
         m_renderPageItem = new PageItemDesignIntf(m_patternPageItem->pageSize(), m_patternPageItem->pageRect());
         m_renderPageItem->initFromItem(m_patternPageItem);
+        m_renderPageItem->setItemMode(PreviewMode);
     }
 }
 
@@ -144,18 +145,18 @@ void ReportRender::extractGroupsFunction(BandDesignIntf *band)
         ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
         if (contentItem&&(contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}")))){
             foreach(QString functionName, DataSourceManager::instance()->groupFunctionNames()){
-                QRegExp rx(QString(GROUP_FUNCTION_RX).arg(functionName));
-                QRegExp rxName(QString(GROUP_FUNCTION_NAME_RX).arg(functionName));
+                QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+                QRegExp rxName(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName));
                 if (rx.indexIn(contentItem->content())>=0){
-                    BandDesignIntf* dataBand = m_patternPageItem->bandByName(rx.cap(DATASOURCE_INDEX));
+                    BandDesignIntf* dataBand = m_patternPageItem->bandByName(rx.cap(Const::DATASOURCE_INDEX));
                     if (dataBand){
-                        GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(VALUE_INDEX),band->objectName(),dataBand->objectName());
+                        GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
                         if (gf){
                             connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
                         }
                     } else {
-                        GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(VALUE_INDEX),band->objectName(),rx.cap(DATASOURCE_INDEX));
-                        gf->setInvalid(tr("Databand \"%1\" not found").arg(rx.cap(DATASOURCE_INDEX)));
+                        GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(Const::VALUE_INDEX),band->objectName(),rx.cap(Const::DATASOURCE_INDEX));
+                        gf->setInvalid(tr("Databand \"%1\" not found").arg(rx.cap(Const::DATASOURCE_INDEX)));
                     }
                 } else if (rxName.indexIn(contentItem->content())>=0){
                     GroupFunction* gf = datasources()->addGroupFunction(functionName,rxName.cap(1),band->objectName(),"");
@@ -173,7 +174,7 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
         if (contentItem){
             QString content = contentItem->content();
             foreach(QString functionName, DataSourceManager::instance()->groupFunctionNames()){
-                QRegExp rx(QString(GROUP_FUNCTION_RX).arg(functionName));
+                QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 if (rx.indexIn(content)>=0){
                     content.replace(rx,QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(4)+'"').arg('"'+band->objectName()+'"'));
                     contentItem->setContent(content);
@@ -272,7 +273,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
             renderGroupHeader(dataBand,bandDatasource);
             if (dataBand->tryToKeepTogether()) closeDataGroup(dataBand);
         }
-        renderBand(dataBand->bandFooter());
+        renderBand(dataBand->bandFooter(),StartNewPage);
         renderGroupFooter(dataBand);
         //renderChildFooter(dataBand,PrintNotAlwaysPrintable);
         datasources()->deleteVariable(varName);
@@ -590,7 +591,7 @@ void ReportRender::startNewPage()
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
     m_currentMaxHeight=m_renderPageItem->pageRect().height();
 
-    m_currentStartDataPos=m_patternPageItem->topMargin()*mmFACTOR;
+    m_currentStartDataPos=m_patternPageItem->topMargin()*Const::mmFACTOR;
     m_currentIndex=0;
 
     renderPageHeader(m_patternPageItem);

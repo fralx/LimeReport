@@ -49,7 +49,6 @@
 #include "lrbasedesignintf.h"
 #include "lrpagedesignintf.h"
 
-#include "waitform.h"
 #include "lrpreviewreportwindow.h"
 #include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
@@ -78,6 +77,8 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     setStatusBar(m_statusBar);
     setWindowTitle("Lime Report Designer");
     restoreSetting();
+    m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
+    m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
 }
 
 ReportDesignWindow::~ReportDesignWindow()
@@ -187,6 +188,17 @@ void ReportDesignWindow::createActions()
     m_aboutAction->setIcon(QIcon(":/report/images/copyright"));
     connect(m_aboutAction,SIGNAL(triggered()),this,SLOT(slotShowAbout()));
 
+    m_hideLeftPanel = new QAction(tr("Hide left panel"),this);
+    m_hideLeftPanel->setCheckable(true);
+    m_hideLeftPanel->setChecked(true);
+    m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
+    connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
+
+    m_hideRightPanel = new QAction(tr("Hide left panel"),this);
+    m_hideRightPanel->setCheckable(true);
+    m_hideRightPanel->setChecked(true);
+    m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
+    connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
 }
 
 void ReportDesignWindow::createReportToolBar()
@@ -203,7 +215,15 @@ void ReportDesignWindow::createReportToolBar()
     m_reportToolBar->addAction(m_addHLayout);
     m_reportToolBar->addSeparator();
     m_reportToolBar->addAction(m_deleteItemAction);
+
+    QWidget* empty = new QWidget();
+    empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    m_reportToolBar->addWidget(empty);
+
+    m_reportToolBar->addAction(m_hideLeftPanel);
+    m_reportToolBar->addAction(m_hideRightPanel);
     addToolBar(Qt::LeftToolBarArea,m_reportToolBar);
+
 }
 
 void ReportDesignWindow::createToolBars()
@@ -878,6 +898,34 @@ void ReportDesignWindow::slotShowAbout()
 {
     AboutDialog* about = new AboutDialog(this);
     about->exec();
+}
+
+void ReportDesignWindow::hideDockWidgets(Qt::DockWidgetArea area, bool value){
+    QList<QDockWidget *> dockWidgets = findChildren<QDockWidget *>();
+    foreach (QDockWidget* dw, dockWidgets) {
+        if (dockWidgetArea(dw) == area)
+            value ? dw->show(): dw->hide();
+    }
+}
+
+bool ReportDesignWindow::isDockAreaVisible(Qt::DockWidgetArea area)
+{
+    QList<QDockWidget *> dockWidgets = findChildren<QDockWidget *>();
+    foreach (QDockWidget* dw, dockWidgets){
+        if ((dockWidgetArea(dw) == area) && !dw->isHidden())
+            return true;
+    }
+    return false;
+}
+
+void ReportDesignWindow::slotHideLeftPanel(bool value)
+{
+    hideDockWidgets(Qt::LeftDockWidgetArea,value);
+}
+
+void ReportDesignWindow::slotHideRightPanel(bool value)
+{
+    hideDockWidgets(Qt::RightDockWidgetArea,value);
 }
 
 void ReportDesignWindow::closeEvent(QCloseEvent * event)

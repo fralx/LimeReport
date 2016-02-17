@@ -177,7 +177,11 @@ public:
     QStringList errorsList(){ return m_errorsList;}
     bool designTime() const;
     void setDesignTime(bool designTime);
-    QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText);
+
+    QString extractField(QString source);
+    QString replaceVariables(QString query, QMap<QString, QString> &aliasesToParam);
+    QString replaceFields(QString query, QMap<QString, QString> &aliasesToParam, QString masterDatasource = "");
+    QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText, QString masterDatasource="");
 
 signals:
     void loadCollectionFinished(const QString& collectionName);

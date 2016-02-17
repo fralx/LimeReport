@@ -47,7 +47,7 @@ QRectF BandMarker::boundingRect() const
 void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**option*/, QWidget* /*widget*/)
 {
     painter->save();
-    painter->setOpacity(BAND_MARKER_OPACITY);
+    painter->setOpacity(Const::BAND_MARKER_OPACITY);
     painter->fillRect(boundingRect(),m_color);
     painter->setOpacity(1);
     painter->setRenderHint(QPainter::Antialiasing);
@@ -155,6 +155,10 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_bandMarker->setHeight(height());
     m_bandMarker->setPos(pos().x()-m_bandMarker->width(),pos().y());
     if (scene()) scene()->addItem(m_bandMarker);
+
+    m_bandNameLabel = new BandNameLabel(this);
+    m_bandNameLabel->setVisible(false);
+    if (scene()) scene()->addItem(m_bandNameLabel);
 }
 
 BandDesignIntf::~BandDesignIntf()
@@ -169,6 +173,9 @@ BandDesignIntf::~BandDesignIntf()
     if (m_bandMarker) {
         delete m_bandMarker;
     }
+    if (m_bandNameLabel){
+        delete m_bandNameLabel;
+    }
 }
 
 void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -180,7 +187,7 @@ void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
         ppainter->save();
         QString bandText = objectName();
         if (parentBand()) bandText+=QLatin1String(" connected to ")+parentBand()->objectName();
-        QFont font("Arial",7*fontFACTOR,-1,true);
+        QFont font("Arial",7*Const::fontFACTOR,-1,true);
         QFontMetrics fontMetrics(font);
 
         QVector<QRectF> bandNameRects;
@@ -195,14 +202,14 @@ void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
         ppainter->setFont(font);
         for (int i=0;i<bandNameRects.count();i++){
             QRectF labelRect = bandNameRects[i].adjusted(-2,-2,2,2);
-            if ((labelRect.height())<height()){
+            if ((labelRect.height())<height() && (childBaseItems().isEmpty()) && !isSelected()){
                 ppainter->setRenderHint(QPainter::Antialiasing);
                 ppainter->setBrush(bandColor());
-                ppainter->setOpacity(BAND_NAME_AREA_OPACITY);
+                ppainter->setOpacity(Const::BAND_NAME_AREA_OPACITY);
                 ppainter->drawRoundedRect(labelRect,8,8);
-                ppainter->setOpacity(BAND_NAME_TEXT_OPACITY);
+                ppainter->setOpacity(Const::BAND_NAME_TEXT_OPACITY);
                 ppainter->setPen(Qt::black);
-                ppainter->drawText(bandNameRects[i]," "+bandText+" ");
+                ppainter->drawText(bandNameRects[i],Qt::AlignHCenter,bandText);
             }
         }
         ppainter->restore();
@@ -217,7 +224,9 @@ BandDesignIntf::BandsType  BandDesignIntf::bandType() const
 
 QString  BandDesignIntf::bandTitle() const
 {
-    return m_bandTypeText;
+    QString result = objectName();
+    if (parentBand()) result +=tr(" connected to ")+parentBand()->objectName();
+    return result;
 }
 
 QIcon  BandDesignIntf::bandIcon() const
@@ -323,7 +332,7 @@ bool BandDesignIntf::canBeSplitted(int height) const
                 if ((item->minHeight()>height) && (item->minHeight()>(this->height()-height))) return false;
         }
     }
-    return true;
+    return isSplittable();
 }
 
 bool BandDesignIntf::isEmpty() const
@@ -561,6 +570,11 @@ void BandDesignIntf::trimToMaxHeight(int maxHeight)
     }
 }
 
+void BandDesignIntf::setBandTypeText(const QString &value){
+    m_bandTypeText=value;
+    m_bandNameLabel->updateLabel();
+}
+
 QSet<BandDesignIntf::BandsType> BandDesignIntf::groupBands()
 {
     QSet<BandDesignIntf::BandsType> result;
@@ -611,6 +625,9 @@ QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
             m_bandMarker->update(0,0,
                                  m_bandMarker->boundingRect().width(),
                                  m_bandMarker->boundingRect().width());
+            m_bandNameLabel->updateLabel();
+            m_bandNameLabel->setVisible(value.toBool());
+
         }
     }
     return BaseDesignIntf::itemChange(change,value);
@@ -718,6 +735,52 @@ QColor BandDesignIntf::selectionColor() const
 DataBandDesignIntf::DataBandDesignIntf(BandDesignIntf::BandsType bandType, QString xmlTypeName, QObject *owner, QGraphicsItem *parent)
     :BandDesignIntf(bandType,xmlTypeName,owner,parent)
 {
+}
+
+BandNameLabel::BandNameLabel(BandDesignIntf *band, QGraphicsItem *parent)
+    :QGraphicsItem(parent),m_rect(5,5,30,30),m_band(band)
+{
+    setAcceptHoverEvents(true);
+}
+
+void BandNameLabel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setFont(QFont("Arial",7*Const::fontFACTOR,-1,true));
+    painter->setOpacity(1);
+    QPen pen(Const::BAND_NAME_BORDER_COLOR);
+    pen.setWidth(2);
+    painter->setBrush(Qt::yellow);
+    painter->setPen(pen);
+    painter->drawRect(m_rect);
+    painter->setOpacity(0.8);
+    painter->setPen(Qt::black);
+    painter->drawText(m_rect,Qt::AlignCenter,m_band->bandTitle());
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+}
+
+QRectF BandNameLabel::boundingRect() const
+{
+    return m_rect;
+}
+
+void BandNameLabel::updateLabel()
+{
+    QFont font("Arial",7*Const::fontFACTOR,-1,true);
+    QFontMetrics fontMetrics(font);
+    prepareGeometryChange();
+    m_rect = QRectF(
+                m_band->pos().x()+10,
+                m_band->pos().y()-(fontMetrics.height()+10),
+                fontMetrics.width(m_band->bandTitle())+20,fontMetrics.height()+10
+                );
+    update();
+}
+
+void BandNameLabel::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    setVisible(false);
+    Q_UNUSED(event)
 }
 
 }

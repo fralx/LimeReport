@@ -88,14 +88,14 @@ QVariant GroupFunction::multiplication(QVariant value1, QVariant value2)
 GroupFunction::GroupFunction(const QString &expression, const QString &dataBandName, DataSourceManager* dataManager)
     :m_dataBandName(dataBandName), m_dataManager(dataManager),m_isValid(true), m_errorMessage("")
 {
-    QRegExp rxField(FIELD_RX,Qt::CaseInsensitive);
+    QRegExp rxField(Const::FIELD_RX,Qt::CaseInsensitive);
     if (rxField.indexIn(expression)>=0){
         m_dataType=Field;
         m_data = rxField.cap(1);
         return;
     }
 
-    QRegExp rxVariable(VARIABLE_RX,Qt::CaseInsensitive);
+    QRegExp rxVariable(Const::VARIABLE_RX,Qt::CaseInsensitive);
     if (rxVariable.indexIn(expression)>=0){
         m_dataType=Variable;
         m_data = rxVariable.cap(1);

@@ -73,7 +73,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     bc.setSecurityLevel(m_securityLevel);
     bc.setPdf417CodeWords(m_pdf417CodeWords);
 
-    if (isSelected()) ppainter->setOpacity(SELECTION_OPACITY);
+    if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
 
     QRectF bcRect;
 

@@ -65,7 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
             m_customers->first();
             m_orders = new QSqlQuery(m_db);
             m_orders->prepare("Select * from orders where CustomerID = :id");
-            m_orders->bindValue(":id",m_customers->value("CustomerID"));
+            int index = m_customers->record().indexOf("CustomerID");
+            m_orders->bindValue(":id",m_customers->value(index));
             m_orders->exec();
         };
     }
@@ -160,7 +161,7 @@ void MainWindow::prepareData(QSqlQuery* ds, LimeReport::CallbackInfo info, QVari
             data = ds->record().fieldName(info.index);
         break;
     case LimeReport::CallbackInfo::ColumnData:
-        data = ds->value(info.columnName);
+        data = ds->value(ds->record().indexOf(info.columnName));
         break;
     }
 }
@@ -177,7 +178,7 @@ void MainWindow::slotChangePos(const LimeReport::CallbackInfo::ChangePosType &ty
     if (!ds) return;
     if (type == LimeReport::CallbackInfo::First) result = ds->first();
     else result = ds->next();
-    m_orders->bindValue(":id",m_customers->value("CustomerID"));
+    m_orders->bindValue(":id",m_customers->value(m_customers->record().indexOf("CustomerID")));
     m_orders->exec();
 }
 

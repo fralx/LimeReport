@@ -50,8 +50,8 @@ class BandDesignIntf;
 class BandMarker : public QGraphicsItem{
 public:
     explicit BandMarker(BandDesignIntf* band, QGraphicsItem *parent=0);
-    virtual QRectF boundingRect() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setHeight(qreal height);
     void setWidth(qreal width);
     void setColor(QColor color);
@@ -59,6 +59,19 @@ public:
     qreal height(){return m_rect.height();}
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+private:
+    QRectF m_rect;
+    QColor m_color;
+    BandDesignIntf* m_band;
+};
+
+class BandNameLabel : public QGraphicsItem{
+public:
+    explicit BandNameLabel(BandDesignIntf* band, QGraphicsItem* parent=0);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QRectF boundingRect() const;
+    void updateLabel();
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 private:
     QRectF m_rect;
     QColor m_color;
@@ -77,6 +90,7 @@ class BandDesignIntf : public BaseDesignIntf
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
     friend class BandMarker;
+    friend class BandNameLabel;
 public:
 
     enum BandsType {
@@ -180,7 +194,7 @@ protected:
     void setAutoHeight(bool value){m_autoHeight=value;}
     bool autoHeight(){return m_autoHeight;}
 
-    void setBandTypeText(const QString& value){m_bandTypeText=value;}
+    void setBandTypeText(const QString& value);
     QString bandTypeText(){return m_bandTypeText;}
     virtual void moveDown(){}
     virtual void moveUp(){}
@@ -213,6 +227,7 @@ private:
     int                         m_maxScalePercent;
     bool                        m_sliceLastRow;
     bool                        m_printIfEmpty;
+    BandNameLabel*              m_bandNameLabel;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

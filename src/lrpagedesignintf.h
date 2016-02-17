@@ -244,6 +244,7 @@ namespace LimeReport {
             QList<QObject*> m_animationList;
             QPointF m_startSelectionPoint;
             QGraphicsRectItem* m_selectionRect;
+            QPointF m_startMovePoint;
     };
 
     class AbstractPageCommand : public CommandIf{

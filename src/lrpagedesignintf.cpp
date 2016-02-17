@@ -46,7 +46,6 @@
 
 #include "lrglobal.h"
 
-
 #include <QPrinter>
 #include <QDebug>
 #include <QGraphicsItem>
@@ -117,9 +116,9 @@ void PageDesignIntf::updatePageRect()
         connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeomertyChanged(QObject *, QRectF, QRectF)));
         connect(m_pageItem.data(), SIGNAL(objectLoaded(QObject *)), this, SLOT(slotPageItemLoaded(QObject *)));
     }
-    this->setSceneRect(-SCENE_MARGIN, -SCENE_MARGIN,
-                       pageItem()->geometry().width() + SCENE_MARGIN*2,
-                       pageItem()->geometry().height() + SCENE_MARGIN*2);
+    this->setSceneRect(-Const::SCENE_MARGIN, -Const::SCENE_MARGIN,
+                       pageItem()->geometry().width() + Const::SCENE_MARGIN*2,
+                       pageItem()->geometry().height() + Const::SCENE_MARGIN*2);
     emit sceneRectChanged(sceneRect());
 }
 
@@ -256,7 +255,7 @@ void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
     }
     m_pageItem = pageItem;
     m_pageItem->setItemMode(itemMode());
-    setSceneRect(pageItem->rect().adjusted(-10*mmFACTOR,-10*mmFACTOR,10*mmFACTOR,10*mmFACTOR));
+    setSceneRect(pageItem->rect().adjusted(-10*Const::mmFACTOR,-10*Const::mmFACTOR,10*Const::mmFACTOR,10*Const::mmFACTOR));
     addItem(m_pageItem.data());
     registerItem(m_pageItem.data());
 }
@@ -278,7 +277,7 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
         curHeight+=pageItem->height()+20;
         if (curWidth<pageItem->width()) curWidth=pageItem->width();
     }
-    setSceneRect(QRectF(0,0,curWidth,curHeight).adjusted(-10*mmFACTOR,-10*mmFACTOR,10*mmFACTOR,10*mmFACTOR));
+    setSceneRect(QRectF(0,0,curWidth,curHeight).adjusted(-10*Const::mmFACTOR,-10*Const::mmFACTOR,10*Const::mmFACTOR,10*Const::mmFACTOR));
 
 }
 
@@ -290,6 +289,10 @@ void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
         saveCommand(command);
         emit itemInserted(this, event->scenePos(), m_insertItemType);
     }
+    if (event->buttons() & Qt::LeftButton && !selectedItems().isEmpty()){
+        m_startMovePoint = event->scenePos();
+    }
+
     if (event->buttons() & Qt::LeftButton && event->modifiers()==Qt::ShiftModifier){
         m_startSelectionPoint = event->scenePos();
     } else {
@@ -306,6 +309,10 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             saveSelectedItemsGeometry();
             m_changePosOrSizeMode = true;
         }
+    }
+
+    if (event->button() & Qt::LeftButton && event->modifiers()==0){
+
     }
 
     if (event->buttons() & Qt::LeftButton && event->modifiers()==Qt::ShiftModifier){
@@ -647,22 +654,15 @@ void PageDesignIntf::dragMoveEvent(QGraphicsSceneDragDropEvent* /**event*/)
 
 void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
 {
-
-//    if (m_itemInsertRect) {
-//        removeItem(m_itemInsertRect);
-//        delete m_itemInsertRect;
-//        m_itemInsertRect = 0;
-//    }
-
-//    if (event->mimeData()->text() == "Text Item") {
-//        addReportItem(event->mimeData()->text(), event->scenePos(), QSizeF(200, 50));
-//    }
-
-//    else addBand(event->mimeData()->text());
-    BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
-    TextItem* ti = dynamic_cast<TextItem*>(item);
-    ti->setContent(event->mimeData()->text());
-
+    if (event->mimeData()->hasText() &&
+            ((event->mimeData()->text().indexOf("field:")==0) ||
+             (event->mimeData()->text().indexOf("variable:")==0))
+    ){
+        BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
+        TextItem* ti = dynamic_cast<TextItem*>(item);
+        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
+        ti->setContent(data);
+    }
 }
 
 void PageDesignIntf::dragLeaveEvent(QGraphicsSceneDragDropEvent *)
@@ -1250,9 +1250,10 @@ HorizontalLayout* PageDesignIntf::internalAddHLayout()
         if (si.count() > 1) {
 
             it = si.begin();
-            BaseDesignIntf *firstElement = dynamic_cast<BaseDesignIntf *>(*it);
+            ItemDesignIntf *firstElement = dynamic_cast<ItemDesignIntf *>(*it);
 
             HorizontalLayout *layout = new HorizontalLayout(firstElement->parent(), firstElement->parentItem());
+            layout->setItemLocation(firstElement->itemLocation());
             layout->setPos(firstElement->pos());
             layout->setWidth(0);
             layout->setHeight(firstElement->height());
@@ -1266,9 +1267,9 @@ HorizontalLayout* PageDesignIntf::internalAddHLayout()
                 item->setSelected(false);
             }
 
-            layout->setSelected(true);
             layout->setObjectName(genObjectName(*layout));
             layout->setItemTypeName("HorizontalLayout");
+            layout->setSelected(true);
             registerItem(layout);
             return layout;
         }

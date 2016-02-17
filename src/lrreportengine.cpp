@@ -58,8 +58,6 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 {
     m_datasources= new DataSourceManager(this);
     m_datasources->setObjectName("datasources");
-    //m_reportRender=ReportRender::Ptr(new ReportRender());
-    //m_reportRender->setDatasources(m_datasources);
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
 }
 
@@ -85,7 +83,6 @@ PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
     PageDesignIntf* page =new PageDesignIntf(this);
     page->setObjectName(pageName);
     page->setReportEditor(this);
-    //m_pages.append(page);
     return page;
 }
 
@@ -110,9 +107,9 @@ void ReportEnginePrivate::collectionLoadFinished(const QString &)
 {
     foreach (PageDesignIntf* page, m_pages) {
         page->setReportEditor(this);
-        page->setSceneRect(-SCENE_MARGIN,-SCENE_MARGIN,
-                           page->pageItem()->width()+SCENE_MARGIN*2,
-                           page->pageItem()->height()+SCENE_MARGIN*2);
+        page->setSceneRect(-Const::SCENE_MARGIN,-Const::SCENE_MARGIN,
+                           page->pageItem()->width()+Const::SCENE_MARGIN*2,
+                           page->pageItem()->height()+Const::SCENE_MARGIN*2);
     }
     emit pagesLoadFinished();
 }
@@ -228,7 +225,6 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, cons
 
 bool ReportEnginePrivate::printReport(QPrinter* printer)
 {
-    //QScopedPointer<QPrinter>l_printer(new QPrinter(QPrinter::HighResolution));
     if (!printer&&!m_printerSelected){
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -264,6 +260,17 @@ void ReportEnginePrivate::printToFile(const QString &fileName)
         }
         file.close();
     }
+}
+
+bool ReportEnginePrivate::printToPDF(const QString &fileName)
+{
+    if (!fileName.isEmpty()){
+        QPrinter printer;
+        printer.setOutputFileName(fileName);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        return printReport(&printer);
+    }
+    return false;
 }
 
 void ReportEnginePrivate::previewReport()
@@ -312,11 +319,6 @@ void ReportEnginePrivate::cancelRender()
         m_reportRender->cancelRender();
 }
 
-//PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
-//    Q_D(ReportEngine);
-//    return d->createPreviewScene(parent);
-//}
-
 void ReportEnginePrivate::designReport()
 {
     LimeReport::ReportDesignWindow* w = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
@@ -364,7 +366,6 @@ QSettings*ReportEnginePrivate::settings()
 bool ReportEnginePrivate::loadFromFile(const QString &fileName)
 {
     clearReport();
-    //QScopedPointer< ItemsReaderIntf > reader(new FileXMLReader(fileName));
     ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
     if (reader->first()){
         if (reader->readItem(this)){
@@ -434,8 +435,6 @@ QString ReportEnginePrivate::renderToString()
 
 ReportPages ReportEnginePrivate::renderToPages()
 {
-
-    //ReportRender render;
     m_reportRender = ReportRender::Ptr(new ReportRender);
     dataManager()->clearErrorsList();
     dataManager()->connectAllDatabases();
@@ -479,15 +478,16 @@ bool ReportEngine::printReport(QPrinter *printer)
     return d->printReport(printer);
 }
 
-//void ReportEngine::printReport(ReportPages pages, QPrinter &printer){
-//    Q_D(ReportEngine);
-//    d->printReport(pages,printer,PrintRange());
-//}
-
 void ReportEngine::printToFile(const QString &fileName)
 {
     Q_D(ReportEngine);
     d->printToFile(fileName);
+}
+
+bool ReportEngine::printToPDF(const QString &fileName)
+{
+    Q_D(ReportEngine);
+    return d->printToPDF(fileName);
 }
 
 void ReportEngine::previewReport()
@@ -540,12 +540,6 @@ QString ReportEngine::reportFileName()
     Q_D(ReportEngine);
     return d->reportFileName();
 }
-
-//void ReportDesignIntf::setPrinter(QPrinter *printer)
-//{
-//    Q_D(ReportDesignIntf);
-//    d->setPrinter(printer);
-//}
 
 bool ReportEngine::saveToFile()
 {

@@ -154,5 +154,9 @@
         <file>images/logo.png</file>
         <file alias="/images/copyright">images/cpyright_logo.png</file>
         <file>images/logo_100.png</file>
+        <file alias="empty">images/empty.png</file>
+        <file alias="/images/hideLeftPanel">images/hideLeftPanel.png</file>
+        <file alias="/images/hideRightPanel">images/hideRightPanel.png</file>
+        <file alias="/images/pdf">images/PDF2.png</file>
     </qresource>
 </RCC>

@@ -70,6 +70,7 @@ protected:
     BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     void updateItemSize(RenderPass, int);
     bool isNeedUpdateSize(RenderPass) const;
+    bool drawDesignBorders() const {return m_picture.isNull();}
 private:
     QImage m_picture;
     QString m_content;

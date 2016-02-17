@@ -385,6 +385,26 @@ void PreviewReportWindow::slotLastPage()
     m_changingPage=false;
 }
 
+void PreviewReportWindow::slotPrintToPDF()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF(*.pdf)" );
+       qDebug()<<fileName;
+        if (!fileName.isEmpty()){
+            QPrinter printer;
+            printer.setOutputFileName(fileName);
+            printer.setOutputFormat(QPrinter::PdfFormat);
+
+            if (!m_reportPages.isEmpty()){
+                ReportEnginePrivate::printReport(m_reportPages,printer,PrintRange());
+            } else {
+                ReportEnginePrivate::printReport(m_reader,printer);
+            }
+            foreach(PageItemDesignIntf::Ptr pageItem, m_reportPages){
+                m_previewPage->reactivatePageItem(pageItem);
+            }
+        }
+}
+
 void PreviewReportWindow::slotSliderMoved(int value)
 {
     if (ui->graphicsView->verticalScrollBar()->minimum()==value){

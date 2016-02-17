@@ -47,6 +47,24 @@ class ReportEnginePrivate;
 class DataBrowser;
 class ReportDesignWindow;
 
+
+class GraphicsViewZoom : public QObject {
+  Q_OBJECT
+public:
+  GraphicsViewZoom(QGraphicsView* view);
+  void gentleZoom(double factor);
+  void setModifiers(Qt::KeyboardModifiers modifiers);
+  void setZoomFactorBase(double value);
+private:
+  QGraphicsView* m_view;
+  Qt::KeyboardModifiers m_modifiers;
+  double m_zoomFactorBase;
+  QPointF m_targetScenePos, m_targetViewportPos;
+  bool eventFilter(QObject* object, QEvent* event);
+signals:
+  void zoomed();
+};
+
 class ReportDesignWidget : public QWidget
 {
     Q_OBJECT
@@ -123,11 +141,13 @@ signals:
     void itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);
     void itemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);
 private:
+    bool eventFilter(QObject *target, QEvent *event);
     ReportDesignWidget(ReportEnginePrivate* report,QMainWindow *mainWindow,QWidget *parent = 0);
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
     QMainWindow *m_mainWindow;
+    GraphicsViewZoom* m_zoomer;
     static ReportDesignWidget* m_instance;
 };
 

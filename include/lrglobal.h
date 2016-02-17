@@ -42,19 +42,29 @@
 #endif
 
 namespace LimeReport {
+
+namespace Const{
+    int const RESIZE_HANDLE_SIZE = 10;
+    int const SELECTION_PEN_SIZE = 4;
+    int const MINIMUM_ITEM_WIDTH = 2*RESIZE_HANDLE_SIZE;
+    int const MINIMUM_ITEM_HEIGHT = 2*RESIZE_HANDLE_SIZE;
+    double const RESIZE_ZONE_OPACITY = 0.5;
+    double const SELECTED_RESIZE_ZONE_OPACITY = 0.6;
+    Qt::GlobalColor const RESIZE_ZONE_COLOR = Qt::green;
+    Qt::GlobalColor const SELECTION_COLOR = Qt::red;
+    double const SELECTION_COLOR_OPACITY = 0.9;
     const qreal fontFACTOR = 3.5;
     const int mmFACTOR = 10;
     const int itemPaleteIconSize = 24;
     const qreal minSpaceBorder = 10;
-    QString extractClassName(QString className);
     const QString bandTAG = "band";
+    const Qt::GlobalColor BAND_NAME_LABEL_COLOR = Qt::yellow;
+    const Qt::GlobalColor BAND_NAME_BORDER_COLOR = Qt::darkYellow;
     const qreal BAND_MARKER_OPACITY = 1;
     const qreal LAYOUT_MARKER_OPACITY = 0.3;
     const qreal BAND_NAME_AREA_OPACITY = 0.3;
     const qreal BAND_NAME_TEXT_OPACITY = 0.6;
     const qreal SELECTION_OPACITY = 0.3;
-    enum RenderPass {FirstPass, SecondPass};
-    enum ArrangeType {AsNeeded, Force};
     const QString FIELD_RX = "\\$D\\s*\\{\\s*([^\\s{}]*)\\s*\\}";
     const QString VARIABLE_RX = "\\$V\\s*\\{\\s*([^\\s{}]*)\\s*\\}";
     const QString SCRIPT_RX = "\\$S\\s*\\{(.*)\\}";
@@ -64,6 +74,10 @@ namespace LimeReport {
     const QString GROUP_FUNCTION_RX = "(%1\\s*"+GROUP_FUNCTION_PARAM_RX+")";
     const QString GROUP_FUNCTION_NAME_RX = "%1\\s*\\((.*[^\\)])\\)";
     const int SCENE_MARGIN = 50;
+}
+    QString extractClassName(QString className);
+    enum RenderPass {FirstPass, SecondPass};
+    enum ArrangeType {AsNeeded, Force};
     class ReportError : public std::runtime_error{
     public:
         ReportError(const QString& message):std::runtime_error(message.toStdString()){}

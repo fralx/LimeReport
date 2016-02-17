@@ -37,12 +37,10 @@
 #include "lrglobal.h"
 #include "lrdatasourcemanagerintf.h"
 #include "lrscriptenginemanagerintf.h"
-//#include "lrreportrender.h"
 
 class QPrinter;
 
 namespace LimeReport {
-
 
 class PrintRange{
 public:
@@ -61,7 +59,6 @@ private:
 
 class DataSourceManager;
 class ReportEnginePrivate;
-//class PageDesignIntf;
 
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
@@ -71,9 +68,8 @@ public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
     bool    printReport(QPrinter *printer=0);
-    //void    printReport(ReportPages pages, QPrinter &printer);
     void    printToFile(const QString& fileName);
-    //PageDesignIntf *createPreviewScene(QObject *parent = 0);
+    bool    printToPDF(const QString& fileName);
     void    previewReport();
     void    designReport();
     void    setShowProgressDialog(bool value);

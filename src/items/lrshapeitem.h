@@ -64,7 +64,8 @@ public:
     void setOpacity(int opacity);
 
 protected:
-    virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
+    BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
+    bool drawDesignBorders() const {return false;}
 private:
     ShapeType m_shape;
     QColor m_shapeColor;

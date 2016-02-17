@@ -112,6 +112,11 @@ void QueryHolder::setConnectionName(QString connectionName)
     m_connectionName=connectionName;
 }
 
+void QueryHolder::update()
+{
+    runQuery(m_mode);
+}
+
 void QueryHolder::setDatasource(IDataSource::Ptr value){
     m_dataSource.clear();
     m_dataSource=value;
@@ -120,13 +125,13 @@ void QueryHolder::setDatasource(IDataSource::Ptr value){
 void QueryHolder::fillParams(QSqlQuery *query)
 {
     DataSourceManager* dm=DataSourceManager::instance();
-    foreach(QString param,m_params){
+    foreach(QString param,m_aliasesToParam.keys()){
         QVariant value;
         if (param.contains(".")){
-            value = dm->fieldData(param);
+            value = dm->fieldData(m_aliasesToParam.value(param));
             param=param.right(param.length()-param.indexOf('.')-1);
         } else {
-            value = dm->variable(param);
+            value = dm->variable(m_aliasesToParam.value(param));
         }
         if (value.isValid() || m_mode == IDataSource::DESIGN_MODE)
             query->bindValue(':'+param,value);
@@ -135,19 +140,31 @@ void QueryHolder::fillParams(QSqlQuery *query)
 
 void QueryHolder::extractParams()
 {
-    m_preparedSQL = replaceVriables(m_queryText);
+    m_preparedSQL = replaceVariables(m_queryText);
 }
 
-QString QueryHolder::replaceVriables(QString query)
+QString QueryHolder::replaceVariables(QString query)
 {
-    QRegExp rx(VARIABLE_RX);
+    QRegExp rx(Const::VARIABLE_RX);
+    int curentAliasIndex = 0;
     if (query.contains(rx)){
-        while ((rx.indexIn(query))!=-1){
+        int pos = -1;
+        while ((pos=rx.indexIn(query))!=-1){
+
             QString variable=rx.cap(0);
             variable.remove("$V{");
             variable.remove("}");
-            m_params.append(variable);
-            query.replace(rx.cap(0),":"+variable);
+
+            if (m_aliasesToParam.contains(variable)){
+                curentAliasIndex++;
+                m_aliasesToParam.insert(variable+"_alias"+QString::number(curentAliasIndex),variable);
+                variable += "_alias"+QString::number(curentAliasIndex);
+            } else {
+                m_aliasesToParam.insert(variable,variable);
+            }
+
+            query.replace(pos,rx.cap(0).length(),":"+variable);
+
         }
     }
     return query;
@@ -344,7 +361,7 @@ void SubQueryHolder::setMasterDatasource(const QString &value)
 
 void SubQueryHolder::extractParams()
 {
-    m_preparedSQL = replaceFields(replaceVriables(queryText()));
+    m_preparedSQL = replaceFields(replaceVariables(queryText()));
 }
 
 QString SubQueryHolder::extractField(QString source)
@@ -357,17 +374,29 @@ QString SubQueryHolder::extractField(QString source)
 
 QString SubQueryHolder::replaceFields(QString query)
 {
-    QRegExp rx(FIELD_RX);
+    QRegExp rx(Const::FIELD_RX);
+    int curentAliasIndex=0;
     if (query.contains(rx)){
-        while ((rx.indexIn(query))!=-1){
+        int pos;
+        while ((pos=rx.indexIn(query))!=-1){
             QString field=rx.cap(0);
             field.remove("$D{");
             field.remove("}");
-            if (field.contains("."))
-                m_params.append(field);
-            else
-                m_params.append(m_masterDatasource+"."+field);
-            query.replace(rx.cap(0),":"+extractField(field));
+
+            if (!m_aliasesToParam.contains(field)){
+                if (field.contains("."))
+                    m_aliasesToParam.insert(field,field);
+                else
+                    m_aliasesToParam.insert(field,m_masterDatasource+"."+field);
+            } else {
+                curentAliasIndex++;
+                if (field.contains("."))
+                    m_aliasesToParam.insert(field+"_alias"+QString::number(curentAliasIndex),field);
+                else
+                    m_aliasesToParam.insert(field+"_alias"+QString::number(curentAliasIndex),m_masterDatasource+"."+field);
+                field+="_alias"+QString::number(curentAliasIndex);
+            }
+            query.replace(pos,rx.cap(0).length(),":"+extractField(field));
         }
     }
     return query;

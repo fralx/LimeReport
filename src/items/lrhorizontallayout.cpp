@@ -47,7 +47,7 @@ LimeReport::BaseDesignIntf *createHLayout(QObject *owner, LimeReport::BaseDesign
 }
 bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
                      xmlTag,
-                     LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::bandTAG),
+                     LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::Const::bandTAG),
                      createHLayout
                  );
 }
@@ -376,7 +376,7 @@ LayoutMarker::LayoutMarker(HorizontalLayout *layout, QGraphicsItem *parent)
 void LayoutMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->save();
-    painter->setOpacity(LAYOUT_MARKER_OPACITY);
+    painter->setOpacity(Const::LAYOUT_MARKER_OPACITY);
     painter->fillRect(boundingRect(),m_color);
 
     painter->setRenderHint(QPainter::Antialiasing);

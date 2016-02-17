@@ -296,7 +296,7 @@ void SQLEditDialog::slotPreviewData()
         QMessageBox::critical(this,tr("Attention"),tr("Connection is not specified"));
         return;
     }
-    m_previewModel = m_datasources->previewSQL(ui->cbbConnection->currentText(),ui->textEditSQL->toPlainText());
+    m_previewModel = m_datasources->previewSQL(ui->cbbConnection->currentText(),ui->textEditSQL->toPlainText(),ui->leMaster->text());
     if (m_previewModel){
         ui->tvPreview->setModel(m_previewModel.data());
         ui->gbDataPreview->setVisible(true);
