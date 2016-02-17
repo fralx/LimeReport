@@ -1,4 +1,20 @@
 # LimeReport v1.3.9
+##Features
+* Multi-platform support
+* Pure Qt4/Qt5 compatible code
+* Embedded report designer
+* Embedded preview
+* Various band types for a report of any complexity
+* Page header and footer
+* Data grouping (GroupHeader, GroupFooter, Subdetail, SubdetailHeader, SubdetailFooter)
+* Aggregation functions (SUM, COUNT, AVG, MIN, MAX)
+* Report elements: Text, Geometric (Line, Ellipsis, Rectangle), Picture
+* Horizontal elements groups
+* HTML to format input fields
+* Scripts to format output data
+* An Automatic band height adjustment
+* A Smart band split moving data to the next page
+* PDF output
 
 ##How to use it
 1. Build limereport.pro. It will create a limereport shared library  
