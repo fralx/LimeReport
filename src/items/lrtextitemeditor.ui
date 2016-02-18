@@ -212,6 +212,9 @@
        <property name="text">
         <string>Ok</string>
        </property>
+       <property name="shortcut">
+        <string>Ctrl+Return</string>
+       </property>
       </widget>
      </item>
      <item>
