@@ -109,6 +109,8 @@ private slots:
     void slotShowAbout();
     void slotHideLeftPanel(bool value);
     void slotHideRightPanel(bool value);
+    void slotEditSettings();
+    void slotUseGrid(bool value);
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -133,7 +135,6 @@ private:
 
 private:
     static ReportDesignWindow* m_instance;
-
     QStatusBar* m_statusBar;
     QToolBar* m_mainToolBar;
     QToolBar* m_fontToolBar;
@@ -165,6 +166,8 @@ private:
     QAction* m_copyAction;
     QAction* m_pasteAction;
     QAction* m_cutAction;
+    QAction* m_settingsAction;
+    QAction* m_useGridAction;
 
     QAction* m_newPageHeader;
     QAction* m_newPageFooter;

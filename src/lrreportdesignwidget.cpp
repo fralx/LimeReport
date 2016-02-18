@@ -32,6 +32,7 @@
 #include "serializators/lrxmlwriter.h"
 #include "lrreportengine_p.h"
 #include "lrbasedesignintf.h"
+#include "lrsettingdialog.h"
 
 #include <QDebug>
 #include <QObject>
@@ -96,10 +97,10 @@ bool GraphicsViewZoom::eventFilter(QObject *object, QEvent *event) {
 }
 
 // ReportDesignIntf
-ReportDesignWidget* ReportDesignWidget::m_instance=0;
+//ReportDesignWidget* ReportDesignWidget::m_instance=0;
 
 ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
-    QWidget(parent), m_mainWindow(mainWindow)
+    QWidget(parent), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(1,1,1,1);
@@ -125,13 +126,61 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
     connect(m_report,SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
     connect(m_report,SIGNAL(cleared()),this,SIGNAL(cleared()));
     m_view->scale(0.5,0.5);
-    m_instance=this;
+    //m_instance=this;
     //m_view->viewport()->installEventFilter(this);
     m_zoomer = new GraphicsViewZoom(m_view);
+#ifdef Q_OS_WIN
+    m_defaultFont = QFont("Arial",10);
+#endif
+}
+
+void ReportDesignWidget::saveState(QSettings* settings)
+{
+    settings->beginGroup("DesignerWidget");
+    settings->setValue("hGridStep",m_horizontalGridStep);
+    settings->setValue("vGridStep",m_verticalGridStep);
+    settings->setValue("defaultFont",m_defaultFont);
+    settings->setValue("useGrid",m_useGrid);
+    settings->endGroup();
+}
+
+void ReportDesignWidget::applySettings()
+{
+    for (int i=0;i<m_report->pageCount();++i){
+        m_report->pageAt(i)->pageItem()->setFont(m_defaultFont);
+    }
+    applyUseGrid();
+}
+
+void ReportDesignWidget::loadState(QSettings* settings)
+{
+    settings->beginGroup("DesignerWidget");
+    QVariant v = settings->value("hGridStep");
+    if (v.isValid()){
+        m_horizontalGridStep = v.toInt();
+    }
+
+    v = settings->value("vGridStep");
+    if (v.isValid()){
+        m_verticalGridStep = v.toInt();
+    }
+    v = settings->value("defaultFont");
+    if (v.isValid()){
+        m_defaultFont = v.value<QFont>();
+    }
+
+    v = settings->value("useGrid");
+    if (v.isValid()){
+        m_useGrid = v.toBool();
+    }
+
+    settings->endGroup();
+
+    applySettings();
 }
 
 ReportDesignWidget::~ReportDesignWidget()
-{ m_instance=0;}
+{ /*m_instance=0;*/}
 
 void ReportDesignWidget::setActivePage(PageDesignIntf *page)
 {
@@ -152,8 +201,6 @@ void ReportDesignWidget::setActivePage(PageDesignIntf *page)
             this, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(page, SIGNAL(bandRemoved(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
-
-
 
     m_view->centerOn(0, 0);
     emit activePageChanged();
@@ -367,6 +414,37 @@ void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
     activePage()->setBorders(borders);
 }
 
+void ReportDesignWidget::editSetting()
+{
+    SettingDialog setting(this);
+    setting.setVerticalGridStep(m_verticalGridStep);
+    setting.setHorizontalGridStep(m_horizontalGridStep);
+    setting.setDefaultFont(m_defaultFont);
+
+    if (setting.exec()){
+        m_horizontalGridStep = setting.horizontalGridStep();
+        m_verticalGridStep = setting.verticalGridStep();
+        m_defaultFont = setting.defaultFont();
+        applySettings();
+    }
+}
+
+void ReportDesignWidget::applyUseGrid()
+{
+    int hGridStep = m_useGrid?m_horizontalGridStep:2;
+    int vGridStep = m_useGrid?m_verticalGridStep:2;
+    for(int i=0;i<m_report->pageCount();++i){
+       m_report->pageAt(i)->setVerticalGridStep(hGridStep);
+       m_report->pageAt(i)->setHorizontalGridStep(vGridStep);
+    }
+}
+
+void ReportDesignWidget::setUseGrid(bool value)
+{
+    m_useGrid = value;
+    applyUseGrid();
+}
+
 bool ReportDesignWidget::isCanUndo()
 {
     return activePage()->isCanUndo();
@@ -399,6 +477,7 @@ DataSourceManager* ReportDesignWidget::dataManager()
 
 void ReportDesignWidget::slotPagesLoadFinished()
 {
+    applySettings();
     setActivePage(m_report->pageAt(0));
     emit loaded();
 }

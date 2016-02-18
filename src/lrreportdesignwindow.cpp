@@ -129,6 +129,15 @@ void ReportDesignWindow::createActions()
     m_cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
     connect(m_cutAction,SIGNAL(triggered()),this,SLOT(slotCut()));
 
+    m_settingsAction = new QAction(tr("Settings"),this);
+    m_settingsAction->setIcon(QIcon(":/report/images/settings"));
+    connect(m_settingsAction,SIGNAL(triggered()),this,SLOT(slotEditSettings()));
+
+    m_useGridAction = new QAction(tr("Use grid"),this);
+    m_useGridAction->setIcon(QIcon(":/report/images/grid"));
+    m_useGridAction->setCheckable(true);
+    connect(m_useGridAction,SIGNAL(toggled(bool)),this,SLOT(slotUseGrid(bool)));
+    
     m_newTextItemAction = new QAction(tr("Text Item"),this);
     m_newTextItemAction->setIcon(QIcon(":/items/TextItem"));
     m_actionMap.insert("TextItem",m_newTextItemAction);
@@ -241,6 +250,8 @@ void ReportDesignWindow::createToolBars()
     m_mainToolBar->addAction(m_loadReportAction);
     m_mainToolBar->addAction(m_saveReportAction);
     m_mainToolBar->addSeparator();
+    m_mainToolBar->addAction(m_settingsAction);
+    m_mainToolBar->addSeparator();
 
     m_mainToolBar->addAction(m_copyAction);
     m_mainToolBar->addAction(m_pasteAction);
@@ -252,8 +263,10 @@ void ReportDesignWindow::createToolBars()
     m_mainToolBar->addAction(m_zoomInReportAction);
     m_mainToolBar->addAction(m_zoomOutReportAction); 
     m_mainToolBar->addSeparator();
-
     m_mainToolBar->addAction(m_previewReportAction);
+    //m_mainToolBar->addSeparator();
+    //m_mainToolBar->addAction(m_useGridAction);
+
     //m_mainToolBar->addAction(m_printReportAction);
 
     m_fontEditorBar = new FontEditorWidget(m_reportDesignWidget,tr("Font"),this);
@@ -267,10 +280,11 @@ void ReportDesignWindow::createToolBars()
     m_itemsAlignmentEditorBar = new ItemsAlignmentEditorWidget(m_reportDesignWidget,tr("Items alignment"),this);
     m_itemsAlignmentEditorBar->setIconSize(m_mainToolBar->iconSize());
     m_itemsAlignmentEditorBar->setObjectName("itemsAlignmentTools");
+    m_itemsAlignmentEditorBar->insertAction(m_itemsAlignmentEditorBar->actions().at(0),m_useGridAction);
     addToolBar(m_itemsAlignmentEditorBar);
     m_itemsBordersEditorBar = new ItemsBordersEditorWidget(m_reportDesignWidget,tr("Borders"),this);
     m_itemsBordersEditorBar->setIconSize(m_mainToolBar->iconSize());
-    m_itemsBordersEditorBar->setObjectName("itemsBorederTools");
+    m_itemsBordersEditorBar->setObjectName("itemsBorderTools");
     addToolBar(m_itemsBordersEditorBar);
 
     createReportToolBar();
@@ -384,6 +398,7 @@ void ReportDesignWindow::createMainMenu()
     m_editMenu->addAction(m_copyAction);
     m_editMenu->addAction(m_pasteAction);
     m_editMenu->addAction(m_cutAction);
+    m_editMenu->addAction(m_settingsAction);
     m_infoMenu = menuBar()->addMenu(tr("Info"));
     m_infoMenu->addAction(m_aboutAction);
 
@@ -495,6 +510,7 @@ void ReportDesignWindow::writeState()
     settings()->setValue("State",saveState());
     settings()->setValue("InspectorFirsColumnWidth",m_objectInspector->columnWidth(0));
     settings()->endGroup();
+    m_reportDesignWidget->saveState(settings());
 }
 
 void ReportDesignWindow::restoreSetting()
@@ -524,6 +540,8 @@ void ReportDesignWindow::restoreSetting()
         m_objectInspector->setColumnWidth(0,v.toInt());
     }
     settings()->endGroup();
+    m_reportDesignWidget->loadState(settings());
+    m_useGridAction->setChecked(m_reportDesignWidget->useGrid());
 }
 
 bool ReportDesignWindow::checkNeedToSave()
@@ -946,6 +964,16 @@ void ReportDesignWindow::slotHideLeftPanel(bool value)
 void ReportDesignWindow::slotHideRightPanel(bool value)
 {
     hideDockWidgets(Qt::RightDockWidgetArea,value);
+}
+
+void ReportDesignWindow::slotEditSettings()
+{
+    m_reportDesignWidget->editSetting();
+}
+
+void ReportDesignWindow::slotUseGrid(bool value)
+{
+    m_reportDesignWidget->setUseGrid(value);
 }
 
 void ReportDesignWindow::closeEvent(QCloseEvent * event)

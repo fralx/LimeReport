@@ -158,5 +158,7 @@
         <file alias="/images/hideLeftPanel">images/hideLeftPanel.png</file>
         <file alias="/images/hideRightPanel">images/hideRightPanel.png</file>
         <file alias="/images/pdf">images/PDF2.png</file>
+        <file alias="/images/settings">images/settings.png</file>
+        <file alias="/images/grid">images/grid.png</file>
     </qresource>
 </RCC>

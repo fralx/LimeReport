@@ -72,7 +72,7 @@ class ReportDesignWidget : public QWidget
     friend class ReportDesignWindow;
 public:
     ~ReportDesignWidget();
-    static ReportDesignWidget* instance(){return m_instance;}
+//    static ReportDesignWidget* instance(){return m_instance;}
     void createStartPage();
     void clear();
     DataSourceManager* dataManager();
@@ -94,6 +94,12 @@ public:
     QString reportFileName();
     bool isNeedToSave();
     bool emitLoadReport();
+    void saveState(QSettings *settings);
+    void loadState(QSettings *settings);
+    void applySettings();
+    void applyUseGrid();
+    bool useGrid(){ return m_useGrid;}
+
 public slots:
     void saveToFile(const QString&);
     bool save();
@@ -120,6 +126,8 @@ public slots:
     void setFont(const QFont &font);
     void setTextAlign(const bool &horizontalAlign, const Qt::AlignmentFlag &alignment);
     void setBorders(const BaseDesignIntf::BorderLines& borders);
+    void editSetting();
+    void setUseGrid(bool value);
 private slots:
     void slotItemSelected(LimeReport::BaseDesignIntf *item);
     void slotSelectionChanged();
@@ -149,7 +157,11 @@ private:
     QGraphicsView *m_view;
     QMainWindow *m_mainWindow;
     GraphicsViewZoom* m_zoomer;
-    static ReportDesignWidget* m_instance;
+    QFont m_defaultFont;
+    int m_verticalGridStep;
+    int m_horizontalGridStep;
+    bool m_useGrid;
+//    static ReportDesignWidget* m_instance;
 };
 
 }

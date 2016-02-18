@@ -112,7 +112,8 @@ SOURCES += \
     $$REPORT_PATH/lrvariablesholder.cpp \
     $$REPORT_PATH/lrgroupfunctions.cpp \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
-    $$REPORT_PATH/lraboutdialog.cpp
+    $$REPORT_PATH/lraboutdialog.cpp \
+    $$REPORT_PATH/lrsettingdialog.cpp
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -204,7 +205,8 @@ HEADERS += \
     $$REPORT_PATH/lrscriptenginemanagerintf.h \
     $$REPORT_PATH/lrsimplecrypt.h \    
     $$REPORT_PATH/lraboutdialog.h \
-    $$REPORT_PATH/lrcallbackdatasourceintf.h
+    $$REPORT_PATH/lrcallbackdatasourceintf.h \
+    $$REPORT_PATH/lrsettingdialog.h
     
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
@@ -218,7 +220,8 @@ FORMS += \
     $$REPORT_PATH/objectinspector/editors/ltextitempropertyeditor.ui \
     $$REPORT_PATH/lrpreviewreportwindow.ui \
     $$REPORT_PATH/items/lrtextitemeditor.ui \
-    $$REPORT_PATH/lraboutdialog.ui
+    $$REPORT_PATH/lraboutdialog.ui \
+    $$REPORT_PATH/lrsettingdialog.ui
 
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \

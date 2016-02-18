@@ -47,7 +47,8 @@ class PageItemDesignIntf : public LimeReport::BaseDesignIntf
     Q_PROPERTY(int rightMargin READ rightMargin WRITE setRightMargin)
     Q_PROPERTY(int leftMargin READ leftMargin WRITE setLeftMargin)
     Q_PROPERTY(Orientation pageOrientation READ pageOrientation WRITE setPageOrientation)
-    Q_PROPERTY(PageSize pageSize READ pageSize WRITE setPageSize)
+    Q_PROPERTY(PageSize pageSize READ pageSize WRITE setPageSize )
+    Q_PROPERTY(int gridStep READ gridStep WRITE setGridStep)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
