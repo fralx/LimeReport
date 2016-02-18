@@ -442,7 +442,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BandDesignIntf</name>
     <message>
-        <location filename="src/lrbanddesignintf.cpp" line="231"/>
+        <location filename="src/lrbanddesignintf.cpp" line="228"/>
         <source> connected to </source>
         <translation>соединён с</translation>
     </message>
@@ -450,7 +450,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ContentItemDesignIntf</name>
     <message>
-        <location filename="src/lritemdesignintf.cpp" line="183"/>
+        <location filename="src/lritemdesignintf.cpp" line="191"/>
         <source>Variable %1 not found</source>
         <translation>Переменная %1 не найдена</translation>
     </message>
@@ -534,32 +534,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
-        <location filename="src/lrdatasourcemanager.cpp" line="317"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="332"/>
         <source>Connection &quot;%1&quot; is not open</source>
         <translation>Соединение &quot;%1&quot; не открыто</translation>
     </message>
     <message>
-        <location filename="src/lrdatasourcemanager.cpp" line="490"/>
-        <location filename="src/lrdatasourcemanager.cpp" line="716"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="505"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="759"/>
         <source>Datasource &quot;%1&quot; not found !</source>
         <translation>Источник данных &quot;%1&quot; не найден !</translation>
     </message>
     <message>
-        <location filename="src/lrdatasourcemanager.cpp" line="567"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="582"/>
         <source>connection with name &quot;%1&quot; already exists !</source>
         <translation>соединение &quot;%1&quot; уже существует !</translation>
     </message>
     <message>
-        <location filename="src/lrdatasourcemanager.cpp" line="584"/>
-        <location filename="src/lrdatasourcemanager.cpp" line="591"/>
-        <location filename="src/lrdatasourcemanager.cpp" line="598"/>
-        <location filename="src/lrdatasourcemanager.cpp" line="605"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="599"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="606"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="613"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="620"/>
         <source>datasource with name &quot;%1&quot; already exists !</source>
         <oldsource>data source with name &quot;%1&quot; already exists !!</oldsource>
         <translation>источник данных &quot;%1&quot; уже существует !</translation>
     </message>
     <message>
-        <location filename="src/lrdatasourcemanager.cpp" line="693"/>
+        <location filename="src/lrdatasourcemanager.cpp" line="736"/>
         <source>invalid connection</source>
         <translation>нет соединения</translation>
     </message>
@@ -626,7 +626,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupBandFooter</name>
     <message>
-        <location filename="src/bands/lrgroupbands.cpp" line="157"/>
+        <location filename="src/bands/lrgroupbands.cpp" line="162"/>
         <source>GroupFooter</source>
         <translation>Подвал группы</translation>
     </message>
@@ -754,12 +754,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="563"/>
+        <location filename="src/lrdatadesignintf.cpp" line="574"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
         <translation>Поле: &quot;%1&quot; не найдено в подчиненном источнике данных &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="576"/>
+        <location filename="src/lrdatadesignintf.cpp" line="587"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
         <translation>Поле: &quot;%1&quot; не найдено в главном источнике данных &quot;%2&quot;</translation>
     </message>
@@ -767,7 +767,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="330"/>
+        <location filename="src/lrdatadesignintf.cpp" line="335"/>
         <source>model is destroyed</source>
         <translation>модель уничтожена</translation>
     </message>
@@ -783,12 +783,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageDesignIntf</name>
     <message>
-        <location filename="src/lrpagedesignintf.cpp" line="1069"/>
+        <location filename="src/lrpagedesignintf.cpp" line="1128"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="src/lrpagedesignintf.cpp" line="1069"/>
+        <location filename="src/lrpagedesignintf.cpp" line="1128"/>
         <source>Multi band deletion not allowed</source>
         <translation>Удаление нескольких бандов запрещено</translation>
     </message>
@@ -812,7 +812,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="505"/>
+        <location filename="src/lrdatadesignintf.cpp" line="516"/>
         <source>Datasource has been invalidated</source>
         <translation>Источник данных находится в недействительном состоянии</translation>
     </message>
@@ -820,12 +820,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::QObjectPropertyModel</name>
     <message>
-        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="144"/>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="175"/>
         <source>Property Name</source>
         <translation>Свойство</translation>
     </message>
     <message>
-        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="145"/>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="176"/>
         <source>Property value</source>
         <translation>Значение</translation>
     </message>
@@ -900,7 +900,167 @@ p, li { white-space: pre-wrap; }
         <translation>Правая граница</translation>
     </message>
     <message>
-        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="356"/>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="54"/>
+        <source>reprintOnEachPage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="55"/>
+        <source>borderLineSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="56"/>
+        <source>autoHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="57"/>
+        <source>backgroundColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="58"/>
+        <source>columnCount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="59"/>
+        <source>columnsFillDirection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="60"/>
+        <source>datasource</source>
+        <translation type="unfinished">источник данных</translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="61"/>
+        <source>keepBottomSpace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="62"/>
+        <source>keepFooterTogether</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="63"/>
+        <source>keepSubdetailTogether</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="64"/>
+        <source>printIfEmpty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="65"/>
+        <source>sliceLastRow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="66"/>
+        <source>splittable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="67"/>
+        <source>alignment</source>
+        <translation type="unfinished">расположение</translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="68"/>
+        <source>angle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="69"/>
+        <source>autoWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="70"/>
+        <source>backgroundMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="71"/>
+        <source>backgroundOpacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="72"/>
+        <source>content</source>
+        <translation type="unfinished">содержимое</translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="73"/>
+        <source>font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="74"/>
+        <source>fontColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="75"/>
+        <source>foregroundOpacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="76"/>
+        <source>itemLocation</source>
+        <translation type="unfinished">Расположение объекта</translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="77"/>
+        <source>margin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="78"/>
+        <source>stretchToMaxHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="79"/>
+        <source>trimValue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="80"/>
+        <source>lineWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="81"/>
+        <source>opacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="82"/>
+        <source>penStyle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="83"/>
+        <source>shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="84"/>
+        <source>shapeBrush</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="85"/>
+        <source>shapeBrushColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/objectinspector/lrobjectitemmodel.cpp" line="387"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
@@ -938,7 +1098,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
-        <location filename="src/lrreportdesignwidget.cpp" line="230"/>
+        <location filename="src/lrreportdesignwidget.cpp" line="277"/>
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
@@ -946,253 +1106,263 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="93"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="94"/>
         <source>New Report</source>
         <translation>Новый отчет</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="98"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="99"/>
         <source>Edit Mode</source>
         <translation>Режим редактирования</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="104"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="105"/>
         <source>Undo</source>
         <translation>Отменить действие </translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="110"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="111"/>
         <source>Redo</source>
         <translation>Повторить действие</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="116"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="117"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="121"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="122"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="126"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="127"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="131"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="132"/>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="src/lrreportdesignwindow.cpp" line="136"/>
+        <source>Use grid</source>
+        <translation>Использовать сетку</translation>
+    </message>
+    <message>
+        <location filename="src/lrreportdesignwindow.cpp" line="141"/>
         <source>Text Item</source>
         <translation>Текстовый элемент</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="136"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="146"/>
         <source>Save Report</source>
         <translation>Сохранить отчет</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="141"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="151"/>
         <source>Save Report As</source>
         <translation>Сохранить отчет как </translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="146"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="156"/>
         <source>Load Report</source>
         <translation>Загрузить отчет</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="151"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="161"/>
         <source>Delete item</source>
         <translation>Удалить элемент</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="156"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="166"/>
         <source>Zoom In</source>
         <translation>Увеличить</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="160"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="170"/>
         <source>Zoom Out</source>
         <translation>Уменьшить</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="164"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="174"/>
         <source>Render Report</source>
         <translation>Сгенерировать отчет</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="178"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="188"/>
         <source>Edit layouts mode</source>
         <translation>Режим редактирования группировок</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="183"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="193"/>
         <source>Horizontal layout</source>
         <translation>Горизонтальная группировка</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="187"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="197"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="191"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="201"/>
         <source>Hide left panel</source>
         <translation>Спрятать левую панель</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="197"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="207"/>
         <source>Hide right panel</source>
         <translation>Спрятать правую панель</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="206"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="216"/>
         <source>Report Tools</source>
         <translation>Элементы отчета</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="233"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="243"/>
         <source>Main Tools</source>
         <translation>Основные инструменты</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="258"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="272"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="262"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="276"/>
         <source>Text alignment</source>
         <translation>Выравнивание текста</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="266"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="280"/>
         <source>Items alignment</source>
         <translation>Выравнивание объектов</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="270"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="285"/>
         <source>Borders</source>
         <translation>Границы</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="297"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="312"/>
         <source>Report bands</source>
         <translation>Банды</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="301"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="316"/>
         <source>Report Header</source>
         <translation>Заголовок отчета</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="306"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="321"/>
         <source>Report Footer</source>
         <translation>Завершение отчета</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="311"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="326"/>
         <source>Page Header</source>
         <translation>Верхний колонтитул</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="316"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="331"/>
         <source>Page Footer</source>
         <translation>Нижний колонтитул</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="321"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="336"/>
         <source>Data</source>
         <translation>Данные</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="326"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="341"/>
         <source>Data Header</source>
         <translation>Заголовок данных</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="332"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="347"/>
         <source>Data Footer</source>
         <translation>Завершение данных</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="338"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="353"/>
         <source>SubDetail</source>
         <translation>Подчиненные данные</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="344"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="359"/>
         <source>SubDetailHeader</source>
         <translation>Заголовок подчиненных данных</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="350"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="365"/>
         <source>SubDetailFooter</source>
         <translation>Завершение подчиненных данных</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="356"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="371"/>
         <source>GroupHeader</source>
         <translation>Заголовок группы</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="362"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="377"/>
         <source>GroupFooter</source>
         <translation>Завершение группы</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="373"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="388"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="380"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="395"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="386"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="402"/>
         <source>Info</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="434"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="450"/>
         <source>Object Inspector</source>
         <translation>Инспектор объектов</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="443"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="459"/>
         <source>Report structure</source>
         <translation>Структура отчета</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="455"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="471"/>
         <source>Data Browser</source>
         <translation>Инспектор данных</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="521"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="551"/>
         <source>Report has been modified ! Do you want save the report ?</source>
         <translation>Отчет был изменен ! Хотите его записать ?</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="725"/>
-        <location filename="src/lrreportdesignwindow.cpp" line="736"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="755"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="767"/>
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="879"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="915"/>
         <source>Rendering report</source>
         <translation>Создается отчет</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="879"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="915"/>
         <source>Abort</source>
         <translation>О генераторе</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="888"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="924"/>
         <source> page rendered</source>
         <translation>создается страница</translation>
     </message>
@@ -1200,7 +1370,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
-        <location filename="src/lrreportengine.cpp" line="124"/>
+        <location filename="src/lrreportengine.cpp" line="125"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -1224,17 +1394,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportRender</name>
     <message>
-        <location filename="src/lrreportrender.cpp" line="69"/>
+        <location filename="src/lrreportrender.cpp" line="158"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="src/lrreportrender.cpp" line="170"/>
+        <location filename="src/lrreportrender.cpp" line="259"/>
         <source>Databand &quot;%1&quot; not found</source>
         <translation>Банд &quot;%1&quot; не найден</translation>
     </message>
     <message>
-        <location filename="src/lrreportrender.cpp" line="174"/>
+        <location filename="src/lrreportrender.cpp" line="263"/>
         <source>Wrong using function %1</source>
         <translation>Не правильное использование функции %1</translation>
     </message>
@@ -1242,34 +1412,34 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
-        <location filename="src/lrscriptenginemanager.cpp" line="351"/>
+        <location filename="src/lrscriptenginemanager.cpp" line="350"/>
         <source>FieldName</source>
         <translation>Имя поля</translation>
     </message>
     <message>
-        <location filename="src/lrscriptenginemanager.cpp" line="351"/>
-        <location filename="src/lrscriptenginemanager.cpp" line="367"/>
+        <location filename="src/lrscriptenginemanager.cpp" line="350"/>
+        <location filename="src/lrscriptenginemanager.cpp" line="366"/>
         <source>BandName</source>
         <translation>Имя банда</translation>
     </message>
     <message>
+        <location filename="src/lrscriptenginemanager.cpp" line="367"/>
         <location filename="src/lrscriptenginemanager.cpp" line="368"/>
         <location filename="src/lrscriptenginemanager.cpp" line="369"/>
         <location filename="src/lrscriptenginemanager.cpp" line="370"/>
-        <location filename="src/lrscriptenginemanager.cpp" line="371"/>
         <source>Value</source>
         <translation>Значение</translation>
     </message>
     <message>
+        <location filename="src/lrscriptenginemanager.cpp" line="367"/>
         <location filename="src/lrscriptenginemanager.cpp" line="368"/>
         <location filename="src/lrscriptenginemanager.cpp" line="369"/>
         <location filename="src/lrscriptenginemanager.cpp" line="370"/>
-        <location filename="src/lrscriptenginemanager.cpp" line="371"/>
         <source>Format</source>
         <translation>Формат</translation>
     </message>
     <message>
-        <location filename="src/lrscriptenginemanager.cpp" line="368"/>
+        <location filename="src/lrscriptenginemanager.cpp" line="367"/>
         <source>Precision</source>
         <translation>Точность</translation>
     </message>
@@ -1423,17 +1593,22 @@ p, li { white-space: pre-wrap; }
         <translation>Печать в PDF</translation>
     </message>
     <message>
-        <location filename="src/lrpreviewreportwindow.cpp" line="96"/>
-        <source> of %1</source>
-        <translation>из %1</translation>
+        <location filename="src/lrpreviewreportwindow.cpp" line="53"/>
+        <source>Page: </source>
+        <translation>Страница: </translation>
     </message>
     <message>
-        <location filename="src/lrpreviewreportwindow.cpp" line="330"/>
+        <location filename="src/lrpreviewreportwindow.cpp" line="109"/>
+        <source> of %1</source>
+        <translation> из %1</translation>
+    </message>
+    <message>
+        <location filename="src/lrpreviewreportwindow.cpp" line="343"/>
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
     <message>
-        <location filename="src/lrpreviewreportwindow.cpp" line="390"/>
+        <location filename="src/lrpreviewreportwindow.cpp" line="403"/>
         <source>PDF file name</source>
         <translation>Имя PDF файла</translation>
     </message>
@@ -1543,47 +1718,48 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/lrdatadesignintf.cpp" line="76"/>
-        <location filename="src/lrdatadesignintf.cpp" line="119"/>
+        <location filename="src/lrdatadesignintf.cpp" line="124"/>
         <source>Invalid connection! %1</source>
         <translation>Неверное соединение %1</translation>
     </message>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="477"/>
-        <source>Master datasouce &quot;%1&quot; not found!</source>
+        <location filename="src/lrdatadesignintf.cpp" line="380"/>
+        <location filename="src/lrdatadesignintf.cpp" line="488"/>
+        <source>Master datasource &quot;%1&quot; not found!</source>
         <translation>Главный источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="478"/>
+        <location filename="src/lrdatadesignintf.cpp" line="489"/>
         <source>Child</source>
         <translation>Подчиненный</translation>
     </message>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="478"/>
+        <location filename="src/lrdatadesignintf.cpp" line="489"/>
         <source> and child </source>
         <translation>и подчиненный</translation>
     </message>
     <message>
-        <location filename="src/lrdatadesignintf.cpp" line="479"/>
+        <location filename="src/lrdatadesignintf.cpp" line="490"/>
         <source>datasouce &quot;%1&quot; not found!</source>
         <translation>источник данных &quot;%1&quot; не найден !</translation>
     </message>
     <message>
-        <location filename="src/lrpagedesignintf.cpp" line="1292"/>
+        <location filename="src/lrpagedesignintf.cpp" line="1351"/>
         <source>Attention!</source>
         <translation>Внимание!</translation>
     </message>
     <message>
-        <location filename="src/lrpagedesignintf.cpp" line="1292"/>
+        <location filename="src/lrpagedesignintf.cpp" line="1351"/>
         <source>Selected elements have different parent containers</source>
         <translation>Выделенные элементы имеют различные родительские контейнеры</translation>
     </message>
     <message>
-        <location filename="src/lrreportdesignwindow.cpp" line="969"/>
+        <location filename="src/lrreportdesignwindow.cpp" line="1015"/>
         <source>Object with name %1 already exists</source>
         <translation>Объект с именем %1 уже существует</translation>
     </message>
     <message>
-        <location filename="src/lrscriptenginemanager.cpp" line="259"/>
+        <location filename="src/lrscriptenginemanager.cpp" line="260"/>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>Функция %1 не найдена или вызвана с неверными аргументами</translation>
     </message>
@@ -1826,6 +2002,34 @@ p, li { white-space: pre-wrap; }
         <location filename="src/databrowser/lrsqleditdialog.cpp" line="303"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
+    </message>
+</context>
+<context>
+    <name>SettingDialog</name>
+    <message>
+        <location filename="src/lrsettingdialog.ui" line="14"/>
+        <source>Designer setting</source>
+        <translation>Настройки дизайнера</translation>
+    </message>
+    <message>
+        <location filename="src/lrsettingdialog.ui" line="22"/>
+        <source>Default font</source>
+        <translation>Шрифт по умолчанию</translation>
+    </message>
+    <message>
+        <location filename="src/lrsettingdialog.ui" line="54"/>
+        <source>Grid</source>
+        <translation>Сетка</translation>
+    </message>
+    <message>
+        <location filename="src/lrsettingdialog.ui" line="62"/>
+        <source>Vertical grid step</source>
+        <translation>Вертикальный шаг</translation>
+    </message>
+    <message>
+        <location filename="src/lrsettingdialog.ui" line="76"/>
+        <source>Horizontal grid step</source>
+        <translation>Горизонтальный шаг</translation>
     </message>
 </context>
 <context>

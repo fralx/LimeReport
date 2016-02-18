@@ -50,7 +50,7 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     m_previewPage->setItemMode( LimeReport::PreviewMode );
     m_pagesNavigator = new QSpinBox(this);
     m_pagesNavigator->setMaximum(10000000);
-    m_pagesNavigator->setPrefix("Page: ");
+    m_pagesNavigator->setPrefix(tr("Page: "));
     m_pagesNavigator->setMinimumWidth(120);
     ui->toolBar->insertWidget(ui->actionNextPage,m_pagesNavigator);
     m_simpleScene = new QGraphicsScene(this);
