@@ -282,6 +282,7 @@ private:
 };
 
 class MasterDetailProxyModel : public QSortFilterProxyModel{    
+    Q_OBJECT
 public:
     MasterDetailProxyModel(DataSourceManager* dataManager):m_maps(0),m_dataManager(dataManager){}
     void setMaster(QString name);

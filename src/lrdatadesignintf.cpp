@@ -377,7 +377,7 @@ void SubQueryHolder::setMasterDatasource(const QString &value)
 void SubQueryHolder::extractParams()
 {
     if (!dataManager()->containsDatasource(m_masterDatasource)){
-        setLastError(QObject::tr("Master datasource \"%1\" not found!!!").arg(m_masterDatasource));
+        setLastError(QObject::tr("Master datasource \"%1\" not found!").arg(m_masterDatasource));
         setPrepared(false);
     } else {
         m_preparedSQL = replaceFields(replaceVariables(queryText()));
@@ -485,7 +485,7 @@ void ProxyHolder::filterModel()
                 m_lastError.clear();
             } else {
                 m_lastError.clear();
-                if(!master) m_lastError+=QObject::tr("Master datasouce \"%1\" not found!").arg(m_desc->master());
+                if(!master) m_lastError+=QObject::tr("Master datasource \"%1\" not found!").arg(m_desc->master());
                 if(!child) m_lastError+=((m_lastError.isEmpty())?QObject::tr("Child"):QObject::tr(" and child "))+
                                           QObject::tr("datasouce \"%1\" not found!").arg(m_desc->child());
             }
