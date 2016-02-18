@@ -174,13 +174,8 @@ BandDesignIntf::~BandDesignIntf()
 //            delete band;
 //        }
 //    }
-
-    if (m_bandMarker) {
-        delete m_bandMarker;
-    }
-    if (m_bandNameLabel){
-        delete m_bandNameLabel;
-    }
+    delete m_bandMarker;
+    delete m_bandNameLabel;
 }
 
 void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)

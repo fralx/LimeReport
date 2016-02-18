@@ -268,10 +268,8 @@ QScriptValue groupFunction(QScriptContext* pcontext, QScriptEngine* pengine){
 
 ScriptEngineManager::~ScriptEngineManager()
 {
-    if (m_model){
-        delete m_model;
-        m_model=0;
-    }
+    delete m_model;
+    m_model = 0;
     delete m_scriptEngine;
 }
 

@@ -413,7 +413,7 @@ public:
     bool isEditable() const {return false;}
     bool isRemovable() const {return false;}
     void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
-    ~CallbackDatasourceHolder(){if (m_datasource) delete m_datasource;}
+    ~CallbackDatasourceHolder(){delete m_datasource;}
     void update(){}
     void clearErrors(){}
 private:

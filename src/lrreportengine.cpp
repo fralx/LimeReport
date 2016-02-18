@@ -220,8 +220,7 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, cons
 
         currenPage++;
     }
-    if (painter) delete painter;
-
+    delete painter;
 }
 
 bool ReportEnginePrivate::printReport(QPrinter* printer)
@@ -543,7 +542,7 @@ ReportEngine::ReportEngine(QObject *parent)
 
 ReportEngine::~ReportEngine()
 {
-    if (d_ptr) delete d_ptr;
+    delete d_ptr;
 }
 
 bool ReportEngine::printReport(QPrinter *printer)

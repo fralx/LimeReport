@@ -91,8 +91,7 @@ QObjectPropertyModel::QObjectPropertyModel(QObject *parent/*=0*/)
 
 QObjectPropertyModel::~QObjectPropertyModel()
 {
-    if (m_rootNode)
-        delete m_rootNode;
+    delete m_rootNode;
 }
 
 void QObjectPropertyModel::initModel()
