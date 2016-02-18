@@ -444,7 +444,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="src/lrbanddesignintf.cpp" line="228"/>
         <source> connected to </source>
-        <translation>соединён с</translation>
+        <translation> соединён с</translation>
     </message>
 </context>
 <context>
