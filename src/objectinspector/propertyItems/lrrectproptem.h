@@ -41,7 +41,6 @@ public:
     RectPropItem():ObjectPropItem(){}
     RectPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
     QString displayValue() const;
-    template<class T> QString rectToString(T rect) const;
 };
 
 class RectMMPropItem : public ObjectPropItem{

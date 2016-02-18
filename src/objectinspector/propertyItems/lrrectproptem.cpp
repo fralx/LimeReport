@@ -57,6 +57,11 @@ namespace{
 
 namespace LimeReport{
 
+template<class T> QString rectToString(T rect)
+{
+    return QString("[%1,%2] %3x%4").arg(rect.x()).arg(rect.y()).arg(rect.width()).arg(rect.height());
+}
+
 QRectF modifyRect(QRectF rect, const QString& name, qreal itemValue){
 
     if (name=="x"){qreal width=rect.width(); rect.setX(itemValue);rect.setWidth(width);}
@@ -92,10 +97,6 @@ QString LimeReport::RectPropItem::displayValue() const
             return ObjectPropItem::displayValue();
 
     }
-}
-template<class T> QString LimeReport::RectPropItem::rectToString(T rect) const
-{
-    return QString("[%1,%2] %3x%4").arg(rect.x()).arg(rect.y()).arg(rect.height()).arg(rect.width());
 }
 
 LimeReport::RectMMPropItem::RectMMPropItem(QObject *object, ObjectsList* objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool /*readonly*/):
@@ -133,8 +134,8 @@ QString LimeReport::RectMMPropItem::displayValue() const
     return QString("[%1,%2] %3x%4 mm")
             .arg(rect.x()/10,0,'f',2)
             .arg(rect.y()/10,0,'f',2)
-            .arg(rect.height()/10,0,'f',2)
-            .arg(rect.width()/10,0,'f',2);
+            .arg(rect.width()/10,0,'f',2)
+            .arg(rect.height()/10,0,'f',2);
 }
 
 LimeReport::RectMMValuePropItem::RectMMValuePropItem(QObject *object, ObjectsList* objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool readonly
