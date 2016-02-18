@@ -503,6 +503,27 @@ CommandIf::Ptr createBandDeleteCommand(PageDesignIntf* page, BandDesignIntf* ban
     }
 }
 
+CommandIf::Ptr PageDesignIntf::removeReportItemCommand(BaseDesignIntf *item){
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+    if (band){
+        CommandIf::Ptr command = createBandDeleteCommand(this,band);
+        return command;
+    } else {
+        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item->parent());
+        if (layout && (layout->childrenCount()==2)){
+            CommandGroup::Ptr commandGroup = CommandGroup::create();
+            commandGroup->addCommand(DeleteLayoutCommand::create(this, layout),false);
+            commandGroup->addCommand(DeleteItemCommand::create(this,item),false);
+            return commandGroup;
+        } else {
+            CommandIf::Ptr command = (dynamic_cast<LayoutDesignIntf*>(item))?
+                        DeleteLayoutCommand::create(this, dynamic_cast<LayoutDesignIntf*>(item)) :
+                        DeleteItemCommand::create(this, item) ;
+            return command;
+        }
+    }
+}
+
 void PageDesignIntf::removeReportItem(BaseDesignIntf *item, bool createComand)
 {
 
@@ -1117,22 +1138,52 @@ void PageDesignIntf::paste()
     }
 }
 
-void PageDesignIntf::deleteSelected(bool createCommand)
+void PageDesignIntf::deleteSelected()
 {
-    int bandCount = 0;
-    foreach(QGraphicsItem* item, selectedItems()){
-        BandDesignIntf* bd = dynamic_cast<BandDesignIntf*>(item);
-        if (bd) bandCount++;
-    }
-    if (bandCount>1) {
-        QMessageBox::warning(0,tr("Warning"),tr("Multi band deletion not allowed"));
-        return;
+    if (selectedItems().count()==1){
+        saveCommand(removeReportItemCommand(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0))));
+    } else {
+
+        QList<QGraphicsItem*> itemsToDelete = selectedItems();
+
+
+        CommandGroup::Ptr commandGroup = CommandGroup::create();
+
+        QList<BandDesignIntf*> bands;
+        QList<QGraphicsItem*>::iterator it;
+
+        for(it = itemsToDelete.begin(); it != itemsToDelete.end();){
+            BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(*it);
+            if (band) {
+                bands.append(band);
+                it = itemsToDelete.erase(it);
+            } else {
+                ++it;
+            }
+        }
+
+        foreach (BandDesignIntf* band, bands){
+            foreach (QGraphicsItem* bandItem, band->childItems()) {
+                itemsToDelete.removeOne(bandItem);
+            }
+        }
+
+        if (!itemsToDelete.isEmpty()){
+            foreach(QGraphicsItem* item, itemsToDelete){
+                if (!dynamic_cast<PageItemDesignIntf*>(item))
+                    commandGroup->addCommand(removeReportItemCommand(dynamic_cast<BaseDesignIntf*>(item)),false);
+            }
+        }
+
+        if (!bands.isEmpty()){
+            foreach (BandDesignIntf* band, bands) {
+                commandGroup->addCommand(removeReportItemCommand(band),false);
+            }
+        }
+
+        saveCommand(commandGroup);
     }
 
-    foreach(QGraphicsItem* item, selectedItems()){
-        if (!dynamic_cast<PageItemDesignIntf*>(item))
-            removeReportItem(dynamic_cast<BaseDesignIntf*>(item),createCommand);
-    }
 }
 
 void PageDesignIntf::cut()

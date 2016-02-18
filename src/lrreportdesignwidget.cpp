@@ -251,7 +251,7 @@ void ReportDesignWidget::deleteItem(QGraphicsItem *item){
 }
 
 void ReportDesignWidget::deleteSelectedItems(){
-    activePage()->deleteSelected(true);
+    activePage()->deleteSelected();
 }
 
 QStringList ReportDesignWidget::datasourcesNames(){
@@ -405,7 +405,6 @@ void ReportDesignWidget::setFont(const QFont& font)
 
 void ReportDesignWidget::setTextAlign(const bool& horizontalAlign, const Qt::AlignmentFlag& alignment)
 {
-    //activePage()->setTextAlign(alignment);
     activePage()->changeSelectedGrpoupTextAlignPropperty(horizontalAlign, alignment);
 }
 

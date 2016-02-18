@@ -111,6 +111,7 @@ namespace LimeReport {
             BaseDesignIntf* addReportItem(const QString& itemType, QObject *owner=0, BaseDesignIntf *parent=0);
             BaseDesignIntf* createReportItem(const QString& itemType, QObject *owner=0, BaseDesignIntf *parent=0);
             void removeReportItem(BaseDesignIntf* item, bool createComand = true);
+            CommandIf::Ptr removeReportItemCommand(BaseDesignIntf *item);
             bool saveCommand(CommandIf::Ptr command, bool runCommand = true);
 
             bool isCanRedo();
@@ -194,7 +195,7 @@ namespace LimeReport {
             void redo();
             void copy();
             void paste();
-            void deleteSelected(bool createCommand);
+            void deleteSelected();
             void cut();
             void setToSaved();
             void bringToFront();
