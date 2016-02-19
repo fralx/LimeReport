@@ -111,6 +111,7 @@ private slots:
     void slotHideRightPanel(bool value);
     void slotEditSettings();
     void slotUseGrid(bool value);
+    void slotLoadRecentFile(const QString fileName);
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -132,6 +133,7 @@ private:
     void startNewReport();
     void writePosition();
     void writeState();
+    void createRecentFilesMenu();
 
 private:
     static ReportDesignWindow* m_instance;
@@ -186,8 +188,10 @@ private:
     QAction* m_addHLayout;
     QAction* m_hideLeftPanel;
     QAction* m_hideRightPanel;
+    QMenu*   m_recentFilesMenu;
 
     QSignalMapper* m_bandsAddSignalsMap;
+    QSignalMapper* m_recentFilesSignalMap;
 
     ObjectInspectorWidget* m_objectInspector;
     QObjectPropertyModel* m_propertyModel;
@@ -214,6 +218,7 @@ private:
     ValidatorIntf* m_validator;
     QProgressDialog* m_progressDialog;
     bool m_showProgressDialog;
+    QMap<QString,QDateTime> m_recentFiles;
 };
 
 class ObjectNameValidator : public ValidatorIntf{

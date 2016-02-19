@@ -401,7 +401,10 @@ void ReportDesignWindow::createMainMenu()
     m_editMenu->addAction(m_settingsAction);
     m_infoMenu = menuBar()->addMenu(tr("Info"));
     m_infoMenu->addAction(m_aboutAction);
-
+    m_recentFilesMenu = m_fileMenu->addMenu(tr("Recent Files"));
+    m_recentFilesSignalMap = new QSignalMapper(this);
+    connect(m_recentFilesSignalMap,SIGNAL(mapped(QString)),this,SLOT(slotLoadRecentFile(QString)));
+    m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
 void ReportDesignWindow::initReportEditor(ReportEnginePrivate* report)
@@ -510,7 +513,32 @@ void ReportDesignWindow::writeState()
     settings()->setValue("State",saveState());
     settings()->setValue("InspectorFirsColumnWidth",m_objectInspector->columnWidth(0));
     settings()->endGroup();
+    settings()->beginGroup("RecentFiles");
+    settings()->setValue("filesCount",m_recentFiles.count());
+    QMap<QString, QDateTime>::const_iterator it = m_recentFiles.constBegin();
+    int count = 0;
+    while (it != m_recentFiles.constEnd()) {
+        settings()->setValue("fileName"+QString::number(count),it.key());
+        settings()->setValue("fileDate"+QString::number(count),it.value());
+        ++count;
+        ++it;
+    }
+    settings()->endGroup();
     m_reportDesignWidget->saveState(settings());
+}
+
+void ReportDesignWindow::createRecentFilesMenu()
+{
+    if (m_recentFilesMenu){
+        m_recentFilesMenu->clear();
+        foreach(QString fileName, m_recentFiles.keys()){
+            QAction* tmpAction = new QAction(QIcon(":/report/images/newReport"),fileName,this);
+            connect(tmpAction,SIGNAL(triggered()), m_recentFilesSignalMap, SLOT(map()));
+            m_recentFilesSignalMap->setMapping(tmpAction,fileName);
+            m_recentFilesMenu->addAction(tmpAction);
+        }
+    }
+    m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
 void ReportDesignWindow::restoreSetting()
@@ -539,9 +567,25 @@ void ReportDesignWindow::restoreSetting()
     if (v.isValid()){
         m_objectInspector->setColumnWidth(0,v.toInt());
     }
+
     settings()->endGroup();
+
+    settings()->beginGroup("RecentFiles");
+    int filesCount = settings()->value("filesCount").toInt();
+    QStringList keys = settings()->childKeys();
+    for(int i=0;i<filesCount;i++){
+        if (keys.contains("fileName"+QString::number(i))){
+            m_recentFiles[settings()->value("fileName"+QString::number(i)).toString()] =
+                    settings()->value("fileData"+QString::number(i)).toDateTime();
+
+        } else break;
+
+    }
+    settings()->endGroup();
+
     m_reportDesignWidget->loadState(settings());
     m_useGridAction->setChecked(m_reportDesignWidget->useGrid());
+    createRecentFilesMenu();
 }
 
 bool ReportDesignWindow::checkNeedToSave()
@@ -778,6 +822,21 @@ void ReportDesignWindow::slotLoadReport()
                 updateRedoUndo();
                 unsetCursor();
                 setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
+                if (!m_recentFiles.contains(fileName)){
+                    if (m_recentFiles.count()==10){
+                        QMap<QString, QDateTime>::const_iterator it = m_recentFiles.constBegin();
+                        QDateTime minDate = QDateTime::currentDateTime();
+                        while (it != m_recentFiles.constEnd()) {
+                            if (minDate>it.value()) minDate = it.value();
+                            ++it;
+                        }
+                        m_recentFiles.remove(m_recentFiles.key(minDate));
+                    }
+                    m_recentFiles.insert(fileName,QDateTime::currentDateTime());
+                } else {
+                    m_recentFiles[fileName] = QDateTime::currentDateTime();
+                }
+                createRecentFilesMenu();
             }
         }
 
@@ -974,6 +1033,22 @@ void ReportDesignWindow::slotEditSettings()
 void ReportDesignWindow::slotUseGrid(bool value)
 {
     m_reportDesignWidget->setUseGrid(value);
+}
+
+void ReportDesignWindow::slotLoadRecentFile(const QString fileName)
+{
+    if (checkNeedToSave()){
+        QApplication::processEvents();
+        setCursor(Qt::WaitCursor);
+        m_reportDesignWidget->clear();
+        m_reportDesignWidget->loadFromFile(fileName);
+        m_lblReportName->setText(fileName);
+        m_propertyModel->setObject(0);
+        updateRedoUndo();
+        unsetCursor();
+        setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
+        m_recentFiles[fileName] = QDateTime::currentDateTime();
+    }
 }
 
 void ReportDesignWindow::closeEvent(QCloseEvent * event)
