@@ -61,12 +61,13 @@ bool ColorPropItem::paint(QPainter *painter, const QStyleOptionViewItemV4 &optio
         QPen pen;
 
         if (option.state & QStyle::State_Selected){
-            pen.setColor(option.palette.brightText().color());
             pen.setWidth(2);
-            painter->setPen(pen);
-        }else
+            pen.setColor(option.palette.brightText().color());
+        }else {
             pen.setColor(Qt::gray);
-            painter->setPen(pen);
+        }
+
+        painter->setPen(pen);
 
         painter->setBrush(propertyValue().value<QColor>());
         QRect rect = option.rect.adjusted(4,4,-4,-6);
