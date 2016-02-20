@@ -32,6 +32,7 @@
 
 #include <QObject>
 #include <QSharedPointer>
+#include <QMainWindow>
 #include "lrreportengine.h"
 #include "lrcollection.h"
 #include "lrglobal.h"
@@ -100,6 +101,7 @@ public:
     QString currentReportsDir(){ return m_reportsDir;}
     void setReportName(const QString& reportName){ m_reportName=reportName;}
     QString reportName(){ return m_reportName;}
+    bool hasActivePreview(){return m_activePreview;}
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -115,6 +117,8 @@ protected:
     PageDesignIntf* createPage(const QString& pageName="");
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
+private slots:
+    void slotPreviewWindowDestroed(QObject *window);
 private:
     //ICollectionContainer
     virtual QObject*    createElement(const QString&,const QString&);
@@ -139,6 +143,7 @@ private:
     bool m_showProgressDialog;
     QString m_reportsDir;
     QString m_reportName;
+    QMainWindow* m_activePreview;
 };
 
 }

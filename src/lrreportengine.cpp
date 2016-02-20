@@ -55,7 +55,7 @@ QSettings* ReportEngine::m_settings = 0;
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
-    m_showProgressDialog(true), m_reportName("")
+    m_showProgressDialog(true), m_reportName(""), m_activePreview(0)
 {
     m_datasources= new DataSourceManager(this);
     m_datasources->setObjectName("datasources");
@@ -64,6 +64,9 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 
 ReportEnginePrivate::~ReportEnginePrivate()
 {
+    if (m_activePreview){
+        m_activePreview->close();
+    }
     foreach(PageDesignIntf* page,m_pages) delete page;
     m_pages.clear();
     if (m_ownedSettings&&m_settings) delete m_settings;
@@ -81,7 +84,7 @@ QObject *ReportEnginePrivate::elementAt(const QString &, int index)
 
 PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
 {
-    PageDesignIntf* page =new PageDesignIntf(this);
+    PageDesignIntf* page =new PageDesignIntf();
     page->setObjectName(pageName);
     page->setReportEditor(this);
     return page;
@@ -128,6 +131,13 @@ void ReportEnginePrivate::showError(QString message)
 void ReportEnginePrivate::slotDataSourceCollectionLoaded(const QString &collectionName)
 {
     emit datasourceCollectionLoadFinished(collectionName);
+}
+
+void ReportEnginePrivate::slotPreviewWindowDestroed(QObject* window)
+{
+    if (m_activePreview == window){
+        m_activePreview = 0;
+    }
 }
 
 void ReportEnginePrivate::clearReport()
@@ -291,6 +301,8 @@ void ReportEnginePrivate::previewReport()
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
+            m_activePreview = w;
+            connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));
             qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
             w->exec();
         }
