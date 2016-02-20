@@ -1907,8 +1907,9 @@ void CommandGroup::undoIt()
 
 void CommandGroup::addCommand(CommandIf::Ptr command, bool execute)
 {
-    if (execute && command->doIt())
-        m_commands.append(command);
+    if (execute)
+        if (command->doIt())
+            m_commands.append(command);
 
     else
         m_commands.append(command);
