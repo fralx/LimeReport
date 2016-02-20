@@ -113,6 +113,7 @@ protected:
     QSizeF  getRectByPageSize(const PageSize &size);
     void    initPageSize(const PageSize &size);
     void    initPageSize(const QSizeF &size);
+    QColor  selectionMarkerColor(){return Qt::transparent;}
 private:
     void paintGrid(QPainter *ppainter);
     void initColumnsPos(QVector<qreal>&posByColumns, qreal pos, int columnCount);

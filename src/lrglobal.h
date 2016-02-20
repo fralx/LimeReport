@@ -52,6 +52,7 @@ namespace Const{
     double const SELECTED_RESIZE_ZONE_OPACITY = 0.6;
     Qt::GlobalColor const RESIZE_ZONE_COLOR = Qt::green;
     Qt::GlobalColor const SELECTION_COLOR = Qt::red;
+    Qt::GlobalColor const JOIN_COLOR = Qt::blue;
     double const SELECTION_COLOR_OPACITY = 0.6;
     const qreal fontFACTOR = 3.5;
     const int mmFACTOR = 10;

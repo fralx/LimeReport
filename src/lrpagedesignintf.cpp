@@ -89,7 +89,10 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_horizontalGridStep(2),
     m_updating(false),
     m_currentObjectIndex(1),
-    m_multiSelectStarted(false)
+    m_multiSelectStarted(false),
+    m_movedItem(0),
+    m_joinItem(0),
+    m_magneticMovement(false)
 {
     m_reportEditor = dynamic_cast<ReportEnginePrivate *>(parent);
     updatePageRect();
@@ -315,11 +318,7 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         }
     }
 
-    if (event->button() & Qt::LeftButton && event->modifiers()==0){
-
-    }
-
-    if (event->buttons() & Qt::LeftButton && m_multiSelectStarted/*event->modifiers()==Qt::ShiftModifier*/){
+    if (event->buttons() & Qt::LeftButton && m_multiSelectStarted){
         if (!m_selectionRect){
             m_selectionRect = new QGraphicsRectItem();
             QBrush brush(QColor(140,190,30,50));
@@ -350,6 +349,35 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if ( (event->button() == Qt::LeftButton)) {
+        if (m_joinItem && selectedItems().count()==1){
+            BaseDesignIntf* selectedItem = dynamic_cast<BaseDesignIntf*>(selectedItems().at(0));
+            if (m_magneticMovement){
+                if (m_joinType == Width){
+
+                    QPointF tmpPos;
+                    if (selectedItem->pos().y()>m_joinItem->pos().y())
+                        tmpPos = QPointF(m_joinItem->x(),m_joinItem->pos().y()+m_joinItem->height());
+                    else
+                        tmpPos = QPointF(m_joinItem->x(),m_joinItem->pos().y()-selectedItem->height());
+
+                    selectedItem->setPos(tmpPos);
+                    selectedItem->setWidth(m_joinItem->width());
+
+                } else {
+
+                    QPointF tmpPos;
+                    if (selectedItem->pos().x()>m_joinItem->pos().x())
+                        tmpPos = QPointF(m_joinItem->x()+m_joinItem->width(),m_joinItem->pos().y());
+                    else
+                        tmpPos = QPointF(m_joinItem->x()-selectedItem->width(),m_joinItem->pos().y());
+
+                    selectedItem->setPos(tmpPos);
+                    selectedItem->setHeight(m_joinItem->height());
+                }
+            }
+            m_joinItem->turnOnJoinMarker(false);
+            m_joinItem = 0;
+        }
         checkSizeOrPosChanges();
     }
     if (m_selectionRect) {
@@ -1016,6 +1044,16 @@ void PageDesignIntf::changeSelectedGroupProperty(const QString &name, const QVar
     }
 }
 
+bool PageDesignIntf::magneticMovement() const
+{
+    return m_magneticMovement;
+}
+
+void PageDesignIntf::setMagneticMovement(bool magneticMovement)
+{
+    m_magneticMovement = magneticMovement;
+}
+
 int PageDesignIntf::horizontalGridStep() const
 {
     return m_horizontalGridStep;
@@ -1030,6 +1068,51 @@ void PageDesignIntf::endUpdate()
 {
     m_updating = false;
     emit pageUpdateFinished(this);
+}
+
+void PageDesignIntf::itemMoved(BaseDesignIntf *item)
+{
+    if (m_movedItem!=item){
+        BaseDesignIntf* curItem = dynamic_cast<BaseDesignIntf*>(item->parentItem()); ;
+        while (curItem){
+            m_movedItemContainer = dynamic_cast<BandDesignIntf*>(curItem);
+            if (!m_movedItemContainer)
+                m_movedItemContainer = dynamic_cast<PageItemDesignIntf*>(curItem);
+            if (m_movedItemContainer) break;
+            else curItem = dynamic_cast<BaseDesignIntf*>(curItem->parentItem());
+        }
+        if (m_movedItemContainer){
+            m_projections.clear();
+            foreach(BaseDesignIntf* bi, m_movedItemContainer->childBaseItems()){
+                if (bi != item)
+                    m_projections.append(ItemProjections(bi));
+            }
+        }
+    }
+
+    QRectF r1(item->pos().x(),item->pos().y()-50,item->width(),item->height()+100);
+    QRectF r2(item->pos().x()-50,item->pos().y(),item->width()+100,item->height());
+    qreal maxSquare = 0;
+
+    if (m_joinItem) {
+        m_joinItem->turnOnJoinMarker(false);
+        m_joinItem = 0;
+    }
+
+    foreach(ItemProjections p, m_projections){
+        qreal tmpSquare = qMax(p.square(r1)/item->width(),p.square(r2)/item->height());
+        if (tmpSquare>maxSquare) {
+            maxSquare = tmpSquare;
+            m_joinItem = p.item();
+            if (p.square(r1)/item->width()>p.square(r2)/item->height())
+                m_joinType = Width;
+            else
+                m_joinType = Height;
+        }
+    }
+
+    if (m_joinItem) m_joinItem->turnOnJoinMarker(true);
+
 }
 
 int PageDesignIntf::verticalGridStep() const
@@ -1907,12 +1990,12 @@ void CommandGroup::undoIt()
 
 void CommandGroup::addCommand(CommandIf::Ptr command, bool execute)
 {
-    if (execute)
+    if (execute){
         if (command->doIt())
             m_commands.append(command);
-
-    else
+    }else{
         m_commands.append(command);
+    }
 }
 
 PrintRange::PrintRange(QAbstractPrintDialog::PrintRange rangeType, int fromPage, int toPage)
@@ -2023,10 +2106,6 @@ bool PropertyItemAlignChangedCommand::doIt()
 {
     BaseDesignIntf *reportItem = page()->reportItemByName(m_objectName);
 
-    //if (m_oldValue == BaseDesignIntf::DesignedItemAlign){
-    //    m_savedPos = reportItem->pos();
-    //}
-
     if (reportItem && (reportItem->property(m_propertyName.toLatin1()) != m_newValue)) {
         reportItem->setProperty(m_propertyName.toLatin1(), m_newValue);
     }
@@ -2044,6 +2123,65 @@ void PropertyItemAlignChangedCommand::undoIt()
     if (m_oldValue == BaseDesignIntf::DesignedItemAlign){
         reportItem->setPos(m_savedPos);
     }
+}
+
+bool Projection::intersect(Projection projection)
+{
+    if (
+       (projection.start()>=start() && projection.start()<=end()) ||
+       (projection.end()>=start() && projection.end()<=end()) ||
+       (projection.start()<=start() && projection.end()>=end())
+    ) return true;
+    return false;
+}
+
+qreal Projection::start() const
+{
+    return m_start;
+}
+
+qreal Projection::end() const
+{
+    return m_end;
+}
+
+bool ItemProjections::intersect(QRectF rect)
+{
+    Projection xProjection(rect.x(),rect.x()+rect.width());
+    Projection yProjection(rect.y(),rect.y()+rect.height());
+    if (m_xProjection.intersect(xProjection) && m_yProjection.intersect(yProjection))
+        return true;
+    return false;
+}
+
+bool ItemProjections::intersect(BaseDesignIntf *item)
+{
+    return intersect(QRectF(item->pos().x(), item->pos().y(), item->width(), item->height()));
+}
+
+qreal lineLength(qreal start, qreal end, Projection p){
+    qreal result = 0;
+    if (start>=p.start() && end<=p.end())
+        result = end - start;
+    if (start>=p.start() && start<=p.end())
+        result = p.end() - start;
+    else if (end>=p.start() && end<=p.end())
+        result = end-p.start();
+    else if (start<=p.start() && end>=p.end())
+        result = p.end() - p.start();
+    return result;
+}
+
+qreal ItemProjections::square(QRectF rect)
+{
+    qreal a = lineLength(rect.left(),rect.right(),m_xProjection);
+    qreal b = lineLength(rect.top(),rect.bottom(),m_yProjection);
+    return a*b;
+}
+
+qreal ItemProjections::square(BaseDesignIntf *item)
+{
+   return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
 }
 
 }

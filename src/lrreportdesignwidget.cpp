@@ -134,6 +134,19 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
 #endif
 }
 
+bool ReportDesignWidget::useMagnet() const
+{
+    return m_useMagnet;
+}
+
+void ReportDesignWidget::setUseMagnet(bool useMagnet)
+{
+    m_useMagnet = useMagnet;
+    for (int i=0;i<m_report->pageCount();++i){
+        m_report->pageAt(i)->setMagneticMovement(useMagnet);
+    }
+}
+
 void ReportDesignWidget::saveState(QSettings* settings)
 {
     settings->beginGroup("DesignerWidget");

@@ -111,6 +111,7 @@ private slots:
     void slotHideRightPanel(bool value);
     void slotEditSettings();
     void slotUseGrid(bool value);
+    void slotUseMagnet(bool value);
     void slotLoadRecentFile(const QString fileName);
 protected:
     void closeEvent(QCloseEvent *event);
@@ -170,6 +171,7 @@ private:
     QAction* m_cutAction;
     QAction* m_settingsAction;
     QAction* m_useGridAction;
+    QAction* m_useMagnetAction;
 
     QAction* m_newPageHeader;
     QAction* m_newPageFooter;

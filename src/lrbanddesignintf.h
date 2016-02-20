@@ -163,6 +163,7 @@ public:
     virtual bool isHeader() const {return false;}
     virtual bool isGroupHeader() const {return false;}
     virtual bool isData() const {return false;}
+    bool isBand(){return true;}
 
     void setTryToKeepTogether(bool value);
     bool tryToKeepTogether();

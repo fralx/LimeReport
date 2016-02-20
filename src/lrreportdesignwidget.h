@@ -99,6 +99,8 @@ public:
     void applySettings();
     void applyUseGrid();
     bool useGrid(){ return m_useGrid;}
+    bool useMagnet() const;
+    void setUseMagnet(bool useMagnet);
 
 public slots:
     void saveToFile(const QString&);
@@ -161,6 +163,7 @@ private:
     int m_verticalGridStep;
     int m_horizontalGridStep;
     bool m_useGrid;
+    bool m_useMagnet;
 //    static ReportDesignWidget* m_instance;
 };
 

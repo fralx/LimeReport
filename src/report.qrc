@@ -19,7 +19,7 @@
         <file alias="/images/hourglass">images/Hourglass_80.png</file>
         <file alias="/images/closebox">images/closebox.png</file>
         <file alias="/images/designBig">images/design.png</file>
-        <file alias="ImageItem">images/barcode.png</file>
+        <file alias="/images/ImageItem">images/barcode.png</file>
         <file alias="/images/addBarcode">images/barcode2.png</file>
         <file>images/edit_pecil2.png</file>
         <file>images/undo1.png</file>
@@ -154,11 +154,12 @@
         <file>images/logo.png</file>
         <file alias="/images/copyright">images/cpyright_logo.png</file>
         <file>images/logo_100.png</file>
-        <file alias="empty">images/empty.png</file>
+        <file alias="/images/empty">images/empty.png</file>
         <file alias="/images/hideLeftPanel">images/hideLeftPanel.png</file>
         <file alias="/images/hideRightPanel">images/hideRightPanel.png</file>
         <file alias="/images/pdf">images/PDF2.png</file>
         <file alias="/images/settings">images/settings.png</file>
         <file alias="/images/grid">images/grid.png</file>
+        <file alias="/images/magnet">images/magnet.png</file>
     </qresource>
 </RCC>

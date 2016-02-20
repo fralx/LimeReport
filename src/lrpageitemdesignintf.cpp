@@ -52,7 +52,6 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     setFixedPos(true);
     setPosibleResizeDirectionFlags(Fixed);
     initPageSize(m_pageSize);
-    selectionMarker()->setColor(Qt::transparent);
 }
 
 PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &rect, QObject *owner, QGraphicsItem *parent) :

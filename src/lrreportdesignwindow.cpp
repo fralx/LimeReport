@@ -136,7 +136,15 @@ void ReportDesignWindow::createActions()
     m_useGridAction = new QAction(tr("Use grid"),this);
     m_useGridAction->setIcon(QIcon(":/report/images/grid"));
     m_useGridAction->setCheckable(true);
+    m_useGridAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_G));
     connect(m_useGridAction,SIGNAL(toggled(bool)),this,SLOT(slotUseGrid(bool)));
+
+    m_useMagnetAction = new QAction(tr("Use magnet"),this);
+    m_useMagnetAction->setIcon(QIcon(":/report/images/magnet"));
+    m_useMagnetAction->setCheckable(true);
+    m_useMagnetAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+    connect(m_useMagnetAction,SIGNAL(toggled(bool)),this,SLOT(slotUseMagnet(bool)));
+
     
     m_newTextItemAction = new QAction(tr("Text Item"),this);
     m_newTextItemAction->setIcon(QIcon(":/items/TextItem"));
@@ -281,6 +289,8 @@ void ReportDesignWindow::createToolBars()
     m_itemsAlignmentEditorBar->setIconSize(m_mainToolBar->iconSize());
     m_itemsAlignmentEditorBar->setObjectName("itemsAlignmentTools");
     m_itemsAlignmentEditorBar->insertAction(m_itemsAlignmentEditorBar->actions().at(0),m_useGridAction);
+    m_itemsAlignmentEditorBar->insertAction(m_itemsAlignmentEditorBar->actions().at(1),m_useMagnetAction);
+    m_itemsAlignmentEditorBar->insertSeparator(m_itemsAlignmentEditorBar->actions().at(2));
     addToolBar(m_itemsAlignmentEditorBar);
     m_itemsBordersEditorBar = new ItemsBordersEditorWidget(m_reportDesignWidget,tr("Borders"),this);
     m_itemsBordersEditorBar->setIconSize(m_mainToolBar->iconSize());
@@ -1033,6 +1043,11 @@ void ReportDesignWindow::slotEditSettings()
 void ReportDesignWindow::slotUseGrid(bool value)
 {
     m_reportDesignWidget->setUseGrid(value);
+}
+
+void ReportDesignWindow::slotUseMagnet(bool value)
+{
+    m_reportDesignWidget->setUseMagnet(value);
 }
 
 void ReportDesignWindow::slotLoadRecentFile(const QString fileName)

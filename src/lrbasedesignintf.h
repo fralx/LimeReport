@@ -48,23 +48,31 @@ class ReportEnginePrivate;
 class PageDesignIntf;
 class  BaseDesignIntf;
 
-class SelectionMarker : public QGraphicsItem{
+class Marker : public QGraphicsItem{
 public:
-    SelectionMarker(QGraphicsItem* parent=0);//, QGraphicsScene* scene=0);
+    Marker(QGraphicsItem* parent=0):QGraphicsItem(parent){}
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
     void setColor(QColor color){m_color=color;}
+    QRectF rect() const;
+    QColor color() const;
+    BaseDesignIntf *object() const;
+private:
+    QRectF m_rect;
+    QColor m_color;
+    BaseDesignIntf* m_object;
+};
+
+class SelectionMarker : public Marker{
+public:
+    SelectionMarker(QGraphicsItem* parent=0);
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-private:
-    QRectF m_rect;
-    QColor m_color;
-    BaseDesignIntf* m_object;
 };
 
 class DataSourceManager;
@@ -82,7 +90,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(ACollectionProperty children READ fakeCollectionReader DESIGNABLE false)
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
-    Q_PROPERTY(QString parentName READ parentReportItem WRITE setParentReportItem DESIGNABLE false)
+    Q_PROPERTY(QString parentName READ parentReportItemName WRITE setParentReportItem DESIGNABLE false)
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setVisible DESIGNABLE false)
 
@@ -115,7 +123,7 @@ public:
     virtual ~BaseDesignIntf();
 
     void setParentReportItem(const QString& value);
-    QString parentReportItem();
+    QString parentReportItemName();
 
     BrushMode backgroundBrushMode(){return m_backgroundBrush;}
     void setBackgroundBrushMode(BrushMode value);
@@ -231,6 +239,8 @@ public:
     virtual void setItemAlign(const ItemAlign &itemAlign);
     void updateItemAlign();
     QPointF modifyPosForAlignedItem(const QPointF &pos);
+    void turnOnJoinMarker(bool value);
+    virtual bool isBand(){return false;}
 protected:
 
     //ICollectionContainer
@@ -277,7 +287,7 @@ protected:
     RenderPass currentRenderPass(){return m_currentPass;}
 
     virtual bool drawDesignBorders() const {return true;}
-    SelectionMarker* selectionMarker() {return m_selectionMarker;}
+    virtual QColor selectionMarkerColor(){ return Const::SELECTION_COLOR;}
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -285,6 +295,7 @@ private:
     Qt::CursorShape getPosibleCursor(int cursorFlags);
     void setZValueProperty(qreal value);
     void updatePosibleDirectionFlags();
+    void turnOnSelectionMarker(bool value);
 private:
     QPointF m_startPos;
     //QPointF m_startScenePos;
@@ -321,6 +332,7 @@ private:
 
     ObjectState m_objectState;
     SelectionMarker* m_selectionMarker;
+    Marker* m_joinMarker;
 
     BrushMode m_backgroundBrush;
     QColor  m_backgroundBrushcolor;

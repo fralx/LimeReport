@@ -66,6 +66,36 @@ namespace LimeReport {
         QSizeF  size;
     };
 
+    class Projection{
+    public:
+        Projection(qreal start, qreal end)
+            :m_start(start),m_end(end){}
+        bool intersect(Projection projection);
+        qreal start() const;
+        qreal end() const;
+    private:
+        qreal m_start;
+        qreal m_end;
+    };
+
+    class ItemProjections{
+    public:
+        ItemProjections(BaseDesignIntf* item)
+            :m_xProjection(item->pos().x(), item->pos().x()+item->width()),
+            m_yProjection(item->pos().y(), item->pos().y()+item->height()),
+            m_item(item)
+        {}
+        bool intersect(QRectF rect);
+        bool intersect(BaseDesignIntf* item);
+        qreal square(QRectF rect);
+        qreal square(BaseDesignIntf* item);
+        BaseDesignIntf* item(){return m_item;}
+    private:
+        Projection m_xProjection;
+        Projection m_yProjection;
+        BaseDesignIntf* m_item;
+    };
+
     class PageDesignIntf : public QGraphicsScene, public ObjectLoadingStateIntf{
         Q_OBJECT
         Q_PROPERTY(QObject* pageItem READ pageItem())
@@ -143,6 +173,11 @@ namespace LimeReport {
             void beginUpdate(){m_updating = true;}
             bool isUpdating(){return m_updating;}
             void endUpdate();
+
+            void itemMoved(BaseDesignIntf* item);
+            bool magneticMovement() const;
+            void setMagneticMovement(bool magneticMovement);
+
     protected:
 
             virtual void keyPressEvent(QKeyEvent *event);
@@ -233,6 +268,7 @@ namespace LimeReport {
             void changeSelectedGroupProperty(const QString& name,const QVariant& value);
 
         private:
+            enum JoinType{Width, Height};
             PageSize m_pageSize;
             QSizeF m_pageSizeValue;
             Orientation m_orientation;
@@ -267,6 +303,12 @@ namespace LimeReport {
             bool m_updating;
             int m_currentObjectIndex;
             bool m_multiSelectStarted;
+            QList<ItemProjections> m_projections;
+            BaseDesignIntf*  m_movedItem;
+            BaseDesignIntf*  m_movedItemContainer;
+            BaseDesignIntf*  m_joinItem;
+            JoinType         m_joinType;
+            bool             m_magneticMovement;
     };
 
     class AbstractPageCommand : public CommandIf{

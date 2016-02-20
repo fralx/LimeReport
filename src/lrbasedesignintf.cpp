@@ -69,6 +69,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_itemMode(DesignMode),
     m_objectState(ObjectCreated),
     m_selectionMarker(0),
+    m_joinMarker(0),
     m_backgroundBrush(Solid),
     m_backgroundBrushcolor(Qt::white),
     m_margin(4),
@@ -82,9 +83,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
         m_font = QFont("Arial",10);
     }
     initFlags();
-    m_selectionMarker = new SelectionMarker(this);
-    m_selectionMarker->setColor(Const::SELECTION_COLOR);
-    m_selectionMarker->setVisible(false);
+
+
     //connect(this,SIGNAL(objectNameChanged(QString)),this,SLOT(slotObjectNameChanged(QString)));
 }
 
@@ -99,7 +99,10 @@ QRectF BaseDesignIntf::boundingRect() const
     return m_boundingRect;
 }
 
-BaseDesignIntf::~BaseDesignIntf(void) {delete m_selectionMarker;}
+BaseDesignIntf::~BaseDesignIntf(void) {
+    delete m_selectionMarker;
+    delete m_joinMarker;
+}
 
 void BaseDesignIntf::setParentReportItem(const QString &value)
 {
@@ -112,7 +115,7 @@ void BaseDesignIntf::setParentReportItem(const QString &value)
     }
 }
 
-QString BaseDesignIntf::parentReportItem()
+QString BaseDesignIntf::parentReportItemName()
 {
     BaseDesignIntf *parent = dynamic_cast<BaseDesignIntf *>(parentItem());
     if (parent) return parent->objectName();
@@ -292,7 +295,7 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
         m_startPos = pos();
         m_oldGeometry = geometry();
         QGraphicsItem::mousePressEvent(event);
-        QApplication::processEvents();
+        //QApplication::processEvents();
         emit(itemSelected(this));
     }
     else QGraphicsItem::mousePressEvent(event);
@@ -392,22 +395,10 @@ void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 
 void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-
-//    if (!scene()->items(event->scenePos()).contains(parentItem())){
-//        BandDesignIntf* band = 0;
-//        PageItemDesignIntf* pageItem = 0;
-//        foreach (QGraphicsItem* item, scene()->items(event->scenePos())) {
-//            band = dynamic_cast<BandDesignIntf*>(item);
-//            if (band){
-//                 break;
-//            }
-//            pageItem = dynamic_cast<PageItemDesignIntf*>(item);
-//        }
-//        if (band)
-//            qDebug()<<"band found"<<band->objectName();
-//        if (pageItem)
-//            qDebug()<<"page found"<<pageItem->objectName();
-//    }
+    if (!isSelected()){
+        QGraphicsItem::mouseMoveEvent(event);
+        return;
+    }
 
     int hStep = dynamic_cast<PageDesignIntf*>(scene())->horizontalGridStep();
     int vStep = dynamic_cast<PageDesignIntf*>(scene())->verticalGridStep();
@@ -469,7 +460,11 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         };
 
         setItemPos(m_startPos - delta);
-        moveSelectedItems(tmpPos - pos());
+
+        if (!isBand() && scene()->selectedItems().count()>1)
+            moveSelectedItems(tmpPos - pos());
+        if (scene()->selectedItems().count()==1 && (page()->magneticMovement()))
+            page()->itemMoved(this);
     }
 }
 
@@ -571,6 +566,19 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
     return result;
 }
 
+void BaseDesignIntf::turnOnJoinMarker(bool value)
+{
+    if (value){
+        m_joinMarker = new Marker(this);
+        m_joinMarker->setColor(Const::JOIN_COLOR);
+        m_joinMarker->setRect(rect());
+        m_joinMarker->setVisible(true);
+    } else {
+        delete m_joinMarker;
+        m_joinMarker = 0;
+    }
+}
+
 void BaseDesignIntf::updateItemAlign(){
     BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(parentItem());
     PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
@@ -601,6 +609,19 @@ void BaseDesignIntf::updatePosibleDirectionFlags(){
     case CenterItemAlign:
     case DesignedItemAlign:
        break;
+    }
+}
+
+void BaseDesignIntf::turnOnSelectionMarker(bool value)
+{
+    if (value && !m_selectionMarker){
+        m_selectionMarker = new SelectionMarker(this);
+        m_selectionMarker->setColor(selectionMarkerColor());
+        updateSelectionMarker();
+        m_selectionMarker->setVisible(true);
+    } else {
+        delete m_selectionMarker;
+        m_selectionMarker = 0;
     }
 }
 
@@ -864,8 +885,7 @@ QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
         updateSelectionMarker();
     }
     if (change == QGraphicsItem::ItemSelectedChange) {
-        updateSelectionMarker();
-        m_selectionMarker->setVisible(value.toBool());
+        turnOnSelectionMarker(value.toBool());
     }
     if (change == QGraphicsItem::ItemParentHasChanged) {
         parentChangedEvent(dynamic_cast<BaseDesignIntf*>(value.value<QGraphicsItem*>()));
@@ -916,7 +936,7 @@ void BaseDesignIntf::moveSelectedItems(QPointF delta)
     foreach(QGraphicsItem * item, selectedItems) {
         if (item != this) {
             selectedItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (selectedItem) {
+            if (selectedItem && !selectedItem->isBand()) {
                 if (!selectedItem->m_fixedPos)
                     selectedItem->setItemPos(selectedItem->pos() - delta);
             }
@@ -1023,7 +1043,7 @@ void BaseDesignIntf::updateSelectionMarker()
         if ((!m_selectionMarker->scene()) && scene()) scene()->addItem(m_selectionMarker);
         if (parentItem()) {
             m_selectionMarker->setRect(rect());
-            m_selectionMarker->setPos(0,0/*parentItem()->mapToScene(pos())*/);
+            m_selectionMarker->setPos(0,0);
         }
     }
 }
@@ -1235,43 +1255,9 @@ void BaseDesignIntf::notify(const QVector<QString>& propertyNames)
 }
 
 SelectionMarker::SelectionMarker(QGraphicsItem *parent)//, QGraphicsScene *scene)
-    : QGraphicsItem(parent)//, scene)
+    : Marker(parent)
 {
     setAcceptHoverEvents(true);
-}
-
-QRectF SelectionMarker::boundingRect() const
-{
-    return m_rect.adjusted(-15,-15,15,15);
-}
-
-void SelectionMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
-{
-    QPen pen;
-    const int markerSize = 5;
-    pen.setColor(m_color);
-    pen.setWidth(2);
-    pen.setStyle(Qt::DotLine);
-    painter->setPen(pen);
-    painter->setOpacity(Const::SELECTION_COLOR_OPACITY);
-    painter->drawRect(m_rect);
-    painter->setBrush(m_color);
-    painter->setPen(Qt::transparent);
-    painter->setOpacity(1);
-    painter->drawRect(QRectF(-markerSize,-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.right()-markerSize,m_rect.bottom()-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.right()-markerSize,m_rect.top()-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.left()-markerSize,m_rect.bottom()-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.left()-markerSize,
-                                m_rect.bottom()-m_rect.height()/2-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.right()-markerSize,
-                                m_rect.bottom()-m_rect.height()/2-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.left()+m_rect.width()/2-markerSize,
-                                m_rect.top()-markerSize,markerSize*2,markerSize*2));
-    painter->drawRect(QRectF(m_rect.left()+m_rect.width()/2-markerSize,
-                                m_rect.bottom()-markerSize,markerSize*2,markerSize*2));
-
-    //painter->drawRect();
 }
 
 void SelectionMarker::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
@@ -1305,6 +1291,53 @@ void SelectionMarker::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(parentItem());
     if(baseItem) baseItem->mouseMoveEvent(event);
+}
+
+QRectF Marker::boundingRect() const
+{
+    return m_rect.adjusted(-15,-15,15,15);
+}
+
+void Marker::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    QPen pen;
+    const int markerSize = 5;
+    pen.setColor(color());
+    pen.setWidth(2);
+    pen.setStyle(Qt::DotLine);
+    painter->setPen(pen);
+    painter->setOpacity(Const::SELECTION_COLOR_OPACITY);
+    painter->drawRect(rect());
+    painter->setBrush(color());
+    painter->setPen(Qt::transparent);
+    painter->setOpacity(1);
+    painter->drawRect(QRectF(-markerSize,-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().right()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().right()-markerSize,rect().top()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().left()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().left()-markerSize,
+                                rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().right()-markerSize,
+                                rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().left()+rect().width()/2-markerSize,
+                                rect().top()-markerSize,markerSize*2,markerSize*2));
+    painter->drawRect(QRectF(rect().left()+rect().width()/2-markerSize,
+                                rect().bottom()-markerSize,markerSize*2,markerSize*2));
+}
+
+QRectF Marker::rect() const
+{
+    return m_rect;
+}
+
+QColor Marker::color() const
+{
+    return m_color;
+}
+
+BaseDesignIntf *Marker::object() const
+{
+    return m_object;
 }
 
 
