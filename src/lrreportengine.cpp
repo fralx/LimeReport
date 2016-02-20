@@ -518,8 +518,9 @@ ReportPages ReportEnginePrivate::renderToPages()
         ReportPages result = m_reportRender->renderPageToPages(m_pages.at(0));
         emit renderFinished();
         return result;
-    }else return ReportPages();
-    m_reportRender.clear();
+    }else {
+        return ReportPages();
+    }
 }
 
 QString ReportEnginePrivate::lastError()
