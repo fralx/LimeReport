@@ -70,7 +70,7 @@ void DataNode::clear()
 
 
 DataSourceModel::DataSourceModel(DataSourceManager* dataManager)
-    :m_rootNode(new DataNode())
+    :m_dataManager(0), m_rootNode(new DataNode())
 {
     setDataSourceManager(dataManager);
 }
