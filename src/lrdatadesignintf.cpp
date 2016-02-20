@@ -338,7 +338,7 @@ void ModelToDataSource::slotModelDestroed()
 
 ConnectionDesc::ConnectionDesc(QSqlDatabase db, QObject *parent)
     : QObject(parent), m_connectionName(db.connectionName()), m_connectionHost(db.hostName()), m_connectionDriver(db.driverName()),
-      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password())
+      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false)
 {}
 
 ConnectionDesc::ConnectionDesc(QObject *parent)
@@ -377,7 +377,7 @@ void SubQueryHolder::setMasterDatasource(const QString &value)
 void SubQueryHolder::extractParams()
 {
     if (!dataManager()->containsDatasource(m_masterDatasource)){
-        setLastError(QObject::tr("Master datasource \"%1\" not found!").arg(m_masterDatasource));
+        setLastError(QObject::tr("Master datasource \"%1\" not found!!!").arg(m_masterDatasource));
         setPrepared(false);
     } else {
         m_preparedSQL = replaceFields(replaceVariables(queryText()));
@@ -485,7 +485,7 @@ void ProxyHolder::filterModel()
                 m_lastError.clear();
             } else {
                 m_lastError.clear();
-                if(!master) m_lastError+=QObject::tr("Master datasource \"%1\" not found!").arg(m_desc->master());
+                if(!master) m_lastError+=QObject::tr("Master datasouce \"%1\" not found!").arg(m_desc->master());
                 if(!child) m_lastError+=((m_lastError.isEmpty())?QObject::tr("Child"):QObject::tr(" and child "))+
                                           QObject::tr("datasouce \"%1\" not found!").arg(m_desc->child());
             }
