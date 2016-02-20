@@ -86,9 +86,9 @@ class ScriptEngineModel : public QAbstractItemModel{
     Q_OBJECT
 public:
     friend class ScriptEngineManager;
-    explicit ScriptEngineModel():m_rootNode(new ScriptEngineNode()){}
-    ~ScriptEngineModel();
+    explicit ScriptEngineModel():m_scriptManager(0), m_rootNode(new ScriptEngineNode()){}
     explicit ScriptEngineModel(ScriptEngineManager* scriptManager);
+    ~ScriptEngineModel();
     QModelIndex parent(const QModelIndex &child) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     int rowCount(const QModelIndex &parent) const;
