@@ -411,6 +411,7 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName)
             m_fileName=fileName;
             QFileInfo fi(fileName);
             m_reportName = fi.fileName();
+            dataManager()->connectAutoConnections();
             return true;
         };
     }

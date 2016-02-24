@@ -136,6 +136,7 @@ public:
     bool isConnection(const QString& connectionName);
     bool isConnectionConnected(const QString& connectionName);
     bool connectConnection(const QString &connectionName);
+    void connectAutoConnections();
     void disconnectConnection(const QString &connectionName);
     QueryDesc* queryByName(const QString& dataSourceName);
     SubQueryDesc* subQueryByName(const QString& dataSourceName);
@@ -195,6 +196,7 @@ protected:
     void putSubQueryDesc(SubQueryDesc *subQueryDesc);
     void putProxyDesc(ProxyDesc *proxyDesc);
     bool connectConnection(ConnectionDesc* connectionDesc);
+
     QList<QString> childDatasources(const QString& datasourceName);
     void invalidateChildren(const QString& parentDatasourceName);
     //ICollectionContainer

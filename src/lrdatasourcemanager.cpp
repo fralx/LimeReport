@@ -352,6 +352,8 @@ QString DataSourceManager::replaceVariables(QString value){
             var.remove("}");
             if (variableNames().contains(var)){
                 value.replace(pos,rx.cap(0).length(),variable(var).toString());
+            } else {
+                value.replace(pos,rx.cap(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
             }
         }
     }
@@ -696,6 +698,21 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
     return true;
 }
 
+void DataSourceManager::connectAutoConnections()
+{
+    foreach(ConnectionDesc* conn,m_connections){
+        if (conn->autoconnect()) {
+            try {
+                connectConnection(conn);
+            } catch(ReportError e){
+                setLastError(e.what());
+                putError(e.what());
+                qDebug()<<e.what();
+            }
+        }
+    }
+}
+
 QList<QString> DataSourceManager::childDatasources(const QString &parentDatasourceName)
 {
     QList<QString> result;
@@ -923,17 +940,7 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
 {
 
     if (collectionName.compare("connections",Qt::CaseInsensitive)==0){
-        foreach(ConnectionDesc* conn,m_connections){
-            if (conn->autoconnect()) {
-                try {
-                    connectConnection(conn);
-                } catch(ReportError e){
-                    setLastError(e.what());
-                    putError(e.what());
-                    qDebug()<<e.what();
-                }
-            }
-        }
+
     }
 
     if (collectionName.compare("queries",Qt::CaseInsensitive)==0){
