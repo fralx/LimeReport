@@ -69,7 +69,7 @@ void ConnectionDialog::slotAccept()
         if (!m_connection){
             m_controller->addConnectionDesc(uiToConnection());
         } else {
-            m_controller->changeConnectionDesc(uiToConnection());
+            m_controller->changeConnectionDesc(uiToConnection(m_connection));
         }
         close();
     }
@@ -98,35 +98,35 @@ void ConnectionDialog::checkFieldsFill()
 
 bool ConnectionDialog::checkConnection()
 {
-    bool connectionEstablished = false;
-    QString lastError;
-    {
-        QSqlDatabase db = QSqlDatabase::addDatabase(ui->cbbDrivers->currentText(),ui->leConnectionName->text()+"_check");
-        db.setHostName(ui->leServerName->text());
-        db.setUserName(ui->leUserName->text());
-        db.setDatabaseName(ui->leDataBase->text());
-        db.setPassword(ui->lePassword->text());
-        connectionEstablished = db.open();
-        if (!db.open()) {
-            lastError=db.lastError().text();
-        }
+    QScopedPointer<LimeReport::ConnectionDesc> con(uiToConnection());
+//    LimeReport::ConnectionDesc con;
+//    con.setName(ui->leConnectionName->text()+"_check");
+//    con.setHost(ui->leServerName->text());
+//    con.setUserName(ui->leUserName->text());
+//    con.setPassword(ui->lePassword->text());
+//    con.setDatabaseName(ui->leDataBase->text());
+//    con.setDriver(ui->cbbDrivers->currentText());
+    if (!m_controller->checkConnectionDesc(con.data())){
+        throw LimeReport::ReportError(m_controller->lastError());
     }
-    QSqlDatabase::removeDatabase(ui->leConnectionName->text()+"_check");
-    if (!connectionEstablished) throw LimeReport::ReportError(lastError);
     return true;
 }
 
-LimeReport::ConnectionDesc *ConnectionDialog::uiToConnection()
+LimeReport::ConnectionDesc *ConnectionDialog::uiToConnection(LimeReport::ConnectionDesc* conDesc)
 {
-    if (!m_connection) m_connection = new LimeReport::ConnectionDesc();
-    m_connection->setName(ui->leConnectionName->text());
-    m_connection->setHost(ui->leServerName->text());
-    m_connection->setDriver(ui->cbbDrivers->currentText());
-    m_connection->setUserName(ui->leUserName->text());
-    m_connection->setPassword(ui->lePassword->text());
-    m_connection->setDatabaseName(ui->leDataBase->text());
-    m_connection->setAutoconnect(ui->cbAutoConnect->isChecked());
-    return m_connection;
+    LimeReport::ConnectionDesc* result;
+    if (conDesc)
+        result = conDesc;
+    else
+        result = new LimeReport::ConnectionDesc();
+    result ->setName(ui->leConnectionName->text());
+    result ->setHost(ui->leServerName->text());
+    result ->setDriver(ui->cbbDrivers->currentText());
+    result ->setUserName(ui->leUserName->text());
+    result ->setPassword(ui->lePassword->text());
+    result ->setDatabaseName(ui->leDataBase->text());
+    result ->setAutoconnect(ui->cbAutoConnect->isChecked());
+    return result ;
 }
 
 void ConnectionDialog::connectionToUI()

@@ -595,9 +595,25 @@ void DataBrowser::addConnectionDesc(ConnectionDesc *connection)
 
 void DataBrowser::changeConnectionDesc(ConnectionDesc *connection)
 {
-    Q_UNUSED(connection)
     if (connection->autoconnect()) m_report->dataManager()->connectConnection(connection->name());
     updateDataTree();
+}
+
+bool DataBrowser::checkConnectionDesc(ConnectionDesc *connection)
+{
+    bool result = m_report->dataManager()->checkConnectionDesc(connection);
+    if (!result) setLastError(m_report->dataManager()->lastError());
+    return result;
+}
+
+QString DataBrowser::lastError() const
+{
+    return m_lastError;
+}
+
+void DataBrowser::setLastError(const QString &lastError)
+{
+    m_lastError = lastError;
 }
 
 void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)

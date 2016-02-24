@@ -59,6 +59,9 @@ public:
     void closeAllDataWindows();
     void setSettings(QSettings* value, bool owned = false);
     QSettings* settings();
+    QString lastError() const;
+    void setLastError(const QString &lastError);
+
 private slots:
     void slotDatasourcesChanged();
     void slotAddConnection();
@@ -100,6 +103,7 @@ private:
 
     void addConnectionDesc(ConnectionDesc *connection);
     void changeConnectionDesc(ConnectionDesc *connection);
+    bool checkConnectionDesc(ConnectionDesc *connection);
 
 private:
     Ui::DataBrowser*           ui;
@@ -109,6 +113,7 @@ private:
     bool                        m_closingWindows;
     QSettings*                  m_settings;
     bool                        m_ownedSettings;
+    QString                     m_lastError;
 };
 
 }

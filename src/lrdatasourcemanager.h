@@ -108,6 +108,7 @@ public:
     void connectAllDatabases();
     void addConnection(const QString& connectionName);
     void addConnectionDesc(ConnectionDesc *);
+    bool checkConnectionDesc(ConnectionDesc *connection);
     void addQuery(const QString& name, const QString& sqlText, const QString& connectionName="");
     void addSubQuery(const QString& name, const QString& sqlText, const QString& connectionName, const QString& masterDatasource);
     void addProxy(const QString& name, QString master, QString detail, QList<FieldsCorrelation> fields);
@@ -179,6 +180,7 @@ public:
 
     QString extractField(QString source);
     QString replaceVariables(QString query, QMap<QString, QString> &aliasesToParam);
+    QString replaceVariables(QString value);
     QString replaceFields(QString query, QMap<QString, QString> &aliasesToParam, QString masterDatasource = "");
     QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText, QString masterDatasource="");
 
@@ -206,6 +208,7 @@ protected:
     void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
+
 private slots:
     void slotConnectionRenamed(const QString& oldName,const QString& newName);
 private:

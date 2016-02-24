@@ -341,6 +341,23 @@ QString DataSourceManager::extractField(QString source)
     return source;
 }
 
+QString DataSourceManager::replaceVariables(QString value){
+    QRegExp rx(Const::VARIABLE_RX);
+
+    if (value.contains(rx)){
+        int pos = -1;
+        while ((pos=rx.indexIn(value))!=-1){
+            QString var=rx.cap(0);
+            var.remove("$V{");
+            var.remove("}");
+            if (variableNames().contains(var)){
+                value.replace(pos,rx.cap(0).length(),variable(var).toString());
+            }
+        }
+    }
+    return value;
+}
+
 QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
 {
     QRegExp rx(Const::VARIABLE_RX);
@@ -583,6 +600,15 @@ void DataSourceManager::addConnectionDesc(ConnectionDesc * connection)
     }
 }
 
+bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
+{
+    if (connectConnection(connection)){
+        QSqlDatabase::removeDatabase(connection->name());
+        return true;
+    }
+    return false;
+}
+
 void DataSourceManager::addQueryDesc(QueryDesc *query)
 {
     m_queries.append(query);
@@ -633,10 +659,10 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
     if (!QSqlDatabase::contains(connectionDesc->name())){
         {
             QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-            db.setHostName(connectionDesc->host());
-            db.setUserName(connectionDesc->userName());
-            db.setPassword(connectionDesc->password());
-            db.setDatabaseName(connectionDesc->databaseName());
+            db.setHostName(replaceVariables(connectionDesc->host()));
+            db.setUserName(replaceVariables(connectionDesc->userName()));
+            db.setPassword(replaceVariables(connectionDesc->password()));
+            db.setDatabaseName(replaceVariables(connectionDesc->databaseName()));
             connected=db.open();
             if (!connected) lastError=db.lastError().text();
         }

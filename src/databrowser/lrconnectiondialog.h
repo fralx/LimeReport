@@ -48,7 +48,7 @@ protected:
     void init();
     void checkFieldsFill();
     bool checkConnection();
-    LimeReport::ConnectionDesc* uiToConnection();
+    LimeReport::ConnectionDesc* uiToConnection(LimeReport::ConnectionDesc *conDesc = 0);
     void connectionToUI();
 signals:
     void conectionRegistred(LimeReport::ConnectionDesc* connectionDesc);
@@ -56,7 +56,6 @@ private slots:
     void slotAccept();
     void slotCheckConnection();
     void on_toolButton_clicked();
-
 private:
     Ui::ConnectionDialog *ui;
     LimeReport::ConnectionDesc* m_connection;
