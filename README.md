@@ -34,6 +34,14 @@
 For more samples see a demo
 
 ## Change log
+
+###1.3.10
+1. Memory leak has been fixed
+2. Grid & Settings have been added
+3. Recent files menu has been added
+4. Magnet feature has been added
+5. Added ability to use variables in the connection settings
+
 ###1.3.9
 New functions:
 ```cpp
