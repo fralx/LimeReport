@@ -1,4 +1,4 @@
-# LimeReport v1.3.9
+# LimeReport v1.3.10
 ##Features
 * Multi-platform support
 * Pure Qt4/Qt5 compatible code
