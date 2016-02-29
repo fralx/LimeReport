@@ -145,6 +145,8 @@ class IConnectionController{
 public:
     virtual void addConnectionDesc(ConnectionDesc* connection) = 0;
     virtual void changeConnectionDesc(ConnectionDesc* connection) = 0;
+    virtual bool checkConnectionDesc(ConnectionDesc* connection) = 0;
+    virtual QString lastError() const = 0;
 };
 
 class QueryDesc : public QObject{
@@ -282,7 +284,6 @@ private:
 };
 
 class MasterDetailProxyModel : public QSortFilterProxyModel{    
-    Q_OBJECT
 public:
     MasterDetailProxyModel(DataSourceManager* dataManager):m_maps(0),m_dataManager(dataManager){}
     void setMaster(QString name);
