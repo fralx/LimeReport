@@ -207,7 +207,9 @@ QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
     int precision = (pcontext->argumentCount()>2)?pcontext->argument(2).toInt32():2;
-    QScriptValue res = pengine->newVariant(QString::number(value.toDouble(),format,precision));
+    QString locale = (pcontext->argumentCount()>3)?pcontext->argument(3).toString():"";
+    QScriptValue res = (locale.isEmpty())?pengine->newVariant(QString::number(value.toDouble(),format,precision)):
+                                          pengine->newVariant(QLocale(locale).toString(value.toDouble(),format,precision));
     return res;
 }
 
@@ -364,7 +366,9 @@ ScriptEngineManager::ScriptEngineManager()
 
     //addFunction("dateToStr",dateToStr,"DATE", "dateToStr(\"value\",\"format\")");
     addFunction("line",line,"SYSTEM", "line(\""+tr("BandName")+"\")");
-    addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+tr("Precision")+"\")");
+    addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
+                tr("Precision")+"\",\""+
+                tr("Locale")+"\")");
     addFunction("dateFormat",dateFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("timeFormat",timeFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
