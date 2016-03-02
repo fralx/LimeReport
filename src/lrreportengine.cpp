@@ -291,7 +291,7 @@ void ReportEnginePrivate::previewReport()
         ReportPages pages = renderToPages();
         dataManager()->setDesignTime(true);
         if (pages.count()>0){
-            PreviewReportWindow* w = new PreviewReportWindow(this,QApplication::activeWindow(),settings());
+            PreviewReportWindow* w = new PreviewReportWindow(this,0,settings());
             w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint);
             w->setAttribute(Qt::WA_DeleteOnClose,true);
             w->setWindowModality(Qt::ApplicationModal);
