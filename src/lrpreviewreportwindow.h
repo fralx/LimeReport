@@ -42,7 +42,8 @@
 namespace Ui {
 class PreviewReportWindow;
 }
-using namespace LimeReport;
+//using namespace LimeReport;
+namespace LimeReport {
 class PreviewReportWindow : public QMainWindow
 {
     Q_OBJECT   
@@ -94,5 +95,5 @@ private:
     bool m_ownedSettings;
     int m_priorScrolValue;
 };
-
+} //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

@@ -39,6 +39,8 @@
 #include <QScrollBar>
 #include <QDesktopWidget>
 
+namespace LimeReport{
+
 PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
     ui(new Ui::PreviewReportWindow), m_currentPage(1), m_changingPage(false), m_settings(settings), m_ownedSettings(false),
@@ -441,3 +443,4 @@ void PreviewReportWindow::slotSliderMoved(int value)
 
 }
 
+}// namespace LimeReport

@@ -1,6 +1,8 @@
 #include "lrsettingdialog.h"
 #include "ui_lrsettingdialog.h"
 
+namespace LimeReport{
+
 SettingDialog::SettingDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SettingDialog)
@@ -45,3 +47,5 @@ void SettingDialog::setDefaultFont(const QFont &value)
     ui->defaultFont->setCurrentFont(value);
     ui->defaultFontSize->setValue(value.pointSize());
 }
+
+} // namespace LimeReport

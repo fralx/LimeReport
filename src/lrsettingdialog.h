@@ -7,6 +7,7 @@ namespace Ui {
 class SettingDialog;
 }
 
+namespace LimeReport{
 class SettingDialog : public QDialog
 {
     Q_OBJECT
@@ -23,5 +24,6 @@ public:
 private:
     Ui::SettingDialog *ui;
 };
+} // namespace LimeReport
 
 #endif // LRSETTINGDIALOG_H
