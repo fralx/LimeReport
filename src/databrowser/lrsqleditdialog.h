@@ -38,6 +38,8 @@
 #include "lrdatasourcemanager.h"
 #include "lrdatadesignintf.h"
 
+namespace LimeReport{
+
 namespace Ui {
     class SQLEditDialog;
 }
@@ -105,5 +107,7 @@ struct SQLEditResult{
     SQLEditDialog::SQLDialogMode dialogMode;
     QList<LimeReport::FieldsCorrelation> fieldMap;
 };
+
+} // namespace LimeReport
 
 #endif // LRSQLEDITDIALOG_H

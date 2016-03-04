@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SettingDialog</class>
- <widget class="QDialog" name="SettingDialog">
+ <class>LimeReport::SettingDialog</class>
+ <widget class="QDialog" name="LimeReport::SettingDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>298</width>
-    <height>184</height>
+    <width>351</width>
+    <height>185</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -149,7 +149,7 @@
   <connection>
    <sender>bbOkCancel</sender>
    <signal>accepted()</signal>
-   <receiver>SettingDialog</receiver>
+   <receiver>LimeReport::SettingDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -165,7 +165,7 @@
   <connection>
    <sender>bbOkCancel</sender>
    <signal>rejected()</signal>
-   <receiver>SettingDialog</receiver>
+   <receiver>LimeReport::SettingDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

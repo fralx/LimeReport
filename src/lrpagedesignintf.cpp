@@ -1993,9 +1993,8 @@ void CommandGroup::addCommand(CommandIf::Ptr command, bool execute)
     if (execute){
         if (command->doIt())
             m_commands.append(command);
-    }else{
+    } else
         m_commands.append(command);
-    }
 }
 
 PrintRange::PrintRange(QAbstractPrintDialog::PrintRange rangeType, int fromPage, int toPage)

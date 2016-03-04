@@ -32,6 +32,8 @@
 
 #include <QDialog>
 
+namespace LimeReport{
+
 namespace Ui {
 class AboutDialog;
 }
@@ -47,5 +49,7 @@ public:
 private:
     Ui::AboutDialog *ui;
 };
+
+} //namespace LimeReport
 
 #endif // LRABOUTDIALOG_H

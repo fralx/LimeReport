@@ -34,7 +34,6 @@
 
 namespace LimeReport{
 
-
 ObjectBrowser::ObjectBrowser(QWidget *parent)
     :QWidget(parent), m_changingItemSelection(false)
 {

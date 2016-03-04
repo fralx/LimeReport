@@ -39,11 +39,12 @@
 #include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
 
+namespace LimeReport {
+
 namespace Ui {
 class PreviewReportWindow;
 }
-//using namespace LimeReport;
-namespace LimeReport {
+
 class PreviewReportWindow : public QMainWindow
 {
     Q_OBJECT   

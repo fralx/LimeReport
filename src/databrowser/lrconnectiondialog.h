@@ -33,6 +33,8 @@
 #include <QDialog>
 #include "lrdatadesignintf.h"
 
+namespace LimeReport{
+
 namespace Ui {
     class ConnectionDialog;
 }
@@ -62,5 +64,7 @@ private:
     bool m_changeMode;
     LimeReport::IConnectionController* m_controller;
 };
+
+} // namespace LimeReport
 
 #endif // LRCONNECTIONDIALOG_H

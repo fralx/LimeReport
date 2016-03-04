@@ -32,6 +32,8 @@
 #include <QFontDialog>
 #include <QDebug>
 
+namespace LimeReport{
+
 FontEditor::FontEditor(QWidget *parent) :
     QWidget(parent)
 {
@@ -79,3 +81,5 @@ QString FontEditor::toString(const QFont &value) const
     attribs+="]";
     return value.family()+" "+QString::number(value.pointSize())+" "+attribs;
 }
+
+} // namespace LimeReport

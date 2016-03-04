@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AboutDialog</class>
- <widget class="QDialog" name="AboutDialog">
+ <class>LimeReport::AboutDialog</class>
+ <widget class="QDialog" name="LimeReport::AboutDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -243,7 +243,7 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>AboutDialog</receiver>
+   <receiver>LimeReport::AboutDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

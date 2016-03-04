@@ -34,6 +34,8 @@
 #include <QPushButton>
 #include <QToolButton>
 
+namespace LimeReport{
+
 class FontEditor : public QWidget
 {
     Q_OBJECT
@@ -53,5 +55,7 @@ private:
     QToolButton* m_button;
     QFont m_font;
 };
+
+} // namespace LimeReport
 
 #endif // LRFONTEDITOR_H

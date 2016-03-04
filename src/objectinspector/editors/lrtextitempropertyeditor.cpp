@@ -31,6 +31,8 @@
 #include "ui_ltextitempropertyeditor.h"
 #include <QCompleter>
 
+namespace LimeReport{
+
 TextItemPropertyEditor::TextItemPropertyEditor(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TextItemPropertyEditor)
@@ -53,3 +55,5 @@ QString TextItemPropertyEditor::text()
 {
     return ui->textEdit->toPlainText();
 }
+
+} //namespace LimeReport

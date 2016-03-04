@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DataBrowser</class>
- <widget class="QWidget" name="DataBrowser">
+ <class>LimeReport::DataBrowser</class>
+ <widget class="QWidget" name="LimeReport::DataBrowser">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -36,6 +36,8 @@
 
 class QToolButton;
 
+namespace LimeReport{
+
 class InternalComboBox :public QComboBox{
     Q_OBJECT
 public:
@@ -72,5 +74,7 @@ private:
     QToolButton* m_buttonClear;
     bool m_settingValues;
 };
+
+} // namespace LimeReport
 
 #endif // LRCOMBOBOXEDITOR_H

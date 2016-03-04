@@ -3,11 +3,12 @@
 
 #include <QDialog>
 
+namespace LimeReport{
+
 namespace Ui {
 class SettingDialog;
 }
 
-namespace LimeReport{
 class SettingDialog : public QDialog
 {
     Q_OBJECT

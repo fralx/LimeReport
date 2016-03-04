@@ -34,6 +34,8 @@
 #include <QPushButton>
 #include <QToolButton>
 
+namespace LimeReport{
+
 class ColorIndicator : public QWidget{
     Q_OBJECT
 public:
@@ -68,5 +70,7 @@ private:
    ColorIndicator* m_colorIndicator;
    bool m_buttonPressed;
 };
+
+} // namespace LimeReport
 
 #endif // LRCOLOREDITOR_H

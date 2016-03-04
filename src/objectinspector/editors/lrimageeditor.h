@@ -32,6 +32,8 @@
 #include <QWidget>
 #include <QPushButton>
 
+namespace LimeReport{
+
 class ImageEditor : public QWidget
 {
     Q_OBJECT
@@ -49,4 +51,5 @@ private:
     QImage m_image;
 };
 
+} // namespace LimeReport
 #endif // LRIMAGEEDITOR_H

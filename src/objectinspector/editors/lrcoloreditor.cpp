@@ -34,6 +34,8 @@
 #include <QPaintEvent>
 #include <QPainter>
 
+namespace LimeReport{
+
 ColorEditor::ColorEditor(QWidget *parent) :
     QWidget(parent), m_buttonPressed(false)
 {
@@ -126,3 +128,5 @@ QSize ColorIndicator::sizeHint() const
 {
     return QSize(20,20);
 }
+
+} // namespace LimeReport

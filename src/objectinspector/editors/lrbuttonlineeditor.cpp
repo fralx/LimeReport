@@ -37,6 +37,8 @@
 #include <QDesktopWidget>
 #include "lrtextitempropertyeditor.h"
 
+namespace LimeReport{
+
 ButtonLineEditor::ButtonLineEditor(const QString &propertyName, QWidget *parent) :
     QWidget(parent), m_overButton(false), m_propertyName(propertyName)
 {
@@ -130,3 +132,5 @@ void ButtonLineEditor::editingByEditorFinished()
     setText(qobject_cast<TextItemPropertyEditor*>(sender())->text());
     m_lineEdit->setFocus();
 }
+
+} //namespace LimeReport

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ConnectionDialog</class>
- <widget class="QDialog" name="ConnectionDialog">
+ <class>LimeReport::ConnectionDialog</class>
+ <widget class="QDialog" name="LimeReport::ConnectionDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -196,7 +196,7 @@
   <connection>
    <sender>pbOk</sender>
    <signal>clicked()</signal>
-   <receiver>ConnectionDialog</receiver>
+   <receiver>LimeReport::ConnectionDialog</receiver>
    <slot>slotAccept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -212,7 +212,7 @@
   <connection>
    <sender>pbCancel</sender>
    <signal>clicked()</signal>
-   <receiver>ConnectionDialog</receiver>
+   <receiver>LimeReport::ConnectionDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -228,7 +228,7 @@
   <connection>
    <sender>pbCheckConnection</sender>
    <signal>clicked()</signal>
-   <receiver>ConnectionDialog</receiver>
+   <receiver>LimeReport::ConnectionDialog</receiver>
    <slot>slotCheckConnection()</slot>
    <hints>
     <hint type="sourcelabel">

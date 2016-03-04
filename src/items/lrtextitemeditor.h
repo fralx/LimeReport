@@ -37,6 +37,8 @@
 #include "lrtextitem.h"
 #include "lrpagedesignintf.h"
 
+namespace LimeReport{
+
 namespace Ui {
 class TextItemEditor;
 }
@@ -101,5 +103,7 @@ private:
     bool m_ownedSettings;
     bool m_isReadingSetting;
 };
+
+} // namespace LimeReport
 
 #endif // LRTEXTITEMEDITOR_H

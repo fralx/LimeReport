@@ -37,6 +37,8 @@
 #include <QKeyEvent>
 #include "lrcomboboxeditor.h"
 
+namespace LimeReport{
+
 ComboBoxEditor::ComboBoxEditor(QWidget *parent, bool clearable) :
     QWidget(parent),
     m_comboBox(new InternalComboBox(this)),
@@ -138,3 +140,5 @@ void ComboBoxEditor::resizeEvent(QResizeEvent *e)
     if (m_buttonClear)
         m_buttonClear->setMinimumHeight(e->size().height()-4);
 }
+
+} // namespace LimeReport

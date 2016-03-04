@@ -38,6 +38,7 @@
 #include <QDebug>
 #include "lrtextitempropertyeditor.h"
 
+namespace LimeReport{
 
 class ButtonLineEditor : public QWidget
 {
@@ -63,5 +64,7 @@ private:
     bool eventFilter(QObject *, QEvent *);
     //QHBoxLayout* m_layout;
 };
+
+} //namespace LimeReport
 
 #endif // LRBUTTONLINEEDIT_H

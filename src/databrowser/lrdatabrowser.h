@@ -38,10 +38,11 @@
 #include "lrreportdesignwidget.h"
 #include "lrsqleditdialog.h"
 
+namespace LimeReport{
+
 namespace Ui {
     class DataBrowser;
 }
-namespace LimeReport{
 
 class DataBrowser : public QWidget, public IConnectionController
 {

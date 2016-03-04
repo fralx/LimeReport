@@ -35,6 +35,8 @@
 #include <QSqlDatabase>
 #include <QMessageBox>
 
+namespace LimeReport{
+
 SQLEditDialog::SQLEditDialog(QWidget *parent, LimeReport::DataSourceManager *dataSources, SQLDialogMode dialogMode) :
     QDialog(parent),
     ui(new Ui::SQLEditDialog),m_datasources(dataSources),m_dialogMode(dialogMode), m_oldDatasourceName(""),
@@ -341,3 +343,4 @@ void SQLEditDialog::hidePreview()
     ui->pbHidePreview->setVisible(false);
 }
 
+} // namespace LimeReport

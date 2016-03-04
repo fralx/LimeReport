@@ -32,6 +32,9 @@
 
 #include <QTreeWidget>
 
+namespace LimeReport{
+
+
 class DataBrowserTree : public QTreeWidget
 {
     Q_OBJECT
@@ -44,5 +47,7 @@ protected:
 public slots:
 
 };
+
+} // namespace LimeReport
 
 #endif // LRDATABROWSERTREE_H

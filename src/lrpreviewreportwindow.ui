@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PreviewReportWindow</class>
- <widget class="QMainWindow" name="PreviewReportWindow">
+ <class>LimeReport::PreviewReportWindow</class>
+ <widget class="QMainWindow" name="LimeReport::PreviewReportWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -41,7 +41,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
@@ -239,7 +239,7 @@
   <connection>
    <sender>actionPrint</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotPrint()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -255,7 +255,7 @@
   <connection>
    <sender>actionPriorPage</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotPriorPage()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -271,7 +271,7 @@
   <connection>
    <sender>actionNextPage</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotNextPage()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -287,7 +287,7 @@
   <connection>
    <sender>actionZoomIn</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotZoomIn()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -303,7 +303,7 @@
   <connection>
    <sender>actionZoomOut</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotZoomOut()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -319,7 +319,7 @@
   <connection>
    <sender>actionClosePreview</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -335,7 +335,7 @@
   <connection>
    <sender>actionFirst_Page</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotFirstPage()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -351,7 +351,7 @@
   <connection>
    <sender>actionLast_Page</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotLastPage()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -367,7 +367,7 @@
   <connection>
    <sender>actionPrint_To_PDF</sender>
    <signal>triggered()</signal>
-   <receiver>PreviewReportWindow</receiver>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
    <slot>slotPrintToPDF()</slot>
    <hints>
     <hint type="sourcelabel">

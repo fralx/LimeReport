@@ -31,6 +31,8 @@
 #include <QDebug>
 #include <QMimeData>
 
+namespace LimeReport {
+
 DataBrowserTree::DataBrowserTree(QWidget *parent) :
     QTreeWidget(parent){}
 
@@ -45,3 +47,5 @@ QMimeData *DataBrowserTree::mimeData(const QList<QTreeWidgetItem *> items) const
     }
     return result;
 }
+
+} // namespace LimeReport

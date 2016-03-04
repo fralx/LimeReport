@@ -339,7 +339,6 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
                 }
             }
         } else {delete bandClone;}
-
         if (patternBand->isFooter())
             datasources()->clearGroupFunctionValues(patternBand->objectName());
     }

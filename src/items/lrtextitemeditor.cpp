@@ -38,6 +38,8 @@
 #include <QMenu>
 #include <QScrollBar>
 
+namespace LimeReport{
+
 TextItemEditor::TextItemEditor(LimeReport::TextItem *item, LimeReport::PageDesignIntf *page, QSettings* settings, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TextItemEditor), m_textItem(item), m_page(page), m_settings(settings), m_ownedSettings(false), m_isReadingSetting(false)
@@ -376,3 +378,4 @@ void TextItemEditor::slotScriptItemsSelectionChanged(const QModelIndex &to, cons
     }
 }
 
+} // namespace LimeReport

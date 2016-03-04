@@ -30,6 +30,8 @@
 #include "lraboutdialog.h"
 #include "ui_lraboutdialog.h"
 
+namespace LimeReport{
+
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AboutDialog)
@@ -42,3 +44,5 @@ AboutDialog::~AboutDialog()
 {
     delete ui;
 }
+
+} //namespace LimeReport

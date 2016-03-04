@@ -31,6 +31,8 @@
 #include <QFileDialog>
 #include "lrimageeditor.h"
 
+namespace LimeReport{
+
 ImageEditor::ImageEditor(QWidget* parent)
     :QWidget(parent)
 {
@@ -54,3 +56,5 @@ void ImageEditor::slotButtonClicked()
     m_image.load(QFileDialog::getOpenFileName(this));
     emit editingFinished();
 }
+
+} // namespace LimeReport

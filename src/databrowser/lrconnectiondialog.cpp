@@ -37,6 +37,8 @@
 #include <stdexcept>
 #include <QFileDialog>
 
+namespace LimeReport{
+
 ConnectionDialog::ConnectionDialog(LimeReport::IConnectionController *conControl, LimeReport::ConnectionDesc* connectionDesc, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConnectionDialog),m_connection(connectionDesc),m_controller(conControl)
@@ -147,3 +149,5 @@ void ConnectionDialog::on_toolButton_clicked()
 {
     ui->leDataBase->setText(QFileDialog::getOpenFileName());
 }
+
+} // namespace LimeReport

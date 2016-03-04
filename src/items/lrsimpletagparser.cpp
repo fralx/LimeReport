@@ -33,6 +33,7 @@
 #include <QStringList>
 
 namespace LimeReport{
+
 void HtmlContext::fillTagVector(QString html)
 {
     QRegExp rx("<[^<]*>");

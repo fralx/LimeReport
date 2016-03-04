@@ -33,6 +33,8 @@
 #include <QDialog>
 #include <QWidget>
 
+namespace LimeReport{
+
 namespace Ui {
     class TextItemPropertyEditor;
 }
@@ -52,5 +54,7 @@ signals:
 private:
     Ui::TextItemPropertyEditor *ui;
 };
+
+} //namespace LimeReport
 
 #endif // ATEXTITEMPROPERTYEDITOR_H

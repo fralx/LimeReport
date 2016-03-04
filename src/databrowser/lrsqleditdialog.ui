@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SQLEditDialog</class>
- <widget class="QDialog" name="SQLEditDialog">
+ <class>LimeReport::SQLEditDialog</class>
+ <widget class="QDialog" name="LimeReport::SQLEditDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -807,7 +807,7 @@
   <connection>
    <sender>leDatasourceName</sender>
    <signal>textChanged(QString)</signal>
-   <receiver>SQLEditDialog</receiver>
+   <receiver>LimeReport::SQLEditDialog</receiver>
    <slot>slotDataSourceNameEditing()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -823,7 +823,7 @@
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>SQLEditDialog</receiver>
+   <receiver>LimeReport::SQLEditDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -839,7 +839,7 @@
   <connection>
    <sender>pushButton_2</sender>
    <signal>clicked()</signal>
-   <receiver>SQLEditDialog</receiver>
+   <receiver>LimeReport::SQLEditDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

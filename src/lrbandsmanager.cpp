@@ -39,6 +39,7 @@
 #include "lrgroupbands.h"
 
 namespace LimeReport{
+
 BandsManager::BandsManager(){}
 
 QStringList BandsManager::bandNames()
