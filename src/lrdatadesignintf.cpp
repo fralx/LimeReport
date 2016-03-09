@@ -594,7 +594,7 @@ bool CallbackDatasource::next(){
         m_currentRow++;
         bool result = false;
         emit changePos(CallbackInfo::Next,result);
-        m_eof = !checkNextRecord(m_currentRow);
+        m_eof = !result; // !checkNextRecord(m_currentRow);
         return result;
     } else return false;
 }

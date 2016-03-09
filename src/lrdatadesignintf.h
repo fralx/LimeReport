@@ -145,8 +145,6 @@ class IConnectionController{
 public:
     virtual void addConnectionDesc(ConnectionDesc* connection) = 0;
     virtual void changeConnectionDesc(ConnectionDesc* connection) = 0;
-    virtual bool checkConnectionDesc(ConnectionDesc* connection) = 0;
-    virtual QString lastError() const = 0;
 };
 
 class QueryDesc : public QObject{
@@ -367,7 +365,7 @@ class CallbackDatasource :public ICallbackDatasource, public IDataSource {
 public:
     CallbackDatasource(): m_currentRow(-1), m_eof(false){}
     bool next();
-    bool hasNext(){ return !m_eof;}
+    bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow);}
     bool prior(){ if (m_currentRow !=-1) {m_currentRow--; return true;} else return false;}
     void first();
     void last(){}
