@@ -157,7 +157,7 @@ void MainWindow::prepareData(QSqlQuery* ds, LimeReport::CallbackInfo info, QVari
         break;
     case LimeReport::CallbackInfo::HasNext:
         data = ds->next();
-        if (data.toBool()) ds->previous();
+        ds->previous();
         break;
     case LimeReport::CallbackInfo::ColumnHeaderData:
         if (info.index < ds->record().count())
@@ -179,10 +179,12 @@ void MainWindow::slotChangePos(const LimeReport::CallbackInfo::ChangePosType &ty
 {
     QSqlQuery* ds = m_customers;
     if (!ds) return;
-    if (type == LimeReport::CallbackInfo::First) result = ds->first();
-    else result = ds->next();
-    m_orders->bindValue(":id",m_customers->value(m_customers->record().indexOf("CustomerID")));
-    m_orders->exec();
+    if (type == LimeReport::CallbackInfo::First) {result = ds->first(); m_nextCount=0;}
+    else {result = ds->next(); m_nextCount++;}
+    if (result){
+        m_orders->bindValue(":id",m_customers->value(m_customers->record().indexOf("CustomerID")));
+        m_orders->exec();
+    }
 }
 
 void MainWindow::slotGetCallbackChildData(LimeReport::CallbackInfo info, QVariant &data)
