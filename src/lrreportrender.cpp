@@ -166,6 +166,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
     m_pageCount=1;
     m_renderCanceled = false;
     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
+    m_reportFooterHeight = 0;
     if (reportFooter)
         m_reportFooterHeight = reportFooter->height();
 
