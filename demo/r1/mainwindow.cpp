@@ -179,8 +179,8 @@ void MainWindow::slotChangePos(const LimeReport::CallbackInfo::ChangePosType &ty
 {
     QSqlQuery* ds = m_customers;
     if (!ds) return;
-    if (type == LimeReport::CallbackInfo::First) {result = ds->first(); m_nextCount=0;}
-    else {result = ds->next(); m_nextCount++;}
+    if (type == LimeReport::CallbackInfo::First) {result = ds->first();}
+    else {result = ds->next();}
     if (result){
         m_orders->bindValue(":id",m_customers->value(m_customers->record().indexOf("CustomerID")));
         m_orders->exec();
