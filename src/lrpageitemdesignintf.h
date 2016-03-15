@@ -103,6 +103,7 @@ public:
     QList<BandDesignIntf *>& bands();
     void setGridStep(int value);
     int gridStep();
+    void objectLoadFinished();
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* /*object*/, QRectF newGeometry, QRectF oldGeometry);
