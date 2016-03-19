@@ -30,6 +30,7 @@ DEFINES += INSPECT_BASEDESIGN
 
 REPORT_PATH = $$PWD/src
 
+
 INCLUDEPATH += \
     $$REPORT_PATH/ \
     $$REPORT_PATH/items \
@@ -111,10 +112,10 @@ SOURCES += \
     $$REPORT_PATH/lrpreviewreportwindow.cpp \
     $$REPORT_PATH/lrvariablesholder.cpp \
     $$REPORT_PATH/lrgroupfunctions.cpp \
-    $$REPORT_PATH/lrsimplecrypt.cpp \    
+    $$REPORT_PATH/lrsimplecrypt.cpp \
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp
-    
+
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
 }
@@ -203,11 +204,11 @@ HEADERS += \
     $$REPORT_PATH/lrreportengine.h \
     $$REPORT_PATH/lrdatasourcemanagerintf.h \
     $$REPORT_PATH/lrscriptenginemanagerintf.h \
-    $$REPORT_PATH/lrsimplecrypt.h \    
+    $$REPORT_PATH/lrsimplecrypt.h \
     $$REPORT_PATH/lraboutdialog.h \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h
-    
+
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
 }
@@ -230,4 +231,27 @@ RESOURCES += \
     $$REPORT_PATH/items/items.qrc
 
 
-TRANSLATIONS += limereport_ru.ts
+TRANSLATIONS_PATH = $$PWD/translations
+TRANSLATIONS += $$TRANSLATIONS_PATH/limereport_ru.ts \
+                $$TRANSLATIONS_PATH/limereport_es_ES.ts
+
+OTHER_FILES += $$TRANSLATIONS
+
+#######
+####Automatically build required translation files (*.qm)
+all.depends = locale
+#QMAKE_EXTRA_TARGETS += all
+
+#"%.ts".commands = lupdate -ts $@ $<
+
+TRANSLATIONS_TARGETS = $$replace(TRANSLATIONS, ".ts", ".qm")
+locale.depends = $$TRANSLATIONS_TARGETS
+QMAKE_EXTRA_TARGETS += locale
+
+"%.qm".commands = lrelease -qm $@ $<
+"%.qm".depends = "%.ts"
+QMAKE_EXTRA_TARGETS += "%.qm"
+
+PRE_TARGETDEPS += locale
+
+#### EN AUTOMATIC TRANSLATIONS
