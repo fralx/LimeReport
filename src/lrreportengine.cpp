@@ -403,6 +403,8 @@ QSettings*ReportEnginePrivate::settings()
 
 bool ReportEnginePrivate::loadFromFile(const QString &fileName)
 {
+    if (!QFile::exists(fileName)) return false;
+
     clearReport();
 
     ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);

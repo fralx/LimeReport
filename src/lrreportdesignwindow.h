@@ -135,7 +135,9 @@ private:
     void writePosition();
     void writeState();
     void createRecentFilesMenu();
-
+    void removeNotExistedRecentFiles();
+    void removeNotExistedRecentFilesFromMenu(const QString& fileName);
+    void addRecentFile(const QString& fileName);
 private:
     static ReportDesignWindow* m_instance;
     QStatusBar* m_statusBar;

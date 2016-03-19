@@ -291,10 +291,11 @@ bool ReportDesignWidget::save()
     }
 }
 
-void ReportDesignWidget::loadFromFile(const QString &fileName)
+bool ReportDesignWidget::loadFromFile(const QString &fileName)
 {
-    m_report->loadFromFile(fileName);    
+    if (!m_report->loadFromFile(fileName)) return false;
     setActivePage(m_report->pageAt(0));
+    return true;
 }
 
 void ReportDesignWidget::scale(qreal sx, qreal sy)

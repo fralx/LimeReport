@@ -541,14 +541,58 @@ void ReportDesignWindow::createRecentFilesMenu()
 {
     if (m_recentFilesMenu){
         m_recentFilesMenu->clear();
+        removeNotExistedRecentFiles();
         foreach(QString fileName, m_recentFiles.keys()){
             QAction* tmpAction = new QAction(QIcon(":/report/images/newReport"),fileName,this);
             connect(tmpAction,SIGNAL(triggered()), m_recentFilesSignalMap, SLOT(map()));
             m_recentFilesSignalMap->setMapping(tmpAction,fileName);
             m_recentFilesMenu->addAction(tmpAction);
         }
+        m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
     }
-    m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
+}
+
+void ReportDesignWindow::removeNotExistedRecentFiles()
+{
+    QMap<QString,QDateTime>::iterator it = m_recentFiles.begin();
+    while (it!=m_recentFiles.end()){
+        if (!QFile::exists(it.key())){
+            it = m_recentFiles.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void ReportDesignWindow::removeNotExistedRecentFilesFromMenu(const QString &fileName)
+{
+    if (m_recentFilesMenu){
+        foreach(QAction* action, m_recentFilesMenu->actions()){
+            if (action->text().compare(fileName)==0){
+                m_recentFilesMenu->removeAction(action);
+                break;
+            }
+        }
+    }
+}
+
+void ReportDesignWindow::addRecentFile(const QString &fileName)
+{
+    if (!m_recentFiles.contains(fileName)){
+        if (m_recentFiles.count()==10){
+            QMap<QString, QDateTime>::const_iterator it = m_recentFiles.constBegin();
+            QDateTime minDate = QDateTime::currentDateTime();
+            while (it != m_recentFiles.constEnd()) {
+                if (minDate>it.value()) minDate = it.value();
+                ++it;
+            }
+            m_recentFiles.remove(m_recentFiles.key(minDate));
+        }
+        m_recentFiles.insert(fileName,QDateTime::currentDateTime());
+    } else {
+        m_recentFiles[fileName] = QDateTime::currentDateTime();
+    }
+    createRecentFilesMenu();
 }
 
 void ReportDesignWindow::restoreSetting()
@@ -802,6 +846,7 @@ void ReportDesignWindow::slotSaveReport()
 {
     m_reportDesignWidget->save();
     m_lblReportName->setText(m_reportDesignWidget->reportFileName());
+    if (!m_reportDesignWidget->reportFileName().isEmpty()) addRecentFile(m_reportDesignWidget->reportFileName());
 }
 
 void ReportDesignWindow::slotSaveReportAs()
@@ -810,6 +855,7 @@ void ReportDesignWindow::slotSaveReportAs()
     if (!fileName.isEmpty()){
         m_reportDesignWidget->saveToFile(fileName);
         m_lblReportName->setText(m_reportDesignWidget->reportFileName());
+        addRecentFile(fileName);
     }
 }
 
@@ -832,21 +878,7 @@ void ReportDesignWindow::slotLoadReport()
                 updateRedoUndo();
                 unsetCursor();
                 setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
-                if (!m_recentFiles.contains(fileName)){
-                    if (m_recentFiles.count()==10){
-                        QMap<QString, QDateTime>::const_iterator it = m_recentFiles.constBegin();
-                        QDateTime minDate = QDateTime::currentDateTime();
-                        while (it != m_recentFiles.constEnd()) {
-                            if (minDate>it.value()) minDate = it.value();
-                            ++it;
-                        }
-                        m_recentFiles.remove(m_recentFiles.key(minDate));
-                    }
-                    m_recentFiles.insert(fileName,QDateTime::currentDateTime());
-                } else {
-                    m_recentFiles[fileName] = QDateTime::currentDateTime();
-                }
-                createRecentFilesMenu();
+                addRecentFile(fileName);
             }
         }
 
@@ -1054,15 +1086,21 @@ void ReportDesignWindow::slotLoadRecentFile(const QString fileName)
 {
     if (checkNeedToSave()){
         QApplication::processEvents();
-        setCursor(Qt::WaitCursor);
-        m_reportDesignWidget->clear();
-        m_reportDesignWidget->loadFromFile(fileName);
-        m_lblReportName->setText(fileName);
-        m_propertyModel->setObject(0);
-        updateRedoUndo();
-        unsetCursor();
-        setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
-        m_recentFiles[fileName] = QDateTime::currentDateTime();
+        if (QFile::exists(fileName)){
+            setCursor(Qt::WaitCursor);
+            m_reportDesignWidget->clear();
+            m_reportDesignWidget->loadFromFile(fileName);
+            m_lblReportName->setText(fileName);
+            m_propertyModel->setObject(0);
+            updateRedoUndo();
+            unsetCursor();
+            setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
+            m_recentFiles[fileName] = QDateTime::currentDateTime();
+        } else {
+            m_recentFiles.remove(fileName);
+            removeNotExistedRecentFilesFromMenu(fileName);
+            QMessageBox::information(this,tr("Warning"),tr("File \"%1\" not found!").arg(fileName));
+        }
     }
 }
 
