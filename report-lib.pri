@@ -244,7 +244,7 @@ all.depends = locale
 
 #"%.ts".commands = lupdate -ts $@ $<
 
-TRANSLATIONS_TARGETS = $$replace(TRANSLATIONS, ".ts", ".qm")
+TRANSLATIONS_TARGETS = $$replace(TRANSLATIONS, "\.ts", ".qm")
 locale.depends = $$TRANSLATIONS_TARGETS
 QMAKE_EXTRA_TARGETS += locale
 
