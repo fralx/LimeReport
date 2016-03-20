@@ -25,6 +25,12 @@ unix {
     for(FILE,EXTRA_FILES){
         QMAKE_POST_LINK += $$quote($$QMAKE_COPY $${FILE} $${DEST_DIR}$$escape_expand(\n\t))
     }
+    MOC_DIR = $${OUT_PWD}/unix/moc
+    UI_DIR = $${OUT_PWD}/unix/ui
+    UI_HEADERS_DIR = $${OUT_PWD}/unix/ui
+    UI_SOURCES_DIR = $${OUT_PWD}/unix/ui
+    OBJECTS_DIR = $${OUT_PWD}/unix/obj
+    RCC_DIR = $${OUT_PWD}/unix/rcc
 }
 
 win32 {
@@ -33,6 +39,12 @@ win32 {
     for(FILE,EXTRA_FILES){
                 QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DEST_DIR) $$escape_expand(\\n\\t)
     }
+    MOC_DIR = $${OUT_PWD}/win32/moc
+    UI_DIR = $${OUT_PWD}/win32/ui
+    UI_HEADERS_DIR = $${OUT_PWD}/win32/ui
+    UI_SOURCES_DIR = $${OUT_PWD}/win32/ui
+    OBJECTS_DIR = $${OUT_PWD}/win32/obj
+    RCC_DIR = $${OUT_PWD}/win32/rcc
 }
 
 DESTDIR = $$PWD/lib
