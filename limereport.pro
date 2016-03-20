@@ -1,15 +1,25 @@
-#CONFIG +=zint
-#QMAKE_CFLAGS += -std=c99
-#ZINT_PATH = $$PWD/../zint-2.4.3
-#ZINT_VERSION = 2.4.3
-#include(qzint.pri)
-include(report-lib.pri)
+DEFINES += WITH_ZINT
+contains (DEFINES,WITH_ZINT){
+    CONFIG +=zint
+    include(3rdparty/3rdparty.pro)
+}
 
+include(report-lib.pri)
 TEMPLATE = lib
 QT += core xml sql script
 TARGET = limereport
 
 DEFINES += LIMEREPORT_EXPORTS
+
+CONFIG(release, debug|release){
+    message(Release)
+    BUILD_TYPE = release
+}else{
+    message(Debug)
+    BUILD_TYPE = debug
+}
+CONFIG += create_prl
+CONFIG += link_prl
 
 EXTRA_FILES += \
     $$PWD/src/lrglobal.cpp \
@@ -25,38 +35,41 @@ unix {
     for(FILE,EXTRA_FILES){
         QMAKE_POST_LINK += $$quote($$QMAKE_COPY $${FILE} $${DEST_DIR}$$escape_expand(\n\t))
     }
-    MOC_DIR = $${OUT_PWD}/unix/moc
-    UI_DIR = $${OUT_PWD}/unix/ui
-    UI_HEADERS_DIR = $${OUT_PWD}/unix/ui
-    UI_SOURCES_DIR = $${OUT_PWD}/unix/ui
-    OBJECTS_DIR = $${OUT_PWD}/unix/obj
-    RCC_DIR = $${OUT_PWD}/unix/rcc
+    MOC_DIR = $${OUT_PWD}/unix/$${BUILD_TYPE}/moc
+    UI_DIR = $${OUT_PWD}/unix/$${BUILD_TYPE}/ui
+    UI_HEADERS_DIR = $${OUT_PWD}/unix/$${BUILD_TYPE}/ui
+    UI_SOURCES_DIR = $${OUT_PWD}/unix/$${BUILD_TYPE}/ui
+    OBJECTS_DIR = $${OUT_PWD}/unix/$${BUILD_TYPE}/obj
+    RCC_DIR = $${OUT_PWD}/unix/$${BUILD_TYPE}/rcc
+    DESTDIR = $$PWD/lib/unix/$${BUILD_TYPE}
+    for(FILE,EXTRA_FILES){
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DESTDIR/include) $$escape_expand(\\n\\t)
+    }
+
 }
 
 win32 {
     EXTRA_FILES ~= s,/,\\,g
     DEST_DIR ~= s,/,\\,g
     for(FILE,EXTRA_FILES){
-                QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DEST_DIR) $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DEST_DIR) $$escape_expand(\\n\\t)
     }
-    MOC_DIR = $${OUT_PWD}/win32/moc
-    UI_DIR = $${OUT_PWD}/win32/ui
-    UI_HEADERS_DIR = $${OUT_PWD}/win32/ui
-    UI_SOURCES_DIR = $${OUT_PWD}/win32/ui
-    OBJECTS_DIR = $${OUT_PWD}/win32/obj
-    RCC_DIR = $${OUT_PWD}/win32/rcc
-}
+    MOC_DIR = $${OUT_PWD}/win32/$${BUILD_TYPE}/moc
+    UI_DIR = $${OUT_PWD}/win32/$${BUILD_TYPE}/ui
+    UI_HEADERS_DIR = $${OUT_PWD}/win32/$${BUILD_TYPE}/ui
+    UI_SOURCES_DIR = $${OUT_PWD}/win32/$${BUILD_TYPE}/ui
+    OBJECTS_DIR = $${OUT_PWD}/win32/$${BUILD_TYPE}/obj
+    RCC_DIR = $${OUT_PWD}/win32/$${BUILD_TYPE}/rcc
+    DESTDIR = $$PWD/lib/win32/$${BUILD_TYPE}
 
-DESTDIR = $$PWD/lib
+}
 
 DEPENDPATH += report report/bands report/base report/databrowser report/items report/objectinspector 
 INCLUDEPATH += report report/bands report/base report/databrowser report/items report/objectinspector
 
-CONFIG(release, debug|release): DESTDIR = $$PWD/lib/release/
-else:CONFIG(debug, debug|release): DESTDIR = $$PWD/lib/debug/
+contains(DEFINES,WITH_ZINT){
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../zint-2.4.3/build-backend_dll-Desktop_Qt_5_5_0_MSVC2010_32bit-Release/release/ -lQtZint22
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../zint-2.4.3/build-backend_dll-Desktop_Qt_5_5_0_MSVC2010_32bit-Release/debug/ -lQtZint22
+    LIBS += -L$${DEST_DIR} -lQtZint
+}
 
-#INCLUDEPATH += $$PWD/../zint-2.4.3/backend $$PWD/../zint-2.4.3/backend_qt4
-#DEPENDPATH += $$PWD/../zint-2.4.3/backend $$PWD/../zint-2.4.3/backend_qt4
+INSTALLS += target

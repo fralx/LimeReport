@@ -30,6 +30,8 @@ CONFIG(release, debug|release){
     BUILD_TYPE = debug
 }
 CONFIG  -= app_bundle
+CONFIG += create_prl
+CONFIG += link_prl
 
 unix{
     UNIX_DIR       = $$OUT_PWD/../build/unix
@@ -41,7 +43,7 @@ unix{
     OBJECTS_DIR    = $${DEST_DIR}/obj
     RCC_DIR        = $${DEST_DIR}/rcc
 
-    LIBS += -L$$PWD/../../lib/$${BUILD_TYPE} -llimereport
+    LIBS += -L$$PWD/../../lib/unix/$${BUILD_TYPE} -llimereport
     DESTDIR = $$DEST_DIR/bin
     QMAKE_POST_LINK += mkdir -p $$quote($$DESTDIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$DESTDIR) $$escape_expand(\n\t)
 }
@@ -63,5 +65,5 @@ win32 {
     RC_FILE += mainicon.rc
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$DESTDIR) $$escape_expand(\\n\\t)
-    LIBS += -L$$PWD/../../lib/$${BUILD_TYPE} -llimereport
+    LIBS += -L$$PWD/../../lib/win32/$${BUILD_TYPE} -llimereport
 }
