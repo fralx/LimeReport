@@ -111,7 +111,7 @@ unix {
     UI_SOURCES_DIR = $${UNIX_DIR}/$${BUILD_TYPE}/ui
     OBJECTS_DIR    = $${UNIX_DIR}/$${BUILD_TYPE}/obj
     RCC_DIR        = $${UNIX_DIR}/$${BUILD_TYPE}/rcc
-    DESTDIR        = $$PWD/../../../lib/unix/$${BUILD_TYPE}
+    DESTDIR        = $$PWD/../../../build/unix/$${BUILD_TYPE}/lib
     DLLDESTDIR     = $${DESTDIR}
 }
 
@@ -124,7 +124,7 @@ win32 {
     UI_SOURCES_DIR = $${WIN32_DIR}/$${BUILD_TYPE}/ui
     OBJECTS_DIR    = $${WIN32_DIR}/$${BUILD_TYPE}/obj
     RCC_DIR        = $${WIN32_DIR}/$${BUILD_TYPE}/rcc
-    DESTDIR        = $$PWD/../../../lib/win32/$${BUILD_TYPE}
+    DESTDIR        = $$PWD/../../../build/win32/$${BUILD_TYPE}/lib
     DLLDESTDIR     = $${DESTDIR}
 }
 
