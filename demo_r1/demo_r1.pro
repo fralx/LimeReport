@@ -20,7 +20,6 @@ DEPENDPATH  += $$PWD/../include
 RESOURCES += \
     r1.qrc
 
-
 EXTRA_DIR += $$PWD/demo_reports/*
 
 CONFIG(release, debug|release){
@@ -33,7 +32,8 @@ CONFIG(release, debug|release){
 
 unix{
     UNIX_DIR       = $$PWD/../build/unix
-    DEST_DIR       = $${UNIX_DIR}/$${BUILD_TYPE}/demo_reports
+    DEST_DIR       = $${UNIX_DIR}/$${BUILD_TYPE}/demo
+    REPORTS_DIR  = $${DEST_DIR}/demo_reports
     MOC_DIR        = $${OUT_PWD}/moc
     UI_DIR         = $${OUT_PWD}//ui
     UI_HEADERS_DIR = $${OUT_PWD}//ui
@@ -43,7 +43,7 @@ unix{
 
     LIBS += -L$$PWD/../build/unix/$${BUILD_TYPE}/lib -llimereport
     DESTDIR = $$DEST_DIR
-    QMAKE_POST_LINK += mkdir -p $$quote($$DESTDIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$DESTDIR) $$escape_expand(\n\t)
+    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
@@ -54,9 +54,11 @@ unix{
 win32 {
     WIN32_DIR = $$PWD/../build/win32
     EXTRA_DIR ~= s,/,\\,g
-
-    DEST_DIR       = $${WIN32_DIR}/$${BUILD_TYPE}/demo_reports/
+    DEST_DIR       = $${WIN32_DIR}/$${BUILD_TYPE}/demo
     DEST_DIR      ~= s,/,\\,g
+    REPORTS_DIR  = $${DEST_DIR}/demo_reports
+    REPORTS_DIR ~= s,/,\\,g
+
     MOC_DIR        = $${OUT_PWD}/moc
     UI_DIR         = $${OUT_PWD}/ui
     UI_HEADERS_DIR = $${OUT_PWD}/ui
@@ -67,8 +69,10 @@ win32 {
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$DESTDIR) $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
     LIBS += -L$$PWD/../build/win32/$${BUILD_TYPE}/lib -llimereport
 }
 
-INSTALLS = target
+unix{
+    INSTALLS = target
+}
