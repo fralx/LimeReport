@@ -1004,6 +1004,9 @@ int qr_code(struct zint_symbol *symbol, unsigned char source[], int length)
 	int jisdata[length + 1];
 	char mode[length + 1];
 #else
+    int* datastream;
+    int* fullstream;
+    unsigned char* grid;
 	int* utfdata = (int *)_alloca((length + 1) * sizeof(int));
 	int* jisdata = (int *)_alloca((length + 1) * sizeof(int));
 	char* mode = (char *)_alloca(length + 1);
@@ -1115,8 +1118,8 @@ int qr_code(struct zint_symbol *symbol, unsigned char source[], int length)
 	int datastream[target_binlen + 1];
 	int fullstream[qr_total_codewords[version - 1] + 1];
 #else
-	int* datastream = (int *)_alloca((target_binlen + 1) * sizeof(int));
-	int* fullstream = (int *)_alloca((qr_total_codewords[version - 1] + 1) * sizeof(int));
+    datastream = (int *)_alloca((target_binlen + 1) * sizeof(int));
+    fullstream = (int *)_alloca((qr_total_codewords[version - 1] + 1) * sizeof(int));
 #endif
 
 	qr_binary(datastream, version, target_binlen, mode, jisdata, length, gs1, est_binlen);
@@ -1126,7 +1129,7 @@ int qr_code(struct zint_symbol *symbol, unsigned char source[], int length)
 #ifndef _MSC_VER
 	unsigned char grid[size * size];
 #else
-	unsigned char* grid = (unsigned char *)_alloca((size * size) * sizeof(unsigned char));
+    grid = (unsigned char *)_alloca((size * size) * sizeof(unsigned char));
 #endif
 	
 	for(i = 0; i < size; i++) {
@@ -1999,7 +2002,11 @@ int microqr(struct zint_symbol *symbol, unsigned char source[], int length)
 	int binary_count[4];
 	int ecc_level, autoversion, version;
 	int n_count, a_count, bitmask, format, format_full;
-	
+
+#ifdef _MSC_VER
+    unsigned char* grid;
+#endif
+
 	if(length > 35) {
 		strcpy(symbol->errtxt, "Input data too long");
 		return ERROR_TOO_LONG;
@@ -2169,7 +2176,7 @@ int microqr(struct zint_symbol *symbol, unsigned char source[], int length)
 #ifndef _MSC_VER
 	unsigned char grid[size * size];
 #else
-	unsigned char* grid = (unsigned char *)_alloca((size * size) * sizeof(unsigned char));
+    grid = (unsigned char *)_alloca((size * size) * sizeof(unsigned char));
 #endif
 	
 	for(i = 0; i < size; i++) {

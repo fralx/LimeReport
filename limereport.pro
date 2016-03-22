@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-CONFIG += zint
+include(common.pri)
 contains(CONFIG, zint){
     SUBDIRS += 3rdparty
 }

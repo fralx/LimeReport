@@ -101,11 +101,11 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
         case Angle90:
             hOffset = width()-fakeMarginSize();
             vOffset = fakeMarginSize();
-            if ((tmpSize.width()>0) && (m_alignment & Qt::AlignVCenter)){
+            if (m_alignment & Qt::AlignVCenter){
                 hOffset = (width()-m_text->size().height())/2+m_text->size().height();
             }
 
-            if ((tmpSize.height()>0) && (m_alignment & Qt::AlignBottom)){
+            if (m_alignment & Qt::AlignBottom){
                 hOffset = (m_text->size().height());
             }
             painter->translate(hOffset,vOffset);
@@ -126,11 +126,11 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
         case Angle270:
             hOffset = fakeMarginSize();
             vOffset = height()-fakeMarginSize();
-            if ((tmpSize.width()>0) && (m_alignment & Qt::AlignVCenter)){
+            if (m_alignment & Qt::AlignVCenter){
                 hOffset = (width()-m_text->size().height())/2;
             }
 
-            if ((tmpSize.height()>0) && (m_alignment & Qt::AlignBottom)){
+            if (m_alignment & Qt::AlignBottom){
                 hOffset = (width()-m_text->size().height());
             }
             painter->translate(hOffset,vOffset);

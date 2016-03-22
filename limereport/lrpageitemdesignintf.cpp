@@ -369,40 +369,56 @@ BandDesignIntf *PageItemDesignIntf::dataBandAt(int index)
 void PageItemDesignIntf::setTopMargin(int value)
 {
     if (m_topMargin!=value){
+        m_sizeChainging = true;
         int oldValue = m_topMargin;
         m_topMargin=value;
-        updateMarginRect();
-        notify("topMargin",oldValue,value);
+        if (!isLoading()){
+            updateMarginRect();
+            notify("topMargin",oldValue,value);;
+        }
+        m_sizeChainging =  false;
     }
 }
 
 void PageItemDesignIntf::setBottomMargin(int value)
 {
     if (m_bottomMargin!=value){
+        m_sizeChainging = true;
         int oldValue = m_bottomMargin;
         m_bottomMargin=value;
-        updateMarginRect();
-        notify("bottomMargin",oldValue,value);
+        if (!isLoading()){
+            updateMarginRect();
+            notify("bottomMargin",oldValue,value);
+        }
+        m_sizeChainging = false;
     }
 }
 
 void PageItemDesignIntf::setLeftMargin(int value)
 {
     if (m_leftMargin!=value){
+        m_sizeChainging = true;
         int oldValue = m_leftMargin;
         m_leftMargin=value;
-        updateMarginRect();
-        notify("leftMargin",oldValue,value);
+        if (!isLoading()){
+            updateMarginRect();
+            notify("leftMargin",oldValue,value);
+        }
+        m_sizeChainging = false;
     }
 }
 
 void PageItemDesignIntf::setRightMargin(int value)
 {
     if (m_rightMargin!=value){
+        m_sizeChainging = true;
         int oldValue = m_rightMargin;
         m_rightMargin=value;
-        updateMarginRect();
-        notify("rightMargin",oldValue,value);
+        if (!isLoading()){
+            updateMarginRect();
+            notify("rightMargin",oldValue,value);
+        }
+        m_sizeChainging = false;
     }
 }
 
@@ -410,11 +426,13 @@ void PageItemDesignIntf::setPageOrientation(PageItemDesignIntf::Orientation valu
 {
     if (!m_sizeChainging && m_pageOrientaion!=value){
         m_sizeChainging = true;
+        PageItemDesignIntf::Orientation oldValue = m_pageOrientaion;
         m_pageOrientaion = value;
         if (!isLoading()){
             qreal tmpWidth = width();
             setWidth(height());
             setHeight(tmpWidth);
+            notify("pageOrientation",oldValue,value);
         }
         m_sizeChainging =  false;
     }
@@ -497,7 +515,7 @@ void PageItemDesignIntf::updateMarginRect()
     m_pageRect.adjust(m_leftMargin*mmFactor(),m_topMargin*mmFactor(),
                          -m_rightMargin*mmFactor(),-m_bottomMargin*mmFactor());
     foreach(BandDesignIntf* band,m_bands){
-        band->setWidth(pageRect().width());
+        band->setWidth(pageRect().width()/band->columnsCount());
         relocateBands();
     }
     foreach (BaseDesignIntf* item, childBaseItems()) {
@@ -549,6 +567,12 @@ int PageItemDesignIntf::gridStep()
 {
     if (page()) return page()->horizontalGridStep();
     else return 2;
+}
+
+void PageItemDesignIntf::objectLoadFinished()
+{
+    BaseDesignIntf::objectLoadFinished();
+    updateMarginRect();
 }
 
 PageItemDesignIntf::Ptr PageItemDesignIntf::create(QObject *owner)

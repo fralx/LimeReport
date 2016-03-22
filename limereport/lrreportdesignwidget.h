@@ -105,7 +105,7 @@ public:
 public slots:
     void saveToFile(const QString&);
     bool save();
-    void loadFromFile(const QString&);
+    bool loadFromFile(const QString&);
     void deleteSelectedItems();
     void setActivePage(PageDesignIntf* page);
     void undo();
