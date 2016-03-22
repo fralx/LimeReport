@@ -1,4 +1,6 @@
-QT += core gui script sql
+include(../common.pri)
+QT += core gui
+
 greaterThan(QT_MAJOR_VERSION, 4){
     QT += widgets printsupport
     DEFINES += HAVE_QT5
@@ -42,6 +44,9 @@ unix{
     RCC_DIR        = $${OUT_PWD}//rcc
 
     LIBS += -L$$PWD/../build/unix/$${BUILD_TYPE}/lib -llimereport
+contains(CONFIG,zint){
+    LIBS += -L$$PWD/../build/unix/$${BUILD_TYPE}/lib -lQtZint
+}
     DESTDIR = $$DEST_DIR
     QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
