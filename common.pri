@@ -1,3 +1,4 @@
+#CONFIG += build_translations
 CONFIG += zint
 ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
 
@@ -11,6 +12,7 @@ DEFINES += LIMEREPORT_VERSION=$${LIMEREPORT_VERSION}
 
 QT += script xml sql
 REPORT_PATH = $$PWD/limereport
+TRANSLATIONS_PATH = $$PWD/translations
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES+=HAVE_QT5

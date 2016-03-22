@@ -70,27 +70,32 @@ contains(CONFIG,zint){
 #######
 ####Automatically build required translation files (*.qm)
 
+contains(CONFIG,build_translations){
+    LANGUAGES = ru es_ES
 
-LANGUAGES = ru es_ES
+    defineReplace(prependAll) {
+        for(a,$$1):result += $$2$${a}$$3
+        return($$result)
+    }
 
-defineReplace(prependAll) {
-    for(a,$$1):result += $$2$${a}$$3
-    return($$result)
+    TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
+    qtPrepareTool(LUPDATE, lupdate)
+    ts.commands = $$LUPDATE $$PWD -ts $$TRANSLATIONS
+
+    TRANSLATIONS_FILES =
+    qtPrepareTool(LRELEASE, lrelease)
+    for(tsfile, TRANSLATIONS) {
+        qmfile = $$tsfile
+        qmfile ~= s,.ts$,.qm,
+        qm.commands += $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
+        tmp_command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
+        TRANSLATIONS_FILES += $$qmfile
+    }
+    qm.depends = ts
+
+    QMAKE_EXTRA_TARGETS += qm ts
+    POST_TARGETDEPS +=  qm
 }
-
-TRANSLATIONS_PATH = $$PWD/../translations
-TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
-
-qtPrepareTool(LUPDATE, lupdate)
-ts.commands = $$LUPDATE $$_PRO_FILE_
-
-qtPrepareTool(LRELEASE, lrelease)
-qm.commands = $$LRELEASE $$_PRO_FILE_
-qm.depends = ts
-
-QMAKE_EXTRA_TARGETS += qm ts
-POST_TARGETDEPS +=  qm ts
-
 
 #### EN AUTOMATIC TRANSLATIONS
 
