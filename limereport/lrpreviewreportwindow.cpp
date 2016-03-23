@@ -79,10 +79,10 @@ void PreviewReportWindow::restoreSetting()
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
     } else {
-        QScreen *screen = QApplication::primaryScreen();
+        QDesktopWidget *desktop = QApplication::desktop();
 
-        int screenWidth = screen->virtualGeometry().width();
-        int screenHeight = screen->virtualGeometry().height();
+        int screenWidth = desktop->screenGeometry().width();
+        int screenHeight = desktop->screenGeometry().height();
 
         int x = screenWidth*0.1;
         int y = screenHeight*0.1;
