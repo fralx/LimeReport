@@ -39,13 +39,13 @@ unix {
     RCC_DIR        = $${UNIX_DIR}/rcc/$${BUILD_TYPE}
     DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
 
-    QMAKE_POST_LINK += mkdir -p $$quote($${BUILD_DIR}/lib/include) $$escape_expand(\\n\\t))
+    QMAKE_POST_LINK += mkdir -p $$quote($${BUILD_DIR}/lib/include) $$escape_expand(\\n\\t)
 
     for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$quote($$QMAKE_COPY $${FILE} $${DEST_DIR} $$escape_expand(\\n\\t))
+        QMAKE_POST_LINK += $$quote($$QMAKE_COPY $${FILE} $${DEST_DIR}) $$escape_expand(\\n\\t)
     }
     for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${BUILD_DIR}/include/) $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${BUILD_DIR}/lib/include/) $$escape_expand(\\n\\t)
     }
 }
 
