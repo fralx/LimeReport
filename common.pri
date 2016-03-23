@@ -1,6 +1,7 @@
 #CONFIG += build_translations
-CONFIG += zint
-ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+#CONFIG += zint
+#ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+BUILD_DIR = $$PWD/build/$${QT_VERSION}
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 3

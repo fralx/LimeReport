@@ -33,33 +33,27 @@ CONFIG(release, debug|release){
 }
 
 unix{
-    UNIX_DIR       = $$PWD/../build/unix
-    DEST_DIR       = $${UNIX_DIR}/$${BUILD_TYPE}/demo
+    DEST_DIR       = $${BUILD_DIR}/demo/$${BUILD_TYPE}
     REPORTS_DIR  = $${DEST_DIR}/demo_reports
     MOC_DIR        = $${OUT_PWD}/moc
-    UI_DIR         = $${OUT_PWD}//ui
-    UI_HEADERS_DIR = $${OUT_PWD}//ui
-    UI_SOURCES_DIR = $${OUT_PWD}//ui
-    OBJECTS_DIR    = $${OUT_PWD}//obj
-    RCC_DIR        = $${OUT_PWD}//rcc
+    UI_DIR         = $${OUT_PWD}/ui
+    UI_HEADERS_DIR = $${OUT_PWD}/ui
+    UI_SOURCES_DIR = $${OUT_PWD}/ui
+    OBJECTS_DIR    = $${OUT_PWD}/obj
+    RCC_DIR        = $${OUT_PWD}/rcc
 
-    LIBS += -L$$PWD/../build/unix/$${BUILD_TYPE}/lib -llimereport
+    LIBS += -L$${BUILD_DIR}/lib/$${BUILD_TYPE} -llimereport
 contains(CONFIG,zint){
-    LIBS += -L$$PWD/../build/unix/$${BUILD_TYPE}/lib -lQtZint
+    LIBS += -L$${BUILD_DIR}/lib/$${BUILD_TYPE} -lQtZint
 }
     DESTDIR = $$DEST_DIR
     QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
-    QMAKE_LFLAGS_RPATH += #. .. ./libs
     target.path = $${DEST_DIR}
 }
 
 win32 {
-    WIN32_DIR = $$PWD/../build/win32
     EXTRA_DIR ~= s,/,\\,g
-    DEST_DIR       = $${WIN32_DIR}/$${BUILD_TYPE}/demo
+    DEST_DIR       = $${BUILD_DIR}/demo/$${BUILD_TYPE}
     DEST_DIR      ~= s,/,\\,g
     REPORTS_DIR  = $${DEST_DIR}/demo_reports
     REPORTS_DIR ~= s,/,\\,g
@@ -75,7 +69,7 @@ win32 {
     RC_FILE += mainicon.rc
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
-    LIBS += -L$$PWD/../build/win32/$${BUILD_TYPE}/lib -llimereport
+    LIBS += -L$${BUILD_DIR}/lib/$${BUILD_TYPE} -llimereport
 }
 
 unix{
