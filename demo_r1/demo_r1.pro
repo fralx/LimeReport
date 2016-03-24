@@ -5,7 +5,11 @@ greaterThan(QT_MAJOR_VERSION, 4){
     QT += widgets printsupport
     DEFINES += HAVE_QT5
 }
-CONFIG  -= app_bundle
+
+macx{
+    CONFIG  += app_bundle
+}
+
 TARGET = LRDemo
 TEMPLATE = app
 
@@ -23,6 +27,8 @@ RESOURCES += \
     r1.qrc
 
 EXTRA_DIR += $$PWD/demo_reports/*
+DEST_DIR       = $${BUILD_DIR}/demo/$${BUILD_TYPE}
+REPORTS_DIR    = $${DEST_DIR}/demo_reports/
 
 CONFIG(release, debug|release){
     message(Release)
@@ -32,9 +38,7 @@ CONFIG(release, debug|release){
     BUILD_TYPE = debug
 }
 
-unix{
-    DEST_DIR       = $${BUILD_DIR}/demo/$${BUILD_TYPE}
-    REPORTS_DIR  = $${DEST_DIR}/demo_reports
+unix{    
     MOC_DIR        = $${OUT_PWD}/moc
     UI_DIR         = $${OUT_PWD}/ui
     UI_HEADERS_DIR = $${OUT_PWD}/ui
@@ -53,9 +57,7 @@ contains(CONFIG,zint){
 
 win32 {
     EXTRA_DIR ~= s,/,\\,g
-    DEST_DIR       = $${BUILD_DIR}/demo/$${BUILD_TYPE}
-    DEST_DIR      ~= s,/,\\,g
-    REPORTS_DIR  = $${DEST_DIR}/demo_reports
+    DEST_DIR ~= s,/,\\,g
     REPORTS_DIR ~= s,/,\\,g
 
     MOC_DIR        = $${OUT_PWD}/moc

@@ -13,7 +13,11 @@ CONFIG += lib
 CONFIG += dll
 CONFIG += create_prl
 CONFIG += link_prl
-CONFIG  -= app_bundle
+
+macx{
+    CONFIG  -= dll
+    CONFIG  += lib_bundle
+}
 
 DEFINES += LIMEREPORT_EXPORTS
 
@@ -87,6 +91,7 @@ contains(CONFIG,build_translations){
     }
 
     TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
+
     qtPrepareTool(LUPDATE, lupdate)
     ts.commands = $$LUPDATE $$PWD -ts $$TRANSLATIONS
 
