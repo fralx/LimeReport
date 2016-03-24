@@ -604,8 +604,8 @@ void ReportDesignWindow::restoreSetting()
     } else {
         QDesktopWidget *desktop = QApplication::desktop();
 
-        int screenWidth = desktop->width();
-        int screenHeight = desktop->height();
+        int screenWidth = desktop->screenGeometry().width();
+        int screenHeight = desktop->screenGeometry().height();
 
         int x = screenWidth*0.1;
         int y = screenHeight*0.1;

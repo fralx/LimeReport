@@ -11,6 +11,7 @@ CONFIG(release, debug|release){
     BUILD_TYPE = debug
 }
 
+include(../../../common.pri)
 
 macx{
     CONFIG -= dll
@@ -105,26 +106,26 @@ SOURCES += \
 
 unix {
     UNIX_DIR      = $${OUT_PWD}/unix
-    MOC_DIR        = $${UNIX_DIR}/$${BUILD_TYPE}/moc
-    UI_DIR         = $${UNIX_DIR}/$${BUILD_TYPE}/ui
-    UI_HEADERS_DIR = $${UNIX_DIR}/$${BUILD_TYPE}/ui
-    UI_SOURCES_DIR = $${UNIX_DIR}/$${BUILD_TYPE}/ui
-    OBJECTS_DIR    = $${UNIX_DIR}/$${BUILD_TYPE}/obj
-    RCC_DIR        = $${UNIX_DIR}/$${BUILD_TYPE}/rcc
-    DESTDIR        = $$PWD/../../../build/unix/$${BUILD_TYPE}/lib
+    MOC_DIR        = $${UNIX_DIR}/moc/$${BUILD_TYPE}
+    UI_DIR         = $${UNIX_DIR}/ui/$${BUILD_TYPE}
+    UI_HEADERS_DIR = $${UNIX_DIR}/ui/$${BUILD_TYPE}
+    UI_SOURCES_DIR = $${UNIX_DIR}/ui/$${BUILD_TYPE}
+    OBJECTS_DIR    = $${UNIX_DIR}/obj/$${BUILD_TYPE}
+    RCC_DIR        = $${UNIX_DIR}/rcc/$${BUILD_TYPE}
+    DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
     DLLDESTDIR     = $${DESTDIR}
 }
 
 
 win32 {
     WIN32_DIR      = $${OUT_PWD}/win32
-    MOC_DIR        = $${WIN32_DIR}/$${BUILD_TYPE}/moc
-    UI_DIR         = $${WIN32_DIR}/$${BUILD_TYPE}/ui
-    UI_HEADERS_DIR = $${WIN32_DIR}/$${BUILD_TYPE}/ui
-    UI_SOURCES_DIR = $${WIN32_DIR}/$${BUILD_TYPE}/ui
-    OBJECTS_DIR    = $${WIN32_DIR}/$${BUILD_TYPE}/obj
-    RCC_DIR        = $${WIN32_DIR}/$${BUILD_TYPE}/rcc
-    DESTDIR        = $$PWD/../../../build/win32/$${BUILD_TYPE}/lib
+    MOC_DIR        = $${WIN32_DIR}/moc/$${BUILD_TYPE}
+    UI_DIR         = $${WIN32_DIR}/ui/$${BUILD_TYPE}
+    UI_HEADERS_DIR = $${WIN32_DIR}/ui/$${BUILD_TYPE}
+    UI_SOURCES_DIR = $${WIN32_DIR}/ui/$${BUILD_TYPE}
+    OBJECTS_DIR    = $${WIN32_DIR}/obj/$${BUILD_TYPE}
+    RCC_DIR        = $${WIN32_DIR}/rcc/$${BUILD_TYPE}
+    DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
     DLLDESTDIR     = $${DESTDIR}
 }
 
