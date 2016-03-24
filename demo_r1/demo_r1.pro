@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4){
     QT += widgets printsupport
     DEFINES += HAVE_QT5
 }
-CONFIG  -= app_bundle
+CONFIG  += app_bundle
 TARGET = LRDemo
 TEMPLATE = app
 
@@ -35,13 +35,13 @@ CONFIG(release, debug|release){
 unix{
     UNIX_DIR       = $$PWD/../build/unix
     DEST_DIR       = $${UNIX_DIR}/$${BUILD_TYPE}/demo
-    REPORTS_DIR  = $${DEST_DIR}/demo_reports
+    REPORTS_DIR    = $${DEST_DIR}/demo_reports/
     MOC_DIR        = $${OUT_PWD}/moc
-    UI_DIR         = $${OUT_PWD}//ui
-    UI_HEADERS_DIR = $${OUT_PWD}//ui
-    UI_SOURCES_DIR = $${OUT_PWD}//ui
-    OBJECTS_DIR    = $${OUT_PWD}//obj
-    RCC_DIR        = $${OUT_PWD}//rcc
+    UI_DIR         = $${OUT_PWD}/ui
+    UI_HEADERS_DIR = $${OUT_PWD}/ui
+    UI_SOURCES_DIR = $${OUT_PWD}/ui
+    OBJECTS_DIR    = $${OUT_PWD}/obj
+    RCC_DIR        = $${OUT_PWD}/rcc
 
     LIBS += -L$$PWD/../build/unix/$${BUILD_TYPE}/lib -llimereport
 contains(CONFIG,zint){
@@ -61,7 +61,7 @@ win32 {
     EXTRA_DIR ~= s,/,\\,g
     DEST_DIR       = $${WIN32_DIR}/$${BUILD_TYPE}/demo
     DEST_DIR      ~= s,/,\\,g
-    REPORTS_DIR  = $${DEST_DIR}/demo_reports
+    REPORTS_DIR  = $${DEST_DIR}/demo_reports/
     REPORTS_DIR ~= s,/,\\,g
 
     MOC_DIR        = $${OUT_PWD}/moc
