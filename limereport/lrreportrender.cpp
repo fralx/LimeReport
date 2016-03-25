@@ -552,7 +552,7 @@ void ReportRender::popPageFooterGroupValues(BandDesignIntf *dataBand)
                 // FIXME Probably coincidence Field and Variables
                 if ((!m_popupedExpression.contains(dataBand))||(!m_popupedExpression.values(dataBand).contains(gf->data()))){
                     m_popupedExpression.insert(dataBand,gf->data());
-                    m_popupedValues.insert(QString::number((long)dataBand,16)+'|'+gf->data(), gf->values()[gf->values().count()-1]);
+                    m_popupedValues.insert(QString("%1").arg((quintptr)dataBand)+'|'+gf->data(), gf->values()[gf->values().count()-1]);
                     gf->values().pop_back();
                 }
             }
@@ -568,7 +568,7 @@ void ReportRender::pushPageFooterGroupValues(BandDesignIntf *dataBand)
             if ((gf->dataBandName()==dataBand->objectName())){
                 // FIXME Probably coincidence Field and Variables
                 if ((m_popupedExpression.contains(dataBand))&&(m_popupedExpression.values(dataBand).contains(gf->data()))){
-                    gf->values().push_back(m_popupedValues.value(QString::number((long)dataBand,16)+'|'+gf->data()));
+                    gf->values().push_back(m_popupedValues.value(QString("%1").arg((quintptr)dataBand)+'|'+gf->data()));
                 }
             }
         }
@@ -743,7 +743,7 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
                 }
             }
             if (registerBand(band)) break;
-        }
+        } else break;
     }
 
     if (band->isEmpty()) {
@@ -923,7 +923,8 @@ void ReportRender::checkLostHeadersOnPrevPage()
     it.toBack();
     if (it.hasPrevious())
         if (it.previous()->isFooter())
-                it.previous();
+                if (it.hasPrevious()) it.previous();
+                else return;
 
     while (it.hasPrevious()){
         if (it.value()->isHeader()){
