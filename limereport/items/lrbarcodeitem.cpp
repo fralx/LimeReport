@@ -48,7 +48,7 @@ namespace LimeReport{
 BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
     : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
       m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
-      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928)
+      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE)
 {}
 
 BarcodeItem::~BarcodeItem()
@@ -65,6 +65,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     Zint::QZint bc;
     if (itemMode() & DesignMode) bc.setText(m_designTestValue);
     else bc.setText(m_content);
+    bc.setInputMode(m_inputMode);
     bc.setSymbol(m_barcodeType);
     bc.setWhitespace(m_whitespace);
     bc.setFgColor(m_foregroundColor);
@@ -227,6 +228,23 @@ void BarcodeItem::setPdf417CodeWords(int pdf417CodeWords)
         if (!isLoading()){
             update();
             notify("pdf417CodeWords",oldValue,m_pdf417CodeWords);
+        }
+    }
+}
+
+BarcodeItem::InputMode BarcodeItem::inputMode() const
+{
+    return m_inputMode;
+}
+
+void BarcodeItem::setInputMode(const InputMode &inputMode)
+{
+    if (m_inputMode != inputMode){
+        InputMode oldValue = m_inputMode;
+        m_inputMode = inputMode;
+        if (!isLoading()){
+            update();
+            notify("inputMode",oldValue,inputMode);
         }
     }
 }
