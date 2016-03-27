@@ -366,7 +366,7 @@ private:
 class CallbackDatasource :public ICallbackDatasource, public IDataSource {
     Q_OBJECT
 public:
-    CallbackDatasource(): m_currentRow(-1), m_eof(false){}
+    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1), m_rowCount(-1){}
     bool next();
     bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow); else return false;}
     bool prior(){ if (m_currentRow !=-1) {m_currentRow--; return true;} else return false;}
@@ -382,26 +382,14 @@ public:
     QString lastError(){ return "";}
     QAbstractItemModel *model(){return 0;}
 private:
-    bool checkNextRecord(int recordNum){
-        QVariant result = false;
-        CallbackInfo info;
-        info.dataType = CallbackInfo::HasNext;
-        info.index = recordNum;
-        emit getCallbackData(info,result);
-        return result.toBool();
-    }
-    bool checkIfEmpty(){
-        QVariant result = true;
-        CallbackInfo info;
-        info.dataType = CallbackInfo::IsEmpty;
-        emit getCallbackData(info,result);
-        //emit getIsEmpty(result);
-        return result.toBool();
-    }
+    bool checkNextRecord(int recordNum);
+    bool checkIfEmpty();
 private:
     QVector<QString> m_headers;
     int m_currentRow;
     bool m_eof;
+    int m_columnCount;
+    int m_rowCount;
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{

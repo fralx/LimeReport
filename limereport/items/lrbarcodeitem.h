@@ -38,6 +38,7 @@ class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_OBJECT
     Q_ENUMS(BarcodeType)
     Q_ENUMS(AngleType)
+    Q_ENUMS(InputMode)
     Q_PROPERTY(QString content READ content WRITE setContent)
     Q_PROPERTY(BarcodeType barcodeType READ barcodeType WRITE setBarcodeType )
     Q_PROPERTY(QString testValue READ designTestValue WRITE setDesignTestValue)
@@ -48,6 +49,7 @@ class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(int barcodeWidth READ barcodeWidth WRITE setBarcodeWidth)
     Q_PROPERTY(int securityLevel READ securityLevel WRITE setSecurityLevel)
     Q_PROPERTY(int pdf417CodeWords READ pdf417CodeWords WRITE setPdf417CodeWords)
+    Q_PROPERTY(InputMode inputMode READ inputMode WRITE setInputMode)
 public:
 //    enum BarcodeType {QRCODE=58,CODE128=20,DATAMATRIX=71,MAXICODE=57,MICROPDF417=84};
 //    enum BarcodeType {CODE_11=1,C25MATRIX=2,QRCODE=58,CODE128=20,DATAMATRIX=71,MAXICODE=57,MICROPDF417=84,
@@ -128,6 +130,13 @@ public:
 
     };
     enum AngleType{Angle0,Angle90,Angle180,Angle270};
+    enum InputMode{
+        DATA_INPUT_MODE     = 0,
+        UNICODE_INPUT_MODE  = 1,
+        GS1_INPUT_MODE      = 2,
+        KANJI_INPUT_MODE    = 3,
+        SJIS_INPUT_MODE     = 4
+    };
     BarcodeItem(QObject *owner, QGraphicsItem *parent);
     ~BarcodeItem();
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -155,6 +164,9 @@ public:
     int pdf417CodeWords() const;
     void setPdf417CodeWords(int pdf417CodeWords);
 
+    InputMode inputMode() const;
+    void setInputMode(const InputMode &inputMode);
+
 private:
     Zint::QZint m_bc;
     QString m_content;
@@ -167,6 +179,7 @@ private:
     int m_barcodeWidth;
     int m_securityLevel;
     int m_pdf417CodeWords;
+    InputMode m_inputMode;
 };
 
 }
