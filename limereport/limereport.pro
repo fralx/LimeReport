@@ -1,14 +1,6 @@
 TARGET = limereport
 TEMPLATE = lib
 
-CONFIG(release, debug|release){
-    message(Release)
-    BUILD_TYPE = release
-}else{
-    message(Debug)
-    BUILD_TYPE = debug
-}
-
 CONFIG += lib
 CONFIG += dll
 CONFIG += create_prl
@@ -34,22 +26,15 @@ include(limereport.pri)
 DEST_DIR = $$PWD/../include/
 
 unix {
-    UNIX_DIR      = $${OUT_PWD}/unix
-    MOC_DIR        = $${UNIX_DIR}/moc/$${BUILD_TYPE}
-    UI_DIR         = $${UNIX_DIR}/ui/$${BUILD_TYPE}
-    UI_HEADERS_DIR = $${UNIX_DIR}/ui/$${BUILD_TYPE}
-    UI_SOURCES_DIR = $${UNIX_DIR}/ui/$${BUILD_TYPE}
-    OBJECTS_DIR    = $${UNIX_DIR}/obj/$${BUILD_TYPE}
-    RCC_DIR        = $${UNIX_DIR}/rcc/$${BUILD_TYPE}
-    DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
+    DESTDIR        = $${BUILD_DIR}/$${BUILD_TYPE}/lib
 
-    QMAKE_POST_LINK += mkdir -p $$quote($${BUILD_DIR}/lib/include) $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += mkdir -p $$quote($${DESTDIR}/include) $$escape_expand(\\n\\t)
 
+    #for(FILE,EXTRA_FILES){
+    #    QMAKE_POST_LINK += $$quote($$QMAKE_COPY $${FILE} $${DEST_DIR}) $$escape_expand(\\n\\t)
+    #}
     for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$quote($$QMAKE_COPY $${FILE} $${DEST_DIR}) $$escape_expand(\\n\\t)
-    }
-    for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${BUILD_DIR}/lib/include/) $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DESTDIR}/include/) $$escape_expand(\\n\\t)
     }
 }
 
@@ -58,17 +43,10 @@ win32 {
     DEST_DIR ~= s,/,\\,g
     BUILD_DIR ~= s,/,\\,g
 
-    WIN32_DIR      = $${OUT_PWD}/win32
-    MOC_DIR        = $${WIN32_DIR}/moc/$${BUILD_TYPE}
-    UI_DIR         = $${WIN32_DIR}/ui/$${BUILD_TYPE}
-    UI_HEADERS_DIR = $${WIN32_DIR}/ui/$${BUILD_TYPE}
-    UI_SOURCES_DIR = $${WIN32_DIR}/ui/$${BUILD_TYPE}
-    OBJECTS_DIR    = $${WIN32_DIR}/obj/$${BUILD_TYPE}
-    RCC_DIR        = $${WIN32_DIR}/rcc/$${BUILD_TYPE}
-    DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
+    DESTDIR        = $${BUILD_DIR}/$${BUILD_TYPE}/lib
 
     for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DEST_DIR) $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DESTDIR}/include) $$escape_expand(\\n\\t)
     }
 }
 
@@ -105,7 +83,7 @@ contains(CONFIG,build_translations){
         TRANSLATIONS_FILES += $$qmfile
     }
     qm.depends = ts
-
+    OTHER_FILES += $$TRANSLATIONS
     QMAKE_EXTRA_TARGETS += qm ts
     POST_TARGETDEPS +=  qm
 }

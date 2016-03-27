@@ -1,7 +1,33 @@
-#CONFIG += build_translations
-#CONFIG += zint
-#ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+CONFIG += build_translations
+CONFIG += zint
+ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+
+CONFIG(release, debug|release){
+    message(Release)
+    BUILD_TYPE = release
+}else{
+    message(Debug)
+    BUILD_TYPE = debug
+}
+
 BUILD_DIR = $$PWD/build/$${QT_VERSION}
+
+unix:!macx {
+    ARCH_DIR       = $${OUT_PWD}/unix
+}
+win32 {
+    ARCH_DIR       = $${OUT_PWD}/win32
+}
+macx{
+    ARCH_DIR       = $${OUT_PWD}/macx
+}
+
+MOC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/moc
+UI_DIR         = $${ARCH_DIR}/$${BUILD_TYPE}/ui
+UI_HEADERS_DIR = $${ARCH_DIR}/$${BUILD_TYPE}/ui
+UI_SOURCES_DIR = $${ARCH_DIR}/$${BUILD_TYPE}/ui
+OBJECTS_DIR    = $${ARCH_DIR}/$${BUILD_TYPE}/obj
+RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 3
