@@ -3,14 +3,6 @@ DEFINES += NO_PNG
 TEMPLATE = lib
 CONFIG += dll
 
-CONFIG(release, debug|release){
-    message(Release)
-    BUILD_TYPE = release
-}else{
-    message(Debug)
-    BUILD_TYPE = debug
-}
-
 include(../../../common.pri)
 
 macx{
@@ -104,29 +96,9 @@ SOURCES += \
     $$PWD/../backend/upcean.c
 
 
+DESTDIR        = $${BUILD_DIR}/$${BUILD_TYPE}/lib
+DLLDESTDIR     = $${DESTDIR}
 unix {
-    UNIX_DIR      = $${OUT_PWD}/unix
-    MOC_DIR        = $${UNIX_DIR}/moc/$${BUILD_TYPE}
-    UI_DIR         = $${UNIX_DIR}/ui/$${BUILD_TYPE}
-    UI_HEADERS_DIR = $${UNIX_DIR}/ui/$${BUILD_TYPE}
-    UI_SOURCES_DIR = $${UNIX_DIR}/ui/$${BUILD_TYPE}
-    OBJECTS_DIR    = $${UNIX_DIR}/obj/$${BUILD_TYPE}
-    RCC_DIR        = $${UNIX_DIR}/rcc/$${BUILD_TYPE}
-    DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
-    DLLDESTDIR     = $${DESTDIR}
+    target.path = $${DESTDIR}
+    INSTALLS = target
 }
-
-
-win32 {
-    WIN32_DIR      = $${OUT_PWD}/win32
-    MOC_DIR        = $${WIN32_DIR}/moc/$${BUILD_TYPE}
-    UI_DIR         = $${WIN32_DIR}/ui/$${BUILD_TYPE}
-    UI_HEADERS_DIR = $${WIN32_DIR}/ui/$${BUILD_TYPE}
-    UI_SOURCES_DIR = $${WIN32_DIR}/ui/$${BUILD_TYPE}
-    OBJECTS_DIR    = $${WIN32_DIR}/obj/$${BUILD_TYPE}
-    RCC_DIR        = $${WIN32_DIR}/rcc/$${BUILD_TYPE}
-    DESTDIR        = $${BUILD_DIR}/lib/$${BUILD_TYPE}
-    DLLDESTDIR     = $${DESTDIR}
-}
-
-INSTALLS = target

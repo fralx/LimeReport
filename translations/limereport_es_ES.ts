@@ -59,7 +59,7 @@
     </message>
     <message>
         <source>Lime Report</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -75,7 +75,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;Copyright 2015 Arin Alexander. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -84,7 +84,7 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -201,11 +201,11 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; font-style:italic; color:#000000;&quot;&gt;signature of Ty Coon&lt;/span&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; color:#000000;&quot;&gt;, 1 April 1990&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; color:#000000;&quot;&gt;Ty Coon, President of Vice&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; color:#000000; background-color:#ffffff;&quot;&gt;That&apos;s all there is to it!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Version 1.1.1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -298,19 +298,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Connection with name </source>
@@ -318,88 +318,88 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> already exists </source>
-        <translation type="unfinished"></translation>
+        <translation>ya existe</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ContentItemDesignIntf</name>
     <message>
         <source>Variable %1 not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable %1 no encontrada</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataBand</name>
     <message>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Datos</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataBrowser</name>
     <message>
         <source>Attention</source>
-        <translation type="unfinished">Atención</translation>
+        <translation>Atención</translation>
     </message>
     <message>
         <source>Datasources</source>
-        <translation type="unfinished"></translation>
+        <translation>Orígenes de Datos</translation>
     </message>
     <message>
         <source>Add database connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar conexion a base de datos</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Add new datasource</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar origen de datos</translation>
     </message>
     <message>
         <source>View data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver datos</translation>
     </message>
     <message>
         <source>Change datasource</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar origen de datos</translation>
     </message>
     <message>
         <source>Delete datasource</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar origen de datos</translation>
     </message>
     <message>
         <source>Show error</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar error</translation>
     </message>
     <message>
         <source>Variables</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Add new variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar variable</translation>
     </message>
     <message>
         <source>Edit variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar variable</translation>
     </message>
     <message>
         <source>Delete variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrarvariable</translation>
     </message>
     <message>
         <source>Do you really want to delete &quot;%1&quot; connection ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Realmente quieres borrar  la conexion &quot;%1&quot;?</translation>
     </message>
     <message>
         <source>User variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Variables de usuario</translation>
     </message>
     <message>
         <source>System variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Variables del sistema</translation>
     </message>
     <message>
         <source>Do you really want to delete &quot;%1&quot; datasource ?</source>
@@ -459,7 +459,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::DataSourceModel</name>
     <message>
         <source>Datasources</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Orígenes de Datos</translation>
     </message>
     <message>
         <source>Variables</source>
@@ -1115,7 +1115,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datos</translation>
     </message>
     <message>
         <source>Data Header</source>
@@ -1444,7 +1444,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datos</translation>
     </message>
     <message>
         <source>Functions</source>
@@ -1479,7 +1479,7 @@ p, li { white-space: pre-wrap; }
     <name>QObject</name>
     <message>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datos</translation>
     </message>
     <message>
         <source>DataHeader</source>

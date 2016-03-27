@@ -27,32 +27,24 @@ RESOURCES += \
     r1.qrc
 
 EXTRA_DIR += $$PWD/demo_reports/*
-DEST_DIR       = $${BUILD_DIR}/demo/$${BUILD_TYPE}
-REPORTS_DIR    = $${DEST_DIR}/demo_reports/
-
-CONFIG(release, debug|release){
-    message(Release)
-    BUILD_TYPE = release
-}else{
-    message(Debug)
-    BUILD_TYPE = debug
-}
+DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo
+REPORTS_DIR    = $${DEST_DIR}/demo_reports
 
 unix{    
-    MOC_DIR        = $${OUT_PWD}/moc
-    UI_DIR         = $${OUT_PWD}/ui
-    UI_HEADERS_DIR = $${OUT_PWD}/ui
-    UI_SOURCES_DIR = $${OUT_PWD}/ui
-    OBJECTS_DIR    = $${OUT_PWD}/obj
-    RCC_DIR        = $${OUT_PWD}/rcc
-
-    LIBS += -L$${BUILD_DIR}/lib/$${BUILD_TYPE} -llimereport
-contains(CONFIG,zint){
-    LIBS += -L$${BUILD_DIR}/lib/$${BUILD_TYPE} -lQtZint
-}
+    LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
+    contains(CONFIG,zint){
+        LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
+    }
     DESTDIR = $$DEST_DIR
     QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+    #Link share lib to ../lib rpath
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
+    QMAKE_LFLAGS_RPATH += #. .. ./libs
+
     target.path = $${DEST_DIR}
+    INSTALLS = target
 }
 
 win32 {
@@ -60,20 +52,10 @@ win32 {
     DEST_DIR ~= s,/,\\,g
     REPORTS_DIR ~= s,/,\\,g
 
-    MOC_DIR        = $${OUT_PWD}/moc
-    UI_DIR         = $${OUT_PWD}/ui
-    UI_HEADERS_DIR = $${OUT_PWD}/ui
-    UI_SOURCES_DIR = $${OUT_PWD}/ui
-    OBJECTS_DIR    = $${OUT_PWD}/obj
-    RCC_DIR        = $${OUT_PWD}/rcc
-
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
-    LIBS += -L$${BUILD_DIR}/lib/$${BUILD_TYPE} -llimereport
+    LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
 }
 
-unix{
-    INSTALLS = target
-}
