@@ -594,8 +594,17 @@ bool CallbackDatasource::next(){
         m_currentRow++;
         bool result = false;
         emit changePos(CallbackInfo::Next,result);
-        m_eof = !result; // !checkNextRecord(m_currentRow);
-        return result;
+        if (m_rowCount != -1){
+            if (m_rowCount>0 && m_currentRow<m_rowCount){
+                m_eof = false;
+            } else {
+                m_eof = true;
+            }
+            return !m_eof;
+        } else {
+            m_eof = !result;
+            return result;
+        }
     } else return false;
 }
 
@@ -603,8 +612,16 @@ void CallbackDatasource::first(){
     m_currentRow = 0;
     m_eof=checkIfEmpty();
     bool result=false;
+    if (m_rowCount == -1){
+        QVariant rowCount;
+        CallbackInfo info;
+        info.dataType = CallbackInfo::RowCount;
+        emit getCallbackData(info,rowCount);
+        if (rowCount.isValid()) m_rowCount = rowCount.toInt();
+    }
     emit changePos(CallbackInfo::First,result);
-    m_eof = !result;
+    if (m_rowCount>0) m_eof = false;
+    else m_eof = !result;
 }
 
 QVariant CallbackDatasource::data(const QString& columnName)
@@ -619,21 +636,40 @@ QVariant CallbackDatasource::data(const QString& columnName)
 }
 
 int CallbackDatasource::columnCount(){
-    if (m_headers.size()==0){
-        int currIndex = 0;
-        do {
-            QVariant columnName;
-            CallbackInfo info;
-            info.dataType = CallbackInfo::ColumnHeaderData;
-            info.index = currIndex;
-            emit getCallbackData(info,columnName);
-            if (columnName.isValid()){
-                m_headers.append(columnName.toString());
-                currIndex++;
-            } else break;
-        } while (true);
+    CallbackInfo info;
+    if (m_columnCount == -1){
+        QVariant columnCount;
+        info.dataType = CallbackInfo::ColumnCount;
+        emit getCallbackData(info,columnCount);
+        if (columnCount.isValid()){
+            m_columnCount = columnCount.toInt();
+        }
+        if (m_columnCount != -1){
+            for(int i=0;i<m_columnCount;++i) {
+                QVariant columnName;
+                info.dataType = CallbackInfo::ColumnHeaderData;
+                info.index = i;
+                emit getCallbackData(info,columnName);
+                if (columnName.isValid())
+                    m_headers.append(columnName.toString());
+            }
+        } else {
+            int currIndex = 0;
+            do {
+                QVariant columnName;
+                CallbackInfo info;
+                info.dataType = CallbackInfo::ColumnHeaderData;
+                info.index = currIndex;
+                emit getCallbackData(info,columnName);
+                if (columnName.isValid()){
+                    m_headers.append(columnName.toString());
+                    currIndex++;
+                } else break;
+            } while (true);
+        }
     }
-    return m_headers.size();
+    if (m_headers.size()>0) m_columnCount = m_headers.size();
+    return m_columnCount;
 }
 
 QString CallbackDatasource::columnNameByIndex(int columnIndex)
@@ -656,6 +692,31 @@ int CallbackDatasource::columnIndexByName(QString name)
 //        if (data.isValid()) return 0;
 //    }
     return -1;
+}
+
+bool CallbackDatasource::checkNextRecord(int recordNum){
+    if (m_rowCount>0 && m_currentRow<m_rowCount){
+        return true;
+    } else {
+        QVariant result = false;
+        CallbackInfo info;
+        info.dataType = CallbackInfo::HasNext;
+        info.index = recordNum;
+        emit getCallbackData(info,result);
+        return result.toBool();
+    }
+}
+
+bool CallbackDatasource::checkIfEmpty(){
+    if (m_rowCount == 0) {
+        return true;
+    } else {
+        QVariant result = true;
+        CallbackInfo info;
+        info.dataType = CallbackInfo::IsEmpty;
+        emit getCallbackData(info,result);
+        return result.toBool();
+    }
 }
 
 } //namespace LimeReport

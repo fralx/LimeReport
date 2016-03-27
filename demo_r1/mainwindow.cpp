@@ -91,6 +91,10 @@ MainWindow::MainWindow(QWidget *parent) :
     stringListModel->setStringList(simpleData);
 
     report->dataManager()->addModel("string_list",stringListModel,true);
+    QStringList strList;
+    strList<<"value1"<<"value2";
+    QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
+    report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
 
 
 }
@@ -152,6 +156,9 @@ void MainWindow::renderFinished()
 void MainWindow::prepareData(QSqlQuery* ds, LimeReport::CallbackInfo info, QVariant &data)
 {
     switch (info.dataType) {
+    case LimeReport::CallbackInfo::ColumnCount:
+        data = ds->record().count();
+        break;
     case LimeReport::CallbackInfo::IsEmpty:
         data = !ds->first();
         break;

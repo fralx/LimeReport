@@ -4,7 +4,7 @@
 namespace LimeReport {
 
 struct CallbackInfo{
-    enum DataType{IsEmpty, HasNext, ColumnHeaderData, ColumnData};
+    enum DataType{IsEmpty, HasNext, ColumnHeaderData, ColumnData, ColumnCount, RowCount};
     enum ChangePosType{First, Next};
     DataType dataType;
     int index;
