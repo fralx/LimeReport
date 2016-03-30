@@ -42,62 +42,9 @@
 #include <QFileDialog>
 #include <QApplication>
 
-
 namespace LimeReport {
 
-//GraphicsViewZoom
-GraphicsViewZoom::GraphicsViewZoom(QGraphicsView* view)
-  : QObject(view), m_view(view)
-{
-  m_view->viewport()->installEventFilter(this);
-  m_view->setMouseTracking(true);
-  m_modifiers = Qt::ControlModifier;
-  m_zoomFactorBase = 1.0015;
-}
-
-void GraphicsViewZoom::gentleZoom(double factor) {
-  m_view->scale(factor, factor);
-  m_view->centerOn(m_targetScenePos);
-  QPointF delta_viewport_pos = m_targetViewportPos - QPointF(m_view->viewport()->width() / 2.0,
-                                                             m_view->viewport()->height() / 2.0);
-  QPointF viewport_center = m_view->mapFromScene(m_targetScenePos) - delta_viewport_pos;
-  m_view->centerOn(m_view->mapToScene(viewport_center.toPoint()));
-  emit zoomed();
-}
-
-void GraphicsViewZoom::setModifiers(Qt::KeyboardModifiers modifiers) {
-  m_modifiers = modifiers;
-}
-
-void GraphicsViewZoom::setZoomFactorBase(double value) {
-  m_zoomFactorBase = value;
-}
-
-bool GraphicsViewZoom::eventFilter(QObject *object, QEvent *event) {
-  if (event->type() == QEvent::MouseMove) {
-    QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
-    QPointF delta = m_targetViewportPos - mouse_event->pos();
-    if (qAbs(delta.x()) > 5 || qAbs(delta.y()) > 5) {
-      m_targetViewportPos = mouse_event->pos();
-      m_targetScenePos = m_view->mapToScene(mouse_event->pos());
-    }
-  } else if (event->type() == QEvent::Wheel) {
-    QWheelEvent* wheel_event = static_cast<QWheelEvent*>(event);
-    if (QApplication::keyboardModifiers() == m_modifiers) {
-      if (wheel_event->orientation() == Qt::Vertical) {
-        double angle = wheel_event->delta();
-        double factor = qPow(m_zoomFactorBase, angle);
-        gentleZoom(factor);
-        return true;
-      }
-    }
-  }
-  Q_UNUSED(object)
-  return false;
-}
-
 // ReportDesignIntf
-//ReportDesignWidget* ReportDesignWidget::m_instance=0;
 
 ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
     QWidget(parent), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
@@ -128,7 +75,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
     m_view->scale(0.5,0.5);
     //m_instance=this;
     //m_view->viewport()->installEventFilter(this);
-    m_zoomer = new GraphicsViewZoom(m_view);
+    m_zoomer = new GraphicsViewZoomer(m_view);
 #ifdef Q_OS_WIN
     m_defaultFont = QFont("Arial",10);
 #endif
@@ -193,7 +140,9 @@ void ReportDesignWidget::loadState(QSettings* settings)
 }
 
 ReportDesignWidget::~ReportDesignWidget()
-{ /*m_instance=0;*/}
+{
+    delete m_zoomer;
+}
 
 void ReportDesignWidget::setActivePage(PageDesignIntf *page)
 {
