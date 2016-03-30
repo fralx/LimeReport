@@ -47,6 +47,8 @@
 #include "serializators/lrxmlreader.h"
 #include "lrreportrender.h"
 #include "lrpreviewreportwindow.h"
+#include "lrpreviewreportwidget.h"
+#include "lrpreviewreportwidget_p.h"
 
 namespace LimeReport{
 
@@ -310,6 +312,22 @@ void ReportEnginePrivate::previewReport()
         saveError(exception.what());
         showError(exception.what());
     }
+}
+
+PreviewReportWidget* ReportEnginePrivate::createPreviewWidget(QWidget* parent){
+
+    PreviewReportWidget* widget = new PreviewReportWidget(this, parent);
+    try{
+        dataManager()->setDesignTime(false);
+        ReportPages pages = renderToPages();
+        dataManager()->setDesignTime(true);
+        if (pages.count()>0)
+            widget->d_ptr->setPages(pages);
+    } catch (ReportError &exception){
+        saveError(exception.what());
+        showError(exception.what());
+    }
+    return widget;
 }
 
 PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
@@ -593,6 +611,12 @@ void ReportEngine::designReport()
     if (m_settings)
         d->setSettings(m_settings);
     d->designReport();
+}
+
+PreviewReportWidget* ReportEngine::createPreviewWidget(QWidget *parent)
+{
+    Q_D(ReportEngine);
+    return d->createPreviewWidget(parent);
 }
 
 void ReportEngine::setShowProgressDialog(bool value)
