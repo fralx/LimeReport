@@ -81,6 +81,8 @@ SOURCES += \
     $$REPORT_PATH/lrreportrender.cpp \
     $$REPORT_PATH/lrscriptenginemanager.cpp \
     $$REPORT_PATH/lrpreviewreportwindow.cpp \
+    $$REPORT_PATH/lrpreviewreportwidget.cpp \
+    $$REPORT_PATH/lrgraphicsviewzoom.cpp \
     $$REPORT_PATH/lrvariablesholder.cpp \
     $$REPORT_PATH/lrgroupfunctions.cpp \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
@@ -157,6 +159,8 @@ HEADERS += \
     $$REPORT_PATH/bands/lrsubdetailband.h \
     $$REPORT_PATH/lrreportrender.h \
     $$REPORT_PATH/lrpreviewreportwindow.h \
+    $$REPORT_PATH/lrpreviewreportwidget.h \
+    $$REPORT_PATH/lrgraphicsviewzoom.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrfontpropitem.h \
     $$REPORT_PATH/objectinspector/editors/lrfonteditor.h \
     $$REPORT_PATH/items/lrimageitem.h \
@@ -178,7 +182,8 @@ HEADERS += \
     $$REPORT_PATH/lrsimplecrypt.h \    
     $$REPORT_PATH/lraboutdialog.h \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
-    $$REPORT_PATH/lrsettingdialog.h
+    $$REPORT_PATH/lrsettingdialog.h \
+    $$PWD/lrpreviewreportwidget_p.h
     
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
@@ -191,6 +196,7 @@ FORMS += \
     $$REPORT_PATH/databrowser/lrvariabledialog.ui \
     $$REPORT_PATH/objectinspector/editors/ltextitempropertyeditor.ui \
     $$REPORT_PATH/lrpreviewreportwindow.ui \
+    $$REPORT_PATH/lrpreviewreportwidget.ui \
     $$REPORT_PATH/items/lrtextitemeditor.ui \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui
