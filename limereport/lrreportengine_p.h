@@ -55,6 +55,7 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer
     Q_DECLARE_PUBLIC(ReportEngine)
     Q_PROPERTY(ACollectionProperty pages READ fakeCollectionReader())
     Q_PROPERTY(QObject* datasourcesManager READ dataManager())
+    friend class PreviewReportWidget;
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
     static void printReport(ReportPages pages, QPrinter &printer, const PrintRange &printRange);
@@ -93,7 +94,6 @@ public:
     bool    isNeedToSave();
     QString lastError();
     ReportEngine * q_ptr;
-    PageDesignIntf *createPreviewScene(QObject *parent);
     void emitSaveReport();
     bool emitLoadReport();
     bool isSaved();
@@ -102,6 +102,8 @@ public:
     void setReportName(const QString& reportName){ m_reportName=reportName;}
     QString reportName(){ return m_reportName;}
     bool hasActivePreview(){return m_activePreview;}
+    PageDesignIntf *createPreviewScene(QObject *parent);
+    PreviewReportWidget *createPreviewWidget(QWidget *parent);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);

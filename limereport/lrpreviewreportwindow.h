@@ -38,6 +38,7 @@
 #include "lrreportrender.h"
 #include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
+#include "lrpreviewreportwidget.h"
 
 namespace LimeReport {
 
@@ -76,25 +77,20 @@ public slots:
     void slotFirstPage();
     void slotLastPage();
     void slotPrintToPDF();
-private slots:
-    void slotSliderMoved(int value);
+    void slotPageChanged(int pageIndex);
 private:
     ItemsReaderIntf* reader();
-    bool pageIsVisible(PageItemDesignIntf::Ptr page);
-    QRectF calcPageShift(PageItemDesignIntf::Ptr page);
+    //bool pageIsVisible(PageItemDesignIntf::Ptr page);
+    //QRectF calcPageShift(PageItemDesignIntf::Ptr page);
 private:
     Ui::PreviewReportWindow *ui;
     QSpinBox* m_pagesNavigator;
     QSharedPointer<ItemsReaderIntf> m_reader;
-    int m_currentPage;
-    PageDesignIntf* m_previewPage;
-    QGraphicsScene* m_simpleScene;
-    ReportPages m_reportPages;
     QEventLoop m_eventLoop;
     bool m_changingPage;
     QSettings* m_settings;
     bool m_ownedSettings;
-    int m_priorScrolValue;
+    PreviewReportWidget* m_previewReportWidget;
 };
 } //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

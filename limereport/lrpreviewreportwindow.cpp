@@ -32,6 +32,8 @@
 #include "serializators/lrxmlreader.h"
 #include "serializators/lrxmlwriter.h"
 #include "lrreportengine_p.h"
+#include "lrpreviewreportwidget.h"
+#include "lrpreviewreportwidget_p.h"
 
 #include <QPrinter>
 #include <QPrintDialog>
@@ -43,24 +45,22 @@ namespace LimeReport{
 
 PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
-    ui(new Ui::PreviewReportWindow), m_currentPage(1), m_changingPage(false), m_settings(settings), m_ownedSettings(false),
-    m_priorScrolValue(0)
+    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false)
 {
     ui->setupUi(this);
     setWindowTitle("Lime Report Preview");
-    m_previewPage = report->createPreviewPage();
-    m_previewPage->setItemMode( LimeReport::PreviewMode );
     m_pagesNavigator = new QSpinBox(this);
     m_pagesNavigator->setMaximum(10000000);
     m_pagesNavigator->setPrefix(tr("Page: "));
     m_pagesNavigator->setMinimumWidth(120);
     ui->toolBar->insertWidget(ui->actionNextPage,m_pagesNavigator);
-    m_simpleScene = new QGraphicsScene(this);
     ui->actionShowMessages->setVisible(false);
-    ui->errorsView->setVisible(false);
+
     connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
-    connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
-    connect(ui->actionShowMessages, SIGNAL(triggered()), this, SLOT(slotShowErrors()));
+    m_previewReportWidget = new PreviewReportWidget(report,this);
+    setCentralWidget(m_previewReportWidget);
+    layout()->setContentsMargins(1,1,1,1);
+    connect(m_previewReportWidget,SIGNAL(pageChanged(int)), this,SLOT(slotPageChanged(int)) );
     restoreSetting();
 }
 
@@ -102,7 +102,7 @@ PreviewReportWindow::~PreviewReportWindow()
 {
     if (m_ownedSettings)
         delete m_settings;
-    delete m_previewPage;
+    //delete m_previewPage;
     delete ui;
 }
 
@@ -111,11 +111,7 @@ void PreviewReportWindow::initPreview(int pagesCount)
     m_pagesNavigator->setSuffix(tr(" of %1").arg(pagesCount));
     m_pagesNavigator->setMinimum(1);
     m_pagesNavigator->setMaximum(pagesCount);
-    ui->graphicsView->setScene(m_previewPage);
-    ui->graphicsView->centerOn(0, 0);
-    ui->graphicsView->scale(0.5,0.5);
-    m_currentPage=1;
-    m_pagesNavigator->setValue(m_currentPage);
+    m_pagesNavigator->setValue(1);
 }
 
 void PreviewReportWindow::setSettings(QSettings* value)
@@ -129,9 +125,7 @@ void PreviewReportWindow::setSettings(QSettings* value)
 
 void PreviewReportWindow::setErrorMessages(const QStringList &value){
     ui->actionShowMessages->setVisible(true);
-    foreach (QString line, value) {
-        ui->errorsView->append(line);
-    }
+    m_previewReportWidget->setErrorMessages(value);
 }
 
 QSettings*PreviewReportWindow::settings()
@@ -147,26 +141,20 @@ QSettings*PreviewReportWindow::settings()
 
 void PreviewReportWindow::setReportReader(ItemsReaderIntf::Ptr reader)
 {
-    m_reader=reader;
-    if (!reader.isNull()){
-        if (reader->first()) reader->readItem(m_previewPage->pageItem());
-        int pagesCount = reader->firstLevelItemsCount();
-        m_previewPage->pageItem()->setItemMode(PreviewMode);
-        initPreview(pagesCount);
-    }
+//    m_reader=reader;
+//    if (!reader.isNull()){
+//        if (reader->first()) reader->readItem(m_previewPage->pageItem());
+//        int pagesCount = reader->firstLevelItemsCount();
+//        m_previewPage->pageItem()->setItemMode(PreviewMode);
+//        initPreview(pagesCount);
+//    }
 }
 
 void PreviewReportWindow::setPages(ReportPages pages)
 {
-    m_reportPages = pages;
-    if (!m_reportPages.isEmpty()){
-        //m_previewPage->setPageItem(m_reportPages.at(0));
-        m_previewPage->setPageItems(m_reportPages);
-        m_changingPage = true;
-        initPreview(m_reportPages.count());
-        m_currentPage = 1;
-        if (pages.at(0)) pages.at(0)->setSelected(true);
-        m_changingPage = false;
+    m_previewReportWidget->d_ptr->setPages(pages);
+    if (!pages.isEmpty()){
+        initPreview(pages.count());
     }
 }
 
@@ -215,104 +203,37 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 
 void PreviewReportWindow::slotPrint()
 {
-    QPrinter printer(QPrinter::HighResolution);
-    QPrintDialog dialog(&printer,QApplication::activeWindow());
-    if (dialog.exec()==QDialog::Accepted){
-        if (!m_reportPages.isEmpty())
-            ReportEnginePrivate::printReport(
-                m_reportPages,
-                printer,
-                PrintRange(dialog.printRange(),dialog.fromPage(),dialog.toPage())
-            );
-        else ReportEnginePrivate::printReport(m_reader,printer);
-        foreach(PageItemDesignIntf::Ptr pageItem, m_reportPages){
-            m_previewPage->reactivatePageItem(pageItem);
-        }
-
-    }
+    m_previewReportWidget->slotPrint();
 }
 
 void PreviewReportWindow::slotPriorPage()
 {
-    m_changingPage=true;
-    if ((!m_reportPages.isEmpty())&&(m_currentPage>1)){
-        m_currentPage--;
-        //m_previewPage->setPageItem(m_reportPages.at(m_currentPage-1));
-        ui->graphicsView->ensureVisible(
-                    calcPageShift(m_reportPages.at(m_currentPage-1)), 0, 0
-        );
-        m_pagesNavigator->setValue(m_currentPage);
-    } else {
-        if (reader() && reader()->prior()){
-            m_previewPage->removeAllItems();
-            reader()->readItem(m_previewPage->pageItem());
-            m_currentPage--;
-            m_pagesNavigator->setValue(m_currentPage);
-        }
-    }
-    m_changingPage=false;
+    m_previewReportWidget->slotPriorPage();
 }
 
 void PreviewReportWindow::slotNextPage()
 {
-    m_changingPage=true;
-    if ((!m_reportPages.isEmpty())&&(m_reportPages.count()>(m_currentPage))){
-        m_currentPage++;
-        //m_previewPage->setPageItem(m_reportPages.at(m_currentPage-1));
-        ui->graphicsView->ensureVisible(
-                    calcPageShift(m_reportPages.at(m_currentPage-1)), 0, 0
-        );
-        m_pagesNavigator->setValue(m_currentPage);
-    } else {
-        if (reader() && reader()->next()){
-            m_previewPage->removeAllItems();
-            reader()->readItem(m_previewPage->pageItem());
-            m_currentPage++;
-            m_pagesNavigator->setValue(m_currentPage);
-        }
-    }
-    m_changingPage=false;
+    m_previewReportWidget->slotNextPage();
 }
 
 void PreviewReportWindow::slotZoomIn()
 {
-    ui->graphicsView->scale(1.2,1.2);
+    m_previewReportWidget->slotZoomIn();
 }
 
 void PreviewReportWindow::slotZoomOut()
 {
-    ui->graphicsView->scale(1/1.2,1/1.2);
+    m_previewReportWidget->slotZoomOut();
 }
 
 void PreviewReportWindow::slotPageNavigatorChanged(int value)
 {
-    if (m_changingPage) return;
-    m_changingPage = true;
-    if ((!m_reportPages.isEmpty())&&(m_reportPages.count() >= value)){
-        m_currentPage = value;
-        //m_previewPage->setPageItem(m_reportPages.at(m_currentPage-1));
-        ui->graphicsView->ensureVisible(
-                    calcPageShift(m_reportPages.at(m_currentPage-1)), 0, 0
-        );
-    } else {
-        if (reader()){
-            int direction = (m_currentPage>value)?-1:1;
-            while (m_currentPage != value){
-                if (direction == 1) reader()->next();
-                else reader()->prior();
-                m_currentPage += direction;
-            }
-            m_previewPage->removeAllItems();
-            reader()->readItem(m_previewPage->pageItem());
-            m_pagesNavigator->setValue(m_currentPage);
-        }
-    }
-    m_changingPage=false;
+    m_previewReportWidget->slotPageNavigatorChanged(value);
 }
 
 void PreviewReportWindow::slotShowErrors()
 {
-    ui->errorsView->setVisible(ui->actionShowMessages->isChecked());
+    m_previewReportWidget->setErrorsMesagesVisible(ui->actionShowMessages->isChecked());
 }
 
 ItemsReaderIntf *PreviewReportWindow::reader()
@@ -320,127 +241,29 @@ ItemsReaderIntf *PreviewReportWindow::reader()
     return m_reader.data();
 }
 
-bool PreviewReportWindow::pageIsVisible(PageItemDesignIntf::Ptr page)
-{
-    return page->mapToScene(page->rect()).boundingRect().intersects(
-                ui->graphicsView->mapToScene(ui->graphicsView->viewport()->geometry()).boundingRect()
-                );
-}
-
-QRectF PreviewReportWindow::calcPageShift(PageItemDesignIntf::Ptr page)
-{
-    qreal pageHeight = page->mapToScene(page->boundingRect()).boundingRect().height();
-    qreal viewHeight = ui->graphicsView->mapToScene(
-                0,ui->graphicsView->viewport()->height()
-                ).y()-ui->graphicsView->mapToScene(0,0).y();
-    viewHeight = (pageHeight<viewHeight)?pageHeight:viewHeight;
-    QRectF pageStartPos =  m_reportPages.at(m_currentPage-1)->mapRectToScene(
-                m_reportPages.at(m_currentPage-1)->rect()
-                );
-    return QRectF(0,pageStartPos.y(),0,viewHeight);
-}
-
 void PreviewReportWindow::on_actionSaveToFile_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Report file name"));
-    if (!fileName.isEmpty()){
-        QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-        foreach (PageItemDesignIntf::Ptr page, m_reportPages){
-            writer->putItem(page.data());
-        }
-        writer->saveToFile(fileName);
-    }
+    m_previewReportWidget->slotSaveToFile();
 }
 
 void PreviewReportWindow::slotFirstPage()
 {
-    m_changingPage=true;
-    if ((!m_reportPages.isEmpty())&&(m_currentPage>1)){
-        m_currentPage=1;
-        //m_previewPage->setPageItem(m_reportPages.at(m_currentPage-1));
-        ui->graphicsView->ensureVisible(
-                    calcPageShift(m_reportPages.at(m_currentPage-1)), 0, 0
-        );
-        m_pagesNavigator->setValue(m_currentPage);
-    } else {
-        if (reader() && reader()->prior()){
-            while (reader()->prior()) {
-            }
-            m_previewPage->removeAllItems();
-            reader()->readItem(m_previewPage->pageItem());
-            m_currentPage=1;
-            m_pagesNavigator->setValue(m_currentPage);
-        }
-    }
-    m_changingPage=false;
+    m_previewReportWidget->slotFirstPage();
 }
 
 void PreviewReportWindow::slotLastPage()
 {
-    m_changingPage=true;
-    if ((!m_reportPages.isEmpty())&&(m_reportPages.count()>(m_currentPage))){
-        m_currentPage=m_reportPages.count();
-        //m_previewPage->setPageItem(m_reportPages.at(m_currentPage-1));
-        ui->graphicsView->ensureVisible(
-                    calcPageShift(m_reportPages.at(m_currentPage-1)), 0, 0
-        );
-        m_pagesNavigator->setValue(m_currentPage);
-    } else {
-
-        if (reader() && reader()->next()){
-            m_currentPage++;
-            while (reader()->next()) {
-                m_currentPage++;
-            }
-            m_previewPage->removeAllItems();
-            reader()->readItem(m_previewPage->pageItem());
-            m_pagesNavigator->setValue(m_currentPage);
-        }
-    }
-    m_changingPage=false;
+    m_previewReportWidget->slotLastPage();
 }
 
 void PreviewReportWindow::slotPrintToPDF()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF(*.pdf)" );
-       qDebug()<<fileName;
-        if (!fileName.isEmpty()){
-            QPrinter printer;
-            printer.setOutputFileName(fileName);
-            printer.setOutputFormat(QPrinter::PdfFormat);
-
-            if (!m_reportPages.isEmpty()){
-                ReportEnginePrivate::printReport(m_reportPages,printer,PrintRange());
-            } else {
-                ReportEnginePrivate::printReport(m_reader,printer);
-            }
-            foreach(PageItemDesignIntf::Ptr pageItem, m_reportPages){
-                m_previewPage->reactivatePageItem(pageItem);
-            }
-        }
+    m_previewReportWidget->slotPrintToPDF();
 }
 
-void PreviewReportWindow::slotSliderMoved(int value)
+void PreviewReportWindow::slotPageChanged(int pageIndex)
 {
-    if (ui->graphicsView->verticalScrollBar()->minimum()==value){
-        m_currentPage = 1;
-    } else if (ui->graphicsView->verticalScrollBar()->maximum()==value){
-        m_currentPage = m_reportPages.count();
-    }
-
-    if (!pageIsVisible(m_reportPages.at(m_currentPage-1))){
-        if (value>m_priorScrolValue){
-            m_currentPage++;
-        } else {
-            m_currentPage--;
-        }
-    }
-
-    m_changingPage = true;
-    m_pagesNavigator->setValue(m_currentPage);
-    m_changingPage = false;
-    m_priorScrolValue = value;
-
+    m_pagesNavigator->setValue(pageIndex);
 }
 
 }// namespace LimeReport

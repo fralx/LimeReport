@@ -37,6 +37,7 @@
 #include "lrglobal.h"
 #include "lrdatasourcemanagerintf.h"
 #include "lrscriptenginemanagerintf.h"
+#include "lrpreviewreportwidget.h"
 
 class QPrinter;
 
@@ -75,7 +76,6 @@ public:
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();
-
     bool    loadFromFile(const QString& fileName);
     bool    loadFromByteArray(QByteArray *data);
     bool    loadFromString(const QString& data);
@@ -88,6 +88,7 @@ public:
     void setCurrentReportsDir(const QString& dirName);
     void setReportName(const QString& name);
     QString reportName();
+    PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
 signals:
     void renderStarted();
     void renderFinished();
