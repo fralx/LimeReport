@@ -11,6 +11,7 @@ CONFIG(release, debug|release){
 }
 
 BUILD_DIR = $$PWD/build/$${QT_VERSION}
+DEST_INCLUDE_DIR = $$PWD/include/
 
 unix:!macx {
     ARCH_DIR       = $${OUT_PWD}/unix
