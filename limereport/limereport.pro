@@ -20,7 +20,8 @@ EXTRA_FILES += \
     $$PWD/lrdatasourcemanagerintf.h \
     $$PWD/lrreportengine.h \
     $$PWD/lrscriptenginemanagerintf.h \
-    $$PWD/lrcallbackdatasourceintf.h
+    $$PWD/lrcallbackdatasourceintf.h \
+    $$PWD/lrpreviewreportwidget.h
 
 include(limereport.pri)
 
