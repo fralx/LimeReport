@@ -30,19 +30,20 @@ EXTRA_DIR += $$PWD/demo_reports/*
 DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo
 REPORTS_DIR    = $${DEST_DIR}/demo_reports
 
-unix{    
+unix:{
     LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
     contains(CONFIG,zint){
         LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
     }
     DESTDIR = $$DEST_DIR
     QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+!macx{
     #Link share lib to ../lib rpath
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
     QMAKE_LFLAGS_RPATH += #. .. ./libs
-
+}
     target.path = $${DEST_DIR}
     INSTALLS = target
 }
@@ -58,4 +59,3 @@ win32 {
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
     LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
 }
-

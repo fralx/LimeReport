@@ -9,6 +9,7 @@ CONFIG += link_prl
 macx{
     CONFIG  -= dll
     CONFIG  += lib_bundle
+    CONFIG  += plugin
 }
 
 DEFINES += LIMEREPORT_EXPORTS
@@ -25,11 +26,13 @@ include(limereport.pri)
 
 unix {
     DESTDIR  = $${BUILD_DIR}/$${BUILD_TYPE}/lib
-    #QMAKE_POST_LINK += mkdir -p $$quote($${DESTDIR}/include) $$escape_expand(\\n\\t)
     for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DEST_INCLUDE_DIR}/include/) $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DEST_INCLUDE_DIR}) $$escape_expand(\\n\\t)
     }
-    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}*) $$quote($${DEST_DIR})
+macx{
+    QMAKE_POST_LINK += mkdir -p $$quote($${DESTDIR}/include) $$escape_expand(\\n\\t)
+}
+    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}*) $$quote($${DESTDIR}/include/)
 }
 
 win32 {
