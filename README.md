@@ -1,4 +1,4 @@
-LimeReport v1.3.10    Compiling [![Build Status](https://travis-ci.org/newsages/LimeReport.svg?branch=master)](https://travis-ci.org/newsages/LimeReport.svg)
+LimeReport v1.3.10    [![Build Status](https://travis-ci.org/newsages/LimeReport.svg?branch=master)](https://travis-ci.org/newsages/LimeReport.svg)
 -----------
 -----------
 
