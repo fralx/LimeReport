@@ -1,4 +1,9 @@
-# LimeReport v1.3.10
+LimeReport v1.3.10    Compiling [![Build Status](https://travis-ci.org/newsages/LimeReport.svg?branch=master)](https://travis-ci.org/newsages/LimeReport.svg)
+-----------
+-----------
+
+
+
 ##Features
 * Multi-platform support
 * Pure Qt4/Qt5 compatible code
@@ -15,6 +20,7 @@
 * An Automatic band height adjustment
 * A Smart band split moving data to the next page
 * PDF output
+
 
 ##How to use it
 1. Build limereport.pro. It will create a limereport shared library  
