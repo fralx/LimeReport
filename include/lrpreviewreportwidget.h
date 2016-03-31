@@ -21,12 +21,9 @@ class LIMEREPORT_EXPORT PreviewReportWidget : public QWidget
     friend class PreviewReportWidgetPrivate;
 public:
     explicit PreviewReportWidget(ReportEnginePrivate *report, QWidget *parent = 0);
-    ~PreviewReportWidget();
-    void initPreview();
-    void setErrorsMesagesVisible(bool visible);
-    void setErrorMessages(const QStringList &value);
-    void refreshPages();
+    ~PreviewReportWidget();    
 public slots:
+    void refreshPages();
     void slotZoomIn();
     void slotZoomOut();
 
@@ -44,6 +41,10 @@ signals:
 private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);
+private:
+    void initPreview();
+    void setErrorsMesagesVisible(bool visible);
+    void setErrorMessages(const QStringList &value);
 private:
     Ui::PreviewReportWidget *ui;
     PreviewReportWidgetPrivate* d_ptr;

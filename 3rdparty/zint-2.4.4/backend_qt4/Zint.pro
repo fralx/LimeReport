@@ -8,7 +8,6 @@ include(../../../common.pri)
 macx{
     CONFIG -= dll
     CONFIG += lib_bundle
-    CONFIG += plugin
 }
 
 unix{
