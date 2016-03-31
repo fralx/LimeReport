@@ -650,6 +650,21 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::PreviewReportWidget</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PDF file name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report file name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::PreviewReportWindow</name>
     <message>
         <source>Preview</source>
@@ -729,14 +744,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> of %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
