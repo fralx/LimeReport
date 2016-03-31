@@ -26,7 +26,7 @@ DEPENDPATH  += $$PWD/../include
 RESOURCES += \
     r1.qrc
 
-EXTRA_DIR += $$PWD/demo_reports/*
+EXTRA_DIR     += $$PWD/demo_reports
 DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo
 REPORTS_DIR    = $${DEST_DIR}/demo_reports
 
@@ -36,8 +36,8 @@ unix:{
         LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
     }
     DESTDIR = $$DEST_DIR
-    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
-!macx{
+    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY $$quote($$EXTRA_DIR)/* $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+linux{
     #Link share lib to ../lib rpath
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
