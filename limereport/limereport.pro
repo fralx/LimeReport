@@ -32,7 +32,6 @@ unix:{
         for(FILE,EXTRA_FILES){
             QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DEST_INCLUDE_DIR}) $$escape_expand(\\n\\t) # inside of libs make /include/files
         }
-
     }
     macx{
         for(FILE,EXTRA_FILES){
@@ -40,7 +39,7 @@ unix:{
         }
         QMAKE_POST_LINK += mkdir -p $$quote($${DESTDIR}/include) $$escape_expand(\\n\\t)
     }
-    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}*) $$quote($${DESTDIR}/include)
+    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}) $$quote($${DESTDIR}/include)
 }
 
 win32 {
@@ -54,7 +53,7 @@ win32 {
     for(FILE,EXTRA_FILES){
         QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DEST_INCLUDE_DIR}) $$escape_expand(\\n\\t)
     }
-    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}*) $$quote($${DEST_DIR})
+    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}) $$quote($${DEST_DIR})
 }
 
 contains(CONFIG,zint){

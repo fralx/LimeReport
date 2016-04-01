@@ -57,5 +57,8 @@ win32 {
     RC_FILE += mainicon.rc
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
+    contains(CONFIG,zint){
+        LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
+    }
     LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
 }
