@@ -75,6 +75,7 @@ PreviewReportWidget::~PreviewReportWidget()
 
 void PreviewReportWidget::initPreview()
 {
+    ui->graphicsView->resetMatrix();
     ui->graphicsView->setScene(d_ptr->m_previewPage);
     ui->graphicsView->centerOn(0, 0);
     ui->graphicsView->scale(0.5,0.5);
@@ -207,7 +208,7 @@ void PreviewReportWidget::refreshPages()
             ReportPages pages = d_ptr->m_report->renderToPages();
             d_ptr->m_report->dataManager()->setDesignTime(true);
             if (pages.count()>0){
-                d_ptr->m_reportPages = pages;
+                d_ptr->setPages(pages);
                 if (!d_ptr->m_reportPages.isEmpty()){
                     d_ptr->m_previewPage->setPageItems(d_ptr->m_reportPages);
                     d_ptr->m_changingPage = true;
