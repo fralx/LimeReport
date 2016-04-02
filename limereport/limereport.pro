@@ -39,7 +39,7 @@ unix:{
         }
         QMAKE_POST_LINK += mkdir -p $$quote($${DESTDIR}/include) $$escape_expand(\\n\\t)
     }
-    QMAKE_POST_LINK += $(COPY_DIR) $$quote($${DEST_INCLUDE_DIR}) $$quote($${DESTDIR}/include)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($${DEST_INCLUDE_DIR}) $$quote($${DESTDIR})
 }
 
 win32 {

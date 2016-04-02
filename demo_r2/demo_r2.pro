@@ -1,14 +1,7 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-04-01T17:38:18
-#
-#-------------------------------------------------
 include(../common.pri)
-QT       += core gui
+QT += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = demo_r2
+TARGET = LRDemo
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -26,7 +19,11 @@ RESOURCES += \
 
 EXTRA_DIR     += $$PWD/demo_reports
 DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo_r2
-REPORTS_DIR    = $${DEST_DIR}/demo_reports
+REPORTS_DIR    = $${DEST_DIR}
+
+macx{
+    CONFIG  += app_bundle
+}
 
 unix:{
     LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
@@ -34,7 +31,8 @@ unix:{
         LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
     }
     DESTDIR = $$DEST_DIR
-    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) | $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
 linux{
     #Link share lib to ../lib rpath
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
@@ -54,7 +52,7 @@ win32 {
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     contains(CONFIG,zint){
         LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
     }
