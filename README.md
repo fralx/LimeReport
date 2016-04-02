@@ -1,8 +1,5 @@
-LimeReport v1.3.10    [![Build Status](https://travis-ci.org/newsages/LimeReport.svg?branch=master)](https://travis-ci.org/newsages/LimeReport)
+LimeReport v1.3.10    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
 -----------
------------
-
-
 
 ##Features
 * Multi-platform support
