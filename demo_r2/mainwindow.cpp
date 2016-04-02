@@ -70,7 +70,7 @@ void MainWindow::enableUI(bool value)
 
 void MainWindow::slotScalePercentChanged(int percent)
 {
-    ui->cbScalePercent->setCurrentText(QString("%1\%").arg(percent));
+    ui->cbScalePercent->setCurrentText(QString("%1%").arg(percent));
 }
 
 void MainWindow::scaleComboboxChanged(QString text)
@@ -101,7 +101,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int )
 void MainWindow::initPercentCombobox()
 {
     for (int i = 10; i<310; i+=10){
-        ui->cbScalePercent->addItem(QString("%1\%").arg(i));
+        ui->cbScalePercent->addItem(QString("%1%").arg(i));
     }
     ui->cbScalePercent->setCurrentIndex(4);
 }

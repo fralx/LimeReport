@@ -61,6 +61,13 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     setCentralWidget(m_previewReportWidget);
     layout()->setContentsMargins(1,1,1,1);
     connect(m_previewReportWidget,SIGNAL(pageChanged(int)), this,SLOT(slotPageChanged(int)) );
+
+
+    m_scalePercent = new QComboBox(this);
+    ui->toolBar->insertWidget(ui->actionZoomOut, m_scalePercent);
+    initPercentCombobox();
+    connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
+    connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
     restoreSetting();
 }
 
@@ -241,6 +248,14 @@ ItemsReaderIntf *PreviewReportWindow::reader()
     return m_reader.data();
 }
 
+void PreviewReportWindow::initPercentCombobox()
+{
+    for (int i = 10; i<310; i+=10){
+        m_scalePercent->addItem(QString("%1%").arg(i));
+    }
+    m_scalePercent->setCurrentIndex(4);
+}
+
 void PreviewReportWindow::on_actionSaveToFile_triggered()
 {
     m_previewReportWidget->saveToFile();
@@ -266,4 +281,35 @@ void PreviewReportWindow::slotPageChanged(int pageIndex)
     m_pagesNavigator->setValue(pageIndex);
 }
 
+void PreviewReportWindow::on_actionFit_page_width_triggered()
+{
+    m_previewReportWidget->fitWidth();
+}
+
+void PreviewReportWindow::on_actionFit_page_triggered()
+{
+    m_previewReportWidget->fitPage();
+}
+
+void PreviewReportWindow::on_actionOne_to_one_triggered()
+{
+    m_previewReportWidget->setScalePercent(100);
+}
+
+void PreviewReportWindow::scaleComboboxChanged(QString text)
+{
+    m_previewReportWidget->setScalePercent(text.remove(text.count()-1,1).toInt());
+}
+
+void PreviewReportWindow::slotScalePercentChanged(int percent)
+{
+    m_scalePercent->setCurrentText(QString("%1%").arg(percent));
+}
+
 }// namespace LimeReport
+
+
+
+
+
+

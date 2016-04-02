@@ -33,6 +33,7 @@
 #include <QMainWindow>
 #include <QDomComment>
 #include <QSpinBox>
+#include <QComboBox>
 
 #include "lrpagedesignintf.h"
 #include "lrreportrender.h"
@@ -78,8 +79,15 @@ public slots:
     void slotLastPage();
     void slotPrintToPDF();
     void slotPageChanged(int pageIndex);
+private slots:
+    void on_actionFit_page_width_triggered();
+    void on_actionFit_page_triggered();
+    void on_actionOne_to_one_triggered();
+    void scaleComboboxChanged(QString text);
+    void slotScalePercentChanged(int percent);
 private:
     ItemsReaderIntf* reader();
+    void initPercentCombobox();
     //bool pageIsVisible(PageItemDesignIntf::Ptr page);
     //QRectF calcPageShift(PageItemDesignIntf::Ptr page);
 private:
@@ -91,6 +99,7 @@ private:
     QSettings* m_settings;
     bool m_ownedSettings;
     PreviewReportWidget* m_previewReportWidget;
+    QComboBox* m_scalePercent;
 };
 } //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

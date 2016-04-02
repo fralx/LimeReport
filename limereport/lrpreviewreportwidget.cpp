@@ -211,6 +211,7 @@ void PreviewReportWidget::saveToFile()
 void PreviewReportWidget::setScalePercent(int percent)
 {
     ui->graphicsView->resetMatrix();
+    d_ptr->m_scalePercent = percent;
     qreal scaleSize = percent/100.0;
     ui->graphicsView->scale(scaleSize, scaleSize);
     emit scalePercentChanged(percent);
