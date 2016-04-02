@@ -203,32 +203,32 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 
 void PreviewReportWindow::slotPrint()
 {
-    m_previewReportWidget->slotPrint();
+    m_previewReportWidget->print();
 }
 
 void PreviewReportWindow::slotPriorPage()
 {
-    m_previewReportWidget->slotPriorPage();
+    m_previewReportWidget->priorPage();
 }
 
 void PreviewReportWindow::slotNextPage()
 {
-    m_previewReportWidget->slotNextPage();
+    m_previewReportWidget->nextPage();
 }
 
 void PreviewReportWindow::slotZoomIn()
 {
-    m_previewReportWidget->slotZoomIn();
+    m_previewReportWidget->zoomIn();
 }
 
 void PreviewReportWindow::slotZoomOut()
 {
-    m_previewReportWidget->slotZoomOut();
+    m_previewReportWidget->zoomOut();
 }
 
 void PreviewReportWindow::slotPageNavigatorChanged(int value)
 {
-    m_previewReportWidget->slotPageNavigatorChanged(value);
+    m_previewReportWidget->pageNavigatorChanged(value);
 }
 
 void PreviewReportWindow::slotShowErrors()
@@ -243,22 +243,22 @@ ItemsReaderIntf *PreviewReportWindow::reader()
 
 void PreviewReportWindow::on_actionSaveToFile_triggered()
 {
-    m_previewReportWidget->slotSaveToFile();
+    m_previewReportWidget->saveToFile();
 }
 
 void PreviewReportWindow::slotFirstPage()
 {
-    m_previewReportWidget->slotFirstPage();
+    m_previewReportWidget->firstPage();
 }
 
 void PreviewReportWindow::slotLastPage()
 {
-    m_previewReportWidget->slotLastPage();
+    m_previewReportWidget->lastPage();
 }
 
 void PreviewReportWindow::slotPrintToPDF()
 {
-    m_previewReportWidget->slotPrintToPDF();
+    m_previewReportWidget->printToPDF();
 }
 
 void PreviewReportWindow::slotPageChanged(int pageIndex)
