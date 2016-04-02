@@ -25,8 +25,8 @@ RESOURCES += \
     demo_r2.qrc
 
 EXTRA_DIR     += $$PWD/demo_reports
-DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo
-REPORTS_DIR    = $${DEST_DIR}
+DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo_r2
+REPORTS_DIR    = $${DEST_DIR}/demo_reports
 
 unix:{
     LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
@@ -54,7 +54,7 @@ win32 {
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR) $$escape_expand(\\n\\t)
     contains(CONFIG,zint){
         LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
     }
