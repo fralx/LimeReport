@@ -1,7 +1,7 @@
 include(../common.pri)
 QT += core gui
 
-TARGET = LRDemo
+TARGET = LRDemo_r1
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -18,7 +18,7 @@ RESOURCES += \
     r1.qrc
 
 EXTRA_DIR     += $$PWD/demo_reports
-DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo_r1
+DEST_DIR       = $${DEST_BINS}
 REPORTS_DIR    = $${DEST_DIR}
 
 macx{
@@ -26,9 +26,9 @@ macx{
 }
 
 unix:{
-    LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
+    LIBS += -L$${DEST_LIBS} -llimereport
     contains(CONFIG,zint){
-        LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
+        LIBS += -L$${DEST_LIBS} -lQtZint
     }
     DESTDIR = $$DEST_DIR
 #    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
@@ -54,9 +54,9 @@ win32 {
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     contains(CONFIG,zint){
-        LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
+        LIBS += -L$${DEST_LIBS} -lQtZint
     }
-    LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
+    LIBS += -L$${DEST_LIBS} -llimereport
 }
 
 

@@ -26,7 +26,7 @@ EXTRA_FILES += \
 include(limereport.pri)
 
 unix:{
-    DESTDIR  = $${BUILD_DIR}/$${BUILD_TYPE}/lib
+    DESTDIR  = $${DEST_LIBS}
     linux{
         QMAKE_POST_LINK += mkdir -p $$quote($${DEST_INCLUDE_DIR}) $$escape_expand(\\n\\t) # qmake need make mkdir -p on subdirs more than root/
         for(FILE,EXTRA_FILES){
@@ -45,7 +45,7 @@ unix:{
 win32 {
     EXTRA_FILES ~= s,/,\\,g
     BUILD_DIR ~= s,/,\\,g
-    DESTDIR = $${BUILD_DIR}/$${BUILD_TYPE}/lib
+    DESTDIR = $${DEST_LIBS}
     DEST_DIR = $$DESTDIR/include
     DEST_DIR ~= s,/,\\,g
     DEST_INCLUDE_DIR ~= s,/,\\,g
@@ -60,7 +60,7 @@ contains(CONFIG,zint){
     message(zint)
     INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
     DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
-    LIBS += -L$${DESTDIR} -lQtZint
+    LIBS += -L$${DEST_LIBS} -lQtZint
 }
 
 #######

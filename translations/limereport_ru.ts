@@ -905,6 +905,18 @@ p, li { white-space: pre-wrap; }
         <source>Ctrl+P</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Fit page width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>One to one</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ProxyHolder</name>

@@ -12,16 +12,32 @@ CONFIG(release, debug|release){
 
 BUILD_DIR = $$PWD/build/$${QT_VERSION}
 DEST_INCLUDE_DIR = $$PWD/include
-
-unix:!macx {
+unix{
     ARCH_DIR       = $${OUT_PWD}/unix
+    ARCH_TYPE      = unix
+    macx{
+        ARCH_DIR       = $${OUT_PWD}/macx
+        ARCH_TYPE      = macx
+    }
+    linux{
+        !contains(QT_ARCH, x86_64){
+            message("Compiling for 32bit system")
+            ARCH_DIR       = $${OUT_PWD}/linux32
+            ARCH_TYPE      = linux32
+        }else{
+            message("Compiling for 64bit system")
+            ARCH_DIR       = $${OUT_PWD}/linux64
+            ARCH_TYPE      = linux64
+        }
+    }
 }
 win32 {
     ARCH_DIR       = $${OUT_PWD}/win32
+    ARCH_TYPE      = win32
 }
-macx{
-    ARCH_DIR       = $${OUT_PWD}/macx
-}
+
+DEST_LIBS = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib
+DEST_BINS = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/$${TARGET}
 
 MOC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/moc
 UI_DIR         = $${ARCH_DIR}/$${BUILD_TYPE}/ui
