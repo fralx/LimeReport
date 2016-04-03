@@ -15,10 +15,10 @@ INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
 
 RESOURCES += \
-    r1.qrc
+    demo_r2.qrc
 
 EXTRA_DIR     += $$PWD/demo_reports
-DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo_r1
+DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo_r2
 REPORTS_DIR    = $${DEST_DIR}
 
 macx{

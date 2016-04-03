@@ -161,5 +161,8 @@
         <file alias="/images/settings">images/settings.png</file>
         <file alias="/images/grid">images/grid.png</file>
         <file alias="/images/magnet">images/magnet.png</file>
+        <file>images/FitPage.png</file>
+        <file>images/FitWidth.png</file>
+        <file>images/OneToOne.png</file>
     </qresource>
 </RCC>

@@ -46,7 +46,15 @@ void PreviewReportWidgetPrivate::setPages(ReportPages pages)
         if (pages.at(0)) pages.at(0)->setSelected(true);
         m_changingPage = false;
         q_ptr->initPreview();
+        q_ptr->emitPageSet();
     }
+}
+
+PageItemDesignIntf::Ptr PreviewReportWidgetPrivate::currentPage()
+{
+    if (m_reportPages.count()>m_currentPage)
+        return m_reportPages.at(m_currentPage-1);
+    else return PageItemDesignIntf::Ptr(0);
 }
 
 PreviewReportWidget::PreviewReportWidget(ReportEnginePrivate *report, QWidget *parent) :
@@ -75,9 +83,11 @@ PreviewReportWidget::~PreviewReportWidget()
 
 void PreviewReportWidget::initPreview()
 {
-    ui->graphicsView->setScene(d_ptr->m_previewPage);
+    if (ui->graphicsView->scene()!=d_ptr->m_previewPage)
+        ui->graphicsView->setScene(d_ptr->m_previewPage);
+    ui->graphicsView->resetMatrix();
     ui->graphicsView->centerOn(0, 0);
-    ui->graphicsView->scale(0.5,0.5);
+    setScalePercent(d_ptr->m_scalePercent);
 }
 
 void PreviewReportWidget::setErrorsMesagesVisible(bool visible)
@@ -85,17 +95,20 @@ void PreviewReportWidget::setErrorsMesagesVisible(bool visible)
     ui->errorsView->setVisible(visible);
 }
 
-void PreviewReportWidget::slotZoomIn()
+void PreviewReportWidget::zoomIn()
 {
-    ui->graphicsView->scale(1.2,1.2);
+    d_ptr->m_scalePercent += 10;
+    setScalePercent(d_ptr->m_scalePercent);
 }
 
-void PreviewReportWidget::slotZoomOut()
+void PreviewReportWidget::zoomOut()
 {
-    ui->graphicsView->scale(1/1.2,1/1.2);
+    if (d_ptr->m_scalePercent>0)
+        d_ptr->m_scalePercent -= 10;
+    setScalePercent(d_ptr->m_scalePercent);
 }
 
-void PreviewReportWidget::slotFirstPage()
+void PreviewReportWidget::firstPage()
 {
     d_ptr->m_changingPage=true;
     if ((!d_ptr->m_reportPages.isEmpty())&&(d_ptr->m_currentPage>1)){
@@ -106,7 +119,7 @@ void PreviewReportWidget::slotFirstPage()
     d_ptr->m_changingPage=false;
 }
 
-void PreviewReportWidget::slotPriorPage()
+void PreviewReportWidget::priorPage()
 {
     d_ptr->m_changingPage=true;
     if ((!d_ptr->m_reportPages.isEmpty())&&(d_ptr->m_currentPage>1)){
@@ -117,7 +130,7 @@ void PreviewReportWidget::slotPriorPage()
    d_ptr->m_changingPage=false;
 }
 
-void PreviewReportWidget::slotNextPage()
+void PreviewReportWidget::nextPage()
 {
     d_ptr->m_changingPage=true;
     if ((!d_ptr->m_reportPages.isEmpty())&&(d_ptr->m_reportPages.count()>(d_ptr->m_currentPage))){
@@ -128,7 +141,7 @@ void PreviewReportWidget::slotNextPage()
     d_ptr->m_changingPage=false;
 }
 
-void PreviewReportWidget::slotLastPage()
+void PreviewReportWidget::lastPage()
 {
     d_ptr->m_changingPage=true;
     if ((!d_ptr->m_reportPages.isEmpty())&&(d_ptr->m_reportPages.count()>(d_ptr->m_currentPage))){
@@ -139,7 +152,7 @@ void PreviewReportWidget::slotLastPage()
     d_ptr->m_changingPage=false;
 }
 
-void PreviewReportWidget::slotPrint()
+void PreviewReportWidget::print()
 {
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog dialog(&printer,QApplication::activeWindow());
@@ -150,10 +163,13 @@ void PreviewReportWidget::slotPrint()
                 printer,
                 PrintRange(dialog.printRange(),dialog.fromPage(),dialog.toPage())
             );
+        foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
+            d_ptr->m_previewPage->reactivatePageItem(pageItem);
+        }
     }
 }
 
-void PreviewReportWidget::slotPrintToPDF()
+void PreviewReportWidget::printToPDF()
 {
     QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF(*.pdf)" );
     if (!fileName.isEmpty()){
@@ -169,7 +185,7 @@ void PreviewReportWidget::slotPrintToPDF()
     }
 }
 
-void PreviewReportWidget::slotPageNavigatorChanged(int value)
+void PreviewReportWidget::pageNavigatorChanged(int value)
 {
     if (d_ptr->m_changingPage) return;
     d_ptr->m_changingPage = true;
@@ -180,7 +196,7 @@ void PreviewReportWidget::slotPageNavigatorChanged(int value)
     d_ptr->m_changingPage=false;
 }
 
-void PreviewReportWidget::slotSaveToFile()
+void PreviewReportWidget::saveToFile()
 {
     QString fileName = QFileDialog::getSaveFileName(this,tr("Report file name"));
     if (!fileName.isEmpty()){
@@ -192,11 +208,42 @@ void PreviewReportWidget::slotSaveToFile()
     }
 }
 
+void PreviewReportWidget::setScalePercent(int percent)
+{
+    ui->graphicsView->resetMatrix();
+    d_ptr->m_scalePercent = percent;
+    qreal scaleSize = percent/100.0;
+    ui->graphicsView->scale(scaleSize, scaleSize);
+    emit scalePercentChanged(percent);
+}
+
+void PreviewReportWidget::fitWidth()
+{
+    if (d_ptr->currentPage()){
+        qreal scalePercent = ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width();
+        setScalePercent(scalePercent*100);
+    }
+}
+
+void PreviewReportWidget::fitPage()
+{
+    if (d_ptr->currentPage()){
+        qreal vScale = ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width();
+        qreal hScale = ui->graphicsView->viewport()->height() / d_ptr->currentPage()->height();
+        setScalePercent(qMin(vScale,hScale)*100);
+    }
+}
+
 void PreviewReportWidget::setErrorMessages(const QStringList &value)
 {
     foreach (QString line, value) {
         ui->errorsView->append(line);
     }
+}
+
+void PreviewReportWidget::emitPageSet()
+{
+    emit pagesSet(d_ptr->m_reportPages.count());
 }
 
 void PreviewReportWidget::refreshPages()
@@ -207,15 +254,7 @@ void PreviewReportWidget::refreshPages()
             ReportPages pages = d_ptr->m_report->renderToPages();
             d_ptr->m_report->dataManager()->setDesignTime(true);
             if (pages.count()>0){
-                d_ptr->m_reportPages = pages;
-                if (!d_ptr->m_reportPages.isEmpty()){
-                    d_ptr->m_previewPage->setPageItems(d_ptr->m_reportPages);
-                    d_ptr->m_changingPage = true;
-                    d_ptr->m_currentPage = 1;
-                    if (pages.at(0)) pages.at(0)->setSelected(true);
-                    d_ptr->m_changingPage = false;
-                }
-                ui->graphicsView->centerOn(0, 0);
+                d_ptr->setPages(pages);
             }
         } catch (ReportError &exception){
             d_ptr->m_report->saveError(exception.what());

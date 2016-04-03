@@ -24,20 +24,25 @@ public:
     ~PreviewReportWidget();    
 public slots:
     void refreshPages();
-    void slotZoomIn();
-    void slotZoomOut();
+    void zoomIn();
+    void zoomOut();
 
-    void slotFirstPage();
-    void slotPriorPage();
-    void slotNextPage();
-    void slotLastPage();
+    void firstPage();
+    void priorPage();
+    void nextPage();
+    void lastPage();
 
-    void slotPrint();
-    void slotPrintToPDF();
-    void slotPageNavigatorChanged(int value);
-    void slotSaveToFile();
+    void print();
+    void printToPDF();
+    void pageNavigatorChanged(int value);
+    void saveToFile();
+    void setScalePercent(int percent);
+    void fitWidth();
+    void fitPage();
 signals:
     void pageChanged(int page);
+    void scalePercentChanged(int percent);
+    void pagesSet(int pageCount);
 private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);
@@ -45,6 +50,7 @@ private:
     void initPreview();
     void setErrorsMesagesVisible(bool visible);
     void setErrorMessages(const QStringList &value);
+    void emitPageSet();
 private:
     Ui::PreviewReportWidget *ui;
     PreviewReportWidgetPrivate* d_ptr;

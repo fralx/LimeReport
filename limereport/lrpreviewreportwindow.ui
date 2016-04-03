@@ -77,6 +77,9 @@
    <addaction name="separator"/>
    <addaction name="actionZoomIn"/>
    <addaction name="actionZoomOut"/>
+   <addaction name="actionOne_to_one"/>
+   <addaction name="actionFit_page_width"/>
+   <addaction name="actionFit_page"/>
    <addaction name="separator"/>
    <addaction name="actionFirst_Page"/>
    <addaction name="actionPriorPage"/>
@@ -224,10 +227,37 @@
     <string>Print To PDF</string>
    </property>
   </action>
+  <action name="actionFit_page_width">
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/FitWidth.png</normaloff>:/report/images/FitWidth.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fit page width</string>
+   </property>
+  </action>
+  <action name="actionFit_page">
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/FitPage.png</normaloff>:/report/images/FitPage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fit page</string>
+   </property>
+  </action>
+  <action name="actionOne_to_one">
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/OneToOne.png</normaloff>:/report/images/OneToOne.png</iconset>
+   </property>
+   <property name="text">
+    <string>One to one</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="databrowser/lrdatabrowser.qrc"/>
   <include location="report.qrc"/>
+  <include location="databrowser/lrdatabrowser.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -12,11 +12,13 @@ class PreviewReportWidget;
 class PreviewReportWidgetPrivate
 {
 public:
-    PreviewReportWidgetPrivate(PreviewReportWidget* previewReportWidget): q_ptr(previewReportWidget),
-      m_currentPage(1), m_changingPage(false), m_priorScrolValue(0){}
+    PreviewReportWidgetPrivate(PreviewReportWidget* previewReportWidget):
+      m_currentPage(1), m_changingPage(false), m_priorScrolValue(0), m_scalePercent(50),
+      q_ptr(previewReportWidget) {}
     bool pageIsVisible();
     QRectF calcPageShift();
     void setPages( ReportPages pages);
+    PageItemDesignIntf::Ptr currentPage();
 public:
     PageDesignIntf* m_previewPage;
     ReportPages     m_reportPages;
@@ -25,6 +27,7 @@ public:
     int m_currentPage;
     bool m_changingPage;
     int m_priorScrolValue;
+    int m_scalePercent;
     PreviewReportWidget* q_ptr;
 
 };

@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/lr.png</file>
+        <file>images/logo.png</file>
+        <file alias="/images/folder.png">images/folder3.png</file>
+        <file alias="/images/report.png">images/new_leaf1.png</file>
+        <file>images/logo1.png</file>
+        <file>images/design.png</file>
+        <file>images/PDF.png</file>
+        <file>images/ZoomIn.png</file>
+        <file>images/ZoomOut.png</file>
+        <file>images/First.png</file>
+        <file>images/Last.png</file>
+        <file>images/Next.png</file>
+        <file>images/Prev.png</file>
+        <file>images/Print.png</file>
+        <file>images/FitWidth.png</file>
+        <file>images/FitPage.png</file>
+        <file>images/OneToOne.png</file>
+    </qresource>
+</RCC>
