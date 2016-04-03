@@ -12,7 +12,6 @@ CONFIG(release, debug|release){
 
 BUILD_DIR = $$PWD/build/$${QT_VERSION}
 DEST_INCLUDE_DIR = $$PWD/include
-
 unix{
     ARCH_DIR       = $${OUT_PWD}/unix
     ARCH_TYPE      = unix
@@ -36,6 +35,9 @@ win32 {
     ARCH_DIR       = $${OUT_PWD}/win32
     ARCH_TYPE      = win32
 }
+
+DEST_LIBS = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib
+DEST_BINS = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/$${TARGET}
 
 MOC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/moc
 UI_DIR         = $${ARCH_DIR}/$${BUILD_TYPE}/ui
