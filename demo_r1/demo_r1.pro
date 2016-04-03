@@ -18,7 +18,7 @@ RESOURCES += \
     r1.qrc
 
 EXTRA_DIR     += $$PWD/demo_reports
-DEST_DIR       = $${BUILD_DIR}/$${BUILD_TYPE}/demo_r1
+DEST_DIR       = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/demo_r1
 REPORTS_DIR    = $${DEST_DIR}
 
 macx{
@@ -26,9 +26,9 @@ macx{
 }
 
 unix:{
-    LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
+    LIBS += -L$${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib -llimereport
     contains(CONFIG,zint){
-        LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
+        LIBS += -L$${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib -lQtZint
     }
     DESTDIR = $$DEST_DIR
 #    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
@@ -54,9 +54,9 @@ win32 {
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     contains(CONFIG,zint){
-        LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -lQtZint
+        LIBS += -L$${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib -lQtZint
     }
-    LIBS += -L$${BUILD_DIR}/$${BUILD_TYPE}/lib -llimereport
+    LIBS += -L$${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib -llimereport
 }
 
 

@@ -95,7 +95,7 @@ SOURCES += \
     $$PWD/../backend/upcean.c
 
 
-DESTDIR        = $${BUILD_DIR}/$${BUILD_TYPE}/lib
+DESTDIR        = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib
 DLLDESTDIR     = $${DESTDIR}
 unix {
     target.path = $${DESTDIR}

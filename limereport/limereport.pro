@@ -26,7 +26,7 @@ EXTRA_FILES += \
 include(limereport.pri)
 
 unix:{
-    DESTDIR  = $${BUILD_DIR}/$${BUILD_TYPE}/lib
+    DESTDIR  = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib
     linux{
         QMAKE_POST_LINK += mkdir -p $$quote($${DEST_INCLUDE_DIR}) $$escape_expand(\\n\\t) # qmake need make mkdir -p on subdirs more than root/
         for(FILE,EXTRA_FILES){
