@@ -612,13 +612,13 @@ void CallbackDatasource::first(){
     m_currentRow = 0;
     m_eof=checkIfEmpty();
     bool result=false;
-    if (m_rowCount == -1){
-        QVariant rowCount;
-        CallbackInfo info;
-        info.dataType = CallbackInfo::RowCount;
-        emit getCallbackData(info,rowCount);
-        if (rowCount.isValid()) m_rowCount = rowCount.toInt();
-    }
+
+    QVariant rowCount;
+    CallbackInfo info;
+    info.dataType = CallbackInfo::RowCount;
+    emit getCallbackData(info,rowCount);
+    if (rowCount.isValid()) m_rowCount = rowCount.toInt();
+
     emit changePos(CallbackInfo::First,result);
     if (m_rowCount>0) m_eof = false;
     else m_eof = !result;
