@@ -1073,6 +1073,8 @@ void DataSourceManager::clear(ClearMethod method)
     m_subqueries.clear();
     m_proxies.clear();
 
+    clearUserVariables();
+
     emit cleared();
 }
 
