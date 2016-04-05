@@ -1,7 +1,7 @@
 #include "lrgraphicsviewzoom.h"
 #include <QMouseEvent>
 #include <QApplication>
-#include <QtMath>
+#include <qmath.h>
 
 namespace LimeReport{
 
@@ -11,7 +11,7 @@ GraphicsViewZoomer::GraphicsViewZoomer(QGraphicsView* view)
   m_view->viewport()->installEventFilter(this);
   m_view->setMouseTracking(true);
   m_modifiers = Qt::ControlModifier;
-  m_zoomFactorBase = 1.0015;
+  m_zoomFactorBase = 1.0009;
 }
 
 void GraphicsViewZoomer::gentleZoom(double factor) {
@@ -21,7 +21,7 @@ void GraphicsViewZoomer::gentleZoom(double factor) {
                                                              m_view->viewport()->height() / 2.0);
   QPointF viewport_center = m_view->mapFromScene(m_targetScenePos) - delta_viewport_pos;
   m_view->centerOn(m_view->mapToScene(viewport_center.toPoint()));
-  emit zoomed();
+  emit zoomed(factor);
 }
 
 void GraphicsViewZoomer::setModifiers(Qt::KeyboardModifiers modifiers) {

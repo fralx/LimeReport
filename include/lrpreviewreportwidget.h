@@ -46,6 +46,7 @@ signals:
 private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);
+    void slotZoomed(double);
 private:
     void initPreview();
     void setErrorsMesagesVisible(bool visible);

@@ -70,7 +70,7 @@ void MainWindow::enableUI(bool value)
 
 void MainWindow::slotScalePercentChanged(int percent)
 {
-    ui->cbScalePercent->setCurrentText(QString("%1%").arg(percent));
+    ui->cbScalePercent->setEditText(QString("%1%").arg(percent));
 }
 
 void MainWindow::scaleComboboxChanged(QString text)

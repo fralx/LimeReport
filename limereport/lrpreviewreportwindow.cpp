@@ -64,6 +64,7 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
 
 
     m_scalePercent = new QComboBox(this);
+    m_scalePercent->setEditable(true);
     ui->toolBar->insertWidget(ui->actionZoomOut, m_scalePercent);
     initPercentCombobox();
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
@@ -303,7 +304,7 @@ void PreviewReportWindow::scaleComboboxChanged(QString text)
 
 void PreviewReportWindow::slotScalePercentChanged(int percent)
 {
-    m_scalePercent->setCurrentText(QString("%1%").arg(percent));
+    m_scalePercent->setEditText(QString("%1%").arg(percent));
 }
 
 }// namespace LimeReport

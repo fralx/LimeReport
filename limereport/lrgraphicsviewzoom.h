@@ -20,7 +20,7 @@ private:
   QPointF m_targetScenePos, m_targetViewportPos;
   bool eventFilter(QObject* object, QEvent* event);
 signals:
-  void zoomed();
+  void zoomed(double factor);
 };
 
 } // namespace LimeReport

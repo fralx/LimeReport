@@ -52,7 +52,7 @@ void PreviewReportWidgetPrivate::setPages(ReportPages pages)
 
 PageItemDesignIntf::Ptr PreviewReportWidgetPrivate::currentPage()
 {
-    if (m_reportPages.count()>m_currentPage)
+    if (m_reportPages.count()>0 && m_reportPages.count()>=m_currentPage)
         return m_reportPages.at(m_currentPage-1);
     else return PageItemDesignIntf::Ptr(0);
 }
@@ -70,6 +70,7 @@ PreviewReportWidget::PreviewReportWidget(ReportEnginePrivate *report, QWidget *p
     connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
     connect(d_ptr->m_report, SIGNAL(destroyed(QObject*)), this, SLOT(reportEngineDestroyed(QObject*)));
     d_ptr->m_zoomer = new GraphicsViewZoomer(ui->graphicsView);
+    connect(d_ptr->m_zoomer, SIGNAL(zoomed(double)), this, SLOT(slotZoomed(double)));
 }
 
 PreviewReportWidget::~PreviewReportWidget()
@@ -97,14 +98,14 @@ void PreviewReportWidget::setErrorsMesagesVisible(bool visible)
 
 void PreviewReportWidget::zoomIn()
 {
-    d_ptr->m_scalePercent += 10;
+    d_ptr->m_scalePercent =  (d_ptr->m_scalePercent / 10) * 10 + 10;
     setScalePercent(d_ptr->m_scalePercent);
 }
 
 void PreviewReportWidget::zoomOut()
 {
     if (d_ptr->m_scalePercent>0)
-        d_ptr->m_scalePercent -= 10;
+        d_ptr->m_scalePercent = (d_ptr->m_scalePercent / 10) * 10 - 10;
     setScalePercent(d_ptr->m_scalePercent);
 }
 
@@ -291,6 +292,12 @@ void PreviewReportWidget::reportEngineDestroyed(QObject *object)
     if (object == d_ptr->m_report){
         d_ptr->m_report = 0;
     }
+}
+
+void PreviewReportWidget::slotZoomed(double )
+{
+    d_ptr->m_scalePercent = ui->graphicsView->matrix().m11()*100;
+    emit scalePercentChanged(d_ptr->m_scalePercent);
 }
 
 
