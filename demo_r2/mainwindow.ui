@@ -14,8 +14,8 @@
    <string>Lime Report Demo</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="demo_r2.qrc">
-    <normaloff>:/images/images/logo1.png</normaloff>:/images/images/logo1.png</iconset>
+   <iconset resource="../limereport/report.qrc">
+    <normaloff>:/report/images/logo32</normaloff>:/report/images/logo32</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -581,6 +581,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
+  <include location="../limereport/report.qrc"/>
   <include location="demo_r2.qrc"/>
  </resources>
  <connections/>
