@@ -74,7 +74,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_backgroundBrushcolor(Qt::white),
     m_margin(4),
     m_itemAlign(DesignedItemAlign),
-    m_changingItemAlign(false)
+    m_changingItemAlign(false),
+    m_borderColor(Qt::black)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -625,6 +626,21 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
     }
 }
 
+QColor BaseDesignIntf::borderColor() const
+{
+    return m_borderColor;
+}
+
+void BaseDesignIntf::setBorderColor(const QColor &borderColor)
+{
+    if (m_borderColor != borderColor){
+        QColor oldValue = m_borderColor;
+        m_borderColor = borderColor;
+        notify("borderColor",oldValue,borderColor);
+        update();
+    }
+}
+
 void BaseDesignIntf::setItemAlign(const ItemAlign &itemAlign)
 {
     if (m_itemAlign != itemAlign){
@@ -844,7 +860,7 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
 {
     QPen pen;
     if (m_borderLinesFlags & side) {
-        pen.setColor(Qt::black);
+        pen.setColor(m_borderColor);
         pen.setStyle(Qt::SolidLine);
         pen.setWidth(m_borderLineSize);
     } else {

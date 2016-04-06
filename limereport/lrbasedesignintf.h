@@ -93,6 +93,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(QString parentName READ parentReportItemName WRITE setParentReportItem DESIGNABLE false)
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setVisible DESIGNABLE false)
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
 
 public:
     enum BGMode { TransparentMode,OpaqueMode};
@@ -241,6 +242,9 @@ public:
     QPointF modifyPosForAlignedItem(const QPointF &pos);
     void turnOnJoinMarker(bool value);
     virtual bool isBand(){return false;}
+    QColor borderColor() const;
+    void setBorderColor(const QColor &borderColor);
+
 protected:
 
     //ICollectionContainer
@@ -341,6 +345,7 @@ private:
     QString m_itemTypeName;
     ItemAlign m_itemAlign;
     bool    m_changingItemAlign;
+    QColor  m_borderColor;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
