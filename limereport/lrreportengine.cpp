@@ -294,7 +294,7 @@ void ReportEnginePrivate::previewReport()
         dataManager()->setDesignTime(true);
         if (pages.count()>0){
             PreviewReportWindow* w = new PreviewReportWindow(this,0,settings());
-            w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint);
+            w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
             w->setAttribute(Qt::WA_DeleteOnClose,true);
             w->setWindowModality(Qt::ApplicationModal);
             w->setWindowIcon(QIcon(":/report/images/main.ico"));
@@ -387,7 +387,7 @@ void ReportEnginePrivate::designReport()
     //w->showModal();
 #endif
 #ifdef Q_OS_WIN
-    w->setWindowFlags(Qt::Window|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint);
+    //w->setWindowFlags(Qt::Window|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint|Qt::WindowMinimizeButtonHint);
     w->setWindowModality(Qt::ApplicationModal);
     //w->showModal();
 #endif
