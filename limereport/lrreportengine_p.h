@@ -104,6 +104,11 @@ public:
     bool hasActivePreview(){return m_activePreview;}
     PageDesignIntf *createPreviewScene(QObject *parent);
     PreviewReportWidget *createPreviewWidget(QWidget *parent);
+    QIcon previewWindowIcon() const;
+    void setPreviewWindowIcon(const QIcon &previewWindowIcon);
+    QString previewWindowTitle() const;
+    void setPreviewWindowTitle(const QString &previewWindowTitle);
+
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -146,6 +151,8 @@ private:
     QString m_reportsDir;
     QString m_reportName;
     QMainWindow* m_activePreview;
+    QIcon m_previewWindowIcon;
+    QString m_previewWindowTitle;
 };
 
 }

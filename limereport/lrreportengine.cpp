@@ -57,7 +57,8 @@ QSettings* ReportEngine::m_settings = 0;
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
-    m_showProgressDialog(true), m_reportName(""), m_activePreview(0)
+    m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
+    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview"))
 {
     m_datasources= new DataSourceManager(this);
     m_datasources->setObjectName("datasources");
@@ -297,7 +298,9 @@ void ReportEnginePrivate::previewReport()
             w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
             w->setAttribute(Qt::WA_DeleteOnClose,true);
             w->setWindowModality(Qt::ApplicationModal);
-            w->setWindowIcon(QIcon(":/report/images/main.ico"));
+            //w->setWindowIcon(QIcon(":/report/images/main.ico"));
+            w->setWindowIcon(m_previewWindowIcon);
+            w->setWindowTitle(m_previewWindowTitle);
             w->setSettings(settings());
             w->setPages(pages);
             if (!dataManager()->errorsList().isEmpty()){
@@ -379,7 +382,7 @@ void ReportEnginePrivate::designReport()
 {
     LimeReport::ReportDesignWindow* w = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
     w->setAttribute(Qt::WA_DeleteOnClose,true);
-    w->setWindowIcon(QIcon(":report/images/main"));
+    w->setWindowIcon(QIcon(":report/images/logo32"));
     w->setShowProgressDialog(m_showProgressDialog);
 #if defined(Q_OS_MAC)
     //w->showModal();
@@ -537,6 +540,26 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
+QString ReportEnginePrivate::previewWindowTitle() const
+{
+    return m_previewWindowTitle;
+}
+
+void ReportEnginePrivate::setPreviewWindowTitle(const QString &previewWindowTitle)
+{
+    m_previewWindowTitle = previewWindowTitle;
+}
+
+QIcon ReportEnginePrivate::previewWindowIcon() const
+{
+    return m_previewWindowIcon;
+}
+
+void ReportEnginePrivate::setPreviewWindowIcon(const QIcon &previewWindowIcon)
+{
+    m_previewWindowIcon = previewWindowIcon;
+}
+
 ReportPages ReportEnginePrivate::renderToPages()
 {
     m_reportRender = ReportRender::Ptr(new ReportRender);
@@ -617,6 +640,18 @@ PreviewReportWidget* ReportEngine::createPreviewWidget(QWidget *parent)
 {
     Q_D(ReportEngine);
     return d->createPreviewWidget(parent);
+}
+
+void ReportEngine::setPreviewWindowTitle(const QString &title)
+{
+    Q_D(ReportEngine);
+    d->setPreviewWindowTitle(title);
+}
+
+void ReportEngine::setPreviewWindowIcon(const QIcon &icon)
+{
+    Q_D(ReportEngine);
+    d->setPreviewWindowIcon(icon);
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

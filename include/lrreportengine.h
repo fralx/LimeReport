@@ -89,6 +89,8 @@ public:
     void setReportName(const QString& name);
     QString reportName();
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
+    void setPreviewWindowTitle(const QString& title);
+    void setPreviewWindowIcon(const QIcon& icon);
 signals:
     void renderStarted();
     void renderFinished();
