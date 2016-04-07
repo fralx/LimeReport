@@ -970,12 +970,12 @@ void ReportRender::savePage()
     }
 
     m_ranges.last().lastPage = m_pageCount;
-    m_pageCount++;
 
     BandDesignIntf* pageFooter = m_renderPageItem->bandByType(BandDesignIntf::PageFooter);
     if (pageFooter) pageFooter->setBandIndex(++m_currentIndex);
     m_renderedPages.append(PageItemDesignIntf::Ptr(m_renderPageItem));
     emit pageRendered(m_pageCount);
+    m_pageCount++;
 }
 
 QString ReportRender::toString()
