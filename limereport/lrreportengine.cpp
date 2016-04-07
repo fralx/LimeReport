@@ -278,8 +278,12 @@ void ReportEnginePrivate::printToFile(const QString &fileName)
 bool ReportEnginePrivate::printToPDF(const QString &fileName)
 {
     if (!fileName.isEmpty()){
+        QFileInfo fi(fileName);
+        QString fn = fileName;
+        if (fi.suffix().isEmpty())
+            fn+=".pdf";
         QPrinter printer;
-        printer.setOutputFileName(fileName);
+        printer.setOutputFileName(fn);
         printer.setOutputFormat(QPrinter::PdfFormat);
         return printReport(&printer);
     }
