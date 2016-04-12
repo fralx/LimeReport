@@ -140,7 +140,8 @@ qreal ReportRender::maxColumnHeight()
 }
 
 ReportRender::ReportRender(QObject *parent)
-    :QObject(parent), m_renderPageItem(0), m_pageCount(0), m_currentColumn(0)
+    :QObject(parent), m_renderPageItem(0), m_pageCount(0), m_currentColumn(0),
+     m_lastDataBand(0), m_lastRenderedFooter(0)
 {
     initColumns();
 }
@@ -295,6 +296,9 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
             startNewPage();
         }
 
+        if (patternBand->isFooter())
+            m_lastRenderedFooter = patternBand;
+
         BandDesignIntf* bandClone=renderData(patternBand);
         patternBand->emitBandRendered(bandClone);
 
@@ -348,6 +352,7 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
 void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 {
     IDataSource* bandDatasource = 0;
+    m_lastRenderedFooter = 0;
     if (dataBand && !dataBand->datasourceName().isEmpty())
        bandDatasource = datasources()->dataSource(dataBand->datasourceName());
 
@@ -399,8 +404,10 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         }
 
         m_reprintableBands.removeOne(dataBand->bandHeader());
-        renderBand(dataBand->bandFooter(),StartNewPageAsNeeded);
+
         renderGroupFooter(dataBand);
+
+        renderBand(dataBand->bandFooter(),StartNewPageAsNeeded);
         datasources()->deleteVariable(varName);
     } else if (bandDatasource==0) {
         renderBand(dataBand,StartNewPageAsNeeded);
@@ -469,7 +476,9 @@ void ReportRender::renderChildFooter(BandDesignIntf *parent, BandPrintMode print
         if (band->metaObject()->indexOfProperty("printAlways")>0){
             printAlways=band->property("printAlways").toBool();
         }
-        if (printAlways == (printMode==PrintAlwaysPrintable)) renderBand(band,StartNewPageAsNeeded);
+
+        if ( (band != m_lastRenderedFooter) && (printAlways == (printMode == PrintAlwaysPrintable)) )
+            renderBand(band,StartNewPageAsNeeded);
     }
 }
 

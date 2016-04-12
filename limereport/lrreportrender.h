@@ -162,6 +162,7 @@ private:
     qreal           m_reportFooterHeight;
     int             m_renderedDataBandCount;
     BandDesignIntf* m_lastDataBand;
+    BandDesignIntf* m_lastRenderedFooter;
     bool            m_renderCanceled;
     QVector<qreal>  m_maxHeightByColumn;
     QVector<qreal>  m_currentStartDataPos;
