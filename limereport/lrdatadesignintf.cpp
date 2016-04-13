@@ -293,15 +293,21 @@ int ModelToDataSource::columnCount()
 
 QString ModelToDataSource::columnNameByIndex(int columnIndex)
 {
-    if (isInvalid()) return "";
-    return m_model->headerData(columnIndex,Qt::Horizontal).toString();
+    if (isInvalid()) return ""; 
+    QString result = m_model->headerData(columnIndex,Qt::Horizontal, Qt::UserRole).isValid()?
+                     m_model->headerData(columnIndex,Qt::Horizontal, Qt::UserRole).toString():
+                     m_model->headerData(columnIndex,Qt::Horizontal).toString();
+    return  result;
 }
 
 int ModelToDataSource::columnIndexByName(QString name)
 {
     if (isInvalid()) return 0;
     for(int i=0;i<m_model->columnCount();i++){
-        if (m_model->headerData(i,Qt::Horizontal).toString().compare(name,Qt::CaseInsensitive)==0)
+        QString columnName = m_model->headerData(i,Qt::Horizontal, Qt::UserRole).isValid()?
+                    m_model->headerData(i,Qt::Horizontal, Qt::UserRole).toString():
+                    m_model->headerData(i,Qt::Horizontal).toString();
+        if (columnName.compare(name,Qt::CaseInsensitive)==0)
             return i;
     }
     return -1;
@@ -557,7 +563,10 @@ bool MasterDetailProxyModel::filterAcceptsRow(int source_row, const QModelIndex 
 int MasterDetailProxyModel::fieldIndexByName(QString fieldName) const
 {
     for(int i=0;i<sourceModel()->columnCount();++i){
-        if (sourceModel()->headerData(i,Qt::Horizontal).toString().compare(fieldName,Qt::CaseInsensitive)==0){
+        QString fieldName = sourceModel()->headerData(i,Qt::Horizontal,Qt::UserRole).isValid()?
+                            sourceModel()->headerData(i,Qt::Horizontal,Qt::UserRole).toString():
+                            sourceModel()->headerData(i,Qt::Horizontal).toString();
+        if (fieldName.compare(fieldName,Qt::CaseInsensitive)==0){
            return i;
         }
     }
