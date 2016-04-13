@@ -55,7 +55,9 @@ bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(x
 namespace LimeReport{
 
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
-    : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false){
+    : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
+      m_allowHTMLInFields(false)
+{
     m_text = new QTextDocument();
     Init();
 }
@@ -280,6 +282,20 @@ void TextItem::initText()
     m_textSize=m_text->size();
 }
 
+bool TextItem::allowHTMLInFields() const
+{
+    return m_allowHTMLInFields;
+}
+
+void TextItem::setAllowHTMLInFields(bool allowHTMLInFields)
+{
+    if (m_allowHTMLInFields != allowHTMLInFields){
+        m_allowHTMLInFields = allowHTMLInFields;
+        notify("allowHTMLInFields",!m_allowHTMLInFields,allowHTMLInFields);
+        update();
+    }
+}
+
 bool TextItem::allowHTML() const
 {
     return m_allowHTML;
@@ -347,7 +363,7 @@ void TextItem::setAlignment(Qt::Alignment value)
 void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
     QString context=content();
-    ExpandType expandType = allowHTML()?ReplaceHTMLSymbols:NoEscapeSymbols;
+    ExpandType expandType = (allowHTML() && !allowHTMLInFields())?ReplaceHTMLSymbols:NoEscapeSymbols;
     switch(pass){
     case FirstPass:
         context=expandUserVariables(context, pass, expandType, dataManager);

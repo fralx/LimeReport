@@ -55,9 +55,10 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColorProperty)
     Q_PROPERTY(QColor fontColor READ fontColor WRITE setFontColorProperty)
     Q_PROPERTY(AngleType angle READ angle WRITE setAngle)
-    Q_PROPERTY(int foregroundOpacity READ foregroundOpacity WRITE setForegroundOpacity())
+    Q_PROPERTY(int foregroundOpacity READ foregroundOpacity WRITE setForegroundOpacity)
     Q_PROPERTY(bool trimValue READ trimValue WRITE setTrimValue)
     Q_PROPERTY(bool allowHTML READ allowHTML WRITE setAllowHTML)
+    Q_PROPERTY(bool allowHTMLInFields READ allowHTMLInFields WRITE setAllowHTMLInFields)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -114,6 +115,9 @@ public:
     bool allowHTML() const;
     void setAllowHTML(bool allowHTML);
 
+    bool allowHTMLInFields() const;
+    void setAllowHTMLInFields(bool allowHTMLInFields);
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
@@ -135,6 +139,7 @@ private:
     int m_foregroundOpacity;
     bool m_trimValue;
     bool m_allowHTML;
+    bool m_allowHTMLInFields;
 };
 
 }
