@@ -70,6 +70,7 @@ private:
 
 class DataSourceModel : public QAbstractItemModel{
     Q_OBJECT
+    friend class DataSourceManager;
 public:
     DataSourceModel():m_rootNode(new DataNode()){}
     DataSourceModel(DataSourceManager* dataManager);
@@ -184,7 +185,8 @@ public:
     QString replaceVariables(QString value);
     QString replaceFields(QString query, QMap<QString, QString> &aliasesToParam, QString masterDatasource = "");
     QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText, QString masterDatasource="");
-
+    void updateDatasourceModel();
+    bool isNeedUpdateDatasourceModel(){ return m_needUpdate;}
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
@@ -231,6 +233,7 @@ private:
     QString m_lastError;
     QStringList m_errorsList;
     bool m_designTime;
+    bool m_needUpdate;
 };
 
 }

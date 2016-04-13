@@ -211,7 +211,7 @@ void DataSourceModel::updateModel()
 }
 
 DataSourceManager::DataSourceManager(QObject *parent) :
-    QObject(parent), m_lastError(""), m_designTime(true)
+    QObject(parent), m_lastError(""), m_designTime(true), m_needUpdate(false)
 {
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("COUNT"),new ConstructorGroupFunctionCreator<CountGroupFunction>);
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("SUM"),new ConstructorGroupFunctionCreator<SumGroupFunction>);
@@ -281,6 +281,7 @@ ICallbackDatasource *DataSourceManager::createCallbackDatasouce(const QString& n
     IDataSourceHolder* holder = new CallbackDatasourceHolder(dynamic_cast<IDataSource*>(ds),true);
     putHolder(name,holder);
     emit datasourcesChanged();
+    m_needUpdate = true;
     return ds;
 }
 
@@ -331,6 +332,12 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
     if (!db.isOpen())
         m_lastError = tr("Connection \"%1\" is not open").arg(connectionName);
     return QSharedPointer<QAbstractItemModel>(0);
+}
+
+void DataSourceManager::updateDatasourceModel()
+{
+    m_datasourcesModel.updateModel();
+    m_needUpdate = false;
 }
 
 QString DataSourceManager::extractField(QString source)

@@ -119,6 +119,8 @@ void TextItemEditor::initUI()
     se.setDataManager(dm);
 
     if (dm){
+        if (dm->isNeedUpdateDatasourceModel())
+           dm->updateDatasourceModel();
         ui->twData->setModel(dm->datasourcesModel());
         ui->twScriptEngine->setModel(se.model());
 
