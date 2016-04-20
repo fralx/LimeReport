@@ -196,6 +196,13 @@ void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
     BaseDesignIntf::setItemAlign(itemAlign);
 }
 
+void HorizontalLayout::setBorderLinesFlags(BaseDesignIntf::BorderLines flags)
+{
+    BaseDesignIntf::setBorderLinesFlags(flags);
+    if (flags!=0)
+        relocateChildren();
+}
+
 void HorizontalLayout::restoreChild(BaseDesignIntf* item){
     if (m_children.contains(item)) return;
 
@@ -252,6 +259,7 @@ void HorizontalLayout::addChild(BaseDesignIntf *item, bool updateSize)
 
     connect(item,SIGNAL(destroyed(QObject*)),this,SLOT(slotOnChildDestroy(QObject*)));
     connect(item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF)));
+    connect(item, SIGNAL(itemVisibleHasChanged(BaseDesignIntf*)),this,SLOT(slotOnChildVisibleHasChanged(BaseDesignIntf*)));
 
     if (updateSize){
         relocateChildren();
@@ -284,11 +292,13 @@ void HorizontalLayout::objectLoadFinished()
 
 void HorizontalLayout::updateLayoutSize()
 {
-    int w = 0;
+    int w = ((borderLines() != 0) ? borderLineSize() : 0)*2;
     qreal h = 0;
     foreach(BaseDesignIntf* item, m_children){
-        if (h<item->height()) h=item->height();
-        w+=item->width();
+        if (item->isVisible()){
+            if (h<item->height()) h=item->height();
+            w+=item->width();
+        }
     }
     if (h>0) setHeight(h);
     setWidth(w);
@@ -296,6 +306,7 @@ void HorizontalLayout::updateLayoutSize()
 
 void HorizontalLayout::relocateChildren()
 {
+    int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
     if (m_children.count()<childItems().size()-1){
         m_children.clear();
         foreach (BaseDesignIntf* item, childBaseItems()) {
@@ -303,12 +314,14 @@ void HorizontalLayout::relocateChildren()
         }
     }
     qSort(m_children.begin(),m_children.end(),lessThen);
-    qreal curX = 0;
+    qreal curX = spaceBorder;
     m_isRelocating = true;
     foreach (BaseDesignIntf* item, m_children) {
-        item->setPos(curX,0);
-        curX+=item->width();
-        item->setHeight(height());
+        if (item->isVisible()){
+            item->setPos(curX,spaceBorder);
+            curX+=item->width();
+            item->setHeight(height()-(spaceBorder * 2));
+        }
     }
     m_isRelocating = false;
 }
@@ -419,7 +432,7 @@ void HorizontalLayout::divideSpace(){
 void HorizontalLayout::slotOnChildGeometryChanged(QObject *item, QRectF newGeometry, QRectF oldGeometry)
 {
     if (!m_isRelocating){
-        setHeight(newGeometry.height());
+        //setHeight(newGeometry.height());
         if (m_layoutType == Layout){
             relocateChildren();
             updateLayoutSize();
@@ -440,6 +453,14 @@ void HorizontalLayout::slotOnChildGeometryChanged(QObject *item, QRectF newGeome
 void HorizontalLayout::slotOnChildItemAlignChanged(BaseDesignIntf *item, const BaseDesignIntf::ItemAlign &, const BaseDesignIntf::ItemAlign&)
 {
     item->setPosibleResizeDirectionFlags(ResizeBottom | ResizeRight);
+}
+
+void HorizontalLayout::slotOnChildVisibleHasChanged(BaseDesignIntf *)
+{
+    relocateChildren();
+    if (m_layoutType == Table && !m_isRelocating){
+        divideSpace();
+    }
 }
 
 HorizontalLayout::LayoutType HorizontalLayout::layoutType() const

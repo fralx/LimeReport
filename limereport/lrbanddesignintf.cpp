@@ -581,7 +581,8 @@ qreal BandDesignIntf::findMaxBottom()
     foreach(QGraphicsItem* item,childItems()){
         BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
         if(subItem)
-           if (subItem->geometry().bottom()>maxBottom) maxBottom=subItem->geometry().bottom();
+           if ( subItem->isVisible() && (subItem->geometry().bottom()>maxBottom) )
+               maxBottom=subItem->geometry().bottom();
     }
     return maxBottom;
 }
@@ -789,6 +790,9 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
 {
     qreal spaceBorder=0;
     if (keepBottomSpaceOption()) spaceBorder=height()-findMaxBottom();
+    if (borderLines()!=0){
+        spaceBorder += borderLineSize();
+    }
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);
     if (autoHeight()){

@@ -92,7 +92,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
     Q_PROPERTY(QString parentName READ parentReportItemName WRITE setParentReportItem DESIGNABLE false)
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
-    Q_PROPERTY(bool isVisible READ isVisible WRITE setVisible DESIGNABLE false)
+    Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
 
 public:
@@ -185,7 +185,7 @@ public:
     void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
     ItemMode itemMode() const {return m_itemMode;}
 
-    void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
+    virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
     void setGeometryProperty(QRectF rect);
     PageDesignIntf* page();
 
@@ -244,7 +244,7 @@ public:
     virtual bool isBand(){return false;}
     QColor borderColor() const;
     void setBorderColor(const QColor &borderColor);
-
+    void setItemVisible(const bool& value);
 protected:
 
     //ICollectionContainer
@@ -357,6 +357,7 @@ signals:
     void propertyObjectNameChanged(const QString& oldValue, const QString& newValue);
     void propertyesChanged(QVector<QString> propertyNames);
     void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
+    void itemVisibleHasChanged(BaseDesignIntf* item);
 };
 
 } //namespace LimeReport

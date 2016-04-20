@@ -641,6 +641,14 @@ void BaseDesignIntf::setBorderColor(const QColor &borderColor)
     }
 }
 
+void BaseDesignIntf::setItemVisible(const bool &value)
+{
+    if (isVisible()!=value){
+        setVisible(value);
+        emit itemVisibleHasChanged(this);
+    }
+}
+
 void BaseDesignIntf::setItemAlign(const ItemAlign &itemAlign)
 {
     if (m_itemAlign != itemAlign){

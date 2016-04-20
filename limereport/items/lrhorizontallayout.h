@@ -94,10 +94,12 @@ protected:
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner=0, QGraphicsItem *parent=0);
 
     void setItemAlign(const ItemAlign &itemAlign);
+    void setBorderLinesFlags(BorderLines flags);
 private slots:
     void slotOnChildDestroy(QObject *child);
     void slotOnChildGeometryChanged(QObject*item, QRectF newGeometry, QRectF oldGeometry);
     void slotOnChildItemAlignChanged(BaseDesignIntf* item, const ItemAlign&, const ItemAlign&);
+    void slotOnChildVisibleHasChanged(BaseDesignIntf*);
     //void slotOnPosChanged(QObject*, QPointF newPos, QPointF );
 private:
     void divideSpace();
