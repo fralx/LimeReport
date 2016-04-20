@@ -448,6 +448,7 @@ void PageItemDesignIntf::setPageOrientation(PageItemDesignIntf::Orientation valu
             qreal tmpWidth = width();
             setWidth(height());
             setHeight(tmpWidth);
+            updateMarginRect();
             notify("pageOrientation",oldValue,value);
         }
         m_sizeChainging =  false;
