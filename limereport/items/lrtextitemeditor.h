@@ -73,6 +73,7 @@ public:
 protected:
     void resizeEvent(QResizeEvent *);
     void moveEvent(QMoveEvent *);
+    BandDesignIntf* findParentBand();
 private slots:
     void on_pbOk_clicked();
     void on_pbCancel_clicked();

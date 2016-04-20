@@ -141,6 +141,21 @@ void TextItemEditor::initUI()
     ui->gbSettings->setVisible(false);
     connect(ui->twScriptEngine->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(slotScriptItemsSelectionChanged(QModelIndex,QModelIndex)));
+
+    BandDesignIntf* band = findParentBand();
+    if (band && !band->datasourceName().isEmpty()){
+        QModelIndexList nodes = ui->twData->model()->match(
+                    ui->twData->model()->index(0,0),
+                    Qt::DisplayRole,
+                    band->datasourceName(),
+                    2,
+                    Qt::MatchRecursive
+        );
+        if (!nodes.isEmpty()){
+            ui->twData->expand(nodes.at(0).parent());
+            ui->twData->expand(nodes.at(0));
+        }
+    }
 }
 
 QStringListModel *TextItemEditor::getDataSources()
@@ -378,6 +393,20 @@ void TextItemEditor::slotScriptItemsSelectionChanged(const QModelIndex &to, cons
     if (node->type()==LimeReport::ScriptEngineNode::Function){
        ui->lblDescription->setText(node->description());
     }
+}
+
+BandDesignIntf *TextItemEditor::findParentBand()
+{
+    BandDesignIntf* result = 0;
+    BaseDesignIntf* item = m_textItem;
+    while (true){
+        item = dynamic_cast<BaseDesignIntf*>(item->parentItem());
+        if (item){
+            result = dynamic_cast<BandDesignIntf*>(item);
+            if (result) break;
+        } else break;
+    }
+    return result;
 }
 
 } // namespace LimeReport
