@@ -130,6 +130,7 @@ signals:
     void cleared();
     void loaded();
     void activePageChanged();
+    void activePageUpdated(LimeReport::PageDesignIntf*);
     void bandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*);
     void bandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*);
     void itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);

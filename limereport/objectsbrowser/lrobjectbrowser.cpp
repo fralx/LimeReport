@@ -67,6 +67,8 @@ void ObjectBrowser::setReportEditor(ReportDesignWidget *report)
             this, SLOT(slotItemSelected(LimeReport::BaseDesignIntf*)));
     connect(m_report, SIGNAL(multiItemSelected()),
             this, SLOT(slotMultiItemSelected()) );
+    connect(m_report, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)),
+            this, SLOT(slotActivePageUpdated(LimeReport::PageDesignIntf*)));
     connect(m_treeView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*,int)));
 
@@ -264,6 +266,11 @@ void ObjectBrowser::slotItemDoubleClicked(QTreeWidgetItem *item, int)
             baseItem->showEditorDialog();
         }
     }
+}
+
+void ObjectBrowser::slotActivePageUpdated(LimeReport::PageDesignIntf *)
+{
+    buildTree();
 }
 
 void ObjectBrowserNode::setObject(QObject *value)

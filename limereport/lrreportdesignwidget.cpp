@@ -163,6 +163,8 @@ void ReportDesignWidget::setActivePage(PageDesignIntf *page)
             this, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(page, SIGNAL(bandRemoved(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
+    connect(page, SIGNAL(pageUpdateFinished(LimeReport::PageDesignIntf*)),
+            this, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)));
 
     m_view->centerOn(0, 0);
     emit activePageChanged();
