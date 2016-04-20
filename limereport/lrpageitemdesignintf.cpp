@@ -47,7 +47,7 @@ bool bandSortBandLessThenByIndex(const BandDesignIntf *c1, const BandDesignIntf 
 PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
-    m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false)
+    m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false), m_fullPage(false)
 {
     setFixedPos(true);
     setPosibleResizeDirectionFlags(Fixed);
@@ -57,7 +57,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
 PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &rect, QObject *owner, QGraphicsItem *parent) :
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
-    m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false)
+    m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false), m_fullPage(false)
 {
     setFixedPos(true);
     setPosibleResizeDirectionFlags(Fixed);
@@ -297,6 +297,22 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+bool PageItemDesignIntf::fullPage() const
+{
+    return m_fullPage;
+}
+
+void PageItemDesignIntf::setFullPage(bool fullPage)
+{
+    if (m_fullPage != fullPage){
+        m_fullPage = fullPage;
+        if (!isLoading()){
+            updateMarginRect();
+            notify("fullPage", !m_fullPage, m_fullPage);
+        }
+    }
+}
+
 void PageItemDesignIntf::relocateBands()
 {
     if (isLoading()) return;
@@ -444,8 +460,8 @@ QSizeF PageItemDesignIntf::getRectByPageSize(const PageSize& size)
         QPrinter printer;
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOrientation((QPrinter::Orientation)pageOrientation());
-        printer.setPageSize((QPrinter::PageSize)size);
-        return QSizeF(printer.paperRect(QPrinter::Millimeter).width() * 10,
+        printer.setPaperSize((QPrinter::PageSize)size);
+        return QSizeF(printer.paperSize(QPrinter::Millimeter).width() * 10,
                       printer.paperSize(QPrinter::Millimeter).height() * 10);
     }
 

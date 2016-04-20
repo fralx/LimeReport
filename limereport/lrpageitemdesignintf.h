@@ -49,6 +49,7 @@ class PageItemDesignIntf : public LimeReport::BaseDesignIntf
     Q_PROPERTY(Orientation pageOrientation READ pageOrientation WRITE setPageOrientation)
     Q_PROPERTY(PageSize pageSize READ pageSize WRITE setPageSize )
     Q_PROPERTY(int gridStep READ gridStep WRITE setGridStep)
+    Q_PROPERTY(bool fullPage READ fullPage WRITE setFullPage)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -104,6 +105,9 @@ public:
     void setGridStep(int value);
     int gridStep();
     void objectLoadFinished();
+    bool fullPage() const;
+    void setFullPage(bool fullPage);
+
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* /*object*/, QRectF newGeometry, QRectF oldGeometry);
@@ -128,6 +132,7 @@ private:
     QRectF m_pageRect;
     bool m_sizeChainging;
     QList<BandDesignIntf*> m_bands;
+    bool m_fullPage;
 };
 }
 #endif // LRPAGEITEM_H
