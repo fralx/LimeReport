@@ -698,6 +698,12 @@ QString ReportEngine::reportFileName()
     return d->reportFileName();
 }
 
+void ReportEngine::setReportFileName(const QString &fileName)
+{
+    Q_D(ReportEngine);
+    return d->setReportFileName(fileName);
+}
+
 bool ReportEngine::saveToFile()
 {
     Q_D(ReportEngine);

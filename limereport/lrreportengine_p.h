@@ -87,6 +87,7 @@ public:
     bool    loadFromByteArray(QByteArray *data, const QString& name = "");
     bool    loadFromString(const QString& report, const QString& name = "");
     QString reportFileName(){return m_fileName;}
+    void    setReportFileName(const QString& reportFileName){ m_fileName = reportFileName;}
     bool    saveToFile();
     bool    saveToFile(const QString& fileName);
     QByteArray  saveToByteArray();
