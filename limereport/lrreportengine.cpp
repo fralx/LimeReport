@@ -391,11 +391,6 @@ void ReportEnginePrivate::cancelRender()
 
 void ReportEnginePrivate::designReport()
 {
-    LimeReport::ReportDesignWindow* w = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
-    w->setAttribute(Qt::WA_DeleteOnClose,true);
-    w->setWindowIcon(QIcon(":report/images/logo32"));
-    w->setShowProgressDialog(m_showProgressDialog);
-
     if (!m_designerWindow) {
             m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
             m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
@@ -403,15 +398,8 @@ void ReportEnginePrivate::designReport()
             m_designerWindow->setShowProgressDialog(m_showProgressDialog);
      }
 
-#if defined(Q_OS_MAC)
-    //m_designerWindow->showModal();
-#elif defined(Q_OS_UNIX)
-    //m_designerWindow->showModal();
-#endif
 #ifdef Q_OS_WIN    
-    //m_designerWindow->setWindowFlags(Qt::Window|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint|Qt::WindowMinimizeButtonHint);
     m_designerWindow->setWindowModality(Qt::ApplicationModal);
-    //m_designerWindow->showModal();
 #endif
     if (QApplication::activeWindow()==0){
         m_designerWindow->show();;
