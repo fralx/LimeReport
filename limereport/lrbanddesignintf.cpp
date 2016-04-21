@@ -644,6 +644,11 @@ void BandDesignIntf::geometryChangedEvent(QRectF, QRectF )
             m_bandMarker->setHeight(rect().height());
         }
     }
+    foreach (BaseDesignIntf* item, childBaseItems()) {
+        if (item->itemAlign()!=DesignedItemAlign){
+            item->updateItemAlign();
+        }
+    }
 }
 
 QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
