@@ -307,7 +307,16 @@ void PreviewReportWindow::slotScalePercentChanged(int percent)
     m_scalePercent->setEditText(QString("%1%").arg(percent));
 }
 
+void PreviewReportWindow::on_actionShowMessages_toggled(bool value)
+{
+   m_previewReportWidget->setErrorsMesagesVisible(value);
+}
+
 }// namespace LimeReport
+
+
+
+
 
 
 

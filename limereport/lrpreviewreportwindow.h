@@ -84,7 +84,9 @@ private slots:
     void on_actionFit_page_triggered();
     void on_actionOne_to_one_triggered();
     void scaleComboboxChanged(QString text);
-    void slotScalePercentChanged(int percent);
+    void slotScalePercentChanged(int percent);    
+    void on_actionShowMessages_toggled(bool value);
+
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();
