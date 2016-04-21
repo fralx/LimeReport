@@ -67,6 +67,9 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 
 ReportEnginePrivate::~ReportEnginePrivate()
 {
+    if (m_designerWindow) {
+        m_designerWindow->close();
+    }
     if (m_activePreview){
         m_activePreview->close();
     }
@@ -392,20 +395,28 @@ void ReportEnginePrivate::designReport()
     w->setAttribute(Qt::WA_DeleteOnClose,true);
     w->setWindowIcon(QIcon(":report/images/logo32"));
     w->setShowProgressDialog(m_showProgressDialog);
+
+    if (!m_designerWindow) {
+            m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
+            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
+            m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
+            m_designerWindow->setShowProgressDialog(m_showProgressDialog);
+     }
+
 #if defined(Q_OS_MAC)
-    //w->showModal();
+    //m_designerWindow->showModal();
 #elif defined(Q_OS_UNIX)
-    //w->showModal();
+    //m_designerWindow->showModal();
 #endif
-#ifdef Q_OS_WIN
-    //w->setWindowFlags(Qt::Window|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint|Qt::WindowMinimizeButtonHint);
-    w->setWindowModality(Qt::ApplicationModal);
-    //w->showModal();
+#ifdef Q_OS_WIN    
+    //m_designerWindow->setWindowFlags(Qt::Window|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint|Qt::WindowMinimizeButtonHint);
+    m_designerWindow->setWindowModality(Qt::ApplicationModal);
+    //m_designerWindow->showModal();
 #endif
     if (QApplication::activeWindow()==0){
-        w->show();
+        m_designerWindow->show();;
     } else {
-        w->showModal();
+        m_designerWindow->showModal();
     }
 }
 

@@ -46,6 +46,7 @@ namespace LimeReport{
 
 class PageDesignIntf;
 class PrintRange;
+class ReportDesignWindow;
 
 //TODO: Add on render callback
 
@@ -156,6 +157,7 @@ private:
     QMainWindow* m_activePreview;
     QIcon m_previewWindowIcon;
     QString m_previewWindowTitle;
+    QPointer<ReportDesignWindow> m_designerWindow;
 };
 
 }
