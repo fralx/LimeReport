@@ -233,13 +233,23 @@ void ReportDesignWidget::saveToFile(const QString &fileName){
 bool ReportDesignWidget::save()
 {
     if (!m_report->reportFileName().isEmpty()){
-        return m_report->saveToFile();
+        if (m_report->saveToFile()){
+            m_report->emitSaveFinished();
+            return true;
+        }
     }
     else {
         m_report->emitSaveReport();
-        if (m_report->isSaved()) return true;
-        return m_report->saveToFile(QFileDialog::getSaveFileName(this,tr("Report file name"),"","Report files (*.lrxml);; All files (*)"));
+        if (m_report->isSaved()) {
+            m_report->emitSaveFinished();
+            return true;
+        }
+        if (m_report->saveToFile(QFileDialog::getSaveFileName(this,tr("Report file name"),"","Report files (*.lrxml);; All files (*)"))){
+            m_report->emitSaveFinished();
+            return true;
+        };
     }
+    return false;
 }
 
 bool ReportDesignWidget::loadFromFile(const QString &fileName)

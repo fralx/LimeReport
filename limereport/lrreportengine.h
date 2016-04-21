@@ -98,6 +98,7 @@ signals:
     void renderPageFinished(int renderedPageCount);
     void onLoad(bool& loaded);
     void onSave();
+    void saveFinished();
 public slots:
     void cancelRender();
 protected:

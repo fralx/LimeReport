@@ -97,6 +97,7 @@ public:
     ReportEngine * q_ptr;
     void emitSaveReport();
     bool emitLoadReport();
+    void emitSaveFinished();
     bool isSaved();
     void setCurrentReportsDir(const QString& dirName);
     QString currentReportsDir(){ return m_reportsDir;}
@@ -119,6 +120,7 @@ signals:
     void    renderPageFinished(int renderedPageCount);
     void    onLoad(bool& loaded);
     void    onSave();
+    void    saveFinished();
 public slots:
     void    cancelRender();
 protected:

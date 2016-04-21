@@ -361,6 +361,11 @@ bool ReportEnginePrivate::emitLoadReport()
     return result;
 }
 
+void ReportEnginePrivate::emitSaveFinished()
+{
+    emit saveFinished();
+}
+
 bool ReportEnginePrivate::isSaved()
 {
     foreach (PageDesignIntf* page, m_pages) {
@@ -598,6 +603,7 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
     connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
+    connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
 }
 
 ReportEngine::~ReportEngine()
