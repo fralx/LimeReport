@@ -2,7 +2,7 @@
     <qresource prefix="/report">
         <file alias="/images/pin">images/pin_green.png</file>
         <file>images/addBand.png</file>
-        <file alias="images/addText">images/Control-Edit Box.png</file>
+        <file alias="images/addText">images/Control-Edit_Box.png</file>
         <file>images/disk_blue.png</file>
         <file alias="/images/folderBig">images/folder.png</file>
         <file>images/delete.png</file>
