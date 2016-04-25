@@ -210,14 +210,14 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
             if (shiftWidth > 0){
                 point.setX(point.x()+shiftWidth/2);
             } else {
-                cutX = abs(shiftWidth/2);
+                cutX = std::abs(shiftWidth/2);
                 cutWidth += shiftWidth;
             }
 
             if (shiftHeight > 0){
                 point.setY(point.x()+shiftHeight/2);
             } else {
-                cutY = abs(shiftHeight/2);
+                cutY = std::abs(shiftHeight/2);
                 cutHeigth += shiftHeight;
             }
 
