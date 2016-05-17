@@ -203,6 +203,9 @@ public:
     bool startNewPage() const;
     void setStartNewPage(bool startNewPage);
 
+    void setAutoHeight(bool value){m_autoHeight=value;}
+    bool autoHeight(){return m_autoHeight;}
+
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -211,11 +214,7 @@ protected:
     qreal findMaxBottom();
     qreal findMaxHeight();
     void  trimToMaxHeight(int maxHeight);
-
-    void setAutoHeight(bool value){m_autoHeight=value;}
-    bool autoHeight(){return m_autoHeight;}
-
-    void setBandTypeText(const QString& value);
+    void  setBandTypeText(const QString& value);
     QString bandTypeText(){return m_bandTypeText;}
     void moveDown(){}
     void moveUp(){}
