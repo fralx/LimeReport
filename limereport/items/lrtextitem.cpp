@@ -415,6 +415,7 @@ BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsIt
         }
     }
     loop_exit:
+    tmpText = tmpText.trimmed();
     upperPart->setHeight(linesHeight+fakeMarginSize()*2+borderLineSize()*2);
     QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
     upperPart->setContent(context->extendTextByTags(tmpText,0));
@@ -442,9 +443,11 @@ BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsI
         for (;curLine<curBlock.layout()->lineCount();curLine++){
             if (tmpText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
             tmpText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
-                                                   curBlock.layout()->lineAt(curLine).textLength())+"\n";
+              curBlock.layout()->lineAt(curLine).textLength()) +"\n";
         }
     }
+
+    if (!m_strText.endsWith("\n")) tmpText = tmpText.trimmed();
 
     QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
     bottomPart->setContent(context->extendTextByTags(tmpText,textPos));
