@@ -313,13 +313,3 @@ void PreviewReportWindow::on_actionShowMessages_toggled(bool value)
 }
 
 }// namespace LimeReport
-
-
-
-
-
-
-
-
-
-

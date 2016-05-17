@@ -57,7 +57,9 @@ void CheckBoxEditor::init()
     QVBoxLayout *layout=new QVBoxLayout(this);
     layout->addStretch();
     layout->addWidget(m_checkBox);
+#ifdef HAVE_QT5
     m_checkBox->setFocusPolicy(Qt::NoFocus);
+#endif
     connect(m_checkBox, SIGNAL(stateChanged(int)), this, SLOT(slotStateChanged(int)));
     layout->addStretch();
     layout->setContentsMargins(2,1,1,1);
