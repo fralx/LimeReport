@@ -96,7 +96,7 @@ SOURCES += \
 
 
 DESTDIR        = $${DEST_LIBS}
-DLLDESTDIR     = $${DESTDIR}
+#DLLDESTDIR     = $${DESTDIR}
 unix {
     target.path = $${DESTDIR}
     INSTALLS = target

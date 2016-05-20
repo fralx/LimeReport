@@ -51,9 +51,9 @@ win32 {
     DEST_INCLUDE_DIR ~= s,/,\\,g
 
     for(FILE,EXTRA_FILES){
-        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($${DEST_INCLUDE_DIR}) $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t)
     }
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($${DEST_INCLUDE_DIR}\\*) $$quote($${DEST_DIR})
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$${DEST_INCLUDE_DIR}\" \"$${DEST_DIR}\"
 }
 
 contains(CONFIG,zint){
