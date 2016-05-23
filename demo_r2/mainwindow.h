@@ -29,9 +29,9 @@ private slots:
     void slotPageChanged(int page);
     void slotPageNavigatorChanged(int page);
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int);
-    void on_sbPageNavigator_valueChanged(int arg1);
+    //void on_sbPageNavigator_valueChanged(int arg1);
     void slotDesignReport();
-    void on_tbOneToOne_clicked();
+    void slotOneToOne();
 private:
     template< typename T >
     void buildReportsTree(const QString &path, T* parentItem)

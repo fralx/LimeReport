@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionExport_to_PDF, SIGNAL(triggered()), m_preview, SLOT(printToPDF()));
     connect(ui->actionPrint_Report, SIGNAL(triggered()), m_preview, SLOT(print()));
     connect(ui->actionDesign_Report, SIGNAL(triggered()), this, SLOT(slotDesignReport()));
+    connect(ui->actionOne_to_One, SIGNAL(triggered()), this, SLOT(slotOneToOne()));
     initPercentCombobox();
     enableUI(false);
     QDesktopWidget *desktop = QApplication::desktop();
@@ -131,10 +132,10 @@ void MainWindow::initPercentCombobox()
     m_scalePercent->setCurrentIndex(4);
 }
 
-void MainWindow::on_sbPageNavigator_valueChanged(int arg1)
-{
-    m_preview->pageNavigatorChanged(arg1);
-}
+//void MainWindow::on_sbPageNavigator_valueChanged(int arg1)
+//{
+//    m_preview->pageNavigatorChanged(arg1);
+//}
 
 void MainWindow::slotDesignReport()
 {
@@ -142,7 +143,7 @@ void MainWindow::slotDesignReport()
     m_preview->refreshPages();
 }
 
-void MainWindow::on_tbOneToOne_clicked()
+void MainWindow::slotOneToOne()
 {
     m_preview->setScalePercent(100);
 }
