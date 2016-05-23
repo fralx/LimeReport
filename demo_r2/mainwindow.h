@@ -6,6 +6,8 @@
 #include <QTreeWidget>
 #include <QDir>
 #include <QDebug>
+#include <QComboBox>
+#include <QSpinBox>
 
 namespace Ui {
 class MainWindow;
@@ -25,9 +27,10 @@ private slots:
     void scaleComboboxChanged(QString text);
     void slotPagesSet(int pagesCount);
     void slotPageChanged(int page);
+    void slotPageNavigatorChanged(int page);
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int);
     void on_sbPageNavigator_valueChanged(int arg1);
-    void on_tbDesign_clicked();
+    void slotDesignReport();
     void on_tbOneToOne_clicked();
 private:
     template< typename T >
@@ -56,6 +59,8 @@ private:
     Ui::MainWindow *ui;
     LimeReport::ReportEngine m_report;
     LimeReport::PreviewReportWidget* m_preview;
+    QComboBox* m_scalePercent;
+    QSpinBox* m_pageNavigator;
 };
 
 #endif // MAINWINDOW_H

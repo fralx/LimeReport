@@ -10,23 +10,33 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     m_preview = m_report.createPreviewWidget();
-    connect(m_preview,SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
+    m_scalePercent = new QComboBox(this);
+    m_pageNavigator = new QSpinBox(this);
+
+    m_pageNavigator->setPrefix(tr("Page :"));
+    ui->toolBar->insertWidget(ui->actionZoomIn,m_scalePercent);
+    ui->toolBar->insertWidget(ui->actionNext_Page,m_pageNavigator);
+    connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+    connect(m_pageNavigator, SIGNAL(valueChanged(int)), this, SLOT(slotPageNavigatorChanged(int)));
     ui->groupBox_2->layout()->addWidget(m_preview);
     buildReportsTree(QApplication::applicationDirPath()+"/demo_reports/", ui->treeWidget);
-    connect(ui->tbZoomIn, SIGNAL(clicked(bool)), m_preview, SLOT(zoomIn()));
-    connect(ui->tbZoomOut, SIGNAL(clicked(bool)), m_preview, SLOT(zoomOut()));
-    connect(ui->tbFirstPage, SIGNAL(clicked(bool)), m_preview, SLOT(firstPage()));
-    connect(ui->tbPrevPage, SIGNAL(clicked(bool)), m_preview, SLOT(priorPage()));
-    connect(ui->tbNextPage, SIGNAL(clicked(bool)), m_preview, SLOT(nextPage()));
-    connect(ui->tbLastPage, SIGNAL(clicked(bool)), m_preview, SLOT(lastPage()));
-    connect(ui->cbScalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
-    connect(ui->tbFitWidth, SIGNAL(clicked(bool)), m_preview, SLOT(fitWidth()));
-    connect(ui->tbFitPage, SIGNAL(clicked(bool)), m_preview, SLOT(fitPage()));
+    connect(ui->actionZoomIn, SIGNAL(triggered()), m_preview, SLOT(zoomIn()));
+    connect(ui->actionZoom_Out, SIGNAL(triggered()), m_preview, SLOT(zoomOut()));
+    connect(ui->actionFirst_Page, SIGNAL(triggered()), m_preview, SLOT(firstPage()));
+    connect(ui->actionPrior_Page, SIGNAL(triggered()), m_preview, SLOT(priorPage()));
+    connect(ui->actionNext_Page, SIGNAL(triggered()), m_preview, SLOT(nextPage()));
+    connect(ui->actionLast_Page, SIGNAL(triggered()), m_preview, SLOT(lastPage()));
+    connect(m_preview,SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
+    //connect(ui->cbScalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+    connect(ui->actionFit_Width, SIGNAL(triggered()), m_preview, SLOT(fitWidth()));
+    connect(ui->actionFit_Page, SIGNAL(triggered()), m_preview, SLOT(fitPage()));
     connect(m_preview, SIGNAL(pagesSet(int)), this, SLOT(slotPagesSet(int)));
     connect(m_preview, SIGNAL(pageChanged(int)), this, SLOT(slotPageChanged(int)));
-    connect(ui->tbPDFExport, SIGNAL(clicked(bool)), m_preview, SLOT(printToPDF()));
-    connect(ui->tbPrint, SIGNAL(clicked(bool)), m_preview, SLOT(print()));
+    connect(ui->actionExport_to_PDF, SIGNAL(triggered()), m_preview, SLOT(printToPDF()));
+    connect(ui->actionPrint_Report, SIGNAL(triggered()), m_preview, SLOT(print()));
+    connect(ui->actionDesign_Report, SIGNAL(triggered()), this, SLOT(slotDesignReport()));
     initPercentCombobox();
     enableUI(false);
     QDesktopWidget *desktop = QApplication::desktop();
@@ -43,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
         m_report.loadFromFile(QApplication::applicationDirPath()+"/demo_reports/categories.lrxml");
         m_preview->refreshPages();
     }
+
 }
 
 MainWindow::~MainWindow()
@@ -52,25 +63,26 @@ MainWindow::~MainWindow()
 
 void MainWindow::enableUI(bool value)
 {
-    ui->tbDesign->setEnabled(value);
-    ui->tbPrint->setEnabled(value);
-    ui->tbPDFExport->setEnabled(value);
-    ui->tbFirstPage->setEnabled(value);
-    ui->tbPrevPage->setEnabled(value);
-    ui->tbNextPage->setEnabled(value);
-    ui->tbLastPage->setEnabled(value);
-    ui->tbZoomIn->setEnabled(value);
-    ui->tbZoomOut->setEnabled(value);
-    ui->tbFitWidth->setEnabled(value);
-    ui->tbFitPage->setEnabled(value);
-    ui->tbOneToOne->setEnabled(value);
-    ui->sbPageNavigator->setEnabled(value);
-    ui->cbScalePercent->setEnabled(value);
+    ui->actionDesign_Report->setEnabled(value);
+    ui->actionPrint_Report->setEnabled(value);
+    ui->actionExport_to_PDF->setEnabled(value);
+    ui->actionFirst_Page->setEnabled(value);
+    ui->actionPrior_Page->setEnabled(value);
+    ui->actionNext_Page->setEnabled(value);
+    ui->actionLast_Page->setEnabled(value);
+    ui->actionZoomIn->setEnabled(value);
+    ui->actionZoom_Out->setEnabled(value);
+    ui->actionFit_Width->setEnabled(value);
+    ui->actionFit_Page->setEnabled(value);
+    ui->actionOne_to_One->setEnabled(value);
+    m_pageNavigator->setEnabled(value);
+    m_scalePercent->setEnabled(value);
 }
 
 void MainWindow::slotScalePercentChanged(int percent)
 {
-    ui->cbScalePercent->setEditText(QString("%1%").arg(percent));
+    //ui->cbScalePercent->setEditText(QString("%1%").arg(percent));
+    m_scalePercent->setEditText(QString("%1%").arg(percent));
 }
 
 void MainWindow::scaleComboboxChanged(QString text)
@@ -80,16 +92,27 @@ void MainWindow::scaleComboboxChanged(QString text)
 
 void MainWindow::slotPagesSet(int pagesCount)
 {
-    ui->sbPageNavigator->setSuffix(tr(" of %1").arg(pagesCount));
-    ui->sbPageNavigator->setMinimum(1);
-    ui->sbPageNavigator->setMaximum(pagesCount);
-    ui->sbPageNavigator->setValue(1);
+//    ui->sbPageNavigator->setSuffix(tr(" of %1").arg(pagesCount));
+//    ui->sbPageNavigator->setMinimum(1);
+//    ui->sbPageNavigator->setMaximum(pagesCount);
+//    ui->sbPageNavigator->setValue(1);
+
+    m_pageNavigator->setSuffix(tr(" of %1").arg(pagesCount));
+    m_pageNavigator->setMinimum(1);
+    m_pageNavigator->setMaximum(pagesCount);
+    m_pageNavigator->setValue(1);
     enableUI(true);
 }
 
 void MainWindow::slotPageChanged(int page)
 {
-    ui->sbPageNavigator->setValue(page);
+//    ui->sbPageNavigator->setValue(page);
+    m_pageNavigator->setValue(page);
+}
+
+void MainWindow::slotPageNavigatorChanged(int page)
+{
+    m_preview->pageNavigatorChanged(page);
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int )
@@ -101,9 +124,11 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int )
 void MainWindow::initPercentCombobox()
 {
     for (int i = 10; i<310; i+=10){
-        ui->cbScalePercent->addItem(QString("%1%").arg(i));
+//        ui->cbScalePercent->addItem(QString("%1%").arg(i));
+        m_scalePercent->addItem(QString("%1%").arg(i));
     }
-    ui->cbScalePercent->setCurrentIndex(4);
+//    ui->cbScalePercent->setCurrentIndex(4);
+    m_scalePercent->setCurrentIndex(4);
 }
 
 void MainWindow::on_sbPageNavigator_valueChanged(int arg1)
@@ -111,7 +136,7 @@ void MainWindow::on_sbPageNavigator_valueChanged(int arg1)
     m_preview->pageNavigatorChanged(arg1);
 }
 
-void MainWindow::on_tbDesign_clicked()
+void MainWindow::slotDesignReport()
 {
     m_report.designReport();
     m_preview->refreshPages();
