@@ -169,28 +169,27 @@ QVariant XmlBoolSerializator::loadValue()
 
 void XmlFontSerializator::save(const QVariant &value, QString name)
 {
-
     QFont font = value.value<QFont>();
     QDomElement _node = doc()->createElement(name);
     _node.setAttribute("Type","QFont");
     _node.setAttribute("family",font.family());
     _node.setAttribute("pointSize",font.pointSize());
+    _node.setAttribute("stylename",font.styleName());
     saveBool(_node,"bold",font.bold());
     saveBool(_node,"italic",font.italic());
     saveBool(_node,"underline",font.underline());
-
     node()->appendChild(_node);
 }
 
 QVariant XmlFontSerializator::loadValue()
 {
     QFont font;
-
     font.setFamily(node()->attribute("family"));
     font.setPointSize(node()->attribute("pointSize").toInt());
     font.setBold(node()->attribute("bold").toInt());
     font.setItalic(node()->attribute("italic").toInt());
     font.setUnderline(node()->attribute("underline").toInt());
+    font.setStyleName(node()->attribute("stylename"));
     return font;
 }
 
