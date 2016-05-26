@@ -74,7 +74,6 @@ public:
     ReportRender(QObject *parent = 0);
     void setDatasources(DataSourceManager* value);
     DataSourceManager*  datasources(){return m_datasources;}
-    void    renderPage(PageDesignIntf *patternPage);
     int     pageCount();
     PageItemDesignIntf::Ptr pageAt(int index);
     QString renderPageToString(PageDesignIntf *patternPage);
@@ -84,6 +83,7 @@ signals:
 public slots:
     void    cancelRender();
 private:
+    void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initRenderPage();
     void    initVariables();
@@ -131,8 +131,6 @@ private:
     int     findLastPageNumber(int currentPage);
     void    savePage();
     QString toString();
-
-private:
     void initColumns();
     bool isNeedToRearrangeColumnsItems();
     BandDesignIntf* lastColumnItem(int columnIndex);
@@ -140,6 +138,7 @@ private:
     int  columnItemsCount(int columnIndex);
     qreal columnHeigth(int columnIndex);
     qreal maxColumnHeight();
+    void renameChildItems(BaseDesignIntf *item);
 private:
     DataSourceManager* m_datasources;
     PageItemDesignIntf* m_renderPageItem;
@@ -169,6 +168,7 @@ private:
     int             m_currentColumn;
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
+    unsigned long long m_curentNameIndex;
 };
 } // namespace LimeReport
 #endif // LRREPORTRENDER_H

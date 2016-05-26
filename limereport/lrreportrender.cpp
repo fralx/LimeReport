@@ -139,6 +139,13 @@ qreal ReportRender::maxColumnHeight()
     return result;
 }
 
+void ReportRender::renameChildItems(BaseDesignIntf *item){
+    foreach(BaseDesignIntf* child, item->childBaseItems()){
+        if (!child->childBaseItems().isEmpty()) renameChildItems(child);
+        child->setObjectName(child->metaObject()->className()+QString::number(++m_curentNameIndex));
+    }
+}
+
 ReportRender::ReportRender(QObject *parent)
     :QObject(parent), m_renderPageItem(0), m_pageCount(0), m_currentColumn(0),
      m_lastDataBand(0), m_lastRenderedFooter(0)
@@ -163,8 +170,9 @@ void ReportRender::initDatasources(){
 
 void ReportRender::renderPage(PageDesignIntf* patternPage)
 {
-    m_patternPageItem=patternPage->pageItem();
-    m_pageCount=1;
+    m_curentNameIndex = 0;
+    m_patternPageItem = patternPage->pageItem();
+    m_pageCount = 1;
     m_renderCanceled = false;
     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
     m_reportFooterHeight = 0;
@@ -728,6 +736,8 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         }
 
         if (band->isData()) m_renderedDataBandCount++;
+        band->setObjectName(band->objectName()+QString::number(++m_curentNameIndex));
+        renameChildItems(band);
         return true;
     } else return false;
 }
