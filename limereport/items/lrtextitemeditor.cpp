@@ -139,11 +139,14 @@ void TextItemEditor::initUI()
 
     m_completer->setModel(new QStringListModel(dataWords,m_completer));
     ui->gbSettings->setVisible(false);
-    connect(ui->twScriptEngine->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+
+    if (ui->twScriptEngine->selectionModel()){
+        connect(ui->twScriptEngine->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(slotScriptItemsSelectionChanged(QModelIndex,QModelIndex)));
+    }
 
     BandDesignIntf* band = findParentBand();
-    if (band && !band->datasourceName().isEmpty()){
+    if (band && ui->twData->model() && !band->datasourceName().isEmpty()){
         QModelIndexList nodes = ui->twData->model()->match(
                     ui->twData->model()->index(0,0),
                     Qt::DisplayRole,
