@@ -30,7 +30,7 @@
 #ifndef LRSCRIPTENGINEMANAGERINTF_H
 #define LRSCRIPTENGINEMANAGERINTF_H
 
-#include <QScriptEngine>
+#include <QtScript/QScriptEngine>
 
 namespace LimeReport{
 

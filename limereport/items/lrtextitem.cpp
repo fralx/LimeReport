@@ -29,7 +29,7 @@
  ****************************************************************************/
 #include <QtGui>
 #include <QTextLayout>
-#include <QScriptEngine>
+#include <QtScript/QScriptEngine>
 #include <math.h>
 
 #include "lrpagedesignintf.h"

@@ -30,7 +30,7 @@
 #ifndef LRSCRIPTENGINEMANAGER_H
 #define LRSCRIPTENGINEMANAGER_H
 
-#include <QScriptEngine>
+#include <QtScript/QScriptEngine>
 #include <QVector>
 #include <QIcon>
 #include <QAbstractItemModel>
