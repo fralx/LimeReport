@@ -47,7 +47,8 @@ bool bandSortBandLessThenByIndex(const BandDesignIntf *c1, const BandDesignIntf 
 PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
-    m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false), m_fullPage(false)
+    m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
+    m_fullPage(false), m_oldPrintMode(false)
 {
     setFixedPos(true);
     setPosibleResizeDirectionFlags(Fixed);
@@ -57,7 +58,8 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
 PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &rect, QObject *owner, QGraphicsItem *parent) :
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
-    m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false), m_fullPage(false)
+    m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
+    m_fullPage(false), m_oldPrintMode(false)
 {
     setFixedPos(true);
     setPosibleResizeDirectionFlags(Fixed);
@@ -297,6 +299,16 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+bool PageItemDesignIntf::oldPrintMode() const
+{
+    return m_oldPrintMode;
+}
+
+void PageItemDesignIntf::setOldPrintMode(bool oldPrintMode)
+{
+    m_oldPrintMode = oldPrintMode;
+}
+
 bool PageItemDesignIntf::fullPage() const
 {
     return m_fullPage;
@@ -324,7 +336,7 @@ void PageItemDesignIntf::relocateBands()
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
 
     if (m_bands.count()>0) {
-        initColumnsPos(posByColumn,pageRect().x(),m_bands[0]->columnsCount());
+        initColumnsPos(posByColumn,pageRect().y(),m_bands[0]->columnsCount());
         m_bands[0]->setPos(pageRect().x(),pageRect().y());
         posByColumn[0]+=m_bands[0]->height()+bandSpace;
     }

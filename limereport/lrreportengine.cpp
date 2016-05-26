@@ -175,7 +175,6 @@ void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& pri
         }
 
         QPainter painter(&printer);
-        painter.drawRect(printer.pageRect());
         renderPage.render(&painter);
 
         while (reader->next()){
@@ -211,15 +210,28 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, cons
             page->setPos(0,0);
             renderPage.setPageItem(page);
             renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
-            printer.setFullPage(renderPage.pageItem()->fullPage());
-            printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
-            if (renderPage.pageItem()->pageSize()==PageItemDesignIntf::Custom){
+            if (renderPage.pageItem()->oldPrintMode()){
+                printer.setPageMargins(renderPage.pageItem()->leftMargin(),
+                                      renderPage.pageItem()->topMargin(),
+                                      renderPage.pageItem()->rightMargin(),
+                                      renderPage.pageItem()->bottomMargin(),
+                                      QPrinter::Millimeter);
+                printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
                 QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
-                            QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
-                            renderPage.pageItem()->sizeMM();
+                           QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
+                           renderPage.pageItem()->sizeMM();
                 printer.setPaperSize(pageSize,QPrinter::Millimeter);
             } else {
-                printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
+                printer.setFullPage(renderPage.pageItem()->fullPage());
+                printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
+                if (renderPage.pageItem()->pageSize()==PageItemDesignIntf::Custom){
+                    QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
+                                QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
+                                renderPage.pageItem()->sizeMM();
+                    printer.setPaperSize(pageSize,QPrinter::Millimeter);
+                } else {
+                    printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
+                }
             }
 
             if (!isFirst){
