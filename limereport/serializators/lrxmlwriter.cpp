@@ -137,7 +137,7 @@ void XMLWriter::saveProperty(QString name, QObject* item, QDomElement *node)
     else
     try {
         creator=XMLAbstractSerializatorFactory::instance().objectCreator(
-                    item->property(name.toLatin1()).typeName()
+                    item->metaObject()->property(item->metaObject()->indexOfProperty(name.toLatin1())).typeName()
                     );
     } catch (LimeReport::ReportError &exception){
         qDebug()<<"class name ="<<item->metaObject()->className()
