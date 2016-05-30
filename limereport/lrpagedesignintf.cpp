@@ -1224,11 +1224,11 @@ void PageDesignIntf::paste()
 void PageDesignIntf::deleteSelected()
 {
     if (selectedItems().count()==1){
-        saveCommand(removeReportItemCommand(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0))));
+        if (!dynamic_cast<PageItemDesignIntf*>(selectedItems().at(0)))
+          saveCommand(removeReportItemCommand(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0))));
     } else {
 
         QList<QGraphicsItem*> itemsToDelete = selectedItems();
-
 
         CommandGroup::Ptr commandGroup = CommandGroup::create();
 
@@ -1270,7 +1270,7 @@ void PageDesignIntf::deleteSelected()
 }
 
 void PageDesignIntf::cut()
-{
+{    
     CommandIf::Ptr command = CutCommand::create(this);
     saveCommand(command);
 }
@@ -1797,11 +1797,13 @@ CommandIf::Ptr CutCommand::create(PageDesignIntf *page)
     command->setPage(page);
     ItemsWriterIntf *writer = new XMLWriter();
     foreach(QGraphicsItem * item, page->selectedItems()) {
-        BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
-
-        if (reportItem) {
-            command->m_itemNames.push_back(reportItem->objectName());
-            writer->putItem(reportItem);
+        if (!dynamic_cast<PageItemDesignIntf*>(item)){
+            BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
+    
+            if (reportItem) {
+                command->m_itemNames.push_back(reportItem->objectName());
+                writer->putItem(reportItem);
+            }
         }
     }
     command->setXML(writer->saveToString());
