@@ -381,7 +381,8 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
         while(!bandDatasource->eof() && !m_renderCanceled){
 
-            if (!firstTime && dataBand->startNewPage()) {
+            if ((firstTime && dataBand->startFromNewPage()) ||
+                (!firstTime && dataBand->startNewPage())) {
                 savePage();
                 startNewPage();
             }

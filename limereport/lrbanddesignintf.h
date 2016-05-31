@@ -206,6 +206,9 @@ public:
     void setAutoHeight(bool value){m_autoHeight=value;}
     bool autoHeight(){return m_autoHeight;}
 
+    bool startFromNewPage() const;
+    void setStartFromNewPage(bool startFromNewPage);
+
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -256,6 +259,7 @@ private:
     BandColumnsLayoutType       m_columnsFillDirection;
     bool                        m_reprintOnEachPage;
     bool                        m_startNewPage;
+    bool                        m_startFromNewPage;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{
