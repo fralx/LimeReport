@@ -1,4 +1,4 @@
-LimeReport v1.3.10    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
+LimeReport v1.3.11    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
 -----------
 
 ##Features
@@ -37,6 +37,13 @@ LimeReport v1.3.10    [![Build Status](https://api.travis-ci.org/fralx/LimeRepor
 For more samples see a demo
 
 ## Change log
+
+###1.3.11
+1. LimeReport project structure has been changed
+2. Preview widget has been added
+3. New demo has been added
+4. Landscape page orientation has been fixed
+5. Other minor bugs has been fixed
 
 ###1.3.10
 1. Memory leak has been fixed
