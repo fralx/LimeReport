@@ -192,7 +192,7 @@ namespace LimeReport {
             virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
 
             LimeReport::BandDesignIntf::BandsType findPriorType(LimeReport::BandDesignIntf::BandsType bandType);
-
+            BaseDesignIntf *findDestObject(BaseDesignIntf *item);
 
             bool isExistsObjectName (const QString& objectName, QList<QGraphicsItem *> &itemsList) const;
             QRectF getRectByPageSize(PageSize pageSize);

@@ -111,7 +111,7 @@ public:
 
     bool oldPrintMode() const;
     void setOldPrintMode(bool oldPrintMode);
-
+    bool canContainChildren(){ return true;}
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* /*object*/, QRectF newGeometry, QRectF oldGeometry);

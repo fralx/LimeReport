@@ -245,6 +245,7 @@ public:
     QColor borderColor() const;
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
+    virtual bool canContainChildren(){ return false;}
 protected:
 
     //ICollectionContainer

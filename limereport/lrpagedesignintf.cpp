@@ -1202,22 +1202,36 @@ void PageDesignIntf::copy()
     }
 }
 
+BaseDesignIntf* PageDesignIntf::findDestObject(BaseDesignIntf* item){
+    if (item && item->canContainChildren()) return item;
+    BaseDesignIntf * curItem = item;
+    while (curItem && !curItem->canContainChildren()){
+        curItem = dynamic_cast<BaseDesignIntf*>(curItem->parentItem());
+    }
+    return curItem;
+}
+
 void PageDesignIntf::paste()
 {
     QClipboard *clipboard = QApplication::clipboard();
 
-    if (selectedItems().count() == 1) {
-        BandDesignIntf *band = dynamic_cast<BandDesignIntf *>(selectedItems().at(0));
-        if (band) {
-            CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), band);
+    if (!selectedItems().isEmpty()) {
+        BaseDesignIntf* destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
+        if (destItem){
+            CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), destItem);
             saveCommand(command);
-        } else {
-            PageItemDesignIntf* page = dynamic_cast<PageItemDesignIntf*>(selectedItems().at(0));
-            if (page){
-                CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), page);
-                saveCommand(command);
-            }
         }
+//        BandDesignIntf *band = dynamic_cast<BandDesignIntf *>(selectedItems().at(0));
+//        if (band) {
+//            CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), band);
+//            saveCommand(command);
+//        } else {
+//            PageItemDesignIntf* page = dynamic_cast<PageItemDesignIntf*>(selectedItems().at(0));
+//            if (page){
+//                CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), page);
+//                saveCommand(command);
+//            } else {}
+//        }
     }
 }
 

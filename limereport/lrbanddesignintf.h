@@ -208,7 +208,7 @@ public:
 
     bool startFromNewPage() const;
     void setStartFromNewPage(bool startFromNewPage);
-
+    bool canContainChildren(){ return true;}
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
