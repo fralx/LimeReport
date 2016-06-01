@@ -1214,24 +1214,12 @@ BaseDesignIntf* PageDesignIntf::findDestObject(BaseDesignIntf* item){
 void PageDesignIntf::paste()
 {
     QClipboard *clipboard = QApplication::clipboard();
-
     if (!selectedItems().isEmpty()) {
         BaseDesignIntf* destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
         if (destItem){
             CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), destItem);
             saveCommand(command);
         }
-//        BandDesignIntf *band = dynamic_cast<BandDesignIntf *>(selectedItems().at(0));
-//        if (band) {
-//            CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), band);
-//            saveCommand(command);
-//        } else {
-//            PageItemDesignIntf* page = dynamic_cast<PageItemDesignIntf*>(selectedItems().at(0));
-//            if (page){
-//                CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), page);
-//                saveCommand(command);
-//            } else {}
-//        }
     }
 }
 

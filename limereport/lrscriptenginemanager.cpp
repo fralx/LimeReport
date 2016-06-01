@@ -213,6 +213,12 @@ QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     return res;
 }
 
+QScriptValue currencyFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+    QVariant value = pcontext->argument(0).toVariant();
+    QString locale = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().name();
+    return pengine->newVariant(QLocale(locale).toCurrencyString(value.toDouble()));
+}
+
 QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
@@ -374,6 +380,7 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("date",date,"DATE&TIME","date()");
     addFunction("now",now,"DATE&TIME","now()");
+    addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+",\""+tr("Locale")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
