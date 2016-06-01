@@ -2047,6 +2047,8 @@ void InsertHLayoutCommand::undoIt()
                 bi->setParentItem(parent);
                 bi->setParent(parent);
                 bi->setPos(m_elements.value(bi->objectName()));
+                bi->setFixedPos(false);
+                bi->setPosibleResizeDirectionFlags(BaseDesignIntf::AllDirections);
             }
         }
         page()->removeReportItem(layout,false);
