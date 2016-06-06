@@ -80,10 +80,10 @@ void LRVariableDialog::accept()
                 m_variablesContainer->changeVariable(m_oldVariableName,value());
             } else {
                 m_variablesContainer->deleteVariable(m_oldVariableName);
-                m_variablesContainer->addVariable(ui->leName->text(),value());
+                m_variablesContainer->addVariable(ui->leName->text(),value(), LimeReport::VarDesc::Report);
             }
         } else {
-            m_variablesContainer->addVariable(ui->leName->text(),value());
+            m_variablesContainer->addVariable(ui->leName->text(),value(), LimeReport::VarDesc::Report);
         }
         emit signalVariableAccepted(ui->leName->text());
         QDialog::accept();

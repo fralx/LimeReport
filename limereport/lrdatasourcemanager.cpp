@@ -322,6 +322,10 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         }
 
         query.exec();
+        while (query.next()){
+            qDebug()<<query.value(0);
+        }
+
         model->setQuery(query);
         m_lastError = model->lastError().text();
         if (model->query().isActive())
@@ -705,6 +709,11 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
     return true;
 }
 
+void DataSourceManager::clearReportVariables()
+{
+    m_reportVariables.clearUserVariables();
+}
+
 void DataSourceManager::connectAutoConnections()
 {
     foreach(ConnectionDesc* conn,m_connections){
@@ -918,7 +927,7 @@ int DataSourceManager::elementsCount(const QString &collectionName)
         return m_proxies.count();
     }
     if (collectionName=="variables"){
-        return m_varHolder.userVariablesCount();
+        return m_reportVariables.userVariablesCount();
     }
     return 0;
 }
@@ -938,7 +947,7 @@ QObject* DataSourceManager::elementAt(const QString &collectionName, int index)
         return m_proxies.at(index);
     }
     if (collectionName=="variables"){
-        return m_varHolder.userVariableAt(index);
+        return m_reportVariables.userVariableAt(index);
     }
     return 0;
 }
@@ -970,8 +979,8 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
 
     if(collectionName.compare("variables",Qt::CaseInsensitive)==0){
         foreach (VarDesc* item, m_tempVars) {
-            if (!m_varHolder.containsVariable(item->name())){
-                m_varHolder.addVariable(item->name(),item->value(),VarDesc::User,FirstPass);
+            if (!m_reportVariables.containsVariable(item->name())){
+                m_reportVariables.addVariable(item->name(),item->value(),VarDesc::Report,FirstPass);
             }
             delete item;
         }
@@ -984,15 +993,20 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
 
 void DataSourceManager::addVariable(const QString &name, const QVariant &value, VarDesc::VarType type, RenderPass pass)
 {
-    m_varHolder.addVariable(name,value,type,pass);
+    if (type == VarDesc::User){
+        m_userVariables.addVariable(name, value, type, pass);
+    } else {
+        m_reportVariables.addVariable(name,value,type,pass);
+    }
     if (designTime())
       emit datasourcesChanged();
 }
 
 void DataSourceManager::deleteVariable(const QString& name)
 {
-    if (m_varHolder.containsVariable(name)&&m_varHolder.variableType(name)==VarDesc::User){
-        m_varHolder.deleteVariable(name);
+    m_userVariables.deleteVariable(name);
+    if (m_reportVariables.containsVariable(name)&&m_reportVariables.variableType(name)==VarDesc::Report){
+        m_reportVariables.deleteVariable(name);
         if (designTime())
           emit datasourcesChanged();
     }
@@ -1000,7 +1014,12 @@ void DataSourceManager::deleteVariable(const QString& name)
 
 void DataSourceManager::changeVariable(const QString& name,const QVariant& value)
 {
-    m_varHolder.changeVariable(name,value);
+    if (m_userVariables.containsVariable(name)){
+        m_userVariables.changeVariable(name,value);
+    }
+    if (m_reportVariables.containsVariable(name)){
+        m_reportVariables.changeVariable(name,value);
+    }
 }
 
 void DataSourceManager::setSystemVariable(const QString &name, const QVariant &value, RenderPass pass)
@@ -1079,8 +1098,9 @@ void DataSourceManager::clear(ClearMethod method)
     m_queries.clear();
     m_subqueries.clear();
     m_proxies.clear();
-
-    clearUserVariables();
+//    if (method == All)
+//        clearUserVariables();
+    clearReportVariables();
 
     emit cleared();
 }
@@ -1161,12 +1181,14 @@ bool DataSourceManager::containsField(const QString &fieldName)
 
 bool DataSourceManager::containsVariable(const QString& variableName)
 {
-    return m_varHolder.containsVariable(variableName);
+    if (m_userVariables.containsVariable(variableName)) return true;
+    return m_reportVariables.containsVariable(variableName);
 }
 
 void DataSourceManager::clearUserVariables()
 {
-    m_varHolder.clearUserVariables();
+    m_userVariables.clearUserVariables();
+    m_reportVariables.clearUserVariables();
 }
 
 QVariant DataSourceManager::fieldData(const QString &fieldName)
@@ -1180,28 +1202,38 @@ QVariant DataSourceManager::fieldData(const QString &fieldName)
 
 QVariant DataSourceManager::variable(const QString &variableName)
 {
-    return m_varHolder.variable(variableName);
+    if (m_userVariables.containsVariable(variableName))
+        return m_userVariables.variable(variableName);
+    return m_reportVariables.variable(variableName);
 }
 
 RenderPass DataSourceManager::variablePass(const QString &name)
 {
 
-    return (m_varHolder.variablePass(name)==FirstPass)?FirstPass:SecondPass;
+    return (m_reportVariables.variablePass(name)==FirstPass)?FirstPass:SecondPass;
 }
 
 bool DataSourceManager::variableIsSystem(const QString &name)
 {
-    return (m_varHolder.variableType(name)==VarDesc::System);
+    if (m_reportVariables.containsVariable(name))
+        return (m_reportVariables.variableType(name)==VarDesc::System);
+    return false;
 }
 
 QStringList DataSourceManager::variableNames()
 {
-    return m_varHolder.variableNames();
+    return m_reportVariables.variableNames();
+}
+
+QStringList DataSourceManager::namesOfUserVariables(){
+    return m_userVariables.variableNames();
 }
 
 VarDesc::VarType DataSourceManager::variableType(const QString &name)
 {
-    return m_varHolder.variableType(name);
+    if (m_reportVariables.containsVariable(name))
+        return m_reportVariables.variableType(name);
+    return VarDesc::User;
 }
 
 void DataSourceManager::setAllDatasourcesToFirst()

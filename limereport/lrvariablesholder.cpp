@@ -34,12 +34,12 @@
 
 namespace LimeReport{
 
-AVariablesHolder::AVariablesHolder(QObject *parent) :
+VariablesHolder::VariablesHolder(QObject *parent) :
     QObject(parent)
 {
 }
 
-AVariablesHolder::~AVariablesHolder()
+VariablesHolder::~VariablesHolder()
 {
     QMap<QString,VarDesc*>::iterator it = m_varNames.begin();
     while(it!=m_varNames.end()){
@@ -50,7 +50,7 @@ AVariablesHolder::~AVariablesHolder()
     m_userVariables.clear();
 }
 
-void AVariablesHolder::addVariable(const QString& name, const QVariant& value, VarDesc::VarType type, RenderPass pass)
+void VariablesHolder::addVariable(const QString& name, const QVariant& value, VarDesc::VarType type, RenderPass pass)
 {
     if (!m_varNames.contains(name)){
         VarDesc* varValue = new VarDesc;
@@ -66,21 +66,21 @@ void AVariablesHolder::addVariable(const QString& name, const QVariant& value, V
     }
 }
 
-QVariant AVariablesHolder::variable(const QString &name)
+QVariant VariablesHolder::variable(const QString &name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->value();
     else return QVariant();
 }
 
-VarDesc::VarType AVariablesHolder::variableType(const QString &name)
+VarDesc::VarType VariablesHolder::variableType(const QString &name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->varType();
     else throw ReportError(tr("variable with name ")+name+tr(" does not exists !!"));
 }
 
-void AVariablesHolder::deleteVariable(const QString &name)
+void VariablesHolder::deleteVariable(const QString &name)
 {
     if (m_varNames.contains(name)) {
         m_userVariables.removeOne(m_varNames.value(name));
@@ -89,7 +89,7 @@ void AVariablesHolder::deleteVariable(const QString &name)
     }
 }
 
-void AVariablesHolder::changeVariable(const QString &name, const QVariant &value)
+void VariablesHolder::changeVariable(const QString &name, const QVariant &value)
 {
     if(m_varNames.contains(name)) {
         m_varNames.value(name)->setValue(value);
@@ -97,11 +97,12 @@ void AVariablesHolder::changeVariable(const QString &name, const QVariant &value
         throw ReportError(tr("variable with name ")+name+tr(" does not exists !!"));
 }
 
-void AVariablesHolder::clearUserVariables()
+void VariablesHolder::clearUserVariables()
 {
     QMap<QString,VarDesc*>::iterator it = m_varNames.begin();
     while (it != m_varNames.end()){
-        if (it.value()->varType()==VarDesc::User){
+        if (it.value()->varType()==VarDesc::User ||
+            it.value()->varType()==VarDesc::Report){
             m_userVariables.removeAll(it.value());
             delete it.value();
             it = m_varNames.erase(it);
@@ -113,22 +114,22 @@ void AVariablesHolder::clearUserVariables()
 
 }
 
-bool AVariablesHolder::containsVariable(const QString &name)
+bool VariablesHolder::containsVariable(const QString &name)
 {
     return m_varNames.contains(name);
 }
 
-int AVariablesHolder::userVariablesCount()
+int VariablesHolder::userVariablesCount()
 {
     return m_userVariables.count();
 }
 
-VarDesc *AVariablesHolder::userVariableAt(int index)
+VarDesc *VariablesHolder::userVariableAt(int index)
 {
     return m_userVariables.at(index);
 }
 
-QStringList AVariablesHolder::variableNames()
+QStringList VariablesHolder::variableNames()
 {
     QStringList result;
     foreach(QString varName,m_varNames.keys()){
@@ -137,7 +138,7 @@ QStringList AVariablesHolder::variableNames()
     return result;
 }
 
-RenderPass AVariablesHolder::variablePass(const QString &name)
+RenderPass VariablesHolder::variablePass(const QString &name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->renderPass();

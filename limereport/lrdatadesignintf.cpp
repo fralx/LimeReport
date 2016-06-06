@@ -563,10 +563,10 @@ bool MasterDetailProxyModel::filterAcceptsRow(int source_row, const QModelIndex 
 int MasterDetailProxyModel::fieldIndexByName(QString fieldName) const
 {
     for(int i=0;i<sourceModel()->columnCount();++i){
-        QString fieldName = sourceModel()->headerData(i,Qt::Horizontal,Qt::UserRole).isValid()?
+        QString sourceFieldName = sourceModel()->headerData(i,Qt::Horizontal,Qt::UserRole).isValid()?
                             sourceModel()->headerData(i,Qt::Horizontal,Qt::UserRole).toString():
                             sourceModel()->headerData(i,Qt::Horizontal).toString();
-        if (fieldName.compare(fieldName,Qt::CaseInsensitive)==0){
+        if (sourceFieldName.compare(fieldName,Qt::CaseInsensitive)==0){
            return i;
         }
     }

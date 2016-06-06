@@ -35,7 +35,7 @@
       <enum>QTabWidget::South</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -423,6 +423,26 @@
              <width>16</width>
              <height>16</height>
             </size>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="varToReport">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Grab variable</string>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="lrdatabrowser.qrc">
+             <normaloff>:/databrowser/images/varToReport</normaloff>:/databrowser/images/varToReport</iconset>
            </property>
            <property name="autoRaise">
             <bool>true</bool>

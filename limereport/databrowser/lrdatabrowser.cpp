@@ -208,12 +208,15 @@ void DataBrowser::updateDataTree()
 void DataBrowser::updateVariablesTree()
 {
     ui->variablesTree->clear();
-    QTreeWidgetItem *userVariables =new QTreeWidgetItem(QStringList(tr("User variables")),DataBrowserTree::Category);
-    userVariables->setIcon(0,QIcon(":/report/images/folder"));
+    QTreeWidgetItem *reportVariables = new QTreeWidgetItem(QStringList(tr("Report variables")),DataBrowserTree::Category);
+    reportVariables->setIcon(0,QIcon(":/report/images/folder"));
     QTreeWidgetItem *systemVariables =new QTreeWidgetItem(QStringList(tr("System variables")),DataBrowserTree::Category);
     systemVariables->setIcon(0,QIcon(":/report/images/folder"));
-    ui->variablesTree->addTopLevelItem(userVariables);
+    QTreeWidgetItem *externalVariables = new QTreeWidgetItem(QStringList(tr("External variables")),DataBrowserTree::Category);
+    externalVariables->setIcon(0,QIcon(":/report/images/folder"));
+    ui->variablesTree->addTopLevelItem(reportVariables);
     ui->variablesTree->addTopLevelItem(systemVariables);
+    ui->variablesTree->addTopLevelItem(externalVariables);
 
     foreach(QString variableName,m_report->dataManager()->variableNames()){
         QStringList values;
@@ -227,12 +230,24 @@ void DataBrowser::updateVariablesTree()
         if (m_report->dataManager()->variableIsSystem(variableName)){
            systemVariables->addChild(item);
         } else {
-            userVariables->addChild(item);
+            reportVariables->addChild(item);
         }
     }
 
-    ui->variablesTree->expandItem(userVariables);
+    foreach(QString variableName,m_report->dataManager()->namesOfUserVariables()){
+        if (!m_report->dataManager()->variableNames().contains(variableName)){
+            QStringList values;
+            values<<variableName+"  ["+m_report->dataManager()->variable(variableName).toString()+"]"
+                  <<variableName;
+            QTreeWidgetItem *item=new QTreeWidgetItem(values,DataBrowserTree::ExternalVariable);
+            item->setIcon(0,QIcon(":/databrowser/images/value"));
+            externalVariables->addChild(item);
+        }
+    }
+
+    ui->variablesTree->expandItem(reportVariables);
     ui->variablesTree->expandItem(systemVariables);
+    ui->variablesTree->expandItem(externalVariables);
 }
 
 void DataBrowser::closeAllDataWindows()
@@ -333,7 +348,11 @@ QString DataBrowser::getConnectionName()
 
 QString DataBrowser::getVariable()
 {
-    if(ui->variablesTree->currentItem()&&ui->variablesTree->currentItem()->type() == DataBrowserTree::Variable){
+    if(
+        ui->variablesTree->currentItem() &&
+        (ui->variablesTree->currentItem()->type() == DataBrowserTree::Variable ||
+         ui->variablesTree->currentItem()->type() == DataBrowserTree::ExternalVariable)
+    ){
         return ui->variablesTree->currentItem()->text(1);
     }
     return QString();
@@ -369,7 +388,7 @@ void DataBrowser::slotDeleteDatasource()
                     tr("Do you really want to delete \"%1\" datasource ?").arg(datasourceName),
                     QMessageBox::Ok|QMessageBox::No,
                     QMessageBox::No
-                )==QMessageBox::Ok
+                ) == QMessageBox::Ok
         ){
             removeDatasource(datasourceName);
         }
@@ -390,6 +409,7 @@ void DataBrowser::slotClear()
     ui->dataTree->clear();
     foreach(QDockWidget* window,m_dataWindows.values()) window->close();
     updateDataTree();
+    updateVariablesTree();
 }
 
 void DataBrowser::initConnections()
@@ -696,16 +716,24 @@ void DataBrowser::on_deleteVariable_clicked()
 void DataBrowser::on_variablesTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     Q_UNUSED(previous)
-
     if (current){
-        if (m_report->dataManager()->containsVariable(current->text(1))&&
-            !m_report->dataManager()->variableIsSystem(current->text(1))
-            ){
-            ui->editVariable->setEnabled(true);
-            ui->deleteVariable->setEnabled(true);
+        if (m_report->dataManager()->containsVariable(current->text(1))){
+           if (m_report->dataManager()->variableType(current->text(1)) == VarDesc::Report){
+                ui->editVariable->setEnabled(true);
+                ui->deleteVariable->setEnabled(true);
+            } else {
+                ui->editVariable->setEnabled(false);
+                ui->deleteVariable->setEnabled(false);
+            }
+           if (m_report->dataManager()->variableType(current->text(1)) == VarDesc::User){
+               ui->varToReport->setEnabled(true);
+           } else {
+               ui->varToReport->setEnabled(false);
+           }
         } else {
             ui->editVariable->setEnabled(false);
             ui->deleteVariable->setEnabled(false);
+            ui->varToReport->setEnabled(false);
         }
     }
 }
@@ -717,7 +745,46 @@ void DataBrowser::on_errorMessage_clicked()
     }
 }
 
+void DataBrowser::on_varToReport_clicked()
+{
+    QString varName = getVariable();
+    if (!varName.isEmpty()){
+        m_report->dataManager()->addVariable(varName,m_report->dataManager()->variable(varName), VarDesc::Report);
+        ui->varToReport->setEnabled(false);
+        updateVariablesTree();
+    }
+
+}
+
+void DataBrowser::on_variablesTree_itemDoubleClicked(QTreeWidgetItem *item, int )
+{
+    if (item){
+        QString varName = item->text(1);
+        if (
+            !varName.isEmpty() &&
+            (m_report->dataManager()->variableType(varName) == VarDesc::Report)
+        ){
+            LRVariableDialog dialog(this);
+    #ifdef Q_OS_MAC
+            dialog.setWindowModality(Qt::WindowModal);
+    #else
+            dialog.setWindowModality(Qt::ApplicationModal);
+    #endif
+            dialog.setVariableContainer(m_report->dataManager());
+            dialog.setVariableName(varName);
+            connect(&dialog,SIGNAL(signalVariableAccepted(QString)),this,SLOT(slotVariableEditorAccept(QString)));
+            dialog.exec();
+        }
+    }
+}
+
 } // namespace LimeReport
+
+
+
+
+
+
 
 
 

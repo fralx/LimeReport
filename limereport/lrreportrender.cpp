@@ -147,8 +147,8 @@ void ReportRender::renameChildItems(BaseDesignIntf *item){
 }
 
 ReportRender::ReportRender(QObject *parent)
-    :QObject(parent), m_renderPageItem(0), m_pageCount(0), m_currentColumn(0),
-     m_lastDataBand(0), m_lastRenderedFooter(0)
+    :QObject(parent), m_renderPageItem(0), m_pageCount(0),
+     m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0)
 {
     initColumns();
 }

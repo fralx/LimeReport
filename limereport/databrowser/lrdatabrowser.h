@@ -83,6 +83,9 @@ private slots:
     void on_addVariable_clicked();
     void on_variablesTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void on_errorMessage_clicked();
+    void on_varToReport_clicked();
+    void on_variablesTree_itemDoubleClicked(QTreeWidgetItem *item, int);
+
 private:
     QString getDatasourceName();
     QString getConnectionName();

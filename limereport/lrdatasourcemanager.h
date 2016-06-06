@@ -121,9 +121,12 @@ public:
     void deleteVariable(const QString& name);
     bool containsVariable(const QString& variableName);
     void clearUserVariables();
+    void addVariable(const QString& name, const QVariant& value, VarDesc::VarType type=VarDesc::User, RenderPass pass=FirstPass);
+    void changeVariable(const QString& name,const QVariant& value);
     QVariant variable(const QString& variableName);
     RenderPass variablePass(const QString& name);
     QStringList variableNames();
+    QStringList namesOfUserVariables();
     VarDesc::VarType variableType(const QString& name);
     bool variableIsSystem(const QString& name);
     QString queryText(const QString& dataSourceName);
@@ -198,7 +201,7 @@ protected:
     void putSubQueryDesc(SubQueryDesc *subQueryDesc);
     void putProxyDesc(ProxyDesc *proxyDesc);
     bool connectConnection(ConnectionDesc* connectionDesc);
-
+    void clearReportVariables();
     QList<QString> childDatasources(const QString& datasourceName);
     void invalidateChildren(const QString& parentDatasourceName);
     //ICollectionContainer
@@ -207,8 +210,7 @@ protected:
     virtual QObject *elementAt(const QString& collectionName,int index);
     virtual void collectionLoadFinished(const QString& collectionName);
 
-    void addVariable(const QString& name, const QVariant& value, VarDesc::VarType type=VarDesc::User, RenderPass pass=FirstPass);
-    void changeVariable(const QString& name,const QVariant& value);
+
     void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
@@ -227,7 +229,8 @@ private:
 
     QMultiMap<QString,GroupFunction*> m_groupFunctions;
     GroupFunctionFactory m_groupFunctionFactory;
-    AVariablesHolder m_varHolder;
+    VariablesHolder m_reportVariables;
+    VariablesHolder m_userVariables;
     DataSourcesMap m_datasources;
     DataSourceModel m_datasourcesModel;
     QString m_lastError;

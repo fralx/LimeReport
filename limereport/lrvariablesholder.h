@@ -43,7 +43,7 @@ class VarDesc : public QObject{
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(QVariant value READ value WRITE setValue)
 public:
-    enum VarType {System,User};
+    enum VarType {System, User, Report};
     void setVarType(VarType value){m_varType=value;}
     VarType varType(){return m_varType;}
     void setRenderPass(RenderPass value){m_varPass=value;}
@@ -74,12 +74,12 @@ public:
     virtual QStringList variableNames()=0;
 };
 
-class AVariablesHolder : public QObject, public IVariablesContainer
+class VariablesHolder : public QObject, public IVariablesContainer
 {
     Q_OBJECT
 public:
-    explicit AVariablesHolder(QObject *parent = 0);
-    ~AVariablesHolder();
+    explicit VariablesHolder(QObject *parent = 0);
+    ~VariablesHolder();
     void addVariable(const QString &name, const QVariant &value, VarDesc::VarType type=VarDesc::User, RenderPass pass=FirstPass);
     void deleteVariable(const QString &name);
     void changeVariable(const QString &name, const QVariant &value);
