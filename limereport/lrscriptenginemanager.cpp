@@ -219,6 +219,16 @@ QScriptValue currencyFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     return pengine->newVariant(QLocale(locale).toCurrencyString(value.toDouble()));
 }
 
+QScriptValue currencyUSBasedFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+    QVariant value = pcontext->argument(0).toVariant();
+    QString CurrencySymbol = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().currencySymbol();
+    // Format it using USA locale
+    QString vTempStr=QLocale(QLocale::English, QLocale::UnitedStates).toCurrencyString(value.toDouble());
+    // Replace currency symbol if necesarry
+    if (CurrencySymbol!="") vTempStr.replace("$", CurrencySymbol);
+    return pengine->newVariant(vTempStr);
+}
+
 QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
@@ -381,6 +391,7 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("date",date,"DATE&TIME","date()");
     addFunction("now",now,"DATE&TIME","now()");
     addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+",\""+tr("Locale")+"\")");
+    addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
