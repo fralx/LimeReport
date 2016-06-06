@@ -308,7 +308,6 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         QSqlQuery query(db);
         query.prepare(queryText);
 
-
         foreach(QString param,aliasesToParam.keys()){
             QVariant value;
             if (param.contains(".")){
@@ -322,10 +321,6 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         }
 
         query.exec();
-        while (query.next()){
-            qDebug()<<query.value(0);
-        }
-
         model->setQuery(query);
         m_lastError = model->lastError().text();
         if (model->query().isActive())
