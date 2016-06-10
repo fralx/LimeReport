@@ -165,5 +165,7 @@
         <file>images/FitWidth.png</file>
         <file>images/OneToOne.png</file>
         <file alias="/images/logo32">images/logo_32x32.png</file>
+        <file alias="/images/addPage">images/addPage1.png</file>
+        <file alias="/images/deletePage">images/deletePage1.png</file>
     </qresource>
 </RCC>

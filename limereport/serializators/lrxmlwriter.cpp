@@ -37,12 +37,19 @@ namespace LimeReport{
 
 XMLWriter::XMLWriter() : m_doc(new QDomDocument)
 {
-    m_rootElement=m_doc->createElement("Report");
-    m_doc->appendChild(m_rootElement);
+    init();
 }
 
 XMLWriter::XMLWriter(QSharedPointer<QDomDocument> doc) : m_doc(doc){
+    init();
+}
+
+void XMLWriter::init()
+{
     m_rootElement=m_doc->createElement("Report");
+    QDomNode xmlNode = m_doc->createProcessingInstruction("xml",
+                               "version=\"1.0\" encoding=\"UTF8\"");
+    m_doc->insertBefore(xmlNode,m_doc->firstChild());
     m_doc->appendChild(m_rootElement);
 }
 

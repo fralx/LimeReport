@@ -50,6 +50,7 @@ class ObjectInspectorWidget;
 class QObjectPropertyModel;
 class ReportDesignWidget;
 class DataBrowser;
+class ScriptBrowser;
 class BaseDesignIntf;
 class PageDesignIntf;
 class ObjectBrowser;
@@ -72,6 +73,8 @@ public:
 
 private slots:
     void slotNewReport();
+    void slotNewPage();
+    void slotDeletePage();
     void slotNewTextItem();
     void slotNewBand(const QString& bandType);
     void slotNewBand(int bandType);
@@ -103,6 +106,7 @@ private slots:
     void slotItemActionCliked();
     void slotBandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*band);
     void slotBandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*band);
+    void slotActivePageChanged();
     void renderStarted();
     void renderPageFinished(int renderedPageCount);
     void renderFinished();
@@ -113,6 +117,8 @@ private slots:
     void slotUseGrid(bool value);
     void slotUseMagnet(bool value);
     void slotLoadRecentFile(const QString fileName);
+    void slotPageAdded(PageDesignIntf* page);
+    void slotPageDeleted();
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -130,6 +136,7 @@ private:
     void createObjectsBrowser();
     void initReportEditor(ReportEnginePrivate* report);
     void createDataWindow();
+    void createScriptWindow();
     void updateRedoUndo();
     void startNewReport();
     void writePosition();
@@ -174,6 +181,8 @@ private:
     QAction* m_settingsAction;
     QAction* m_useGridAction;
     QAction* m_useMagnetAction;
+    QAction* m_newPageAction;
+    QAction* m_deletePageAction;
 
     QAction* m_newPageHeader;
     QAction* m_newPageFooter;
@@ -202,6 +211,7 @@ private:
 
     ReportDesignWidget* m_reportDesignWidget;
     DataBrowser * m_dataBrowser;
+    ScriptBrowser* m_scriptBrowser;
 
     ObjectBrowser* m_objectsBrowser;
 

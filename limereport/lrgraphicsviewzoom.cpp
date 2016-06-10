@@ -29,7 +29,17 @@ void GraphicsViewZoomer::setModifiers(Qt::KeyboardModifiers modifiers) {
 }
 
 void GraphicsViewZoomer::setZoomFactorBase(double value) {
-  m_zoomFactorBase = value;
+    m_zoomFactorBase = value;
+}
+
+void GraphicsViewZoomer::setView(QGraphicsView *view)
+{
+    if (m_view!=view){
+        m_view->viewport()->removeEventFilter(this);
+        m_view = view;
+        m_view->viewport()->installEventFilter(this);
+        m_view->setMouseTracking(true);
+    }
 }
 
 bool GraphicsViewZoomer::eventFilter(QObject *object, QEvent *event) {

@@ -32,6 +32,11 @@
 #include <QDate>
 #include <QStringList>
 #include <QScriptValueIterator>
+#ifdef HAVE_UI_LOADER
+#include <QUiLoader>
+#include <QBuffer>
+#include <QWidget>
+#endif
 #include "lrdatasourcemanager.h"
 
 Q_DECLARE_METATYPE(QColor)
@@ -375,6 +380,11 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
     }
 }
 
+void ScriptEngineManager::updateModel()
+{
+
+}
+
 ScriptEngineManager::ScriptEngineManager()
     :m_model(0), m_dataManager(0)
 {
@@ -521,6 +531,197 @@ bool ScriptExtractor::isStartVariableLexem(int &curPos)
 QString ScriptExtractor::substring(const QString &value, int start, int end)
 {
     return value.mid(start,end-start);
+}
+
+QString DialogDescriber::name() const
+{
+    return m_name;
+}
+
+void DialogDescriber::setName(const QString& name)
+{
+    m_name = name;
+}
+
+QByteArray DialogDescriber::description() const
+{
+    return m_description;
+}
+
+void DialogDescriber::setDescription(const QByteArray &description)
+{
+    m_description = description;
+}
+
+#ifdef HAVE_UI_LOADER
+void ScriptEngineContext::addDialog(const QString& name, const QByteArray& description)
+{
+    m_dialogs.push_back(DialogDescriber::create(name,description));
+}
+
+bool ScriptEngineContext::previewDialog(const QString& dialogName)
+{
+    QDialog* dialog = getDialog(dialogName);
+    if (dialog) {
+        dialog->exec();
+        return true;
+    } else {
+        m_lastError = tr("Dialog with name: %1 can`t be created").arg(dialogName);
+        return false;
+    }
+}
+
+bool ScriptEngineContext::containsDialog(const QString& dialogName)
+{
+    foreach(DialogDescriber::Ptr dialog, m_dialogs){
+        if (dialog->name()==dialogName)
+            return true;
+    }
+    return false;
+}
+
+void ScriptEngineContext::deleteDialog(const QString& dialogName)
+{
+    {
+        QVector<DialogDescriber::Ptr>::Iterator it = m_dialogs.begin();
+        while(it!=m_dialogs.end()){
+            if ((*it)->name()==dialogName){
+                it = m_dialogs.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+    {
+        QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
+        while(it!=m_createdDialogs.end()){
+            if ((*it)->objectName()==dialogName){
+                it = m_createdDialogs.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+}
+
+#endif
+
+void ScriptEngineContext::clear()
+{
+#ifdef HAVE_UI_LOADER
+    m_dialogs.clear();
+    m_createdDialogs.clear();
+#endif
+    m_initScript.clear();
+    m_lastError="";
+}
+
+QObject* ScriptEngineContext::createElement(const QString& collectionName, const QString& elementType)
+{
+    Q_UNUSED(elementType)
+#ifdef HAVE_UI_LOADER
+    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+        m_dialogs.push_back(DialogDescriber::create());
+        return m_dialogs.at(m_dialogs.count()-1).data();
+    }
+#else
+    Q_UNUSED(collectionName)
+#endif
+    return 0;
+}
+
+int ScriptEngineContext::elementsCount(const QString& collectionName)
+{
+#ifdef HAVE_UI_LOADER
+    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+        return m_dialogs.count();
+    };
+#else
+    Q_UNUSED(collectionName)
+#endif
+    return 0;
+}
+
+QObject* ScriptEngineContext::elementAt(const QString& collectionName, int index)
+{
+#ifdef HAVE_UI_LOADER
+    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+        return m_dialogs.at(index).data();
+    };
+#else
+    Q_UNUSED(collectionName)
+    Q_UNUSED(index)
+#endif
+    return 0;
+}
+
+void ScriptEngineContext::collectionLoadFinished(const QString& collectionName)
+{
+    Q_UNUSED(collectionName);
+}
+
+#ifdef HAVE_UI_LOADER
+QDialog* ScriptEngineContext::createDialog(DialogDescriber* cont)
+{
+    QUiLoader loader;
+    QByteArray desc = cont->description();
+    QBuffer buffer(&desc);
+    buffer.open(QIODevice::ReadOnly);
+    QDialog* dialog = dynamic_cast<QDialog*>(loader.load(&buffer));
+    m_createdDialogs.push_back(QSharedPointer<QDialog>(dialog));
+    return dialog;
+}
+
+QDialog* ScriptEngineContext::findDialog(const QString& dialogName)
+{
+    foreach(DialogPtr dialog, m_createdDialogs){
+        if (dialog->objectName()==dialogName)
+            return dialog.data();
+    }
+    return 0;
+}
+
+DialogDescriber* ScriptEngineContext::findDialogContainer(const QString& dialogName)
+{
+    foreach (DialogDescriber::Ptr dialogCont , m_dialogs) {
+        if (dialogCont->name().compare(dialogName,Qt::CaseInsensitive)==0){
+            return dialogCont.data();
+        }
+    }
+    return 0;
+}
+
+QDialog* ScriptEngineContext::getDialog(const QString& dialogName)
+{
+    QDialog* dialog = findDialog(dialogName);
+    if (dialog){
+        return dialog;
+    } else {
+        DialogDescriber* cont = findDialogContainer(dialogName);
+        if (cont){
+            dialog = createDialog(cont);
+            if (dialog)
+                return dialog;
+        }
+    }
+    return 0;
+}
+#endif
+QString ScriptEngineContext::initScript() const
+{
+    return m_initScript;
+}
+
+void ScriptEngineContext::setInitScript(const QString& initScript)
+{
+    m_initScript = initScript;
+}
+
+DialogDescriber::Ptr DialogDescriber::create(const QString& name, const QByteArray& desc) {
+    Ptr res(new DialogDescriber());
+    res->setName(name);
+    res->setDescription(desc);
+    return res;
 }
 
 } //namespace LimeReport

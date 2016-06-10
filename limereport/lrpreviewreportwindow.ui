@@ -73,6 +73,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionPrint"/>
+   <addaction name="actionEdit_Mode"/>
+   <addaction name="actionSaveToFile"/>
    <addaction name="actionPrint_To_PDF"/>
    <addaction name="separator"/>
    <addaction name="actionZoomIn"/>

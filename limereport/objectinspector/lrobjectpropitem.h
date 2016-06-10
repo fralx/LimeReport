@@ -88,7 +88,7 @@ namespace LimeReport{
         void setColorIndex(int propertyValue);
         void setModel(QAbstractItemModel* model){m_model=model;}
         QAbstractItemModel* model(){return m_model;}
-        void setModelIndex(QModelIndex index){m_index=index;}
+        void setModelIndex(const QModelIndex& index){m_index=index;}
         QModelIndex modelIndex(){return m_index;}
         bool isClass(){return m_isClass;}
 #ifdef INSPECT_BASEDESIGN

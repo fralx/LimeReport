@@ -779,13 +779,3 @@ void DataBrowser::on_variablesTree_itemDoubleClicked(QTreeWidgetItem *item, int 
 }
 
 } // namespace LimeReport
-
-
-
-
-
-
-
-
-
-

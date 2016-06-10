@@ -1,137 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.0" language="ru_RU">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>About</source>
-        <translation type="vanished">О программе</translation>
+        <translation type="obsolete">О программе</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="vanished">Автор</translation>
+        <translation type="obsolete">Автор</translation>
     </message>
     <message>
         <source>License</source>
-        <translation type="vanished">Лицензия</translation>
+        <translation type="obsolete">Лицензия</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="vanished">Закрыть</translation>
+        <translation type="obsolete">Закрыть</translation>
     </message>
     <message>
         <source>Version 1.1.1</source>
-        <translation type="vanished">Версия</translation>
+        <translation type="obsolete">Версия</translation>
     </message>
 </context>
 <context>
     <name>ConnectionDialog</name>
     <message>
         <source>Connection</source>
-        <translation type="vanished">Соединение</translation>
+        <translation type="obsolete">Соединение</translation>
     </message>
     <message>
         <source>Connection Name</source>
-        <translation type="vanished">Название</translation>
+        <translation type="obsolete">Название</translation>
     </message>
     <message>
         <source>Driver</source>
-        <translation type="vanished">Драйвер</translation>
+        <translation type="obsolete">Драйвер</translation>
     </message>
     <message>
         <source>Server </source>
-        <translation type="vanished">Сервер</translation>
+        <translation type="obsolete">Сервер</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="vanished">Пользователь</translation>
+        <translation type="obsolete">Пользователь</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="vanished">Пароль</translation>
+        <translation type="obsolete">Пароль</translation>
     </message>
     <message>
         <source>Database</source>
-        <translation type="vanished">База данных</translation>
+        <translation type="obsolete">База данных</translation>
     </message>
     <message>
         <source>Auto connect</source>
-        <translation type="vanished">Автоматическое соединение</translation>
+        <translation type="obsolete">Автоматическое соединение</translation>
     </message>
     <message>
         <source>Check connection</source>
-        <translation type="vanished">Проверить соединение</translation>
+        <translation type="obsolete">Проверить соединение</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Отмена</translation>
+        <translation type="obsolete">Отмена</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="vanished">Ошибка</translation>
+        <translation type="obsolete">Ошибка</translation>
     </message>
     <message>
         <source>Connection succsesfully established!</source>
-        <translation type="vanished">Соединение успешно установлено!</translation>
+        <translation type="obsolete">Соединение успешно установлено!</translation>
     </message>
     <message>
         <source>Connection Name is empty</source>
-        <translation type="vanished">Наименование соединения не указано</translation>
+        <translation type="obsolete">Наименование соединения не указано</translation>
     </message>
     <message>
         <source>Connection with name </source>
-        <translation type="vanished">Соединение</translation>
+        <translation type="obsolete">Соединение</translation>
     </message>
     <message>
         <source> already exists </source>
-        <translation type="vanished">уже существует</translation>
+        <translation type="obsolete">уже существует</translation>
     </message>
 </context>
 <context>
     <name>DataBrowser</name>
     <message>
         <source>Datasources</source>
-        <translation type="vanished">Источники данных</translation>
+        <translation type="obsolete">Источники данных</translation>
     </message>
     <message>
         <source>Add database connection</source>
-        <translation type="vanished">Добавить соединение с базой</translation>
+        <translation type="obsolete">Добавить соединение с базой</translation>
     </message>
     <message>
         <source>Add new datasource</source>
-        <translation type="vanished">Добавить новый источник данных</translation>
+        <translation type="obsolete">Добавить новый источник данных</translation>
     </message>
     <message>
         <source>View data</source>
-        <translation type="vanished">Просмотр данных в источнике</translation>
+        <translation type="obsolete">Просмотр данных в источнике</translation>
     </message>
     <message>
         <source>Change datasource</source>
-        <translation type="vanished">Изменить источник данных</translation>
+        <translation type="obsolete">Изменить источник данных</translation>
     </message>
     <message>
         <source>Delete datasource</source>
-        <translation type="vanished">Удалить источник данных</translation>
+        <translation type="obsolete">Удалить источник данных</translation>
     </message>
     <message>
         <source>Show error</source>
-        <translation type="vanished">Показать ошибки</translation>
+        <translation type="obsolete">Показать ошибки</translation>
     </message>
     <message>
         <source>Variables</source>
-        <translation type="vanished">Переменные</translation>
+        <translation type="obsolete">Переменные</translation>
     </message>
     <message>
         <source>Add new variable</source>
-        <translation type="vanished">Добавить новую переменную</translation>
+        <translation type="obsolete">Добавить новую переменную</translation>
     </message>
     <message>
         <source>Edit variable</source>
-        <translation type="vanished">Редактировать переменную</translation>
+        <translation type="obsolete">Редактировать переменную</translation>
     </message>
     <message>
         <source>Delete variable</source>
-        <translation type="vanished">Удалить переменную</translation>
+        <translation type="obsolete">Удалить переменную</translation>
     </message>
 </context>
 <context>
@@ -161,15 +161,15 @@
     <name>LimeReport::AVariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation>переменная</translation>
+        <translation type="obsolete">переменная</translation>
     </message>
     <message>
         <source> already exists !!</source>
-        <translation>уже существует !!</translation>
+        <translation type="obsolete">уже существует !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation>не существует !!</translation>
+        <translation type="obsolete">не существует !!</translation>
     </message>
 </context>
 <context>
@@ -223,7 +223,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -525,7 +525,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>User variables</source>
-        <translation>Пользовательские переменные</translation>
+        <translation type="obsolete">Пользовательские переменные</translation>
     </message>
     <message>
         <source>System variables</source>
@@ -538,7 +538,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Do you really want delete variable &quot;%1&quot; ?</source>
-        <translation type="vanished">Вы действительно хотите удалить переменную &quot;%1&quot; ?</translation>
+        <translation type="obsolete">Вы действительно хотите удалить переменную &quot;%1&quot; ?</translation>
     </message>
     <message>
         <source>Error</source>
@@ -550,6 +550,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Do you really want to delete variable &quot;%1&quot; ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grab variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>External variables</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -779,11 +791,11 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PageDesignIntf</name>
     <message>
         <source>Warning</source>
-        <translation type="vanished">Предупреждение</translation>
+        <translation type="obsolete">Предупреждение</translation>
     </message>
     <message>
         <source>Multi band deletion not allowed</source>
-        <translation type="vanished">Удаление нескольких бандов запрещено</translation>
+        <translation type="obsolete">Удаление нескольких бандов запрещено</translation>
     </message>
 </context>
 <context>
@@ -915,6 +927,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>One to one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation type="unfinished">Шрифт</translation>
+    </message>
+    <message>
+        <source>Text align</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1152,6 +1172,22 @@ p, li { white-space: pre-wrap; }
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
+    <message>
+        <source>Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">Ошибка</translation>
+    </message>
+    <message>
+        <source>Wrong file format</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWindow</name>
@@ -1379,12 +1415,28 @@ p, li { white-space: pre-wrap; }
         <source>File &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New Report Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete Report Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script Browser</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
         <source>Error</source>
         <translation>Ошибка</translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1516,6 +1568,60 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::ScriptBrowser</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation type="unfinished">Функции</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialogs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Тип</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Имя переменной</translation>
+    </message>
+    <message>
+        <source>NO CATEGORY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">Ошибка</translation>
+    </message>
+    <message>
+        <source>Dialog with name: %1 already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wrong file format</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ScriptEngineContext</name>
+    <message>
+        <source>Dialog with name: %1 can`t be created</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
         <source>FieldName</source>
@@ -1539,6 +1645,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Locale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CurrencySymbol</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1654,90 +1764,105 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::VariablesHolder</name>
+    <message>
+        <source>variable with name </source>
+        <translation type="unfinished">переменная</translation>
+    </message>
+    <message>
+        <source> already exists !!</source>
+        <translation type="unfinished">уже существует !!</translation>
+    </message>
+    <message>
+        <source> does not exists !!</source>
+        <translation type="unfinished">не существует !!</translation>
+    </message>
+</context>
+<context>
     <name>PreviewReportWindow</name>
     <message>
         <source>Preview</source>
-        <translation type="vanished">Предварительный просмотр</translation>
+        <translation type="obsolete">Предварительный просмотр</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Просмотр</translation>
+        <translation type="obsolete">Просмотр</translation>
     </message>
     <message>
         <source>Report</source>
-        <translation type="vanished">Отчет</translation>
+        <translation type="obsolete">Отчет</translation>
     </message>
     <message>
         <source>toolBar</source>
-        <translation type="vanished">Панель инструментов</translation>
+        <translation type="obsolete">Панель инструментов</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Печать</translation>
+        <translation type="obsolete">Печать</translation>
     </message>
     <message>
         <source>Zoom In</source>
-        <translation type="vanished">Увеличить</translation>
+        <translation type="obsolete">Увеличить</translation>
     </message>
     <message>
         <source>Zoom Out</source>
-        <translation type="vanished">Уменьшить</translation>
+        <translation type="obsolete">Уменьшить</translation>
     </message>
     <message>
         <source>Prior Page</source>
-        <translation type="vanished">Предыдущая страница</translation>
+        <translation type="obsolete">Предыдущая страница</translation>
     </message>
     <message>
         <source>Next Page</source>
-        <translation type="vanished">Следующая страница</translation>
+        <translation type="obsolete">Следующая страница</translation>
     </message>
     <message>
         <source>Close Preview</source>
-        <translation type="vanished">Закрыть</translation>
+        <translation type="obsolete">Закрыть</translation>
     </message>
     <message>
         <source>Edit Mode</source>
-        <translation type="vanished">Режим редактирования</translation>
+        <translation type="obsolete">Режим редактирования</translation>
     </message>
     <message>
         <source>Save to file</source>
-        <translation type="vanished">Записать в файл</translation>
+        <translation type="obsolete">Записать в файл</translation>
     </message>
     <message>
         <source>Show errors</source>
-        <translation type="vanished">Показать ошибки</translation>
+        <translation type="obsolete">Показать ошибки</translation>
     </message>
     <message>
         <source>First Page</source>
-        <translation type="vanished">Первая страница</translation>
+        <translation type="obsolete">Первая страница</translation>
     </message>
     <message>
         <source>First page</source>
-        <translation type="vanished">Первая страница</translation>
+        <translation type="obsolete">Первая страница</translation>
     </message>
     <message>
         <source>Last Page</source>
-        <translation type="vanished">Последняя страница</translation>
+        <translation type="obsolete">Последняя страница</translation>
     </message>
     <message>
         <source>Print To PDF</source>
-        <translation type="vanished">Печать в PDF</translation>
+        <translation type="obsolete">Печать в PDF</translation>
     </message>
     <message>
         <source>Page: </source>
-        <translation type="vanished">Страница: </translation>
+        <translation type="obsolete">Страница: </translation>
     </message>
     <message>
         <source> of %1</source>
-        <translation type="vanished"> из %1</translation>
+        <translation type="obsolete"> из %1</translation>
     </message>
     <message>
         <source>Report file name</source>
-        <translation type="vanished">Файл отчета</translation>
+        <translation type="obsolete">Файл отчета</translation>
     </message>
     <message>
         <source>PDF file name</source>
-        <translation type="vanished">Имя PDF файла</translation>
+        <translation type="obsolete">Имя PDF файла</translation>
     </message>
 </context>
 <context>
@@ -1824,7 +1949,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Master datasource &quot;%1&quot; not found!</source>
-        <translation type="vanished">Главный источник данных &quot;%1&quot; не найден!</translation>
+        <translation type="obsolete">Главный источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Child</source>
@@ -1884,19 +2009,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>TopLine</source>
-        <translation type="vanished">Верхняя граница</translation>
+        <translation type="obsolete">Верхняя граница</translation>
     </message>
     <message>
         <source>BottomLine</source>
-        <translation type="vanished">Нижняя граница</translation>
+        <translation type="obsolete">Нижняя граница</translation>
     </message>
     <message>
         <source>LeftLine</source>
-        <translation type="vanished">Левая граница</translation>
+        <translation type="obsolete">Левая граница</translation>
     </message>
     <message>
         <source>RightLine</source>
-        <translation type="vanished">Правая граница</translation>
+        <translation type="obsolete">Правая граница</translation>
     </message>
     <message>
         <source>content</source>
@@ -1954,161 +2079,165 @@ p, li { white-space: pre-wrap; }
         <source>Content is empty</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Wrong file format</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SQLEditDialog</name>
     <message>
         <source>Datasource</source>
-        <translation type="vanished">Источник данных</translation>
+        <translation type="obsolete">Источник данных</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="vanished">Соединение</translation>
+        <translation type="obsolete">Соединение</translation>
     </message>
     <message>
         <source>Datasource Name</source>
-        <translation type="vanished">Имя источника</translation>
+        <translation type="obsolete">Имя источника</translation>
     </message>
     <message>
         <source>Subdetail</source>
-        <translation type="vanished">Подчиненный</translation>
+        <translation type="obsolete">Подчиненный</translation>
     </message>
     <message>
         <source>Master datasource</source>
-        <translation type="vanished">Главный источник</translation>
+        <translation type="obsolete">Главный источник</translation>
     </message>
     <message>
         <source>Subquery mode</source>
-        <translation type="vanished">Режим подзапроса</translation>
+        <translation type="obsolete">Режим подзапроса</translation>
     </message>
     <message>
         <source>Filter mode</source>
-        <translation type="vanished">Режим фильтрации</translation>
+        <translation type="obsolete">Режим фильтрации</translation>
     </message>
     <message>
         <source>SQL</source>
-        <translation type="vanished">SQL запрос</translation>
+        <translation type="obsolete">SQL запрос</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="vanished">Предпросмотр</translation>
+        <translation type="obsolete">Предпросмотр</translation>
     </message>
     <message>
         <source>Hide Preview</source>
-        <translation type="vanished">Скрыть</translation>
+        <translation type="obsolete">Скрыть</translation>
     </message>
     <message>
         <source>Child datasource</source>
-        <translation type="vanished">Подчиненный источник</translation>
+        <translation type="obsolete">Подчиненный источник</translation>
     </message>
     <message>
         <source>Fields map</source>
-        <translation type="vanished">Поля для связи источников</translation>
+        <translation type="obsolete">Поля для связи источников</translation>
     </message>
     <message>
         <source>Data preview</source>
-        <translation type="vanished">Данные</translation>
+        <translation type="obsolete">Данные</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Отмена</translation>
+        <translation type="obsolete">Отмена</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="vanished">Ошибка</translation>
+        <translation type="obsolete">Ошибка</translation>
     </message>
     <message>
         <source>Datasource Name is empty !</source>
-        <translation type="vanished">Имя источника данных не заполнено !</translation>
+        <translation type="obsolete">Имя источника данных не заполнено !</translation>
     </message>
     <message>
         <source>SQL is empty !</source>
-        <translation type="vanished">SQL запрос пустой !</translation>
+        <translation type="obsolete">SQL запрос пустой !</translation>
     </message>
     <message>
         <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="vanished">Источник данных с именем: &quot;%1&quot; уже существует !</translation>
+        <translation type="obsolete">Источник данных с именем: &quot;%1&quot; уже существует !</translation>
     </message>
     <message>
         <source>Datasource with name %1 already exist</source>
-        <translation type="vanished">Источник данных с именем: &quot;%1&quot; уже существует</translation>
+        <translation type="obsolete">Источник данных с именем: &quot;%1&quot; уже существует</translation>
     </message>
     <message>
         <source>Attention</source>
-        <translation type="vanished">Внимание</translation>
+        <translation type="obsolete">Внимание</translation>
     </message>
     <message>
         <source>Connection is not specified</source>
-        <translation type="vanished">Соединение не указано</translation>
+        <translation type="obsolete">Соединение не указано</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="vanished">Обновить</translation>
+        <translation type="obsolete">Обновить</translation>
     </message>
 </context>
 <context>
     <name>SettingDialog</name>
     <message>
         <source>Designer setting</source>
-        <translation type="vanished">Настройки дизайнера</translation>
+        <translation type="obsolete">Настройки дизайнера</translation>
     </message>
     <message>
         <source>Default font</source>
-        <translation type="vanished">Шрифт по умолчанию</translation>
+        <translation type="obsolete">Шрифт по умолчанию</translation>
     </message>
     <message>
         <source>Grid</source>
-        <translation type="vanished">Сетка</translation>
+        <translation type="obsolete">Сетка</translation>
     </message>
     <message>
         <source>Vertical grid step</source>
-        <translation type="vanished">Вертикальный шаг</translation>
+        <translation type="obsolete">Вертикальный шаг</translation>
     </message>
     <message>
         <source>Horizontal grid step</source>
-        <translation type="vanished">Горизонтальный шаг</translation>
+        <translation type="obsolete">Горизонтальный шаг</translation>
     </message>
 </context>
 <context>
     <name>TextItemEditor</name>
     <message>
         <source>Text Item Editor</source>
-        <translation type="vanished">Редактор текстового элемента</translation>
+        <translation type="obsolete">Редактор текстового элемента</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="vanished">Содержимое</translation>
+        <translation type="obsolete">Содержимое</translation>
     </message>
     <message>
         <source>Data</source>
-        <translation type="vanished">Источники данных</translation>
+        <translation type="obsolete">Источники данных</translation>
     </message>
     <message>
         <source>Functions</source>
-        <translation type="vanished">Функции</translation>
+        <translation type="obsolete">Функции</translation>
     </message>
     <message>
         <source>Editor settings</source>
-        <translation type="vanished">Настройки</translation>
+        <translation type="obsolete">Настройки</translation>
     </message>
     <message>
         <source>Editor font</source>
-        <translation type="vanished">Шрифт редактора</translation>
+        <translation type="obsolete">Шрифт редактора</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Отмена</translation>
+        <translation type="obsolete">Отмена</translation>
     </message>
 </context>
 <context>
     <name>WaitForm</name>
     <message>
         <source>Wait</source>
-        <translation type="vanished">Ожидайте</translation>
+        <translation type="obsolete">Ожидайте</translation>
     </message>
     <message>
         <source>Please wait ...</source>
-        <translation type="vanished">Пожалуста подождите ...</translation>
+        <translation type="obsolete">Пожалуста подождите ...</translation>
     </message>
 </context>
 </TS>

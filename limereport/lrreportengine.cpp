@@ -61,6 +61,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview"))
 {
     m_datasources= new DataSourceManager(this);
+    m_scriptEngineContext = new ScriptEngineContext(this);
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
 }
@@ -101,6 +102,17 @@ PageDesignIntf *ReportEnginePrivate::appendPage(const QString &pageName)
     PageDesignIntf* page = createPage(pageName);
     m_pages.append(page);
     return page;
+}
+
+bool ReportEnginePrivate::deletePage(PageDesignIntf *page){
+    QList<PageDesignIntf*>::iterator it = m_pages.begin();
+    while (it != m_pages.end()){
+        if (*it == page) {
+            it = m_pages.erase(it);
+            return true;
+        } else ++it;
+    }
+    return false;
 }
 
 PageDesignIntf *ReportEnginePrivate::createPreviewPage()
@@ -152,6 +164,7 @@ void ReportEnginePrivate::clearReport()
     m_pages.clear();
     m_datasources->clear(DataSourceManager::Owned);
     m_fileName="";
+    m_scriptEngineContext->clear();
     emit cleared();
 }
 
@@ -261,9 +274,44 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     printer =(printer)?printer:m_printer.data();
     if (printer&&printer->isValid()){
         try{
-            dataManager()->setDesignTime(false);
-            printReport(renderToPages(),*printer,PrintRange());
+			dataManager()->setDesignTime(false);
+            ReportPages pages = renderToPages();
             dataManager()->setDesignTime(true);
+            if (pages.count()>0){
+                printReport(pages,*printer,PrintRange());
+            }
+        } catch(ReportError &exception){
+            saveError(exception.what());
+        }
+        return true;
+    } else return false;
+}
+
+bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange)
+{
+
+    if (!printer&&!m_printerSelected){
+        QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
+        m_printerSelected = dialog.exec()!=QDialog::Rejected;
+        if (m_printerSelected){
+            printRange.setRangeType(dialog.printRange());
+            printRange.setFromPage(dialog.fromPage());
+            printRange.setToPage(dialog.toPage());
+        }
+
+    }
+    if (!printer&&!m_printerSelected) return false;
+
+    printer =(printer)?printer:m_printer.data();
+    if (printer&&printer->isValid()){
+        try{
+            if (pages.count()>0){
+                printReport(
+                    pages,
+                    *printer,
+                    printRange
+                );
+            }
         } catch(ReportError &exception){
             saveError(exception.what());
         }
@@ -401,6 +449,11 @@ void ReportEnginePrivate::cancelRender()
         m_reportRender->cancelRender();
 }
 
+PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
+    Q_D(ReportEngine);
+    return d->createPreviewScene(parent);
+}
+
 void ReportEnginePrivate::designReport()
 {
     if (!m_designerWindow) {
@@ -456,7 +509,8 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName)
             dataManager()->connectAutoConnections();
             return true;
         };
-    }
+    }   
+    m_lastError = reader->lastError();
     return false;
 }
 
@@ -555,6 +609,7 @@ QString ReportEnginePrivate::renderToString()
     dataManager()->setDesignTime(false);
     if (m_pages.count()){
         render.setDatasources(dataManager());
+        render.setScriptContext(scriptContext());
         return render.renderPageToString(m_pages.at(0));
     }else return QString();
 }
@@ -588,12 +643,18 @@ ReportPages ReportEnginePrivate::renderToPages()
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
     if (m_pages.count()){
+        ReportPages result;
         emit renderStarted();
         m_reportRender->setDatasources(dataManager());
-        ReportPages result = m_reportRender->renderPageToPages(m_pages.at(0));
+        m_reportRender->setScriptContext(scriptContext());
+
+        foreach(PageDesignIntf* page , m_pages){
+        	result.append(m_reportRender->renderPageToPages(page));
+        }	
         emit renderFinished();
+        m_reportRender.clear();
         return result;
-    }else {
+    } else {
         return ReportPages();
     }
 }
@@ -626,6 +687,11 @@ bool ReportEngine::printReport(QPrinter *printer)
 {
     Q_D(ReportEngine);
     return d->printReport(printer);
+}
+
+bool ReportEngine::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange){
+    Q_D(ReportEngine);
+    return d->printPages(pages,printer, printRange);
 }
 
 void ReportEngine::printToFile(const QString &fileName)

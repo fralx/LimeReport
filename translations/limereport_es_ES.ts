@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.0" language="es_ES">
 <context>
     <name>LRVariableDialog</name>
     <message>
@@ -28,15 +28,15 @@
     <name>LimeReport::AVariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation>variable con el nombre</translation>
+        <translation type="obsolete">variable con el nombre</translation>
     </message>
     <message>
         <source> already exists !!</source>
-        <translation>ya existe !!</translation>
+        <translation type="obsolete">ya existe !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation>no existe !!</translation>
+        <translation type="obsolete">no existe !!</translation>
     </message>
 </context>
 <context>
@@ -86,7 +86,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -395,7 +395,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>User variables</source>
-        <translation>Variables de usuario</translation>
+        <translation type="obsolete">Variables de usuario</translation>
     </message>
     <message>
         <source>System variables</source>
@@ -411,6 +411,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grab variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>External variables</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -758,6 +770,14 @@ p, li { white-space: pre-wrap; }
         <source>One to one</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text align</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ProxyHolder</name>
@@ -993,6 +1013,22 @@ p, li { white-space: pre-wrap; }
         <source>Report file name</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrong file format</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWindow</name>
@@ -1220,11 +1256,27 @@ p, li { white-space: pre-wrap; }
         <source>File &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New Report Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete Report Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script Browser</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
         <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1357,6 +1409,60 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::ScriptBrowser</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialogs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Tipo</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nombre</translation>
+    </message>
+    <message>
+        <source>NO CATEGORY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog with name: %1 already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wrong file format</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ScriptEngineContext</name>
+    <message>
+        <source>Dialog with name: %1 can`t be created</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
         <source>Value</source>
@@ -1380,6 +1486,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Locale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CurrencySymbol</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1492,6 +1602,21 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Esc</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::VariablesHolder</name>
+    <message>
+        <source>variable with name </source>
+        <translation type="unfinished">variable con el nombre</translation>
+    </message>
+    <message>
+        <source> already exists !!</source>
+        <translation type="unfinished">ya existe !!</translation>
+    </message>
+    <message>
+        <source> does not exists !!</source>
+        <translation type="unfinished">no existe !!</translation>
     </message>
 </context>
 <context>
@@ -1686,6 +1811,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Content is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrong file format</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

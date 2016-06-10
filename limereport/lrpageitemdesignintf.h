@@ -139,5 +139,8 @@ private:
     bool m_fullPage;
     bool m_oldPrintMode;
 };
+
+typedef QList<PageItemDesignIntf::Ptr> ReportPages;
+
 }
 #endif // LRPAGEITEM_H

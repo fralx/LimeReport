@@ -27,50 +27,51 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef LRFONTEDITORWIDGET_H
-#define LRFONTEDITORWIDGET_H
+#ifndef LRSCRIPTBROWSER_H
+#define LRSCRIPTBROWSER_H
 
-#include <QToolBar>
-#include <QFontComboBox>
-#include <QStringListModel>
-#include <QAction>
-
+#include <QWidget>
+#include <QMainWindow>
+#include <QTreeWidgetItem>
 #include "lrreportdesignwidget.h"
-#include "lritemeditorwidget.h"
 
 namespace LimeReport{
 
-class FontEditorWidget :public ItemEditorWidget{
+namespace Ui {
+class ScriptBrowser;
+}
+
+class ScriptBrowser : public QWidget
+{
     Q_OBJECT
+    
 public:
-    explicit FontEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
-    explicit FontEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
-    explicit FontEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
-    explicit FontEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
+    explicit ScriptBrowser(QWidget *parent = 0);
+    ~ScriptBrowser();
+    void setReportEditor(LimeReport::ReportDesignWidget* report);
+    inline ReportDesignWidget* reportEditor(){return m_report;}
+    void updateFunctionTree();
+#ifdef HAVE_UI_LOADER
+    void updateDialogsTree();
+#endif
 protected:
-    void setItemEvent(BaseDesignIntf *item);
-    QFontComboBox* fontNameEditor(){return m_fontNameEditor;}
+#ifdef HAVE_UI_LOADER
+    void fillDialog(QTreeWidgetItem *dialogItem, const QString &description);
+    void fillProperties(QTreeWidgetItem *objectItem, QObject *item);
+#endif
 private slots:
-    void slotFontChanged(const QFont& font);
-    void slotFontSizeChanged(const QString& value);
-    void slotFontAttribsChanged(bool);
-    void slotPropertyChanged(const QString& objectName, const QString& property, const QVariant &oldValue, const QVariant &newValue);
+    void slotClear();
+    void slotUpdate();
+#ifdef HAVE_UI_LOADER
+    void on_tbAddDialog_clicked();
+    void on_tbRunDialog_clicked();
+    void on_tbDeleteDialog_clicked();
+#endif
+
 private:
-    void initEditor();
-    void updateValues(const QFont &font);
-
-    QFontComboBox* m_fontNameEditor;
-    QComboBox* m_fontSizeEditor;
-    QStringListModel m_fontSizeModel;
-
-    QAction* m_fontBold;
-    QAction* m_fontItalic;
-    QAction* m_fontUnderline;
-
-    bool m_ignoreSlots;
-
+    Ui::ScriptBrowser *ui;
+    ReportDesignWidget*  m_report;
 };
 
-} //namespace LimeReport
-
-#endif // LRFONTEDITORWIDGET_H
+} // namespace LimeReport
+#endif // LRSCRIPTBROWSER_H

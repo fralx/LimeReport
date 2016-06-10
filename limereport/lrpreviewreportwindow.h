@@ -41,6 +41,9 @@
 #include "serializators/lrxmlreader.h"
 #include "lrpreviewreportwidget.h"
 
+#include "items/editors/lrfonteditorwidget.h"
+#include "items/editors/lrtextalignmenteditorwidget.h"
+
 namespace LimeReport {
 
 namespace Ui {
@@ -66,6 +69,7 @@ protected:
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *e);
     void moveEvent(QMoveEvent *e);
+    void showEvent(QShowEvent *);
 public slots:
     void slotPrint();
     void slotPriorPage();
@@ -75,6 +79,8 @@ public slots:
     void slotPageNavigatorChanged(int value);
     void slotShowErrors();
     void on_actionSaveToFile_triggered();
+    void slotSelectionChanged();
+    void on_actionEdit_Mode_triggered(bool checked);
     void slotFirstPage();
     void slotLastPage();
     void slotPrintToPDF();
@@ -90,8 +96,6 @@ private slots:
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();
-    //bool pageIsVisible(PageItemDesignIntf::Ptr page);
-    //QRectF calcPageShift(PageItemDesignIntf::Ptr page);
 private:
     Ui::PreviewReportWindow *ui;
     QSpinBox* m_pagesNavigator;
@@ -100,6 +104,9 @@ private:
     bool m_changingPage;
     QSettings* m_settings;
     bool m_ownedSettings;
+    FontEditorWidget* m_fontEditor;
+    TextAlignmentEditorWidget* m_textAlignmentEditor;
+    int m_priorScrolValue;
     PreviewReportWidget* m_previewReportWidget;
     QComboBox* m_scalePercent;
 };

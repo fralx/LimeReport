@@ -681,6 +681,13 @@ void BandDesignIntf::initMode(ItemMode mode)
     BaseDesignIntf::initMode(mode);
     if ((mode==PreviewMode)||(mode==PrintMode)){
         m_bandMarker->setVisible(false);
+    } else {
+        if (!m_bandMarker->scene() && this->scene()){
+            this->scene()->addItem(m_bandMarker);
+            m_bandMarker->setParentItem(this->parentItem());
+            m_bandMarker->setHeight(this->height());
+        }
+        m_bandMarker->setVisible(true);
     }
 }
 

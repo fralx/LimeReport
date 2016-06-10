@@ -204,6 +204,10 @@ bool FileXMLReader::prepareReader(QDomDocument *doc)
         QFile source(m_fileName);
         if (source.open(QFile::ReadOnly)) {
             doc->setContent(&source);
+            if (doc->documentElement().nodeName()!="Report") {
+                m_error = QString(QObject::tr("Wrong file format"));
+                return false;
+            }
         } else {m_error=QString(QObject::tr("File %1 not opened")).arg(m_fileName); return false;}
     }
     return true;

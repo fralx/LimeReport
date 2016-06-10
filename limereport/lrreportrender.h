@@ -33,6 +33,7 @@
 #include "lrcollection.h"
 #include "lrdatasourcemanager.h"
 #include "lrpageitemdesignintf.h"
+#include "lrscriptenginemanager.h"
 #include "serializators/lrstorageintf.h"
 
 namespace LimeReport{
@@ -55,7 +56,6 @@ private:
     bool m_footerGroup;
 };
 
-typedef QList<PageItemDesignIntf::Ptr> ReportPages;
 
 struct PagesRange{
     int firstPage;
@@ -73,6 +73,7 @@ public:
     ~ReportRender();
     ReportRender(QObject *parent = 0);
     void setDatasources(DataSourceManager* value);
+    void setScriptContext(ScriptEngineContext* scriptContext);
     DataSourceManager*  datasources(){return m_datasources;}
     int     pageCount();
     PageItemDesignIntf::Ptr pageAt(int index);
@@ -86,7 +87,11 @@ private:
     void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initRenderPage();
+#ifdef HAVE_UI_LOADER
+    void    initDialogs();
+#endif
     void    initVariables();
+    bool    runInitScript();
     void    clearPageMap();
     void    renderBand(BandDesignIntf *patternBand, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
@@ -141,6 +146,7 @@ private:
     void renameChildItems(BaseDesignIntf *item);
 private:
     DataSourceManager* m_datasources;
+    ScriptEngineContext* m_scriptEngineContext;
     PageItemDesignIntf* m_renderPageItem;
     PageItemDesignIntf* m_patternPageItem;
     QList<PageItemDesignIntf::Ptr> m_renderedPages;

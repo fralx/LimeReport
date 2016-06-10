@@ -47,6 +47,7 @@
 #include "lrbasedesignobjectmodel.h"
 #include "lrreportdesignwidget.h"
 #include "lrdatabrowser.h"
+#include "scriptbrowser/lrscriptbrowser.h"
 #include "lrbasedesignintf.h"
 #include "lrpagedesignintf.h"
 
@@ -70,6 +71,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     createToolBars();
     createObjectInspector();
     createDataWindow();
+    createScriptWindow();
     createObjectsBrowser();
     m_instance=this;
     m_statusBar=new QStatusBar(this);
@@ -95,6 +97,15 @@ void ReportDesignWindow::createActions()
     m_newReportAction->setIcon(QIcon(":/report/images/newReport"));
     m_newReportAction->setShortcut(QKeySequence(Qt::CTRL+Qt::Key_N));
     connect(m_newReportAction,SIGNAL(triggered()),this,SLOT(slotNewReport()));
+
+    m_newPageAction = new QAction(tr("New Report Page"),this);
+    m_newPageAction->setIcon(QIcon(":/report/images/addPage"));
+    connect(m_newPageAction,SIGNAL(triggered()),this,SLOT(slotNewPage()));
+
+    m_deletePageAction = new QAction(tr("Delete Report Page"),this);
+    m_deletePageAction->setIcon(QIcon(":/report/images/deletePage"));
+    connect(m_deletePageAction,SIGNAL(triggered()),this,SLOT(slotDeletePage()));
+    m_deletePageAction->setEnabled(false);
 
     m_editModeAction = new QAction(tr("Edit Mode"),this);
     m_editModeAction->setIcon(QIcon(":/report/images/editMode"));
@@ -261,6 +272,10 @@ void ReportDesignWindow::createToolBars()
     m_mainToolBar->addAction(m_settingsAction);
     m_mainToolBar->addSeparator();
 
+    m_mainToolBar->addAction(m_newPageAction);
+    m_mainToolBar->addAction(m_deletePageAction);
+    m_mainToolBar->addSeparator();
+
     m_mainToolBar->addAction(m_copyAction);
     m_mainToolBar->addAction(m_pasteAction);
     m_mainToolBar->addAction(m_cutAction);
@@ -421,18 +436,18 @@ void ReportDesignWindow::initReportEditor(ReportEnginePrivate* report)
 {
     m_reportDesignWidget=new ReportDesignWidget(report,this,this);
     setCentralWidget(m_reportDesignWidget);
-    connect(m_reportDesignWidget, SIGNAL(itemSelected(LimeReport::BaseDesignIntf*)),
-            this, SLOT(slotItemSelected(LimeReport::BaseDesignIntf*)));
-    connect(m_reportDesignWidget, SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
-            this, SLOT(slotItemPropertyChanged(QString,QString,QVariant,QVariant)));
-    connect(m_reportDesignWidget, SIGNAL(insertModeStarted()), this, SLOT(slotInsertModeStarted()));
-
-    connect(m_reportDesignWidget, SIGNAL(multiItemSelected()), this, SLOT(slotMultiItemSelected()));
-    connect(m_reportDesignWidget, SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)),
-            this, SLOT(slotItemInserted(LimeReport::PageDesignIntf*,QPointF,QString)));
-    connect(m_reportDesignWidget, SIGNAL(itemInsertCanceled(QString)), this, SLOT(slotItemInsertCanceled(QString)));
-    connect(m_reportDesignWidget->report(),SIGNAL(datasourceCollectionLoadFinished(QString)), this, SLOT(slotUpdateDataBrowser(QString)));
-    connect(m_reportDesignWidget, SIGNAL(commandHistoryChanged()),this,SLOT(slotCommandHistoryChanged()));
+    connect(m_reportDesignWidget,SIGNAL(itemSelected(LimeReport::BaseDesignIntf*)),
+            this,SLOT(slotItemSelected(LimeReport::BaseDesignIntf*)));
+    connect(m_reportDesignWidget,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
+            this,SLOT(slotItemPropertyChanged(QString,QString,QVariant,QVariant)));
+    connect(m_reportDesignWidget,SIGNAL(insertModeStarted()),this,SLOT(slotInsertModeStarted()));
+    connect(m_reportDesignWidget,SIGNAL(multiItemSelected()),this,SLOT(slotMultiItemSelected()));
+    connect(m_reportDesignWidget,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)),
+            this,SLOT(slotItemInserted(LimeReport::PageDesignIntf*,QPointF,QString)));
+    connect(m_reportDesignWidget,SIGNAL(itemInsertCanceled(QString)),this,SLOT(slotItemInsertCanceled(QString)));
+    connect(m_reportDesignWidget->report(),SIGNAL(datasourceCollectionLoadFinished(QString)),this,SLOT(slotUpdateDataBrowser(QString)));
+    connect(m_reportDesignWidget,SIGNAL(commandHistoryChanged()),this,SLOT(slotCommandHistoryChanged()));
+    connect(m_reportDesignWidget,SIGNAL(activePageChanged()),this,SLOT(slotActivePageChanged()));
     connect(m_reportDesignWidget, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(m_reportDesignWidget, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
@@ -440,6 +455,8 @@ void ReportDesignWindow::initReportEditor(ReportEnginePrivate* report)
     connect(m_reportDesignWidget->report(), SIGNAL(renderStarted()), this, SLOT(renderStarted()));
     connect(m_reportDesignWidget->report(), SIGNAL(renderPageFinished(int)), this, SLOT(renderPageFinished(int)));
     connect(m_reportDesignWidget->report(), SIGNAL(renderFinished()), this, SLOT(renderFinished()));
+    connect(m_reportDesignWidget, SIGNAL(pageAdded(PageDesignIntf*)), this, SLOT(slotPageAdded(PageDesignIntf*)));
+    connect(m_reportDesignWidget, SIGNAL(pageDeleted()), this, SLOT(slotPageDeleted()));
 }
 
 void ReportDesignWindow::createObjectInspector()
@@ -489,6 +506,20 @@ void ReportDesignWindow::createDataWindow()
     m_dataBrowser->setSettings(settings());
     m_dataBrowser->setMainWindow(this);
     m_dataBrowser->setReportEditor(m_reportDesignWidget);
+}
+
+void ReportDesignWindow::createScriptWindow()
+{
+    QDockWidget *dataDoc = new QDockWidget(this);
+    dataDoc->setWindowTitle(tr("Script Browser"));
+    m_scriptBrowser=new ScriptBrowser(dataDoc);
+    dataDoc->setWidget(m_scriptBrowser);
+    dataDoc->setObjectName("scriptDoc");
+    addDockWidget(Qt::LeftDockWidgetArea,dataDoc);
+    m_scriptBrowser->setReportEditor(m_reportDesignWidget);
+#ifdef HAVE_UI_LOADER
+    m_scriptBrowser->updateDialogsTree();
+#endif
 }
 
 void ReportDesignWindow::updateRedoUndo()
@@ -701,7 +732,24 @@ QSettings*ReportDesignWindow::settings()
 
 void ReportDesignWindow::slotNewReport()
 {    
-    if (checkNeedToSave()) startNewReport();
+    if (checkNeedToSave()) {
+        m_lblReportName->setText("");
+        startNewReport();
+        m_deletePageAction->setEnabled(false);
+    }
+}
+
+void ReportDesignWindow::slotNewPage(){
+    if (m_reportDesignWidget){
+        m_reportDesignWidget->addPage();
+    }
+}
+
+void ReportDesignWindow::slotDeletePage()
+{
+    if (m_reportDesignWidget && m_reportDesignWidget->report()->pageCount()>1){
+        m_reportDesignWidget->deleteCurrentPage();
+    }
 }
 
 void ReportDesignWindow::slotNewTextItem()
@@ -872,12 +920,32 @@ void ReportDesignWindow::slotLoadReport()
                 QApplication::processEvents();
                 setCursor(Qt::WaitCursor);
                 m_reportDesignWidget->clear();
-                m_reportDesignWidget->loadFromFile(fileName);
-                m_lblReportName->setText(fileName);
-                m_propertyModel->setObject(0);
-                updateRedoUndo();
+                if (m_reportDesignWidget->loadFromFile(fileName)){
+                	m_lblReportName->setText(fileName);
+                	m_propertyModel->setObject(0);
+                	updateRedoUndo();
+                	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
+                	if (!m_recentFiles.contains(fileName)){
+                    	if (m_recentFiles.count()==10){
+                        	QMap<QString, QDateTime>::const_iterator it = m_recentFiles.constBegin();
+                        	QDateTime minDate = QDateTime::currentDateTime();
+                        	while (it != m_recentFiles.constEnd()) {
+                            	if (minDate>it.value()) minDate = it.value();
+                            	++it;
+                        	}
+                        	m_recentFiles.remove(m_recentFiles.key(minDate));
+                    	}
+                    	m_recentFiles.insert(fileName,QDateTime::currentDateTime());
+                	} else {
+                    	m_recentFiles[fileName] = QDateTime::currentDateTime();
+                	}
+                	createRecentFilesMenu();
+                    m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
+            	} else {
+            		slotNewReport();
+            	}
                 unsetCursor();
-                setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
+            	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
                 addRecentFile(fileName);
             }
         }
@@ -951,13 +1019,13 @@ void ReportDesignWindow::slotTest()
 void ReportDesignWindow::slotPrintReport()
 {
     setCursor(Qt::WaitCursor);
-    m_reportDesignWidget->report()->printReport();
+    m_reportDesignWidget->printReport();
     setCursor(Qt::ArrowCursor);
 }
 
 void ReportDesignWindow::slotPreviewReport()
 {
-    m_reportDesignWidget->report()->previewReport();
+    m_reportDesignWidget->previewReport();
 }
 
 void ReportDesignWindow::slotItemActionCliked()
@@ -1008,6 +1076,12 @@ void ReportDesignWindow::slotBandDeleted(PageDesignIntf *, BandDesignIntf *band)
             break;
         }
     }
+}
+
+void ReportDesignWindow::slotActivePageChanged()
+{
+    m_propertyModel->setObject(0);
+    updateRedoUndo();
 }
 
 void ReportDesignWindow::renderStarted()
@@ -1102,6 +1176,16 @@ void ReportDesignWindow::slotLoadRecentFile(const QString fileName)
             QMessageBox::information(this,tr("Warning"),tr("File \"%1\" not found!").arg(fileName));
         }
     }
+}
+
+void ReportDesignWindow::slotPageAdded(PageDesignIntf *page)
+{
+    m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
+}
+
+void ReportDesignWindow::slotPageDeleted()
+{
+    m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
 }
 
 void ReportDesignWindow::closeEvent(QCloseEvent * event)

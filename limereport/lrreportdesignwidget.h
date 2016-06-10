@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QGraphicsView>
 #include <QMainWindow>
+#include <QTextEdit>
 
 #include "lrpagedesignintf.h"
 #include "lrdatadesignintf.h"
@@ -59,6 +60,8 @@ public:
     void createStartPage();
     void clear();
     DataSourceManager* dataManager();
+    ScriptEngineManager* scriptManager();
+    ScriptEngineContext* scriptContext();
     void removeDatasource(const QString& datasourceName);
     void addBand(const QString& bandType);
     void addBand(BandDesignIntf::BandsType bandType);
@@ -69,6 +72,7 @@ public:
     bool isCanRedo();
     void deleteItem(QGraphicsItem *item);
     PageDesignIntf* activePage();
+    QGraphicsView* activeView();
     QList<QGraphicsItem *> selectedItems();
     QStringList datasourcesNames();
     void scale( qreal sx, qreal sy);
@@ -90,7 +94,7 @@ public slots:
     bool save();
     bool loadFromFile(const QString&);
     void deleteSelectedItems();
-    void setActivePage(PageDesignIntf* page);
+    void connectPage(PageDesignIntf* page);
     void undo();
     void redo();
     void copy();
@@ -113,12 +117,17 @@ public slots:
     void setBorders(const BaseDesignIntf::BorderLines& borders);
     void editSetting();
     void setUseGrid(bool value);
+    void previewReport();
+    void printReport();
+    void addPage();
+    void deleteCurrentPage();
 private slots:
     void slotItemSelected(LimeReport::BaseDesignIntf *item);
     void slotSelectionChanged();
     void slotPagesLoadFinished();
     void slotDatasourceCollectionLoaded(const QString&);
     void slotSceneRectChanged(QRectF);
+    void slotCurrentTabChanged(int index);
 signals:
     void insertModeStarted();
     void itemInserted(LimeReport::PageDesignIntf*,QPointF,const QString&);
@@ -135,13 +144,19 @@ signals:
     void bandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*);
     void itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);
     void itemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);
+    void pageAdded(PageDesignIntf* page);
+    void pageDeleted();
+protected:
+    void createTabs();
 private:
     bool eventFilter(QObject *target, QEvent *event);
     ReportDesignWidget(ReportEnginePrivate* report,QMainWindow *mainWindow,QWidget *parent = 0);
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
+    QTextEdit* m_scriptEditor;
     QMainWindow *m_mainWindow;
+    QTabWidget* m_tabWidget;
     GraphicsViewZoomer* m_zoomer;
     QFont m_defaultFont;
     int m_verticalGridStep;

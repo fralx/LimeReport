@@ -158,6 +158,19 @@ void ReportRender::setDatasources(DataSourceManager *value)
     m_datasources=value;
 }
 
+void ReportRender::setScriptContext(ScriptEngineContext* scriptContext)
+{
+    m_scriptEngineContext=scriptContext;
+}
+
+bool ReportRender::runInitScript(){
+    if (m_scriptEngineContext){
+        QScriptValue res = ScriptEngineManager::instance().scriptEngine()->evaluate(m_scriptEngineContext->initScript());
+        if (res.isBool()) return res.toBool();
+    }
+    return true;
+}
+
 void ReportRender::initDatasources(){
     try{
         datasources()->setAllDatasourcesToFirst();
@@ -181,6 +194,20 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 
     initVariables();
     initGroupFunctions();
+#ifdef HAVE_UI_LOADER
+    initDialogs();
+#endif
+    if (runInitScript()){
+
+        clearPageMap();
+
+        try{
+            datasources()->setAllDatasourcesToFirst();
+        } catch(ReportError &exception){
+            //TODO posible should thow exeption
+            QMessageBox::critical(0,tr("Error"),exception.what());
+            return;
+        }
 
     clearPageMap();
     resetPageNumber();
@@ -204,6 +231,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
     savePage();
     if (!m_renderCanceled)
         secondRenderPass();
+    }
 }
 
 int ReportRender::pageCount()
@@ -243,6 +271,18 @@ void ReportRender::initVariables()
     m_datasources->setReportVariable("#PAGE",1);
     m_datasources->setReportVariable("#PAGE_COUNT",0);
 }
+
+#ifdef HAVE_UI_LOADER
+void ReportRender::initDialogs(){
+    if (m_scriptEngineContext){
+        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+        foreach(DialogDescriber::Ptr dialog, m_scriptEngineContext->dialogsDescriber()){
+            QScriptValue sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
+            se->globalObject().setProperty(dialog->name(),sv);
+        }
+    }
+}
+#endif
 
 void ReportRender::clearPageMap()
 {
@@ -523,6 +563,10 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 dataSource->next();
             }
             closeDataGroup(band);
+//            if (gb->isNeedToStartNewPage()){
+//                savePage();
+//                startNewPage();
+//            }
         }
         if (!gb->isStarted()){
             if (band->reprintOnEachPage())
@@ -851,6 +895,7 @@ void ReportRender::startNewPage()
     m_currentIndex=0;
 
     renderPageHeader(m_patternPageItem);
+    //renderPageFooter(m_patternPageItem);
     m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem);
     m_maxHeightByColumn[m_currentColumn] -= m_pageFooterHeight;
     m_currentIndex=10;

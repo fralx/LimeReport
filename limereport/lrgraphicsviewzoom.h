@@ -13,6 +13,7 @@ public:
   void gentleZoom(double factor);
   void setModifiers(Qt::KeyboardModifiers modifiers);
   void setZoomFactorBase(double value);
+  void setView(QGraphicsView* view);
 private:
   QGraphicsView* m_view;
   Qt::KeyboardModifiers m_modifiers;

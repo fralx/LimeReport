@@ -74,8 +74,8 @@ class DataSourceModel : public QAbstractItemModel{
 public:
     DataSourceModel():m_rootNode(new DataNode()){}
     DataSourceModel(DataSourceManager* dataManager);
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
     ~DataSourceModel();
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

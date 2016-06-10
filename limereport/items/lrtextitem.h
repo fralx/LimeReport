@@ -56,7 +56,11 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(QColor fontColor READ fontColor WRITE setFontColorProperty)
     Q_PROPERTY(AngleType angle READ angle WRITE setAngle)
     Q_PROPERTY(int foregroundOpacity READ foregroundOpacity WRITE setForegroundOpacity)
+    Q_PROPERTY(bool underlines READ underlines WRITE setUnderlines)
+    Q_PROPERTY(bool adaptFontToSize READ adaptFontToSize WRITE setAdaptFontToSize)
     Q_PROPERTY(bool trimValue READ trimValue WRITE setTrimValue)
+    Q_PROPERTY(int lineSpacing READ lineSpacing WRITE setLineSpacing)
+    Q_PROPERTY(int underlineLineSize READ underlineLineSize WRITE setUnderlineLineSize)
     Q_PROPERTY(bool allowHTML READ allowHTML WRITE setAllowHTML)
     Q_PROPERTY(bool allowHTMLInFields READ allowHTMLInFields WRITE setAllowHTMLInFields)
 public:
@@ -72,9 +76,6 @@ public:
     QString content() const;
     void setContent(const QString& value);
 
-    //void setMarginSize(int value);
-
-
     void setAlignment(Qt::Alignment value);
     Qt::Alignment alignment(){return m_alignment;}
 
@@ -88,6 +89,9 @@ public:
 
     void setAutoWidth(AutoWidth value);
     AutoWidth autoWidth() const {return m_autoWidth;}
+
+    void setAdaptFontToSize(bool value);
+    bool adaptFontToSize() const {return m_adaptFontToSize;}
 
     bool canBeSplitted(int height) const;
     bool isSplittable() const { return true;}
@@ -108,9 +112,17 @@ public:
     void setAngle(const AngleType& value);
     int foregroundOpacity(){return m_foregroundOpacity;}
     void setForegroundOpacity(int value);
+    bool underlines(){return m_underlines;}
+    void setUnderlines(bool value);
 
     bool trimValue() const;
     void setTrimValue(bool trimValue);
+
+    int lineSpacing() const;
+    void setLineSpacing(int value);
+
+    int underlineLineSize() const;
+    void setUnderlineLineSize(int value);
 
     bool allowHTML() const;
     void setAllowHTML(bool allowHTML);
@@ -126,6 +138,8 @@ protected:
     int fakeMarginSize();
 private:
     void initText();
+    void setTextFont(const QFont &value);
+    void adaptFontSize();
 private:
     QString m_strText;
 
@@ -137,7 +151,11 @@ private:
     QSizeF m_textSize;
     AngleType m_angle;
     int m_foregroundOpacity;
+    bool m_underlines;
+    bool m_adaptFontToSize;
     bool m_trimValue;
+    int m_lineSpacing;
+    int m_underlineLineSize;
     bool m_allowHTML;
     bool m_allowHTMLInFields;
 };

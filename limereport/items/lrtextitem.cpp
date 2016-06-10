@@ -150,20 +150,45 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
         break;
     }
 
-//    for(QTextBlock it=m_text->begin();it!=m_text->end();it=it.next()){
-//        for (int i=0;i<it.layout()->lineCount();i++){
-//            painter->setOpacity(qreal(foregroundOpacity())/100);
-//            it.layout()->lineAt(i).draw(painter,QPointF(0,0));
-//        }
-//    }
+    int lineHeight = painter->fontMetrics().height();
+    qreal curpos = 0;
+
+    if (m_underlines){
+        QPen pen = painter->pen();
+        pen.setWidth(m_underlineLineSize);
+        painter->setPen(pen);
+    }
 
     painter->setOpacity(qreal(foregroundOpacity())/100);
-
-    //m_text->setDefaultTextOption();
     QAbstractTextDocumentLayout::PaintContext ctx;
     ctx.palette.setColor(QPalette::Text, fontColor());
+    for(QTextBlock it=m_text->begin();it!=m_text->end();it=it.next()){
+        it.blockFormat().setLineHeight(m_lineSpacing,QTextBlockFormat::LineDistanceHeight);
+        for (int i=0;i<it.layout()->lineCount();i++){
+            QTextLine line = it.layout()->lineAt(i);
+            if (m_underlines){
+                painter->drawLine(QPointF(0,line.rect().bottomLeft().y()),QPoint(rect().width(),line.rect().bottomRight().y()));
+                lineHeight = line.height()+m_lineSpacing;
+                curpos = line.rect().bottom();
+            }
+        }
+    }
     m_text->documentLayout()->draw(painter,ctx);
 
+    if (m_underlines){
+        if (lineHeight<0) lineHeight = painter->fontMetrics().height();
+        for (curpos+=lineHeight; curpos<rect().height();curpos+=lineHeight){
+            painter->drawLine(QPointF(0,curpos),QPoint(rect().width(),curpos));
+        }
+    }
+
+    //painter->setOpacity(qreal(foregroundOpacity())/100);
+
+    //m_text->setDefaultTextOption();
+    //QAbstractTextDocumentLayout::PaintContext ctx;
+    //ctx.palette.setColor(QPalette::Text, fontColor());
+    //m_text->documentLayout()->draw(painter,ctx);
+    
 //    m_layout.draw(ppainter,QPointF(marginSize(),0),);
 //    ppainter->setFont(transformToSceneFont(font()));
 //    QTextOption o;
@@ -186,6 +211,10 @@ void TextItem::Init()
 //    m_text->setDefaultFont(transformToSceneFont(font()));
     m_textSize=QSizeF();
     m_foregroundOpacity = 100;
+    m_underlines = false;
+    m_adaptFontToSize = false;
+    m_underlineLineSize = 1;
+    m_lineSpacing = 1;
 }
 
 void TextItem::setContent(const QString &value)
@@ -204,9 +233,9 @@ void TextItem::setContent(const QString &value)
         }
 
         if (!isLoading()){
-          update(rect());
-          notify("content",oldValue,value);
-          //updateLayout();
+            initText();
+            update(rect());
+            notify("content",oldValue,value);
         }
     }
 }
@@ -223,7 +252,7 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
     }
 
     if ((m_textSize.height()>height()) && (m_autoHeight) ){
-        setHeight(m_textSize.height()+5);
+        setHeight(m_textSize.height()+borderLineSize()*2);
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
@@ -262,23 +291,91 @@ QString TextItem::replaceReturns(QString text)
     return result;
 }
 
+void TextItem::setTextFont(const QFont& value){
+    m_text->setDefaultFont(value);
+    if ((m_angle==Angle0)||(m_angle==Angle180)){
+        m_text->setTextWidth(rect().width()-fakeMarginSize()*2);
+    } else {
+        m_text->setTextWidth(rect().height()-fakeMarginSize()*2);
+    }
+}
+
+void TextItem::adaptFontSize(){
+    QFont _font = transformToSceneFont(font());
+    do{
+        setTextFont(_font);
+        if (_font.pixelSize()>2)
+            _font.setPixelSize(_font.pixelSize()-1);
+        else break;
+    } while(m_text->size().height()>this->height() || m_text->size().width()>(this->width())-fakeMarginSize()*2);
+}
+int TextItem::underlineLineSize() const
+{
+    return m_underlineLineSize;
+}
+
+void TextItem::setUnderlineLineSize(int value)
+{
+    int oldValue = m_underlineLineSize;
+    m_underlineLineSize = value;
+    update();
+    notify("underlineLineSize",oldValue,value);
+}
+
+int TextItem::lineSpacing() const
+{
+    return m_lineSpacing;
+}
+
+void TextItem::setLineSpacing(int value)
+{
+    int oldValue = m_lineSpacing;
+    m_lineSpacing = value;
+    initText();
+    update();
+    notify("lineSpacing",oldValue,value);
+}
+
+
 void TextItem::initText()
 {
     QTextOption to;
     to.setAlignment(m_alignment);
 
     if (m_autoWidth!=MaxStringLength)
-        to.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+        if (m_adaptFontToSize && (!(m_autoHeight || m_autoWidth)))
+            to.setWrapMode(QTextOption::WordWrap);
+        else
+            to.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     else to.setWrapMode(QTextOption::NoWrap);
 
     m_text->setDocumentMargin(0);
     m_text->setDefaultTextOption(to);
-    m_text->setDefaultFont(transformToSceneFont(font()));
+
+    QFont _font = transformToSceneFont(font());
+    if (m_adaptFontToSize && (!(m_autoHeight || m_autoWidth))){
+        adaptFontSize();
+    } else {
+        setTextFont(transformToSceneFont(font()));
+    }
+    
     if ((m_angle==Angle0)||(m_angle==Angle180)){
         m_text->setTextWidth(rect().width()-fakeMarginSize()*2);
     } else {
         m_text->setTextWidth(rect().height()-fakeMarginSize()*2);
     }
+    
+    for ( QTextBlock block = m_text->begin(); block.isValid(); block = block.next())
+    {
+        QTextCursor tc = QTextCursor(block);
+        QTextBlockFormat fmt = block.blockFormat();
+
+        if(fmt.lineHeight() != m_lineSpacing) {
+            fmt.setLineHeight(m_lineSpacing,QTextBlockFormat::LineDistanceHeight);
+            tc.setBlockFormat( fmt );
+        }
+    }
+
     m_textSize=m_text->size();
 }
 
@@ -320,9 +417,11 @@ bool TextItem::trimValue() const
     return m_trimValue;
 }
 
-void TextItem::setTrimValue(bool trimValue)
+void TextItem::setTrimValue(bool value)
 {
-    m_trimValue = trimValue;
+    bool oldValue = m_trimValue;
+    m_trimValue = value;
+    notify("trimValue",oldValue,value);
 }
 
 
@@ -333,8 +432,9 @@ void TextItem::geometryChangedEvent(QRectF , QRectF)
 //    } else {
 //        m_text->setTextWidth(rect().height()-fakeMarginSize()*2);
 //    }
-//    m_textSize=m_text->size();
     if (itemMode() == DesignMode) initText();
+    else if (adaptFontToSize()) initText();
+
 }
 
 bool TextItem::isNeedUpdateSize(RenderPass pass) const
@@ -395,6 +495,17 @@ void TextItem::setAutoWidth(TextItem::AutoWidth value)
     }
 }
 
+void TextItem::setAdaptFontToSize(bool value)
+{
+    if (m_adaptFontToSize!=value){
+        bool oldValue = m_adaptFontToSize;
+        m_adaptFontToSize=value;
+        initText();
+        invalidateRect(rect());
+        notify("updateFontToSize",oldValue,value);
+    }
+}
+
 bool TextItem::canBeSplitted(int height) const
 {
     return height>(m_text->begin().layout()->lineAt(0).height());
@@ -409,8 +520,10 @@ BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsIt
 
     for (QTextBlock it=m_text->begin();it!=m_text->end();it=it.next()){
         for (int i=0;i<it.layout()->lineCount();i++){
-          linesHeight+=it.layout()->lineAt(i).height();
-          if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {linesHeight-=it.layout()->lineAt(i).height(); goto loop_exit;}
+          linesHeight+=it.layout()->lineAt(i).height()+lineSpacing();
+          if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {
+              linesHeight-=it.layout()->lineAt(i).height(); goto loop_exit;
+          }
           tmpText+=it.text().mid(it.layout()->lineAt(i).textStart(),it.layout()->lineAt(i).textLength())+'\n';
         }
     }
@@ -433,7 +546,7 @@ BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsI
 
     for (curBlock=m_text->begin();curBlock!=m_text->end();curBlock=curBlock.next()){
         for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
-            linesHeight+=curBlock.layout()->lineAt(curLine).height();
+            linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
             if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {goto loop_exit;}
         }
     }
@@ -562,6 +675,16 @@ void TextItem::setForegroundOpacity(int value)
         m_foregroundOpacity = value;
         update();
         notify("foregroundOpacity",oldValue,value);
+    }
+}
+
+void TextItem::setUnderlines(bool value)
+{
+    if (m_underlines != value){
+        bool oldValue = m_underlines;
+        m_underlines = value;
+        update();
+        notify("underlines",oldValue,value);
     }
 }
 

@@ -37,13 +37,17 @@ ImageEditor::ImageEditor(QWidget* parent)
     :QWidget(parent)
 {
     m_button.setIcon(QIcon(":items/ImageItem"));
+    m_clearButton.setIcon(QIcon(":items/clear.png"));
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(&m_button);
-    layout->setSpacing(0);
+    layout->addWidget(&m_clearButton);
+    layout->setSpacing(1);
     layout->setContentsMargins(1,0,1,1);
     setLayout(layout);
     setFocusProxy(&m_button);
+    setAutoFillBackground(true);
     connect(&m_button,SIGNAL(clicked()),this,SLOT(slotButtonClicked()));
+    connect(&m_clearButton,SIGNAL(clicked()),this,SLOT(slotClearButtonClicked()));
 }
 
 QImage ImageEditor::image()
@@ -57,4 +61,10 @@ void ImageEditor::slotButtonClicked()
     emit editingFinished();
 }
 
-} // namespace LimeReport
+void ImageEditor::slotClearButtonClicked()
+{
+    m_image = QImage();
+    emit editingFinished();
+}
+
+} //namespace LimeReport

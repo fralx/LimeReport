@@ -41,6 +41,8 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QApplication>
+#include <QTabWidget>
+#include <QMessageBox>
 
 namespace LimeReport {
 
@@ -49,11 +51,10 @@ namespace LimeReport {
 ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
     QWidget(parent), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(1,1,1,1);
-    m_view = new QGraphicsView(qobject_cast<QWidget*>(this));
-    m_view->setBackgroundBrush(QBrush(Qt::gray));
-    mainLayout->addWidget(m_view);
+    m_tabWidget = new QTabWidget(this);
+    m_tabWidget->setTabPosition(QTabWidget::South);
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    mainLayout->addWidget(m_tabWidget);
     setLayout(mainLayout);
 
     if (!report) {
@@ -66,16 +67,15 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
         if (!m_report->pageCount()) m_report->appendPage("page1");
     }
 
-    setActivePage(m_report->pageAt(0));
-    foreach(QGraphicsItem* item, activePage()->selectedItems()){
-        item->setSelected(false);
-    }
+    createTabs();
+
     connect(m_report,SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
     connect(m_report,SIGNAL(cleared()),this,SIGNAL(cleared()));
-    m_view->scale(0.5,0.5);
+    connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
+
     //m_instance=this;
-    //m_view->viewport()->installEventFilter(this);
-    m_zoomer = new GraphicsViewZoomer(m_view);
+    m_scriptEditor->setPlainText(report->scriptContext()->initScript());
+    m_zoomer = new GraphicsViewZoomer(activeView());
 #ifdef Q_OS_WIN
     m_defaultFont = QFont("Arial",10);
 #endif
@@ -133,10 +133,30 @@ void ReportDesignWidget::loadState(QSettings* settings)
     if (v.isValid()){
         m_useGrid = v.toBool();
     }
-
     settings->endGroup();
-
     applySettings();
+}
+
+
+void ReportDesignWidget::createTabs(){
+    for (int i = 0; i<m_report->pageCount();++i){
+        QGraphicsView* view = new QGraphicsView(qobject_cast<QWidget*>(this));
+        view->setBackgroundBrush(QBrush(Qt::gray));
+        view->setFrameShape(QFrame::NoFrame);
+        view->setScene(m_report->pageAt(i));
+
+        foreach(QGraphicsItem* item, m_report->pageAt(i)->selectedItems()){
+            item->setSelected(false);
+        }
+
+        view->centerOn(0,0);
+        view->scale(0.5,0.5);
+        connectPage(m_report->pageAt(i));
+        m_tabWidget->addTab(view,QIcon(),tr("Page")+QString::number(i+1));
+    }
+    m_scriptEditor = new QTextEdit(this);
+    m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
+    m_tabWidget->setCurrentIndex(0);
 }
 
 ReportDesignWidget::~ReportDesignWidget()
@@ -144,9 +164,12 @@ ReportDesignWidget::~ReportDesignWidget()
     delete m_zoomer;
 }
 
-void ReportDesignWidget::setActivePage(PageDesignIntf *page)
+QGraphicsView* ReportDesignWidget::activeView(){
+    return dynamic_cast<QGraphicsView*>(m_tabWidget->currentWidget());
+}
+
+void ReportDesignWidget::connectPage(PageDesignIntf *page)
 {
-    m_view->setScene(page);
     connect(page,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)),this,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)));
     connect(page,SIGNAL(itemInsertCanceled(QString)),this,SIGNAL(itemInsertCanceled(QString)));
     connect(page,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),this,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)));
@@ -166,48 +189,55 @@ void ReportDesignWidget::setActivePage(PageDesignIntf *page)
     connect(page, SIGNAL(pageUpdateFinished(LimeReport::PageDesignIntf*)),
             this, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)));
 
-    m_view->centerOn(0, 0);
+    //activeView()->centerOn(0,0);
     emit activePageChanged();
 }
 
 void ReportDesignWidget::createStartPage()
 {
-    PageDesignIntf* reportPage = m_report->appendPage("page1");
-    setActivePage(reportPage);
+    m_report->appendPage("page1");
+    createTabs();
 }
 
 void ReportDesignWidget::removeDatasource(const QString &datasourceName)
 {
-    m_report->dataManager()->removeDatasource(datasourceName);
+    if (m_report->dataManager())
+        m_report->dataManager()->removeDatasource(datasourceName);
 }
 
 void ReportDesignWidget::addBand(const QString &bandType)
 {
-    activePage()->addBand(bandType);
+    if (activePage())
+        activePage()->addBand(bandType);
 }
 
 void ReportDesignWidget::addBand(BandDesignIntf::BandsType bandType)
 {
-    activePage()->addBand(bandType);
+    if (activePage())
+        activePage()->addBand(bandType);
 }
 
 void ReportDesignWidget::startInsertMode(const QString &itemType)
 {
-    activePage()->startInsertMode(itemType);
+    if (activePage())
+        activePage()->startInsertMode(itemType);
 }
 
 void ReportDesignWidget::startEditMode()
 {
-    activePage()->startEditMode();
+    if (activePage())
+        activePage()->startEditMode();
 }
 
 PageDesignIntf * ReportDesignWidget::activePage()
 {
-    return qobject_cast<PageDesignIntf*>(m_view->scene());
+    if (activeView())
+        return qobject_cast<PageDesignIntf*>(activeView()->scene());
+    return 0;
 }
 
 QList<QGraphicsItem *> ReportDesignWidget::selectedItems(){
-    return m_view->scene()->selectedItems();
+    return activePage()->selectedItems();
 }
 
 void ReportDesignWidget::deleteItem(QGraphicsItem *item){
@@ -227,11 +257,13 @@ void ReportDesignWidget::slotItemSelected(BaseDesignIntf *item){
 }
 
 void ReportDesignWidget::saveToFile(const QString &fileName){
+    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
     m_report->saveToFile(fileName);
 }
 
 bool ReportDesignWidget::save()
 {
+    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
     if (!m_report->reportFileName().isEmpty()){
         if (m_report->saveToFile()){
             m_report->emitSaveFinished();
@@ -254,24 +286,36 @@ bool ReportDesignWidget::save()
 
 bool ReportDesignWidget::loadFromFile(const QString &fileName)
 {
-    if (!m_report->loadFromFile(fileName)) return false;
-    setActivePage(m_report->pageAt(0));
-    return true;
+    if (m_report->loadFromFile(fileName)){
+        createTabs();
+        //connectPage(m_report->pageAt(0));
+        m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
+        emit loaded();
+        return true;
+    } else {
+        QMessageBox::critical(this,tr("Error"),tr("Wrong file format"));
+        return false;
+    }
 }
 
 void ReportDesignWidget::scale(qreal sx, qreal sy)
 {
-    m_view->scale(sx,sy);
+    //m_view->scale(sx,sy);
+    if (activeView()) activeView()->scale(sx,sy);
 }
 
 QString ReportDesignWidget::reportFileName()
 {
-    return m_report->reportFileName();
+    if (m_report)
+        return m_report->reportFileName();
+    return QString();
 }
 
 bool ReportDesignWidget::isNeedToSave()
 {
-    return m_report->isNeedToSave();
+    if(m_report)
+        return m_report->isNeedToSave();
+    return false;
 }
 
 bool ReportDesignWidget::emitLoadReport()
@@ -281,82 +325,98 @@ bool ReportDesignWidget::emitLoadReport()
 
 void ReportDesignWidget::updateSize()
 {
-    activePage()->slotUpdateItemSize();
+    if (activePage())
+        activePage()->slotUpdateItemSize();
 }
 
 void ReportDesignWidget::undo()
 {
-    activePage()->undo();
+    if (activePage())
+        activePage()->undo();
 }
 
 void ReportDesignWidget::redo()
 {
-    activePage()->redo();
+    if (activePage())
+        activePage()->redo();
 }
 
 void ReportDesignWidget::copy()
 {
-    activePage()->copy();
+    if (activePage())
+        activePage()->copy();
 }
 
 void ReportDesignWidget::paste()
 {
-    activePage()->paste();
+    if (activePage())
+        activePage()->paste();
 }
 
 void ReportDesignWidget::cut()
 {
-    activePage()->cut();
+    if (activePage())
+        activePage()->cut();
 }
 
 void ReportDesignWidget::brinToFront()
 {
-    activePage()->bringToFront();
+    if (activePage())
+        activePage()->bringToFront();
 }
 
 void ReportDesignWidget::sendToBack()
 {
-    activePage()->sendToBack();
+    if (activePage())
+        activePage()->sendToBack();
 }
 
 void ReportDesignWidget::alignToLeft()
 {
-    activePage()->alignToLeft();
+    if (activePage())
+        activePage()->alignToLeft();
 }
 
 void ReportDesignWidget::alignToRight()
 {
-    activePage()->alignToRigth();
+    if (activePage())
+        activePage()->alignToRigth();
 }
 
 void ReportDesignWidget::alignToVCenter()
 {
-    activePage()->alignToVCenter();
+    if (activePage())
+        activePage()->alignToVCenter();
 }
 
 void ReportDesignWidget::alignToTop()
 {
-    activePage()->alignToTop();
+    if (activePage())
+        activePage()->alignToTop();
 }
 
 void ReportDesignWidget::alignToBottom()
 {
-    activePage()->alignToBottom();
+    if (activePage())
+        activePage()->alignToBottom();
 }
 
 void ReportDesignWidget::alignToHCenter()
 {
-    activePage()->alignToHCenter();
+    if (activePage())
+        activePage()->alignToHCenter();
 }
 
 void ReportDesignWidget::sameHeight()
 {
-    activePage()->sameHeight();
+    if (activePage())
+        activePage()->sameHeight();
 }
 
 void ReportDesignWidget::sameWidth()
 {
-    activePage()->sameWidth();
+    if (activePage())
+        activePage()->sameWidth();
 }
 
 void ReportDesignWidget::editLayoutMode(bool value)
@@ -370,22 +430,74 @@ void ReportDesignWidget::editLayoutMode(bool value)
 
 void ReportDesignWidget::addHLayout()
 {
-    activePage()->addHLayout();
+    if (activePage())
+        activePage()->addHLayout();
 }
 
 void ReportDesignWidget::setFont(const QFont& font)
 {
-    activePage()->setFont(font);
+    if (activePage())
+        activePage()->setFont(font);
 }
 
 void ReportDesignWidget::setTextAlign(const bool& horizontalAlign, const Qt::AlignmentFlag& alignment)
 {
-    activePage()->changeSelectedGrpoupTextAlignPropperty(horizontalAlign, alignment);
+    if (activePage())
+        activePage()->changeSelectedGrpoupTextAlignPropperty(horizontalAlign, alignment);
 }
 
 void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
 {
-    activePage()->setBorders(borders);
+    if (activePage())
+        activePage()->setBorders(borders);
+}
+
+void ReportDesignWidget::previewReport()
+{
+    report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    report()->previewReport();
+}
+
+void ReportDesignWidget::printReport()
+{
+    report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    setCursor(Qt::WaitCursor);
+    report()->printReport();
+    setCursor(Qt::ArrowCursor);
+}
+
+void ReportDesignWidget::addPage()
+{
+    QGraphicsView* view = new QGraphicsView(qobject_cast<QWidget*>(this));
+    view->setBackgroundBrush(QBrush(Qt::gray));
+    view->setFrameShape(QFrame::NoFrame);
+    PageDesignIntf* page = m_report->appendPage("page"+QString::number(m_report->pageCount()+1));
+    view->setScene(page);
+    int index = m_report->pageCount()-1;
+    m_tabWidget->insertTab(index,view,QIcon(),tr("Page")+QString::number(m_report->pageCount()));
+    m_tabWidget->setCurrentIndex(index);
+    connectPage(page);
+    view->scale(0.5,0.5);
+    view->centerOn(0,0);
+    emit pageAdded(page);
+}
+
+void ReportDesignWidget::deleteCurrentPage()
+{
+    if (m_report->pageCount()>1){
+        QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->currentWidget());
+        if (view){
+            PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(view->scene());
+            if (page){
+                if (m_report->deletePage(page)){
+                    int index = m_tabWidget->currentIndex();
+                    m_tabWidget->removeTab(m_tabWidget->currentIndex());
+                    if (index>0) m_tabWidget->setCurrentIndex(index-1);
+                    emit pageDeleted();
+                }
+            }
+        }
+    }
 }
 
 void ReportDesignWidget::editSetting()
@@ -421,12 +533,16 @@ void ReportDesignWidget::setUseGrid(bool value)
 
 bool ReportDesignWidget::isCanUndo()
 {
-    return activePage()->isCanUndo();
+    if (activePage())
+        return activePage()->isCanUndo();
+    return false;
 }
 
 bool ReportDesignWidget::isCanRedo()
 {
-    return activePage()->isCanRedo();
+    if (activePage())
+        return activePage()->isCanRedo();
+    return false;
 }
 
 void ReportDesignWidget::slotSelectionChanged()
@@ -449,10 +565,20 @@ DataSourceManager* ReportDesignWidget::dataManager()
     return m_report->dataManager();
 }
 
+ScriptEngineManager* ReportDesignWidget::scriptManager()
+{
+    return m_report->scriptManager();
+}
+
+ScriptEngineContext*ReportDesignWidget::scriptContext()
+{
+    return m_report->scriptContext();
+}
+
 void ReportDesignWidget::slotPagesLoadFinished()
 {
     applySettings();
-    setActivePage(m_report->pageAt(0));
+    //setActivePage(m_report->pageAt(0));
     emit loaded();
 }
 
@@ -462,7 +588,19 @@ void ReportDesignWidget::slotDatasourceCollectionLoaded(const QString & /*collec
 
 void ReportDesignWidget::slotSceneRectChanged(QRectF)
 {
-    m_view->centerOn(0,0);
+    if (activeView()) activeView()->centerOn(0,0);
+}
+
+void ReportDesignWidget::slotCurrentTabChanged(int index)
+{
+    QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->widget(index));
+    if (view) {
+        if (view->scene()){
+            foreach (QGraphicsItem* item, view->scene()->selectedItems()) item->setSelected(false);
+        }
+        m_zoomer->setView(view);
+    }
+    emit activePageChanged();
 }
 
 bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
@@ -480,6 +618,10 @@ bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
 void ReportDesignWidget::clear()
 {
     m_report->clearReport();
+    m_tabWidget->clear();
+    m_report->setReportFileName("");
+    m_report->scriptContext()->setInitScript("");
+    m_scriptEditor->setPlainText("");
 }
 
 }

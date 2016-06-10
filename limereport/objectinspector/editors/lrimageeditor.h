@@ -46,8 +46,10 @@ signals:
     void editingFinished();
 private slots:
     void slotButtonClicked();
+    void slotClearButtonClicked();
 private:
     QPushButton m_button;
+    QPushButton m_clearButton;
     QImage m_image;
 };
 

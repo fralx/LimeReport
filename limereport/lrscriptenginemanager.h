@@ -39,8 +39,13 @@
 #include <QScriptable>
 #include <QFont>
 
+#ifdef HAVE_UI_LOADER
+#include <QDialog>
+#endif
+
 #include "base/lrsingleton.h"
 #include "lrscriptenginemanagerintf.h"
+#include "lrcollection.h"
 
 namespace LimeReport{
 
@@ -57,7 +62,7 @@ struct ScriptFunctionDesc{
 
 class ScriptEngineNode {
 public:
-    enum NodeType{Root,Category,Function};
+    enum NodeType{Root,Category,Function,Dialog,DialogElement};
     ScriptEngineNode(const QString& name="", const QString& description ="", NodeType type=Root, ScriptEngineNode* parent=0, const QIcon& icon=QIcon())
         :m_name(name), m_description(description), m_icon(icon), m_type(type), m_parent(parent){}
     virtual ~ScriptEngineNode();
@@ -95,6 +100,7 @@ public:
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     void setScriptEngineManager(ScriptEngineManager* scriptManager);
+    inline ScriptEngineManager* scriptEngineManager(){return m_scriptManager;}
 private slots:
     void slotScriptEngineChanged();
 private:
@@ -103,6 +109,64 @@ private:
 private:
     ScriptEngineManager* m_scriptManager;
     ScriptEngineNode* m_rootNode;
+};
+
+class DialogDescriber : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QByteArray description READ description WRITE setDescription)
+public:
+    typedef QSharedPointer<DialogDescriber> Ptr;
+    static Ptr create(const QString& name, const QByteArray &desc);
+    static Ptr create(){return Ptr(new DialogDescriber);}
+    QString name() const;
+    void setName(const QString& name);
+    QByteArray description() const;
+    void setDescription(const QByteArray& description);
+private :
+    QString m_name;
+    QByteArray m_description;
+};
+
+class ScriptEngineContext : public QObject, public ICollectionContainer
+{
+    Q_OBJECT
+    Q_PROPERTY(ACollectionProperty dialogs READ fakeCollectionReader)
+    Q_PROPERTY(QString initScript READ initScript WRITE setInitScript)
+public:
+#ifdef HAVE_UI_LOADER
+    typedef QSharedPointer<QDialog> DialogPtr;
+#endif
+    explicit ScriptEngineContext(QObject* parent=0):QObject(parent){}
+#ifdef HAVE_UI_LOADER
+    void  addDialog(const QString& name, const QByteArray &description);
+    bool    previewDialog(const QString& dialogName);
+    bool    containsDialog(const QString& dialogName);
+    const   QVector<DialogDescriber::Ptr>& dialogsDescriber(){return m_dialogs;}
+    void    deleteDialog(const QString& dialogName);
+    QDialog *getDialog(const QString &dialogName);
+#endif
+    void clear();
+    QString initScript() const;
+    void setInitScript(const QString& initScript);
+protected:
+    QObject* createElement(const QString& collectionName,const QString& elementType);
+    int elementsCount(const QString& collectionName);
+    QObject* elementAt(const QString& collectionName,int index);
+    void collectionLoadFinished(const QString &collectionName);
+#ifdef HAVE_UI_LOADER
+    QDialog *createDialog(DialogDescriber *cont);
+    QDialog *findDialog(const QString &dialogName);
+    DialogDescriber* findDialogContainer(const QString& dialogName);
+#endif
+private:
+#ifdef HAVE_UI_LOADER
+    QVector<DialogDescriber::Ptr> m_dialogs;
+    QList<DialogPtr> m_createdDialogs;
+#endif
+    QString m_lastError;
+    QString m_initScript;
 };
 
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager
@@ -122,8 +186,11 @@ public:
     QStringList functionsNames();
     const QList<ScriptFunctionDesc>& functionsDescriber(){return m_functions;}
     ScriptEngineModel* model(){return m_model;}
+    void setContext(ScriptEngineContext* context){m_context=context;}
     DataSourceManager* dataManager() const {return m_dataManager;}
     void setDataManager(DataSourceManager* dataManager);
+protected:
+    void updateModel();
 private:
     Q_DISABLE_COPY(ScriptEngineManager)
 private:
@@ -132,6 +199,7 @@ private:
     QString m_lastError;
     QList<ScriptFunctionDesc> m_functions;
     ScriptEngineModel* m_model;
+    ScriptEngineContext* m_context;
     DataSourceManager* m_dataManager;
 };
 

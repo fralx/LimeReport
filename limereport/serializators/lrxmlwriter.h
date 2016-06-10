@@ -48,7 +48,7 @@ private:
     bool  saveToFile(QString fileName);
     QString saveToString();
     QByteArray saveToByteArray();
-
+    void init();
     QDomElement putQObjectItem(QString name, QObject* item);
     void putChildQObjectItem(QString name, QObject* item, QDomElement* parentNode);
     void putCollectionItem(QObject* item, QDomElement* parentNode=0);
