@@ -56,6 +56,7 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer
     Q_DECLARE_PUBLIC(ReportEngine)
     Q_PROPERTY(ACollectionProperty pages READ fakeCollectionReader())
     Q_PROPERTY(QObject* datasourcesManager READ dataManager())
+    Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)
     friend class PreviewReportWidget;
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
@@ -112,6 +113,9 @@ public:
     QString previewWindowTitle() const;
     void setPreviewWindowTitle(const QString &previewWindowTitle);
 
+    bool suppressFieldAndVarError() const;
+    void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
+
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -158,6 +162,7 @@ private:
     QIcon m_previewWindowIcon;
     QString m_previewWindowTitle;
     QPointer<ReportDesignWindow> m_designerWindow;
+    ReportSettings m_reportSettings;
 };
 
 }

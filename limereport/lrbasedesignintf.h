@@ -245,7 +245,9 @@ public:
     QColor borderColor() const;
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
-    virtual bool canContainChildren(){ return false;}
+    virtual bool canContainChildren(){ return false;}    
+    ReportSettings* reportSettings() const;
+    void setReportSettings(ReportSettings *reportSettings);
 protected:
 
     //ICollectionContainer
@@ -347,6 +349,7 @@ private:
     ItemAlign m_itemAlign;
     bool    m_changingItemAlign;
     QColor  m_borderColor;
+    ReportSettings* m_reportSettings;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);

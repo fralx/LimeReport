@@ -178,6 +178,9 @@ namespace LimeReport {
             bool magneticMovement() const;
             void setMagneticMovement(bool magneticMovement);
 
+            ReportSettings *getReportSettings() const;
+            void setReportSettings(ReportSettings *reportSettings);
+
     protected:
 
             virtual void keyPressEvent(QKeyEvent *event);
@@ -309,6 +312,7 @@ namespace LimeReport {
             BaseDesignIntf*  m_joinItem;
             JoinType         m_joinType;
             bool             m_magneticMovement;
+            ReportSettings*  m_reportSettings;
     };
 
     class AbstractPageCommand : public CommandIf{
