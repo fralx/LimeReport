@@ -32,6 +32,15 @@ QFont SettingDialog::defaultFont()
     return result;
 }
 
+bool SettingDialog::suppressAbsentFieldsAndVarsWarnings()
+{
+    return ui->cbSuppressWarnings->isChecked();
+}
+
+void SettingDialog::setSuppressAbsentFieldsAndVarsWarnings(bool value){
+    ui->cbSuppressWarnings->setChecked(value);
+}
+
 void SettingDialog::setHorizontalGridStep(int value)
 {
     ui->horizontalGridStep->setValue(value);
