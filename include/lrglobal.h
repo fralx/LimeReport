@@ -84,6 +84,16 @@ namespace Const{
         ReportError(const QString& message):std::runtime_error(message.toStdString()){}
     };
 
+    class ReportSettings{
+    public:
+        ReportSettings():m_suppressAbsentFieldsAndVarsWarnings(false){}
+        void setDefaultValues(){m_suppressAbsentFieldsAndVarsWarnings = false;}
+        bool suppressAbsentFieldsAndVarsWarnings() const;
+        void setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentFieldsAndVarsWarnings);
+    private:
+        bool m_suppressAbsentFieldsAndVarsWarnings;
+    };
+
 } // namespace LimeReport
 
 

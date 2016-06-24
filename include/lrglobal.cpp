@@ -31,10 +31,24 @@
 #include <QDebug>
 #include "lrglobal.h"
 
-QString LimeReport::extractClassName(QString className)
+namespace LimeReport {
+
+QString extractClassName(QString className)
 {
     int startPos=className.lastIndexOf("::");
     if(startPos==-1) startPos=0;
     else startPos+=2;
     return className.right(className.length()-startPos);
 }
+
+bool ReportSettings::suppressAbsentFieldsAndVarsWarnings() const
+{
+    return m_suppressAbsentFieldsAndVarsWarnings;
+}
+
+void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentFieldsAndVarsWarnings)
+{
+    m_suppressAbsentFieldsAndVarsWarnings = suppressAbsentFieldsAndVarsWarnings;
+}
+
+} //namespace LimeReport
