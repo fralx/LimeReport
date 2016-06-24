@@ -341,7 +341,6 @@ void PageItemDesignIntf::relocateBands()
         posByColumn[0]+=m_bands[0]->height()+bandSpace;
     }
     if(m_bands.count()>1){
-
         for(int i=0;i<(m_bands.count()-1);i++){
             if ((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) || (itemMode() & DesignMode)){
                 if (m_bands[i+1]->columnsCount()>1 &&
@@ -360,7 +359,9 @@ void PageItemDesignIntf::relocateBands()
                     posByColumn[m_bands[i+1]->columnIndex()] += m_bands[i+1]->height()+bandSpace;
                 }
             }
-
+        }
+        foreach(BandDesignIntf* band, m_bands){
+            if (band->isSelected()) band->updateBandNameLabel();
         }
     }
 }
@@ -515,8 +516,37 @@ void PageItemDesignIntf::bandDeleted(QObject *band)
     relocateBands();
 }
 
-void PageItemDesignIntf::bandGeometryChanged(QObject *, QRectF /*newGeometry*/, QRectF /*oldGeometry*/)
+void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
 {
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
+    int curIndex = band->bandIndex();
+    BandDesignIntf* bandToSwap = 0;
+    foreach(BandDesignIntf* curBand, bands()){
+        if (newGeometry.y()>oldGeometry.y()) {
+            if (curBand->bandType() == band->bandType()
+                    && curIndex<curBand->bandIndex()
+                    && (curBand->pos().y()+(curBand->height()/2))<newGeometry.y()
+                    && curBand->parentBand() == band->parentBand())
+            {
+                curIndex = curBand->bandIndex();
+                bandToSwap =  curBand;
+            }
+        } else {
+            if (curBand->bandType() == band->bandType()
+                    && curIndex>curBand->bandIndex()
+                    && (curBand->pos().y()+(curBand->height()/2))>newGeometry.y()
+                    && curBand->parentBand() == band->parentBand())
+            {
+                curIndex = curBand->bandIndex();
+                bandToSwap =  curBand;
+            }
+        }
+    }
+    if (curIndex != band->bandIndex()){
+        bandToSwap->changeBandIndex(band->bandIndex());
+        band->changeBandIndex(curIndex);
+    }
+
     relocateBands();
 }
 

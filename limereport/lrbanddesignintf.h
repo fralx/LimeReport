@@ -125,11 +125,12 @@ public:
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
+    void updateBandNameLabel();
 
     virtual QColor selectionColor() const;
     int bandIndex() const;
     void setBandIndex(int value);
-
+    void changeBandIndex(int value);
     void setBandType(BandsType value){m_bandType=value;}
 
     QString datasourceName();
@@ -231,8 +232,7 @@ protected:
     void setMarkerColor(QColor color);
     void checkEmptyTable();
     void setColumnsCount(int value);
-    void setColumnsFillDirection(BandColumnsLayoutType value);
-
+    void setColumnsFillDirection(BandColumnsLayoutType value);    
 private slots:
     void childBandDeleted(QObject* band);
 private:

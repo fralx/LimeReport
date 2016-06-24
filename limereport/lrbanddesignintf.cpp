@@ -245,6 +245,16 @@ void BandDesignIntf::setBandIndex(int value)
     m_bandIndex=value;
 }
 
+void BandDesignIntf::changeBandIndex(int value)
+{
+    int indexOffset = value - m_bandIndex;
+    foreach(BandDesignIntf* band, childBands()){
+        int newIndex = band->bandIndex()+indexOffset;
+        band->changeBandIndex(newIndex);
+    }
+    setBandIndex(value);
+}
+
 bool BandDesignIntf::isUnique() const
 {
     return true;
@@ -829,6 +839,11 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
+void BandDesignIntf::updateBandNameLabel()
+{
+    if (m_bandNameLabel) m_bandNameLabel->updateLabel();
+}
+
 QColor BandDesignIntf::selectionColor() const
 {
     return Qt::yellow;
@@ -847,16 +862,19 @@ BandNameLabel::BandNameLabel(BandDesignIntf *band, QGraphicsItem *parent)
 
 void BandNameLabel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing);
     painter->setFont(QFont("Arial",7*Const::fontFACTOR,-1,true));
     painter->setOpacity(1);
     QPen pen(Const::BAND_NAME_BORDER_COLOR);
-    pen.setWidth(2);
+    //pen.setWidth(2);
     painter->setBrush(Qt::yellow);
     painter->setPen(pen);
-    painter->drawRect(m_rect);
+    painter->drawRoundedRect(m_rect,8,8);
     painter->setOpacity(0.8);
     painter->setPen(Qt::black);
     painter->drawText(m_rect,Qt::AlignCenter,m_band->bandTitle());
+    painter->restore();
     Q_UNUSED(option)
     Q_UNUSED(widget)
 }

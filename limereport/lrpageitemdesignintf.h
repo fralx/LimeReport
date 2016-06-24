@@ -114,7 +114,7 @@ public:
     bool canContainChildren(){ return true;}
 protected slots:
     void bandDeleted(QObject* band);
-    void bandGeometryChanged(QObject* /*object*/, QRectF newGeometry, QRectF oldGeometry);
+    void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
 protected:
     void    collectionLoadFinished(const QString& collectionName);
     QRectF& pageRect(){return m_pageRect;}
