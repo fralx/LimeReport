@@ -323,13 +323,16 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         query.exec();
         model->setQuery(query);
         m_lastError = model->lastError().text();
+        putError(m_lastError);
         if (model->query().isActive())
             return QSharedPointer<QAbstractItemModel>(model);
         else
             return QSharedPointer<QAbstractItemModel>(0);
     }
-    if (!db.isOpen())
+    if (!db.isOpen()){
         m_lastError = tr("Connection \"%1\" is not open").arg(connectionName);
+        putError(m_lastError);
+    }
     return QSharedPointer<QAbstractItemModel>(0);
 }
 
@@ -657,7 +660,7 @@ void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 {
     bool connected = false;
-    clearErrorsList();
+    clearErrors();
     QString lastError ="";
 
     foreach(QString datasourceName, dataSourceNames()){

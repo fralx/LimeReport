@@ -75,7 +75,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_margin(4),
     m_itemAlign(DesignedItemAlign),
     m_changingItemAlign(false),
-    m_borderColor(Qt::black)
+    m_borderColor(Qt::black),
+    m_reportSettings(0)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -623,6 +624,19 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
     } else {
         delete m_selectionMarker;
         m_selectionMarker = 0;
+    }
+}
+
+ReportSettings *BaseDesignIntf::reportSettings() const
+{
+    return m_reportSettings;
+}
+
+void BaseDesignIntf::setReportSettings(ReportSettings *reportSettings)
+{
+    m_reportSettings = reportSettings;
+    foreach(BaseDesignIntf* child, childBaseItems()){
+        child->setReportSettings(reportSettings);
     }
 }
 
@@ -1187,6 +1201,7 @@ BaseDesignIntf *BaseDesignIntf::cloneItemWOChild(ItemMode mode, QObject *owner, 
     clone->setObjectName(this->objectName());
     clone->setItemMode(mode);
     clone->objectLoadStarted();
+    clone->setReportSettings(this->reportSettings());
     for (int i = 0; i < clone->metaObject()->propertyCount(); i++) {
         if (clone->metaObject()->property(i).isWritable())
             clone->setProperty(clone->metaObject()->property(i).name(), property(clone->metaObject()->property(i).name()));

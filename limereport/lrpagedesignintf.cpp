@@ -92,7 +92,8 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_multiSelectStarted(false),
     m_movedItem(0),
     m_joinItem(0),
-    m_magneticMovement(false)
+    m_magneticMovement(false),
+    m_reportSettings(0)
 {
     m_reportEditor = dynamic_cast<ReportEnginePrivate *>(parent);
     updatePageRect();
@@ -1042,6 +1043,17 @@ void PageDesignIntf::changeSelectedGroupProperty(const QString &name, const QVar
         m_executingCommand = false;
         saveCommand(cm, false);
     }
+}
+
+ReportSettings *PageDesignIntf::getReportSettings() const
+{
+    return m_reportSettings;
+}
+
+void PageDesignIntf::setReportSettings(ReportSettings *reportSettings)
+{
+    m_reportSettings = reportSettings;
+    m_pageItem->setReportSettings(m_reportSettings);
 }
 
 bool PageDesignIntf::magneticMovement() const

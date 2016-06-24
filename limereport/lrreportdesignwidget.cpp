@@ -506,11 +506,13 @@ void ReportDesignWidget::editSetting()
     setting.setVerticalGridStep(m_verticalGridStep);
     setting.setHorizontalGridStep(m_horizontalGridStep);
     setting.setDefaultFont(m_defaultFont);
+    setting.setSuppressAbsentFieldsAndVarsWarnings(m_report->suppressFieldAndVarError());
 
     if (setting.exec()){
         m_horizontalGridStep = setting.horizontalGridStep();
         m_verticalGridStep = setting.verticalGridStep();
         m_defaultFont = setting.defaultFont();
+        m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
         applySettings();
     }
 }

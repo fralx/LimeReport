@@ -19,6 +19,8 @@ public:
     int verticalGridStep();
     int horizontalGridStep();
     QFont defaultFont();
+    bool suppressAbsentFieldsAndVarsWarnings();
+    void setSuppressAbsentFieldsAndVarsWarnings(bool value);
     void setHorizontalGridStep(int value);
     void setVerticalGridStep(int value);
     void setDefaultFont(const QFont& value);

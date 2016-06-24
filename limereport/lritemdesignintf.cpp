@@ -149,14 +149,12 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
                 context.replace(rx.cap(0),fieldValue);
 
             } else {
-                QString error;
-                if (dataManager->lastError().isEmpty()){
-                    error = QString("Field %1 not found in %2 !!! ").arg(field).arg(this->objectName());
-                    dataManager->putError(error);
-                } else {
-                    error = dataManager->lastError();
-                }
-                context.replace(rx.cap(0),error);
+                QString error = QString("Field %1 not found in %2 !!! ").arg(field).arg(this->objectName());
+                dataManager->putError(error);
+                if (!reportSettings() || !reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(rx.cap(0),error);
+                else
+                    context.replace(rx.cap(0),"");
             }
         }
     }
@@ -188,7 +186,13 @@ QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass p
                     pos=0;
                 }
             } else {
-                context.replace(rx.cap(0),tr("Variable %1 not found").arg(variable));
+                QString error;
+                error = tr("Variable %1 not found").arg(variable);
+                dataManager->putError(error);
+                if (!reportSettings() || reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(rx.cap(0),error);
+                else
+                    context.replace(rx.cap(0),"");
             }
         }
     }

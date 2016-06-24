@@ -94,6 +94,7 @@ PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
     PageDesignIntf* page =new PageDesignIntf();
     page->setObjectName(pageName);
     page->setReportEditor(this);
+    page->setReportSettings(&m_reportSettings);
     return page;
 }
 
@@ -129,6 +130,7 @@ void ReportEnginePrivate::collectionLoadFinished(const QString &)
 {
     foreach (PageDesignIntf* page, m_pages) {
         page->setReportEditor(this);
+        page->setReportSettings(&m_reportSettings);
         page->setSceneRect(-Const::SCENE_MARGIN,-Const::SCENE_MARGIN,
                            page->pageItem()->width()+Const::SCENE_MARGIN*2,
                            page->pageItem()->height()+Const::SCENE_MARGIN*2);
@@ -165,6 +167,7 @@ void ReportEnginePrivate::clearReport()
     m_datasources->clear(DataSourceManager::Owned);
     m_fileName="";
     m_scriptEngineContext->clear();
+    m_reportSettings.setDefaultValues();
     emit cleared();
 }
 
@@ -614,6 +617,16 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
+bool ReportEnginePrivate::suppressFieldAndVarError() const
+{
+    return m_reportSettings.suppressAbsentFieldsAndVarsWarnings();
+}
+
+void ReportEnginePrivate::setSuppressFieldAndVarError(bool suppressFieldAndVarError)
+{
+    m_reportSettings.setSuppressAbsentFieldsAndVarsWarnings(suppressFieldAndVarError);
+}
+
 QString ReportEnginePrivate::previewWindowTitle() const
 {
     return m_previewWindowTitle;
@@ -637,7 +650,7 @@ void ReportEnginePrivate::setPreviewWindowIcon(const QIcon &previewWindowIcon)
 ReportPages ReportEnginePrivate::renderToPages()
 {
     m_reportRender = ReportRender::Ptr(new ReportRender);
-    dataManager()->clearErrorsList();
+    dataManager()->clearErrors();
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
@@ -649,6 +662,7 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRender->setScriptContext(scriptContext());
 
         foreach(PageDesignIntf* page , m_pages){
+        	m_pages.at(0)->setReportSettings(&m_reportSettings);
         	result.append(m_reportRender->renderPageToPages(page));
         }	
         emit renderFinished();
