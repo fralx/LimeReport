@@ -178,7 +178,7 @@ public:
     QString lastError() const { return m_lastError;}
 
     void putError(QString error){ if (!m_errorsList.contains(error)) m_errorsList.append(error);}
-    void clearErrorsList(){ m_errorsList.clear();}
+    void clearErrors(){ m_errorsList.clear(); m_lastError = "";}
     QStringList errorsList(){ return m_errorsList;}
     bool designTime() const;
     void setDesignTime(bool designTime);
