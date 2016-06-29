@@ -76,6 +76,10 @@ LimeReport::SerializatorIntf* createQByteArraySerializator(QDomDocument *doc, QD
     return new LimeReport::XmlQByteArraySerializator(doc,node);
 }
 
+LimeReport::SerializatorIntf* createQVariantSerializator(QDomDocument *doc, QDomElement *node){
+    return new LimeReport::XmlQVariantSerializator(doc,node);
+}
+
 bool registredQString = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QString", createQStringSerializator);
 bool registredInt = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("int", createIntSerializator);
 bool registredEnumAndFlags = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("enumAndFlags",createEnumAndFlagsSerializator);
@@ -87,6 +91,7 @@ bool registredQReal = LimeReport::XMLAbstractSerializatorFactory::instance().reg
 bool registerDouble = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("double", createQRealSerializator);
 bool registerQColor = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QColor", createQColorSerializator);
 bool registerQByteArray = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QByteArray", createQByteArraySerializator);
+bool registerQVariant = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QVariant", createQVariantSerializator);
 
 }
 
@@ -269,6 +274,21 @@ void XmlQByteArraySerializator::save(const QVariant &value, QString name)
 }
 
 QVariant XmlQByteArraySerializator::loadValue()
+{
+    QByteArray ba;
+    ba.append(node()->attribute("Value").toLatin1());
+    return QByteArray::fromBase64(ba);
+}
+
+void XmlQVariantSerializator::save(const QVariant &value, QString name)
+{
+    QDomElement _node = doc()->createElement(name);
+    _node.setAttribute("Type","QVariant");
+    _node.setAttribute("Value",QString(value.toByteArray().toBase64()));
+    node()->appendChild(_node);
+}
+
+QVariant XmlQVariantSerializator::loadValue()
 {
     QByteArray ba;
     ba.append(node()->attribute("Value").toLatin1());

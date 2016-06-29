@@ -59,7 +59,7 @@ void VariablesHolder::addVariable(const QString& name, const QVariant& value, Va
         varValue->setVarType(type);
         varValue->setRenderPass(pass);
         m_varNames.insert(name,varValue);
-        if (type==VarDesc::User)
+        if (type==VarDesc::Report)
             m_userVariables.append(varValue);
     } else {
         throw ReportError(tr("variable with name ")+name+tr(" already exists !!"));

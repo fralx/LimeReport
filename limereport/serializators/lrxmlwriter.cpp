@@ -125,8 +125,13 @@ QDomElement XMLWriter::putQObjectItem(QString name, QObject *item)
 
 void XMLWriter::saveProperty(QString name, QObject* item, QDomElement *node)
 {
-    CreateSerializator creator=0;
+    QString typeName;
+    if (name.compare("itemIndexMethod")==0)
+        typeName = item->metaObject()->property(item->metaObject()->indexOfProperty(name.toLatin1())).typeName();
+    else
+        typeName = item->property(name.toLatin1()).typeName();
 
+    CreateSerializator creator=0;
     if (isCollection(name,item)) { saveCollection(name,item,node); return;}
     if (isQObject(name,item)) {
         if (qvariant_cast<QObject *>(item->property(name.toLatin1())))
@@ -143,12 +148,10 @@ void XMLWriter::saveProperty(QString name, QObject* item, QDomElement *node)
                 );
     else
     try {
-        creator=XMLAbstractSerializatorFactory::instance().objectCreator(
-                    item->metaObject()->property(item->metaObject()->indexOfProperty(name.toLatin1())).typeName()
-                    );
+        creator=XMLAbstractSerializatorFactory::instance().objectCreator(typeName);
     } catch (LimeReport::ReportError &exception){
         qDebug()<<"class name ="<<item->metaObject()->className()
-               <<"property name="<<name<<" property type="<<item->property(name.toLatin1()).typeName()
+               <<"property name="<<name<<" property type="<<typeName
                <<exception.what();
 
     }

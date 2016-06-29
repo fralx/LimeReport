@@ -137,5 +137,14 @@ private:
     virtual QVariant loadValue();
 };
 
+class XmlQVariantSerializator : public XmlBaseSerializator
+{
+public:
+    XmlQVariantSerializator(QDomDocument *doc, QDomElement *node):XmlBaseSerializator(doc,node){}
+private:
+    virtual void save(const QVariant &value, QString name);
+    virtual QVariant loadValue();
+};
+
 }
 #endif // LRXMLBASETYPESSERIALIZATORS_H
