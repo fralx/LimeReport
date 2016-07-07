@@ -68,6 +68,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 lessThan(QT_MAJOR_VERSION, 5){
+    DEFINES+=HAVE_QT4
     CONFIG(uitools){
         message(uitools)
         DEFINES += HAVE_UI_LOADER

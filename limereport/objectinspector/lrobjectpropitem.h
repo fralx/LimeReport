@@ -36,7 +36,6 @@
 #include <QMetaProperty>
 #include <QAbstractItemModel>
 #include <QDebug>
-#include <QStyleOptionViewItemV4>
 
 #include "lrattribsabstractfactory.h"
 #include "lrsingleton.h"
@@ -70,7 +69,7 @@ namespace LimeReport{
         virtual void     setModelData(QWidget * /*editor*/, QAbstractItemModel * /*model*/, const QModelIndex &/*index*/){}
         virtual void     updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const;
         virtual void     updatePropertyValue();
-        virtual bool     paint(QPainter *, const QStyleOptionViewItemV4 &, const QModelIndex &);
+        virtual bool     paint(QPainter *, const StyleOptionViewItem &, const QModelIndex &);
 
         ObjectPropItem*  parent() const{ return m_parent;}
         QObject* object() const{return m_object;}

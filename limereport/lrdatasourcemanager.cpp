@@ -620,13 +620,7 @@ bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
     return false;
 }
 
-void DataSourceManager::addQueryDesc(QueryDesc *query)
-{
-    m_queries.append(query);
-    addQuery(query->queryName(), query->queryText(), query->connectionName());
-}
-
-void DataSourceManager::putHolder(QString name, IDataSourceHolder *dataSource)
+void DataSourceManager::putHolder(const QString& name, IDataSourceHolder *dataSource)
 {
     if (!m_datasources.contains(name.toLower())){
         m_datasources.insert(
@@ -640,6 +634,8 @@ void DataSourceManager::putQueryDesc(QueryDesc* queryDesc)
 {
     if (!containsDatasource(queryDesc->queryName())){
         m_queries.append(queryDesc);
+        connect(queryDesc, SIGNAL(queryTextChanged(QString,QString)),
+                this, SLOT(slotQueryTextChanged(QString,QString)));
     } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(queryDesc->queryName()));
 }
 
@@ -647,6 +643,8 @@ void DataSourceManager::putSubQueryDesc(SubQueryDesc *subQueryDesc)
 {
     if (!containsDatasource(subQueryDesc->queryName())){
         m_subqueries.append(subQueryDesc);
+        connect(subQueryDesc, SIGNAL(queryTextChanged(QString,QString)),
+                this, SLOT(slotQueryTextChanged(QString,QString)));
     } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(subQueryDesc->queryName()));
 }
 
@@ -1055,6 +1053,14 @@ void DataSourceManager::slotConnectionRenamed(const QString &oldName, const QStr
     }
     foreach(SubQueryDesc* query, m_subqueries){
         if (query->connectionName().compare(oldName,Qt::CaseInsensitive)==0) query->setConnectionName(newName);
+    }
+}
+
+void DataSourceManager::slotQueryTextChanged(const QString &queryName, const QString &queryText)
+{
+    QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(queryName));
+    if (holder){
+        holder->setQueryText(queryText);
     }
 }
 

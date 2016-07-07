@@ -59,8 +59,8 @@ ObjectInspectorWidget::~ObjectInspectorWidget(){}
 void ObjectInspectorWidget::drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
     ObjectPropItem *node = nodeFromIndex(index);
-    QStyleOptionViewItemV4 so = options;
-    bool alternate = so.features & QStyleOptionViewItemV4::Alternate;
+    StyleOptionViewItem so = options;
+    bool alternate = so.features & StyleOptionViewItem::Alternate;
     if (node){
         if ((!node->isHaveValue())){
             const QColor c = options.palette.color(QPalette::Dark);

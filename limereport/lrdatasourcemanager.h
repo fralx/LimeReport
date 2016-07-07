@@ -195,8 +195,7 @@ signals:
     void cleared();
     void datasourcesChanged();
 protected:
-    void addQueryDesc(QueryDesc *);
-    void putHolder(QString name, LimeReport::IDataSourceHolder* dataSource);
+    void putHolder(const QString& name, LimeReport::IDataSourceHolder* dataSource);
     void putQueryDesc(QueryDesc *queryDesc);
     void putSubQueryDesc(SubQueryDesc *subQueryDesc);
     void putProxyDesc(ProxyDesc *proxyDesc);
@@ -217,6 +216,7 @@ protected:
 
 private slots:
     void slotConnectionRenamed(const QString& oldName,const QString& newName);
+    void slotQueryTextChanged(const QString& queryName, const QString& queryText);
 private:
     explicit DataSourceManager(QObject *parent = 0);
     Q_DISABLE_COPY(DataSourceManager)

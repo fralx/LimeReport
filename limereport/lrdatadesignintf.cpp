@@ -158,6 +158,7 @@ void QueryHolder::fillParams(QSqlQuery *query)
 void QueryHolder::extractParams()
 {
     m_preparedSQL = replaceVariables(m_queryText);
+    m_prepared = true;
 }
 
 QString QueryHolder::replaceVariables(QString query)
@@ -195,6 +196,11 @@ QString QueryHolder::queryText()
 void QueryHolder::setQueryText(QString queryText)
 {
     m_queryText=queryText;
+    m_prepared = false;
+    if (m_query) {
+        delete m_query;
+        m_query = 0;
+    }
 }
 
 IDataSource* QueryHolder::dataSource(IDataSource::DatasourceMode mode)
@@ -364,7 +370,7 @@ void ConnectionDesc::setName(const QString &value)
 }
 
 QueryDesc::QueryDesc(QString queryName, QString queryText, QString connection)
-    :m_queryName(queryName), m_query(queryText), m_connectionName(connection)
+    :m_queryName(queryName), m_queryText(queryText), m_connectionName(connection)
 {}
 
 SubQueryHolder::SubQueryHolder(QString queryText, QString connectionName, QString masterDatasource, DataSourceManager* dataManager)

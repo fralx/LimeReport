@@ -44,7 +44,7 @@ public:
     QWidget* createProperyEditor(QWidget *parent) const;
     void setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const;
     void setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index);
-    bool paint(QPainter *painter, const QStyleOptionViewItemV4 &option, const QModelIndex &index);
+    bool paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index);
 };
 
 }

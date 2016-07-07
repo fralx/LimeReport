@@ -32,6 +32,7 @@
 #include "qglobal.h"
 #include <stdexcept>
 #include <QString>
+#include <QStyleOptionViewItem>
 
 #if defined(LIMEREPORT_EXPORTS)
 #  define LIMEREPORT_EXPORT Q_DECL_EXPORT
@@ -93,6 +94,13 @@ namespace Const{
     private:
         bool m_suppressAbsentFieldsAndVarsWarnings;
     };
+
+#ifdef HAVE_QT4
+    typedef QStyleOptionViewItemV4 StyleOptionViewItem;
+#else
+    typedef QStyleOptionViewItem StyleOptionViewItem;
+#endif
+
 
 } // namespace LimeReport
 

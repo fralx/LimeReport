@@ -159,13 +159,15 @@ public:
     explicit QueryDesc(QObject* parent=0):QObject(parent){}
     void    setQueryName(QString value){m_queryName=value;}
     QString queryName(){return m_queryName;}
-    void    setQueryText(QString value){m_query=value;}
-    QString queryText(){return m_query;}
+    void    setQueryText(QString value){m_queryText=value; emit queryTextChanged(m_queryName, m_queryText);}
+    QString queryText(){return m_queryText;}
     void    setConnectionName(QString value){m_connectionName=value;}
     QString connectionName(){return m_connectionName;}
+signals:
+    void queryTextChanged(const QString& queryName, const QString& queryText);
 private:
     QString m_queryName;
-    QString m_query;
+    QString m_queryText;
     QString m_connectionName;
 };
 

@@ -177,7 +177,7 @@ void ObjectPropItem::updatePropertyValue()
     m_model->setData(m_index,m_object->property(m_name.toLatin1()));
 }
 
-bool ObjectPropItem::paint(QPainter *, const QStyleOptionViewItemV4 &, const QModelIndex &)
+bool ObjectPropItem::paint(QPainter *, const StyleOptionViewItem &, const QModelIndex &)
 {
     return false;
 }
