@@ -54,7 +54,7 @@ void ColorPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mo
     setValueToObject(propertyName(),propertyValue());
 }
 
-bool ColorPropItem::paint(QPainter *painter, const QStyleOptionViewItemV4 &option, const QModelIndex &index)
+bool ColorPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index)
 {
     if (index.column()==1){
         painter->save();

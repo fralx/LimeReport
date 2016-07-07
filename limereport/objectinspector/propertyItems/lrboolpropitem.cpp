@@ -67,7 +67,7 @@ void BoolPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mod
     setValueToObject(propertyName(),propertyValue());
 }
 
-bool BoolPropItem::paint(QPainter *painter, const QStyleOptionViewItemV4 &option, const QModelIndex &index)
+bool BoolPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index)
 {
     if (index.column()==1){
         QStyleOptionButton so;

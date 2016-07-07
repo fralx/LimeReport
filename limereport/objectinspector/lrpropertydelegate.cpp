@@ -50,7 +50,7 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
     if (node){
          if (!node->isHaveValue()){
             if (index.column()==0) {
-                QStyleOptionViewItemV4 cellOpt = option;
+                StyleOptionViewItem cellOpt = option;
                 QTreeView const *tree = dynamic_cast<const QTreeView*>(cellOpt.widget);
                 QStyleOptionViewItem primitiveOpt = cellOpt;
                 primitiveOpt.rect.setWidth(tree->indentation());
@@ -82,7 +82,7 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
                  painter->restore();
              }
 
-             QStyleOptionViewItemV4 so = option;
+             StyleOptionViewItem so = option;
              if ((node->isValueReadonly())&&(!node->isHaveChildren())) {
                  so.palette.setColor(QPalette::Text,so.palette.color(QPalette::Dark));
              }
