@@ -957,12 +957,16 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
 
     if (collectionName.compare("queries",Qt::CaseInsensitive)==0){
         foreach(QueryDesc* query,m_queries){
+            connect(query, SIGNAL(queryTextChanged(QString,QString)),
+                    this, SLOT(slotQueryTextChanged(QString,QString)));
             putHolder(query->queryName(),new QueryHolder(query->queryText(), query->connectionName(), this));
         }
     }
 
     if (collectionName.compare("subqueries",Qt::CaseInsensitive)==0){
         foreach(SubQueryDesc* query,m_subqueries){
+            connect(query, SIGNAL(queryTextChanged(QString,QString)),
+                    this, SLOT(slotQueryTextChanged(QString,QString)));
             putHolder(query->queryName(),new SubQueryHolder(query->queryText(), query->connectionName(), query->master(), this));
         }
     }
