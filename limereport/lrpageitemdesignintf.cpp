@@ -200,8 +200,9 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
     foreach(BandDesignIntf* band,m_bands){
         if ((band->bandType()==BandDesignIntf::GroupHeader)&&(band->bandType()>bandType)) break;
-        if ((band->bandType()>bandType)) break;
-        if (bandIndex<=band->bandIndex()) bandIndex=band->maxChildIndex()+1;
+        if ((band->bandType()<=bandType)){
+            if (bandIndex<=band->bandIndex()) bandIndex=band->maxChildIndex()+1;
+        }
     }
 
     if (bandIndex==-1) {
@@ -218,7 +219,7 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
 
         switch (bandType) {
         case BandDesignIntf::SubDetailBand:
-            bandIndex = parentBand->bandIndex() + 1;
+            bandIndex = parentBand->maxChildIndex() + 1;
             increaseBandIndex = true;
             break;
         case BandDesignIntf::SubDetailHeader:
