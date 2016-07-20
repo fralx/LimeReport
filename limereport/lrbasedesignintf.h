@@ -248,6 +248,9 @@ public:
     virtual bool canContainChildren(){ return false;}    
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
+
+    Q_INVOKABLE QString setItemWidth(qreal width);
+    Q_INVOKABLE QString setItemHeight(qreal height);
 protected:
 
     //ICollectionContainer

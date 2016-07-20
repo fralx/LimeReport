@@ -176,6 +176,12 @@ void BaseDesignIntf::setWidth(qreal width)
         updateItemAlign();
 }
 
+QString BaseDesignIntf::setItemWidth(qreal width)
+{
+    setWidth(width * mmFactor());
+    return QString();
+}
+
 qreal BaseDesignIntf::height() const
 {
     return rect().height();
@@ -189,6 +195,12 @@ QRectF BaseDesignIntf::geometry() const
 void BaseDesignIntf::setHeight(qreal height)
 {
     setGeometry(QRectF(rect().x(), rect().y(), rect().width(), height));
+}
+
+QString BaseDesignIntf::setItemHeight(qreal height)
+{
+    setHeight(height * mmFactor());
+    return QString();
 }
 
 QFont BaseDesignIntf::transformToSceneFont(const QFont& value) const
