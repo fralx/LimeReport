@@ -106,7 +106,7 @@ QColor SubDetailBand::bandColor() const
 //SubDetailHeaderBand
 
 SubDetailHeaderBand::SubDetailHeaderBand(QObject *owner, QGraphicsItem *parent)
-    :BandDesignIntf(BandDesignIntf::SubDetailHeader,xmlTagHeader,owner,parent), m_printAlways(false)
+    :BandDesignIntf(BandDesignIntf::SubDetailHeader,xmlTagHeader,owner,parent)
 {
     setBandTypeText(tr("SubDetailHeader"));
     setMarkerColor(bandColor());
@@ -130,7 +130,7 @@ BaseDesignIntf *SubDetailHeaderBand::createSameTypeItem(QObject *owner, QGraphic
 //SubDetailFooterBand
 
 SubDetailFooterBand::SubDetailFooterBand(QObject *owner, QGraphicsItem *parent)
-    : BandDesignIntf(BandDesignIntf::SubDetailFooter,xmlTagFooter,owner,parent), m_printAlways(false)
+    : BandDesignIntf(BandDesignIntf::SubDetailFooter,xmlTagFooter,owner,parent)
 {
     setMarkerColor(bandColor());
 }

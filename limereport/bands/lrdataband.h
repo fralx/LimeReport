@@ -62,6 +62,7 @@ class DataHeaderBand : public BandDesignIntf
     Q_OBJECT
     Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
 public:
     DataHeaderBand(QObject* owner=0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}
@@ -76,6 +77,7 @@ private:
 class DataFooterBand : public BandDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
 public:
     DataFooterBand(QObject* owner=0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}

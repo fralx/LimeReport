@@ -143,7 +143,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_columnsFillDirection(Horizontal),
     m_reprintOnEachPage(false),
     m_startNewPage(false),
-    m_startFromNewPage(false)
+    m_startFromNewPage(false),
+    m_printAlways(false)
 {
     setPosibleResizeDirectionFlags(ResizeBottom);
     setPosibleMoveFlags(TopBotom);
@@ -714,6 +715,16 @@ void BandDesignIntf::setMarkerColor(QColor color)
 void BandDesignIntf::childBandDeleted(QObject *band)
 {
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
+}
+
+bool BandDesignIntf::printAlways() const
+{
+    return m_printAlways;
+}
+
+void BandDesignIntf::setPrintAlways(bool printAlways)
+{
+    m_printAlways = printAlways;
 }
 
 bool BandDesignIntf::startFromNewPage() const

@@ -83,6 +83,7 @@ private:
 
 struct ItemSortContainer;
 typedef QSharedPointer< ItemSortContainer > PItemSortContainer;
+
 class BandDesignIntf : public BaseDesignIntf
 {
     Q_OBJECT
@@ -210,6 +211,9 @@ public:
     bool startFromNewPage() const;
     void setStartFromNewPage(bool startFromNewPage);
     bool canContainChildren(){ return true;}
+    bool printAlways() const;
+    void setPrintAlways(bool printAlways);
+
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -260,6 +264,7 @@ private:
     bool                        m_reprintOnEachPage;
     bool                        m_startNewPage;
     bool                        m_startFromNewPage;
+    bool                        m_printAlways;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

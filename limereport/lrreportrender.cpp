@@ -404,12 +404,18 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
     if (dataBand && !dataBand->datasourceName().isEmpty())
        bandDatasource = datasources()->dataSource(dataBand->datasourceName());
 
+    BandDesignIntf* header = dataBand->bandHeader();
+    BandDesignIntf* footer = dataBand->bandFooter();
+
+    if (header && header->printAlways()) renderBand(header);
+
     if(bandDatasource && !bandDatasource->eof() && !m_renderCanceled){
 
         QString varName = QLatin1String("line_")+dataBand->objectName().toLower();
         datasources()->setReportVariable(varName,1);
 
-        renderBand(dataBand->bandHeader());
+        if (header && !header->printAlways())
+            renderBand(header);
 
         if (dataBand->bandHeader() && dataBand->bandHeader()->reprintOnEachPage())
             m_reprintableBands.append(dataBand->bandHeader());
@@ -456,11 +462,17 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
         renderGroupFooter(dataBand);
 
-        renderBand(dataBand->bandFooter(),StartNewPageAsNeeded);
+        if (footer && !footer->printAlways())
+            renderBand(footer,StartNewPageAsNeeded);
+
         datasources()->deleteVariable(varName);
+
     } else if (bandDatasource==0) {
         renderBand(dataBand,StartNewPageAsNeeded);
     }
+
+    if (footer && footer->printAlways())
+        renderBand(footer,StartNewPageAsNeeded);
 }
 
 void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
