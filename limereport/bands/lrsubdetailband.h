@@ -59,14 +59,10 @@ class SubDetailHeaderBand : public BandDesignIntf
 public:
     SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
-    void setPrintAlways(bool value){m_printAlways=value;}
-    bool printAlways(){return m_printAlways;}
 protected:
     QColor bandColor() const;
 private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
-private:
-    bool m_printAlways;
 };
 
 class SubDetailFooterBand : public BandDesignIntf
@@ -75,8 +71,6 @@ class SubDetailFooterBand : public BandDesignIntf
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
 public:
     SubDetailFooterBand(QObject* owner = 0, QGraphicsItem* parent=0);
-    void setPrintAlways(bool value){m_printAlways=value;}
-    bool printAlways(){return m_printAlways;}
     virtual bool isUnique() const;
     bool isFooter() const{return true;}
 protected:
@@ -84,7 +78,6 @@ protected:
 private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 private:
-    bool m_printAlways;
 };
 
 }
