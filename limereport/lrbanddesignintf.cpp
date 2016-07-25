@@ -411,6 +411,13 @@ void BandDesignIntf::setColumnsFillDirection(BandDesignIntf::BandColumnsLayoutTy
 
 }
 
+void BandDesignIntf::moveItemsDown(qreal startPos, qreal offset){
+   foreach (QGraphicsItem* item, childItems()){
+       if (item->pos().y()>=startPos)
+           item->setPos(item->x(),item->y()+offset);
+   }
+}
+
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int maxBottom = 0;
@@ -434,7 +441,8 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
                         upperItem->setHeight(height);
                     } else {
                         item->cloneEmpty(sliceHeight,upperPart,upperPart); //for table
-                        qgItem->setPos(item->pos().x(),item->pos().y()+((height+1)-item->geometry().top()));
+                        //qgItem->setPos(item->pos().x(),item->pos().y()+((height+1)-item->geometry().top()));
+                        moveItemsDown(item->pos().y(),(height+1)-item->geometry().top());
                     }
                 } else if (item->canBeSplitted(sliceHeight)){
                     upperItem = item->cloneUpperPart(sliceHeight,upperPart,upperPart);
