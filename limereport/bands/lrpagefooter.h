@@ -35,7 +35,7 @@
 #include <QObject>
 
 namespace LimeReport{
-class PageFooter : public LimeReport::BandDesignIntf
+class LIMEREPORT_EXPORT PageFooter : public LimeReport::BandDesignIntf
 {
     Q_OBJECT
 public:
