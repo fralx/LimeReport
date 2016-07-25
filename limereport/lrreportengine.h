@@ -76,6 +76,7 @@ public:
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();
+    PageDesignIntf* pageDesign(int index=0);
     bool    loadFromFile(const QString& fileName);
     bool    loadFromByteArray(QByteArray *data);
     bool    loadFromString(const QString& data);
