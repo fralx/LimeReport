@@ -203,6 +203,18 @@ QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){
     return res;
 }
 
+QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
+
+    QString name = pcontext->argument(0).toString();
+    QVariant value = pcontext->argument(1).toVariant();
+
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
+
+    dm->changeVariable(name,value);
+    return QScriptValue();
+}
+
 QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
@@ -390,8 +402,9 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("date",date,"DATE&TIME","date()");
     addFunction("now",now,"DATE&TIME","now()");
-    addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+",\""+tr("Locale")+"\")");
+    addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
     addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
+    addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
