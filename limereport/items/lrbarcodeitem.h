@@ -34,7 +34,7 @@
 
 namespace LimeReport{
 
-class BarcodeItem : public LimeReport::ContentItemDesignIntf {
+class LIMEREPORT_EXPORT BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_OBJECT
     Q_ENUMS(BarcodeType)
     Q_ENUMS(AngleType)
