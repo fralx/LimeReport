@@ -35,7 +35,7 @@
 
 namespace LimeReport{
 
-class SubDetailBand : public DataBandDesignIntf
+class LIMEREPORT_EXPORT SubDetailBand : public DataBandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
@@ -52,7 +52,7 @@ protected:
     virtual QColor bandColor() const;
 };
 
-class SubDetailHeaderBand : public BandDesignIntf
+class LIMEREPORT_EXPORT SubDetailHeaderBand : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
@@ -65,7 +65,7 @@ private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 };
 
-class SubDetailFooterBand : public BandDesignIntf
+class LIMEREPORT_EXPORT SubDetailFooterBand : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
