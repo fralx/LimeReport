@@ -33,7 +33,7 @@
 
 namespace LimeReport{
 
-class ImageItem : public LimeReport::ItemDesignIntf
+class LIMEREPORT_EXPORT ImageItem : public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(QImage image READ image WRITE setImage)
