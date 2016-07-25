@@ -706,6 +706,15 @@ IScriptEngineManager* ReportEngine::scriptManager()
     return d->scriptManagerIntf();
 }
 
+PageDesignIntf* ReportEngine::pageDesign(int index){
+
+    Q_D(ReportEngine);
+    if (d->pageCount()>index)
+        return d->pageAt(index);
+    else
+        return d->appendPage("page1");
+}
+
 bool ReportEngine::loadFromFile(const QString &fileName)
 {
     Q_D(ReportEngine);
