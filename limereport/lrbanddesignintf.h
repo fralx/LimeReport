@@ -236,7 +236,8 @@ protected:
     void setMarkerColor(QColor color);
     void checkEmptyTable();
     void setColumnsCount(int value);
-    void setColumnsFillDirection(BandColumnsLayoutType value);    
+    void setColumnsFillDirection(BandColumnsLayoutType value);
+    void moveItemsDown(qreal startPos, qreal offset);
 private slots:
     void childBandDeleted(QObject* band);
 private:
