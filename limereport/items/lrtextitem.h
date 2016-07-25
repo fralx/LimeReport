@@ -40,7 +40,7 @@
 namespace LimeReport {
 
 class Tag;
-class TextItem : public LimeReport::ContentItemDesignIntf {
+class LIMEREPORT_EXPORT TextItem : public LimeReport::ContentItemDesignIntf {
     Q_OBJECT
     Q_ENUMS(AutoWidth)
     Q_ENUMS(AngleType)
