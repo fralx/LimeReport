@@ -251,6 +251,12 @@ public:
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
+    Q_INVOKABLE qreal getItemWidth();
+    Q_INVOKABLE qreal getItemHeight();
+    Q_INVOKABLE qreal getItemPosX();
+    Q_INVOKABLE qreal getItemPosY();
+    Q_INVOKABLE QString setItemPosX(qreal xValue);
+    Q_INVOKABLE QString setItemPosY(qreal yValue);
 protected:
 
     //ICollectionContainer

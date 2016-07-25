@@ -203,6 +203,38 @@ QString BaseDesignIntf::setItemHeight(qreal height)
     return QString();
 }
 
+qreal BaseDesignIntf::getItemWidth()
+{
+    return width() / mmFactor();
+}
+
+qreal BaseDesignIntf::getItemHeight()
+{
+    return height() / mmFactor();
+}
+
+qreal BaseDesignIntf::getItemPosX()
+{
+    return x() / mmFactor();
+}
+
+qreal BaseDesignIntf::getItemPosY()
+{
+    return y() / mmFactor();
+}
+
+QString BaseDesignIntf::setItemPosX(qreal xValue)
+{
+    setItemPos(xValue * mmFactor(),y());
+    return QString();
+}
+
+QString BaseDesignIntf::setItemPosY(qreal yValue)
+{
+    setItemPos(x(),yValue * mmFactor());
+    return QString();
+}
+
 QFont BaseDesignIntf::transformToSceneFont(const QFont& value) const
 {
     QFont f = value;
