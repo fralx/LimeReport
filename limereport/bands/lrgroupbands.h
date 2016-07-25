@@ -35,7 +35,7 @@
 
 namespace LimeReport{
 
-class GroupBandHeader : public BandDesignIntf, public IGroupBand{
+class LIMEREPORT_EXPORT GroupBandHeader : public BandDesignIntf, public IGroupBand{
     Q_OBJECT
     Q_PROPERTY(QString groupFieldName READ groupFieldName WRITE setGroupFieldName)
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )
@@ -72,7 +72,7 @@ private:
     bool m_resetPageNumber;
 };
 
-class GroupBandFooter : public BandDesignIntf{
+class LIMEREPORT_EXPORT GroupBandFooter : public BandDesignIntf{
     Q_OBJECT
 public:
     GroupBandFooter(QObject* owner = 0, QGraphicsItem* parent=0);
