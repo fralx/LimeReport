@@ -35,7 +35,7 @@
 #include "lrbasedesignintf.h"
 
 namespace LimeReport{
-class ReportFooter : public BandDesignIntf
+class LIMEREPORT_EXPORT ReportFooter : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(int maxScalePercent READ maxScalePercent WRITE setMaxScalePercent)
