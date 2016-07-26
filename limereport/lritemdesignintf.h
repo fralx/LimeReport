@@ -82,6 +82,8 @@ protected:
     virtual QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
     virtual QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
     virtual QString expandScripts(QString context, DataSourceManager *dataManager);
+
+    QVariant m_varValue;
 };
 
 class LayoutDesignIntf : public ItemDesignIntf{

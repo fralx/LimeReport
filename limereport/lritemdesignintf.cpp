@@ -123,11 +123,12 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
 
             if (dataManager->containsField(field)) {
                 QString fieldValue;
+                m_varValue = dataManager->fieldData(field);
                 if (expandType == EscapeSymbols) {
                     if (dataManager->fieldData(field).isNull()) {
                         fieldValue="\"\"";
                     } else {
-                        fieldValue = escapeSimbols(dataManager->fieldData(field).toString());
+                        fieldValue = escapeSimbols(m_varValue.toString());
                         switch (dataManager->fieldData(field).type()) {
                         case QVariant::Char:
                         case QVariant::String:
@@ -142,8 +143,8 @@ QString ContentItemDesignIntf::expandDataFields(QString context, ExpandType expa
                     }
                 } else {
                     if (expandType == ReplaceHTMLSymbols)
-                        fieldValue = replaceHTMLSymbols(dataManager->fieldData(field).toString());
-                    else fieldValue = dataManager->fieldData(field).toString();
+                        fieldValue = replaceHTMLSymbols(m_varValue.toString());
+                    else fieldValue = m_varValue.toString();
                 }
 
                 context.replace(rx.cap(0),fieldValue);
@@ -172,15 +173,16 @@ QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass p
             pos += rx.matchedLength();
             if (dataManager->containsVariable(variable) ){
                 if (pass==dataManager->variablePass(variable)){
+                    m_varValue = dataManager->variable(variable);
                     switch (expandType){
                     case EscapeSymbols:
-                        context.replace(rx.cap(0),escapeSimbols(dataManager->variable(variable).toString()));
+                        context.replace(rx.cap(0),escapeSimbols(m_varValue.toString()));
                     break;
                     case NoEscapeSymbols:
-                        context.replace(rx.cap(0),dataManager->variable(variable).toString());
+                        context.replace(rx.cap(0),m_varValue.toString());
                     break;
                     case ReplaceHTMLSymbols:
-                        context.replace(rx.cap(0),replaceHTMLSymbols(dataManager->variable(variable).toString()));
+                        context.replace(rx.cap(0),replaceHTMLSymbols(m_varValue.toString()));
                     break;
                     }
                     pos=0;
@@ -222,6 +224,7 @@ QString ContentItemDesignIntf::expandScripts(QString context, DataSourceManager*
                 scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, dataManager);
                 QScriptValue value = se->evaluate(scriptBody);
                 if (!se->hasUncaughtException()) {
+                    m_varValue = value.toVariant();
                     context.replace(scriptExtractor.scriptAt(i),value.toString());
                 } else {
                     context.replace(scriptExtractor.scriptAt(i),se->uncaughtException().toString());
