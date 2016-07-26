@@ -213,7 +213,8 @@ public:
     bool canContainChildren(){ return true;}
     bool printAlways() const;
     void setPrintAlways(bool printAlways);
-
+    bool repeatOnEachRow() const;
+    void setRepeatOnEachRow(bool repeatOnEachRow);
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -266,6 +267,7 @@ private:
     bool                        m_startNewPage;
     bool                        m_startFromNewPage;
     bool                        m_printAlways;
+    bool                        m_repeatOnEachRow;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{
