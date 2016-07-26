@@ -38,6 +38,8 @@
 #include "lrdatasourcemanagerintf.h"
 #include "lrscriptenginemanagerintf.h"
 #include "lrpreviewreportwidget.h"
+#include "lrpagedesignintf.h"
+
 
 class QPrinter;
 
