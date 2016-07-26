@@ -441,6 +441,9 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
             datasources()->updateChildrenData(dataBand->datasourceName());
             m_lastDataBand = dataBand;
 
+            if (header && !firstTime && header->repeatOnEachRow())
+                renderBand(header,StartNewPageAsNeeded);
+
             renderBand(dataBand,StartNewPageAsNeeded,!bandDatasource->hasNext());
             renderChildBands(dataBand);
 

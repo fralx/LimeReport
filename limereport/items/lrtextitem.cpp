@@ -30,6 +30,7 @@
 #include <QtGui>
 #include <QTextLayout>
 #include <QtScript/QScriptEngine>
+#include <QLocale>
 #include <math.h>
 
 #include "lrpagedesignintf.h"
@@ -215,6 +216,7 @@ void TextItem::Init()
     m_adaptFontToSize = false;
     m_underlineLineSize = 1;
     m_lineSpacing = 1;
+    m_valueType = Default;
 }
 
 void TextItem::setContent(const QString &value)
@@ -379,6 +381,86 @@ void TextItem::initText()
     m_textSize=m_text->size();
 }
 
+QString TextItem::formatDateTime(const QDateTime &value)
+{
+    if (m_format.isEmpty())
+    {
+        return value.toString();
+    }
+
+    return value.toString(m_format);
+}
+
+QString TextItem::formatNumber(const double value)
+{
+    QString str = QString::number(value);
+
+    if (m_format.contains("%"))
+    {
+        str.sprintf(m_format.toStdString().c_str(), value);
+        str = str.replace(",", QLocale::system().groupSeparator());
+        str = str.replace(".", QLocale::system().decimalPoint());
+    }
+
+    return str;
+}
+
+QString TextItem::formatFieldValue()
+{
+    if (m_format.isEmpty()) {
+        return m_varValue.toString();
+    }
+
+    QVariant value = m_varValue;
+
+    if (m_valueType != Default) {
+        switch (m_valueType) {
+        case DateTime:
+            {
+                QDateTime dt = QDateTime::fromString(value.toString(), Qt::ISODate);
+                value = (dt.isValid() ? QVariant(dt) : m_varValue);
+                break;
+            }
+        case Double:
+            {
+                bool bOk = false;
+                double dbl = value.toDouble(&bOk);
+                value = (bOk ? QVariant(dbl) : m_varValue);
+            }
+        }
+    }
+
+    switch (value.type()) {
+    case QVariant::Date:
+    case QVariant::DateTime:
+        return formatDateTime(value.toDateTime());
+    case QVariant::Double:
+        return formatNumber(value.toDouble());
+    default:
+        return value.toString();
+    }
+}
+
+TextItem::ValueType TextItem::valueType() const
+{
+    return m_valueType;
+}
+
+void TextItem::setValueType(const ValueType valueType)
+{
+    m_valueType = valueType;
+}
+
+QString TextItem::format() const
+{
+    return m_format;
+}
+
+void TextItem::setFormat(const QString &format)
+{
+    m_format = format;
+}
+
 bool TextItem::allowHTMLInFields() const
 {
     return m_allowHTMLInFields;
@@ -474,7 +556,12 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
         context=expandUserVariables(context, pass, expandType, dataManager);
         context=expandScripts(context, dataManager);
     }
-    setContent(context);
+
+    if (expandType == NoEscapeSymbols) {
+        setContent(formatFieldValue());
+    } else {
+        setContent(context);
+    }
 }
 
 void TextItem::setAutoHeight(bool value)
