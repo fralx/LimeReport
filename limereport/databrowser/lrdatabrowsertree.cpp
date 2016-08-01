@@ -45,6 +45,9 @@ QMimeData *DataBrowserTree::mimeData(const QList<QTreeWidgetItem *> items) const
     if (items.at(0)->type()==Variable){
         result->setText("variable:$V{"+items.at(0)->text(0)+"}");
     }
+    if (items.at(0)->type()==ExternalVariable){
+        result->setText("variable:$V{"+items.at(0)->text(0)+"}");
+    }
     return result;
 }
 
