@@ -457,7 +457,7 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
         context=expandScripts(context, dataManager);
     }
 
-    if (expandType == NoEscapeSymbols) {
+    if (expandType == NoEscapeSymbols && !m_varValue.isNull() &&m_valueType!=Default) {
         setContent(formatFieldValue());
     } else {
         setContent(context);
@@ -490,22 +490,26 @@ bool TextItem::canBeSplitted(int height) const
 BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int linesHeight=0;
-    initText();
     QString tmpText="";
     TextItem* upperPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
 
     for (QTextBlock it=m_text->begin();it!=m_text->end();it=it.next()){
         for (int i=0;i<it.layout()->lineCount();i++){
           linesHeight+=it.layout()->lineAt(i).height();
-          if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {linesHeight-=it.layout()->lineAt(i).height(); goto loop_exit;}
+          if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {
+              linesHeight-=it.layout()->lineAt(i).height();
+              goto loop_exit;
+          }
           tmpText+=it.text().mid(it.layout()->lineAt(i).textStart(),it.layout()->lineAt(i).textLength())+'\n';
         }
     }
     loop_exit:
-    tmpText = tmpText.trimmed();
+    tmpText.chop(1);
+
     upperPart->setHeight(linesHeight+fakeMarginSize()*2+borderLineSize()*2);
     QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
     upperPart->setContent(context->extendTextByTags(tmpText,0));
+    upperPart->initText();
     return upperPart;
 }
 
@@ -525,19 +529,20 @@ BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsI
         }
     }
     loop_exit:;
+
     int textPos=0;
     for (;curBlock!=m_text->end();curBlock=curBlock.next()){
-        for (;curLine<curBlock.layout()->lineCount();curLine++){
+        for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
             if (tmpText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
             tmpText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
-              curBlock.layout()->lineAt(curLine).textLength()) +"\n";
+              curBlock.layout()->lineAt(curLine).textLength()) + "\n";
         }
     }
-
-    if (!m_strText.endsWith("\n")) tmpText = tmpText.trimmed();
+    tmpText.chop(1);
 
     QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
     bottomPart->setContent(context->extendTextByTags(tmpText,textPos));
+    bottomPart->initText();
     bottomPart->setHeight(bottomPart->m_textSize.height()+borderLineSize()*2);
     return bottomPart;
 }

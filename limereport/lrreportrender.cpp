@@ -768,7 +768,9 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
         band = saveUppperPartReturnBottom(band,m_maxHeightByColumn[m_currentColumn],patternBand);
         if (!band->isEmpty()) {
             if (band->autoHeight()){
-                band->setHeight(0);
+                if (band->isNeedUpdateSize(FirstPass)){
+                    band->setHeight(0);
+                }
                 band->updateItemSize(m_datasources);
             }
             DataBandDesignIntf* data = dynamic_cast<DataBandDesignIntf*>(band);
