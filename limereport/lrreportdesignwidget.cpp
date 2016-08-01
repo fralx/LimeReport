@@ -258,7 +258,9 @@ void ReportDesignWidget::slotItemSelected(BaseDesignIntf *item){
 
 void ReportDesignWidget::saveToFile(const QString &fileName){
     m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
-    m_report->saveToFile(fileName);
+    if (m_report->saveToFile(fileName)) {
+            m_report->emitSaveFinished();
+    }
 }
 
 bool ReportDesignWidget::save()

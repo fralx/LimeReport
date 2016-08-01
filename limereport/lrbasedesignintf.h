@@ -248,6 +248,7 @@ public:
     virtual bool canContainChildren(){ return false;}    
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
+    void setZValueProperty(qreal value);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -309,7 +310,6 @@ private:
     int resizeDirectionFlags(QPointF position);
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPosibleCursor(int cursorFlags);
-    void setZValueProperty(qreal value);
     void updatePosibleDirectionFlags();
     void turnOnSelectionMarker(bool value);
 private:

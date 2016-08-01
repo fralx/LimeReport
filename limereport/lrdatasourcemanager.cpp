@@ -208,6 +208,11 @@ void DataSourceModel::updateModel()
     foreach (QString name, m_dataManager->variableNames()){
         vars->addChild(name,DataNode::Variable,QIcon(":/report/images/value"));
     }
+
+    vars = m_rootNode->addChild(tr("External variables"),DataNode::Variables,QIcon(":/report/images/folder"));
+    foreach (QString name, m_dataManager->namesOfUserVariables()){
+        vars->addChild(name,DataNode::Variable,QIcon(":/report/images/value"));
+    }
 }
 
 DataSourceManager::DataSourceManager(QObject *parent) :
@@ -1217,8 +1222,9 @@ QVariant DataSourceManager::variable(const QString &variableName)
 
 RenderPass DataSourceManager::variablePass(const QString &name)
 {
-
-    return (m_reportVariables.variablePass(name)==FirstPass)?FirstPass:SecondPass;
+    if (m_userVariables.containsVariable(name))
+        return m_userVariables.variablePass(name);
+    return m_reportVariables.variablePass(name);
 }
 
 bool DataSourceManager::variableIsSystem(const QString &name)

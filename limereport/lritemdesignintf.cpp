@@ -172,20 +172,28 @@ QString ContentItemDesignIntf::expandUserVariables(QString context, RenderPass p
             QString variable=rx.cap(1);
             pos += rx.matchedLength();
             if (dataManager->containsVariable(variable) ){
-                if (pass==dataManager->variablePass(variable)){
-                    m_varValue = dataManager->variable(variable);
-                    switch (expandType){
-                    case EscapeSymbols:
-                        context.replace(rx.cap(0),escapeSimbols(m_varValue.toString()));
-                    break;
-                    case NoEscapeSymbols:
-                        context.replace(rx.cap(0),m_varValue.toString());
-                    break;
-                    case ReplaceHTMLSymbols:
-                        context.replace(rx.cap(0),replaceHTMLSymbols(m_varValue.toString()));
-                    break;
+                try {
+                    if (pass==dataManager->variablePass(variable)){
+                        m_varValue = dataManager->variable(variable);
+                        switch (expandType){
+                        case EscapeSymbols:
+                            context.replace(rx.cap(0),escapeSimbols(m_varValue.toString()));
+                        break;
+                        case NoEscapeSymbols:
+                            context.replace(rx.cap(0),m_varValue.toString());
+                        break;
+                        case ReplaceHTMLSymbols:
+                            context.replace(rx.cap(0),replaceHTMLSymbols(m_varValue.toString()));
+                        break;
+                        }
+                        pos=0;
                     }
-                    pos=0;
+                } catch (ReportError e){
+                    dataManager->putError(e.what());
+                    if (!reportSettings() || reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                        context.replace(rx.cap(0),e.what());
+                    else
+                        context.replace(rx.cap(0),"");
                 }
             } else {
                 QString error;

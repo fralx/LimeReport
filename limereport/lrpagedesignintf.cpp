@@ -1304,10 +1304,15 @@ void PageDesignIntf::bringToFront()
         }
         BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
 
-        if (bdItem)
+        if (bdItem){
             saveChangeProppertyCommand(bdItem->objectName(), "zOrder", bdItem->zValue(), zOrder);
-
-        item->setZValue(zOrder);
+            BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+            PageItemDesignIntf* page = dynamic_cast<PageItemDesignIntf*>(item);
+            if (!band && !page)
+                bdItem->setZValueProperty(zOrder);
+        } else {
+            item->setZValue(zOrder);
+        }
     }
 }
 
@@ -1320,11 +1325,15 @@ void PageDesignIntf::sendToBack()
                 zOrder = colItem->zValue() - 0.1;
         }
         BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-
-        if (bdItem)
+        if (bdItem){
             saveChangeProppertyCommand(bdItem->objectName(), "zOrder", bdItem->zValue(), zOrder);
-
-        item->setZValue(zOrder);
+            BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+            PageItemDesignIntf* page = dynamic_cast<PageItemDesignIntf*>(item);
+            if (!band && !page)
+                bdItem->setZValueProperty(zOrder);
+        } else {
+            item->setZValue(zOrder);
+        }
     }
 }
 
