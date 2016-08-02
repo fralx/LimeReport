@@ -149,6 +149,21 @@ void PreviewReportWindow::setErrorMessages(const QStringList &value){
     m_previewReportWidget->setErrorMessages(value);
 }
 
+void PreviewReportWindow::setToolBarVisible(bool value)
+{
+    ui->toolBar->setVisible(value);
+}
+
+void PreviewReportWindow::setStatusBarVisible(bool value)
+{
+    ui->statusbar->setVisible(value);
+}
+
+void PreviewReportWindow::setMenuVisible(bool value)
+{
+    ui->menubar->setVisible(value);
+}
+
 QSettings*PreviewReportWindow::settings()
 {
     if (m_settings){

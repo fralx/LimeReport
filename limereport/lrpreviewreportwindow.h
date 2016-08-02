@@ -62,6 +62,9 @@ public:
     void initPreview(int pagesCount);
     void setSettings(QSettings* value);
     void setErrorMessages(const QStringList& value);
+    void setToolBarVisible(bool value);
+    void setStatusBarVisible(bool value);
+    void setMenuVisible(bool value);
     QSettings* settings();
 protected:
     void writeSetting();

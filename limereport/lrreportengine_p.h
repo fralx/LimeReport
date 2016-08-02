@@ -86,7 +86,7 @@ public:
     bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
-    void    previewReport();
+    void    previewReport(PreviewHints hints = ShowAllPreviewBars);
     void    designReport();
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}

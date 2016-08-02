@@ -355,7 +355,7 @@ bool ReportEnginePrivate::printToPDF(const QString &fileName)
     return false;
 }
 
-void ReportEnginePrivate::previewReport()
+void ReportEnginePrivate::previewReport(PreviewHints hints)
 { 
     QTime start = QTime::currentTime();
     try{
@@ -375,6 +375,11 @@ void ReportEnginePrivate::previewReport()
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
+
+            w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
+            w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
+            w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
+
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));
             qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
@@ -720,12 +725,12 @@ bool ReportEngine::printToPDF(const QString &fileName)
     return d->printToPDF(fileName);
 }
 
-void ReportEngine::previewReport()
+void ReportEngine::previewReport(PreviewHints hints)
 {
     Q_D(ReportEngine);
     if (m_settings)
         d->setSettings(m_settings);
-    d->previewReport();
+    d->previewReport(hints);
 }
 
 void ReportEngine::designReport()

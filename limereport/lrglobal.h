@@ -80,6 +80,13 @@ namespace Const{
     QString extractClassName(QString className);
     enum RenderPass {FirstPass, SecondPass};
     enum ArrangeType {AsNeeded, Force};
+    enum PreviewHint{ShowAllPreviewBars=0,
+                     HidePreviewToolBar=1,
+                     HidePreviewMenuBar=2,
+                     HidePreviewStatusBar=4,
+                     HideAllPreviewBar=7};
+    Q_DECLARE_FLAGS(PreviewHints, PreviewHint)
+
     class ReportError : public std::runtime_error{
     public:
         ReportError(const QString& message):std::runtime_error(message.toStdString()){}
@@ -104,6 +111,6 @@ namespace Const{
 
 } // namespace LimeReport
 
-
+Q_DECLARE_OPERATORS_FOR_FLAGS(LimeReport::PreviewHints)
 
 #endif // GLOBAL_H
