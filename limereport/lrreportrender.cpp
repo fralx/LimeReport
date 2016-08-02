@@ -325,8 +325,9 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
                         if (percent<bandClone->maxScalePercent()){
                             percent += 2;
                             bandClone->setScale((100-percent)/100);
-                            bandClone->setHeight(m_maxHeightByColumn[m_currentColumn]);
-                            registerBand(bandClone);
+                            BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
+                            registerBand(upperPart);
+                            delete bandClone;
                         }
                     } else {
 
@@ -341,8 +342,9 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
                                 startNewPage();
                             }
                             if (!registerBand(bandClone)) {
-                                bandClone->setHeight(m_maxHeightByColumn[m_currentColumn]);
-                                registerBand(bandClone);
+                                BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
+                                registerBand(upperPart);
+                                delete bandClone;
                             };
                         } else {
                             bandClone->setHeight(m_maxHeightByColumn[m_currentColumn]);
