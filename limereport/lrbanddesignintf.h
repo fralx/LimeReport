@@ -268,6 +268,7 @@ private:
     bool                        m_startFromNewPage;
     bool                        m_printAlways;
     bool                        m_repeatOnEachRow;
+    QMap<QString,BaseDesignIntf*> m_slicedItems;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{
