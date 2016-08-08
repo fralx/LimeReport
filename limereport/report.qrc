@@ -165,5 +165,8 @@
         <file>images/FitWidth.png</file>
         <file>images/OneToOne.png</file>
         <file alias="/images/logo32">images/logo_32x32.png</file>
+        <file alias="/images/toolbar">images/toolbar.png</file>
+        <file>images/not_checked.png</file>
+        <file>images/checked.png</file>
     </qresource>
 </RCC>

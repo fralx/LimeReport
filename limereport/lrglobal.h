@@ -80,12 +80,14 @@ namespace Const{
     QString extractClassName(QString className);
     enum RenderPass {FirstPass, SecondPass};
     enum ArrangeType {AsNeeded, Force};
-    enum PreviewHint{ShowAllPreviewBars=0,
-                     HidePreviewToolBar=1,
-                     HidePreviewMenuBar=2,
-                     HidePreviewStatusBar=4,
-                     HideAllPreviewBar=7};
+    enum PreviewHint{ShowAllPreviewBars = 0,
+                     HidePreviewToolBar = 1,
+                     HidePreviewMenuBar = 2,
+                     HidePreviewStatusBar = 4,
+                     HideAllPreviewBar = 7,
+                     PreviewBarsUserSetting = 8};
     Q_DECLARE_FLAGS(PreviewHints, PreviewHint)
+    Q_FLAGS(PreviewHints)
 
     class ReportError : public std::runtime_error{
     public:

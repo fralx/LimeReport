@@ -71,7 +71,7 @@ public:
     bool    printReport(QPrinter *printer=0);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
-    void    previewReport(PreviewHints hints = ShowAllPreviewBars);
+    void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
     void    designReport();
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();

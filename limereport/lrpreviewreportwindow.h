@@ -69,6 +69,7 @@ protected:
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *e);
     void moveEvent(QMoveEvent *e);
+    void selectStateIcon();
 public slots:
     void slotPrint();
     void slotPriorPage();
@@ -89,6 +90,7 @@ private slots:
     void scaleComboboxChanged(QString text);
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
+    void on_actionShow_Toolbar_triggered();
 
 private:
     ItemsReaderIntf* reader();

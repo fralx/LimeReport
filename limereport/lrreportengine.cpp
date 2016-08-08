@@ -328,9 +328,11 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
                 w->setErrorMessages(dataManager()->errorsList());
             }
 
-            w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
-            w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
-            w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
+            if (!hints.testFlag(PreviewBarsUserSetting)){
+                w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
+                w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
+                w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
+            }
 
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));

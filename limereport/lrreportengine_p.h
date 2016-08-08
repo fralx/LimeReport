@@ -80,7 +80,7 @@ public:
     bool    printReport(QPrinter *printer=0);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
-    void    previewReport(PreviewHints hints = ShowAllPreviewBars);
+    void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
     void    designReport();
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}

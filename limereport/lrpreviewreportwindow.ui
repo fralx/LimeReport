@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
@@ -44,6 +44,8 @@
     </property>
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_Toolbar"/>
    </widget>
    <widget class="QMenu" name="menuReport">
     <property name="title">
@@ -252,6 +254,24 @@
    </property>
    <property name="text">
     <string>One to one</string>
+   </property>
+  </action>
+  <action name="actionShow_Toolbar">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/toolbar</normaloff>:/report/images/toolbar</iconset>
+   </property>
+   <property name="text">
+    <string>Show Toolbar</string>
+   </property>
+   <property name="toolTip">
+    <string>Show toolbar</string>
    </property>
   </action>
  </widget>

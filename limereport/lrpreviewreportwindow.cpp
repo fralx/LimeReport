@@ -70,6 +70,7 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
     restoreSetting();
+    selectStateIcon();
 }
 
 void PreviewReportWindow::writeSetting()
@@ -138,7 +139,8 @@ void PreviewReportWindow::setErrorMessages(const QStringList &value){
 
 void PreviewReportWindow::setToolBarVisible(bool value)
 {
-    ui->toolBar->setVisible(value);
+    ui->toolBar->setHidden(value);
+    selectStateIcon();
 }
 
 void PreviewReportWindow::setStatusBarVisible(bool value)
@@ -222,6 +224,15 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 #else
     Q_UNUSED(e)
 #endif
+}
+
+void PreviewReportWindow::selectStateIcon()
+{
+    if (ui->toolBar->isHidden()){
+        ui->actionShow_Toolbar->setIcon(QIcon(":/report/images/not_checked.png"));
+    } else {
+        ui->actionShow_Toolbar->setIcon(QIcon(":/report/images/checked.png"));
+    }
 }
 
 void PreviewReportWindow::slotPrint()
@@ -327,4 +338,13 @@ void PreviewReportWindow::on_actionShowMessages_toggled(bool value)
    m_previewReportWidget->setErrorsMesagesVisible(value);
 }
 
+void PreviewReportWindow::on_actionShow_Toolbar_triggered()
+{
+    setToolBarVisible(!ui->toolBar->isHidden());
+    writeSetting();
+}
+
 }// namespace LimeReport
+
+
+
