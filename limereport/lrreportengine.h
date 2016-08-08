@@ -77,7 +77,7 @@ public:
     void    printToFile(const QString& fileName);
     PageDesignIntf *createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);
-    void    previewReport(PreviewHints hints = ShowAllPreviewBars);
+    void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
     void    designReport();
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();

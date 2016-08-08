@@ -448,9 +448,11 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
                 } else if (item->canBeSplitted(sliceHeight)){
                     upperItem = item->cloneUpperPart(sliceHeight,upperPart,upperPart);
                     if (maxBottom<upperItem->geometry().bottom()) maxBottom = upperItem->geometry().bottom();
+                    m_slicedItems.insert(upperItem->objectName(),upperItem);
                 } else {
                     item->cloneEmpty(sliceHeight,upperPart,upperPart); //for table
-                    qgItem->setPos(item->pos().x(),item->pos().y()+((height+1)-item->geometry().top()));
+                    moveItemsDown(item->pos().y(),(height+1)-item->geometry().top());
+                    //qgItem->setPos(item->pos().x(),item->pos().y()+((height+1)-item->geometry().top()));
                 }
             }
         }
@@ -460,12 +462,20 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
     return upperPart;
 }
 
+bool itemLessThen(QGraphicsItem* i1, QGraphicsItem* i2){
+    return i1->pos().y()<i2->pos().y();
+}
+
 BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     BandDesignIntf* bottomPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
     bottomPart->initFromItem(this);
 
-    foreach(QGraphicsItem* qgItem,childItems()){
+    QList<QGraphicsItem*> bandItems;
+    bandItems = childItems();
+    std::sort(bandItems.begin(),bandItems.end(), itemLessThen);
+
+    foreach(QGraphicsItem* qgItem, bandItems){
         BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(qgItem);
 
         if (item){
@@ -479,6 +489,9 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
                     BaseDesignIntf* tmpItem=item->cloneBottomPart(sliceHeight,bottomPart,bottomPart);
                     tmpItem->setPos(tmpItem->pos().x(),0);
                     if (tmpItem->pos().y()<0) tmpItem->setPos(tmpItem->pos().x(),0);
+                    qreal sizeOffset = (m_slicedItems.value(tmpItem->objectName())->height()+tmpItem->height()) - item->height();
+                    qreal bottomOffset = (height - m_slicedItems.value(tmpItem->objectName())->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
+                    moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
                 }
                 else if (item->isSplittable()){
                     BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
