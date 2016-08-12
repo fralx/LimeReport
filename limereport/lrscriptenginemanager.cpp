@@ -328,26 +328,40 @@ void ScriptEngineManager::deleteFunction(const QString &functionsName)
     }
 }
 
-QScriptValue ScriptEngineManager::addFunction(const QString& name,
+bool ScriptEngineManager::containsFunction(const QString& functionName){
+    foreach (ScriptFunctionDesc funct, m_functions) {
+        if (funct.name.compare(functionName)== 0){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ScriptEngineManager::addFunction(const QString& name,
                                               QScriptEngine::FunctionSignature function,
                                               const QString& category,
                                               const QString& description)
 {
-    ScriptFunctionDesc funct;
-    funct.name = name;
-    funct.description = description;
-    funct.category = category;
-    funct.scriptValue = scriptEngine()->newFunction(function);
-    funct.scriptValue.setProperty("functionName",name);
-    funct.scriptValue.setData(m_scriptEngine->toScriptValue(this));
-    funct.type = ScriptFunctionDesc::Native;
-    m_functions.append(funct);
-    if (m_model)
-        m_model->updateModel();
-    return funct.scriptValue;
+    if (!containsFunction(name)){
+        ScriptFunctionDesc funct;
+        funct.name = name;
+        funct.description = description;
+        funct.category = category;
+        funct.scriptValue = scriptEngine()->newFunction(function);
+        funct.scriptValue.setProperty("functionName",name);
+        funct.scriptValue.setData(m_scriptEngine->toScriptValue(this));
+        funct.type = ScriptFunctionDesc::Native;
+        m_functions.append(funct);
+        if (m_model)
+            m_model->updateModel();
+        m_scriptEngine->globalObject().setProperty(funct.name,funct.scriptValue);
+        return true;
+    } else {
+        return false;
+    }
 }
 
-QScriptValue ScriptEngineManager::addFunction(const QString& name, const QString& script, const QString& category, const QString& description)
+bool ScriptEngineManager::addFunction(const QString& name, const QString& script, const QString& category, const QString& description)
 {
     QScriptSyntaxCheckResult cr = m_scriptEngine->checkSyntax(script);
     if (cr.state() == QScriptSyntaxCheckResult::Valid){
@@ -359,11 +373,11 @@ QScriptValue ScriptEngineManager::addFunction(const QString& name, const QString
         funct.type = ScriptFunctionDesc::Script;
         funct.scriptValue.setData(m_scriptEngine->toScriptValue(this));
         m_functions.append(funct);
-        m_model->updateModel();
-        return funct.scriptValue;
+        m_model->updateModel();        
+        return true;
     } else {
         m_lastError = cr.errorMessage();
-        return QScriptValue();
+        return false;
     }
 }
 
@@ -428,10 +442,10 @@ ScriptEngineManager::ScriptEngineManager()
 //        addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
 //    }
 
-    foreach(ScriptFunctionDesc func, m_functions){
-        if (func.type==ScriptFunctionDesc::Native)
-            m_scriptEngine->globalObject().setProperty(func.name,func.scriptValue);
-    }
+//    foreach(ScriptFunctionDesc func, m_functions){
+//        if (func.type==ScriptFunctionDesc::Native)
+//            m_scriptEngine->globalObject().setProperty(func.name,func.scriptValue);
+//    }
 
     m_model = new ScriptEngineModel(this);
 
