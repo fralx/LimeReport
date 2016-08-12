@@ -114,9 +114,9 @@ public:
     friend class Singleton<ScriptEngineManager>;
     bool isFunctionExists(const QString& functionName) const;
     void deleteFunction(const QString& functionsName);
-    QScriptValue addFunction(const QString& name, QScriptEngine::FunctionSignature function,
+    bool addFunction(const QString& name, QScriptEngine::FunctionSignature function,
                              const QString& category="", const QString& description="");
-    QScriptValue addFunction(const QString &name, const QString& script,
+    bool addFunction(const QString &name, const QString& script,
                              const QString &category="", const QString &description="");
     const QString& lastError() const {return m_lastError;}
     QStringList functionsNames();
@@ -124,6 +124,7 @@ public:
     ScriptEngineModel* model(){return m_model;}
     DataSourceManager* dataManager() const {return m_dataManager;}
     void setDataManager(DataSourceManager* dataManager);
+    bool containsFunction(const QString &functionName);
 private:
     Q_DISABLE_COPY(ScriptEngineManager)
 private:

@@ -37,9 +37,9 @@ namespace LimeReport{
 class IScriptEngineManager{
 public:
     virtual QScriptEngine* scriptEngine() = 0;
-    virtual QScriptValue addFunction(const QString& name, QScriptEngine::FunctionSignature function,
+    virtual bool addFunction(const QString& name, QScriptEngine::FunctionSignature function,
                              const QString& category="", const QString& description="") = 0;
-    virtual QScriptValue addFunction(const QString &name, const QString& script,
+    virtual bool addFunction(const QString &name, const QString& script,
                              const QString &category="", const QString &description="") = 0;
     virtual const QString& lastError() const = 0;
     virtual ~IScriptEngineManager(){}
