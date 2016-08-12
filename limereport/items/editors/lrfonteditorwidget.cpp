@@ -122,6 +122,7 @@ void FontEditorWidget::updateValues(const QFont& font)
 void FontEditorWidget::slotFontChanged(const QFont &font)
 {
     if (reportEditor() && !m_ignoreSlots) reportEditor()->setFont(font);
+    if (page()) page()->setFont(font);
 }
 
 void FontEditorWidget::slotFontSizeChanged(const QString &value)
