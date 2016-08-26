@@ -510,7 +510,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         }
         };
 
-        setItemPos(m_startPos - delta);
+        setItemPos(QPointF(div(m_startPos.x(), hStep).quot * hStep, div(m_startPos.y(), vStep).quot * vStep) - delta);
 
         if (!isBand() && scene()->selectedItems().count()>1)
             moveSelectedItems(tmpPos - pos());
