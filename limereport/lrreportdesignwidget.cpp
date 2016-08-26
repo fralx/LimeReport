@@ -482,6 +482,7 @@ void ReportDesignWidget::addPage()
     view->scale(0.5,0.5);
     view->centerOn(0,0);
     emit pageAdded(page);
+    applyUseGrid();
 }
 
 void ReportDesignWidget::deleteCurrentPage()
