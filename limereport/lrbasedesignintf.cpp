@@ -453,16 +453,32 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if ((event->scenePos().x()) <= (mapToScene(0, 0).x() + (width() - Const::MINIMUM_ITEM_WIDTH)) &&
              (width() + (event->lastScenePos().x() - event->scenePos().x()) > Const::MINIMUM_ITEM_WIDTH)
            ) {
-            qreal posRightConner = mapToScene(0, 0).x() + width();
-            setItemPos(mapToParent(mapFromScene(div(event->scenePos().x(), vStep).quot * vStep, y())).x(), y());
-            setWidth(posRightConner - div(event->scenePos().x(), vStep).quot * vStep);
+            qreal posRightCorner = mapToScene(0, 0).x() + width();
+            qreal posLeftCorner = div(mapToParent(event->pos()).x(), hStep).quot * hStep;
+            if (posLeftCorner < 0 )
+                posLeftCorner = 0;
+            setItemPos(posLeftCorner, y());
+            setWidth(div(posRightCorner - mapToScene(0, 0).x(), hStep).quot * hStep);
         }
     }
 
     if (m_resizeDirectionFlags & ResizeRight) {
         if ((event->scenePos().x() >= (mapToScene(0, 0).x() + Const::MINIMUM_ITEM_WIDTH)) ||
              (event->scenePos().x() >= (mapToScene(0, 0).x() + width()))) {
-            setWidth(div(int(event->scenePos().x()) - int(mapToScene(0, 0).x()), vStep).quot * vStep);
+            setWidth(div(event->scenePos().x() - mapToScene(0, 0).x(), hStep).quot * hStep);
+        }
+    }
+
+    if (m_resizeDirectionFlags & ResizeTop) {
+        if ((event->scenePos().y()) <= (mapToScene(0, 0).y() + (height() - Const::MINIMUM_ITEM_HEIGHT)) &&
+             (height() + (event->lastScenePos().y() - event->scenePos().y()) > Const::MINIMUM_ITEM_HEIGHT)
+           ) {
+            qreal posBottomCorner = mapToScene(0, 0).y() + height();
+            qreal posTopCorner = div(mapToParent(event->pos()).y(), vStep).quot * vStep;
+            if (posTopCorner < 0 )
+                posTopCorner = 0;
+            setItemPos(x(), posTopCorner);
+            setHeight(div(posBottomCorner - mapToScene(0, 0).y(), vStep).quot * vStep);
         }
     }
 
@@ -470,18 +486,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if ((event->scenePos().y() > (mapToScene(0, 0).y() + height())) ||
              (event->scenePos().y() > (mapToScene(0, 0).y() + Const::MINIMUM_ITEM_HEIGHT))
            ) {
-            setHeight(div(int(event->scenePos().y()) - int(mapToScene(0, 0).y()), hStep).quot * hStep);
-        }
-    }
-
-    if (m_resizeDirectionFlags & ResizeTop) {
-
-        if ((event->scenePos().y()) <= (mapToScene(0, 0).y() + (height() - Const::MINIMUM_ITEM_HEIGHT)) &&
-             (height() + (event->lastScenePos().y() - event->scenePos().y()) > Const::MINIMUM_ITEM_HEIGHT)
-           ) {
-            qreal posBottomConner = int(mapToScene(0, 0).y()) + int(height());
-            setItemPos(x(), div(mapToParent(event->pos()).y(), hStep).quot * hStep);
-            setHeight(posBottomConner - div(event->scenePos().y(), hStep).quot * hStep);
+            setHeight(div(event->scenePos().y() - mapToScene(0, 0).y(), vStep).quot * vStep);
         }
     }
 
@@ -505,7 +510,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         }
         };
 
-        setItemPos(m_startPos - delta);
+        setItemPos(QPointF(div(m_startPos.x(), hStep).quot * hStep, div(m_startPos.y(), vStep).quot * vStep) - delta);
 
         if (!isBand() && scene()->selectedItems().count()>1)
             moveSelectedItems(tmpPos - pos());
