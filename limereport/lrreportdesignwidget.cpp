@@ -481,6 +481,7 @@ void ReportDesignWidget::addPage()
     connectPage(page);
     view->scale(0.5,0.5);
     view->centerOn(0,0);
+    applyUseGrid();
     emit pageAdded(page);
 }
 
