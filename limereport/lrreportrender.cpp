@@ -258,15 +258,19 @@ void ReportRender::extractGroupsFunction(BandDesignIntf *band)
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 QRegExp rxName(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName));
                 if (rx.indexIn(contentItem->content())>=0){
-                    BandDesignIntf* dataBand = m_patternPageItem->bandByName(rx.cap(Const::DATASOURCE_INDEX));
-                    if (dataBand){
-                        GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
-                        if (gf){
-                            connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
+                    int pos = 0;
+                    while ( (pos = rx.indexIn(contentItem->content(),pos)) != -1){
+                        BandDesignIntf* dataBand = m_patternPageItem->bandByName(rx.cap(Const::DATASOURCE_INDEX));
+                        if (dataBand){
+                            GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
+                            if (gf){
+                                connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
+                            }
+                        } else {
+                            GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(Const::VALUE_INDEX),band->objectName(),rx.cap(Const::DATASOURCE_INDEX));
+                            gf->setInvalid(tr("Databand \"%1\" not found").arg(rx.cap(Const::DATASOURCE_INDEX)));
                         }
-                    } else {
-                        GroupFunction* gf = datasources()->addGroupFunction(functionName,rx.cap(Const::VALUE_INDEX),band->objectName(),rx.cap(Const::DATASOURCE_INDEX));
-                        gf->setInvalid(tr("Databand \"%1\" not found").arg(rx.cap(Const::DATASOURCE_INDEX)));
+                        pos += rx.matchedLength();
                     }
                 } else if (rxName.indexIn(contentItem->content())>=0){
                     GroupFunction* gf = datasources()->addGroupFunction(functionName,rxName.cap(1),band->objectName(),"");
@@ -286,7 +290,11 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
             foreach(QString functionName, m_datasources->groupFunctionNames()){
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 if (rx.indexIn(content)>=0){
-                    content.replace(rx,QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(4)+'"').arg('"'+band->objectName()+'"'));
+                    int pos = 0;
+                    while ( (pos = rx.indexIn(content,pos))!= -1 ){
+                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(4)+'"').arg('"'+band->objectName()+'"'));
+                        pos += rx.matchedLength();
+                    }
                     contentItem->setContent(content);
                 }
             }
