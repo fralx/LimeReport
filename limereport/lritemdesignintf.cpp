@@ -252,6 +252,7 @@ QString ContentItemDesignIntf::escapeSimbols(const QString &value)
 {
     QString result = value;
     result.replace("\"","\\\"");
+    result.replace('\n',"\\n");
     return result;
 }
 
