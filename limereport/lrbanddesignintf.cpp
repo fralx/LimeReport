@@ -295,9 +295,14 @@ void BandDesignIntf::setParentBandName(const QString &parentBandName)
 {
     m_parentBandName=parentBandName;
     if (itemMode()&DesignMode && !m_parentBandName.isEmpty()){
-        if ((parentBand()==0)||(parentBand()->objectName()!=parentBandName))
-            setParentBand( findParentBand());
+        if ((parentBand() == 0 )||(parentBand()->objectName()!= parentBandName))
+            setParentBand(findParentBand());
     }
+}
+
+QString BandDesignIntf::parentBandName(){
+    if (!m_parentBand) return m_parentBandName;
+    else return m_parentBand->objectName();
 }
 
 bool BandDesignIntf::isConnectedToBand(BandDesignIntf::BandsType bandType) const
