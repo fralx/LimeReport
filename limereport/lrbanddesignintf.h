@@ -146,7 +146,7 @@ public:
     void setParentBand(BandDesignIntf* band);
 
     void setParentBandName(const QString& parentBandName);
-    QString parentBandName(){return m_parentBandName;}
+    QString parentBandName();
 
     bool isConnectedToBand(BandDesignIntf::BandsType bandType) const;
 
