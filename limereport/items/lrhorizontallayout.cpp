@@ -63,7 +63,7 @@ bool lessThen(BaseDesignIntf *c1, BaseDesignIntf* c2){
 HorizontalLayout::HorizontalLayout(QObject *owner, QGraphicsItem *parent)
     : LayoutDesignIntf(xmlTag, owner, parent),m_isRelocating(false),m_layoutType(Layout)
 {
-    setPosibleResizeDirectionFlags(ResizeBottom);
+    setPossibleResizeDirectionFlags(ResizeBottom);
     m_layoutMarker = new LayoutMarker(this);
     m_layoutMarker->setParentItem(this);
     m_layoutMarker->setColor(Qt::red);
@@ -223,7 +223,7 @@ void HorizontalLayout::restoreChild(BaseDesignIntf* item){
             this, SLOT(slotOnChildItemAlignChanged(BaseDesignIntf*,ItemAlign,ItemAlign)));
 
     item->setFixedPos(true);
-    item->setPosibleResizeDirectionFlags(ResizeRight | ResizeBottom);
+    item->setPossibleResizeDirectionFlags(ResizeRight | ResizeBottom);
     item->setParent(this);
     item->setParentItem(this);
 
@@ -255,7 +255,7 @@ void HorizontalLayout::addChild(BaseDesignIntf *item, bool updateSize)
     item->setParentItem(this);
     item->setParent(this);
     item->setFixedPos(true);
-    item->setPosibleResizeDirectionFlags(ResizeRight | ResizeBottom);
+    item->setPossibleResizeDirectionFlags(ResizeRight | ResizeBottom);
 
     connect(item,SIGNAL(destroyed(QObject*)),this,SLOT(slotOnChildDestroy(QObject*)));
     connect(item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF)));
@@ -341,7 +341,7 @@ void HorizontalLayout::beforeDelete()
             bdItem->setVisible(true);
             bdItem->setPos(mapToParent(bdItem->pos()));
             bdItem->setFixedPos(false);
-            bdItem->setPosibleResizeDirectionFlags(AllDirections);
+            bdItem->setPossibleResizeDirectionFlags(AllDirections);
         }
     }
 }
@@ -452,7 +452,7 @@ void HorizontalLayout::slotOnChildGeometryChanged(QObject *item, QRectF newGeome
 
 void HorizontalLayout::slotOnChildItemAlignChanged(BaseDesignIntf *item, const BaseDesignIntf::ItemAlign &, const BaseDesignIntf::ItemAlign&)
 {
-    item->setPosibleResizeDirectionFlags(ResizeBottom | ResizeRight);
+    item->setPossibleResizeDirectionFlags(ResizeBottom | ResizeRight);
 }
 
 void HorizontalLayout::slotOnChildVisibleHasChanged(BaseDesignIntf *)

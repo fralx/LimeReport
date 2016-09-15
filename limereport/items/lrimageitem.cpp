@@ -142,9 +142,9 @@ void ImageItem::setAutoSize(bool autoSize)
         if (m_autoSize && !m_picture.isNull()){
             setWidth(image().width());
             setHeight(image().height());
-            setPosibleResizeDirectionFlags(Fixed);
+            setPossibleResizeDirectionFlags(Fixed);
         } else {
-            setPosibleResizeDirectionFlags(AllDirections);
+            setPossibleResizeDirectionFlags(AllDirections);
         }
         update();
         notify("autoSize",!autoSize,autoSize);
