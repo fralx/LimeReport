@@ -749,7 +749,7 @@ void PageDesignIntf::dragLeaveEvent(QGraphicsSceneDragDropEvent *)
     //m_itemInsertRect = 0;
 }
 
-QStringList PageDesignIntf::posibleParentItems()
+QStringList PageDesignIntf::possibleParentItems()
 {
     QStringList itemsList;
     foreach(QGraphicsItem * item, items()) {
@@ -2071,7 +2071,7 @@ void InsertHLayoutCommand::undoIt()
                 bi->setParent(parent);
                 bi->setPos(m_elements.value(bi->objectName()));
                 bi->setFixedPos(false);
-                bi->setPosibleResizeDirectionFlags(BaseDesignIntf::AllDirections);
+                bi->setPossibleResizeDirectionFlags(BaseDesignIntf::AllDirections);
             }
         }
         page()->removeReportItem(layout,false);

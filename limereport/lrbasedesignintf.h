@@ -222,10 +222,10 @@ public:
     void notify(const QString &propertyName, const QVariant &oldValue, const QVariant &newValue);
     void notify(const QVector<QString> &propertyNames);
 
-    int posibleResizeDirectionFlags() const;
-    void setPosibleResizeDirectionFlags(int directionsFlags);
-    int posibleMoveDirectionFlags() const;
-    void setPosibleMoveFlags(int directionsFlags);
+    int possibleResizeDirectionFlags() const;
+    void setPossibleResizeDirectionFlags(int directionsFlags);
+    int possibleMoveDirectionFlags() const;
+    void setPossibleMoveFlags(int directionsFlags);
 
     int marginSize() const {return m_margin;}
     void setMarginSize(int value);
@@ -309,16 +309,16 @@ private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
     void moveSelectedItems(QPointF delta);
-    Qt::CursorShape getPosibleCursor(int cursorFlags);
-    void updatePosibleDirectionFlags();
+    Qt::CursorShape getPossibleCursor(int cursorFlags);
+    void updatePossibleDirectionFlags();
     void turnOnSelectionMarker(bool value);
 private:
     QPointF m_startPos;
     //QPointF m_startScenePos;
     int     m_resizeHandleSize;
     int     m_selectionPenSize;
-    int     m_posibleResizeDirectionFlags;
-    int     m_posibleMoveDirectionFlags;
+    int     m_possibleResizeDirectionFlags;
+    int     m_possibleMoveDirectionFlags;
     int     m_resizeDirectionFlags;
     qreal   m_width, m_height;
     QPen    m_pen;

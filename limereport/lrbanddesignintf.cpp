@@ -147,8 +147,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_printAlways(false),
     m_repeatOnEachRow(false)
 {
-    setPosibleResizeDirectionFlags(ResizeBottom);
-    setPosibleMoveFlags(TopBotom);
+    setPossibleResizeDirectionFlags(ResizeBottom);
+    setPossibleMoveFlags(TopBotom);
 
     if (parent) {
         BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);

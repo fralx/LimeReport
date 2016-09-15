@@ -52,8 +52,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     QObject(owner), QGraphicsItem(parent),
     m_resizeHandleSize(Const::RESIZE_HANDLE_SIZE),
     m_selectionPenSize(Const::SELECTION_PEN_SIZE),
-    m_posibleResizeDirectionFlags(ResizeTop | ResizeBottom | ResizeLeft | ResizeRight),
-    m_posibleMoveDirectionFlags(All),
+    m_possibleResizeDirectionFlags(ResizeTop | ResizeBottom | ResizeLeft | ResizeRight),
+    m_possibleMoveDirectionFlags(All),
     m_resizeDirectionFlags(0),
     m_width(200),
     m_height(50),
@@ -494,7 +494,7 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
         QPointF tmpPos = pos();
         QPointF delta;
-        switch (posibleMoveDirectionFlags()) {
+        switch (possibleMoveDirectionFlags()) {
         case LeftRight: {
             delta = QPoint(div(event->buttonDownScenePos(Qt::LeftButton).x() - event->scenePos().x(), hStep).quot * hStep, 0);
             break;
@@ -519,9 +519,9 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-int BaseDesignIntf::posibleResizeDirectionFlags() const
+int BaseDesignIntf::possibleResizeDirectionFlags() const
 {
-    return m_posibleResizeDirectionFlags;
+    return m_possibleResizeDirectionFlags;
 }
 
 int BaseDesignIntf::resizeHandleSize() const
@@ -533,30 +533,26 @@ int BaseDesignIntf::resizeDirectionFlags(QPointF position)
 {
     int flags = Fixed;
 
-    if (posibleResizeDirectionFlags()&ResizeTop && m_topRect.contains(position)) {
+    if (possibleResizeDirectionFlags()&ResizeTop && m_topRect.contains(position)) {
         flags |= ResizeTop;
     }
 
-    if (posibleResizeDirectionFlags()&ResizeLeft && m_leftRect.contains(position)) {
+    if (possibleResizeDirectionFlags()&ResizeLeft && m_leftRect.contains(position)) {
         flags |= ResizeLeft;
     }
 
-    if (posibleResizeDirectionFlags()&ResizeBottom && m_bottomRect.contains(position)) {
+    if (possibleResizeDirectionFlags()&ResizeBottom && m_bottomRect.contains(position)) {
         flags |= ResizeBottom;
     }
 
-    if (posibleResizeDirectionFlags()&ResizeRight && m_rightRect.contains(position)) {
+    if (possibleResizeDirectionFlags()&ResizeRight && m_rightRect.contains(position)) {
         flags |= ResizeRight;
     }
-
-//    if (posibleResizeDirectionFlags()&FixedSize) {
-//        flags |= FixedSize;
-//    }
 
     return flags;
 }
 
-Qt::CursorShape BaseDesignIntf::getPosibleCursor(int cursorFlags)
+Qt::CursorShape BaseDesignIntf::getPossibleCursor(int cursorFlags)
 {
 
     if ((cursorFlags == Fixed) || (scene()->selectedItems().count() > 1)) return Qt::ArrowCursor;
@@ -596,7 +592,7 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
     if (parent){
         qreal leftBorder = parentPage?parentPage->leftMargin()*mmFactor():0;
         qreal rightBorder = parentPage?parentPage->rightMargin()*mmFactor():0;
-        qreal aviableSpace = parent->width()-(leftBorder+rightBorder);
+        qreal avaibleSpace = parent->width()-(leftBorder+rightBorder);
 
         switch(m_itemAlign){
         case LeftItemAlign:
@@ -606,7 +602,7 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
             result.setX(parent->width()-rightBorder);
             break;
         case CenterItemAlign:
-            result.setX((aviableSpace-width())/2);
+            result.setX((avaibleSpace-width())/2);
             break;
         case ParentWidthItemAlign:
             result.setX(leftBorder);
@@ -646,17 +642,17 @@ void BaseDesignIntf::updateItemAlign(){
     m_changingItemAlign = false;
 }
 
-void BaseDesignIntf::updatePosibleDirectionFlags(){
-    setPosibleResizeDirectionFlags(AllDirections);
+void BaseDesignIntf::updatePossibleDirectionFlags(){
+    setPossibleResizeDirectionFlags(AllDirections);
     switch(m_itemAlign){
     case LeftItemAlign:
-        setPosibleResizeDirectionFlags(AllDirections^ResizeLeft);
+        setPossibleResizeDirectionFlags(AllDirections^ResizeLeft);
         break;
     case RightItemAlign:
-        setPosibleResizeDirectionFlags(AllDirections^ResizeRight);
+        setPossibleResizeDirectionFlags(AllDirections^ResizeRight);
         break;
     case ParentWidthItemAlign:
-        setPosibleResizeDirectionFlags(ResizeBottom|ResizeTop);
+        setPossibleResizeDirectionFlags(ResizeBottom|ResizeTop);
     case CenterItemAlign:
     case DesignedItemAlign:
        break;
@@ -718,7 +714,7 @@ void BaseDesignIntf::setItemAlign(const ItemAlign &itemAlign)
         ItemAlign oldValue = m_itemAlign;
         m_itemAlign = itemAlign;
         notify("itemAlign",oldValue,itemAlign);
-        updatePosibleDirectionFlags();
+        updatePossibleDirectionFlags();
         updateItemAlign();
         emit itemAlignChanged(this, oldValue, itemAlign);
     }
@@ -775,32 +771,32 @@ void BaseDesignIntf::moveUp()
 
 void BaseDesignIntf::sizeRight()
 {
-    if ((m_posibleResizeDirectionFlags & ResizeLeft) ||
-         (m_posibleResizeDirectionFlags & ResizeRight)) {
+    if ((m_possibleResizeDirectionFlags & ResizeLeft) ||
+         (m_possibleResizeDirectionFlags & ResizeRight)) {
         setWidth(width() + page()->horizontalGridStep());
     }
 }
 
 void BaseDesignIntf::sizeLeft()
 {
-    if ((m_posibleResizeDirectionFlags & ResizeLeft) ||
-         (m_posibleResizeDirectionFlags & ResizeRight)) {
+    if ((m_possibleResizeDirectionFlags & ResizeLeft) ||
+         (m_possibleResizeDirectionFlags & ResizeRight)) {
         setWidth(width() - page()->horizontalGridStep());
     }
 }
 
 void BaseDesignIntf::sizeUp()
 {
-    if ((m_posibleResizeDirectionFlags & ResizeTop) ||
-         (m_posibleResizeDirectionFlags & ResizeBottom)) {
+    if ((m_possibleResizeDirectionFlags & ResizeTop) ||
+         (m_possibleResizeDirectionFlags & ResizeBottom)) {
         setHeight(height() - page()->verticalGridStep());
     }
 }
 
 void BaseDesignIntf::sizeDown()
 {
-    if ((m_posibleResizeDirectionFlags & ResizeTop) ||
-         (m_posibleResizeDirectionFlags & ResizeBottom)) {
+    if ((m_possibleResizeDirectionFlags & ResizeTop) ||
+         (m_possibleResizeDirectionFlags & ResizeBottom)) {
         setHeight(height() + page()->verticalGridStep());
     }
 }
@@ -922,9 +918,9 @@ PageDesignIntf *BaseDesignIntf::page()
     return dynamic_cast<PageDesignIntf*>(scene());
 }
 
-void BaseDesignIntf::setPosibleResizeDirectionFlags(int directionsFlags)
+void BaseDesignIntf::setPossibleResizeDirectionFlags(int directionsFlags)
 {
-    m_posibleResizeDirectionFlags = directionsFlags;
+    m_possibleResizeDirectionFlags = directionsFlags;
 }
 
 QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
@@ -1102,14 +1098,14 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
-int BaseDesignIntf::posibleMoveDirectionFlags() const
+int BaseDesignIntf::possibleMoveDirectionFlags() const
 {
-    return m_posibleMoveDirectionFlags;
+    return m_possibleMoveDirectionFlags;
 }
 
-void BaseDesignIntf::setPosibleMoveFlags(int directionsFlags)
+void BaseDesignIntf::setPossibleMoveFlags(int directionsFlags)
 {
-    m_posibleMoveDirectionFlags = directionsFlags;
+    m_possibleMoveDirectionFlags = directionsFlags;
 }
 
 void BaseDesignIntf::setMarginSize(int value)

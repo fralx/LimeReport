@@ -128,7 +128,7 @@ namespace LimeReport {
             ReportEnginePrivate* reportEditor();
             void setReportEditor(ReportEnginePrivate* value){m_reportEditor=value;}
 
-            QStringList posibleParentItems();
+            QStringList possibleParentItems();
             void registerItem(BaseDesignIntf* item);
             void registerBand(BandDesignIntf* band);
             void removeAllItems();
