@@ -51,7 +51,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_fullPage(false), m_oldPrintMode(false)
 {
     setFixedPos(true);
-    setPosibleResizeDirectionFlags(Fixed);
+    setPossibleResizeDirectionFlags(Fixed);
     initPageSize(m_pageSize);
 }
 
@@ -62,7 +62,7 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_fullPage(false), m_oldPrintMode(false)
 {
     setFixedPos(true);
-    setPosibleResizeDirectionFlags(Fixed);
+    setPossibleResizeDirectionFlags(Fixed);
     initPageSize(rect.size());
 }
 
