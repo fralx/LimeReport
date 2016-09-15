@@ -142,7 +142,6 @@ void QObjectPropertyModel::slotObjectDestroyed(QObject *obj)
     m_objects.removeOne(obj);
     if (m_object == obj){
        m_object=0;
-       if (!m_objects.isEmpty()) m_object=m_objects.at(0);
        initModel();
     }
 }
