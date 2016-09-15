@@ -156,6 +156,8 @@ ReportRender::ReportRender(QObject *parent)
 void ReportRender::setDatasources(DataSourceManager *value)
 {
     m_datasources=value;
+    initVariables();
+    resetPageNumber(BandReset);
 }
 
 void ReportRender::setScriptContext(ScriptEngineContext* scriptContext)
@@ -175,7 +177,7 @@ void ReportRender::initDatasources(){
     try{
         datasources()->setAllDatasourcesToFirst();
     } catch(ReportError &exception){
-        //TODO posible should thow exeption
+        //TODO possible should thow exeption
         QMessageBox::critical(0,tr("Error"),exception.what());
         return;
     }
@@ -185,14 +187,16 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 {
     m_curentNameIndex = 0;
     m_patternPageItem = patternPage->pageItem();
-    m_pageCount = 1;
+    if (m_patternPageItem->resetPageNumber() && m_pageCount>0) {
+        resetPageNumber(PageReset);
+
+    }
+    //m_pageCount = 1;
     m_renderCanceled = false;
     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
     m_reportFooterHeight = 0;
     if (reportFooter)
         m_reportFooterHeight = reportFooter->height();
-
-    initVariables();
     initGroupFunctions();
 #ifdef HAVE_UI_LOADER
     initDialogs();
@@ -204,33 +208,32 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         try{
             datasources()->setAllDatasourcesToFirst();
         } catch(ReportError &exception){
-            //TODO posible should thow exeption
+            //TODO possible should thow exeption
             QMessageBox::critical(0,tr("Error"),exception.what());
             return;
         }
 
-    clearPageMap();
-    resetPageNumber();
-    startNewPage();
+        clearPageMap();
 
-    renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader),StartNewPageAsNeeded);
+        startNewPage();
 
-    BandDesignIntf* lastRenderedBand = 0;
-    for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
-        lastRenderedBand = m_patternPageItem->dataBandAt(i);
-        initDatasources();
-        renderDataBand(lastRenderedBand);
-        if (i<m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
-    }
+        renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader),StartNewPageAsNeeded);
 
-    if (reportFooter)
-        renderBand(reportFooter,StartNewPageAsNeeded);
-    if (lastRenderedBand && lastRenderedBand->keepFooterTogether())
-        closeFooterGroup(lastRenderedBand);
+        BandDesignIntf* lastRenderedBand = 0;
+        for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
+            lastRenderedBand = m_patternPageItem->dataBandAt(i);
+            initDatasources();
+            renderDataBand(lastRenderedBand);
+            if (i<m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
+        }
 
-    savePage();
-    if (!m_renderCanceled)
-        secondRenderPass();
+        if (reportFooter)
+            renderBand(reportFooter,StartNewPageAsNeeded);
+        if (lastRenderedBand && lastRenderedBand->keepFooterTogether())
+            closeFooterGroup(lastRenderedBand);
+
+        savePage();
+
     }
 }
 
@@ -599,7 +602,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
             gb->startGroup(m_datasources);
             openDataGroup(band);
             if (!firstTime && gb->startNewPage()){
-                if (gb->resetPageNumber()) resetPageNumber();
+                if (gb->resetPageNumber()) resetPageNumber(BandReset);
                 renderBand(band,ForcedStartPage);
             } else {
                 renderBand(band,StartNewPageAsNeeded);
@@ -849,14 +852,17 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
 
 }
 
-void ReportRender::secondRenderPass()
+void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
-    for(int i=0; i<m_renderedPages.count(); ++i){
-        PageItemDesignIntf::Ptr page = m_renderedPages.at(i);
+    for(int i=0; i<renderedPages.count(); ++i){
+        PageItemDesignIntf::Ptr page = renderedPages.at(i);
         m_datasources->setReportVariable("#PAGE_COUNT",findLastPageNumber(i));
-        foreach(BandDesignIntf* band, page->childBands()){
-            band->updateItemSize(m_datasources, SecondPass);
+        foreach(BaseDesignIntf* item, page->childBaseItems()){
+            item->updateItemSize(m_datasources, SecondPass);
         }
+//        foreach(BandDesignIntf* band, page->childBands()){
+//            band->updateItemSize(m_datasources, SecondPass);
+//        }
     }
 }
 
@@ -938,24 +944,26 @@ void ReportRender::startNewPage()
     renderPageItems(m_patternPageItem);
 }
 
-void ReportRender::resetPageNumber()
+void ReportRender::resetPageNumber(ResetPageNuberType resetType)
 {
     PagesRange range;
     if (!m_ranges.isEmpty()){
-        m_ranges.last().lastPage = m_pageCount;
-        range.firstPage = m_pageCount+1;
+        m_ranges.last().lastPage = (resetType == BandReset)? m_pageCount : m_pageCount-1;
+        range.firstPage = m_pageCount+((resetType == BandReset)? 1 : 0);
     } else {
         range.firstPage = m_pageCount;
     }
-    range.lastPage = 0;
+    range.lastPage = (resetType == BandReset)? 0 : m_pageCount;
     m_ranges.append(range);
+    if (resetType == PageReset)
+        m_datasources->setReportVariable("#PAGE",1);
 }
 
 int ReportRender::findLastPageNumber(int currentPage)
 {
     foreach (PagesRange range, m_ranges) {
-        if ( range.firstPage<= (currentPage+1) && range.lastPage>= (currentPage+1) )
-            return range.lastPage-(range.firstPage-1);
+        if ( range.firstPage<= (currentPage) && range.lastPage>= (currentPage) )
+            return (range.lastPage-(range.firstPage))+1;
     }
     return 0;
 }
@@ -1068,8 +1076,9 @@ void ReportRender::savePage()
     BandDesignIntf* pageFooter = m_renderPageItem->bandByType(BandDesignIntf::PageFooter);
     if (pageFooter) pageFooter->setBandIndex(++m_currentIndex);
     m_renderedPages.append(PageItemDesignIntf::Ptr(m_renderPageItem));
-    emit pageRendered(m_pageCount);
     m_pageCount++;
+    emit pageRendered(m_pageCount);
+
 }
 
 QString ReportRender::toString()

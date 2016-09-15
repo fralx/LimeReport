@@ -1078,10 +1078,39 @@ void ReportDesignWindow::slotBandDeleted(PageDesignIntf *, BandDesignIntf *band)
     }
 }
 
+
+void ReportDesignWindow::updateAvaibleBands(){
+
+    if (!m_reportDesignWidget || !m_reportDesignWidget->activePage()) return;
+    m_newPageHeader->setEnabled(true);
+    m_newPageFooter->setEnabled(true);
+    m_newReportHeader->setEnabled(true);
+    m_newReportFooter->setEnabled(true);
+
+    foreach(BandDesignIntf* band, m_reportDesignWidget->activePage()->pageItem()->bands()){
+        switch (band->bandType()) {
+        case BandDesignIntf::PageHeader:
+            m_newPageHeader->setEnabled(false);
+            break;
+        case BandDesignIntf::PageFooter:
+            m_newPageFooter->setEnabled(false);
+            break;
+        case BandDesignIntf::ReportHeader:
+            m_newReportHeader->setEnabled(false);
+            break;
+        case BandDesignIntf::ReportFooter:
+            m_newReportFooter->setEnabled(false);
+        default:
+            break;
+        }
+    }
+}
+
 void ReportDesignWindow::slotActivePageChanged()
 {
     m_propertyModel->setObject(0);
     updateRedoUndo();
+    updateAvaibleBands();
 }
 
 void ReportDesignWindow::renderStarted()
@@ -1178,7 +1207,7 @@ void ReportDesignWindow::slotLoadRecentFile(const QString fileName)
     }
 }
 
-void ReportDesignWindow::slotPageAdded(PageDesignIntf *page)
+void ReportDesignWindow::slotPageAdded(PageDesignIntf *)
 {
     m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
 }

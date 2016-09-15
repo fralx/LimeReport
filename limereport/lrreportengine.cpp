@@ -671,7 +671,9 @@ ReportPages ReportEnginePrivate::renderToPages()
         foreach(PageDesignIntf* page , m_pages){
         	m_pages.at(0)->setReportSettings(&m_reportSettings);
         	result.append(m_reportRender->renderPageToPages(page));
-        }	
+        }
+
+        m_reportRender->secondRenderPass(result);
         emit renderFinished();
         m_reportRender.clear();
         return result;

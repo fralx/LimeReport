@@ -69,6 +69,7 @@ class ReportRender: public QObject
 public:
     enum DataRenderMode {StartNewPageAsNeeded, NotStartNewPage, ForcedStartPage};
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
+    enum ResetPageNuberType{BandReset, PageReset};
     typedef QSharedPointer<ReportRender> Ptr;    
     ~ReportRender();
     ReportRender(QObject *parent = 0);
@@ -79,6 +80,7 @@ public:
     PageItemDesignIntf::Ptr pageAt(int index);
     QString renderPageToString(PageDesignIntf *patternPage);
     ReportPages renderPageToPages(PageDesignIntf *patternPage);
+    void    secondRenderPass(ReportPages renderedPages);
 signals:
     void    pageRendered(int renderedPageCount);
 public slots:
@@ -127,12 +129,12 @@ private:
     BandDesignIntf* findEnclosingGroup();
     bool    registerBand(BandDesignIntf* band, bool registerInChildren=true);
     BandDesignIntf *sliceBand(BandDesignIntf* band, BandDesignIntf *patternBand, bool isLast);
-    void    secondRenderPass();
+
     BandDesignIntf* saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf *patternBand);
     BandDesignIntf* renderData(BandDesignIntf* patternBand);
     void    startNewColumn();
     void    startNewPage();
-    void    resetPageNumber();
+    void    resetPageNumber(ResetPageNuberType resetType);
     int     findLastPageNumber(int currentPage);
     void    savePage();
     QString toString();

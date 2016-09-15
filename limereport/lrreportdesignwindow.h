@@ -117,7 +117,7 @@ private slots:
     void slotUseGrid(bool value);
     void slotUseMagnet(bool value);
     void slotLoadRecentFile(const QString fileName);
-    void slotPageAdded(PageDesignIntf* page);
+    void slotPageAdded(PageDesignIntf* );
     void slotPageDeleted();
 protected:
     void closeEvent(QCloseEvent *event);
@@ -138,6 +138,7 @@ private:
     void createDataWindow();
     void createScriptWindow();
     void updateRedoUndo();
+    void updateAvaibleBands();
     void startNewReport();
     void writePosition();
     void writeState();

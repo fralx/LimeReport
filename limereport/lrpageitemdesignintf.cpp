@@ -48,10 +48,10 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
-    m_fullPage(false), m_oldPrintMode(false)
+    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
 {
     setFixedPos(true);
-    setPosibleResizeDirectionFlags(Fixed);
+    setPossibleResizeDirectionFlags(Fixed);
     initPageSize(m_pageSize);
 }
 
@@ -59,10 +59,10 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
-    m_fullPage(false), m_oldPrintMode(false)
+    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
 {
     setFixedPos(true);
-    setPosibleResizeDirectionFlags(Fixed);
+    setPossibleResizeDirectionFlags(Fixed);
     initPageSize(rect.size());
 }
 
@@ -297,6 +297,21 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     posByColumns.clear();
     for(int i=0;i<columnCount;++i){
         posByColumns.append(pos);
+    }
+}
+
+bool PageItemDesignIntf::resetPageNumber() const
+{
+    return m_resetPageNumber;
+}
+
+void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
+{
+    if (m_resetPageNumber!=resetPageNumber){
+        m_resetPageNumber = resetPageNumber;
+        if (!isLoading()){
+            notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
+        }
     }
 }
 
