@@ -1803,11 +1803,14 @@ bool PasteCommand::insertItem(ItemsReaderIntf::Ptr reader)
     if (parentItem){
         BaseDesignIntf *item = page()->addReportItem(reader->itemClassName(), parentItem, parentItem);
         if (item) {
-            m_itemNames.push_back(item->objectName());
+            QString objectName = item->objectName();
             reader->readItem(item);
             item->setParent(parentItem);
             item->setParentItem(parentItem);
-            item->setObjectName(m_itemNames.last());
+            if (page()->reportItemsByName(item->objectName()).size()>1){
+                item->setObjectName(objectName);
+            }
+            m_itemNames.push_back(item->objectName());
         }
         return true;
     }
