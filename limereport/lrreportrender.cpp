@@ -168,6 +168,16 @@ void ReportRender::initDatasources(){
     }
 }
 
+void ReportRender::initDatasource(const QString& name){
+    try{
+        if (datasources()->containsDatasource(name))
+            datasources()->dataSource(name)->first();
+    } catch(ReportError &exception){
+        QMessageBox::critical(0,tr("Error"),exception.what());
+        return;
+    }
+}
+
 void ReportRender::renderPage(PageDesignIntf* patternPage)
 {
     m_curentNameIndex = 0;
@@ -191,7 +201,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
     BandDesignIntf* lastRenderedBand = 0;
     for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
         lastRenderedBand = m_patternPageItem->dataBandAt(i);
-        initDatasources();
+        initDatasource(lastRenderedBand->datasourceName());
         renderDataBand(lastRenderedBand);
         if (i<m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
     }
