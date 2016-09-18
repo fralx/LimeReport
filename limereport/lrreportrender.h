@@ -88,6 +88,7 @@ public slots:
 private:
     void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
+    void    initDatasource(const QString &name);
     void    initRenderPage();
 #ifdef HAVE_UI_LOADER
     void    initDialogs();
@@ -177,6 +178,7 @@ private:
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_curentNameIndex;
+
 };
 } // namespace LimeReport
 #endif // LRREPORTRENDER_H
