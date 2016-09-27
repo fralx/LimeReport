@@ -64,6 +64,7 @@ private:
     bool isStarted();
     void closeGroup();
     int index();
+    QString findDataSourceName(BandDesignIntf *parentBand);
 private:
     QVariant m_groupFieldValue;
     QString m_groupFiledName;

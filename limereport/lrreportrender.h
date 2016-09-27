@@ -109,7 +109,7 @@ private:
     void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource, bool firstTime);
     void    renderGroupFooter(BandDesignIntf* parentBand);
 
-    void    initGroupFunctions();
+    void    initGroups();
     void    extractGroupsFunction(BandDesignIntf* band);
     void    replaceGroupsFunction(BandDesignIntf* band);
 
