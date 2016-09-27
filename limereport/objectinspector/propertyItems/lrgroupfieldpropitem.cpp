@@ -42,18 +42,24 @@ namespace  {
 }
 namespace LimeReport {
 
+
+QString findDatasourceName(BandDesignIntf* band){
+    if (!band) return "";
+    if (!band->datasourceName().isEmpty()) return band->datasourceName();
+    else return findDatasourceName(band->parentBand());
+}
+
 QWidget *GroupFieldPropItem::createProperyEditor(QWidget *parent) const
 {
     ComboBoxEditor *editor = new ComboBoxEditor(parent,true);
     editor->setEditable(true);
     GroupBandHeader *item=dynamic_cast<GroupBandHeader*>(object());
     if (item){
-        DataBandDesignIntf* dataBand = dynamic_cast<DataBandDesignIntf*>(item->parentBand());
+        BandDesignIntf* dataBand = dynamic_cast<BandDesignIntf*>(item->parentBand());
         if (dataBand){
-            int propertyIndex = dataBand->metaObject()->indexOfProperty("datasource");
-
-            if (item && propertyIndex>0){
-               editor->addItems(item->reportEditor()->dataManager()->fieldNames(dataBand->property("datasource").toString()));
+            QString datasourceName = findDatasourceName(dataBand);
+            if (!datasourceName.isEmpty()){
+               editor->addItems(item->reportEditor()->dataManager()->fieldNames(datasourceName));
             }
         }
     }

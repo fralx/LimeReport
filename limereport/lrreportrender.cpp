@@ -190,7 +190,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         m_reportFooterHeight = reportFooter->height();
 
     initVariables();
-    initGroupFunctions();
+    initGroups();
 
     clearPageMap();
     resetPageNumber();
@@ -545,20 +545,22 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
         if (gb&&gb->isNeedToClose(m_datasources)){
             if (band->childBands().count()>0){
                 dataSource->prior();
-                foreach (BandDesignIntf* subBand, parentBand->childrenByType(BandDesignIntf::GroupHeader)) {
-                    if ( (subBand->bandIndex() > band->bandIndex()) &&
-                         (subBand->childBands().count()>0)
-                    ){
-                        renderBand(subBand->childBands().at(0));
+                foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
+                    foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
+                        renderBand(footer);
                         closeDataGroup(subBand);
                     }
                 }
 
-                renderBand(band->childBands().at(0),StartNewPageAsNeeded);
+                foreach (BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)) {
+                    renderBand(footer,StartNewPageAsNeeded);
+                }
+
                 dataSource->next();
             }
             closeDataGroup(band);
         }
+
         if (!gb->isStarted()){
             if (band->reprintOnEachPage())
                 m_reprintableBands.append(band);
@@ -571,6 +573,8 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 renderBand(band,StartNewPageAsNeeded);
             }
         }
+
+        renderGroupHeader(band, dataSource, firstTime);
     }
 }
 
@@ -588,11 +592,12 @@ void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
     }
 }
 
-void ReportRender::initGroupFunctions()
+void ReportRender::initGroups()
 {
     m_datasources->clearGroupFunction();
     foreach(BandDesignIntf* band, m_patternPageItem->childBands()){
         if (band->isFooter()) extractGroupsFunction(band);
+        if (band->isHeader()) dynamic_cast<IGroupBand*>(band)->closeGroup();
     }
 }
 

@@ -92,8 +92,9 @@ void GroupBandHeader::startGroup(DataSourceManager* dataManager)
     QString lineVar = QLatin1String("line_")+objectName().toLower();
     dataManager->setReportVariable(lineVar,1);
 
-    if ((dataManager->dataSource(parentBand()->datasourceName()))){
-        IDataSource* ds = dataManager->dataSource(parentBand()->datasourceName());
+    QString datasourceName = findDataSourceName(parentBand());
+    if (dataManager->containsDatasource(datasourceName)){
+        IDataSource* ds = dataManager->dataSource(datasourceName);
         if (ds->columnIndexByName(m_groupFiledName)!=-1)
             m_groupFieldValue=ds->data(m_groupFiledName);
     }
@@ -104,17 +105,27 @@ QColor GroupBandHeader::bandColor() const
     return QColor(Qt::darkBlue);
 }
 
+QString GroupBandHeader::findDataSourceName(BandDesignIntf* parentBand){
+    if (!parentBand) return "";
+    if (!parentBand->datasourceName().isEmpty())
+        return parentBand->datasourceName();
+    else
+        return findDataSourceName(parentBand->parentBand());
+
+}
+
 bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
 {
-    //if (m_groupFieldValue.isNull()) return false;
-
     if (!m_groupStarted) return false;
     if (m_groupFiledName.isNull() || m_groupFiledName.isEmpty())
-        dataManager->putError("Group Field Not found");
-    if ((dataManager->dataSource(parentBand()->datasourceName()))){
-        IDataSource* ds = dataManager->dataSource(parentBand()->datasourceName());
+        dataManager->putError(tr("Group field not found"));
+    QString datasourceName = findDataSourceName(parentBand());
+    if (dataManager->containsDatasource(datasourceName)){
+        IDataSource* ds = dataManager->dataSource(datasourceName);
         if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
         return ds->data(m_groupFiledName)!=m_groupFieldValue;
+    } else {
+        dataManager->putError(tr("Datasource \"%1\" not found !!!").arg(datasourceName));
     }
 
     return false;
