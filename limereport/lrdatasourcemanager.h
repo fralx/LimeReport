@@ -32,7 +32,6 @@
 
 #include <QObject>
 #include <QIcon>
-#include "lrdatasourcemanager.h"
 #include "lrdatadesignintf.h"
 #include "lrcollection.h"
 #include "lrglobal.h"

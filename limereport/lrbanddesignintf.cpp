@@ -30,6 +30,7 @@
 #include "lrbanddesignintf.h"
 #include "lritemdesignintf.h"
 #include "lrglobal.h"
+#include <algorithm>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
