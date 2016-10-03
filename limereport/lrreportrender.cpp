@@ -629,7 +629,7 @@ void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
 {
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){
         IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
-        if (gb->isStarted()){
+        if (gb && gb->isStarted()){
             if (band->reprintOnEachPage()) m_reprintableBands.removeOne(band);
             if (band->childBands().count()>0){
                 renderBand(band->childBands().at(0),StartNewPageAsNeeded);
@@ -644,7 +644,10 @@ void ReportRender::initGroups()
     m_datasources->clearGroupFunction();
     foreach(BandDesignIntf* band, m_patternPageItem->childBands()){
         if (band->isFooter()) extractGroupsFunction(band);
-        if (band->isHeader()) dynamic_cast<IGroupBand*>(band)->closeGroup();
+        if (band->isHeader()){
+            IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
+            if (gb) gb->closeGroup();
+        }
     }
 }
 
