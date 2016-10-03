@@ -229,7 +229,7 @@ QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
                                           pengine->newVariant(QLocale(locale).toString(value.toDouble(),format,precision));
     return res;
 }
-
+#if QT_VERSION>0x040800
 QScriptValue currencyFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     QString locale = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().name();
@@ -245,7 +245,7 @@ QScriptValue currencyUSBasedFormat(QScriptContext* pcontext, QScriptEngine* peng
     if (CurrencySymbol!="") vTempStr.replace("$", CurrencySymbol);
     return pengine->newVariant(vTempStr);
 }
-
+#endif
 QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
@@ -426,8 +426,10 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("date",date,"DATE&TIME","date()");
     addFunction("now",now,"DATE&TIME","now()");
+#if QT_VERSION>0x040800
     addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
     addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
+#endif
     addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
