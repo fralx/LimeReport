@@ -48,7 +48,9 @@ bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
 namespace LimeReport{
 
 PageFooter::PageFooter(QObject *owner, QGraphicsItem *parent)
-    : BandDesignIntf(LimeReport::BandDesignIntf::PageFooter,xmlTag,owner,parent) {
+    : BandDesignIntf(LimeReport::BandDesignIntf::PageFooter,xmlTag,owner,parent),
+      m_printOnFirstPage(true), m_printOnLastPage(true)
+{
         setBandTypeText( tr("Page Footer") );
         setMarkerColor(bandColor());
 }
@@ -61,6 +63,26 @@ BaseDesignIntf *PageFooter::createSameTypeItem(QObject *owner, QGraphicsItem *pa
 QColor PageFooter::bandColor() const
 {
    return QColor(246,120,12);
+}
+
+bool PageFooter::printOnFirstPage() const
+{
+    return m_printOnFirstPage;
+}
+
+void PageFooter::setPrintOnFirstPage(bool printOnFirstPage)
+{
+    m_printOnFirstPage = printOnFirstPage;
+}
+
+bool PageFooter::printOnLastPage() const
+{
+    return m_printOnLastPage;
+}
+
+void PageFooter::setPrintOnLastPage(bool printOnLastPage)
+{
+    m_printOnLastPage = printOnLastPage;
 }
 
 } // namespace LimeReport

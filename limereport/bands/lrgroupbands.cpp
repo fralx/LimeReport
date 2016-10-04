@@ -95,7 +95,7 @@ void GroupBandHeader::startGroup(DataSourceManager* dataManager)
     QString datasourceName = findDataSourceName(parentBand());
     if (dataManager->containsDatasource(datasourceName)){
         IDataSource* ds = dataManager->dataSource(datasourceName);
-        if (ds->columnIndexByName(m_groupFiledName)!=-1)
+        if (ds && ds->columnIndexByName(m_groupFiledName)!=-1)
             m_groupFieldValue=ds->data(m_groupFiledName);
     }
 }
@@ -122,8 +122,10 @@ bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
     QString datasourceName = findDataSourceName(parentBand());
     if (dataManager->containsDatasource(datasourceName)){
         IDataSource* ds = dataManager->dataSource(datasourceName);
-        if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
-        return ds->data(m_groupFiledName)!=m_groupFieldValue;
+        if (ds){
+            if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
+            return ds->data(m_groupFiledName)!=m_groupFieldValue;
+        }
     } else {
         dataManager->putError(tr("Datasource \"%1\" not found !!!").arg(datasourceName));
     }

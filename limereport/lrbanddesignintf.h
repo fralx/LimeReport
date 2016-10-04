@@ -110,7 +110,8 @@ public:
         GroupFooter=8,
         DataFooter=9,
         ReportFooter=10,
-        PageFooter=11
+        TearOffBand=11,
+        PageFooter=12
     };
 
     enum BandColumnsLayoutType{

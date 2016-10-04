@@ -19,6 +19,7 @@ SOURCES += \
     $$REPORT_PATH/bands/lrdataband.cpp \
     $$REPORT_PATH/bands/lrgroupbands.cpp \
     $$REPORT_PATH/bands/lrsubdetailband.cpp \
+    $$REPORT_PATH/bands/lrtearoffband.cpp \
     $$REPORT_PATH/objectinspector/lrobjectinspectorwidget.cpp \
     $$REPORT_PATH/objectinspector/lrobjectitemmodel.cpp \
     $$REPORT_PATH/objectinspector/lrobjectpropitem.cpp \
@@ -88,6 +89,7 @@ SOURCES += \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp
+
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -100,6 +102,7 @@ HEADERS += \
     $$REPORT_PATH/bands/lrreportheader.h \
     $$REPORT_PATH/bands/lrreportfooter.h \
     $$REPORT_PATH/bands/lrdataband.h \
+    $$REPORT_PATH/bands/lrtearoffband.h \
     $$REPORT_PATH/objectinspector/lrobjectinspectorwidget.h \
     $$REPORT_PATH/objectinspector/lrobjectitemmodel.h \
     $$REPORT_PATH/objectinspector/lrobjectpropitem.h \
@@ -160,6 +163,7 @@ HEADERS += \
     $$REPORT_PATH/lrreportrender.h \
     $$REPORT_PATH/lrpreviewreportwindow.h \
     $$REPORT_PATH/lrpreviewreportwidget.h \
+    $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lrgraphicsviewzoom.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrfontpropitem.h \
     $$REPORT_PATH/objectinspector/editors/lrfonteditor.h \
@@ -182,9 +186,8 @@ HEADERS += \
     $$REPORT_PATH/lrsimplecrypt.h \    
     $$REPORT_PATH/lraboutdialog.h \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
-    $$REPORT_PATH/lrsettingdialog.h \
-    $$PWD/lrpreviewreportwidget_p.h
-    
+    $$REPORT_PATH/lrsettingdialog.h
+
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
 }

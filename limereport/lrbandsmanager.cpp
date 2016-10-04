@@ -37,6 +37,7 @@
 #include "lrdataband.h"
 #include "lrsubdetailband.h"
 #include "lrgroupbands.h"
+#include "lrtearoffband.h"
 
 namespace LimeReport{
 
@@ -90,6 +91,8 @@ BandDesignIntf *BandsManager::createBand(BandDesignIntf::BandsType bandType, QOb
         return new DataHeaderBand(owner, parent);
     case BandDesignIntf::DataFooter:
         return new DataFooterBand(owner, parent);
+    case BandDesignIntf::TearOffBand:
+        return new TearOffBand(owner, parent);
     }
 
     return 0;

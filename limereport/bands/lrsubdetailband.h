@@ -41,6 +41,7 @@ class SubDetailBand : public DataBandDesignIntf
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(bool keepFooterTogether READ keepFooterTogether WRITE setKeepFooterTogether)
 public:
     SubDetailBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}
@@ -55,7 +56,7 @@ protected:
 class SubDetailHeaderBand : public BandDesignIntf
 {
     Q_OBJECT
-    Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
+    Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
     SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
