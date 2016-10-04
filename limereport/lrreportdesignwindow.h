@@ -197,6 +197,7 @@ private:
     QAction* m_newSubDetailFooter;
     QAction* m_newGroupHeader;
     QAction* m_newGroupFooter;
+    QAction* m_newTearOffBand;
     QAction* m_aboutAction;
     QAction* m_editLayoutMode;
     QAction* m_addHLayout;

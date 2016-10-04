@@ -19,6 +19,7 @@ SOURCES += \
     $$REPORT_PATH/bands/lrdataband.cpp \
     $$REPORT_PATH/bands/lrgroupbands.cpp \
     $$REPORT_PATH/bands/lrsubdetailband.cpp \
+    $$REPORT_PATH/bands/lrtearoffband.cpp \
     $$REPORT_PATH/objectinspector/lrobjectinspectorwidget.cpp \
     $$REPORT_PATH/objectinspector/lrobjectitemmodel.cpp \
     $$REPORT_PATH/objectinspector/lrobjectpropitem.cpp \
@@ -101,6 +102,7 @@ HEADERS += \
     $$REPORT_PATH/bands/lrreportheader.h \
     $$REPORT_PATH/bands/lrreportfooter.h \
     $$REPORT_PATH/bands/lrdataband.h \
+    $$REPORT_PATH/bands/lrtearoffband.h \
     $$REPORT_PATH/objectinspector/lrobjectinspectorwidget.h \
     $$REPORT_PATH/objectinspector/lrobjectitemmodel.h \
     $$REPORT_PATH/objectinspector/lrobjectpropitem.h \
@@ -161,6 +163,7 @@ HEADERS += \
     $$REPORT_PATH/lrreportrender.h \
     $$REPORT_PATH/lrpreviewreportwindow.h \
     $$REPORT_PATH/lrpreviewreportwidget.h \
+    $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lrgraphicsviewzoom.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrfontpropitem.h \
     $$REPORT_PATH/objectinspector/editors/lrfonteditor.h \
@@ -185,7 +188,7 @@ HEADERS += \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h 
     
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h

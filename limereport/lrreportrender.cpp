@@ -185,8 +185,11 @@ void ReportRender::initDatasources(){
 
 void ReportRender::initDatasource(const QString& name){
     try{
-        if (datasources()->containsDatasource(name))
-            datasources()->dataSource(name)->first();
+        if (datasources()->containsDatasource(name)){
+            IDataSource* ds = datasources()->dataSource(name);
+            if (ds)
+                ds->first();
+        }
     } catch(ReportError &exception){
         QMessageBox::critical(0,tr("Error"),exception.what());
         return;
@@ -241,8 +244,12 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
             renderBand(reportFooter,StartNewPageAsNeeded);
         if (lastRenderedBand && lastRenderedBand->keepFooterTogether())
             closeFooterGroup(lastRenderedBand);
+            
+    BandDesignIntf* tearOffBand = m_patternPageItem->bandByType(BandDesignIntf::TearOffBand);
+    if (tearOffBand)
+        renderBand(tearOffBand,StartNewPageAsNeeded);
 
-        savePage();
+        savePage(true);
 
     }
 }
@@ -504,7 +511,12 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
 {
     BandDesignIntf* band = patternPage->bandByType(BandDesignIntf::PageHeader);
-    if (band) renderBand(band);
+    if (band){
+        if (m_datasources->variable("#PAGE").toInt()!=1 ||
+            band->property("printOnFirstPage").toBool()
+        )
+            renderBand(band);
+    }
 }
 
 void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
@@ -540,7 +552,10 @@ qreal ReportRender::calcPageFooterHeight(PageItemDesignIntf *patternPage)
 {
     BandDesignIntf* band = patternPage->bandByType(BandDesignIntf::PageFooter);
     if (band){
-        return band->height();
+        if (m_datasources->variable("#PAGE")!=1)
+            return band->height();
+        else if (band->property("printOnFirstPage").toBool())
+            return band->height();
     }
     return 0;
 }
@@ -1041,10 +1056,12 @@ void ReportRender::checkLostHeadersOnPrevPage()
     QMutableListIterator<BandDesignIntf*>it(page->bands());
 
     it.toBack();
-    if (it.hasPrevious())
-        if (it.previous()->isFooter())
+    if (it.hasPrevious()){
+        if (it.previous()->isFooter()){
                 if (it.hasPrevious()) it.previous();
                 else return;
+        }
+    }
 
     while (it.hasPrevious()){
         if (it.value()->isHeader()){
@@ -1075,13 +1092,36 @@ BandDesignIntf* ReportRender::findEnclosingGroup()
     return result;
 }
 
-void ReportRender::savePage()
+void ReportRender::moveTearOffBand(){
+    BandDesignIntf* tearOffBand = m_renderPageItem->bandByType(BandDesignIntf::TearOffBand);
+    if (tearOffBand){
+        BandDesignIntf* pageFooter = m_renderPageItem->bandByType(BandDesignIntf::PageFooter);
+        if (pageFooter){
+            tearOffBand->setItemPos(m_patternPageItem->pageRect().x(),
+                                    m_patternPageItem->pageRect().bottom()-(tearOffBand->height()+pageFooter->height()));
+        } else {
+            tearOffBand->setItemPos(m_patternPageItem->pageRect().x(),m_patternPageItem->pageRect().bottom()-tearOffBand->height());
+        }
+    }
+}
+
+void ReportRender::savePage(bool isLast)
 {
     checkFooterGroup(m_lastDataBand);
     cutGroups();
     rearrangeColumnsItems();
     m_columnedBandItems.clear();
-    renderPageFooter(m_patternPageItem);
+
+    BandDesignIntf* pf = m_patternPageItem->bandByType(BandDesignIntf::PageFooter);
+    if (pf && m_datasources->variable("#PAGE").toInt()!=1 && !isLast){
+        renderPageFooter(m_patternPageItem);
+    } else {
+        if (pf && pf->property("printOnFirstPage").toBool() && m_datasources->variable("#PAGE").toInt()==1){
+            renderPageFooter(m_patternPageItem);
+        } else if(pf && pf->property("printOnLastPage").toBool() && isLast){
+            renderPageFooter(m_patternPageItem);
+        }
+    }
 
     if (m_ranges.last().lastPage==0 && m_ranges.count()>1) {
         m_datasources->setReportVariable("#PAGE",1);
@@ -1096,6 +1136,15 @@ void ReportRender::savePage()
     m_renderedPages.append(PageItemDesignIntf::Ptr(m_renderPageItem));
     m_pageCount++;
     emit pageRendered(m_pageCount);
+    
+    if (isLast){
+        BandDesignIntf* ph = m_renderPageItem->bandByType(BandDesignIntf::PageHeader);
+        if (ph && !ph->property("printOnLastPage").toBool()){
+            delete ph;
+        }
+    }
+
+    moveTearOffBand();
 
 }
 

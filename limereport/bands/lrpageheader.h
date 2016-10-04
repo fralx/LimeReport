@@ -38,11 +38,20 @@ namespace LimeReport {
 class PageHeader : public LimeReport::BandDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(bool printOnFirstPage READ printOnFirstPage WRITE setPrintOnFirstPage)
+    Q_PROPERTY(bool printOnLastPage READ printOnLastPage WRITE setPrintOnLastPage)
 public:
     PageHeader(QObject* owner = 0, QGraphicsItem* parent=0);
+    bool printOnFirstPage() const;
+    void setPrintOnFirstPage(bool printOnFirstPage);
+    bool printOnLastPage() const;
+    void setPrintOnLastPage(bool printOnLastPage);
 protected:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     QColor bandColor() const;
+private:
+    bool m_printOnFirstPage;
+    bool m_printOnLastPage;
 };
 }
 #endif // LRPAGEHEADER_H

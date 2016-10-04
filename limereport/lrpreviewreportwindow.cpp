@@ -177,7 +177,7 @@ QSettings*PreviewReportWindow::settings()
     }
 }
 
-void PreviewReportWindow::setReportReader(ItemsReaderIntf::Ptr reader)
+void PreviewReportWindow::setReportReader(ItemsReaderIntf::Ptr /*reader*/)
 {
 //    m_reader=reader;
 //    if (!reader.isNull()){

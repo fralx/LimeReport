@@ -100,6 +100,7 @@ private:
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
     void    renderPageFooter(PageItemDesignIntf* patternPage);
+    void    moveTearOffBand();
     void    renderPageItems(PageItemDesignIntf* patternPage);
     qreal   calcPageFooterHeight(PageItemDesignIntf* patternPage);
     qreal   calcSlicePercent(qreal height);
@@ -137,7 +138,7 @@ private:
     void    startNewPage();
     void    resetPageNumber(ResetPageNuberType resetType);
     int     findLastPageNumber(int currentPage);
-    void    savePage();
+    void    savePage(bool isLast = false);
     QString toString();
     void initColumns();
     bool isNeedToRearrangeColumnsItems();
@@ -178,6 +179,7 @@ private:
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_curentNameIndex;
+
 
 };
 } // namespace LimeReport

@@ -351,14 +351,26 @@ void PageItemDesignIntf::relocateBands()
 
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
 
-    if (m_bands.count()>0) {
-        initColumnsPos(posByColumn,pageRect().y(),m_bands[0]->columnsCount());
-        m_bands[0]->setPos(pageRect().x(),pageRect().y());
-        posByColumn[0]+=m_bands[0]->height()+bandSpace;
+    int bandIndex = 0;
+    if (!(itemMode() & DesignMode)){
+        while ( (bandIndex < m_bands.count()) &&
+                ((m_bands[bandIndex]->bandType() == BandDesignIntf::TearOffBand) ||
+                (m_bands[bandIndex]->bandType() == BandDesignIntf::PageFooter))
+        ){
+            bandIndex++;
+        }
     }
+
+    if ( (m_bands.count()>0) && (bandIndex<m_bands.count()) ) {
+        initColumnsPos(posByColumn,pageRect().y(),m_bands[bandIndex]->columnsCount());
+        m_bands[bandIndex]->setPos(pageRect().x(),pageRect().y());
+        posByColumn[0]+=m_bands[bandIndex]->height()+bandSpace;
+    }
+
     if(m_bands.count()>1){
         for(int i=0;i<(m_bands.count()-1);i++){
-            if ((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) || (itemMode() & DesignMode)){
+            if (((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) &&
+                (m_bands[i+1]->bandType()!=BandDesignIntf::TearOffBand)) || (itemMode() & DesignMode)){
                 if (m_bands[i+1]->columnsCount()>1 &&
                     m_bands[i]->columnsCount() != m_bands[i+1]->columnsCount())
                 {

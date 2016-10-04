@@ -405,6 +405,11 @@ void ReportDesignWindow::createBandsButton()
     m_bandsAddSignalsMap->setMapping(m_newGroupFooter,BandDesignIntf::GroupFooter);
     m_newBandButton->addAction(m_newGroupFooter);
 
+    m_newTearOffBand=new QAction(QIcon(),tr("Tear-off Band"),this);
+    connect(m_newTearOffBand,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
+    m_bandsAddSignalsMap->setMapping(m_newTearOffBand,BandDesignIntf::TearOffBand);
+    m_newBandButton->addAction(m_newTearOffBand);
+
     connect(m_bandsAddSignalsMap,SIGNAL(mapped(int)),this,SLOT(slotNewBand(int)));
 }
 
@@ -1051,6 +1056,8 @@ void ReportDesignWindow::slotBandAdded(PageDesignIntf *, BandDesignIntf * band)
             break;
         case BandDesignIntf::ReportFooter:
             m_newReportFooter->setDisabled(true);
+        case BandDesignIntf::TearOffBand:
+            m_newTearOffBand->setDisabled(true);
         default:
             break;
         }
@@ -1072,6 +1079,8 @@ void ReportDesignWindow::slotBandDeleted(PageDesignIntf *, BandDesignIntf *band)
             break;
         case BandDesignIntf::ReportFooter:
             m_newReportFooter->setEnabled(true);
+        case BandDesignIntf::TearOffBand:
+            m_newTearOffBand->setEnabled(true);
         default:
             break;
         }
