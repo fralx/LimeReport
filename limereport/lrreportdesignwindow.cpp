@@ -1095,6 +1095,7 @@ void ReportDesignWindow::updateAvaibleBands(){
     m_newPageFooter->setEnabled(true);
     m_newReportHeader->setEnabled(true);
     m_newReportFooter->setEnabled(true);
+    m_newTearOffBand->setEnabled(true);
 
     foreach(BandDesignIntf* band, m_reportDesignWidget->activePage()->pageItem()->bands()){
         switch (band->bandType()) {
@@ -1109,6 +1110,8 @@ void ReportDesignWindow::updateAvaibleBands(){
             break;
         case BandDesignIntf::ReportFooter:
             m_newReportFooter->setEnabled(false);
+        case BandDesignIntf::TearOffBand:
+            m_newTearOffBand->setEnabled(false);
         default:
             break;
         }
