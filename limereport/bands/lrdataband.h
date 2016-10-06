@@ -62,6 +62,7 @@ class DataHeaderBand : public BandDesignIntf
     Q_OBJECT
     Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
     Q_PROPERTY(bool repeatOnEachRow READ repeatOnEachRow WRITE setRepeatOnEachRow)
 public:
@@ -78,6 +79,8 @@ private:
 class DataFooterBand : public BandDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)	
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
 public:
     DataFooterBand(QObject* owner=0, QGraphicsItem* parent=0);
