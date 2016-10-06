@@ -56,6 +56,8 @@ protected:
 class SubDetailHeaderBand : public BandDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)	
     Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
     SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
@@ -69,6 +71,8 @@ private:
 class SubDetailFooterBand : public BandDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)	
     Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
 public:
     SubDetailFooterBand(QObject* owner = 0, QGraphicsItem* parent=0);
