@@ -531,8 +531,8 @@ BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsI
     loop_exit:;
 
     int textPos=0;
-    for (;curBlock!=m_text->end();curBlock=curBlock.next()){
-        for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
+    for (;curBlock!=m_text->end();curBlock=curBlock.next(),curLine=0){
+        for (;curLine<curBlock.layout()->lineCount();curLine++){
             if (tmpText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
             tmpText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
               curBlock.layout()->lineAt(curLine).textLength()) + "\n";
