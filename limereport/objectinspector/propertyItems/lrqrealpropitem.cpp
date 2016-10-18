@@ -38,8 +38,8 @@ namespace{
     {
         return new LimeReport::QRealPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registred = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("qreal",""),QObject::tr("qreal"),createQRealPropItem);
-    bool registredDouble = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("double",""),QObject::tr("qreal"),createQRealPropItem);
+    bool VARIABLE_IS_NOT_USED  registred = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("qreal",""),QObject::tr("qreal"),createQRealPropItem);
+    bool VARIABLE_IS_NOT_USED  registredDouble = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("double",""),QObject::tr("qreal"),createQRealPropItem);
 }
 
 namespace LimeReport{

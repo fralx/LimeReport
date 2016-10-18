@@ -36,7 +36,7 @@ namespace  {
     LimeReport::ObjectPropItem* createFieldPropItem(QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly){
         return new LimeReport::GroupFieldPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredGroupFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+    bool VARIABLE_IS_NOT_USED registredGroupFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("groupFieldName","LimeReport::GroupBandHeader"),QObject::tr("field"),createFieldPropItem
     );
 }

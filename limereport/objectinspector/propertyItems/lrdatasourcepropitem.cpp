@@ -45,13 +45,13 @@ namespace{
         return new LimeReport::FieldPropItem(object, objects, name, displayName, data, parent, readonly);
     }
 
-    bool registredDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+    bool VARIABLE_IS_NOT_USED registredDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("datasource","LimeReport::DataBandDesignIntf"),QObject::tr("datasource"),createDatasourcePropItem
     );
-    bool registredImageDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+    bool VARIABLE_IS_NOT_USED registredImageDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("datasource","LimeReport::ImageItem"),QObject::tr("datasource"),createDatasourcePropItem
     );
-    bool registredImageFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+    bool VARIABLE_IS_NOT_USED registredImageFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("field","LimeReport::ImageItem"),QObject::tr("field"),createFieldPropItem
     );
 }

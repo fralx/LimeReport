@@ -39,7 +39,7 @@ const QString xmlTag = "BarcodeItem";
 LimeReport::BaseDesignIntf * createBarcodeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new LimeReport::BarcodeItem(owner,parent);
 }
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(xmlTag, LimeReport::ItemAttribs(QObject::tr("Barcode Item"),"Item"), createBarcodeItem);
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(xmlTag, LimeReport::ItemAttribs(QObject::tr("Barcode Item"),"Item"), createBarcodeItem);
 
 }
 

@@ -45,7 +45,7 @@ LimeReport::BaseDesignIntf *createHLayout(QObject *owner, LimeReport::BaseDesign
 {
     return new LimeReport::HorizontalLayout(owner, parent);
 }
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
                      xmlTag,
                      LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::Const::bandTAG),
                      createHLayout

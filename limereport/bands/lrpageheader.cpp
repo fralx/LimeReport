@@ -42,7 +42,7 @@ LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIn
     return new LimeReport::PageHeader(owner,parent);
 }
 
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTag,
         LimeReport::ItemAttribs(QObject::tr("Page Header"),LimeReport::Const::bandTAG),
         createBand

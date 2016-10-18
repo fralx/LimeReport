@@ -37,7 +37,7 @@ namespace{
 LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new LimeReport::ReportHeader(owner,parent);
 }
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTag,
         LimeReport::ItemAttribs(QObject::tr("Report Header"),LimeReport::Const::bandTAG),
         createBand

@@ -43,7 +43,7 @@ LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIn
     return new LimeReport::SubDetailBand(owner,parent);
 }
 
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTagBand,
         LimeReport::ItemAttribs(QObject::tr("SubDetail"),LimeReport::Const::bandTAG),
         createBand
@@ -53,7 +53,7 @@ LimeReport::BaseDesignIntf * createHeader(QObject* owner, LimeReport::BaseDesign
     return new LimeReport::SubDetailHeaderBand(owner,parent);
 }
 
-bool registredHeader = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registredHeader = LimeReport::DesignElementsFactory::instance().registerCreator(
        xmlTagHeader,
         LimeReport::ItemAttribs(QObject::tr("SubDetailHeader"),LimeReport::Const::bandTAG),
         createHeader
@@ -63,7 +63,7 @@ LimeReport::BaseDesignIntf * createFooter(QObject* owner, LimeReport::BaseDesign
     return new LimeReport::SubDetailFooterBand(owner,parent);
 }
 
-bool registredFooter = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registredFooter = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTagFooter,
         LimeReport::ItemAttribs(QObject::tr("SubDetailFooter"),LimeReport::Const::bandTAG),
         createFooter

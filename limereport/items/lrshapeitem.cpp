@@ -39,7 +39,7 @@ const QString xmlTag = "ShapeItem";
 LimeReport::BaseDesignIntf * createShapeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new LimeReport::ShapeItem(owner,parent);
 }
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
                      xmlTag, LimeReport::ItemAttribs(QObject::tr("Shape Item"),"Item"), createShapeItem
                  );
 }

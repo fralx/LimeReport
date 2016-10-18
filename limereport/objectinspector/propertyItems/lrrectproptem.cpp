@@ -50,9 +50,9 @@ namespace{
     ){
         return new LimeReport::RectMMPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredRectProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QRect",""),QObject::tr("QRect"),createReqtItem);
-    bool registredRectFProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QRectF",""),QObject::tr("QRectF"),createReqtItem);
-    bool registredRectMMProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("geometry","LimeReport::BaseDesignIntf"),QObject::tr("geometry"),createReqtMMItem);
+    bool VARIABLE_IS_NOT_USED registredRectProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QRect",""),QObject::tr("QRect"),createReqtItem);
+    bool VARIABLE_IS_NOT_USED registredRectFProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QRectF",""),QObject::tr("QRectF"),createReqtItem);
+    bool VARIABLE_IS_NOT_USED registredRectMMProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("geometry","LimeReport::BaseDesignIntf"),QObject::tr("geometry"),createReqtMMItem);
 }
 
 namespace LimeReport{

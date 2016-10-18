@@ -41,7 +41,7 @@ namespace{
     {
         return new LimeReport::StringPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredStringProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QString",""),QObject::tr("QString"),createStringPropItem);
+    bool VARIABLE_IS_NOT_USED registredStringProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QString",""),QObject::tr("QString"),createStringPropItem);
 } // namespace
 
 namespace LimeReport{
