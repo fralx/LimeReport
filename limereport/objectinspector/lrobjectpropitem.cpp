@@ -46,7 +46,8 @@ ObjectPropItem::ObjectPropItem(QObject *object, ObjectsList* objects, const QStr
 {
     if (parent) setModel(parent->model());
     m_index=QModelIndex();
-    if (objects) foreach(QObject* item, *objects) m_objects.append(item);
+    //if (objects) foreach(QObject* item, *objects) m_objects.append(item);
+    m_objects = objects;
 #ifdef INSPECT_BASEDESIGN
     BaseDesignIntf * item = dynamic_cast<BaseDesignIntf*>(object);
     if (item){
@@ -63,7 +64,8 @@ ObjectPropItem::ObjectPropItem(QObject *object, ObjectsList* objects, const QStr
 {
     if (parent) setModel(parent->model());
     m_index=QModelIndex();
-    if (objects) foreach(QObject* item, *objects) m_objects.append(item);
+    //if (objects) foreach(QObject* item, *objects) m_objects.append(item);
+    m_objects = objects;
 #ifdef INSPECT_BASEDESIGN
     BaseDesignIntf * item = dynamic_cast<BaseDesignIntf*>(object);
     if (item){

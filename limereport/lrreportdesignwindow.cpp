@@ -791,6 +791,7 @@ void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
 
         m_objectInspector->commitActiveEditorData();
         m_propertyModel->setObject(item);
+
         if (m_propertyModel->subclassesAsLevel())
           m_objectInspector->expandToDepth(0);
 
@@ -825,7 +826,7 @@ void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
         m_fontEditorBar->setItem(item);
         m_textAlignmentEditorBar->setItem(item);
         m_itemsBordersEditorBar->setItem(item);
-    }
+    } else {m_propertyModel->clearObjectsList();}
 }
 
 void ReportDesignWindow::slotItemPropertyChanged(const QString &objectName, const QString &propertyName, const QVariant& oldValue, const QVariant& newValue )

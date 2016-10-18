@@ -85,6 +85,11 @@ void QObjectPropertyModel::translatePropertyName()
     tr("shapeBrushColor");
 }
 
+void QObjectPropertyModel::clearObjectsList()
+{
+    m_objects.clear();
+}
+
 QObjectPropertyModel::QObjectPropertyModel(QObject *parent/*=0*/)
     :QAbstractItemModel(parent),m_rootNode(0),m_object(0),m_dataChanging(false), m_subclassesAsLevel(true), m_validator(0)
 {}
@@ -354,13 +359,9 @@ void QObjectPropertyModel::addObjectProperties(const QMetaObject *metaObject, QO
             objectNode = m_rootNode;
         }
 
-        //m_rootNode->appendItem(objectNode);
-
         for (int i=metaObject->propertyOffset();i<metaObject->propertyCount();i++){
             if (metaObject->property(i).isDesignable()){
                 ObjectPropItem* prop=createPropertyItem(metaObject->property(i),object,objects,objectNode);
-                //ObjectPropItem* prop=createPropertyItem(metaObject->property(i),object,objects,m_rootNode);
-                //m_rootNode->appendItem(prop);
                 objectNode->appendItem(prop);
             }
         }
