@@ -73,7 +73,7 @@ namespace LimeReport{
 
         ObjectPropItem*  parent() const{ return m_parent;}
         QObject* object() const{return m_object;}
-        ObjectsList* objects()  {return &m_objects;}
+        ObjectsList* objects()  {return m_objects;}
         ObjectPropItem*  child(int row);
         QList<ObjectPropItem*> children(){return m_childItems;}
         ObjectPropItem*  findChild(const QString& propertyName);
@@ -106,7 +106,7 @@ namespace LimeReport{
         void setValueToObject(const QString& propertyName, QVariant propertyValue);
     private:
         QObject* m_object;
-        ObjectsList m_objects;
+        ObjectsList* m_objects;
         QString m_name;
         QString m_displayName;
         QVariant m_value;

@@ -71,6 +71,7 @@ public:
     ValidatorIntf*              validator() const;
     void                        setValidator(ValidatorIntf* validator);
     void                        translatePropertyName();
+    void                        clearObjectsList();
 signals:
     void objectPropetyChanged(const QString& , const QVariant&, const QVariant&);
 private slots:
