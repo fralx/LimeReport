@@ -47,6 +47,7 @@ class DataBand : public DataBandDesignIntf
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
     Q_PROPERTY(bool startFromNewPage READ startFromNewPage WRITE setStartFromNewPage)
+    Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE setAlternateBackgroundColor)
 public:
     DataBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;

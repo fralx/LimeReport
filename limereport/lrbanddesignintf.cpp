@@ -168,6 +168,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_bandNameLabel = new BandNameLabel(this);
     m_bandNameLabel->setVisible(false);
     if (scene()) scene()->addItem(m_bandNameLabel);
+    m_alternateBackgroundColor = backgroundColor();
 }
 
 BandDesignIntf::~BandDesignIntf()
@@ -743,6 +744,16 @@ void BandDesignIntf::setMarkerColor(QColor color)
 void BandDesignIntf::childBandDeleted(QObject *band)
 {
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
+}
+
+QColor BandDesignIntf::alternateBackgroundColor() const
+{
+    return m_alternateBackgroundColor;
+}
+
+void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgroundColor)
+{
+    m_alternateBackgroundColor = alternateBackgroundColor;
 }
 
 bool BandDesignIntf::repeatOnEachRow() const

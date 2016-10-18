@@ -216,6 +216,9 @@ public:
     void setPrintAlways(bool printAlways);
     bool repeatOnEachRow() const;
     void setRepeatOnEachRow(bool repeatOnEachRow);
+    QColor alternateBackgroundColor() const;
+    void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
+
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -270,6 +273,7 @@ private:
     bool                        m_printAlways;
     bool                        m_repeatOnEachRow;
     QMap<QString,BaseDesignIntf*> m_slicedItems;
+    QColor m_alternateBackgroundColor;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{
