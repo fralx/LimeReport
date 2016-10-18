@@ -333,6 +333,12 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
             m_lastRenderedFooter = patternBand;
 
         BandDesignIntf* bandClone=renderData(patternBand);
+        bandClone->setBackgroundColor(
+                    (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt()%2!=0 ?
+                         patternBand->backgroundColor():
+                         patternBand->alternateBackgroundColor()
+                    )
+        );
         patternBand->emitBandRendered(bandClone);
 
         if ( isLast && bandClone->keepFooterTogether() && bandClone->sliceLastRow() ){
