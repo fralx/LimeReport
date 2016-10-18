@@ -52,8 +52,8 @@ public:
 protected:
     QColor bandColor() const;
 private:
-    bool m_printOnLastPage;
     bool m_printOnFirstPage;
+    bool m_printOnLastPage;
 };
 }
 

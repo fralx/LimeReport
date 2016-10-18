@@ -47,17 +47,17 @@ LimeReport::BaseDesignIntf * createFooter(QObject* owner, LimeReport::BaseDesign
     return new LimeReport::DataFooterBand(owner,parent);
 }
 
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTag,
         LimeReport::ItemAttribs(QObject::tr("Data"),LimeReport::Const::bandTAG),
         createBand
     );
-bool registredHeader = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registredHeader = LimeReport::DesignElementsFactory::instance().registerCreator(
             xmlTagHeader,
             LimeReport::ItemAttribs(QObject::tr("DataHeader"),LimeReport::Const::bandTAG),
             createHeader
         );
-bool registredFooter = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registredFooter = LimeReport::DesignElementsFactory::instance().registerCreator(
             xmlTagFooter,
             LimeReport::ItemAttribs(QObject::tr("DataFooter"),LimeReport::Const::bandTAG),
             createFooter

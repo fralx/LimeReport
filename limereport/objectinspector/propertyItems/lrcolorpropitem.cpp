@@ -37,7 +37,7 @@ namespace{
     {
         return new LimeReport::ColorPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredColorProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QColor",""),QObject::tr("QColor"),createColorPropItem);
+    bool VARIABLE_IS_NOT_USED registredColorProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QColor",""),QObject::tr("QColor"),createColorPropItem);
 }
 
 namespace LimeReport{

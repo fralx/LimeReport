@@ -80,18 +80,18 @@ LimeReport::SerializatorIntf* createQVariantSerializator(QDomDocument *doc, QDom
     return new LimeReport::XmlQVariantSerializator(doc,node);
 }
 
-bool registredQString = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QString", createQStringSerializator);
-bool registredInt = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("int", createIntSerializator);
-bool registredEnumAndFlags = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("enumAndFlags",createEnumAndFlagsSerializator);
-bool registredBool = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("bool", createBoolSerializator);
-bool registredQFont = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QFont", createFontSerializator);
-bool registredQSizeF = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QSizeF", createQSizeFSerializator);
-bool registredQImage = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QImage", createQImageSerializator);
-bool registredQReal = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("qreal", createQRealSerializator);
-bool registerDouble = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("double", createQRealSerializator);
-bool registerQColor = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QColor", createQColorSerializator);
-bool registerQByteArray = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QByteArray", createQByteArraySerializator);
-bool registerQVariant = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QVariant", createQVariantSerializator);
+bool VARIABLE_IS_NOT_USED registredQString = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QString", createQStringSerializator);
+bool VARIABLE_IS_NOT_USED registredInt = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("int", createIntSerializator);
+bool VARIABLE_IS_NOT_USED registredEnumAndFlags = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("enumAndFlags",createEnumAndFlagsSerializator);
+bool VARIABLE_IS_NOT_USED registredBool = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("bool", createBoolSerializator);
+bool VARIABLE_IS_NOT_USED registredQFont = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QFont", createFontSerializator);
+bool VARIABLE_IS_NOT_USED registredQSizeF = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QSizeF", createQSizeFSerializator);
+bool VARIABLE_IS_NOT_USED registredQImage = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QImage", createQImageSerializator);
+bool VARIABLE_IS_NOT_USED registredQReal = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("qreal", createQRealSerializator);
+bool VARIABLE_IS_NOT_USED registerDouble = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("double", createQRealSerializator);
+bool VARIABLE_IS_NOT_USED registerQColor = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QColor", createQColorSerializator);
+bool VARIABLE_IS_NOT_USED registerQByteArray = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QByteArray", createQByteArraySerializator);
+bool VARIABLE_IS_NOT_USED registerQVariant = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QVariant", createQVariantSerializator);
 
 }
 

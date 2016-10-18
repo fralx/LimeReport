@@ -38,7 +38,7 @@ LimeReport::ObjectPropItem * createEnumPropItem(
 {
     return new LimeReport::EnumPropItem(object, objects, name, displayName, data, parent, readonly);
 }
-bool registred = LimeReport::ObjectPropFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
     LimeReport::APropIdent("enum",""),QObject::tr("enum"),createEnumPropItem
 );
 

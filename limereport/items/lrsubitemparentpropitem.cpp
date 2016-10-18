@@ -41,7 +41,7 @@ namespace{
     {
         return new LimeReport::ItemLocationPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registred = LimeReport::ObjectPropFactory::instance().registerCreator(
+    bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("itemLocation","LimeReport::ItemDesignIntf"),QObject::tr("itemLocation"),createLocationPropItem
     );
 }

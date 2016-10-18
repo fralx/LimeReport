@@ -173,6 +173,7 @@ void MainWindow::prepareData(QSqlQuery* ds, LimeReport::CallbackInfo info, QVari
     case LimeReport::CallbackInfo::ColumnData:
         data = ds->value(ds->record().indexOf(info.columnName));
         break;
+    default: break;
     }
 }
 

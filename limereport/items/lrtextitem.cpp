@@ -49,7 +49,7 @@ const QString xmlTag = "TextItem";
 LimeReport::BaseDesignIntf * createTextItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new LimeReport::TextItem(owner,parent);
 }
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(xmlTag, LimeReport::ItemAttribs(QObject::tr("Text Item"),"TextItem"), createTextItem);
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(xmlTag, LimeReport::ItemAttribs(QObject::tr("Text Item"),"TextItem"), createTextItem);
 
 }
 
@@ -427,6 +427,7 @@ QString TextItem::formatFieldValue()
                 double dbl = value.toDouble(&bOk);
                 value = (bOk ? QVariant(dbl) : m_varValue);
             }
+        default: break;
         }
     }
 

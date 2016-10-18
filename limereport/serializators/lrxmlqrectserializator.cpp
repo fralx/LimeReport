@@ -40,12 +40,12 @@ LimeReport::SerializatorIntf * createQRectSerializator(QDomDocument *doc, QDomEl
     return new LimeReport::XMLQRectSerializator(doc,node);
 }
 
-LimeReport::SerializatorIntf * createQRectFSerializator(QDomDocument *doc, QDomElement *node){
-    return new LimeReport::XMLQRectFSerializator(doc,node);
-}
+//LimeReport::SerializatorIntf * createQRectFSerializator(QDomDocument *doc, QDomElement *node){
+//    return new LimeReport::XMLQRectFSerializator(doc,node);
+//}
 
-bool registredQRect = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QRect", createQRectSerializator);
-bool registredQRectF = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QRectF", createQRectSerializator);
+bool VARIABLE_IS_NOT_USED registredQRect = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QRect", createQRectSerializator);
+bool VARIABLE_IS_NOT_USED registredQRectF = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QRectF", createQRectSerializator);
 
 }
 

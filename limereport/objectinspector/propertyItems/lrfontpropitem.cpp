@@ -43,7 +43,7 @@ namespace{
     {
         return new LimeReport::FontPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredFontProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QFont",""),QObject::tr("QFont"),createFontPropItem);
+    bool VARIABLE_IS_NOT_USED registredFontProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QFont",""),QObject::tr("QFont"),createFontPropItem);
 }
 
 

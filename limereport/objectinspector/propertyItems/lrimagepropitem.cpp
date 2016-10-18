@@ -36,7 +36,7 @@ namespace{
     {
         return new LimeReport::ImagePropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredImageProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QImage",""),QObject::tr("QImage"),createImagePropItem);
+    bool VARIABLE_IS_NOT_USED registredImageProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QImage",""),QObject::tr("QImage"),createImagePropItem);
 }
 
 namespace LimeReport{

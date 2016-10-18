@@ -10,7 +10,7 @@ namespace{
     {
         return new LimeReport::ContentPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registredContentProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("content","LimeReport::TextItem"),QObject::tr("content"),createContentPropItem);
+    bool VARIABLE_IS_NOT_USED registredContentProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("content","LimeReport::TextItem"),QObject::tr("content"),createContentPropItem);
 } // namespace
 
 namespace LimeReport {

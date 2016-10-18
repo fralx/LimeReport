@@ -39,7 +39,7 @@ const QString xmlTag = "ImageItem";
 LimeReport::BaseDesignIntf * createImageItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new LimeReport::ImageItem(owner,parent);
 }
-bool registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
                      xmlTag, LimeReport::ItemAttribs(QObject::tr("Image Item"),"Item"), createImageItem
                  );
 }

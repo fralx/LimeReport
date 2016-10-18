@@ -42,7 +42,7 @@ namespace{
     {
         return new LimeReport::BoolPropItem(object, objects, name, displayName, data, parent, readonly);
     }
-    bool registred = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("bool",""),QObject::tr("bool"),createBoolPropItem);
+    bool VARIABLE_IS_NOT_USED  registred = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("bool",""),QObject::tr("bool"),createBoolPropItem);
 } // namespace
 
 namespace LimeReport {
