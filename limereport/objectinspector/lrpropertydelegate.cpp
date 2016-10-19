@@ -86,6 +86,20 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
              if ((node->isValueReadonly())&&(!node->isHaveChildren())) {
                  so.palette.setColor(QPalette::Text,so.palette.color(QPalette::Dark));
              }
+
+             QColor backgroundColor = (so.features & StyleOptionViewItem::Alternate) ?
+                         so.palette.alternateBase().color() :
+                         so.palette.base().color();
+
+             qreal luma = 0.2126 * backgroundColor.red() +
+                          0.7152 * backgroundColor.green() +
+                          0.0722 * backgroundColor.blue();
+
+             if (luma<128)
+                so.palette.setColor(QPalette::Text,Qt::white);
+             else
+                so.palette.setColor(QPalette::Text,Qt::black);
+
              drawBackground(painter,option,index);
              if (!node->paint(painter,so,index))
                 QItemDelegate::paint(painter, so, index);
