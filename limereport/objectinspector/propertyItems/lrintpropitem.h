@@ -31,8 +31,22 @@
 #define LRINTPROPITEM_H
 
 #include "lrobjectpropitem.h"
+#include <QSpinBox>
 
 namespace LimeReport {
+
+class SpinBoxEditor : public QWidget{
+    Q_OBJECT
+public:
+    SpinBoxEditor(QWidget* parent);
+    int value();
+    void setValue(int value);
+signals:
+    void editingFinished();
+private:
+    QSpinBox* m_valueEditor;
+};
+
 class IntPropItem : public ObjectPropItem
 {
     Q_OBJECT
