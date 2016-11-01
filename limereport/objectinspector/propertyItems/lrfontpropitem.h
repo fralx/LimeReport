@@ -29,11 +29,26 @@
  ****************************************************************************/
 #ifndef LRFONTPROPITEM_H
 #define LRFONTPROPITEM_H
+
+#include <QFontComboBox>
+
 #include "lrobjectpropitem.h"
 #include "lrboolpropitem.h"
 #include "lrintpropitem.h"
 
 namespace LimeReport{
+
+class FontFamilyEditor : public QWidget{
+    Q_OBJECT
+public:
+    FontFamilyEditor(QWidget* parent);
+    QFont currentFont();
+    void setFont(QFont font);
+signals:
+    void editingFinished();
+private:
+    QFontComboBox* m_valueEditor;
+};
 
 class FontFamilyPropItem : public ObjectPropItem
 {

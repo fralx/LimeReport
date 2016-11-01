@@ -147,9 +147,11 @@ void ObjectPropItem::slotPropertyObjectName(const QString &oldValue, const QStri
 void ObjectPropItem::setValueToObject(const QString &propertyName, QVariant propertyValue)
 {
     object()->setProperty(propertyName.toLatin1(),propertyValue);
-    foreach (QObject* item, *objects()) {
-        if (item->metaObject()->indexOfProperty(propertyName.toLatin1())!=-1)
-            item->setProperty(propertyName.toLatin1(), propertyValue);
+    if (objects()){
+        foreach (QObject* item, *objects()) {
+            if (item->metaObject()->indexOfProperty(propertyName.toLatin1())!=-1)
+                item->setProperty(propertyName.toLatin1(), propertyValue);
+        }
     }
 }
 

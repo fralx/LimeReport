@@ -37,10 +37,7 @@
 
 LimeReport::PropertyDelegate::PropertyDelegate(QObject *parent)
     :QItemDelegate(parent), m_editingItem(0), m_isEditing(false)
-    //:QStyledItemDelegate(parent), m_editingItem(0)
-{
-    //setClipping(false);
-}
+{}
 
 void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
