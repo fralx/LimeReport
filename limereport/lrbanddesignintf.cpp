@@ -748,7 +748,10 @@ void BandDesignIntf::childBandDeleted(QObject *band)
 
 QColor BandDesignIntf::alternateBackgroundColor() const
 {
-    return m_alternateBackgroundColor;
+    if (metaObject()->indexOfProperty("alternateBackgroundColor")!=-1)
+        return m_alternateBackgroundColor;
+    else
+        return backgroundColor();
 }
 
 void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgroundColor)

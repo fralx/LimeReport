@@ -117,7 +117,7 @@ void BaseDesignIntf::setParentReportItem(const QString &value)
     }
 }
 
-QString BaseDesignIntf::parentReportItemName()
+QString BaseDesignIntf::parentReportItemName() const
 {
     BaseDesignIntf *parent = dynamic_cast<BaseDesignIntf *>(parentItem());
     if (parent) return parent->objectName();
