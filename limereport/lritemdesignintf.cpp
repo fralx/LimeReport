@@ -215,27 +215,27 @@ QString ContentItemDesignIntf::expandScripts(QString context, DataSourceManager*
 
     if (context.contains(rx)){
         ScriptEngineManager::instance().setDataManager(dataManager);
-        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
-        QScriptValue svThis =  se->globalObject().property("THIS");
-        if (svThis.isValid()){
-            se->newQObject(svThis, this);
-        } else {
-            svThis = se->newQObject(this);
-            se->globalObject().setProperty("THIS",svThis);
-        }
+        //QJSValue svThis =  se->globalObject().property("THIS");
+        //if (!svThis.isUndefined()){
+        //    se->newQObject(svThis, this);
+        //} else {
+        ScriptValueType svThis = se->newQObject(this);
+        se->globalObject().setProperty("THIS",svThis);
+        //}
 
         ScriptExtractor scriptExtractor(context);
         if (scriptExtractor.parse()){
             for(int i=0; i<scriptExtractor.count();++i){
                 QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols, dataManager);
                 scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, dataManager);
-                QScriptValue value = se->evaluate(scriptBody);
-                if (!se->hasUncaughtException()) {
+                ScriptValueType value = se->evaluate(scriptBody);
+                if (!value.isError()) {
                     m_varValue = value.toVariant();
                     context.replace(scriptExtractor.scriptAt(i),value.toString());
                 } else {
-                    context.replace(scriptExtractor.scriptAt(i),se->uncaughtException().toString());
+                    context.replace(scriptExtractor.scriptAt(i),value.toString());
                 }
             }
         }

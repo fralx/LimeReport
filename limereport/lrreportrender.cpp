@@ -167,7 +167,7 @@ void ReportRender::setScriptContext(ScriptEngineContext* scriptContext)
 
 bool ReportRender::runInitScript(){
     if (m_scriptEngineContext){
-        QScriptValue res = ScriptEngineManager::instance().scriptEngine()->evaluate(m_scriptEngineContext->initScript());
+        ScriptValueType res = ScriptEngineManager::instance().scriptEngine()->evaluate(m_scriptEngineContext->initScript());
         if (res.isBool()) return res.toBool();
     }
     return true;

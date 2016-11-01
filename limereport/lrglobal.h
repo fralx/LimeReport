@@ -42,6 +42,12 @@
 #  define LIMEREPORT_EXPORT   /**/
 #endif
 
+#ifdef USE_QJSENGINE
+#include <QJSEngine>
+#else
+#include <QScriptEngine>
+#endif
+
 namespace LimeReport {
 
 #ifdef __GNUC__
@@ -83,6 +89,7 @@ namespace Const{
     const QString GROUP_FUNCTION_RX = "(%1\\s*"+GROUP_FUNCTION_PARAM_RX+")";
     const QString GROUP_FUNCTION_NAME_RX = "%1\\s*\\((.*[^\\)])\\)";
     const int SCENE_MARGIN = 50;
+    const QString FUNCTION_MANAGER_NAME = "LimeReport";
 }
     QString extractClassName(QString className);
     enum RenderPass {FirstPass, SecondPass};
@@ -117,6 +124,13 @@ namespace Const{
     typedef QStyleOptionViewItem StyleOptionViewItem;
 #endif
 
+#ifdef USE_QJSENGINE
+    typedef QJSEngine ScriptEngineType;
+    typedef QJSValue ScriptValueType;
+#else
+    typedef QScriptEngine ScriptEngineType;
+    typedef QScriptValue ScriptValueType;
+#endif
 
 } // namespace LimeReport
 

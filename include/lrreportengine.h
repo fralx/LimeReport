@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QPrintDialog>
+//#include <QJSEngine>
 
 #include "lrglobal.h"
 #include "lrdatasourcemanagerintf.h"

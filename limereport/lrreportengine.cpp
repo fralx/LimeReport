@@ -775,7 +775,7 @@ IDataSourceManager *ReportEngine::dataManager()
     return d->dataManagerIntf();
 }
 
-IScriptEngineManager* ReportEngine::scriptManager()
+IScriptEngineManager *ReportEngine::scriptManager()
 {
     Q_D(ReportEngine);
     return d->scriptManagerIntf();
