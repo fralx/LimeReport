@@ -63,7 +63,7 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
 
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
-    while (!pageItem){
+    while (!pageItem && parentItem){
         parentItem = dynamic_cast<BaseDesignIntf*>(parentItem->parentItem());
         pageItem = dynamic_cast<PageItemDesignIntf*>(parentItem);
     }
