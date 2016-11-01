@@ -89,7 +89,10 @@ SOURCES += \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
+    $$REPORT_PATH/lrcolorindicator.cpp \
+    $$REPORT_PATH/items/lrchartitem.cpp \
+    $$REPORT_PATH/items/lrchartitemeditor.cpp
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -188,8 +191,11 @@ HEADERS += \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h 
-    
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \
+    $$REPORT_PATH/lrcolorindicator.h \
+    $$REPORT_PATH/items/lrchartitem.h \
+    $$REPORT_PATH/items/lrchartitemeditor.h
+
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
 }
@@ -206,6 +212,7 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
+    $$REPORT_PATH/items/lrchartitemeditor.ui
 
 
 RESOURCES += \
