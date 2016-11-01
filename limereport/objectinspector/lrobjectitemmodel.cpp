@@ -321,7 +321,7 @@ ObjectPropItem * QObjectPropertyModel::createPropertyItem(QMetaProperty prop, QO
                 object,
                 objects,
                 QString(prop.name()),
-                QString(tr(prop.name())),    //сделать перевод значений на другие языки
+                QString(tr(prop.name())),
                 object->property(prop.name()),
                 parent,
                 !(prop.isWritable()&&prop.isDesignable())

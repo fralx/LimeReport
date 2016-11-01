@@ -60,6 +60,18 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
       m_allowHTMLInFields(false)
 {
     m_text = new QTextDocument();
+
+    PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
+    BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
+    while (!pageItem){
+        parentItem = dynamic_cast<BaseDesignIntf*>(parentItem->parentItem());
+        pageItem = dynamic_cast<PageItemDesignIntf*>(parentItem);
+    }
+
+    if (pageItem){
+        QFont defaultFont = pageItem->font();
+        setFont(defaultFont);
+    }
     Init();
 }
 
