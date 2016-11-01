@@ -124,18 +124,18 @@ public:
     virtual ~BaseDesignIntf();
 
     void setParentReportItem(const QString& value);
-    QString parentReportItemName();
+    QString parentReportItemName() const;
 
-    BrushMode backgroundBrushMode(){return m_backgroundBrush;}
+    BrushMode backgroundBrushMode() const {return m_backgroundBrush;}
     void setBackgroundBrushMode(BrushMode value);
-    QColor backgroundColor(){return m_backgroundBrushcolor;}
+    QColor backgroundColor() const {return m_backgroundBrushcolor;}
     void setBackgroundColor(QColor value);
 
     QPen    pen() const;
     void    setPen(QPen& pen);
     QFont   font() const;
     void    setFont(QFont& font);
-    QColor  fontColor(){return m_fontColor;}
+    QColor  fontColor() const {return m_fontColor;}
     void    setFontColor(QColor value){m_fontColor=value;}
 
     virtual BGMode  backgroundMode() const;
