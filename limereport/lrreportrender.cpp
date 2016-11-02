@@ -295,9 +295,9 @@ void ReportRender::initVariables()
 #ifdef HAVE_UI_LOADER
 void ReportRender::initDialogs(){
     if (m_scriptEngineContext){
-        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
         foreach(DialogDescriber::Ptr dialog, m_scriptEngineContext->dialogsDescriber()){
-            QScriptValue sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
+            ScriptValueType sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
             se->globalObject().setProperty(dialog->name(),sv);
         }
     }
