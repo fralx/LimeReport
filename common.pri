@@ -1,12 +1,12 @@
 CONFIG += build_translations
 CONFIG += zint
-#CONFIG += qjsengine
-#greaterThan(QT_MAJOR_VERSION, 4) {
-#    QT += uitools
-#}
-#lessThan(QT_MAJOR_VERSION, 5){
-#    CONFIG += uitools
-#}
+CONFIG += qjsengine
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += uitools
+}
+lessThan(QT_MAJOR_VERSION, 5){
+    CONFIG += uitools
+}
 
 ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
 
