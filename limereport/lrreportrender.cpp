@@ -204,7 +204,6 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         resetPageNumber(PageReset);
 
     }
-    //m_pageCount = 1;
     m_renderCanceled = false;
     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
     m_reportFooterHeight = 0;
@@ -225,9 +224,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
             QMessageBox::critical(0,tr("Error"),exception.what());
             return;
         }
-
         clearPageMap();
-
         startNewPage();
 
         renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader),StartNewPageAsNeeded);
@@ -543,14 +540,20 @@ void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
 
 void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
 {
+    QList<BaseDesignIntf*> pageItems;
     foreach (BaseDesignIntf* item, patternPage->childBaseItems()) {
         ItemDesignIntf* id = dynamic_cast<ItemDesignIntf*>(item);
         if (id&&id->itemLocation()==ItemDesignIntf::Page){
             BaseDesignIntf* cloneItem = item->cloneItem(m_renderPageItem->itemMode(),
                                                         m_renderPageItem,
                                                         m_renderPageItem);
-            cloneItem->updateItemSize(m_datasources);
+            pageItems.append(cloneItem);
+            //cloneItem->updateItemSize(m_datasources);
         }
+    }
+    m_renderPageItem->restoreLinks();
+    foreach(BaseDesignIntf* item, pageItems){
+        item->updateItemSize(m_datasources);
     }
 }
 
@@ -978,7 +981,6 @@ void ReportRender::startNewPage()
         renderBand(band);
     }
     checkLostHeadersOnPrevPage();
-
     pasteGroups();
     renderPageItems(m_patternPageItem);
 }

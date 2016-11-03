@@ -76,7 +76,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_itemAlign(DesignedItemAlign),
     m_changingItemAlign(false),
     m_borderColor(Qt::black),
-    m_reportSettings(0)
+    m_reportSettings(0),
+    m_patternName("")
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -672,6 +673,16 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
     }
 }
 
+QString BaseDesignIntf::patternName() const
+{
+    return m_patternName;
+}
+
+void BaseDesignIntf::setPatternName(const QString &patternName)
+{
+    m_patternName = patternName;
+}
+
 ReportSettings *BaseDesignIntf::reportSettings() const
 {
     return m_reportSettings;
@@ -737,7 +748,7 @@ void BaseDesignIntf::emitObjectNamePropertyChanged(const QString &oldName, const
 
 int BaseDesignIntf::borderLineSize() const
 {
-    return m_borderLineSize;
+    return 0 /*m_borderLineSize*/;
 }
 
 void BaseDesignIntf::setBorderLineSize(int value)
@@ -987,6 +998,19 @@ void BaseDesignIntf::parentChangedEvent(BaseDesignIntf *)
 
 }
 
+void BaseDesignIntf::restoreLinks()
+{
+#ifdef HAVE_QT5
+    foreach(QObject * child, children()) {
+#else
+    foreach(QObject * child, QObject::children()) {
+#endif
+        BaseDesignIntf *childItem = dynamic_cast<BaseDesignIntf *>(child);
+        if (childItem) {childItem->restoreLinks();}
+    }
+    restoreLinksEvent();
+}
+
 QPainterPath BaseDesignIntf::shape() const
 {
     QPainterPath path;
@@ -1229,6 +1253,7 @@ void BaseDesignIntf::collectionLoadFinished(const QString &collectionName)
 BaseDesignIntf *BaseDesignIntf::cloneItem(ItemMode mode, QObject *owner, QGraphicsItem *parent)
 {
     BaseDesignIntf *clone = cloneItemWOChild(mode, owner, parent);
+    clone->setPatternName(this->objectName());
 #ifdef HAVE_QT5
     foreach(QObject * child, children()) {
 #else

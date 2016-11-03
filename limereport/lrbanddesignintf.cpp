@@ -889,6 +889,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
+    restoreLinks();
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);
     if (autoHeight()){

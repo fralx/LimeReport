@@ -249,6 +249,8 @@ public:
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
+    QString patternName() const;
+    void setPatternName(const QString &patternName);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -258,6 +260,7 @@ public:
     Q_INVOKABLE qreal getItemPosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
+
 protected:
 
     //ICollectionContainer
@@ -283,6 +286,8 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void childAddedEvent(BaseDesignIntf* child);
     virtual void parentChangedEvent(BaseDesignIntf*);
+    void restoreLinks();
+    virtual void restoreLinksEvent(){}
 
     void drawTopLine(QPainter *painter, QRectF rect) const;
     void drawBootomLine(QPainter *painter, QRectF rect) const;
@@ -359,6 +364,7 @@ private:
     bool    m_changingItemAlign;
     QColor  m_borderColor;
     ReportSettings* m_reportSettings;
+    QString m_patternName;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
