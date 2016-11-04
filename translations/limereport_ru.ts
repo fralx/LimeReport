@@ -161,15 +161,15 @@
     <name>LimeReport::AVariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation>переменная</translation>
+        <translation type="vanished">переменная</translation>
     </message>
     <message>
         <source> already exists !!</source>
-        <translation>уже существует !!</translation>
+        <translation type="vanished">уже существует !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation>не существует !!</translation>
+        <translation type="vanished">не существует !!</translation>
     </message>
 </context>
 <context>
@@ -525,7 +525,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>User variables</source>
-        <translation>Пользовательские переменные</translation>
+        <translation type="vanished">Пользовательские переменные</translation>
     </message>
     <message>
         <source>System variables</source>
@@ -550,6 +550,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Do you really want to delete variable &quot;%1&quot; ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grab variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>External variables</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -605,6 +617,10 @@ p, li { white-space: pre-wrap; }
         <source>Variables</source>
         <translation>Переменные</translation>
     </message>
+    <message>
+        <source>External variables</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FontEditorWidget</name>
@@ -656,6 +672,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>GroupHeader</source>
         <translation>Заголовок группы</translation>
+    </message>
+    <message>
+        <source>Group field not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource &quot;%1&quot; not found !!!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -915,6 +939,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>One to one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show toolbar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1379,12 +1411,20 @@ p, li { white-space: pre-wrap; }
         <source>File &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tear-off Band</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
         <source>Error</source>
         <translation>Ошибка</translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1541,6 +1581,14 @@ p, li { white-space: pre-wrap; }
         <source>Locale</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>CurrencySymbol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Имя переменной</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
@@ -1564,6 +1612,18 @@ p, li { white-space: pre-wrap; }
         <source>Horizontal grid step</source>
         <translation type="unfinished">Горизонтальный шаг</translation>
     </message>
+    <message>
+        <source>Designer Setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report Setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suppress absent fields and variables warning</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SubDetailBand</name>
@@ -1577,6 +1637,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>SubDetailHeader</source>
         <translation>Заголовок подчиненных данных</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::TearOffBand</name>
+    <message>
+        <source>Tear-off Band</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1651,6 +1718,21 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Esc</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::VariablesHolder</name>
+    <message>
+        <source>variable with name </source>
+        <translation type="unfinished">переменная</translation>
+    </message>
+    <message>
+        <source> already exists !!</source>
+        <translation type="unfinished">уже существует !!</translation>
+    </message>
+    <message>
+        <source> does not exists !!</source>
+        <translation type="unfinished">не существует !!</translation>
     </message>
 </context>
 <context>
@@ -1952,6 +2034,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Content is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tear-off Band</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
