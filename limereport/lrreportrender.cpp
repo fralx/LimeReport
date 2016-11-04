@@ -293,11 +293,24 @@ void ReportRender::initVariables()
 }
 
 #ifdef HAVE_UI_LOADER
+
+#ifdef USE_QJSENGINE
+void registerChildObjects(ScriptEngineType* se, ScriptValueType* sv){
+    foreach(QObject* obj, sv->toQObject()->children()){
+        ScriptValueType child = se->newQObject(obj);
+        sv->setProperty(obj->objectName(),child);
+        registerChildObjects(se, &child);
+    }
+}
+#endif
 void ReportRender::initDialogs(){
     if (m_scriptEngineContext){
         ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
         foreach(DialogDescriber::Ptr dialog, m_scriptEngineContext->dialogsDescriber()){
             ScriptValueType sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
+#ifdef USE_QJSENGINE
+            registerChildObjects(se,&sv);
+#endif
             se->globalObject().setProperty(dialog->name(),sv);
         }
     }
