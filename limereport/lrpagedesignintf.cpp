@@ -413,6 +413,11 @@ template <typename T>
 BaseDesignIntf *PageDesignIntf::internalAddBand(T bandType)
 {
 
+    if (m_insertMode) {
+        m_insertMode = false;
+        emit itemInsertCanceled(m_insertItemType);
+    }
+
     QSet<BandDesignIntf::BandsType> needParentBands;
     needParentBands << BandDesignIntf::SubDetailBand
                     << BandDesignIntf::SubDetailHeader
