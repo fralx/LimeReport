@@ -40,6 +40,7 @@ namespace LimeReport{
 class IDataSourceManager{
 public:
     virtual void setReportVariable(const QString& name, const QVariant& value)=0;
+    virtual void setDefaultDatabasePath(const QString &defaultDatabasePath)=0;
     virtual void deleteVariable(const QString& name)=0;
     virtual bool containsVariable(const QString& variableName)=0;
     virtual QVariant variable(const QString& variableName)=0;

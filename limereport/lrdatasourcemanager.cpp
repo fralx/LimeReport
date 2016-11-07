@@ -34,6 +34,7 @@
 #include <QRegExp>
 #include <QSqlError>
 #include <QSqlQueryModel>
+#include <QFileInfo>
 #include <stdexcept>
 
 namespace LimeReport{
@@ -227,6 +228,16 @@ DataSourceManager::DataSourceManager(QObject *parent) :
     setSystemVariable(QLatin1String("#PAGE_COUNT"),0,SecondPass);
     m_datasourcesModel.setDataSourceManager(this);
 }
+
+QString DataSourceManager::defaultDatabasePath() const
+{
+    return m_defaultDatabasePath;
+}
+
+void DataSourceManager::setDefaultDatabasePath(const QString &defaultDatabasePath)
+{
+    m_defaultDatabasePath = defaultDatabasePath;
+}
 bool DataSourceManager::designTime() const
 {
     return m_designTime;
@@ -364,7 +375,8 @@ QString DataSourceManager::replaceVariables(QString value){
             QString var=rx.cap(0);
             var.remove("$V{");
             var.remove("}");
-            if (variableNames().contains(var)){
+
+            if (variable(var).isValid()){
                 value.replace(pos,rx.cap(0).length(),variable(var).toString());
             } else {
                 value.replace(pos,rx.cap(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
@@ -670,28 +682,11 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
         dataSourceHolder(datasourceName)->clearErrors();
     }
 
-    if (!QSqlDatabase::contains(connectionDesc->name())){
-        {
-            QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-            db.setHostName(replaceVariables(connectionDesc->host()));
-            db.setUserName(replaceVariables(connectionDesc->userName()));
-            db.setPassword(replaceVariables(connectionDesc->password()));
-            db.setDatabaseName(replaceVariables(connectionDesc->databaseName()));
-            connected=db.open();
-            if (!connected) lastError=db.lastError().text();
-        }
-    } else {
-        connected = QSqlDatabase::database(connectionDesc->name()).isOpen();
-    }
-    if (!connected) {
-        QSqlDatabase::removeDatabase(connectionDesc->name());
-        setLastError(lastError);
-        return false;
-    } else {
+    if (QSqlDatabase::contains(connectionDesc->name())){
         foreach(QString datasourceName, dataSourceNames()){
             if (isQuery(datasourceName)){
                QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
-               if (qh){
+               if (qh && qh->connectionName().compare(connectionDesc->name())==0){
                    qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
                    invalidateChildren(datasourceName);
                }
@@ -705,8 +700,41 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
                }
             }
         }
-        if (designTime()) emit datasourcesChanged();
+
+        QSqlDatabase::removeDatabase(connectionDesc->name());
     }
+
+    QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
+    db.setHostName(replaceVariables(connectionDesc->host()));
+    db.setUserName(replaceVariables(connectionDesc->userName()));
+    db.setPassword(replaceVariables(connectionDesc->password()));
+    QString dbName = replaceVariables(connectionDesc->databaseName());
+    if (connectionDesc->driver().compare("QSQLITE")==0){
+        if (!defaultDatabasePath().isEmpty()){
+            dbName = !QFileInfo(dbName).exists() ?
+                    defaultDatabasePath()+QFileInfo(dbName).fileName() :
+                    dbName;
+        }
+        if (QFileInfo(dbName).exists()){
+            db.setDatabaseName(dbName);
+            connected=db.open();
+        } else {
+            lastError = tr("Database \"%1\" not found").arg(dbName);
+        }
+    } else {
+        db.setDatabaseName(dbName);
+        connected=db.open();
+        if (!connected) lastError=db.lastError().text();
+    }
+
+    if (designTime()) emit datasourcesChanged();
+
+    if (!connected) {
+        QSqlDatabase::removeDatabase(connectionDesc->name());
+        setLastError(lastError);
+        return false;
+    }
+
     return true;
 }
 
