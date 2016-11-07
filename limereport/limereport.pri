@@ -208,6 +208,7 @@ FORMS += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
 
 
+
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \
     $$REPORT_PATH/databrowser/lrdatabrowser.qrc \
