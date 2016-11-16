@@ -220,6 +220,7 @@ private slots:
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
 private:
     explicit DataSourceManager(QObject *parent = 0);
+    bool initAndOpenDB(QSqlDatabase &db, ConnectionDesc &connectionDesc);
     Q_DISABLE_COPY(DataSourceManager)
 private:
     QList<ConnectionDesc*> m_connections;
