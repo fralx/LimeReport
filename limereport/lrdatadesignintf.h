@@ -129,6 +129,7 @@ public:
     QString password(){return m_password;}
     void    setAutoconnect(bool value){m_autoconnect=value;}
     bool    autoconnect(){return m_autoconnect;}
+    bool    isEqual(const QSqlDatabase& db);
 signals:
     void nameChanged(const QString& oldName,const QString& newName);
 private:
