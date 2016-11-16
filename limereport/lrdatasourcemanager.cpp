@@ -634,6 +634,7 @@ bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
         QSqlDatabase::removeDatabase(connection->name());
         return true;
     }
+    QSqlDatabase::removeDatabase(connection->name());
     return false;
 }
 
@@ -672,8 +673,38 @@ void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
     } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(proxyDesc->name()));
 }
 
+bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc){
+
+    bool connected = false;
+    db.setHostName(replaceVariables(connectionDesc.host()));
+    db.setUserName(replaceVariables(connectionDesc.userName()));
+    db.setPassword(replaceVariables(connectionDesc.password()));
+
+    QString dbName = replaceVariables(connectionDesc.databaseName());
+    if (connectionDesc.driver().compare("QSQLITE")==0){
+        if (!defaultDatabasePath().isEmpty()){
+            dbName = !QFileInfo(dbName).exists() ?
+                    defaultDatabasePath()+QFileInfo(dbName).fileName() :
+                    dbName;
+        }
+        if (QFileInfo(dbName).exists()){
+            db.setDatabaseName(dbName);
+        } else {
+            setLastError(tr("Database \"%1\" not found").arg(dbName));
+            return false;
+        }
+    } else {
+        db.setDatabaseName(dbName);
+    }
+
+    connected=db.open();
+    if (!connected) setLastError(db.lastError().text());
+    return  connected;
+}
+
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 {
+
     bool connected = false;
     clearErrors();
     QString lastError ="";
@@ -682,11 +713,31 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
         dataSourceHolder(datasourceName)->clearErrors();
     }
 
-    if (QSqlDatabase::contains(connectionDesc->name())){
+    if (!QSqlDatabase::contains(connectionDesc->name())){
+        QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
+        connected=initAndOpenDB(db, *connectionDesc);
+        if (!connected){
+            setLastError(db.lastError().text());
+            return false;
+        }
+    } else {
+        QSqlDatabase db = QSqlDatabase::database(connectionDesc->name());
+        if (!connectionDesc->isEqual(db)){
+            db.close();
+            connected = initAndOpenDB(db, *connectionDesc);
+        } else {
+            connected = db.isOpen();
+        }
+    }
+
+    if (!connected) {
+        QSqlDatabase::removeDatabase(connectionDesc->name());
+        return false;
+    } else {
         foreach(QString datasourceName, dataSourceNames()){
             if (isQuery(datasourceName)){
                QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
-               if (qh && qh->connectionName().compare(connectionDesc->name())==0){
+               if (qh){
                    qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
                    invalidateChildren(datasourceName);
                }
@@ -700,41 +751,8 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
                }
             }
         }
-
-        QSqlDatabase::removeDatabase(connectionDesc->name());
+        if (designTime()) emit datasourcesChanged();
     }
-
-    QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-    db.setHostName(replaceVariables(connectionDesc->host()));
-    db.setUserName(replaceVariables(connectionDesc->userName()));
-    db.setPassword(replaceVariables(connectionDesc->password()));
-    QString dbName = replaceVariables(connectionDesc->databaseName());
-    if (connectionDesc->driver().compare("QSQLITE")==0){
-        if (!defaultDatabasePath().isEmpty()){
-            dbName = !QFileInfo(dbName).exists() ?
-                    defaultDatabasePath()+QFileInfo(dbName).fileName() :
-                    dbName;
-        }
-        if (QFileInfo(dbName).exists()){
-            db.setDatabaseName(dbName);
-            connected=db.open();
-        } else {
-            lastError = tr("Database \"%1\" not found").arg(dbName);
-        }
-    } else {
-        db.setDatabaseName(dbName);
-        connected=db.open();
-        if (!connected) lastError=db.lastError().text();
-    }
-
-    if (designTime()) emit datasourcesChanged();
-
-    if (!connected) {
-        QSqlDatabase::removeDatabase(connectionDesc->name());
-        setLastError(lastError);
-        return false;
-    }
-
     return true;
 }
 

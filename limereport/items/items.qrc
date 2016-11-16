@@ -11,7 +11,7 @@
         <file>images/insert-text_5.png</file>
         <file>images/shape5.png</file>
         <file>images/imageItem1.png</file>
-        <file alias="ImageItem">images/imageItem2.png</file>
+        <file>images/imageItem2.png</file>
         <file>images/settings.png</file>
         <file>images/settings2.png</file>
         <file alias="HorizontalLayout">images/hlayuot_3_24.png</file>
