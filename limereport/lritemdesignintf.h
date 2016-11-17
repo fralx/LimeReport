@@ -73,17 +73,8 @@ class ContentItemDesignIntf : public ItemDesignIntf
 public:
     ContentItemDesignIntf(const QString& xmlTypeName, QObject* owner = 0,QGraphicsItem* parent = 0)
         :ItemDesignIntf(xmlTypeName,owner,parent){}
-    virtual QString content() const;
-    virtual void setContent(const QString& value)=0;
-    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
-protected:
-    QString escapeSimbols(const QString& value);
-    QString replaceHTMLSymbols(const QString& value);
-    virtual QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
-    virtual QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
-    virtual QString expandScripts(QString context, DataSourceManager *dataManager);
-
-    QVariant m_varValue;
+    virtual QString content() const = 0;
+    virtual void setContent(const QString& value) = 0;
 };
 
 class LayoutDesignIntf : public ItemDesignIntf{
