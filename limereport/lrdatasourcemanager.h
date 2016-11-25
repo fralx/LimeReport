@@ -189,6 +189,9 @@ public:
     QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText, QString masterDatasource="");
     void updateDatasourceModel();
     bool isNeedUpdateDatasourceModel(){ return m_needUpdate;}
+    QString defaultDatabasePath() const;
+    void setDefaultDatabasePath(const QString &defaultDatabasePath);
+
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
@@ -208,7 +211,6 @@ protected:
     virtual QObject *elementAt(const QString& collectionName,int index);
     virtual void collectionLoadFinished(const QString& collectionName);
 
-
     void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
@@ -218,6 +220,7 @@ private slots:
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
 private:
     explicit DataSourceManager(QObject *parent = 0);
+    bool initAndOpenDB(QSqlDatabase &db, ConnectionDesc &connectionDesc);
     Q_DISABLE_COPY(DataSourceManager)
 private:
     QList<ConnectionDesc*> m_connections;
@@ -236,6 +239,7 @@ private:
     QStringList m_errorsList;
     bool m_designTime;
     bool m_needUpdate;
+    QString m_defaultDatabasePath;
 };
 
 }

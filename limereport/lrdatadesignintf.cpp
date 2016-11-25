@@ -369,6 +369,16 @@ void ConnectionDesc::setName(const QString &value)
     m_connectionName=value;
 }
 
+bool ConnectionDesc::isEqual(const QSqlDatabase &db)
+{
+    return (db.databaseName() == m_databaseName) &&
+           (db.driverName() == m_connectionDriver) &&
+           (db.hostName() == m_connectionHost) &&
+           (db.connectionName() == m_connectionName) &&
+           (db.userName() == m_user) &&
+           (db.password() == m_password);
+}
+
 QueryDesc::QueryDesc(QString queryName, QString queryText, QString connection)
     :m_queryName(queryName), m_queryText(queryText), m_connectionName(connection)
 {}

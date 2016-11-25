@@ -43,6 +43,7 @@ class GroupBandHeader : public BandDesignIntf, public IGroupBand{
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
     Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
     Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
+    Q_PROPERTY(QString condition READ condition WRITE setCondition)
 public:
     GroupBandHeader(QObject* owner = 0, QGraphicsItem* parent=0);
     virtual bool isUnique() const;
@@ -57,6 +58,8 @@ public:
     void setResetPageNumber(bool resetPageNumber);
     bool isHeader() const{return true;}
     bool isGroupHeader() const {return true;}
+    QString condition() const;
+    void setCondition(const QString &condition);
 private:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     void startGroup(DataSourceManager* dataManager);
@@ -65,12 +68,15 @@ private:
     void closeGroup();
     int index();
     QString findDataSourceName(BandDesignIntf *parentBand);
+    QString calcCondition(DataSourceManager *dataManager);
 private:
     QVariant m_groupFieldValue;
     QString m_groupFiledName;
     bool m_groupStarted;
     //bool m_startNewPage;
     bool m_resetPageNumber;
+    QString m_condition;
+    QString m_conditionValue;
 };
 
 class GroupBandFooter : public BandDesignIntf{

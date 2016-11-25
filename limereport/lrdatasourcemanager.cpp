@@ -34,6 +34,7 @@
 #include <QRegExp>
 #include <QSqlError>
 #include <QSqlQueryModel>
+#include <QFileInfo>
 #include <stdexcept>
 
 namespace LimeReport{
@@ -227,6 +228,16 @@ DataSourceManager::DataSourceManager(QObject *parent) :
     setSystemVariable(QLatin1String("#PAGE_COUNT"),0,SecondPass);
     m_datasourcesModel.setDataSourceManager(this);
 }
+
+QString DataSourceManager::defaultDatabasePath() const
+{
+    return m_defaultDatabasePath;
+}
+
+void DataSourceManager::setDefaultDatabasePath(const QString &defaultDatabasePath)
+{
+    m_defaultDatabasePath = defaultDatabasePath;
+}
 bool DataSourceManager::designTime() const
 {
     return m_designTime;
@@ -364,7 +375,8 @@ QString DataSourceManager::replaceVariables(QString value){
             QString var=rx.cap(0);
             var.remove("$V{");
             var.remove("}");
-            if (variableNames().contains(var)){
+
+            if (variable(var).isValid()){
                 value.replace(pos,rx.cap(0).length(),variable(var).toString());
             } else {
                 value.replace(pos,rx.cap(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
@@ -622,6 +634,7 @@ bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
         QSqlDatabase::removeDatabase(connection->name());
         return true;
     }
+    QSqlDatabase::removeDatabase(connection->name());
     return false;
 }
 
@@ -660,8 +673,38 @@ void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
     } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(proxyDesc->name()));
 }
 
+bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc){
+
+    bool connected = false;
+    db.setHostName(replaceVariables(connectionDesc.host()));
+    db.setUserName(replaceVariables(connectionDesc.userName()));
+    db.setPassword(replaceVariables(connectionDesc.password()));
+
+    QString dbName = replaceVariables(connectionDesc.databaseName());
+    if (connectionDesc.driver().compare("QSQLITE")==0){
+        if (!defaultDatabasePath().isEmpty()){
+            dbName = !QFileInfo(dbName).exists() ?
+                    defaultDatabasePath()+QFileInfo(dbName).fileName() :
+                    dbName;
+        }
+        if (QFileInfo(dbName).exists()){
+            db.setDatabaseName(dbName);
+        } else {
+            setLastError(tr("Database \"%1\" not found").arg(dbName));
+            return false;
+        }
+    } else {
+        db.setDatabaseName(dbName);
+    }
+
+    connected=db.open();
+    if (!connected) setLastError(db.lastError().text());
+    return  connected;
+}
+
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 {
+
     bool connected = false;
     clearErrors();
     QString lastError ="";
@@ -671,21 +714,24 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
     }
 
     if (!QSqlDatabase::contains(connectionDesc->name())){
-        {
-            QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-            db.setHostName(replaceVariables(connectionDesc->host()));
-            db.setUserName(replaceVariables(connectionDesc->userName()));
-            db.setPassword(replaceVariables(connectionDesc->password()));
-            db.setDatabaseName(replaceVariables(connectionDesc->databaseName()));
-            connected=db.open();
-            if (!connected) lastError=db.lastError().text();
+        QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
+        connected=initAndOpenDB(db, *connectionDesc);
+        if (!connected){
+            setLastError(db.lastError().text());
+            return false;
         }
     } else {
-        connected = QSqlDatabase::database(connectionDesc->name()).isOpen();
+        QSqlDatabase db = QSqlDatabase::database(connectionDesc->name());
+        if (!connectionDesc->isEqual(db)){
+            db.close();
+            connected = initAndOpenDB(db, *connectionDesc);
+        } else {
+            connected = db.isOpen();
+        }
     }
+
     if (!connected) {
         QSqlDatabase::removeDatabase(connectionDesc->name());
-        setLastError(lastError);
         return false;
     } else {
         foreach(QString datasourceName, dataSourceNames()){
