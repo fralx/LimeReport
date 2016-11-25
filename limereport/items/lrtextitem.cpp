@@ -700,8 +700,7 @@ QString TextItem::getTextPart(int height, int skipHeight){
     }
 
     linesHeight = 0;
-    qDebug()<<curBlock.lineCount();
-    qDebug()<<(curBlock == m_text->end());
+
     for (;curBlock!=m_text->end() || curLine<curBlock.lineCount();curBlock=curBlock.next(), curLine=0, resultText+='\n'){
         for (;curLine<curBlock.layout()->lineCount();curLine++){
           if (resultText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
