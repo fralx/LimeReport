@@ -32,15 +32,16 @@
 #include <QGraphicsTextItem>
 #include <QtGui>
 #include <QLabel>
-#include "lritemdesignintf.h"
-#include <qnamespace.h>
-
 #include <QTextDocument>
+
+#include "lritemdesignintf.h"
+#include "lritemdesignintf.h"
+#include "lrpageinitintf.h"
 
 namespace LimeReport {
 
 class Tag;
-class TextItem : public LimeReport::ContentItemDesignIntf {
+class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_OBJECT
     Q_ENUMS(AutoWidth)
     Q_ENUMS(AngleType)
@@ -66,6 +67,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(bool allowHTMLInFields READ allowHTMLInFields WRITE setAllowHTMLInFields)
     Q_PROPERTY(QString format READ format WRITE setFormat)
     Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
+    Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -140,12 +142,25 @@ public:
     ValueType valueType() const;
     void setValueType(const ValueType valueType);
 
+    QSizeF textSize(){ return m_textSize;}
+    QString followTo() const;
+    void setFollowTo(const QString &followTo);
+    void setFollower(TextItem* follower);
+    bool hasFollower();
+    TextItem* follower(){ return m_follower;}
+    bool initFollower(QString follower);
+
+    // IPageInit interface
+    void pageObjectHasBeenLoaded();
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
     QString replaceBR(QString text);
     QString replaceReturns(QString text);
     int fakeMarginSize();
+    QString getTextPart(int height, int skipHeight);
+    void restoreLinksEvent();
 private:
     void initText();
     void setTextFont(const QFont &value);
@@ -174,6 +189,8 @@ private:
 
     QString m_format;
     ValueType m_valueType;
+    QString   m_followTo;
+    TextItem* m_follower;
 };
 
 }

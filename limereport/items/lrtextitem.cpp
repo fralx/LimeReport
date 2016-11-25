@@ -31,6 +31,7 @@
 #include <QTextLayout>
 #include <QtScript/QScriptEngine>
 #include <QLocale>
+#include <QMessageBox>
 #include <math.h>
 
 #include "lrpagedesignintf.h"
@@ -57,7 +58,7 @@ namespace LimeReport{
 
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
-      m_allowHTMLInFields(false)
+      m_allowHTMLInFields(false), m_followTo(""), m_follower(0)
 {
     m_text = new QTextDocument();
 
@@ -265,8 +266,13 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
         setWidth(m_textSize.width() + fakeMarginSize()*2);
     }
 
-    if ((m_textSize.height()>height()) && (m_autoHeight) ){
-        setHeight(m_textSize.height()+borderLineSize()*2);
+    if (m_textSize.height()>height()) {
+        if (m_autoHeight)
+            setHeight(m_textSize.height()+borderLineSize()*2);
+        else if (hasFollower() && !content().isEmpty()){
+            follower()->setContent(getTextPart(0,height()));
+            setContent(getTextPart(height(),0));
+        }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
@@ -353,6 +359,7 @@ void TextItem::setLineSpacing(int value)
 
 void TextItem::initText()
 {
+    if (!m_text) return;
     QTextOption to;
     to.setAlignment(m_alignment);
 
@@ -454,6 +461,66 @@ QString TextItem::formatFieldValue()
     }
 }
 
+QString TextItem::followTo() const
+{
+    return m_followTo;
+}
+
+void TextItem::setFollowTo(const QString &followTo)
+{
+    if (m_followTo != followTo){
+        QString oldValue = m_followTo;
+        m_followTo = followTo;
+        if (!isLoading()){
+            TextItem* fi = scene()->findChild<TextItem*>(followTo);
+            if (fi && initFollower(followTo)){
+                notify("followTo",oldValue,followTo);
+            } else {
+                m_followTo = "";
+                QMessageBox::critical(
+                    0,
+                    tr("Error"),
+                    tr("TextItem \" %1 \" already has folower \" %2 \" ")
+                            .arg(fi->objectName())
+                            .arg(fi->follower()->objectName())
+                );
+                notify("followTo",followTo,"");
+            }
+        }
+    }
+}
+
+void TextItem::setFollower(TextItem *follower)
+{
+    if (!m_follower){
+        m_follower = follower;
+    }
+}
+
+bool TextItem::hasFollower()
+{
+    return m_follower != 0;
+}
+
+bool TextItem::initFollower(QString follower)
+{
+    TextItem* fi = scene()->findChild<TextItem*>(follower);
+    if (fi){
+        if (!fi->hasFollower()){
+            fi->setFollower(this);
+            return true;
+        }
+    }
+    return false;
+}
+
+void TextItem::pageObjectHasBeenLoaded()
+{
+    if (!m_followTo.isEmpty()){
+        initFollower(m_followTo);
+    }
+}
+
 TextItem::ValueType TextItem::valueType() const
 {
     return m_valueType;
@@ -537,6 +604,7 @@ bool TextItem::isNeedUpdateSize(RenderPass pass) const
     Q_UNUSED(pass)
     bool res =  (m_textSize.height()>geometry().height()&&autoHeight()) ||
                 (m_textSize.width()>geometry().width()&&autoWidth()) ||
+                 m_follower ||
                 isNeedExpandContent();
     return res;
 }
@@ -557,6 +625,7 @@ void TextItem::setAlignment(Qt::Alignment value)
 
 void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
+
     QString context=content();
     ExpandType expandType = (allowHTML() && !allowHTMLInFields())?ReplaceHTMLSymbols:NoEscapeSymbols;
     switch(pass){
@@ -575,6 +644,7 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
     } else {
         setContent(context);
     }
+
 }
 
 void TextItem::setAutoHeight(bool value)
@@ -611,63 +681,78 @@ bool TextItem::canBeSplitted(int height) const
     return height>(m_text->begin().layout()->lineAt(0).height());
 }
 
-BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
-{
+QString TextItem::getTextPart(int height, int skipHeight){
     int linesHeight=0;
-    QString tmpText="";
-    TextItem* upperPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
+    int curLine=0;
+    int textPos=0;
 
-    for (QTextBlock it=m_text->begin();it!=m_text->end();it=it.next()){
-        for (int i=0;i<it.layout()->lineCount();i++){
-          linesHeight+=it.layout()->lineAt(i).height()+lineSpacing();
-          if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {
-              linesHeight-=it.layout()->lineAt(i).height();
-              goto loop_exit;
+    QTextBlock curBlock = m_text->begin();
+    QString resultText="";
+
+    if (skipHeight>0){
+        for (;curBlock!=m_text->end();curBlock=curBlock.next()){
+            for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
+                linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
+                if (linesHeight>(skipHeight-(/*fakeMarginSize()*2+*/borderLineSize()*2))) {goto loop_exit;}
+            }
+        }
+        loop_exit:;
+    }
+
+    linesHeight = 0;
+
+    for (;curBlock!=m_text->end() || curLine<curBlock.lineCount();curBlock=curBlock.next(), curLine=0, resultText+='\n'){
+        for (;curLine<curBlock.layout()->lineCount();curLine++){
+          if (resultText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
+          linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
+          if ( (height>0) && (linesHeight>(height-(/*fakeMarginSize()*2+*/borderLineSize()*2))) ) {
+              linesHeight-=curBlock.layout()->lineAt(curLine).height();
+              goto loop_exit1;
           }
-          tmpText+=it.text().mid(it.layout()->lineAt(i).textStart(),it.layout()->lineAt(i).textLength())+'\n';
+          resultText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
+            curBlock.layout()->lineAt(curLine).textLength());
         }
     }
-    loop_exit:
-    tmpText.chop(1);
+    loop_exit1:;
 
-    upperPart->setHeight(linesHeight+fakeMarginSize()*2+borderLineSize()*2);
+    resultText.chop(1);
+
     QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
-    upperPart->setContent(context->extendTextByTags(tmpText,0));
+    return context->extendTextByTags(resultText,textPos);
+}
+
+void TextItem::restoreLinksEvent()
+{
+    if (!followTo().isEmpty()){
+        BaseDesignIntf* pi = dynamic_cast<BaseDesignIntf*>(parentItem());
+        if (pi){
+            foreach (BaseDesignIntf* bi, pi->childBaseItems()) {
+                if (bi->patternName().compare(followTo())==0){
+                    TextItem* ti = dynamic_cast<TextItem*>(bi);
+                    if (ti){
+                        ti->setFollower(this);
+                    }
+                }
+            }
+        }
+    }
+}
+
+BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
+{
+    TextItem* upperPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
+    upperPart->setContent(getTextPart(height,0));
     upperPart->initText();
+    upperPart->setHeight(upperPart->textSize().height()+borderLineSize()*2);
     return upperPart;
 }
 
 BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     TextItem* bottomPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
-    int linesHeight=0;
-    int curLine=0;
-    QTextBlock curBlock;
-
-    QString tmpText="";
-
-    for (curBlock=m_text->begin();curBlock!=m_text->end();curBlock=curBlock.next()){
-        for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
-            linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
-            if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {goto loop_exit;}
-        }
-    }
-    loop_exit:;
-
-    int textPos=0;
-    for (;curBlock!=m_text->end() || curLine<curBlock.lineCount();curBlock=curBlock.next(), curLine=0, tmpText+='\n'){
-        for (;curLine<curBlock.layout()->lineCount();curLine++){
-            if (tmpText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
-            tmpText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
-              curBlock.layout()->lineAt(curLine).textLength());
-        }
-    }
-    tmpText.chop(1);
-
-    QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
-    bottomPart->setContent(context->extendTextByTags(tmpText,textPos));
+    bottomPart->setContent(getTextPart(0,height));
     bottomPart->initText();
-    bottomPart->setHeight(bottomPart->m_textSize.height()+borderLineSize()*2);
+    bottomPart->setHeight(bottomPart->textSize().height()+borderLineSize()*2);
     return bottomPart;
 }
 
