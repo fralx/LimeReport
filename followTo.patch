@@ -1,0 +1,497 @@
+diff --git a/limereport/items/lrtextitem.cpp b/limereport/items/lrtextitem.cpp
+index 7d61562..041a737 100644
+--- a/limereport/items/lrtextitem.cpp
++++ b/limereport/items/lrtextitem.cpp
+@@ -31,6 +31,7 @@
+ #include <QTextLayout>
+ #include <QtScript/QScriptEngine>
+ #include <QLocale>
++#include <QMessageBox>
+ #include <math.h>
+ 
+ #include "lrpagedesignintf.h"
+@@ -57,7 +58,7 @@ namespace LimeReport{
+ 
+ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
+     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
+-      m_allowHTMLInFields(false)
++      m_allowHTMLInFields(false), m_followTo(""), m_follower(0)
+ {
+     m_text = new QTextDocument();
+ 
+@@ -265,8 +266,13 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
+         setWidth(m_textSize.width() + fakeMarginSize()*2);
+     }
+ 
+-    if ((m_textSize.height()>height()) && (m_autoHeight) ){
+-        setHeight(m_textSize.height()+borderLineSize()*2);
++    if (m_textSize.height()>height()) {
++        if (m_autoHeight)
++            setHeight(m_textSize.height()+borderLineSize()*2);
++        else if (hasFollower() && !content().isEmpty()){
++            follower()->setContent(getTextPart(0,height()));
++            setContent(getTextPart(height(),0));
++        }
+     }
+     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
+ }
+@@ -353,6 +359,7 @@ void TextItem::setLineSpacing(int value)
+ 
+ void TextItem::initText()
+ {
++    if (!m_text) return;
+     QTextOption to;
+     to.setAlignment(m_alignment);
+ 
+@@ -454,6 +461,66 @@ QString TextItem::formatFieldValue()
+     }
+ }
+ 
++QString TextItem::followTo() const
++{
++    return m_followTo;
++}
++
++void TextItem::setFollowTo(const QString &followTo)
++{
++    if (m_followTo != followTo){
++        QString oldValue = m_followTo;
++        m_followTo = followTo;
++        if (!isLoading()){
++            TextItem* fi = scene()->findChild<TextItem*>(followTo);
++            if (fi && initFollower(followTo)){
++                notify("followTo",oldValue,followTo);
++            } else {
++                m_followTo = "";
++                QMessageBox::critical(
++                    0,
++                    tr("Error"),
++                    tr("TextItem \" %1 \" already has folower \" %2 \" ")
++                            .arg(fi->objectName())
++                            .arg(fi->follower()->objectName())
++                );
++                notify("followTo",followTo,"");
++            }
++        }
++    }
++}
++
++void TextItem::setFollower(TextItem *follower)
++{
++    if (!m_follower){
++        m_follower = follower;
++    }
++}
++
++bool TextItem::hasFollower()
++{
++    return m_follower != 0;
++}
++
++bool TextItem::initFollower(QString follower)
++{
++    TextItem* fi = scene()->findChild<TextItem*>(follower);
++    if (fi){
++        if (!fi->hasFollower()){
++            fi->setFollower(this);
++            return true;
++        }
++    }
++    return false;
++}
++
++void TextItem::pageObjectHasBeenLoaded()
++{
++    if (!m_followTo.isEmpty()){
++        initFollower(m_followTo);
++    }
++}
++
+ TextItem::ValueType TextItem::valueType() const
+ {
+     return m_valueType;
+@@ -537,6 +604,7 @@ bool TextItem::isNeedUpdateSize(RenderPass pass) const
+     Q_UNUSED(pass)
+     bool res =  (m_textSize.height()>geometry().height()&&autoHeight()) ||
+                 (m_textSize.width()>geometry().width()&&autoWidth()) ||
++                 m_follower ||
+                 isNeedExpandContent();
+     return res;
+ }
+@@ -557,6 +625,7 @@ void TextItem::setAlignment(Qt::Alignment value)
+ 
+ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
+ {
++
+     QString context=content();
+     ExpandType expandType = (allowHTML() && !allowHTMLInFields())?ReplaceHTMLSymbols:NoEscapeSymbols;
+     switch(pass){
+@@ -575,6 +644,7 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
+     } else {
+         setContent(context);
+     }
++
+ }
+ 
+ void TextItem::setAutoHeight(bool value)
+@@ -611,63 +681,79 @@ bool TextItem::canBeSplitted(int height) const
+     return height>(m_text->begin().layout()->lineAt(0).height());
+ }
+ 
+-BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
+-{
++QString TextItem::getTextPart(int height, int skipHeight){
+     int linesHeight=0;
+-    QString tmpText="";
+-    TextItem* upperPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
++    int curLine=0;
++    int textPos=0;
+ 
+-    for (QTextBlock it=m_text->begin();it!=m_text->end();it=it.next()){
+-        for (int i=0;i<it.layout()->lineCount();i++){
+-          linesHeight+=it.layout()->lineAt(i).height()+lineSpacing();
+-          if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {
+-              linesHeight-=it.layout()->lineAt(i).height();
+-              goto loop_exit;
++    QTextBlock curBlock = m_text->begin();
++    QString resultText="";
++
++    if (skipHeight>0){
++        for (;curBlock!=m_text->end();curBlock=curBlock.next()){
++            for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
++                linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
++                if (linesHeight>(skipHeight-(/*fakeMarginSize()*2+*/borderLineSize()*2))) {goto loop_exit;}
++            }
++        }
++        loop_exit:;
++    }
++
++    linesHeight = 0;
++    qDebug()<<curBlock.lineCount();
++    qDebug()<<(curBlock == m_text->end());
++    for (;curBlock!=m_text->end() || curLine<curBlock.lineCount();curBlock=curBlock.next(), curLine=0, resultText+='\n'){
++        for (;curLine<curBlock.layout()->lineCount();curLine++){
++          if (resultText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
++          linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
++          if ( (height>0) && (linesHeight>(height-(/*fakeMarginSize()*2+*/borderLineSize()*2))) ) {
++              linesHeight-=curBlock.layout()->lineAt(curLine).height();
++              goto loop_exit1;
+           }
+-          tmpText+=it.text().mid(it.layout()->lineAt(i).textStart(),it.layout()->lineAt(i).textLength())+'\n';
++          resultText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
++            curBlock.layout()->lineAt(curLine).textLength());
+         }
+     }
+-    loop_exit:
+-    tmpText.chop(1);
++    loop_exit1:;
++
++    resultText.chop(1);
+ 
+-    upperPart->setHeight(linesHeight+fakeMarginSize()*2+borderLineSize()*2);
+     QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
+-    upperPart->setContent(context->extendTextByTags(tmpText,0));
+-    upperPart->initText();
+-    return upperPart;
++    return context->extendTextByTags(resultText,textPos);
+ }
+ 
+-BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
++void TextItem::restoreLinksEvent()
+ {
+-    TextItem* bottomPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
+-    int linesHeight=0;
+-    int curLine=0;
+-    QTextBlock curBlock;
+-
+-    QString tmpText="";
+-
+-    for (curBlock=m_text->begin();curBlock!=m_text->end();curBlock=curBlock.next()){
+-        for (curLine=0;curLine<curBlock.layout()->lineCount();curLine++){
+-            linesHeight+=curBlock.layout()->lineAt(curLine).height()+lineSpacing();
+-            if (linesHeight>(height-(fakeMarginSize()*2+borderLineSize()*2))) {goto loop_exit;}
++    if (!followTo().isEmpty()){
++        BaseDesignIntf* pi = dynamic_cast<BaseDesignIntf*>(parentItem());
++        if (pi){
++            foreach (BaseDesignIntf* bi, pi->childBaseItems()) {
++                if (bi->patternName().compare(followTo())==0){
++                    TextItem* ti = dynamic_cast<TextItem*>(bi);
++                    if (ti){
++                        ti->setFollower(this);
++                    }
++                }
++            }
+         }
+     }
+-    loop_exit:;
++}
+ 
+-    int textPos=0;
+-    for (;curBlock!=m_text->end();curBlock=curBlock.next(),curLine=0){
+-        for (;curLine<curBlock.layout()->lineCount();curLine++){
+-            if (tmpText=="") textPos= curBlock.layout()->lineAt(curLine).textStart();
+-            tmpText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
+-              curBlock.layout()->lineAt(curLine).textLength()) + "\n";
+-        }
+-    }
+-    tmpText.chop(1);
++BaseDesignIntf *TextItem::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
++{
++    TextItem* upperPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
++    upperPart->setContent(getTextPart(height,0));
++    upperPart->initText();
++    upperPart->setHeight(upperPart->textSize().height()+borderLineSize()*2);
++    return upperPart;
++}
+ 
+-    QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
+-    bottomPart->setContent(context->extendTextByTags(tmpText,textPos));
++BaseDesignIntf *TextItem::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
++{
++    TextItem* bottomPart = dynamic_cast<TextItem*>(cloneItem(itemMode(),owner,parent));
++    bottomPart->setContent(getTextPart(0,height));
+     bottomPart->initText();
+-    bottomPart->setHeight(bottomPart->m_textSize.height()+borderLineSize()*2);
++    bottomPart->setHeight(bottomPart->textSize().height()+borderLineSize()*2);
+     return bottomPart;
+ }
+ 
+diff --git a/limereport/items/lrtextitem.h b/limereport/items/lrtextitem.h
+index 07c3412..bda15d8 100644
+--- a/limereport/items/lrtextitem.h
++++ b/limereport/items/lrtextitem.h
+@@ -32,15 +32,16 @@
+ #include <QGraphicsTextItem>
+ #include <QtGui>
+ #include <QLabel>
+-#include "lritemdesignintf.h"
+-#include <qnamespace.h>
+-
+ #include <QTextDocument>
+ 
++#include "lritemdesignintf.h"
++#include "lritemdesignintf.h"
++#include "lrpageinitintf.h"
++
+ namespace LimeReport {
+ 
+ class Tag;
+-class TextItem : public LimeReport::ContentItemDesignIntf {
++class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
+     Q_OBJECT
+     Q_ENUMS(AutoWidth)
+     Q_ENUMS(AngleType)
+@@ -66,6 +67,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
+     Q_PROPERTY(bool allowHTMLInFields READ allowHTMLInFields WRITE setAllowHTMLInFields)
+     Q_PROPERTY(QString format READ format WRITE setFormat)
+     Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
++    Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
+ public:
+ 
+     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
+@@ -140,12 +142,25 @@ public:
+     ValueType valueType() const;
+     void setValueType(const ValueType valueType);
+ 
++    QSizeF textSize(){ return m_textSize;}
++    QString followTo() const;
++    void setFollowTo(const QString &followTo);
++    void setFollower(TextItem* follower);
++    bool hasFollower();
++    TextItem* follower(){ return m_follower;}
++    bool initFollower(QString follower);
++
++    // IPageInit interface
++    void pageObjectHasBeenLoaded();
++
+ protected:
+     void updateLayout();
+     bool isNeedExpandContent() const;
+     QString replaceBR(QString text);
+     QString replaceReturns(QString text);
+     int fakeMarginSize();
++    QString getTextPart(int height, int skipHeight);
++    void restoreLinksEvent();
+ private:
+     void initText();
+     void setTextFont(const QFont &value);
+@@ -174,6 +189,8 @@ private:
+ 
+     QString m_format;
+     ValueType m_valueType;
++    QString   m_followTo;
++    TextItem* m_follower;
+ };
+ 
+ }
+diff --git a/limereport/lrbanddesignintf.cpp b/limereport/lrbanddesignintf.cpp
+index a55f74c..c7b3dcc 100644
+--- a/limereport/lrbanddesignintf.cpp
++++ b/limereport/lrbanddesignintf.cpp
+@@ -889,6 +889,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
+     if (borderLines()!=0){
+         spaceBorder += borderLineSize();
+     }
++    restoreLinks();
+     snapshotItemsLayout();
+     arrangeSubItems(pass, dataManager);
+     if (autoHeight()){
+diff --git a/limereport/lrbasedesignintf.cpp b/limereport/lrbasedesignintf.cpp
+index 8b632d5..a901997 100644
+--- a/limereport/lrbasedesignintf.cpp
++++ b/limereport/lrbasedesignintf.cpp
+@@ -76,7 +76,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
+     m_itemAlign(DesignedItemAlign),
+     m_changingItemAlign(false),
+     m_borderColor(Qt::black),
+-    m_reportSettings(0)
++    m_reportSettings(0),
++    m_patternName("")
+ {
+     setGeometry(QRectF(0, 0, m_width, m_height));
+     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
+@@ -672,6 +673,16 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
+     }
+ }
+ 
++QString BaseDesignIntf::patternName() const
++{
++    return m_patternName;
++}
++
++void BaseDesignIntf::setPatternName(const QString &patternName)
++{
++    m_patternName = patternName;
++}
++
+ ReportSettings *BaseDesignIntf::reportSettings() const
+ {
+     return m_reportSettings;
+@@ -737,7 +748,7 @@ void BaseDesignIntf::emitObjectNamePropertyChanged(const QString &oldName, const
+ 
+ int BaseDesignIntf::borderLineSize() const
+ {
+-    return m_borderLineSize;
++    return 0 /*m_borderLineSize*/;
+ }
+ 
+ void BaseDesignIntf::setBorderLineSize(int value)
+@@ -987,6 +998,19 @@ void BaseDesignIntf::parentChangedEvent(BaseDesignIntf *)
+ 
+ }
+ 
++void BaseDesignIntf::restoreLinks()
++{
++#ifdef HAVE_QT5
++    foreach(QObject * child, children()) {
++#else
++    foreach(QObject * child, QObject::children()) {
++#endif
++        BaseDesignIntf *childItem = dynamic_cast<BaseDesignIntf *>(child);
++        if (childItem) {childItem->restoreLinks();}
++    }
++    restoreLinksEvent();
++}
++
+ QPainterPath BaseDesignIntf::shape() const
+ {
+     QPainterPath path;
+@@ -1229,6 +1253,7 @@ void BaseDesignIntf::collectionLoadFinished(const QString &collectionName)
+ BaseDesignIntf *BaseDesignIntf::cloneItem(ItemMode mode, QObject *owner, QGraphicsItem *parent)
+ {
+     BaseDesignIntf *clone = cloneItemWOChild(mode, owner, parent);
++    clone->setPatternName(this->objectName());
+ #ifdef HAVE_QT5
+     foreach(QObject * child, children()) {
+ #else
+diff --git a/limereport/lrbasedesignintf.h b/limereport/lrbasedesignintf.h
+index f31bf73..dae9cf4 100644
+--- a/limereport/lrbasedesignintf.h
++++ b/limereport/lrbasedesignintf.h
+@@ -249,6 +249,8 @@ public:
+     ReportSettings* reportSettings() const;
+     void setReportSettings(ReportSettings *reportSettings);
+     void setZValueProperty(qreal value);
++    QString patternName() const;
++    void setPatternName(const QString &patternName);
+ 
+     Q_INVOKABLE QString setItemWidth(qreal width);
+     Q_INVOKABLE QString setItemHeight(qreal height);
+@@ -258,6 +260,7 @@ public:
+     Q_INVOKABLE qreal getItemPosY();
+     Q_INVOKABLE QString setItemPosX(qreal xValue);
+     Q_INVOKABLE QString setItemPosY(qreal yValue);
++
+ protected:
+ 
+     //ICollectionContainer
+@@ -283,6 +286,8 @@ protected:
+     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+     virtual void childAddedEvent(BaseDesignIntf* child);
+     virtual void parentChangedEvent(BaseDesignIntf*);
++    void restoreLinks();
++    virtual void restoreLinksEvent(){}
+ 
+     void drawTopLine(QPainter *painter, QRectF rect) const;
+     void drawBootomLine(QPainter *painter, QRectF rect) const;
+@@ -359,6 +364,7 @@ private:
+     bool    m_changingItemAlign;
+     QColor  m_borderColor;
+     ReportSettings* m_reportSettings;
++    QString m_patternName;
+ signals:
+     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
+     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
+diff --git a/limereport/lrreportrender.cpp b/limereport/lrreportrender.cpp
+index 42dacef..3d39635 100644
+--- a/limereport/lrreportrender.cpp
++++ b/limereport/lrreportrender.cpp
+@@ -204,7 +204,6 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
+         resetPageNumber(PageReset);
+ 
+     }
+-    //m_pageCount = 1;
+     m_renderCanceled = false;
+     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
+     m_reportFooterHeight = 0;
+@@ -225,9 +224,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
+             QMessageBox::critical(0,tr("Error"),exception.what());
+             return;
+         }
+-
+         clearPageMap();
+-
+         startNewPage();
+ 
+         renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader),StartNewPageAsNeeded);
+@@ -543,15 +540,21 @@ void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
+ 
+ void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
+ {
++    QList<BaseDesignIntf*> pageItems;
+     foreach (BaseDesignIntf* item, patternPage->childBaseItems()) {
+         ItemDesignIntf* id = dynamic_cast<ItemDesignIntf*>(item);
+         if (id&&id->itemLocation()==ItemDesignIntf::Page){
+             BaseDesignIntf* cloneItem = item->cloneItem(m_renderPageItem->itemMode(),
+                                                         m_renderPageItem,
+                                                         m_renderPageItem);
+-            cloneItem->updateItemSize(m_datasources);
++            pageItems.append(cloneItem);
++            //cloneItem->updateItemSize(m_datasources);
+         }
+     }
++    m_renderPageItem->restoreLinks();
++    foreach(BaseDesignIntf* item, pageItems){
++        item->updateItemSize(m_datasources);
++    }
+ }
+ 
+ qreal ReportRender::calcPageFooterHeight(PageItemDesignIntf *patternPage)
+@@ -978,7 +981,6 @@ void ReportRender::startNewPage()
+         renderBand(band);
+     }
+     checkLostHeadersOnPrevPage();
+-
+     pasteGroups();
+     renderPageItems(m_patternPageItem);
+ }
