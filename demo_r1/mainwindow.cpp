@@ -76,14 +76,16 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(slotGetCallbackData(LimeReport::CallbackInfo,QVariant&)));
     connect(callbackDatasource, SIGNAL(changePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)),
             this, SLOT(slotChangePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)));
-    //report->dataManager()->addCallbackDatasource(callbackDatasource,"master");
 
     callbackDatasource = report->dataManager()->createCallbackDatasouce("detail");
     connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
             this, SLOT(slotGetCallbackChildData(LimeReport::CallbackInfo,QVariant&)));
     connect(callbackDatasource, SIGNAL(changePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)),
             this, SLOT(slotChangeChildPos(const LimeReport::CallbackInfo::ChangePosType&,bool&)));
-    //report->dataManager()->addCallbackDatasource(callbackDatasource,"detail");
+
+    callbackDatasource = report->dataManager()->createCallbackDatasouce("oneSlotDS");
+    connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+            this, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
 
     QStringList simpleData;
     simpleData << "value1" << "value2" << "value3";
@@ -207,4 +209,33 @@ void MainWindow::slotChangeChildPos(const LimeReport::CallbackInfo::ChangePosTyp
     if (!ds) return;
     if (type == LimeReport::CallbackInfo::First) result = ds->first();
     else result = ds->next();
+}
+
+void MainWindow::slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data)
+{
+    QStringList columns;
+    columns << "Name" << "Value" << "Image";
+    switch (info.dataType) {
+            case LimeReport::CallbackInfo::RowCount:
+                data = 4;
+                break;
+            case LimeReport::CallbackInfo::ColumnCount:
+                data = columns.size();
+                break;
+//            case LimeReport::CallbackInfo::IsEmpty:
+//                data = false;
+//                break;
+            case LimeReport::CallbackInfo::ColumnHeaderData: {
+                data = columns.at(info.index);
+                break;
+            }
+            case LimeReport::CallbackInfo::ColumnData:
+                if (info.columnName == "Image")
+                    data = QImage(":/report//images/logo32");
+                else {
+                    data = info.columnName+" "+QString::number(info.index);
+                }
+                break;
+            default: break;
+        }
 }
