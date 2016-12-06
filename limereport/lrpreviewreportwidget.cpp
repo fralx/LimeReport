@@ -16,6 +16,8 @@ namespace LimeReport {
 
 bool PreviewReportWidgetPrivate::pageIsVisible(){
     QGraphicsView* view = q_ptr->ui->graphicsView;
+	if ( m_currentPage-1 >= m_reportPages.size() || m_currentPage <= 0 )
+        return false;
     PageItemDesignIntf::Ptr page = m_reportPages.at(m_currentPage-1);
     return page->mapToScene(page->rect()).boundingRect().intersects(
                 view->mapToScene(view->viewport()->geometry()).boundingRect()
