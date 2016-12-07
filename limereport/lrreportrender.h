@@ -96,7 +96,7 @@ private:
     void    initVariables();
     bool    runInitScript();
     void    clearPageMap();
-    void    renderBand(BandDesignIntf *patternBand, DataRenderMode mode = NotStartNewPage, bool isLast = false);
+    BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
     void    renderPageFooter(PageItemDesignIntf* patternPage);

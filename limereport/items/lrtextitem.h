@@ -101,7 +101,7 @@ public:
 
     bool canBeSplitted(int height) const;
     bool isSplittable() const { return true;}
-    bool isEmpty() const{return m_text->isEmpty();}
+    bool isEmpty() const{return m_strText.trimmed().isEmpty() /*m_text->isEmpty()*/;}
     BaseDesignIntf* cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
