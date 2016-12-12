@@ -153,30 +153,35 @@ public:
     // IPageInit interface
     void pageObjectHasBeenLoaded();
 
+    typedef QSharedPointer<QTextDocument> TextPtr;
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
     QString replaceBR(QString text);
     QString replaceReturns(QString text);
-    int fakeMarginSize();
+    int fakeMarginSize() const;
     QString getTextPart(int height, int skipHeight);
     void restoreLinksEvent();
 private:
-    void initText();
-    void setTextFont(const QFont &value);
-    void adaptFontSize();
+    void initTextSizes();
+    void setTextFont(TextPtr text, const QFont &value);
+    void adaptFontSize(TextPtr text);
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
+
+    TextPtr textDocument();
 private:
     QString m_strText;
 
     //QTextLayout m_layout;
-    QTextDocument* m_text;
+    //QTextDocument* m_text;
     Qt::Alignment m_alignment;
     bool m_autoHeight;
     AutoWidth m_autoWidth;
     QSizeF m_textSize;
+    qreal  m_firstLineSize;
     AngleType m_angle;
     int m_foregroundOpacity;
     bool m_underlines;
