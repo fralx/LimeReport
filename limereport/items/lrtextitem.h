@@ -95,7 +95,7 @@ public:
 
     bool canBeSplitted(int height) const;
     bool isSplittable() const { return true;}
-    bool isEmpty() const{return m_text->isEmpty();}
+    bool isEmpty() const{return m_strText.isEmpty();}
     BaseDesignIntf* cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
@@ -135,19 +135,22 @@ protected:
     QString replaceReturns(QString text);
     int fakeMarginSize();
 private:
-    void initText();
+    void initTextSizes();
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
+    typedef QSharedPointer<QTextDocument> TextPtr;
+    TextPtr textDocument();
 private:
     QString m_strText;
 
     //QTextLayout m_layout;
-    QTextDocument* m_text;
+    //QTextDocument* m_text;
     Qt::Alignment m_alignment;
     bool m_autoHeight;
     AutoWidth m_autoWidth;
     QSizeF m_textSize;
+    qreal m_firstLineSize;
     AngleType m_angle;
     int m_foregroundOpacity;
     bool m_trimValue;
