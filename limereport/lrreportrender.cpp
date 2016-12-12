@@ -495,8 +495,8 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
                 if (header && !firstTime && header->repeatOnEachRow())
                     renderBand(header, 0, StartNewPageAsNeeded);
 
-                if (renderBand(dataBand, rawData, StartNewPageAsNeeded, !bandDatasource->hasNext()) )
-                   renderChildBands(dataBand);
+                renderBand(dataBand, rawData, StartNewPageAsNeeded, !bandDatasource->hasNext());
+                renderChildBands(dataBand);
 
             }
 
