@@ -92,6 +92,7 @@ public:
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
     void setPreviewWindowTitle(const QString& title);
     void setPreviewWindowIcon(const QIcon& icon);
+    bool isBusy();
 signals:
     void renderStarted();
     void renderFinished();

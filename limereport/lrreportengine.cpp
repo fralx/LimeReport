@@ -58,7 +58,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
-    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview"))
+    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")), m_reportRendering(false)
 {
     m_datasources= new DataSourceManager(this);
     m_datasources->setObjectName("datasources");
@@ -409,6 +409,7 @@ void ReportEnginePrivate::cancelRender()
 {
     if (m_reportRender)
         m_reportRender->cancelRender();
+    m_reportRendering = false;
 }
 
 void ReportEnginePrivate::designReport()
@@ -579,6 +580,11 @@ void ReportEnginePrivate::setSuppressFieldAndVarError(bool suppressFieldAndVarEr
     m_reportSettings.setSuppressAbsentFieldsAndVarsWarnings(suppressFieldAndVarError);
 }
 
+bool ReportEnginePrivate::isBusy()
+{
+    return m_reportRendering;
+}
+
 QString ReportEnginePrivate::previewWindowTitle() const
 {
     return m_previewWindowTitle;
@@ -601,6 +607,7 @@ void ReportEnginePrivate::setPreviewWindowIcon(const QIcon &previewWindowIcon)
 
 ReportPages ReportEnginePrivate::renderToPages()
 {
+    if (m_reportRendering) return ReportPages();
     m_reportRender = ReportRender::Ptr(new ReportRender);
     dataManager()->clearErrors();
     dataManager()->connectAllDatabases();
@@ -608,11 +615,13 @@ ReportPages ReportEnginePrivate::renderToPages()
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
     if (m_pages.count()){
+        m_reportRendering = true;
         emit renderStarted();
         m_reportRender->setDatasources(dataManager());
         m_pages.at(0)->setReportSettings(&m_reportSettings);
         ReportPages result = m_reportRender->renderPageToPages(m_pages.at(0));
         emit renderFinished();
+        m_reportRendering = false;
         return result;
     }else {
         return ReportPages();
@@ -693,6 +702,12 @@ void ReportEngine::setPreviewWindowIcon(const QIcon &icon)
 {
     Q_D(ReportEngine);
     d->setPreviewWindowIcon(icon);
+}
+
+bool ReportEngine::isBusy()
+{
+    Q_D(ReportEngine);
+    return d->isBusy();
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

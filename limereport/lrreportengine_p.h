@@ -115,7 +115,7 @@ public:
 
     bool suppressFieldAndVarError() const;
     void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
-
+    bool isBusy();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -163,6 +163,7 @@ private:
     QString m_previewWindowTitle;
     QPointer<ReportDesignWindow> m_designerWindow;
     ReportSettings m_reportSettings;
+    bool m_reportRendering;
 };
 
 }
