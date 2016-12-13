@@ -107,7 +107,6 @@ void MainWindow::slotPagesSet(int pagesCount)
 
 void MainWindow::slotPageChanged(int page)
 {
-//    ui->sbPageNavigator->setValue(page);
     m_pageNavigator->setValue(page);
 }
 
@@ -118,8 +117,10 @@ void MainWindow::slotPageNavigatorChanged(int page)
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int )
 {
-    m_report.loadFromFile(item->data(0,Qt::UserRole).toString());
-    m_preview->refreshPages();
+    if (!m_report.isBusy()){
+        m_report.loadFromFile(item->data(0,Qt::UserRole).toString());
+        m_preview->refreshPages();
+    }
 }
 
 void MainWindow::initPercentCombobox()
