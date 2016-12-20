@@ -35,7 +35,7 @@
 #include "lrbasedesignintf.h"
 
 namespace LimeReport {
-class PageHeader : public LimeReport::BandDesignIntf
+class LIMEREPORT_EXPORT PageHeader : public LimeReport::BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool printOnFirstPage READ printOnFirstPage WRITE setPrintOnFirstPage)

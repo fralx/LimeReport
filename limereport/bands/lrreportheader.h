@@ -35,7 +35,7 @@
 #include "lrbasedesignintf.h"
 
 namespace LimeReport{
-class ReportHeader : public LimeReport::BandDesignIntf
+class LIMEREPORT_EXPORT ReportHeader : public LimeReport::BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )

@@ -33,7 +33,7 @@
 
 namespace LimeReport{
 
-class ShapeItem: public LimeReport::ItemDesignIntf
+class LIMEREPORT_EXPORT ShapeItem: public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
     Q_ENUMS(ShapeType)

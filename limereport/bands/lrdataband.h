@@ -36,7 +36,7 @@
 
 namespace LimeReport{
 
-class DataBand : public DataBandDesignIntf
+class LIMEREPORT_EXPORT DataBand : public DataBandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool keepSubdetailTogether READ tryToKeepTogether WRITE setTryToKeepTogether)
@@ -77,7 +77,7 @@ private:
     }
 };
 
-class DataFooterBand : public BandDesignIntf
+class LIMEREPORT_EXPORT DataFooterBand : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
