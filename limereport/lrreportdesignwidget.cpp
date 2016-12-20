@@ -483,6 +483,7 @@ void ReportDesignWidget::addPage()
     view->centerOn(0,0);
     applyUseGrid();
     emit pageAdded(page);
+    applyUseGrid();
 }
 
 void ReportDesignWidget::deleteCurrentPage()
