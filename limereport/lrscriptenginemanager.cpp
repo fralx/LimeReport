@@ -220,6 +220,28 @@ QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
     return QScriptValue();
 }
 
+QScriptValue getVariable(QScriptContext* pcontext, QScriptEngine* pengine){
+
+    QString name = pcontext->argument(0).toString();
+
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
+    QScriptValue res = pengine->newVariant(dm->variable(name));
+
+    return res;
+}
+
+QScriptValue getField(QScriptContext* pcontext, QScriptEngine* pengine){
+
+    QString name = pcontext->argument(0).toString();
+
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
+    QScriptValue res = pengine->newVariant(dm->fieldData(name));
+
+    return res;
+}
+
 QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
@@ -431,6 +453,8 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
 #endif
     addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
+    addFunction("getVariable", getVariable, "GENERAL", "getVariable(\""+tr("Name")+"\")");
+    addFunction("getField", getField, "GENERAL", "getField(\""+tr("Name")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);

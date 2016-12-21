@@ -86,6 +86,9 @@ signals:
 public slots:
     void    cancelRender();
 private:
+
+    void    baseDesignIntfToScript(BaseDesignIntf* item);
+
     void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initDatasource(const QString &name);

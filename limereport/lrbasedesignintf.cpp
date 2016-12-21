@@ -818,7 +818,7 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
 
 QString BaseDesignIntf::patternName() const
 {
-    return m_patternName;
+    return (m_patternName.isEmpty()) ? objectName() : m_patternName;
 }
 
 void BaseDesignIntf::setPatternName(const QString &patternName)

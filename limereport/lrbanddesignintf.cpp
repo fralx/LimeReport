@@ -357,6 +357,7 @@ bool BandDesignIntf::canBeSplitted(int height) const
 
 bool BandDesignIntf::isEmpty() const
 {
+    if (!isVisible()) return true;
     foreach(QGraphicsItem* qgItem,childItems()){
         BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(qgItem);
         if ((item)&&(!item->isEmpty())) return false;

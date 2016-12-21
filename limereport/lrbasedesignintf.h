@@ -387,6 +387,10 @@ signals:
     void propertyesChanged(QVector<QString> propertyNames);
     void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
     void itemVisibleHasChanged(BaseDesignIntf* item);
+
+    void beforeRender();
+    void afterData();
+    void afterRender();
 };
 
 } //namespace LimeReport
