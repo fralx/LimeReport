@@ -33,8 +33,8 @@
 #include <QMessageBox>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
-#include "lrreportengine.h"
-#include "lrcallbackdatasourceintf.h"
+#include <LimeReport>
+#include <LRCallbackDS>
 #include <QDebug>
 #include <QStringListModel>
 
@@ -104,6 +104,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_customers;
+    delete m_orders;
 }
 
 void MainWindow::on_pushButton_clicked()
