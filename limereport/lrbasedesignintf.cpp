@@ -64,14 +64,13 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_BGMode(OpaqueMode),
     m_opacity(100),
     m_borderLinesFlags(0),
-    m_hintFrame(0),
     m_storageTypeName(storageTypeName),
     m_itemMode(DesignMode),
     m_objectState(ObjectCreated),
     m_selectionMarker(0),
     m_joinMarker(0),
-    m_backgroundBrush(Solid),
-    m_backgroundBrushcolor(Qt::white),
+    m_backgroundBrushStyle(SolidPattern),
+    m_backgroundColor(Qt::white),
     m_margin(4),
     m_itemAlign(DesignedItemAlign),
     m_changingItemAlign(false),
@@ -122,21 +121,23 @@ QString BaseDesignIntf::parentReportItemName() const
     else return "";
 }
 
-void BaseDesignIntf::setBackgroundBrushMode(BaseDesignIntf::BrushMode value)
+void BaseDesignIntf::setBackgroundBrushStyle(BrushStyle value)
 {
-    if ( value != m_backgroundBrush  ){
-        m_backgroundBrush=value;
+    if ( value != m_backgroundBrushStyle  ){
+        BrushStyle oldValue = m_backgroundBrushStyle;
+        m_backgroundBrushStyle=value;
         if (!isLoading()) update();
+        notify("backgroundBrushStyle", static_cast<int>(oldValue), static_cast<int>(value));
     }
 }
 
 void BaseDesignIntf::setBackgroundColor(QColor value)
 {
-    if (value != m_backgroundBrushcolor){
-        QColor oldValue = m_backgroundBrushcolor;
-        m_backgroundBrushcolor=value;
+    if (value != m_backgroundColor){
+        QColor oldValue = m_backgroundColor;
+        m_backgroundColor=value;
         if (!isLoading()) update();
-        notify("backgroundColor",oldValue,m_backgroundBrushcolor);
+        notify("backgroundColor", oldValue, value);
     }
 }
 
@@ -496,7 +497,6 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
     setupPainter(ppainter);
-
     drawBorder(ppainter, rect());
     if (isSelected()) {drawSelection(ppainter, rect());}
     drawResizeZone(ppainter);
@@ -512,24 +512,28 @@ QColor calcColor(QColor color){
       return Qt::white;
     else
       return Qt::black;
-};
+}
 
-void BaseDesignIntf::prepareRect(QPainter *ppainter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
+void BaseDesignIntf::prepareRect(QPainter *painter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
 {
-    ppainter->save();
+    painter->save();
+
+    QBrush brush(m_backgroundColor,static_cast<Qt::BrushStyle>(m_backgroundBrushStyle));
+    brush.setTransform(painter->worldTransform().inverted());
+
     if (isSelected() && (opacity() == 100) && (m_BGMode!=TransparentMode)) {
-        ppainter->fillRect(rect(), QBrush(QColor(m_backgroundBrushcolor)));
+        painter->fillRect(rect(), brush);
     }
     else {
         if (m_BGMode == OpaqueMode) {
-            ppainter->setOpacity(qreal(m_opacity) / 100);
-            ppainter->fillRect(rect(), QBrush(m_backgroundBrushcolor));
+            painter->setOpacity(qreal(m_opacity) / 100);
+            painter->fillRect(rect(), brush);
         } else if (itemMode() & DesignMode){
-            ppainter->setOpacity(0.1);
-            ppainter->fillRect(rect(), QBrush(QPixmap(":/report/empty")));
+            painter->setOpacity(0.1);
+            painter->fillRect(rect(), QBrush(QPixmap(":/report/images/empty")));
         }
     }
-    ppainter->restore();
+    painter->restore();
 }
 
 void BaseDesignIntf::hoverMoveEvent(QGraphicsSceneHoverEvent *event)

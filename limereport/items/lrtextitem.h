@@ -68,6 +68,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(QString format READ format WRITE setFormat)
     Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
     Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
+    Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
