@@ -167,9 +167,17 @@ void ReportRender::setScriptContext(ScriptEngineContext* scriptContext)
 
 bool ReportRender::runInitScript(){
     if (m_scriptEngineContext){
-        ScriptEngineManager::instance().scriptEngine()->pushContext();
-        QScriptValue res = ScriptEngineManager::instance().scriptEngine()->evaluate(m_scriptEngineContext->initScript());
+        QScriptEngine* engine = ScriptEngineManager::instance().scriptEngine();
+        engine->pushContext();
+        QScriptValue res = engine->evaluate(m_scriptEngineContext->initScript());
         if (res.isBool()) return res.toBool();
+        if (engine->hasUncaughtException()) {
+            QMessageBox::critical(0,tr("Error"),
+                QString("Line %1: %2 ").arg(engine->uncaughtExceptionLineNumber())
+                                       .arg(engine->uncaughtException().toString())
+            );
+            return false;
+        }
     }
     return true;
 }
