@@ -223,7 +223,10 @@ void TextItem::setContent(const QString &value)
 {
     if (m_strText.compare(value)!=0){
         QString oldValue = m_strText;
-        m_strText=value;
+        if (m_trimValue)
+            m_strText=value.trimmed();
+        else
+            m_strText=value;
 
         if (itemMode() == DesignMode){
             initTextSizes();
@@ -466,17 +469,29 @@ void TextItem::setFollowTo(const QString &followTo)
         QString oldValue = m_followTo;
         m_followTo = followTo;
         if (!isLoading()){
-            TextItem* fi = scene()->findChild<TextItem*>(followTo);
-            if (fi && initFollower(followTo)){
-                notify("followTo",oldValue,followTo);
-            } else {
-                m_followTo = "";
+            TextItem* fi = scene()->findChild<TextItem*>(oldValue);
+            if (fi) fi->clearFollower();
+            fi = scene()->findChild<TextItem*>(followTo);
+            if (fi && fi != this){
+                if (initFollower(followTo)){
+                    notify("followTo",oldValue,followTo);
+                } else {
+                    m_followTo = "";
+                    QMessageBox::critical(
+                        0,
+                        tr("Error"),
+                        tr("TextItem \" %1 \" already has folower \" %2 \" ")
+                            .arg(fi->objectName())
+                            .arg(fi->follower()->objectName())
+                    );
+                    notify("followTo",followTo,"");
+                }
+            } else if (m_followTo != ""){
                 QMessageBox::critical(
                     0,
                     tr("Error"),
-                    tr("TextItem \" %1 \" already has folower \" %2 \" ")
-                            .arg(fi->objectName())
-                            .arg(fi->follower()->objectName())
+                    tr("TextItem \" %1 \" not found !")
+                        .arg(m_followTo)
                 );
                 notify("followTo",followTo,"");
             }
@@ -489,6 +504,11 @@ void TextItem::setFollower(TextItem *follower)
     if (!m_follower){
         m_follower = follower;
     }
+}
+
+void TextItem::clearFollower()
+{
+    m_follower = 0;
 }
 
 bool TextItem::hasFollower()
