@@ -302,8 +302,17 @@ QScriptValue callGroupFunction(const QString& functionName, QScriptContext* pcon
     ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
     DataSourceManager* dm = sm->dataManager();
 
-    QString expression = pcontext->argument(0).toString();
-    QString band = pcontext->argument(1).toString();
+    QString expression;
+    QString band;
+
+    if (functionName.compare("COUNT",Qt::CaseInsensitive) == 0 && pcontext->argumentCount()==1){
+        expression = " ";
+        band = pcontext->argument(0).toString();
+    } else {
+        expression = pcontext->argument(0).toString();
+        band = pcontext->argument(1).toString();
+    }
+
     QScriptValue res;
     GroupFunction* gf = dm->groupFunction(functionName,expression,band);
     if (gf){

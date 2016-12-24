@@ -368,7 +368,7 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
                 if (rx.indexIn(content)>=0){
                     int pos = 0;
                     while ( (pos = rx.indexIn(content,pos))!= -1 ){
-                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(4)+'"').arg('"'+band->objectName()+'"'));
+                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(Const::EXPRESSION_ARGUMENT_INDEX)+'"').arg('"'+band->objectName()+'"'));
                         pos += rx.matchedLength();
                     }
                     contentItem->setContent(content);

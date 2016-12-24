@@ -57,7 +57,10 @@ void GroupFunction::slotBandRendered(BandDesignIntf *band)
         ContentItemDesignIntf* item = dynamic_cast<ContentItemDesignIntf*>(band->childByName(m_data));
         if (item)
             m_values.push_back(item->content());
-        else setInvalid(tr("Item \"%1\" not found").arg(m_data));
+        else if (m_name.compare("COUNT",Qt::CaseInsensitive) == 0) {
+            m_values.push_back(1);
+        } else setInvalid(tr("Item \"%1\" not found").arg(m_data));
+
         break;
     }
     default:
