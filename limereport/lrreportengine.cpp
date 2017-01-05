@@ -664,9 +664,12 @@ ReportPages ReportEnginePrivate::renderToPages()
 {
     if (m_reportRendering) return ReportPages();
     m_reportRender = ReportRender::Ptr(new ReportRender);
+
     dataManager()->clearErrors();
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
+    dataManager()->updateDatasourceModel();
+
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
     if (m_pages.count()){
