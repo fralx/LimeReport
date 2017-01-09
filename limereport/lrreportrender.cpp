@@ -638,7 +638,9 @@ void ReportRender::renderChildFooter(BandDesignIntf *parent, BandPrintMode print
 void ReportRender::renderChildBands(BandDesignIntf *parentBand)
 {
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::SubDetailBand)){
-        IDataSource* ds = m_datasources->dataSource(band->datasourceName());
+        IDataSource* ds = 0;
+        if (!band->datasourceName().isEmpty())
+            ds = m_datasources->dataSource(band->datasourceName());
         if (ds) ds->first();
         renderChildHeader(band,PrintAlwaysPrintable);
         renderDataBand(band);
