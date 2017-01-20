@@ -58,7 +58,7 @@ namespace LimeReport{
 
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
-      m_allowHTMLInFields(false), m_followTo(""), m_follower(0), m_textIndent(0)
+      m_allowHTMLInFields(false), m_followTo(""), m_follower(0), m_textIndent(0), m_textLayoutDirection(Qt::LayoutDirectionAuto)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -92,7 +92,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
     setupPainter(painter);
     prepareRect(painter,style,widget);
 
-    QSizeF tmpSize = rect().size()-m_textSize;
+    QSizeF tmpSize = rect().size()-text->size();
 
     if (!painter->clipRegion().isEmpty()){
         QRegion clipReg=painter->clipRegion().xored(painter->clipRegion().subtracted(rect().toRect()));
@@ -228,12 +228,13 @@ void TextItem::setContent(const QString &value)
         else
             m_strText=value;
 
-        if (itemMode() == DesignMode){
-            initTextSizes();
-        }
+//        if (itemMode() == DesignMode && (autoHeight())){
+//            initTextSizes();
+//        }
 
         if (!isLoading()){
-            initTextSizes();
+            if (autoHeight() || autoWidth())
+                initTextSizes();
             update(rect());
             notify("content",oldValue,value);
         }
@@ -244,7 +245,7 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
 {
     if (isNeedExpandContent())
         expandContent(dataManager, pass);
-    if (!isLoading())
+    if (!isLoading() && (autoHeight() || autoWidth()) )
         initTextSizes();
 
     if (m_textSize.width()>width() && ((m_autoWidth==MaxWordLength)||(m_autoWidth==MaxStringLength))){
@@ -296,7 +297,7 @@ QString TextItem::replaceReturns(QString text)
     return result;
 }
 
-void TextItem::setTextFont(TextPtr text, const QFont& value) {
+void TextItem::setTextFont(TextPtr text, const QFont& value) const {
     text->setDefaultFont(value);
     if ((m_angle==Angle0)||(m_angle==Angle180)){
         text->setTextWidth(rect().width()-fakeMarginSize()*2);
@@ -305,7 +306,7 @@ void TextItem::setTextFont(TextPtr text, const QFont& value) {
     }
 }
 
-void TextItem::adaptFontSize(TextPtr text) {
+void TextItem::adaptFontSize(TextPtr text) const{
     QFont _font = transformToSceneFont(font());
     do{
         setTextFont(text,_font);
@@ -337,13 +338,14 @@ void TextItem::setLineSpacing(int value)
 {
     int oldValue = m_lineSpacing;
     m_lineSpacing = value;
-    initTextSizes();
+//    if (autoHeight())
+//        initTextSizes();
     update();
     notify("lineSpacing",oldValue,value);
 }
 
 
-void TextItem::initTextSizes()
+void TextItem::initTextSizes() const
 {
     TextPtr text = textDocument();
     m_textSize= text->size();
@@ -412,7 +414,7 @@ QString TextItem::formatFieldValue()
     }
 }
 
-TextItem::TextPtr TextItem::textDocument()
+TextItem::TextPtr TextItem::textDocument() const
 {
     TextPtr text(new QTextDocument);
 
@@ -423,6 +425,8 @@ TextItem::TextPtr TextItem::textDocument()
 
     QTextOption to;
     to.setAlignment(m_alignment);
+    to.setTextDirection(m_textLayoutDirection);
+    //to.setTextDirection(QApplication::layoutDirection());
 
     if (m_autoWidth!=MaxStringLength)
         if (m_adaptFontToSize && (!(m_autoHeight || m_autoWidth)))
@@ -473,6 +477,22 @@ void TextItem::setTextIndent(const qreal &textIndent)
         notify("textIndent", oldValue, textIndent);
     }
 }
+
+Qt::LayoutDirection TextItem::textLayoutDirection() const
+{
+    return m_textLayoutDirection;
+}
+
+void TextItem::setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection)
+{
+    if (m_textLayoutDirection != textLayoutDirection){
+        int oldValue = int(m_textLayoutDirection);
+        m_textLayoutDirection = textLayoutDirection;
+        update();
+        notify("textLayoutDirection",oldValue,int(textLayoutDirection));
+    }
+}
+
 
 QString TextItem::followTo() const
 {
@@ -624,6 +644,11 @@ void TextItem::geometryChangedEvent(QRectF , QRectF)
 bool TextItem::isNeedUpdateSize(RenderPass pass) const
 {
     Q_UNUSED(pass)
+
+    if (autoHeight() && autoWidth()){
+        initTextSizes();
+    }
+
     bool res =  (m_textSize.height()>geometry().height()&&autoHeight()) ||
                 (m_textSize.width()>geometry().width()&&autoWidth()) ||
                  m_follower ||
@@ -795,9 +820,10 @@ BaseDesignIntf *TextItem::cloneEmpty(int height, QObject *owner, QGraphicsItem *
 void TextItem::objectLoadFinished()
 {
     ItemDesignIntf::objectLoadFinished();
-    if (itemMode() == DesignMode || !isNeedExpandContent()){
-        initTextSizes();
-    }
+//    if (itemMode() == DesignMode || !isNeedExpandContent()){
+//        if (autoHeight() && autoWidth())
+//            initTextSizes();
+//    }
 }
 
 void TextItem::setTextItemFont(QFont value)

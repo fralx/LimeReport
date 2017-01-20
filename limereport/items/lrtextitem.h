@@ -70,6 +70,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
     Q_PROPERTY(qreal textIndent READ textIndent WRITE setTextIndent)
+    Q_PROPERTY(Qt::LayoutDirection textLayoutDirection READ textLayoutDirection WRITE setTextLayoutDirection)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -160,7 +161,9 @@ public:
 
     qreal textIndent() const;
     void setTextIndent(const qreal &textIndent);
-
+    Qt::LayoutDirection textLayoutDirection() const;
+    void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
+    
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
@@ -170,24 +173,23 @@ protected:
     QString getTextPart(int height, int skipHeight);
     void restoreLinksEvent();
 private:
-    void initTextSizes();
-    void setTextFont(TextPtr text, const QFont &value);
-    void adaptFontSize(TextPtr text);
+    void initTextSizes() const;
+    void setTextFont(TextPtr text, const QFont &value) const;
+    void adaptFontSize(TextPtr text) const;
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
 
-    TextPtr textDocument();
+    TextPtr textDocument() const;
 private:
     QString m_strText;
-
     //QTextLayout m_layout;
-    //QTextDocument* m_text;
+    //QTextDocument* m_text;    
     Qt::Alignment m_alignment;
     bool m_autoHeight;
     AutoWidth m_autoWidth;
-    QSizeF m_textSize;
-    qreal  m_firstLineSize;
+    QSizeF mutable m_textSize;
+    qreal  mutable m_firstLineSize;
     AngleType m_angle;
     int m_foregroundOpacity;
     bool m_underlines;
@@ -203,6 +205,7 @@ private:
     QString   m_followTo;
     TextItem* m_follower;
     qreal m_textIndent;
+    Qt::LayoutDirection m_textLayoutDirection;
 };
 
 }
