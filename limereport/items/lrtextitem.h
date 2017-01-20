@@ -69,6 +69,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
     Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
+    Q_PROPERTY(qreal textIndent READ textIndent WRITE setTextIndent)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -157,6 +158,9 @@ public:
 
     typedef QSharedPointer<QTextDocument> TextPtr;
 
+    qreal textIndent() const;
+    void setTextIndent(const qreal &textIndent);
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
@@ -198,6 +202,7 @@ private:
     ValueType m_valueType;
     QString   m_followTo;
     TextItem* m_follower;
+    qreal m_textIndent;
 };
 
 }

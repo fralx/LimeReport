@@ -58,7 +58,7 @@ namespace LimeReport{
 
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
-      m_allowHTMLInFields(false), m_followTo(""), m_follower(0)
+      m_allowHTMLInFields(false), m_followTo(""), m_follower(0), m_textIndent(0)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -447,6 +447,7 @@ TextItem::TextPtr TextItem::textDocument()
     {
         QTextCursor tc = QTextCursor(block);
         QTextBlockFormat fmt = block.blockFormat();
+        fmt.setTextIndent(m_textIndent);
 
         if(fmt.lineHeight() != m_lineSpacing) {
             fmt.setLineHeight(m_lineSpacing,QTextBlockFormat::LineDistanceHeight);
@@ -456,6 +457,21 @@ TextItem::TextPtr TextItem::textDocument()
 
     return text;
 
+}
+
+qreal TextItem::textIndent() const
+{
+    return m_textIndent;
+}
+
+void TextItem::setTextIndent(const qreal &textIndent)
+{
+    if (m_textIndent != textIndent){
+        qreal oldValue = m_textIndent;
+        m_textIndent = textIndent;
+        update();
+        notify("textIndent", oldValue, textIndent);
+    }
 }
 
 QString TextItem::followTo() const
