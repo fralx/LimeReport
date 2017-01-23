@@ -233,7 +233,7 @@ void TextItem::setContent(const QString &value)
 //        }
 
         if (!isLoading()){
-            if (autoHeight() || autoWidth())
+            if (autoHeight() || autoWidth() || hasFollower())
                 initTextSizes();
             update(rect());
             notify("content",oldValue,value);
@@ -245,7 +245,7 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
 {
     if (isNeedExpandContent())
         expandContent(dataManager, pass);
-    if (!isLoading() && (autoHeight() || autoWidth()) )
+    if (!isLoading() && (autoHeight() || autoWidth() || hasFollower()) )
         initTextSizes();
 
     if (m_textSize.width()>width() && ((m_autoWidth==MaxWordLength)||(m_autoWidth==MaxStringLength))){
@@ -547,7 +547,7 @@ void TextItem::clearFollower()
     m_follower = 0;
 }
 
-bool TextItem::hasFollower()
+bool TextItem::hasFollower() const
 {
     return m_follower != 0;
 }
@@ -645,7 +645,7 @@ bool TextItem::isNeedUpdateSize(RenderPass pass) const
 {
     Q_UNUSED(pass)
 
-    if (autoHeight() && autoWidth()){
+    if (autoHeight() && autoWidth() || hasFollower()){
         initTextSizes();
     }
 

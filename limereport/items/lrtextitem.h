@@ -150,8 +150,8 @@ public:
     void setFollowTo(const QString &followTo);
     void setFollower(TextItem* follower);
     void clearFollower();
-    bool hasFollower();
-    TextItem* follower(){ return m_follower;}
+    bool hasFollower() const;
+    TextItem* follower() const { return m_follower;}
     bool initFollower(QString follower);
 
     // IPageInit interface
