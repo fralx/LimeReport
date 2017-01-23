@@ -241,6 +241,7 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
     if (img.isNull() && itemMode()==DesignMode){
         QString text;
         ppainter->setFont(transformToSceneFont(QFont("Arial",10)));
+        ppainter->setPen(Qt::black);
         if (!datasource().isEmpty() && !field().isEmpty())
             text = datasource()+"."+field();
         else text = tr("Image");
