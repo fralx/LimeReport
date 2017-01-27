@@ -192,6 +192,13 @@ public:
     QString defaultDatabasePath() const;
     void setDefaultDatabasePath(const QString &defaultDatabasePath);
 
+    QString putGroupFunctionsExpressions(QString expression);
+    void    clearGroupFuntionsExpressions();
+    QString getExpression(QString index);
+
+    ReportSettings *reportSettings() const;
+    void setReportSettings(ReportSettings *reportSettings);
+
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
@@ -240,7 +247,13 @@ private:
     bool m_designTime;
     bool m_needUpdate;
     QString m_defaultDatabasePath;
+    ReportSettings* m_reportSettings;
+    QHash<QString,int> m_groupFunctionsExpressionsMap;
+    QVector<QString> m_groupFunctionsExpressions;
+
+
 };
 
 }
 #endif // LRDATASOURCEMANAGER_H
+

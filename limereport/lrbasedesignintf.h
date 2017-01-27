@@ -131,7 +131,7 @@ public:
                     };
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
-    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
+//    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)
     friend class SelectionMarker;
@@ -327,11 +327,9 @@ protected:
     virtual bool drawDesignBorders() const {return true;}
     virtual QColor selectionMarkerColor(){ return Const::SELECTION_COLOR;}
 
-    QString escapeSimbols(const QString& value);
-    QString replaceHTMLSymbols(const QString& value);
-    virtual QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
-    virtual QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
-    virtual QString expandScripts(QString context, DataSourceManager *dataManager);
+    QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
+    QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
+    QString expandScripts(QString context, DataSourceManager *dataManager);
 
     QVariant m_varValue;
 

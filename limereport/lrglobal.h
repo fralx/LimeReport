@@ -82,16 +82,21 @@ namespace Const{
     //const int DATASOURCE_INDEX = 6;
     //const int VALUE_INDEX = 2;
 
-    const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:((?:(?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"))((?:\\w+\\.?\\w+)|(?:\\w+))(?:(?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,)|(?:))\\s*\\\"(\\w+)\\\"\\s*\\)";
-    const int DATASOURCE_INDEX = 4;
-    const int VALUE_INDEX = 2;
-    const int EXPRESSION_ARGUMENT_INDEX = 3;
+    //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:((?:(?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"?\\$S\\s*\\{\\s*)|(?:\\\"))((?:\\w+\\.?\\w+)|(?:\\w+))(?:(?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,)|(?:))\\s*\\\"(\\w+)\\\"\\s*\\)";
+    const QString GROUP_FUNCTION_PARAM_RX = "\\((?:(.+),|(?:))(?:\\\"(\\w+)\\\")\\)";
+    const int DATASOURCE_INDEX = 3;//4;
+    const int VALUE_INDEX = 2; //2;
+    const int EXPRESSION_ARGUMENT_INDEX = 1;//3;
 
     const QString GROUP_FUNCTION_RX = "(%1\\s*"+GROUP_FUNCTION_PARAM_RX+")";
     const QString GROUP_FUNCTION_NAME_RX = "%1\\s*\\((.*[^\\)])\\)";
     const int SCENE_MARGIN = 50;
 }
     QString extractClassName(QString className);
+    QString escapeSimbols(const QString& value);
+    QString replaceHTMLSymbols(const QString &value);
+
+    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     enum RenderPass {FirstPass, SecondPass};
     enum ArrangeType {AsNeeded, Force};
     enum PreviewHint{ShowAllPreviewBars = 0,
@@ -100,6 +105,7 @@ namespace Const{
                      HidePreviewStatusBar = 4,
                      HideAllPreviewBar = 7,
                      PreviewBarsUserSetting = 8};
+
     Q_DECLARE_FLAGS(PreviewHints, PreviewHint)
     Q_FLAGS(PreviewHints)
 

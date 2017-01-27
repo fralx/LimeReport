@@ -34,7 +34,6 @@
 #include "lrreportdesignwidget.h"
 #include "qgraphicsitem.h"
 #include "lrdesignelementsfactory.h"
-
 #include "lrhorizontallayout.h"
 
 #include <memory>
@@ -241,150 +240,29 @@ QFont BaseDesignIntf::transformToSceneFont(const QFont& value) const
     return f;
 }
 
-QString BaseDesignIntf::escapeSimbols(const QString &value)
-{
-    QString result = value;
-    result.replace("\"","\\\"");
-    result.replace('\n',"\\n");
-    return result;
-}
-
-QString BaseDesignIntf::replaceHTMLSymbols(const QString &value)
-{
-    QString result = value;
-    result.replace("<","&lt;");
-    result.replace(">","&gt;");
-    return result;
-}
-
 QString BaseDesignIntf::expandDataFields(QString context, ExpandType expandType, DataSourceManager* dataManager)
 {
-    QRegExp rx(Const::FIELD_RX);
-
-    if (context.contains(rx)){
-        while ((rx.indexIn(context))!=-1){
-            QString field=rx.cap(1);
-
-            if (dataManager->containsField(field)) {
-                QString fieldValue;
-                m_varValue = dataManager->fieldData(field);
-                if (expandType == EscapeSymbols) {
-                    if (dataManager->fieldData(field).isNull()) {
-                        fieldValue="\"\"";
-                    } else {
-                        fieldValue = escapeSimbols(m_varValue.toString());
-                        switch (dataManager->fieldData(field).type()) {
-                        case QVariant::Char:
-                        case QVariant::String:
-                        case QVariant::StringList:
-                        case QVariant::Date:
-                        case QVariant::DateTime:
-                            fieldValue = "\""+fieldValue+"\"";
-                            break;
-                        default:
-                            break;
-                        }
-                    }
-                } else {
-                    if (expandType == ReplaceHTMLSymbols)
-                        fieldValue = replaceHTMLSymbols(m_varValue.toString());
-                    else fieldValue = m_varValue.toString();
-                }
-
-                context.replace(rx.cap(0),fieldValue);
-
-            } else {
-                QString error = QString("Field %1 not found in %2 !!! ").arg(field).arg(this->objectName());
-                dataManager->putError(error);
-                if (!reportSettings() || !reportSettings()->suppressAbsentFieldsAndVarsWarnings())
-                    context.replace(rx.cap(0),error);
-                else
-                    context.replace(rx.cap(0),"");
-            }
-        }
-    }
-
-    return context;
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+    if (sm.dataManager() != dataManager) sm.setDataManager(dataManager);
+    return sm.expandDataFields(context, expandType, m_varValue, this);
 }
 
 QString BaseDesignIntf::expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager* dataManager)
 {
-    QRegExp rx(Const::VARIABLE_RX);
-    if (context.contains(rx)){
-        int pos = 0;
-        while ((pos = rx.indexIn(context,pos))!=-1){
-            QString variable=rx.cap(1);
-            pos += rx.matchedLength();
-            if (dataManager->containsVariable(variable) ){
-                try {
-                    if (pass==dataManager->variablePass(variable)){
-                        m_varValue = dataManager->variable(variable);
-                        switch (expandType){
-                        case EscapeSymbols:
-                            context.replace(rx.cap(0),escapeSimbols(m_varValue.toString()));
-                        break;
-                        case NoEscapeSymbols:
-                            context.replace(rx.cap(0),m_varValue.toString());
-                        break;
-                        case ReplaceHTMLSymbols:
-                            context.replace(rx.cap(0),replaceHTMLSymbols(m_varValue.toString()));
-                        break;
-                        }
-                        pos=0;
-                    }
-                } catch (ReportError e){
-                    dataManager->putError(e.what());
-                    if (!reportSettings() || reportSettings()->suppressAbsentFieldsAndVarsWarnings())
-                        context.replace(rx.cap(0),e.what());
-                    else
-                        context.replace(rx.cap(0),"");
-                }
-            } else {
-                QString error;
-                error = tr("Variable %1 not found").arg(variable);
-                dataManager->putError(error);
-                if (!reportSettings() || reportSettings()->suppressAbsentFieldsAndVarsWarnings())
-                    context.replace(rx.cap(0),error);
-                else
-                    context.replace(rx.cap(0),"");
-            }
-        }
-    }
-    return context;
+
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+    if (sm.dataManager() != dataManager) sm.setDataManager(dataManager);
+    return sm.expandUserVariables(context, pass, expandType, m_varValue);
+
 }
 
 QString BaseDesignIntf::expandScripts(QString context, DataSourceManager* dataManager)
 {
-    QRegExp rx(Const::SCRIPT_RX);
 
-    if (context.contains(rx)){
-        ScriptEngineManager::instance().setDataManager(dataManager);
-        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+    if (sm.dataManager() != dataManager) sm.setDataManager(dataManager);
+    return sm.expandScripts(context,m_varValue,this);
 
-        QScriptValue svThis =  se->globalObject().property("THIS");
-        if (svThis.isValid()){
-            se->newQObject(svThis, this);
-        } else {
-            svThis = se->newQObject(this);
-            se->globalObject().setProperty("THIS",svThis);
-        }
-
-        ScriptExtractor scriptExtractor(context);
-        if (scriptExtractor.parse()){
-            for(int i=0; i<scriptExtractor.count();++i){
-                QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols, dataManager);
-                scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, dataManager);
-                QScriptValue value = se->evaluate(scriptBody);
-                if (!se->hasUncaughtException()) {
-                    m_varValue = value.toVariant();
-                    context.replace(scriptExtractor.scriptAt(i),value.toString());
-                } else {
-                    context.replace(scriptExtractor.scriptAt(i),se->uncaughtException().toString());
-                }
-            }
-        }
-    }
-    return context;
 }
 
 void BaseDesignIntf::setupPainter(QPainter *painter) const

@@ -236,6 +236,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 
         try{
             datasources()->setAllDatasourcesToFirst();
+            datasources()->clearGroupFuntionsExpressions();
         } catch(ReportError &exception){
             //TODO possible should thow exeption
             QMessageBox::critical(0,tr("Error"),exception.what());
@@ -277,7 +278,7 @@ int ReportRender::pageCount()
 
 PageItemDesignIntf::Ptr ReportRender::pageAt(int index)
 {
-    if ((index>m_renderedPages.count()-1)||(index<0)) throw ReportError("page index out of range");
+    if ((index>m_renderedPages.count()-1)||(index<0)) throw ReportError(tr("page index out of range"));
     else return m_renderedPages.at(index);
 }
 
@@ -368,7 +369,8 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
                 if (rx.indexIn(content)>=0){
                     int pos = 0;
                     while ( (pos = rx.indexIn(content,pos))!= -1 ){
-                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(Const::EXPRESSION_ARGUMENT_INDEX)+'"').arg('"'+band->objectName()+'"'));
+                        QString expressionIndex = datasources()->putGroupFunctionsExpressions(rx.cap(Const::VALUE_INDEX));
+                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
                         pos += rx.matchedLength();
                     }
                     contentItem->setContent(content);

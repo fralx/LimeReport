@@ -60,7 +60,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")), m_reportRendering(false)
 {
-    m_datasources= new DataSourceManager(this);
+    m_datasources = new DataSourceManager(this);
+    m_datasources->setReportSettings(&m_reportSettings);
     m_scriptEngineContext = new ScriptEngineContext(this);
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
