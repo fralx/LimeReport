@@ -58,7 +58,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
-    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")), m_reportRendering(false)
+    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
+    m_reportRendering(false), m_resultIsEditable(true)
 {
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
@@ -383,6 +384,8 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
                 w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
             }
 
+            w->setHideResultEditButton(resultIsEditable());
+
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));
             qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
@@ -626,6 +629,16 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
+bool ReportEnginePrivate::resultIsEditable() const
+{
+    return m_resultIsEditable;
+}
+
+void ReportEnginePrivate::setResultEditable(bool value)
+{
+    m_resultIsEditable = value;
+}
+
 bool ReportEnginePrivate::suppressFieldAndVarError() const
 {
     return m_reportSettings.suppressAbsentFieldsAndVarsWarnings();
@@ -774,6 +787,18 @@ void ReportEngine::setPreviewWindowIcon(const QIcon &icon)
 {
     Q_D(ReportEngine);
     d->setPreviewWindowIcon(icon);
+}
+
+void ReportEngine::setResultEditable(bool value)
+{
+    Q_D(ReportEngine);
+    d->setResultEditable(value);
+}
+
+bool ReportEngine::resultIsEditable()
+{
+    Q_D(ReportEngine);
+    return d->resultIsEditable();
 }
 
 bool ReportEngine::isBusy()

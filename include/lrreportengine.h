@@ -98,6 +98,8 @@ public:
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
     void setPreviewWindowTitle(const QString& title);
     void setPreviewWindowIcon(const QIcon& icon);
+    void setResultEditable(bool value);
+    bool resultIsEditable();
     bool isBusy();
 signals:
     void renderStarted();

@@ -122,6 +122,9 @@ public:
     bool suppressFieldAndVarError() const;
     void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
     bool isBusy();
+    bool resultIsEditable() const;
+    void setResultEditable(bool value);
+
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -171,6 +174,7 @@ private:
     QPointer<ReportDesignWindow> m_designerWindow;
     ReportSettings m_reportSettings;
     bool m_reportRendering;
+    bool m_resultIsEditable;
 };
 
 }

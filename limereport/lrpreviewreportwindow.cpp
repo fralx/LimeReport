@@ -166,6 +166,11 @@ void PreviewReportWindow::setMenuVisible(bool value)
     ui->menubar->setVisible(value);
 }
 
+void PreviewReportWindow::setHideResultEditButton(bool value)
+{
+    ui->actionEdit_Mode->setVisible(value);
+}
+
 QSettings*PreviewReportWindow::settings()
 {
     if (m_settings){
