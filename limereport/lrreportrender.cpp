@@ -209,9 +209,10 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 {
     m_curentNameIndex = 0;
     m_patternPageItem = patternPage->pageItem();
+
+
     if (m_patternPageItem->resetPageNumber() && m_pageCount>0) {
         resetPageNumber(PageReset);
-
     }
     m_renderCanceled = false;
     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
@@ -224,7 +225,7 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 #endif
 
     if (m_scriptEngineContext){
-
+        baseDesignIntfToScript(patternPage->pageItem());
         foreach (BaseDesignIntf* item, patternPage->pageItem()->childBaseItems()){
             baseDesignIntfToScript(item);
         }
@@ -245,6 +246,8 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 
         clearPageMap();
         startNewPage();
+
+
 
         renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader), 0, StartNewPageAsNeeded);
 
@@ -300,6 +303,7 @@ void ReportRender::initRenderPage()
         m_renderPageItem = new PageItemDesignIntf(m_patternPageItem->pageSize(), m_patternPageItem->pageRect());
         m_renderPageItem->initFromItem(m_patternPageItem);
         m_renderPageItem->setItemMode(PreviewMode);
+        m_renderPageItem->setPatternName(m_patternPageItem->objectName());
     }
 }
 
@@ -1018,10 +1022,14 @@ void ReportRender::startNewPage()
     initColumns();
     initRenderPage();
 
+    baseDesignIntfToScript(m_renderPageItem);
+
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
     m_maxHeightByColumn[m_currentColumn]=m_renderPageItem->pageRect().height();
     m_currentStartDataPos[m_currentColumn]=m_patternPageItem->topMargin()*Const::mmFACTOR;
     m_currentIndex=0;
+
+    emit m_patternPageItem->beforeRender();
 
     renderPageHeader(m_patternPageItem);
 
@@ -1030,6 +1038,7 @@ void ReportRender::startNewPage()
     m_currentIndex=10;
     m_dataAreaSize = m_maxHeightByColumn[m_currentColumn];
     m_renderedDataBandCount = 0;
+
 
     foreach (BandDesignIntf* band, m_reprintableBands) {
         renderBand(band, 0);
@@ -1208,6 +1217,7 @@ void ReportRender::savePage(bool isLast)
     }
 
     moveTearOffBand();
+    emit m_patternPageItem->afterRender();
 
 }
 
