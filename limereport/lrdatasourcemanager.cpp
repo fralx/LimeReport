@@ -238,6 +238,29 @@ void DataSourceManager::setDefaultDatabasePath(const QString &defaultDatabasePat
 {
     m_defaultDatabasePath = defaultDatabasePath;
 }
+
+QString DataSourceManager::putGroupFunctionsExpressions(QString expression)
+{
+    if (m_groupFunctionsExpressionsMap.contains(expression)){
+        return QString::number(m_groupFunctionsExpressionsMap.value(expression));
+    } else {
+        m_groupFunctionsExpressions.append(expression);
+        m_groupFunctionsExpressionsMap.insert(expression, m_groupFunctionsExpressions.size()-1);
+        return QString::number(m_groupFunctionsExpressions.size()-1);
+    }
+}
+
+void DataSourceManager::clearGroupFuntionsExpressions()
+{
+    m_groupFunctionsExpressionsMap.clear();
+    m_groupFunctionsExpressions.clear();
+}
+
+QString DataSourceManager::getExpression(QString index)
+{
+   return m_groupFunctionsExpressions.at(index.toInt());
+}
+
 bool DataSourceManager::designTime() const
 {
     return m_designTime;
@@ -700,6 +723,16 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     connected=db.open();
     if (!connected) setLastError(db.lastError().text());
     return  connected;
+}
+
+ReportSettings *DataSourceManager::reportSettings() const
+{
+    return m_reportSettings;
+}
+
+void DataSourceManager::setReportSettings(ReportSettings *reportSettings)
+{
+    m_reportSettings = reportSettings;
 }
 
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)

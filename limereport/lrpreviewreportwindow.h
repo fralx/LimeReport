@@ -65,6 +65,7 @@ public:
     void setToolBarVisible(bool value);
     void setStatusBarVisible(bool value);
     void setMenuVisible(bool value);
+    void setHideResultEditButton(bool value);
     QSettings* settings();
 protected:
     void writeSetting();

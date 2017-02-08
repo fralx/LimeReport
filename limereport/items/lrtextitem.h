@@ -32,15 +32,16 @@
 #include <QGraphicsTextItem>
 #include <QtGui>
 #include <QLabel>
-#include "lritemdesignintf.h"
-#include <qnamespace.h>
-
 #include <QTextDocument>
+
+#include "lritemdesignintf.h"
+#include "lritemdesignintf.h"
+#include "lrpageinitintf.h"
 
 namespace LimeReport {
 
 class Tag;
-class TextItem : public LimeReport::ContentItemDesignIntf {
+class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_OBJECT
     Q_ENUMS(AutoWidth)
     Q_ENUMS(AngleType)
@@ -66,6 +67,10 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(bool allowHTMLInFields READ allowHTMLInFields WRITE setAllowHTMLInFields)
     Q_PROPERTY(QString format READ format WRITE setFormat)
     Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
+    Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
+    Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
+    Q_PROPERTY(qreal textIndent READ textIndent WRITE setTextIndent)
+    Q_PROPERTY(Qt::LayoutDirection textLayoutDirection READ textLayoutDirection WRITE setTextLayoutDirection)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -99,7 +104,7 @@ public:
 
     bool canBeSplitted(int height) const;
     bool isSplittable() const { return true;}
-    bool isEmpty() const{return m_text->isEmpty();}
+    bool isEmpty() const{return m_strText.trimmed().isEmpty() /*m_text->isEmpty()*/;}
     BaseDesignIntf* cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
@@ -140,28 +145,51 @@ public:
     ValueType valueType() const;
     void setValueType(const ValueType valueType);
 
+    QSizeF textSize(){ return m_textSize;}
+    QString followTo() const;
+    void setFollowTo(const QString &followTo);
+    void setFollower(TextItem* follower);
+    void clearFollower();
+    bool hasFollower() const;
+    TextItem* follower() const { return m_follower;}
+    bool initFollower(QString follower);
+
+    // IPageInit interface
+    void pageObjectHasBeenLoaded();
+
+    typedef QSharedPointer<QTextDocument> TextPtr;
+
+    qreal textIndent() const;
+    void setTextIndent(const qreal &textIndent);
+    Qt::LayoutDirection textLayoutDirection() const;
+    void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
+    
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
     QString replaceBR(QString text);
     QString replaceReturns(QString text);
-    int fakeMarginSize();
+    int fakeMarginSize() const;
+    QString getTextPart(int height, int skipHeight);
+    void restoreLinksEvent();
 private:
-    void initText();
-    void setTextFont(const QFont &value);
-    void adaptFontSize();
+    void initTextSizes() const;
+    void setTextFont(TextPtr text, const QFont &value) const;
+    void adaptFontSize(TextPtr text) const;
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
+
+    TextPtr textDocument() const;
 private:
     QString m_strText;
-
     //QTextLayout m_layout;
-    QTextDocument* m_text;
+    //QTextDocument* m_text;    
     Qt::Alignment m_alignment;
     bool m_autoHeight;
     AutoWidth m_autoWidth;
-    QSizeF m_textSize;
+    QSizeF mutable m_textSize;
+    qreal  mutable m_firstLineSize;
     AngleType m_angle;
     int m_foregroundOpacity;
     bool m_underlines;
@@ -174,6 +202,10 @@ private:
 
     QString m_format;
     ValueType m_valueType;
+    QString   m_followTo;
+    TextItem* m_follower;
+    qreal m_textIndent;
+    Qt::LayoutDirection m_textLayoutDirection;
 };
 
 }

@@ -31,7 +31,6 @@
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
 
-
 const QString xmlTagHeader = QLatin1String("GroupHeader");
 const QString xmlTagFooter = QLatin1String("GroupFooter");
 
@@ -98,6 +97,8 @@ void GroupBandHeader::startGroup(DataSourceManager* dataManager)
         if (ds && ds->columnIndexByName(m_groupFiledName)!=-1)
             m_groupFieldValue=ds->data(m_groupFiledName);
     }
+
+    if (!m_condition.isEmpty()) m_conditionValue = calcCondition(dataManager);
 }
 
 QColor GroupBandHeader::bandColor() const
@@ -114,20 +115,47 @@ QString GroupBandHeader::findDataSourceName(BandDesignIntf* parentBand){
 
 }
 
+QString GroupBandHeader::condition() const
+{
+    return m_condition;
+}
+
+void GroupBandHeader::setCondition(const QString &condition)
+{
+    m_condition = condition;
+}
+
+QString GroupBandHeader::calcCondition(DataSourceManager* dataManager){
+    QString result = m_condition;
+    if (!m_condition.isEmpty()){
+        result=expandUserVariables(result, FirstPass, NoEscapeSymbols, dataManager);
+        result=expandScripts(result, dataManager);
+        result=expandDataFields(result, NoEscapeSymbols, dataManager);
+    }
+    return result;
+}
+
 bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
 {
     if (!m_groupStarted) return false;
-    if (m_groupFiledName.isNull() || m_groupFiledName.isEmpty())
+    if ((m_groupFiledName.isNull() || m_groupFiledName.isEmpty()) && condition().isEmpty()){
         dataManager->putError(tr("Group field not found"));
-    QString datasourceName = findDataSourceName(parentBand());
-    if (dataManager->containsDatasource(datasourceName)){
-        IDataSource* ds = dataManager->dataSource(datasourceName);
-        if (ds){
-            if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
-            return ds->data(m_groupFiledName)!=m_groupFieldValue;
-        }
+        return false;
+    }
+
+    if (!m_condition.isEmpty()){
+        return m_conditionValue != calcCondition(dataManager);
     } else {
-        dataManager->putError(tr("Datasource \"%1\" not found !!!").arg(datasourceName));
+        QString datasourceName = findDataSourceName(parentBand());
+        if (dataManager->containsDatasource(datasourceName)){
+            IDataSource* ds = dataManager->dataSource(datasourceName);
+            if (ds){
+                if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
+                return ds->data(m_groupFiledName)!=m_groupFieldValue;
+            }
+        } else {
+            dataManager->putError(tr("Datasource \"%1\" not found !!!").arg(datasourceName));
+        }
     }
 
     return false;
@@ -141,6 +169,7 @@ bool GroupBandHeader::isStarted()
 void GroupBandHeader::closeGroup()
 {
     m_groupFieldValue=QVariant();
+    m_conditionValue="";
     m_groupStarted=false;
 }
 

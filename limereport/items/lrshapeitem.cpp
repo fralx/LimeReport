@@ -85,7 +85,7 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     pen.setStyle(m_penStyle);
     painter->setPen(pen);
     QBrush brush(m_shapeBrushColor,m_shapeBrushType);
-
+    brush.setTransform(painter->worldTransform().inverted());
     painter->setBrush(brush);
     painter->setBackground(QBrush(Qt::NoBrush));
     painter->setOpacity(qreal(m_opacity)/100);

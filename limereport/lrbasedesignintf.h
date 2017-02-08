@@ -83,7 +83,7 @@ class  BaseDesignIntf :
     Q_INTERFACES(QGraphicsItem)
     Q_ENUMS(BGMode)
     Q_ENUMS(Qt::BrushStyle)
-    Q_ENUMS(BrushMode)
+    Q_ENUMS(BrushStyle)
     Q_ENUMS(ItemAlign)
     Q_FLAGS(BorderLines)
     Q_PROPERTY(QRectF geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
@@ -96,8 +96,23 @@ class  BaseDesignIntf :
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
 
 public:
-    enum BGMode { TransparentMode,OpaqueMode};
-    enum BrushMode{Solid,None};
+    enum BGMode { TransparentMode, OpaqueMode};
+
+    enum BrushStyle{ NoBrush,
+                     SolidPattern,
+                     Dense1Pattern,
+                     Dense2Pattern,
+                     Dense3Pattern,
+                     Dense4Pattern,
+                     Dense5Pattern,
+                     Dense6Pattern,
+                     Dense7Pattern,
+                     HorPattern,
+                     VerPattern,
+                     CrossPattern,
+                     BDiagPattern,
+                     FDiagPattern };
+
     enum ResizeFlags { Fixed = 0,
                        ResizeLeft = 1,
                        ResizeRight = 2,
@@ -116,6 +131,7 @@ public:
                     };
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
+//    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)
     friend class SelectionMarker;
@@ -123,13 +139,13 @@ public:
     BaseDesignIntf(const QString& storageTypeName, QObject* owner = 0, QGraphicsItem* parent = 0);
     virtual ~BaseDesignIntf();
 
-    void setParentReportItem(const QString& value);
+    void    setParentReportItem(const QString& value);
     QString parentReportItemName() const;
 
-    BrushMode backgroundBrushMode() const {return m_backgroundBrush;}
-    void setBackgroundBrushMode(BrushMode value);
-    QColor backgroundColor() const {return m_backgroundBrushcolor;}
-    void setBackgroundColor(QColor value);
+    BrushStyle  backgroundBrushStyle() const {return m_backgroundBrushStyle;}
+    void        setBackgroundBrushStyle(BrushStyle value);
+    QColor      backgroundColor() const {return m_backgroundColor;}
+    void        setBackgroundColor(QColor value);
 
     QPen    pen() const;
     void    setPen(QPen& pen);
@@ -154,7 +170,7 @@ public:
     virtual QSizeF  sizeMM() const;
 
     void    paint(QPainter* ppainter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    void    prepareRect(QPainter* ppainter, const QStyleOptionGraphicsItem*, QWidget*);
+    void    prepareRect(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*);
     virtual QPainterPath shape() const;
 
     void setFixedPos(bool fixedPos);
@@ -249,6 +265,8 @@ public:
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
+    QString patternName() const;
+    void setPatternName(const QString &patternName);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -258,6 +276,7 @@ public:
     Q_INVOKABLE qreal getItemPosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
+
 protected:
 
     //ICollectionContainer
@@ -283,6 +302,8 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void childAddedEvent(BaseDesignIntf* child);
     virtual void parentChangedEvent(BaseDesignIntf*);
+    void restoreLinks();
+    virtual void restoreLinksEvent(){}
 
     void drawTopLine(QPainter *painter, QRectF rect) const;
     void drawBootomLine(QPainter *painter, QRectF rect) const;
@@ -305,6 +326,13 @@ protected:
 
     virtual bool drawDesignBorders() const {return true;}
     virtual QColor selectionMarkerColor(){ return Const::SELECTION_COLOR;}
+
+    QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager *dataManager);
+    QString expandDataFields(QString context, ExpandType expandType, DataSourceManager *dataManager);
+    QString expandScripts(QString context, DataSourceManager *dataManager);
+
+    QVariant m_varValue;
+
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -314,13 +342,13 @@ private:
     void turnOnSelectionMarker(bool value);
 private:
     QPointF m_startPos;
-    //QPointF m_startScenePos;
     int     m_resizeHandleSize;
     int     m_selectionPenSize;
     int     m_possibleResizeDirectionFlags;
     int     m_possibleMoveDirectionFlags;
     int     m_resizeDirectionFlags;
-    qreal   m_width, m_height;
+    qreal   m_width;
+    qreal   m_height;
     QPen    m_pen;
     QFont   m_font;
     QColor  m_fontColor;
@@ -342,7 +370,6 @@ private:
     QRectF m_rightRect;
 
     QVector<QRectF*> m_resizeAreas;
-    QFrame* m_hintFrame;
     QString m_storageTypeName;
     ItemMode m_itemMode;
 
@@ -350,8 +377,9 @@ private:
     SelectionMarker* m_selectionMarker;
     Marker* m_joinMarker;
 
-    BrushMode m_backgroundBrush;
-    QColor  m_backgroundBrushcolor;
+    BrushStyle  m_backgroundBrushStyle;
+    QColor      m_backgroundColor;
+
     RenderPass m_currentPass;
     int     m_margin;
     QString m_itemTypeName;
@@ -359,6 +387,7 @@ private:
     bool    m_changingItemAlign;
     QColor  m_borderColor;
     ReportSettings* m_reportSettings;
+    QString m_patternName;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
@@ -371,6 +400,10 @@ signals:
     void propertyesChanged(QVector<QString> propertyNames);
     void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
     void itemVisibleHasChanged(BaseDesignIntf* item);
+
+    void beforeRender();
+    void afterData();
+    void afterRender();
 };
 
 } //namespace LimeReport

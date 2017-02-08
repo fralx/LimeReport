@@ -67,7 +67,7 @@ contains(CONFIG,zint){
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es_ES
+    LANGUAGES = ru es_ES ar
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3

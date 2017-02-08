@@ -16,6 +16,8 @@ namespace LimeReport {
 
 bool PreviewReportWidgetPrivate::pageIsVisible(){
     QGraphicsView* view = q_ptr->ui->graphicsView;
+	if ( m_currentPage-1 >= m_reportPages.size() || m_currentPage <= 0 )
+        return false;
     PageItemDesignIntf::Ptr page = m_reportPages.at(m_currentPage-1);
     return page->mapToScene(page->rect()).boundingRect().intersects(
                 view->mapToScene(view->viewport()->geometry()).boundingRect()
@@ -172,8 +174,12 @@ void PreviewReportWidget::print()
 
 void PreviewReportWidget::printToPDF()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF(*.pdf)" );
+    QString filter = "PDF (*.pdf)";
+    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF (*.pdf)");
     if (!fileName.isEmpty()){
+        QFileInfo fi(fileName);
+        if (fi.suffix().isEmpty())
+            fileName+=".pdf";
         QPrinter printer;
         printer.setOutputFileName(fileName);
         printer.setOutputFormat(QPrinter::PdfFormat);

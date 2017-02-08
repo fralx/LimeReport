@@ -736,11 +736,15 @@ bool CallbackDatasource::checkIfEmpty(){
     if (m_rowCount == 0) {
         return true;
     } else {
-        QVariant result = true;
+        QVariant isEmpty = true;
+        QVariant recordCount = 0;
         CallbackInfo info;
+        info.dataType = CallbackInfo::RowCount;
+        emit getCallbackData(info, recordCount);
+        if (recordCount.toInt()>0) return false;
         info.dataType = CallbackInfo::IsEmpty;
-        emit getCallbackData(info,result);
-        return result.toBool();
+        emit getCallbackData(info,isEmpty);
+        return isEmpty.toBool();
     }
 }
 

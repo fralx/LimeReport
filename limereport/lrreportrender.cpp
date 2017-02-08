@@ -167,8 +167,17 @@ void ReportRender::setScriptContext(ScriptEngineContext* scriptContext)
 
 bool ReportRender::runInitScript(){
     if (m_scriptEngineContext){
-        ScriptValueType res = ScriptEngineManager::instance().scriptEngine()->evaluate(m_scriptEngineContext->initScript());
+        QScriptEngine* engine = ScriptEngineManager::instance().scriptEngine();
+        engine->pushContext();
+        QScriptValue res = engine->evaluate(m_scriptEngineContext->initScript());
         if (res.isBool()) return res.toBool();
+        if (engine->hasUncaughtException()) {
+            QMessageBox::critical(0,tr("Error"),
+                QString("Line %1: %2 ").arg(engine->uncaughtExceptionLineNumber())
+                                       .arg(engine->uncaughtException().toString())
+            );
+            return false;
+        }
     }
     return true;
 }
@@ -200,11 +209,11 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 {
     m_curentNameIndex = 0;
     m_patternPageItem = patternPage->pageItem();
+
+
     if (m_patternPageItem->resetPageNumber() && m_pageCount>0) {
         resetPageNumber(PageReset);
-
     }
-    //m_pageCount = 1;
     m_renderCanceled = false;
     BandDesignIntf* reportFooter = m_patternPageItem->bandByType(BandDesignIntf::ReportFooter);
     m_reportFooterHeight = 0;
@@ -214,12 +223,21 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
 #ifdef HAVE_UI_LOADER
     initDialogs();
 #endif
+
+    if (m_scriptEngineContext){
+        baseDesignIntfToScript(patternPage->pageItem());
+        foreach (BaseDesignIntf* item, patternPage->pageItem()->childBaseItems()){
+            baseDesignIntfToScript(item);
+        }
+    }
+
     if (runInitScript()){
 
         clearPageMap();
 
         try{
             datasources()->setAllDatasourcesToFirst();
+            datasources()->clearGroupFuntionsExpressions();
         } catch(ReportError &exception){
             //TODO possible should thow exeption
             QMessageBox::critical(0,tr("Error"),exception.what());
@@ -227,10 +245,11 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         }
 
         clearPageMap();
-
         startNewPage();
 
-        renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader),StartNewPageAsNeeded);
+
+
+        renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader), 0, StartNewPageAsNeeded);
 
         BandDesignIntf* lastRenderedBand = 0;
         for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
@@ -241,16 +260,17 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         }
 
         if (reportFooter)
-            renderBand(reportFooter,StartNewPageAsNeeded);
+            renderBand(reportFooter, 0, StartNewPageAsNeeded);
         if (lastRenderedBand && lastRenderedBand->keepFooterTogether())
             closeFooterGroup(lastRenderedBand);
             
-    BandDesignIntf* tearOffBand = m_patternPageItem->bandByType(BandDesignIntf::TearOffBand);
-    if (tearOffBand)
-        renderBand(tearOffBand,StartNewPageAsNeeded);
+        BandDesignIntf* tearOffBand = m_patternPageItem->bandByType(BandDesignIntf::TearOffBand);
+        if (tearOffBand)
+            renderBand(tearOffBand, 0, StartNewPageAsNeeded);
 
         savePage(true);
 
+        ScriptEngineManager::instance().scriptEngine()->popContext();
     }
 }
 
@@ -261,7 +281,7 @@ int ReportRender::pageCount()
 
 PageItemDesignIntf::Ptr ReportRender::pageAt(int index)
 {
-    if ((index>m_renderedPages.count()-1)||(index<0)) throw ReportError("page index out of range");
+    if ((index>m_renderedPages.count()-1)||(index<0)) throw ReportError(tr("page index out of range"));
     else return m_renderedPages.at(index);
 }
 
@@ -283,6 +303,7 @@ void ReportRender::initRenderPage()
         m_renderPageItem = new PageItemDesignIntf(m_patternPageItem->pageSize(), m_patternPageItem->pageRect());
         m_renderPageItem->initFromItem(m_patternPageItem);
         m_renderPageItem->setItemMode(PreviewMode);
+        m_renderPageItem->setPatternName(m_patternPageItem->objectName());
     }
 }
 
@@ -365,7 +386,8 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
                 if (rx.indexIn(content)>=0){
                     int pos = 0;
                     while ( (pos = rx.indexIn(content,pos))!= -1 ){
-                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+rx.cap(4)+'"').arg('"'+band->objectName()+'"'));
+                        QString expressionIndex = datasources()->putGroupFunctionsExpressions(rx.cap(Const::VALUE_INDEX));
+                        content.replace(rx.capturedTexts().at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
                         pos += rx.matchedLength();
                     }
                     contentItem->setContent(content);
@@ -375,10 +397,18 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
     }
 }
 
-void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRenderMode mode, bool isLast)
+BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
     QApplication::processEvents();
     if (patternBand){
+
+        BandDesignIntf* bandClone = 0;
+
+        if (bandData){
+           bandClone = bandData;
+        } else {
+            bandClone=renderData(patternBand);
+        }
 
         if (mode == ForcedStartPage){
             savePage();
@@ -388,14 +418,16 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
         if (patternBand->isFooter())
             m_lastRenderedFooter = patternBand;
 
-        BandDesignIntf* bandClone=renderData(patternBand);
+
         bandClone->setBackgroundColor(
                     (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt()%2!=0 ?
-                         patternBand->backgroundColor():
-                         patternBand->alternateBackgroundColor()
+                         bandClone->backgroundColor():
+                         bandClone->alternateBackgroundColor()
                     )
         );
+
         patternBand->emitBandRendered(bandClone);
+        emit(patternBand->afterRender());
 
         if ( isLast && bandClone->keepFooterTogether() && bandClone->sliceLastRow() ){
             if (m_maxHeightByColumn[m_currentColumn] < (bandClone->height()+m_reportFooterHeight))
@@ -440,10 +472,16 @@ void ReportRender::renderBand(BandDesignIntf *patternBand, ReportRender::DataRen
                     }
                 }
             }
-        } else {delete bandClone;}
+        } else {
+            delete bandClone;
+            return 0;
+        }
+
         if (patternBand->isFooter())
             datasources()->clearGroupFunctionValues(patternBand->objectName());
+        return bandClone;
     }
+    return 0;
 }
 
 void ReportRender::renderDataBand(BandDesignIntf *dataBand)
@@ -456,7 +494,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
     BandDesignIntf* header = dataBand->bandHeader();
     BandDesignIntf* footer = dataBand->bandFooter();
 
-    if (header && header->printAlways()) renderBand(header);
+    if (header && header->printAlways()) renderBand(header, 0);
 
     if(bandDatasource && !bandDatasource->eof() && !m_renderCanceled){
 
@@ -464,7 +502,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         datasources()->setReportVariable(varName,1);
 
         if (header && !header->printAlways())
-            renderBand(header);
+            renderBand(header, 0);
 
         if (dataBand->bandHeader() && dataBand->bandHeader()->reprintOnEachPage())
             m_reprintableBands.append(dataBand->bandHeader());
@@ -474,27 +512,34 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
         bool firstTime = true;
 
+
         while(!bandDatasource->eof() && !m_renderCanceled){
 
-            if ((firstTime && dataBand->startFromNewPage()) ||
-                (!firstTime && dataBand->startNewPage())) {
-                savePage();
-                startNewPage();
+            BandDesignIntf* rawData = renderData(dataBand);
+
+            if (!rawData->isEmpty() || dataBand->printIfEmpty()){
+
+                if ((firstTime && dataBand->startFromNewPage()) ||
+                    (!firstTime && dataBand->startNewPage())) {
+                    savePage();
+                    startNewPage();
+                }
+
+                if (dataBand->tryToKeepTogether()) openDataGroup(dataBand);
+
+                if (dataBand->keepFooterTogether() && !bandDatasource->hasNext())
+                    openFooterGroup(dataBand);
+
+                datasources()->updateChildrenData(dataBand->datasourceName());
+                m_lastDataBand = dataBand;
+
+                if (header && !firstTime && header->repeatOnEachRow())
+                    renderBand(header, 0, StartNewPageAsNeeded);
+
+                renderBand(dataBand, rawData, StartNewPageAsNeeded, !bandDatasource->hasNext());
+                renderChildBands(dataBand);
+
             }
-
-            if (dataBand->tryToKeepTogether()) openDataGroup(dataBand);
-
-            if (dataBand->keepFooterTogether() && !bandDatasource->hasNext())
-                openFooterGroup(dataBand);
-
-            datasources()->updateChildrenData(dataBand->datasourceName());
-            m_lastDataBand = dataBand;
-
-            if (header && !firstTime && header->repeatOnEachRow())
-                renderBand(header,StartNewPageAsNeeded);
-
-            renderBand(dataBand,StartNewPageAsNeeded,!bandDatasource->hasNext());
-            renderChildBands(dataBand);
 
             bandDatasource->next();
 
@@ -515,16 +560,16 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         renderGroupFooter(dataBand);
 
         if (footer && !footer->printAlways())
-            renderBand(footer,StartNewPageAsNeeded);
+            renderBand(footer, 0, StartNewPageAsNeeded);
 
         datasources()->deleteVariable(varName);
 
     } else if (bandDatasource==0) {
-        renderBand(dataBand,StartNewPageAsNeeded);
+        renderBand(dataBand, 0, StartNewPageAsNeeded);
     }
 
     if (footer && footer->printAlways())
-        renderBand(footer,StartNewPageAsNeeded);
+        renderBand(footer, 0, StartNewPageAsNeeded);
 }
 
 void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
@@ -534,7 +579,7 @@ void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
         if (m_datasources->variable("#PAGE").toInt()!=1 ||
             band->property("printOnFirstPage").toBool()
         )
-            renderBand(band);
+            renderBand(band, 0);
     }
 }
 
@@ -556,14 +601,20 @@ void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
 
 void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
 {
+    QList<BaseDesignIntf*> pageItems;
     foreach (BaseDesignIntf* item, patternPage->childBaseItems()) {
         ItemDesignIntf* id = dynamic_cast<ItemDesignIntf*>(item);
         if (id&&id->itemLocation()==ItemDesignIntf::Page){
             BaseDesignIntf* cloneItem = item->cloneItem(m_renderPageItem->itemMode(),
                                                         m_renderPageItem,
                                                         m_renderPageItem);
-            cloneItem->updateItemSize(m_datasources);
+            pageItems.append(cloneItem);
+            //cloneItem->updateItemSize(m_datasources);
         }
+    }
+    m_renderPageItem->restoreLinks();
+    foreach(BaseDesignIntf* item, pageItems){
+        item->updateItemSize(m_datasources);
     }
 }
 
@@ -586,7 +637,7 @@ void ReportRender::renderChildHeader(BandDesignIntf *parent, BandPrintMode print
         if (band->metaObject()->indexOfProperty("printAlways")>0){
             printAlways=band->property("printAlways").toBool();
         }
-        if (printAlways == (printMode==PrintAlwaysPrintable) )  renderBand(band,StartNewPageAsNeeded);
+        if (printAlways == (printMode==PrintAlwaysPrintable) )  renderBand(band, 0, StartNewPageAsNeeded);
     }
 }
 
@@ -599,14 +650,16 @@ void ReportRender::renderChildFooter(BandDesignIntf *parent, BandPrintMode print
         }
 
         if ( (band != m_lastRenderedFooter) && (printAlways == (printMode == PrintAlwaysPrintable)) )
-            renderBand(band,StartNewPageAsNeeded);
+            renderBand(band, 0, StartNewPageAsNeeded);
     }
 }
 
 void ReportRender::renderChildBands(BandDesignIntf *parentBand)
 {
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::SubDetailBand)){
-        IDataSource* ds = m_datasources->dataSource(band->datasourceName());
+        IDataSource* ds = 0;
+        if (!band->datasourceName().isEmpty())
+            ds = m_datasources->dataSource(band->datasourceName());
         if (ds) ds->first();
         renderChildHeader(band,PrintAlwaysPrintable);
         renderDataBand(band);
@@ -624,13 +677,13 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 dataSource->prior();
                 foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
                     foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
-                        renderBand(footer);
+                        renderBand(footer, 0);
                         closeDataGroup(subBand);
                     }
                 }
 
                 foreach (BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)) {
-                    renderBand(footer,StartNewPageAsNeeded);
+                    renderBand(footer, 0, StartNewPageAsNeeded);
                 }
 
                 dataSource->next();
@@ -649,9 +702,9 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
             openDataGroup(band);
             if (!firstTime && gb->startNewPage()){
                 if (gb->resetPageNumber()) resetPageNumber(BandReset);
-                renderBand(band,ForcedStartPage);
+                renderBand(band, 0, ForcedStartPage);
             } else {
-                renderBand(band,StartNewPageAsNeeded);
+                renderBand(band, 0, StartNewPageAsNeeded);
             }
         }
 
@@ -666,7 +719,7 @@ void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
         if (gb && gb->isStarted()){
             if (band->reprintOnEachPage()) m_reprintableBands.removeOne(band);
             if (band->childBands().count()>0){
-                renderBand(band->childBands().at(0),StartNewPageAsNeeded);
+                renderBand(band->childBands().at(0), 0, StartNewPageAsNeeded);
             }
             closeDataGroup(band);
         }
@@ -950,10 +1003,18 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
 BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
 {
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
+
+    baseDesignIntfToScript(bandClone);
+    emit(patternBand->beforeRender());
+
     if (patternBand->isFooter()){
         replaceGroupsFunction(bandClone);
     }
     bandClone->updateItemSize(m_datasources);
+
+    baseDesignIntfToScript(bandClone);
+    emit(patternBand->afterData());
+
     return bandClone;
 }
 
@@ -974,24 +1035,29 @@ void ReportRender::startNewPage()
     initColumns();
     initRenderPage();
 
+    baseDesignIntfToScript(m_renderPageItem);
+
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
     m_maxHeightByColumn[m_currentColumn]=m_renderPageItem->pageRect().height();
     m_currentStartDataPos[m_currentColumn]=m_patternPageItem->topMargin()*Const::mmFACTOR;
     m_currentIndex=0;
 
+    emit m_patternPageItem->beforeRender();
+
     renderPageHeader(m_patternPageItem);
-    //renderPageFooter(m_patternPageItem);
+
     m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem);
     m_maxHeightByColumn[m_currentColumn] -= m_pageFooterHeight;
     m_currentIndex=10;
     m_dataAreaSize = m_maxHeightByColumn[m_currentColumn];
     m_renderedDataBandCount = 0;
 
-    foreach (BandDesignIntf* band, m_reprintableBands) {
-        renderBand(band);
-    }
-    checkLostHeadersOnPrevPage();
 
+    foreach (BandDesignIntf* band, m_reprintableBands) {
+        renderBand(band, 0);
+    }
+
+    checkLostHeadersOnPrevPage();
     pasteGroups();
     renderPageItems(m_patternPageItem);
 }
@@ -1164,6 +1230,7 @@ void ReportRender::savePage(bool isLast)
     }
 
     moveTearOffBand();
+    emit m_patternPageItem->afterRender();
 
 }
 
@@ -1182,6 +1249,31 @@ ReportRender::~ReportRender(){
 
 void ReportRender::cancelRender(){
     m_renderCanceled = true;
+}
+
+void ReportRender::baseDesignIntfToScript(BaseDesignIntf *item)
+{
+    if ( item ) {
+
+        if (item->metaObject()->indexOfSignal("beforeRender()")!=-1)
+            item->disconnect(SIGNAL(beforeRender()));
+        if (item->metaObject()->indexOfSignal("afterData()")!=-1)
+            item->disconnect(SIGNAL(afterData()));
+        if (item->metaObject()->indexOfSignal("afterRender()")!=-1)
+            item->disconnect(SIGNAL(afterRender()));
+
+        QScriptEngine* engine = ScriptEngineManager::instance().scriptEngine();
+        QScriptValue sItem = engine->globalObject().property(item->patternName());
+        if (sItem.isValid()){
+            engine->newQObject(sItem, item);
+        } else {
+            sItem = engine->newQObject(item);
+            engine->globalObject().setProperty(item->patternName(),sItem);
+        }
+        foreach(BaseDesignIntf* child, item->childBaseItems()){
+            baseDesignIntfToScript(child);
+        }
+    }
 }
 
 }

@@ -263,6 +263,11 @@ public:
     DataSourceManager* dataManager() const {return m_dataManager;}
     void setDataManager(DataSourceManager* dataManager);
 
+    QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, QVariant &varValue);
+    QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
+    QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
+    QVariant evaluateScript(const QString &script);
+
 protected:
     void updateModel();
     bool containsFunction(const QString &functionName);
