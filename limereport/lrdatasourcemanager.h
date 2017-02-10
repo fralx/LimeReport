@@ -221,7 +221,7 @@ protected:
     void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
-
+    bool checkConnection(QSqlDatabase db);
 private slots:
     void slotConnectionRenamed(const QString& oldName,const QString& newName);
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);

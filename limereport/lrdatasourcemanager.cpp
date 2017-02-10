@@ -735,6 +735,11 @@ void DataSourceManager::setReportSettings(ReportSettings *reportSettings)
     m_reportSettings = reportSettings;
 }
 
+bool DataSourceManager::checkConnection(QSqlDatabase db){
+    QSqlQuery query("Select 1",db);
+    return query.first();
+}
+
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 {
 
@@ -759,7 +764,10 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
             db.close();
             connected = initAndOpenDB(db, *connectionDesc);
         } else {
-            connected = db.isOpen();
+            //connected = db.isOpen();
+            connected = checkConnection(db);
+            if (!connected)
+                connected = initAndOpenDB(db, *connectionDesc);
         }
     }
 
