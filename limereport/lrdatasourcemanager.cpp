@@ -702,12 +702,17 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     return  connected;
 }
 
+bool DataSourceManager::checkConnection(QSqlDatabase& db){
+    QSqlQuery query("Select 1",db);
+    return query.first();
+}
+
 bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 {
 
     bool connected = false;
     clearErrors();
-    QString lastError ="";
+    QString lastError = "";
 
     foreach(QString datasourceName, dataSourceNames()){
         dataSourceHolder(datasourceName)->clearErrors();
@@ -715,7 +720,7 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
 
     if (!QSqlDatabase::contains(connectionDesc->name())){
         QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-        connected=initAndOpenDB(db, *connectionDesc);
+        connected = initAndOpenDB(db, *connectionDesc);
         if (!connected){
             setLastError(db.lastError().text());
             return false;
@@ -726,7 +731,10 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
             db.close();
             connected = initAndOpenDB(db, *connectionDesc);
         } else {
-            connected = db.isOpen();
+//            connected = db.isOpen();
+            connected = checkConnection(db);
+            if (!connected)
+                connected = initAndOpenDB(db, *connectionDesc);
         }
     }
 
