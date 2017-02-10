@@ -216,7 +216,7 @@ class ScriptFunctionsManager : public QObject{
     Q_OBJECT
 public:
     explicit ScriptFunctionsManager(QObject* parent = 0):QObject(parent){}
-    Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& fieldName, const QString& bandName);
+    Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName);
     Q_INVOKABLE QVariant line(const QString& bandName);
     Q_INVOKABLE QVariant numberFormat(QVariant value, const char &format, int precision, const QString &locale);
     Q_INVOKABLE QVariant dateFormat(QVariant value, const QString& format);
@@ -226,7 +226,9 @@ public:
     Q_INVOKABLE QVariant now();
     Q_INVOKABLE QVariant currencyFormat(QVariant value, const QString& locale);
     Q_INVOKABLE QVariant currencyUSBasedFormat(QVariant value, const QString& currencySymbol);
-    Q_INVOKABLE void setVariable(const QString& name, QVariant value);
+    Q_INVOKABLE void     setVariable(const QString& name, QVariant value);
+    Q_INVOKABLE QVariant getVariable(const QString& name);
+    Q_INVOKABLE QVariant getField(const QString& field);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}        
 #ifdef USE_QJSENGINE
     Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
@@ -283,6 +285,8 @@ private:
     bool createCurrencyFormatFunction();
     bool createCurrencyUSBasedFormatFunction();
     bool createSetVariableFunction();
+    bool createGetVariableFunction();
+    bool createGetFieldFunction();
 private:
     ScriptEngineManager();
     ScriptEngineType*  m_scriptEngine;

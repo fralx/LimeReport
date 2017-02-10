@@ -43,7 +43,8 @@
 #endif
 
 #ifdef USE_QJSENGINE
-#include <QJSEngine>
+//#include <QJSEngine>
+#include <QQmlEngine>
 #else
 #include <QScriptEngine>
 #endif
@@ -138,8 +139,15 @@ namespace Const{
 #endif
 
 #ifdef USE_QJSENGINE
-    typedef QJSEngine ScriptEngineType;
+    typedef QQmlEngine ScriptEngineType;
     typedef QJSValue ScriptValueType;
+    template <typename T>
+    static inline QJSValue getCppOwnedJSValue(QJSEngine &e, T *p)
+    {
+        QJSValue res = e.newQObject(p);
+        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
+        return res;
+    }
 #else
     typedef QScriptEngine ScriptEngineType;
     typedef QScriptValue ScriptValueType;

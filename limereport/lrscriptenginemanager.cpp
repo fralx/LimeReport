@@ -196,141 +196,141 @@ void ScriptEngineModel::updateModel()
     endResetModel();
 }
 
-QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){    
-    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-    DataSourceManager* dm = sm->dataManager();
-    QString band = pcontext->argument(0).toString();
-    QScriptValue res;
-    QString varName = QLatin1String("line_")+band.toLower();
-    if (dm->variable(varName).isValid()){
-        res=pengine->newVariant(dm->variable(varName));
-    } else res=pengine->newVariant(QString("Variable line for band %1 not found").arg(band));
-    return res;
-}
+//QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){
+//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+//    DataSourceManager* dm = sm->dataManager();
+//    QString band = pcontext->argument(0).toString();
+//    QScriptValue res;
+//    QString varName = QLatin1String("line_")+band.toLower();
+//    if (dm->variable(varName).isValid()){
+//        res=pengine->newVariant(dm->variable(varName));
+//    } else res=pengine->newVariant(QString("Variable line for band %1 not found").arg(band));
+//    return res;
+//}
 
-QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
+//QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
 
-    QString name = pcontext->argument(0).toString();
-    QVariant value = pcontext->argument(1).toVariant();
+//    QString name = pcontext->argument(0).toString();
+//    QVariant value = pcontext->argument(1).toVariant();
 
-    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-    DataSourceManager* dm = sm->dataManager();
+//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+//    DataSourceManager* dm = sm->dataManager();
 
-    dm->changeVariable(name,value);
-    return QScriptValue();
-}
+//    dm->changeVariable(name,value);
+//    return QScriptValue();
+//}
 
-QScriptValue getVariable(QScriptContext* pcontext, QScriptEngine* pengine){
+//QScriptValue getVariable(QScriptContext* pcontext, QScriptEngine* pengine){
 
-    QString name = pcontext->argument(0).toString();
+//    QString name = pcontext->argument(0).toString();
 
-    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-    DataSourceManager* dm = sm->dataManager();
-    QScriptValue res = pengine->newVariant(dm->variable(name));
+//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+//    DataSourceManager* dm = sm->dataManager();
+//    QScriptValue res = pengine->newVariant(dm->variable(name));
 
-    return res;
-}
+//    return res;
+//}
 
-QScriptValue getField(QScriptContext* pcontext, QScriptEngine* pengine){
+//QScriptValue getField(QScriptContext* pcontext, QScriptEngine* pengine){
 
-    QString name = pcontext->argument(0).toString();
+//    QString name = pcontext->argument(0).toString();
 
-    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-    DataSourceManager* dm = sm->dataManager();
-    QScriptValue res = pengine->newVariant(dm->fieldData(name));
+//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+//    DataSourceManager* dm = sm->dataManager();
+//    QScriptValue res = pengine->newVariant(dm->fieldData(name));
 
-    return res;
-}
+//    return res;
+//}
 
-QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-    QVariant value = pcontext->argument(0).toVariant();
-    char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
-    int precision = (pcontext->argumentCount()>2)?pcontext->argument(2).toInt32():2;
-    QString locale = (pcontext->argumentCount()>3)?pcontext->argument(3).toString():"";
-    QScriptValue res = (locale.isEmpty())?pengine->newVariant(QString::number(value.toDouble(),format,precision)):
-                                          pengine->newVariant(QLocale(locale).toString(value.toDouble(),format,precision));
-    return res;
-}
-#if QT_VERSION>0x040800
-QScriptValue currencyFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-    QVariant value = pcontext->argument(0).toVariant();
-    QString locale = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().name();
-    return pengine->newVariant(QLocale(locale).toCurrencyString(value.toDouble()));
-}
+//QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+//    QVariant value = pcontext->argument(0).toVariant();
+//    char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
+//    int precision = (pcontext->argumentCount()>2)?pcontext->argument(2).toInt32():2;
+//    QString locale = (pcontext->argumentCount()>3)?pcontext->argument(3).toString():"";
+//    QScriptValue res = (locale.isEmpty())?pengine->newVariant(QString::number(value.toDouble(),format,precision)):
+//                                          pengine->newVariant(QLocale(locale).toString(value.toDouble(),format,precision));
+//    return res;
+//}
+//#if QT_VERSION>0x040800
+//QScriptValue currencyFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+//    QVariant value = pcontext->argument(0).toVariant();
+//    QString locale = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().name();
+//    return pengine->newVariant(QLocale(locale).toCurrencyString(value.toDouble()));
+//}
 
-QScriptValue currencyUSBasedFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-    QVariant value = pcontext->argument(0).toVariant();
-    QString CurrencySymbol = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().currencySymbol();
-    // Format it using USA locale
-    QString vTempStr=QLocale(QLocale::English, QLocale::UnitedStates).toCurrencyString(value.toDouble());
-    // Replace currency symbol if necesarry
-    if (CurrencySymbol!="") vTempStr.replace("$", CurrencySymbol);
-    return pengine->newVariant(vTempStr);
-}
-#endif
-QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-    QVariant value = pcontext->argument(0).toVariant();
-    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
-    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDate(),format));
-    return res;
-}
+//QScriptValue currencyUSBasedFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+//    QVariant value = pcontext->argument(0).toVariant();
+//    QString CurrencySymbol = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().currencySymbol();
+//    // Format it using USA locale
+//    QString vTempStr=QLocale(QLocale::English, QLocale::UnitedStates).toCurrencyString(value.toDouble());
+//    // Replace currency symbol if necesarry
+//    if (CurrencySymbol!="") vTempStr.replace("$", CurrencySymbol);
+//    return pengine->newVariant(vTempStr);
+//}
+//#endif
+//QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+//    QVariant value = pcontext->argument(0).toVariant();
+//    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
+//    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDate(),format));
+//    return res;
+//}
 
-QScriptValue timeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-    QVariant value = pcontext->argument(0).toVariant();
-    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"hh:mm";
-    QScriptValue res = pengine->newVariant(QLocale().toString(value.toTime(),format));
-    return res;
-}
+//QScriptValue timeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+//    QVariant value = pcontext->argument(0).toVariant();
+//    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"hh:mm";
+//    QScriptValue res = pengine->newVariant(QLocale().toString(value.toTime(),format));
+//    return res;
+//}
 
-QScriptValue dateTimeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-    QVariant value = pcontext->argument(0).toVariant();
-    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy hh:mm";
-    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDateTime(),format));
-    return res;
-}
+//QScriptValue dateTimeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+//    QVariant value = pcontext->argument(0).toVariant();
+//    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy hh:mm";
+//    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDateTime(),format));
+//    return res;
+//}
 
-QScriptValue now(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
-    return pengine->newVariant(QDateTime::currentDateTime());
-}
+//QScriptValue now(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
+//    return pengine->newVariant(QDateTime::currentDateTime());
+//}
 
-QScriptValue date(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
-    return pengine->newVariant(QDate::currentDate());
-}
+//QScriptValue date(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
+//    return pengine->newVariant(QDate::currentDate());
+//}
 
-QScriptValue callGroupFunction(const QString& functionName, QScriptContext* pcontext, QScriptEngine* pengine){
+//QScriptValue callGroupFunction(const QString& functionName, QScriptContext* pcontext, QScriptEngine* pengine){
 
-    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-    DataSourceManager* dm = sm->dataManager();
+//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+//    DataSourceManager* dm = sm->dataManager();
 
-    QString expression;
-    QString band;
+//    QString expression;
+//    QString band;
 
-    if (functionName.compare("COUNT",Qt::CaseInsensitive) == 0 && pcontext->argumentCount()==1){
-        expression = " ";
-        band = pcontext->argument(0).toString();
-    } else {
-        expression = dm->getExpression(pcontext->argument(0).toString());
-        band = pcontext->argument(1).toString();
-    }
+//    if (functionName.compare("COUNT",Qt::CaseInsensitive) == 0 && pcontext->argumentCount()==1){
+//        expression = " ";
+//        band = pcontext->argument(0).toString();
+//    } else {
+//        expression = dm->getExpression(pcontext->argument(0).toString());
+//        band = pcontext->argument(1).toString();
+//    }
 
-    QScriptValue res;
-    GroupFunction* gf = dm->groupFunction(functionName,expression,band);
-    if (gf){
-        if (gf->isValid()){
-            res=pengine->newVariant(gf->calculate());
-        }else{
-            res=pengine->newVariant(gf->error());
-        }
-    }
-    else {
-        res=pengine->newVariant(QString(QObject::tr("Function %1 not found or have wrong arguments").arg(functionName)));
-    }
-    return res;
-}
+//    QScriptValue res;
+//    GroupFunction* gf = dm->groupFunction(functionName,expression,band);
+//    if (gf){
+//        if (gf->isValid()){
+//            res=pengine->newVariant(gf->calculate());
+//        }else{
+//            res=pengine->newVariant(gf->error());
+//        }
+//    }
+//    else {
+//        res=pengine->newVariant(QString(QObject::tr("Function %1 not found or have wrong arguments").arg(functionName)));
+//    }
+//    return res;
+//}
 
-QScriptValue groupFunction(QScriptContext* pcontext, QScriptEngine* pengine){
-    return callGroupFunction(pcontext->callee().property("functionName").toString(),pcontext,pengine);
-}
+//QScriptValue groupFunction(QScriptContext* pcontext, QScriptEngine* pengine){
+//    return callGroupFunction(pcontext->callee().property("functionName").toString(),pcontext,pengine);
+//}
 
 ScriptEngineManager::~ScriptEngineManager()
 {
@@ -589,16 +589,24 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
         if (ScriptEngineManager::instance().dataManager()!=dataManager())
             ScriptEngineManager::instance().setDataManager(dataManager());
 
-        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
         if (reportItem){
-            QScriptValue svThis =  se->globalObject().property("THIS");
+
+            ScriptValueType svThis;
+
+#ifdef USE_QJSENGINE
+            svThis = getCppOwnedJSValue(*se, reportItem);
+            se->globalObject().setProperty("THIS",svThis);
+#else
+            svThis = se->globalObject().property("THIS");
             if (svThis.isValid()){
-                se->newQObject(svThis, this);
+                se->newQObject(svThis, reportItem);
             } else {
-                svThis = se->newQObject(this);
+                svThis = se->newQObject(reportItem);
                 se->globalObject().setProperty("THIS",svThis);
             }
+#endif
         }
 
         ScriptExtractor scriptExtractor(context);
@@ -606,16 +614,26 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
             for(int i=0; i<scriptExtractor.count();++i){
                 QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols, varValue, reportItem);
                 scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
-                QScriptValue value = se->evaluate(scriptBody);
+                ScriptValueType value = se->evaluate(scriptBody);
+#ifdef USE_QJSENGINE
+                if (!value.isError()){
+                    varValue = value.toVariant();
+                    context.replace(scriptExtractor.scriptAt(i),value.toString());
+                } else {
+                    context.replace(scriptExtractor.scriptAt(i),value.toString());
+                }
+#else
                 if (!se->hasUncaughtException()) {
                     varValue = value.toVariant();
                     context.replace(scriptExtractor.scriptAt(i),value.toString());
                 } else {
                     context.replace(scriptExtractor.scriptAt(i),se->uncaughtException().toString());
                 }
+#endif
             }
         }
     }
+
     return context;
 }
 
@@ -629,14 +647,18 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
         if (ScriptEngineManager::instance().dataManager()!=dataManager())
             ScriptEngineManager::instance().setDataManager(dataManager());
 
-        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
         ScriptExtractor scriptExtractor(script);
         if (scriptExtractor.parse()){
             QString scriptBody = expandDataFields(scriptExtractor.bodyAt(0),EscapeSymbols, varValue, 0);
             scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
-            QScriptValue value = se->evaluate(scriptBody);
+            ScriptValueType value = se->evaluate(scriptBody);
+#ifdef USE_QJSENGINE
+            if (!value.isError()){
+#else
             if (!se->hasUncaughtException()) {
+#endif
                 return value.toVariant();
             }
         }
@@ -820,6 +842,36 @@ bool ScriptEngineManager::createSetVariableFunction(){
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createGetVariableFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory("GENERAL");
+    fd.setName("getVariable");
+    fd.setDescription("getVariable(\""+tr("Name")+"\")");
+    fd.setScriptWrapper(QString("function getVariable(name){"
+                                "return %1.getVariable(name);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createGetFieldFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory("GENERAL");
+    fd.setName("getField");
+    fd.setDescription("getField(\""+tr("Name")+"\")");
+    fd.setScriptWrapper(QString("function getField(name){"
+                                "return %1.getField(name);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 ScriptEngineManager::ScriptEngineManager()
     :m_model(0), m_dataManager(0)
 {
@@ -839,6 +891,8 @@ ScriptEngineManager::ScriptEngineManager()
     createCurrencyUSBasedFormatFunction();
 #endif
     createSetVariableFunction();
+    createGetFieldFunction();
+    createGetVariableFunction();
 
 //    addFunction("line",line,"SYSTEM", "line(\""+tr("BandName")+"\")");
 //    addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
@@ -1235,10 +1289,17 @@ void JSFunctionDesc::setScriptWrapper(const QString &scriptWrapper)
     m_scriptWrapper = scriptWrapper;
 }
 
-QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &fieldName, const QString &bandName)
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName)
 {
     if (m_scriptEngineManager->dataManager()){
-        GroupFunction* gf =  m_scriptEngineManager->dataManager()->groupFunction(name,fieldName,bandName);
+        QString expression = "";
+        if (name.compare("COUNT",Qt::CaseInsensitive) == 0){
+            expression = " ";
+        } else {
+            expression = m_scriptEngineManager->dataManager()->getExpression(expressionID);
+        }
+
+        GroupFunction* gf =  m_scriptEngineManager->dataManager()->groupFunction(name,expression,bandName);
         if (gf){
             if (gf->isValid()){
                 return gf->calculate();
@@ -1316,6 +1377,19 @@ void ScriptFunctionsManager::setVariable(const QString &name, QVariant value)
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     dm->changeVariable(name,value);
 }
+
+QVariant ScriptFunctionsManager::getVariable(const QString &name)
+{
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
+    return dm->variable(name);
+}
+
+QVariant ScriptFunctionsManager::getField(const QString &field)
+{
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
+    return dm->fieldData(field);
+}
+
 #ifdef USE_QJSENGINE
 QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool bold, bool italic, bool underLine)
 {
