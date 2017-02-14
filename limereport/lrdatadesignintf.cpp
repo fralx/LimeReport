@@ -378,7 +378,17 @@ bool ConnectionDesc::isEqual(const QSqlDatabase &db)
            (db.hostName() == m_connectionHost) &&
            (db.connectionName() == m_connectionName) &&
            (db.userName() == m_user) &&
-           (db.password() == m_password);
+            (db.password() == m_password);
+}
+
+QString ConnectionDesc::connectionNameForUser(const QString &connectionName)
+{
+    return connectionName.compare(QSqlDatabase::defaultConnection) == 0 ? tr("defaultConnection") : connectionName;
+}
+
+QString ConnectionDesc::connectionNameForReport(const QString &connectionName)
+{
+    return connectionName.compare(tr("defaultConnection")) == 0 ? QSqlDatabase::defaultConnection : connectionName;
 }
 
 QueryDesc::QueryDesc(QString queryName, QString queryText, QString connection)
