@@ -620,13 +620,15 @@ void DataSourceManager::removeDatasource(const QString &name)
     emit datasourcesChanged();
 }
 
-void DataSourceManager::removeConnection(const QString &name)
+void DataSourceManager::removeConnection(const QString &connectionName)
 {
     for(int i=0;i<m_connections.count();++i){
-        if (m_connections.at(i)->name()==name){
-            QSqlDatabase db = QSqlDatabase::database(name);
-            db.close();
-            QSqlDatabase::removeDatabase(name);
+        if (m_connections.at(i)->name()==connectionName){
+            if (m_connections.at(i)->isInternal()){
+                QSqlDatabase db = QSqlDatabase::database(connectionName);
+                db.close();
+                QSqlDatabase::removeDatabase(connectionName);
+            }
             delete m_connections.at(i);
             m_connections.removeAt(i);
         }
@@ -654,10 +656,12 @@ void DataSourceManager::addConnectionDesc(ConnectionDesc * connection)
 bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
 {
     if (connectConnection(connection)){
-        QSqlDatabase::removeDatabase(connection->name());
+        if (connection->isInternal())
+            QSqlDatabase::removeDatabase(connection->name());
         return true;
     }
-    QSqlDatabase::removeDatabase(connection->name());
+    if (connection->isInternal())
+        QSqlDatabase::removeDatabase(connection->name());
     return false;
 }
 
@@ -721,6 +725,7 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     }
 
     connected=db.open();
+    connectionDesc.setInternal(true);
     if (!connected) setLastError(db.lastError().text());
     return  connected;
 }
@@ -760,19 +765,19 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
         }
     } else {
         QSqlDatabase db = QSqlDatabase::database(connectionDesc->name());
-        if (!connectionDesc->isEqual(db)){
+        if (!connectionDesc->isEqual(db) && connectionDesc->isInternal()){
             db.close();
             connected = initAndOpenDB(db, *connectionDesc);
         } else {
-            //connected = db.isOpen();
             connected = checkConnection(db);
-            if (!connected)
+            if (!connected && connectionDesc->isInternal())
                 connected = initAndOpenDB(db, *connectionDesc);
         }
     }
 
     if (!connected) {
-        QSqlDatabase::removeDatabase(connectionDesc->name());
+        if (connectionDesc->isInternal())
+            QSqlDatabase::removeDatabase(connectionDesc->name());
         return false;
     } else {
         foreach(QString datasourceName, dataSourceNames()){
@@ -884,11 +889,13 @@ void DataSourceManager::disconnectConnection(const QString& connectionName)
             }
         }
     }
-    {
+
+    ConnectionDesc* connectionDesc = connectionByName(connectionName);
+    if (connectionDesc->isInternal()){
         QSqlDatabase db = QSqlDatabase::database(connectionName);
         if (db.isOpen()) db.close();
+        if (QSqlDatabase::contains(connectionName)) QSqlDatabase::removeDatabase(connectionName);
     }
-    if (QSqlDatabase::contains(connectionName)) QSqlDatabase::removeDatabase(connectionName);
 
 }
 
@@ -1185,7 +1192,8 @@ void DataSourceManager::clear(ClearMethod method)
 
     QList<ConnectionDesc*>::iterator cit = m_connections.begin();
     while( cit != m_connections.end() ){
-        QSqlDatabase::removeDatabase( (*cit)->name() );
+        if ( (*cit)->isInternal() )
+            QSqlDatabase::removeDatabase( (*cit)->name() );
         delete (*cit);
         cit = m_connections.erase(cit);
     }
