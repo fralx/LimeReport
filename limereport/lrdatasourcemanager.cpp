@@ -622,16 +622,17 @@ void DataSourceManager::removeDatasource(const QString &name)
 
 void DataSourceManager::removeConnection(const QString &connectionName)
 {
-    for(int i=0;i<m_connections.count();++i){
-        if (m_connections.at(i)->name()==connectionName){
-            if (m_connections.at(i)->isInternal()){
+    QList<ConnectionDesc*>::iterator cit = m_connections.begin();
+    while( cit != m_connections.end() ){
+        if ( ((*cit)->name().compare(connectionName) == 0) && (*cit)->isInternal() ){
+            {
                 QSqlDatabase db = QSqlDatabase::database(connectionName);
                 db.close();
-                QSqlDatabase::removeDatabase(connectionName);
             }
-            delete m_connections.at(i);
-            m_connections.removeAt(i);
+            QSqlDatabase::removeDatabase(connectionName);
         }
+        delete (*cit);
+        cit = m_connections.erase(cit);
     }
     emit datasourcesChanged();
 }

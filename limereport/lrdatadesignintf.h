@@ -132,6 +132,9 @@ public:
     bool    isEqual(const QSqlDatabase& db);
     bool    isInternal(){ return m_internal; }
     void    setInternal(bool value) {m_internal = value;}
+public:
+    static QString connectionNameForUser(const QString& connectionName);
+    static QString connectionNameForReport(const QString& connectionName);
 signals:
     void nameChanged(const QString& oldName,const QString& newName);
 private:
@@ -150,6 +153,7 @@ public:
     virtual void addConnectionDesc(ConnectionDesc* connection) = 0;
     virtual void changeConnectionDesc(ConnectionDesc* connection) = 0;
     virtual bool checkConnectionDesc(ConnectionDesc* connection) = 0;
+    virtual bool containsDefaultConnection() = 0;
     virtual QString lastError() const = 0;
 };
 
