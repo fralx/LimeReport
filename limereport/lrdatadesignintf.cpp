@@ -350,12 +350,14 @@ void ModelToDataSource::slotModelDestroed()
 
 ConnectionDesc::ConnectionDesc(QSqlDatabase db, QObject *parent)
     : QObject(parent), m_connectionName(db.connectionName()), m_connectionHost(db.hostName()), m_connectionDriver(db.driverName()),
-      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false)
+      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false),
+      m_internal(false)
 {}
 
 ConnectionDesc::ConnectionDesc(QObject *parent)
     :QObject(parent),m_connectionName(""),m_connectionHost(""),m_connectionDriver(""),
-      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false)
+      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false),
+      m_internal(false)
 {}
 
 ConnectionDesc::Ptr ConnectionDesc::create(QSqlDatabase db, QObject *parent)

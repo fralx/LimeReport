@@ -131,7 +131,7 @@ public:
     QString queryText(const QString& dataSourceName);
     QString connectionName(const QString& dataSourceName);
     void removeDatasource(const QString& name);
-    void removeConnection(const QString& name);
+    void removeConnection(const QString& connectionName);
     bool isQuery(const QString& dataSourceName);
     bool containsDatasource(const QString& dataSourceName);
     bool isSubQuery(const QString& dataSourceName);

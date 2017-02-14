@@ -130,6 +130,8 @@ public:
     void    setAutoconnect(bool value){m_autoconnect=value;}
     bool    autoconnect(){return m_autoconnect;}
     bool    isEqual(const QSqlDatabase& db);
+    bool    isInternal(){ return m_internal; }
+    void    setInternal(bool value) {m_internal = value;}
 signals:
     void nameChanged(const QString& oldName,const QString& newName);
 private:
@@ -140,6 +142,7 @@ private:
     QString m_user;
     QString m_password;
     bool    m_autoconnect;
+    bool    m_internal;
 };
 
 class IConnectionController{
