@@ -59,7 +59,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
-    m_reportRendering(false), m_resultIsEditable(true)
+    m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy")
 {
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
@@ -513,14 +513,29 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName)
 {
     if (!QFile::exists(fileName)) return false;
 
-    clearReport();
+    clearReport();    
 
     ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
+    reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName=fileName;
             QFileInfo fi(fileName);
             m_reportName = fi.fileName();
+
+            QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
+            if (QFile::exists(dbSettingFileName)){
+                QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
+                foreach (ConnectionDesc* connection, dataManager()->conections()) {
+                    if (!connection->keepDBCredentials()){
+                        dbcredentals.beginGroup(connection->name());
+                        connection->setUserName(dbcredentals.value("user").toString());
+                        connection->setPassword(dbcredentals.value("password").toString());
+                        dbcredentals.endGroup();
+                    }
+                }
+            }
+
             dataManager()->connectAutoConnections();
             return true;
         };
@@ -533,6 +548,7 @@ bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &nam
     clearReport();
 
     ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
+    reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName = "";
@@ -548,6 +564,7 @@ bool ReportEnginePrivate::loadFromString(const QString &report, const QString &n
     clearReport();
 
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(report);
+    reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName = "";
@@ -566,10 +583,35 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
     if (fi.suffix().isEmpty())
         fn+=".lrxml";
 
+    QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
+    QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
+
+    foreach (ConnectionDesc* connection, dataManager()->conections()) {
+        if (!connection->keepDBCredentials()){
+            dbcredentals.beginGroup(connection->name());
+            dbcredentals.setValue("user",connection->userName());
+            dbcredentals.setValue("password",connection->password());
+            dbcredentals.endGroup();
+            connection->setPassword("");
+            connection->setUserName("");
+        }
+    }
+
     QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->setPassPhrase(m_passPhrase);
     writer->putItem(this);
-    m_fileName=fn;
+    m_fileName=fn;   
     bool saved = writer->saveToFile(fn);
+
+    foreach (ConnectionDesc* connection, dataManager()->conections()) {
+        if (!connection->keepDBCredentials()){
+            dbcredentals.beginGroup(connection->name());
+            connection->setUserName(dbcredentals.value("user").toString());
+            connection->setPassword(dbcredentals.value("password").toString());
+            dbcredentals.endGroup();
+        }
+    }
+
     if (saved){
         foreach(PageDesignIntf* page, m_pages){
             page->setToSaved();
@@ -581,6 +623,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
 QByteArray ReportEnginePrivate::saveToByteArray()
 {
     QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->setPassPhrase(m_passPhrase);
     writer->putItem(this);
     QByteArray result = writer->saveToByteArray();
     if (!result.isEmpty()){
@@ -593,6 +636,7 @@ QByteArray ReportEnginePrivate::saveToByteArray()
 
 QString ReportEnginePrivate::saveToString(){
     QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->setPassPhrase(m_passPhrase);
     writer->putItem(this);
     QString result = writer->saveToString();
     if (!result.isEmpty()){
@@ -627,6 +671,11 @@ QString ReportEnginePrivate::renderToString()
         render.setScriptContext(scriptContext());
         return render.renderPageToString(m_pages.at(0));
     }else return QString();
+}
+
+void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
+{
+    m_passPhrase = passPhrase;
 }
 
 bool ReportEnginePrivate::resultIsEditable() const
@@ -805,6 +854,12 @@ bool ReportEngine::isBusy()
 {
     Q_D(ReportEngine);
     return d->isBusy();
+}
+
+void ReportEngine::setPassPharse(QString &passPharse)
+{
+    Q_D(ReportEngine);
+    d->setPassPhrase(passPharse);
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

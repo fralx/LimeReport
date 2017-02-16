@@ -113,6 +113,11 @@ QByteArray XMLWriter::saveToByteArray()
     return res;
 }
 
+void XMLWriter::setPassPhrase(const QString &passPhrase)
+{
+    m_passPhrase = passPhrase;
+}
+
 QDomElement XMLWriter::putQObjectItem(QString name, QObject *item)
 {
     Q_UNUSED(name)
@@ -158,6 +163,10 @@ void XMLWriter::saveProperty(QString name, QObject* item, QDomElement *node)
 
     if (creator) {
         QScopedPointer<SerializatorIntf> serializator(creator(m_doc.data(),node));
+        CryptedSerializator* cs = dynamic_cast<CryptedSerializator*>(serializator.data());
+        if (cs){
+            cs->setPassPhrase(m_passPhrase);
+        }
         serializator->save(
             item->property(name.toLatin1()),
             name

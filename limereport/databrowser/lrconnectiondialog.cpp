@@ -122,6 +122,7 @@ ConnectionDesc *ConnectionDialog::uiToConnection(LimeReport::ConnectionDesc* con
     result ->setPassword(ui->lePassword->text());
     result ->setDatabaseName(ui->leDataBase->text());
     result ->setAutoconnect(ui->cbAutoConnect->isChecked());
+    result->setKeepDBCredentials(!ui->cbbKeepCredentials->isChecked());
     return result ;
 }
 
@@ -137,6 +138,7 @@ void ConnectionDialog::connectionToUI()
     ui->lePassword->setText(m_connection->password());
     ui->cbbDrivers->setCurrentIndex(ui->cbbDrivers->findText(m_connection->driver()));
     ui->cbAutoConnect->setChecked(m_connection->autoconnect());
+    ui->cbbKeepCredentials->setChecked(!m_connection->keepDBCredentials());
 }
 
 void ConnectionDialog::on_toolButton_clicked()
