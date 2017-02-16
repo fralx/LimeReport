@@ -37,18 +37,25 @@ class QString;
 class QAbstractItemModel;
 namespace LimeReport{
 
+class IDbCredentialsProvider{
+public:
+    virtual QString getUserName(const QString& connectionName) = 0;
+    virtual QString getPassword(const QString& connectionName) = 0;
+};
+
 class IDataSourceManager{
 public:
-    virtual void setReportVariable(const QString& name, const QVariant& value)=0;
-    virtual void setDefaultDatabasePath(const QString &defaultDatabasePath)=0;
-    virtual void deleteVariable(const QString& name)=0;
-    virtual bool containsVariable(const QString& variableName)=0;
-    virtual QVariant variable(const QString& variableName)=0;
-    virtual bool addModel(const QString& name, QAbstractItemModel *model, bool owned)=0;
-    virtual void removeModel(const QString& name)=0;
-    virtual bool containsDatasource(const QString& dataSourceName)=0;
+    virtual void setReportVariable(const QString& name, const QVariant& value) = 0;
+    virtual void setDefaultDatabasePath(const QString &defaultDatabasePath) = 0;
+    virtual void deleteVariable(const QString& name) = 0;
+    virtual bool containsVariable(const QString& variableName) = 0;
+    virtual QVariant variable(const QString& variableName) = 0;
+    virtual bool addModel(const QString& name, QAbstractItemModel *model, bool owned) = 0;
+    virtual void removeModel(const QString& name) = 0;
+    virtual bool containsDatasource(const QString& dataSourceName) = 0;
     virtual void clearUserVariables()=0;
     virtual ICallbackDatasource* createCallbackDatasouce(const QString& name) = 0;
+    virtual void registerDbCredentialsProvider(IDbCredentialsProvider* provider) = 0;
     //virtual void addCallbackDatasource(ICallbackDatasource* datasource, const QString& name) = 0;
 };
 

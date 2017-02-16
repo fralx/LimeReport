@@ -44,14 +44,17 @@ public:
     XMLReader();
     XMLReader(QSharedPointer<QDomDocument> doc);
 protected:
+//ItemsReaderIntf interface
+    bool first();
+    bool next();
+    bool prior();
+    QString itemType();
+    QString itemClassName();
+    bool readItem(QObject *item);
+    int firstLevelItemsCount();
+    QString lastError();
+    void setPassPhrase(const QString &passPhrase);
 
-    virtual bool first();
-    virtual bool next();
-    virtual bool prior();
-    virtual QString itemType();
-    virtual QString itemClassName();
-    virtual bool readItem(QObject *item);
-    virtual int firstLevelItemsCount();
     virtual bool prepareReader(QDomDocument *doc);
 
     void readItemFromNode(QObject *item, QDomElement *node);
@@ -60,7 +63,7 @@ protected:
     void readCollection(QObject *item, QDomElement *node);
     QVariant getValue(QDomElement *node);
 
-    virtual QString lastError();
+
 protected:
     bool extractFirstNode();
     QString m_error;
@@ -68,6 +71,11 @@ private:
     QSharedPointer<QDomDocument> m_doc;
     QDomElement m_curNode;
     QDomElement m_firstNode;
+    QString m_passPhrase;
+
+
+
+
 };
 
 class FileXMLReader : public XMLReader{
