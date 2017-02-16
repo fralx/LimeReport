@@ -102,6 +102,7 @@ public:
     void setResultEditable(bool value);
     bool resultIsEditable();
     bool isBusy();
+    void setPassPharse(QString& passPharse);
 signals:
     void renderStarted();
     void renderFinished();

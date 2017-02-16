@@ -110,6 +110,7 @@ class ConnectionDesc : public QObject{
     Q_PROPERTY(QString password READ password WRITE setPassword)
     Q_PROPERTY(QString host READ host WRITE setHost)
     Q_PROPERTY(bool autoconnect READ autoconnect WRITE setAutoconnect)
+    Q_PROPERTY(bool keepDBCredentials READ keepDBCredentials WRITE setKeepDBCredentials)
 public:
     typedef QSharedPointer<ConnectionDesc> Ptr;
     ConnectionDesc(QSqlDatabase db, QObject* parent=0);
@@ -124,17 +125,19 @@ public:
     void    setDatabaseName(const QString &value){m_databaseName=value;}
     QString databaseName(){return m_databaseName;}
     void    setUserName(const QString &value){m_user=value;}
-    QString userName(){return m_user;}
+    QString userName(){ return m_user; }
     void    setPassword(const QString &value){m_password=value;}
-    QString password(){return m_password;}
+    QString password(){ return m_password; }
     void    setAutoconnect(bool value){m_autoconnect=value;}
     bool    autoconnect(){return m_autoconnect;}
     bool    isEqual(const QSqlDatabase& db);
     bool    isInternal(){ return m_internal; }
     void    setInternal(bool value) {m_internal = value;}
+    bool    keepDBCredentials() const;
+    void    setKeepDBCredentials(bool keepDBCredentials);
 public:
     static QString connectionNameForUser(const QString& connectionName);
-    static QString connectionNameForReport(const QString& connectionName);
+    static QString connectionNameForReport(const QString& connectionName);    
 signals:
     void nameChanged(const QString& oldName,const QString& newName);
 private:
@@ -146,6 +149,7 @@ private:
     QString m_password;
     bool    m_autoconnect;
     bool    m_internal;
+    bool    m_keepDBCredentials;
 };
 
 class IConnectionController{

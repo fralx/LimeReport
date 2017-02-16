@@ -115,6 +115,7 @@ public:
     bool addModel(const QString& name, QAbstractItemModel *model, bool owned);
     void removeModel(const QString& name);
     ICallbackDatasource* createCallbackDatasouce(const QString &name);
+    void registerDbCredentialsProvider(IDbCredentialsProvider *provider);
     void addCallbackDatasource(ICallbackDatasource *datasource, const QString &name);
     void setReportVariable(const QString& name, const QVariant& value);
     void deleteVariable(const QString& name);
@@ -150,6 +151,7 @@ public:
     int proxyIndexByName(const QString& dataSourceName);
     int connectionIndexByName(const QString& connectionName);
 
+    QList<ConnectionDesc *> &conections();
     bool dataSourceIsValid(const QString& name);
     IDataSource* dataSource(const QString& name);
     IDataSourceHolder* dataSourceHolder(const QString& name);
@@ -250,8 +252,7 @@ private:
     ReportSettings* m_reportSettings;
     QHash<QString,int> m_groupFunctionsExpressionsMap;
     QVector<QString> m_groupFunctionsExpressions;
-
-
+    IDbCredentialsProvider* m_dbCredentialsProvider;
 };
 
 }

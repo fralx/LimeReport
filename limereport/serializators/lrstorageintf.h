@@ -39,18 +39,19 @@ namespace LimeReport{
 
 class ObjectLoadingStateIntf{
 public:
-    virtual bool isLoading()=0;
-    virtual void objectLoadStarted()=0;
-    virtual void objectLoadFinished()=0;
+    virtual bool isLoading() = 0;
+    virtual void objectLoadStarted() = 0;
+    virtual void objectLoadFinished() = 0;
 };
 
 class ItemsWriterIntf
 {
 public:
-    virtual void putItem(QObject* item)=0;
+    virtual void putItem(QObject* item) = 0;
     virtual bool saveToFile(QString fileName) = 0;
     virtual QString saveToString() = 0;
     virtual QByteArray saveToByteArray() = 0;
+    virtual void setPassPhrase(const QString& passPhrase) = 0;
     virtual ~ItemsWriterIntf(){}
 };
 
@@ -58,14 +59,15 @@ class ItemsReaderIntf
 {
 public:
     typedef QSharedPointer<ItemsReaderIntf> Ptr;
-    virtual bool first()=0;
-    virtual bool next()=0;
-    virtual bool prior()=0;
-    virtual QString itemType()=0;
-    virtual QString itemClassName()=0;
-    virtual bool readItem(QObject *item)=0;
-    virtual int firstLevelItemsCount()=0;
-    virtual QString lastError()=0;
+    virtual bool first() = 0;
+    virtual bool next() = 0;
+    virtual bool prior() = 0;
+    virtual QString itemType() = 0;
+    virtual QString itemClassName() = 0;
+    virtual bool readItem(QObject *item) = 0;
+    virtual int firstLevelItemsCount() = 0;
+    virtual QString lastError() = 0;
+    virtual void setPassPhrase(const QString& passPhrase) = 0;
     virtual ~ItemsReaderIntf(){}
 };
 

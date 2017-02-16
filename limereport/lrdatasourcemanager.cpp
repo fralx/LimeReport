@@ -217,7 +217,7 @@ void DataSourceModel::updateModel()
 }
 
 DataSourceManager::DataSourceManager(QObject *parent) :
-    QObject(parent), m_lastError(""), m_designTime(true), m_needUpdate(false)
+    QObject(parent), m_lastError(""), m_designTime(true), m_needUpdate(false), m_dbCredentialsProvider(0)
 {
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("COUNT"),new ConstructorGroupFunctionCreator<CountGroupFunction>);
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("SUM"),new ConstructorGroupFunctionCreator<SumGroupFunction>);
@@ -322,6 +322,11 @@ ICallbackDatasource *DataSourceManager::createCallbackDatasouce(const QString& n
     emit datasourcesChanged();
     m_needUpdate = true;
     return ds;
+}
+
+void DataSourceManager::registerDbCredentialsProvider(IDbCredentialsProvider *provider)
+{
+    m_dbCredentialsProvider = provider;
 }
 
 void DataSourceManager::addCallbackDatasource(ICallbackDatasource *datasource, const QString& name)
@@ -567,6 +572,11 @@ int DataSourceManager::connectionIndexByName(const QString &connectionName)
     return -1;
 }
 
+QList<ConnectionDesc *>& DataSourceManager::conections()
+{
+    return m_connections;
+}
+
 bool DataSourceManager::dataSourceIsValid(const QString &name)
 {
     if (m_datasources.value(name.toLower())) return !m_datasources.value(name.toLower())->isInvalid();
@@ -704,9 +714,18 @@ void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
 bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc){
 
     bool connected = false;
+
+
     db.setHostName(replaceVariables(connectionDesc.host()));
     db.setUserName(replaceVariables(connectionDesc.userName()));
     db.setPassword(replaceVariables(connectionDesc.password()));
+
+    if (!connectionDesc.keepDBCredentials() && m_dbCredentialsProvider){
+        if (!m_dbCredentialsProvider->getUserName(connectionDesc.name()).isEmpty())
+            db.setUserName(m_dbCredentialsProvider->getUserName(connectionDesc.name()));
+        if (!m_dbCredentialsProvider->getPassword(connectionDesc.name()).isEmpty())
+            db.setPassword(m_dbCredentialsProvider->getPassword(connectionDesc.name()));
+    }
 
     QString dbName = replaceVariables(connectionDesc.databaseName());
     if (connectionDesc.driver().compare("QSQLITE")==0){
@@ -726,7 +745,6 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     }
 
     connected=db.open();
-    connectionDesc.setInternal(true);
     if (!connected) setLastError(db.lastError().text());
     return  connected;
 }
@@ -758,10 +776,17 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
     }
 
     if (!QSqlDatabase::contains(connectionDesc->name())){
-        QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
-        connected=initAndOpenDB(db, *connectionDesc);
+        QString dbError;
+        {
+            QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
+            connectionDesc->setInternal(true);
+            connected=initAndOpenDB(db, *connectionDesc);
+            dbError = db.lastError().text();
+        }
         if (!connected){
-            setLastError(db.lastError().text());
+            if (!dbError.trimmed().isEmpty())
+                setLastError(dbError);
+            QSqlDatabase::removeDatabase(connectionDesc->name());
             return false;
         }
     } else {
@@ -868,8 +893,9 @@ bool DataSourceManager::isConnection(const QString &connectionName)
 
 bool DataSourceManager::isConnectionConnected(const QString &connectionName)
 {
-    if (isConnection(connectionName)){
-        return QSqlDatabase::database(connectionName).isOpen();
+    if (isConnection(connectionName) && QSqlDatabase::contains(connectionName)){
+        QSqlDatabase db = QSqlDatabase::database(connectionName);
+        return db.isValid() && QSqlDatabase::database(connectionName).isOpen();
     }
     return false;
 }
@@ -893,8 +919,10 @@ void DataSourceManager::disconnectConnection(const QString& connectionName)
 
     ConnectionDesc* connectionDesc = connectionByName(connectionName);
     if (connectionDesc->isInternal()){
-        QSqlDatabase db = QSqlDatabase::database(connectionName);
-        if (db.isOpen()) db.close();
+        {
+            QSqlDatabase db = QSqlDatabase::database(connectionName);
+            if (db.isOpen()) db.close();
+        }
         if (QSqlDatabase::contains(connectionName)) QSqlDatabase::removeDatabase(connectionName);
     }
 
