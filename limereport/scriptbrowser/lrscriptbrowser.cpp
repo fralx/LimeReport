@@ -64,6 +64,7 @@ void ScriptBrowser::setReportEditor(ReportDesignWidget* report)
 
 void ScriptBrowser::updateFunctionTree()
 {
+    ui->twFunctions->clear();
     ScriptEngineManager* sm = reportEditor()->scriptManager();
     QMap<QString,QTreeWidgetItem*> categ;
     foreach(ScriptFunctionDesc fd, sm->functionsDescriber()){
