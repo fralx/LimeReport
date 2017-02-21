@@ -98,7 +98,6 @@ private slots:
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
-
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();
