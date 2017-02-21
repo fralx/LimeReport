@@ -667,8 +667,10 @@ void DataSourceManager::addConnectionDesc(ConnectionDesc * connection)
 bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
 {
     if (connectConnection(connection)){
-        if (connection->isInternal())
+        if (connection->isInternal()){
             QSqlDatabase::removeDatabase(connection->name());
+            if (designTime()) emit datasourcesChanged();
+        }
         return true;
     }
     if (connection->isInternal())
