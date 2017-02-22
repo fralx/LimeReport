@@ -539,6 +539,7 @@ void ReportDesignWindow::startNewReport()
     m_reportDesignWidget->createStartPage();
     m_lblReportName->setText("");
     updateRedoUndo();
+    m_reportDesignWidget->slotPagesLoadFinished();
     m_newPageHeader->setEnabled(true);
     m_newPageFooter->setEnabled(true);
     m_newReportHeader->setEnabled(true);

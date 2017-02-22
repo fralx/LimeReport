@@ -426,18 +426,58 @@ void DataBrowser::initConnections()
 {
     ui->dataTree->clear();
     QList<QTreeWidgetItem *>items;
-    foreach(QString connectionName,m_report->dataManager()->connectionNames()){
+
+    QStringList connections = QSqlDatabase::connectionNames();
+    foreach(QString connectionName, m_report->dataManager()->connectionNames()){
+        if (!connections.contains(connectionName,Qt::CaseInsensitive)){
+            connections.append(connectionName);
+        }
+    }
+    qSort(connections);
+    foreach (QString connectionName, connections) {
         QTreeWidgetItem *item=new QTreeWidgetItem(
             ui->dataTree,
             QStringList(ConnectionDesc::connectionNameForUser(connectionName)),
             DataBrowserTree::Connection
         );
-        if (m_report->dataManager()->isConnectionConnected(connectionName))
+        if (!m_report->dataManager()->connectionNames().contains(ConnectionDesc::connectionNameForReport(connectionName), Qt::CaseInsensitive))
+        {
             item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
-        else
-            item->setIcon(0,QIcon(":/databrowser/images/database_disconnected"));
+        } else {
+            if (m_report->dataManager()->isConnectionConnected(connectionName))
+                item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
+            else
+                item->setIcon(0,QIcon(":/databrowser/images/database_disconnected"));
+        }
         items.append(item);
     }
+
+
+//    foreach (QString connectionName, connections) {
+//        QTreeWidgetItem *item=new QTreeWidgetItem(
+//            ui->dataTree,
+//            QStringList(ConnectionDesc::connectionNameForUser(connectionName)),
+//            DataBrowserTree::Connection
+//        );
+//        item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
+//    }
+
+//    connections = m_report->dataManager()->connectionNames();
+//    qSort(connections);
+//    foreach(QString connectionName,connectionName){
+//        if (!QSqlDatabase::contains(connectionName)){
+//            QTreeWidgetItem *item=new QTreeWidgetItem(
+//                ui->dataTree,
+//                QStringList(ConnectionDesc::connectionNameForUser(connectionName)),
+//                DataBrowserTree::Connection
+//            );
+//            if (m_report->dataManager()->isConnectionConnected(connectionName))
+//                item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
+//            else
+//                item->setIcon(0,QIcon(":/databrowser/images/database_disconnected"));
+//            items.append(item);
+//        }
+//    }
     ui->dataTree->insertTopLevelItems(0,items);
 }
 
@@ -642,7 +682,8 @@ bool DataBrowser::checkConnectionDesc(ConnectionDesc *connection)
 
 bool DataBrowser::containsDefaultConnection()
 {
-    bool result = m_report->dataManager()->connectionByName(QSqlDatabase::defaultConnection);
+    bool result = m_report->dataManager()->connectionByName(QSqlDatabase::defaultConnection) ||
+            QSqlDatabase::contains(QSqlDatabase::defaultConnection);
     return result;
 }
 
@@ -660,7 +701,7 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
 {
     Q_UNUSED(previous)
     if (current&&(current->type() == DataBrowserTree::Connection)) {
-        ui->pbConnect->setEnabled(true);
+        bool internalConnection = m_report->dataManager()->connectionByName(ConnectionDesc::connectionNameForReport(current->text(0)));
         if (m_report->dataManager()->isConnectionConnected(current->text(0))){
             ui->pbConnect->setIcon(QIcon(":/databrowser/images/plug-connect.png"));
         } else {
@@ -668,9 +709,10 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
         }
         ui->editDataSource->setEnabled(false);
         ui->deleteDataSource->setEnabled(false);
-        ui->viewDataSource->setEnabled(false);
-        ui->changeConnection->setEnabled(true);
-        ui->deleteConection->setEnabled(true);
+        ui->viewDataSource->setEnabled(false);        
+        ui->pbConnect->setEnabled(internalConnection);
+        ui->changeConnection->setEnabled(internalConnection);
+        ui->deleteConection->setEnabled(internalConnection);
         ui->errorMessage->setDisabled(true);
     } else {
         ui->changeConnection->setEnabled(false);
