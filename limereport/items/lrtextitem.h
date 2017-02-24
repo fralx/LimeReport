@@ -172,6 +172,8 @@ protected:
     int fakeMarginSize() const;
     QString getTextPart(int height, int skipHeight);
     void restoreLinksEvent();
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
     void initTextSizes() const;
     void setTextFont(TextPtr text, const QFont &value) const;

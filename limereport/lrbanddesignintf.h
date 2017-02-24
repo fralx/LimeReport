@@ -207,7 +207,7 @@ public:
     bool startNewPage() const;
     void setStartNewPage(bool startNewPage);
 
-    void setAutoHeight(bool value){m_autoHeight=value;}
+    void setAutoHeight(bool value);
     bool autoHeight(){return m_autoHeight;}
 
     bool startFromNewPage() const;
@@ -244,6 +244,8 @@ protected:
     void setColumnsCount(int value);
     void setColumnsFillDirection(BandColumnsLayoutType value);
     void moveItemsDown(qreal startPos, qreal offset);
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private slots:
     void childBandDeleted(QObject* band);
 private:

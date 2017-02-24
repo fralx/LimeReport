@@ -35,6 +35,8 @@
 #include "qgraphicsitem.h"
 #include "lrdesignelementsfactory.h"
 #include "lrhorizontallayout.h"
+#include "serializators/lrstorageintf.h"
+#include "serializators/lrxmlreader.h"
 
 #include <memory>
 
@@ -43,6 +45,8 @@
 #include <QApplication>
 #include <QDialog>
 #include <QVBoxLayout>
+#include <QMenu>
+#include <QClipboard>
 
 namespace LimeReport
 {
@@ -1145,6 +1149,53 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         showEditorDialog();
     }
     QGraphicsItem::mouseDoubleClickEvent(event);
+}
+
+void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
+    if (!page->selectedItems().contains(this)){
+        page->clearSelection();
+        this->setSelected(true);
+    }
+    QMenu menu;
+    QAction* copyAction = menu.addAction(QIcon(":/report/images/copy.png"), tr("Copy"));
+    copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
+    QAction* cutAction = menu.addAction(QIcon(":/report//images/cut"), tr("Cut"));
+    cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste.png"), tr("Paste"));
+    pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
+    pasteAction->setEnabled(false);
+    QClipboard *clipboard = QApplication::clipboard();
+    ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
+    if (reader->first() && reader->itemType() == "Object"){
+        pasteAction->setEnabled(true);
+    }
+    menu.addSeparator();
+    QAction* brinToTopAction = menu.addAction(QIcon(":/report//images/bringToTop"), tr("Bring to top"));
+    QAction* sendToBackAction = menu.addAction(QIcon(":/report//images/sendToBack"), tr("Send to back"));
+    menu.addSeparator();
+    QAction* noBordersAction = menu.addAction(QIcon(":/report//images/noLines"), tr("No borders"));
+    QAction* allBordersAction = menu.addAction(QIcon(":/report//images/allLines"), tr("All borders"));
+    preparePopUpMenu(menu);
+    QAction* a = menu.exec(event->screenPos());
+    if (a){
+        if (a == cutAction)
+            page->cut();
+        if (a == copyAction)
+            page->copy();
+        if (a == pasteAction)
+            page->paste();
+        if (a == brinToTopAction)
+            page->bringToFront();
+        if (a == sendToBackAction)
+            page->sendToBack();
+        if (a == noBordersAction)
+            page->setBorders(BaseDesignIntf::NoLine);
+        if (a == allBordersAction)
+            page->setBorders(BaseDesignIntf::AllLines);
+        processPopUpAction(a);
+    }
 }
 
 int BaseDesignIntf::possibleMoveDirectionFlags() const
