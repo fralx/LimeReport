@@ -33,6 +33,7 @@
 
 #include <QGraphicsScene>
 #include <QPrinter>
+#include <QMenu>
 
 namespace LimeReport {
 
@@ -518,6 +519,14 @@ void PageItemDesignIntf::initPageSize(const QSizeF& size)
     setWidth(size.width());
     setHeight(size.height());
     m_sizeChainging=false;
+}
+
+void PageItemDesignIntf::preparePopUpMenu(QMenu &menu)
+{
+    foreach (QAction* action, menu.actions()) {
+        if (action->text().compare(tr("Paste")) != 0)
+            action->setVisible(false);
+    }
 }
 void PageItemDesignIntf::initPageSize(const PageItemDesignIntf::PageSize &size)
 {

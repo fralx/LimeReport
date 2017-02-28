@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+#include <QMenu>
 
 namespace LimeReport {
 
@@ -431,6 +432,34 @@ void BandDesignIntf::moveItemsDown(qreal startPos, qreal offset){
    }
 }
 
+void BandDesignIntf::preparePopUpMenu(QMenu &menu)
+{
+    foreach (QAction* action, menu.actions()) {
+        if (action->text().compare(tr("Bring to top")) == 0 ||
+            action->text().compare(tr("Send to back")) == 0  )
+            action->setEnabled(false);
+    }
+
+    menu.addSeparator();
+    QAction* autoHeightAction = menu.addAction(tr("Auto height"));
+    autoHeightAction->setCheckable(true);
+    autoHeightAction->setChecked(autoHeight());
+
+    QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
+    autoSplittableAction->setCheckable(true);
+    autoSplittableAction->setChecked(isSplittable());
+}
+
+void BandDesignIntf::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Auto height")) == 0){
+        setProperty("autoHeight",action->isChecked());
+    }
+    if (action->text().compare(tr("Splittable")) == 0){
+        setProperty("splittable",action->isChecked());
+    }
+}
+
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int maxBottom = 0;
@@ -802,6 +831,14 @@ bool BandDesignIntf::startNewPage() const
 void BandDesignIntf::setStartNewPage(bool startNewPage)
 {
     m_startNewPage = startNewPage;
+}
+
+void BandDesignIntf::setAutoHeight(bool value){
+    if (m_autoHeight != value){
+        m_autoHeight=value;
+        if (!isLoading())
+            notify("autoHeight",!value,value);
+    }
 }
 
 bool BandDesignIntf::reprintOnEachPage() const

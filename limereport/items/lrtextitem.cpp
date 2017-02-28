@@ -42,6 +42,7 @@
 #include "lrsimpletagparser.h"
 #include "lrtextitemeditor.h"
 #include "lrreportengine_p.h"
+#include <QMenu>
 
 namespace{
 
@@ -78,6 +79,51 @@ TextItem::~TextItem(){}
 
 int TextItem::fakeMarginSize() const{
     return marginSize()+5;
+}
+
+void TextItem::preparePopUpMenu(QMenu &menu)
+{
+    QAction* editAction = menu.addAction(QIcon(":/report/images/edit_pecil2.png"),tr("Edit"));
+    menu.insertAction(menu.actions().at(0),editAction);
+    menu.insertSeparator(menu.actions().at(1));
+
+    menu.addSeparator();
+
+    QAction* action = menu.addAction(tr("Auto height"));
+    action->setCheckable(true);
+    action->setChecked(autoHeight());
+
+    action = menu.addAction(tr("Allow HTML"));
+    action->setCheckable(true);
+    action->setChecked(allowHTML());
+
+    action = menu.addAction(tr("Allow HTML in fields"));
+    action->setCheckable(true);
+    action->setChecked(allowHTMLInFields());
+
+    action = menu.addAction(tr("Stretch to max height"));
+    action->setCheckable(true);
+    action->setChecked(stretchToMaxHeight());
+
+}
+
+void TextItem::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Edit")) == 0){
+        this->showEditorDialog();
+    }
+    if (action->text().compare(tr("Auto height")) == 0){
+        setProperty("autoHeight",action->isChecked());
+    }
+    if (action->text().compare(tr("Allow HTML")) == 0){
+        setProperty("allowHTML",action->isChecked());
+    }
+    if (action->text().compare(tr("Allow HTML in fields")) == 0){
+        setProperty("allowHTMLInFields",action->isChecked());
+    }
+    if (action->text().compare(tr("Stretch to max height")) == 0){
+        setProperty("stretchToMaxHeight",action->isChecked());
+    }
 }
 
 void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, QWidget* widget) {

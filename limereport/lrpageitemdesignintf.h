@@ -127,6 +127,7 @@ protected:
     void    initPageSize(const PageSize &size);
     void    initPageSize(const QSizeF &size);
     QColor  selectionMarkerColor(){return Qt::transparent;}
+    void    preparePopUpMenu(QMenu &menu);
 private:
     void paintGrid(QPainter *ppainter);
     void initColumnsPos(QVector<qreal>&posByColumns, qreal pos, int columnCount);

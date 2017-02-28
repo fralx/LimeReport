@@ -124,10 +124,13 @@ public:
                       TopBotom=2,
                       All=3
                     };
-    enum BorderSide {  TopLine = 1,
-                       BottomLine = 2,
-                       LeftLine = 4,
-                       RightLine = 8
+    enum BorderSide {
+                        NoLine = 0,
+                        TopLine = 1,
+                        BottomLine = 2,
+                        LeftLine = 4,
+                        RightLine = 8,
+                        AllLines = 15
                     };
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
@@ -293,6 +296,7 @@ protected:
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     virtual void geometryChangedEvent(QRectF newRect, QRectF oldRect);
     virtual QPen borderPen(BorderSide side) const;
@@ -332,6 +336,9 @@ protected:
     QString expandScripts(QString context, DataSourceManager *dataManager);
 
     QVariant m_varValue;
+
+    virtual void preparePopUpMenu(QMenu& menu){Q_UNUSED(menu)}
+    virtual void processPopUpAction(QAction* action){Q_UNUSED(action)}
 
 private:
     void updateSelectionMarker();

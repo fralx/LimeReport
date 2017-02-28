@@ -63,7 +63,6 @@ protected:
     void readCollection(QObject *item, QDomElement *node);
     QVariant getValue(QDomElement *node);
 
-
 protected:
     bool extractFirstNode();
     QString m_error;
@@ -72,10 +71,6 @@ private:
     QDomElement m_curNode;
     QDomElement m_firstNode;
     QString m_passPhrase;
-
-
-
-
 };
 
 class FileXMLReader : public XMLReader{

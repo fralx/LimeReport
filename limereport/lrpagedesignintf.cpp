@@ -56,6 +56,7 @@
 #include <QApplication>
 #include <QMessageBox>
 
+
 namespace LimeReport
 {
 
@@ -744,6 +745,15 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
         ti->setContent(data);
+        if (!isVar){
+            BandDesignIntf* parentBand = dynamic_cast<BandDesignIntf*>(ti->parentItem());
+            if (parentBand && parentBand->datasourceName().isEmpty()){
+                QRegExp dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
+                if (dataSource.indexIn(data) != -1){
+                    parentBand->setProperty("datasource",dataSource.cap(1));
+                }
+            }
+        }
     }
 }
 
@@ -1231,8 +1241,13 @@ BaseDesignIntf* PageDesignIntf::findDestObject(BaseDesignIntf* item){
 void PageDesignIntf::paste()
 {
     QClipboard *clipboard = QApplication::clipboard();
-    if (!selectedItems().isEmpty()) {
-        BaseDesignIntf* destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
+    BaseDesignIntf* destItem = 0;
+    ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
+    if (reader->first() && reader->itemType() == "Object"){
+        if (!selectedItems().isEmpty())
+            destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
+        else
+            destItem = this->pageItem();
         if (destItem){
             CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), destItem);
             saveCommand(command);
