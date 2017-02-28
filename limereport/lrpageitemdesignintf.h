@@ -51,6 +51,7 @@ class PageItemDesignIntf : public LimeReport::BaseDesignIntf
     Q_PROPERTY(int gridStep READ gridStep WRITE setGridStep)
     Q_PROPERTY(bool fullPage READ fullPage WRITE setFullPage)
     Q_PROPERTY(bool oldPrintMode READ oldPrintMode WRITE setOldPrintMode)
+    Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -112,6 +113,9 @@ public:
     bool oldPrintMode() const;
     void setOldPrintMode(bool oldPrintMode);
     bool canContainChildren(){ return true;}
+    bool resetPageNumber() const;
+    void setResetPageNumber(bool resetPageNumber);
+
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
@@ -123,6 +127,7 @@ protected:
     void    initPageSize(const PageSize &size);
     void    initPageSize(const QSizeF &size);
     QColor  selectionMarkerColor(){return Qt::transparent;}
+    void    preparePopUpMenu(QMenu &menu);
 private:
     void paintGrid(QPainter *ppainter);
     void initColumnsPos(QVector<qreal>&posByColumns, qreal pos, int columnCount);
@@ -138,6 +143,10 @@ private:
     QList<BandDesignIntf*> m_bands;
     bool m_fullPage;
     bool m_oldPrintMode;
+    bool m_resetPageNumber;
 };
+
+typedef QList<PageItemDesignIntf::Ptr> ReportPages;
+
 }
 #endif // LRPAGEITEM_H

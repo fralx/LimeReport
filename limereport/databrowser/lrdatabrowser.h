@@ -87,8 +87,9 @@ private slots:
     void on_variablesTree_itemDoubleClicked(QTreeWidgetItem *item, int);
 
 private:
+    enum NameType{NameForUser, NameForReport};
     QString getDatasourceName();
-    QString getConnectionName();
+    QString getConnectionName(NameType nameType);
     QString getVariable();
     bool isClosingWindows() const {return m_closingWindows;}
     QTreeWidgetItem * findByNameAndType(QString name, int itemType);
@@ -108,6 +109,7 @@ private:
     void addConnectionDesc(ConnectionDesc *connection);
     void changeConnectionDesc(ConnectionDesc *connection);
     bool checkConnectionDesc(ConnectionDesc *connection);
+    bool containsDefaultConnection();
 
 private:
     Ui::DataBrowser*           ui;

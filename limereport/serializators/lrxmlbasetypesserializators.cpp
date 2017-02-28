@@ -109,7 +109,7 @@ void XmlQStringSerializator::save(const QVariant &value, QString name)
     QDomElement _node = doc()->createElement(name);
     _node.setAttribute("Type","QString");
     if (name.compare("password")==0){
-        Chipper chipper;
+        Chipper chipper(passPhrase());
         QByteArray ba = chipper.cryptString(value.toString());
         //ba.append();
         _node.setAttribute("Value",QString(ba.toBase64()));
@@ -123,7 +123,7 @@ QVariant XmlQStringSerializator::loadValue()
 {
     if (node()->tagName().compare("password")==0){
         QByteArray ba;
-        Chipper chipper;
+        Chipper chipper(passPhrase());
         ba.append(node()->attribute("Value").toLatin1());
         return chipper.decryptByteArray(QByteArray::fromBase64(ba));
     } else

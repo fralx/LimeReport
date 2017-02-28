@@ -42,6 +42,7 @@ public:
     QByteArray cryptString(QString value);
     QString decryptByteArray(QByteArray value);
     Chipper();
+    Chipper(QString passphrase);
     ~Chipper();
 private:
     ChipperPrivate* d;

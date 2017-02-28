@@ -106,6 +106,7 @@ void ObjectBrowser::buildTree(BaseDesignIntf* ignoredItem){
 
     m_treeView->clear();
     m_itemsMap.clear();
+    if (!m_report->activePage()) return;
 
     ObjectBrowserNode *topLevelItem=new ObjectBrowserNode(m_treeView);
     topLevelItem->setText(0,m_report->activePage()->objectName());
@@ -204,7 +205,7 @@ void ObjectBrowser::slotItemDeleted(PageDesignIntf *, BaseDesignIntf *item)
 
 void ObjectBrowser::slotObjectTreeItemSelectionChanged()
 {
-    if (!m_changingItemSelection){
+    if (!m_changingItemSelection  && m_report->activePage()){
         m_changingItemSelection = true;
         m_report->activePage()->clearSelection();
         foreach(QTreeWidgetItem* item, m_treeView->selectedItems()){
@@ -214,6 +215,10 @@ void ObjectBrowser::slotObjectTreeItemSelectionChanged()
                 if (si) {
                     m_report->activePage()->animateItem(si);
                     si->setSelected(true);
+                    QPointF p = si->mapToScene(si->pos());
+                    if (si->parentItem())
+                        p = si->parentItem()->mapToScene(si->pos());
+                    m_report->activeView()->centerOn(p);
                 }
             }
         }

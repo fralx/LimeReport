@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+#include <QMenu>
 
 namespace LimeReport {
 
@@ -183,16 +184,20 @@ BandDesignIntf::~BandDesignIntf()
     delete m_bandNameLabel;
 }
 
-void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if (backgroundColor()!=Qt::white) {
-        ppainter->fillRect(rect(),backgroundColor());
+
+    if ( !(backgroundColor() == Qt::white && backgroundBrushStyle() == SolidPattern) ) {
+        QBrush brush(backgroundColor(), static_cast<Qt::BrushStyle>(backgroundBrushStyle()));
+        brush.setTransform(painter->worldTransform().inverted());
+        painter->fillRect(rect(), brush);
     }
-    if (itemMode()&DesignMode){
-        ppainter->save();
+
+    if (itemMode() & DesignMode){
+        painter->save();
         QString bandText = objectName();
         if (parentBand()) bandText+=QLatin1String(" connected to ")+parentBand()->objectName();
-        QFont font("Arial",7*Const::fontFACTOR,-1,true);
+        QFont font("Arial", 7 * Const::fontFACTOR, -1, true);
         QFontMetrics fontMetrics(font);
 
         QVector<QRectF> bandNameRects;
@@ -204,22 +209,22 @@ void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
         //if (isSelected()) ppainter->setPen(QColor(167,244,167));
        // else ppainter->setPen(QColor(220,220,220));
 
-        ppainter->setFont(font);
+        painter->setFont(font);
         for (int i=0;i<bandNameRects.count();i++){
             QRectF labelRect = bandNameRects[i].adjusted(-2,-2,2,2);
             if ((labelRect.height())<height() && (childBaseItems().isEmpty()) && !isSelected()){
-                ppainter->setRenderHint(QPainter::Antialiasing);
-                ppainter->setBrush(bandColor());
-                ppainter->setOpacity(Const::BAND_NAME_AREA_OPACITY);
-                ppainter->drawRoundedRect(labelRect,8,8);
-                ppainter->setOpacity(Const::BAND_NAME_TEXT_OPACITY);
-                ppainter->setPen(Qt::black);
-                ppainter->drawText(bandNameRects[i],Qt::AlignHCenter,bandText);
+                painter->setRenderHint(QPainter::Antialiasing);
+                painter->setBrush(bandColor());
+                painter->setOpacity(Const::BAND_NAME_AREA_OPACITY);
+                painter->drawRoundedRect(labelRect,8,8);
+                painter->setOpacity(Const::BAND_NAME_TEXT_OPACITY);
+                painter->setPen(Qt::black);
+                painter->drawText(bandNameRects[i],Qt::AlignHCenter,bandText);
             }
         }
-        ppainter->restore();
+        painter->restore();
     }
-    BaseDesignIntf::paint(ppainter,option,widget);
+    BaseDesignIntf::paint(painter,option,widget);
 }
 
 BandDesignIntf::BandsType  BandDesignIntf::bandType() const
@@ -357,6 +362,7 @@ bool BandDesignIntf::canBeSplitted(int height) const
 
 bool BandDesignIntf::isEmpty() const
 {
+    if (!isVisible()) return true;
     foreach(QGraphicsItem* qgItem,childItems()){
         BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(qgItem);
         if ((item)&&(!item->isEmpty())) return false;
@@ -424,6 +430,34 @@ void BandDesignIntf::moveItemsDown(qreal startPos, qreal offset){
        if (item->pos().y()>=startPos)
            item->setPos(item->x(),item->y()+offset);
    }
+}
+
+void BandDesignIntf::preparePopUpMenu(QMenu &menu)
+{
+    foreach (QAction* action, menu.actions()) {
+        if (action->text().compare(tr("Bring to top")) == 0 ||
+            action->text().compare(tr("Send to back")) == 0  )
+            action->setEnabled(false);
+    }
+
+    menu.addSeparator();
+    QAction* autoHeightAction = menu.addAction(tr("Auto height"));
+    autoHeightAction->setCheckable(true);
+    autoHeightAction->setChecked(autoHeight());
+
+    QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
+    autoSplittableAction->setCheckable(true);
+    autoSplittableAction->setChecked(isSplittable());
+}
+
+void BandDesignIntf::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Auto height")) == 0){
+        setProperty("autoHeight",action->isChecked());
+    }
+    if (action->text().compare(tr("Splittable")) == 0){
+        setProperty("splittable",action->isChecked());
+    }
 }
 
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
@@ -721,6 +755,13 @@ void BandDesignIntf::initMode(ItemMode mode)
     BaseDesignIntf::initMode(mode);
     if ((mode==PreviewMode)||(mode==PrintMode)){
         m_bandMarker->setVisible(false);
+    } else {
+        if (!m_bandMarker->scene() && this->scene()){
+            this->scene()->addItem(m_bandMarker);
+            m_bandMarker->setParentItem(this->parentItem());
+            m_bandMarker->setHeight(this->height());
+        }
+        m_bandMarker->setVisible(true);
     }
 }
 
@@ -790,6 +831,14 @@ bool BandDesignIntf::startNewPage() const
 void BandDesignIntf::setStartNewPage(bool startNewPage)
 {
     m_startNewPage = startNewPage;
+}
+
+void BandDesignIntf::setAutoHeight(bool value){
+    if (m_autoHeight != value){
+        m_autoHeight=value;
+        if (!isLoading())
+            notify("autoHeight",!value,value);
+    }
 }
 
 bool BandDesignIntf::reprintOnEachPage() const
@@ -882,6 +931,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
+    restoreLinks();
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);
     if (autoHeight()){

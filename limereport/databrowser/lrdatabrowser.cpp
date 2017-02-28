@@ -126,17 +126,17 @@ void DataBrowser::slotSQLEditingFinished(SQLEditResult result)
 
 void DataBrowser::slotDeleteConnection()
 {
-    if (!getConnectionName().isEmpty()){
+    if (!getConnectionName(NameForUser).isEmpty()){
         if (
                 QMessageBox::critical(
                     this,
                     tr("Attention"),
-                    tr("Do you really want to delete \"%1\" connection ?").arg(getConnectionName()),
+                    tr("Do you really want to delete \"%1\" connection ?").arg(getConnectionName(NameForUser)),
                     QMessageBox::Ok|QMessageBox::No,
                     QMessageBox::No
-                )==QMessageBox::Ok
+                ) == QMessageBox::Ok
         ){
-            m_report->dataManager()->removeConnection(getConnectionName());
+            m_report->dataManager()->removeConnection(getConnectionName(NameForReport));
             updateDataTree();
         }
     }
@@ -153,7 +153,7 @@ void DataBrowser::slotAddDataSource()
 #endif
     sqlEdit->setSettings(settings());
     sqlEdit->setDataSources(m_report->dataManager());
-    sqlEdit->setDefaultConnection(getConnectionName());
+    sqlEdit->setDefaultConnection(getConnectionName(NameForReport));
     connect(sqlEdit,SIGNAL(signalSqlEditingFinished(SQLEditResult)),this,SLOT(slotSQLEditingFinished(SQLEditResult)));
     sqlEdit->exec();
 }
@@ -173,7 +173,10 @@ void DataBrowser::updateDataTree()
     foreach(QString dataSourceName, m_report->datasourcesNames()){
 
         QTreeWidgetItem *item=new QTreeWidgetItem(QStringList(dataSourceName),DataBrowserTree::Table);
-        QTreeWidgetItem *parentItem = findByNameAndType(m_report->dataManager()->connectionName(dataSourceName),DataBrowserTree::Connection);
+        QTreeWidgetItem *parentItem = findByNameAndType(
+            ConnectionDesc::connectionNameForUser(m_report->dataManager()->connectionName(dataSourceName)),
+            DataBrowserTree::Connection
+        );
         if (parentItem){
             parentItem->addChild(item);
             if (!parentItem->isExpanded()) ui->dataTree->expandItem(parentItem);
@@ -336,11 +339,18 @@ QTreeWidgetItem* findConnectionItem(QTreeWidgetItem* item){
     }
 }
 
-QString DataBrowser::getConnectionName()
+QString DataBrowser::getConnectionName(NameType nameType)
 {
     if (ui->dataTree->currentItem()){
         QTreeWidgetItem * ci = findConnectionItem(ui->dataTree->currentItem());
-        if (ci) return ci->text(0);
+        if (ci) {
+            switch (nameType) {
+            case NameForUser:
+                return ConnectionDesc::connectionNameForUser(ci->text(0));
+            case NameForReport:
+                return ConnectionDesc::connectionNameForReport(ci->text(0));
+            }
+        }
         else return QString();
     };
     return QString();
@@ -416,14 +426,58 @@ void DataBrowser::initConnections()
 {
     ui->dataTree->clear();
     QList<QTreeWidgetItem *>items;
-    foreach(QString connectionName,m_report->dataManager()->connectionNames()){
-        QTreeWidgetItem *item=new QTreeWidgetItem(ui->dataTree,QStringList(connectionName), DataBrowserTree::Connection);
-        if (m_report->dataManager()->isConnectionConnected(connectionName))
+
+    QStringList connections = QSqlDatabase::connectionNames();
+    foreach(QString connectionName, m_report->dataManager()->connectionNames()){
+        if (!connections.contains(connectionName,Qt::CaseInsensitive)){
+            connections.append(connectionName);
+        }
+    }
+    qSort(connections);
+    foreach (QString connectionName, connections) {
+        QTreeWidgetItem *item=new QTreeWidgetItem(
+            ui->dataTree,
+            QStringList(ConnectionDesc::connectionNameForUser(connectionName)),
+            DataBrowserTree::Connection
+        );
+        if (!m_report->dataManager()->connectionNames().contains(ConnectionDesc::connectionNameForReport(connectionName), Qt::CaseInsensitive))
+        {
             item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
-        else
-            item->setIcon(0,QIcon(":/databrowser/images/database_disconnected"));
+        } else {
+            if (m_report->dataManager()->isConnectionConnected(connectionName))
+                item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
+            else
+                item->setIcon(0,QIcon(":/databrowser/images/database_disconnected"));
+        }
         items.append(item);
     }
+
+
+//    foreach (QString connectionName, connections) {
+//        QTreeWidgetItem *item=new QTreeWidgetItem(
+//            ui->dataTree,
+//            QStringList(ConnectionDesc::connectionNameForUser(connectionName)),
+//            DataBrowserTree::Connection
+//        );
+//        item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
+//    }
+
+//    connections = m_report->dataManager()->connectionNames();
+//    qSort(connections);
+//    foreach(QString connectionName,connectionName){
+//        if (!QSqlDatabase::contains(connectionName)){
+//            QTreeWidgetItem *item=new QTreeWidgetItem(
+//                ui->dataTree,
+//                QStringList(ConnectionDesc::connectionNameForUser(connectionName)),
+//                DataBrowserTree::Connection
+//            );
+//            if (m_report->dataManager()->isConnectionConnected(connectionName))
+//                item->setIcon(0,QIcon(":/databrowser/images/database_connected"));
+//            else
+//                item->setIcon(0,QIcon(":/databrowser/images/database_disconnected"));
+//            items.append(item);
+//        }
+//    }
     ui->dataTree->insertTopLevelItems(0,items);
 }
 
@@ -482,10 +536,10 @@ void DataBrowser::slotDataWindowClosed()
 
 void DataBrowser::slotChangeConnection()
 {
-    if (!getConnectionName().isEmpty()){
+    if (!getConnectionName(NameForUser).isEmpty()){
         ConnectionDialog *connectionEdit = new ConnectionDialog(
             this,
-            m_report->dataManager()->connectionByName(getConnectionName()),
+            m_report->dataManager()->connectionByName(getConnectionName(NameForReport)),
             this
         );
         connectionEdit->setAttribute(Qt::WA_DeleteOnClose,true);
@@ -501,7 +555,7 @@ void DataBrowser::slotChangeConnection()
 
 void DataBrowser::slotChangeConnectionState()
 {
-    QString connectionName = getConnectionName();
+    QString connectionName = getConnectionName(NameForReport);
     if (!connectionName.isEmpty()){
         if (!m_report->dataManager()->isConnectionConnected(connectionName)){
             setCursor(Qt::WaitCursor);
@@ -626,6 +680,13 @@ bool DataBrowser::checkConnectionDesc(ConnectionDesc *connection)
     return result;
 }
 
+bool DataBrowser::containsDefaultConnection()
+{
+    bool result = m_report->dataManager()->connectionByName(QSqlDatabase::defaultConnection) ||
+            QSqlDatabase::contains(QSqlDatabase::defaultConnection);
+    return result;
+}
+
 QString DataBrowser::lastError() const
 {
     return m_lastError;
@@ -640,7 +701,7 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
 {
     Q_UNUSED(previous)
     if (current&&(current->type() == DataBrowserTree::Connection)) {
-        ui->pbConnect->setEnabled(true);
+        bool internalConnection = m_report->dataManager()->connectionByName(ConnectionDesc::connectionNameForReport(current->text(0)));
         if (m_report->dataManager()->isConnectionConnected(current->text(0))){
             ui->pbConnect->setIcon(QIcon(":/databrowser/images/plug-connect.png"));
         } else {
@@ -648,9 +709,10 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
         }
         ui->editDataSource->setEnabled(false);
         ui->deleteDataSource->setEnabled(false);
-        ui->viewDataSource->setEnabled(false);
-        ui->changeConnection->setEnabled(true);
-        ui->deleteConection->setEnabled(true);
+        ui->viewDataSource->setEnabled(false);        
+        ui->pbConnect->setEnabled(internalConnection);
+        ui->changeConnection->setEnabled(internalConnection);
+        ui->deleteConection->setEnabled(internalConnection);
         ui->errorMessage->setDisabled(true);
     } else {
         ui->changeConnection->setEnabled(false);
@@ -779,13 +841,3 @@ void DataBrowser::on_variablesTree_itemDoubleClicked(QTreeWidgetItem *item, int 
 }
 
 } // namespace LimeReport
-
-
-
-
-
-
-
-
-
-

@@ -121,11 +121,11 @@
         <file alias="/images/textBold">images/text_bold1.png</file>
         <file alias="/images/textItalic">images/text_italic1.png</file>
         <file alias="/images/textUnderline">images/text_underline1.png</file>
-        <file alias="/images/editMode">images/edit_control_3_24.png</file>
+        <file>images/edit_control_3_24.png</file>
         <file alias="/images/editlayout">images/edit_layout_4_24.png</file>
-        <file alias="/images/hlayout">images/hlayuot_3_24.png</file>
-        <file alias="/images/addBand">images/addBand1.png</file>
-        <file alias="/images/delete">images/delete1.png</file>
+        <file>images/hlayuot_3_24.png</file>
+        <file>images/addBand1.png</file>
+        <file>images/delete1.png</file>
         <file alias="/images/copy">images/copy2.png</file>
         <file alias="/images/newReport">images/new_leaf1.png</file>
         <file alias="/images/paste">images/paste1.png</file>
@@ -165,8 +165,14 @@
         <file>images/FitWidth.png</file>
         <file>images/OneToOne.png</file>
         <file alias="/images/logo32">images/logo_32x32.png</file>
+        <file alias="/images/addPage">images/addPage1.png</file>
+        <file alias="/images/deletePage">images/deletePage1.png</file>
         <file alias="/images/toolbar">images/toolbar.png</file>
         <file>images/not_checked.png</file>
         <file>images/checked.png</file>
+        <file alias="/images/hlayout">images/hlayuot_4_24.png</file>
+        <file alias="/images/delete">images/delete2.png</file>
+        <file alias="/images/addBand">images/addBand2.png</file>
+        <file alias="/images/editMode">images/edit_control_4_24.png</file>
     </qresource>
 </RCC>

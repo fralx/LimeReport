@@ -36,7 +36,7 @@
 
 namespace LimeReport{
 
-class XmlBaseSerializator : public SerializatorIntf{
+class XmlBaseSerializator : public virtual SerializatorIntf{
 public:
     XmlBaseSerializator(QDomDocument *doc, QDomElement *node):m_doc(doc),m_node(node){}
 protected:
@@ -48,10 +48,21 @@ private:
     QDomElement     *m_node;
 };
 
-class XmlQStringSerializator : public XmlBaseSerializator
+class XmlCryptedSerializator : public XmlBaseSerializator, public virtual CryptedSerializator{
+public:
+    XmlCryptedSerializator(QDomDocument *doc, QDomElement *node)
+        :XmlBaseSerializator(doc, node){}
+    virtual void setPassPhrase(const QString& passPhrase) {m_passPhrase = passPhrase;}
+protected:
+    QString passPhrase(){ return m_passPhrase;}
+private:
+    QString m_passPhrase;
+};
+
+class XmlQStringSerializator : public XmlCryptedSerializator
 {
 public:
-    XmlQStringSerializator(QDomDocument *doc, QDomElement *node):XmlBaseSerializator(doc,node){}
+    XmlQStringSerializator(QDomDocument *doc, QDomElement *node):XmlCryptedSerializator(doc,node){}
 private:
     virtual void save(const QVariant &value,QString name);
     virtual QVariant loadValue();

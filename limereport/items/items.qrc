@@ -14,7 +14,7 @@
         <file>images/imageItem2.png</file>
         <file>images/settings.png</file>
         <file>images/settings2.png</file>
-        <file alias="HorizontalLayout">images/hlayuot_3_24.png</file>
+        <file>images/hlayuot_3_24.png</file>
         <file alias="Band">images/addBand1.png</file>
         <file>images/DataBand.png</file>
         <file>images/PageHeader.png</file>
@@ -34,8 +34,12 @@
         <file alias="GroupBandHeader">images/GroupHeader16.png</file>
         <file alias="PageItemDesignIntf">images/ReportPage16.png</file>
         <file alias="TextItem">images/insert-text_6.png</file>
-        <file alias="BarcodeItem">images/barcode3.png</file>
-        <file alias="ShapeItem">images/shape6.png</file>
-        <file alias="ImageItem">images/imageItem3.png</file>
+        <file>images/barcode3.png</file>
+        <file>images/shape6.png</file>
+        <file>images/imageItem3.png</file>
+        <file>images/barcode4.png</file>
+        <file alias="ImageItem">images/imageItem4.png</file>
+        <file alias="ShapeItem">images/shapes7.png</file>
+        <file alias="BarcodeItem">images/barcode5.png</file>
     </qresource>
 </RCC>

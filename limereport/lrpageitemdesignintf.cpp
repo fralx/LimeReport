@@ -33,6 +33,7 @@
 
 #include <QGraphicsScene>
 #include <QPrinter>
+#include <QMenu>
 
 namespace LimeReport {
 
@@ -48,7 +49,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
-    m_fullPage(false), m_oldPrintMode(false)
+    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -59,7 +60,7 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     BaseDesignIntf("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
-    m_fullPage(false), m_oldPrintMode(false)
+    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -300,6 +301,21 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+bool PageItemDesignIntf::resetPageNumber() const
+{
+    return m_resetPageNumber;
+}
+
+void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
+{
+    if (m_resetPageNumber!=resetPageNumber){
+        m_resetPageNumber = resetPageNumber;
+        if (!isLoading()){
+            notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
+        }
+    }
+}
+
 bool PageItemDesignIntf::oldPrintMode() const
 {
     return m_oldPrintMode;
@@ -503,6 +519,14 @@ void PageItemDesignIntf::initPageSize(const QSizeF& size)
     setWidth(size.width());
     setHeight(size.height());
     m_sizeChainging=false;
+}
+
+void PageItemDesignIntf::preparePopUpMenu(QMenu &menu)
+{
+    foreach (QAction* action, menu.actions()) {
+        if (action->text().compare(tr("Paste")) != 0)
+            action->setVisible(false);
+    }
 }
 void PageItemDesignIntf::initPageSize(const PageItemDesignIntf::PageSize &size)
 {

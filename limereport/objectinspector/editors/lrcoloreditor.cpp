@@ -53,6 +53,7 @@ ColorEditor::ColorEditor(QWidget *parent) :
     setFocusProxy(m_button);
     setAutoFillBackground(true);
     setLayout(layout);
+    setAutoFillBackground(true);
     connect(m_button,SIGNAL(clicked()),this,SLOT(slotClicked()));
 }
 

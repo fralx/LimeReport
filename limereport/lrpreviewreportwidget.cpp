@@ -174,8 +174,12 @@ void PreviewReportWidget::print()
 
 void PreviewReportWidget::printToPDF()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF(*.pdf)" );
+    QString filter = "PDF (*.pdf)";
+    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF (*.pdf)");
     if (!fileName.isEmpty()){
+        QFileInfo fi(fileName);
+        if (fi.suffix().isEmpty())
+            fileName+=".pdf";
         QPrinter printer;
         printer.setOutputFileName(fileName);
         printer.setOutputFormat(QPrinter::PdfFormat);

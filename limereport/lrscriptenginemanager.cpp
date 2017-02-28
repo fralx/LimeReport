@@ -32,6 +32,11 @@
 #include <QDate>
 #include <QStringList>
 #include <QScriptValueIterator>
+#ifdef HAVE_UI_LOADER
+#include <QUiLoader>
+#include <QBuffer>
+#include <QWidget>
+#endif
 #include "lrdatasourcemanager.h"
 
 Q_DECLARE_METATYPE(QColor)
@@ -215,6 +220,28 @@ QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
     return QScriptValue();
 }
 
+QScriptValue getVariable(QScriptContext* pcontext, QScriptEngine* pengine){
+
+    QString name = pcontext->argument(0).toString();
+
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
+    QScriptValue res = pengine->newVariant(dm->variable(name));
+
+    return res;
+}
+
+QScriptValue getField(QScriptContext* pcontext, QScriptEngine* pengine){
+
+    QString name = pcontext->argument(0).toString();
+
+    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
+    DataSourceManager* dm = sm->dataManager();
+    QScriptValue res = pengine->newVariant(dm->fieldData(name));
+
+    return res;
+}
+
 QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
@@ -275,8 +302,17 @@ QScriptValue callGroupFunction(const QString& functionName, QScriptContext* pcon
     ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
     DataSourceManager* dm = sm->dataManager();
 
-    QString expression = pcontext->argument(0).toString();
-    QString band = pcontext->argument(1).toString();
+    QString expression;
+    QString band;
+
+    if (functionName.compare("COUNT",Qt::CaseInsensitive) == 0 && pcontext->argumentCount()==1){
+        expression = " ";
+        band = pcontext->argument(0).toString();
+    } else {
+        expression = dm->getExpression(pcontext->argument(0).toString());
+        band = pcontext->argument(1).toString();
+    }
+
     QScriptValue res;
     GroupFunction* gf = dm->groupFunction(functionName,expression,band);
     if (gf){
@@ -391,7 +427,7 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
         if (m_dataManager){
             foreach(QString func, m_dataManager->groupFunctionNames()){
                 if (isFunctionExists(func)) deleteFunction(func);
-                addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
+                addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("Value")+"\",\""+tr("BandName")+"\")");
             }
             foreach(ScriptFunctionDesc func, m_functions){
                 if (func.type==ScriptFunctionDesc::Native)
@@ -399,6 +435,172 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
             }
         }
     }
+}
+
+QString ScriptEngineManager::expandUserVariables(QString context, RenderPass pass, ExpandType expandType, QVariant &varValue)
+{
+    QRegExp rx(Const::VARIABLE_RX);
+    if (context.contains(rx)){
+        int pos = 0;
+        while ((pos = rx.indexIn(context,pos))!=-1){
+            QString variable=rx.cap(1);
+            pos += rx.matchedLength();
+            if (dataManager()->containsVariable(variable) ){
+                try {
+                    if (pass==dataManager()->variablePass(variable)){
+                        varValue = dataManager()->variable(variable);
+                        switch (expandType){
+                        case EscapeSymbols:
+                            context.replace(rx.cap(0),escapeSimbols(varValue.toString()));
+                        break;
+                        case NoEscapeSymbols:
+                            context.replace(rx.cap(0),varValue.toString());
+                        break;
+                        case ReplaceHTMLSymbols:
+                            context.replace(rx.cap(0),replaceHTMLSymbols(varValue.toString()));
+                        break;
+                        }
+                        pos=0;
+                    }
+                } catch (ReportError e){
+                    dataManager()->putError(e.what());
+                    if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                        context.replace(rx.cap(0),e.what());
+                    else
+                        context.replace(rx.cap(0),"");
+                }
+            } else {
+                QString error;
+                error = tr("Variable %1 not found").arg(variable);
+                dataManager()->putError(error);
+                if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(rx.cap(0),error);
+                else
+                    context.replace(rx.cap(0),"");
+            }
+        }
+    }
+    return context;
+}
+
+QString ScriptEngineManager::expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject *reportItem)
+{
+    QRegExp rx(Const::FIELD_RX);
+
+    if (context.contains(rx)){
+        while ((rx.indexIn(context))!=-1){
+            QString field=rx.cap(1);
+
+            if (dataManager()->containsField(field)) {
+                QString fieldValue;
+                varValue = dataManager()->fieldData(field);
+                if (expandType == EscapeSymbols) {
+                    if (dataManager()->fieldData(field).isNull()) {
+                        fieldValue="\"\"";
+                    } else {
+                        fieldValue = escapeSimbols(varValue.toString());
+                        switch (dataManager()->fieldData(field).type()) {
+                        case QVariant::Char:
+                        case QVariant::String:
+                        case QVariant::StringList:
+                        case QVariant::Date:
+                        case QVariant::DateTime:
+                            fieldValue = "\""+fieldValue+"\"";
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                } else {
+                    if (expandType == ReplaceHTMLSymbols)
+                        fieldValue = replaceHTMLSymbols(varValue.toString());
+                    else fieldValue = varValue.toString();
+                }
+
+                context.replace(rx.cap(0),fieldValue);
+
+            } else {
+                QString error = QString("Field %1 not found in %2 !!! ").arg(field).arg(reportItem->objectName());
+                dataManager()->putError(error);
+                varValue = QVariant();
+                if (!dataManager()->reportSettings() || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(rx.cap(0),error);
+                else
+                    context.replace(rx.cap(0),"");
+            }
+        }
+    }
+
+    return context;
+}
+
+QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, QObject *reportItem)
+{
+    QRegExp rx(Const::SCRIPT_RX);
+
+    if (context.contains(rx)){
+
+        if (ScriptEngineManager::instance().dataManager()!=dataManager())
+            ScriptEngineManager::instance().setDataManager(dataManager());
+
+        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+
+        if (reportItem){
+            QScriptValue svThis =  se->globalObject().property("THIS");
+            if (svThis.isValid()){
+                se->newQObject(svThis, this);
+            } else {
+                svThis = se->newQObject(this);
+                se->globalObject().setProperty("THIS",svThis);
+            }
+        }
+
+        ScriptExtractor scriptExtractor(context);
+        if (scriptExtractor.parse()){
+            for(int i=0; i<scriptExtractor.count();++i){
+                QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols, varValue, reportItem);
+                scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
+                QScriptValue value = se->evaluate(scriptBody);
+                if (!se->hasUncaughtException()) {
+                    varValue = value.toVariant();
+                    context.replace(scriptExtractor.scriptAt(i),value.toString());
+                } else {
+                    context.replace(scriptExtractor.scriptAt(i),se->uncaughtException().toString());
+                }
+            }
+        }
+    }
+    return context;
+}
+
+QVariant ScriptEngineManager::evaluateScript(const QString& script){
+
+    QRegExp rx(Const::SCRIPT_RX);
+    QVariant varValue;
+
+    if (script.contains(rx)){
+
+        if (ScriptEngineManager::instance().dataManager()!=dataManager())
+            ScriptEngineManager::instance().setDataManager(dataManager());
+
+        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+
+        ScriptExtractor scriptExtractor(script);
+        if (scriptExtractor.parse()){
+            QString scriptBody = expandDataFields(scriptExtractor.bodyAt(0),EscapeSymbols, varValue, 0);
+            scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
+            QScriptValue value = se->evaluate(scriptBody);
+            if (!se->hasUncaughtException()) {
+                return value.toVariant();
+            }
+        }
+    }
+    return QVariant();
+}
+
+void ScriptEngineManager::updateModel()
+{
+
 }
 
 ScriptEngineManager::ScriptEngineManager()
@@ -421,6 +623,8 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
 #endif
     addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
+    addFunction("getVariable", getVariable, "GENERAL", "getVariable(\""+tr("Name")+"\")");
+    addFunction("getField", getField, "GENERAL", "getField(\""+tr("Name")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
@@ -550,6 +754,197 @@ bool ScriptExtractor::isStartVariableLexem(int &curPos)
 QString ScriptExtractor::substring(const QString &value, int start, int end)
 {
     return value.mid(start,end-start);
+}
+
+QString DialogDescriber::name() const
+{
+    return m_name;
+}
+
+void DialogDescriber::setName(const QString& name)
+{
+    m_name = name;
+}
+
+QByteArray DialogDescriber::description() const
+{
+    return m_description;
+}
+
+void DialogDescriber::setDescription(const QByteArray &description)
+{
+    m_description = description;
+}
+
+#ifdef HAVE_UI_LOADER
+void ScriptEngineContext::addDialog(const QString& name, const QByteArray& description)
+{
+    m_dialogs.push_back(DialogDescriber::create(name,description));
+}
+
+bool ScriptEngineContext::previewDialog(const QString& dialogName)
+{
+    QDialog* dialog = getDialog(dialogName);
+    if (dialog) {
+        dialog->exec();
+        return true;
+    } else {
+        m_lastError = tr("Dialog with name: %1 can`t be created").arg(dialogName);
+        return false;
+    }
+}
+
+bool ScriptEngineContext::containsDialog(const QString& dialogName)
+{
+    foreach(DialogDescriber::Ptr dialog, m_dialogs){
+        if (dialog->name()==dialogName)
+            return true;
+    }
+    return false;
+}
+
+void ScriptEngineContext::deleteDialog(const QString& dialogName)
+{
+    {
+        QVector<DialogDescriber::Ptr>::Iterator it = m_dialogs.begin();
+        while(it!=m_dialogs.end()){
+            if ((*it)->name()==dialogName){
+                it = m_dialogs.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+    {
+        QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
+        while(it!=m_createdDialogs.end()){
+            if ((*it)->objectName()==dialogName){
+                it = m_createdDialogs.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+}
+
+#endif
+
+void ScriptEngineContext::clear()
+{
+#ifdef HAVE_UI_LOADER
+    m_dialogs.clear();
+    m_createdDialogs.clear();
+#endif
+    m_initScript.clear();
+    m_lastError="";
+}
+
+QObject* ScriptEngineContext::createElement(const QString& collectionName, const QString& elementType)
+{
+    Q_UNUSED(elementType)
+#ifdef HAVE_UI_LOADER
+    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+        m_dialogs.push_back(DialogDescriber::create());
+        return m_dialogs.at(m_dialogs.count()-1).data();
+    }
+#else
+    Q_UNUSED(collectionName)
+#endif
+    return 0;
+}
+
+int ScriptEngineContext::elementsCount(const QString& collectionName)
+{
+#ifdef HAVE_UI_LOADER
+    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+        return m_dialogs.count();
+    };
+#else
+    Q_UNUSED(collectionName)
+#endif
+    return 0;
+}
+
+QObject* ScriptEngineContext::elementAt(const QString& collectionName, int index)
+{
+#ifdef HAVE_UI_LOADER
+    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+        return m_dialogs.at(index).data();
+    };
+#else
+    Q_UNUSED(collectionName)
+    Q_UNUSED(index)
+#endif
+    return 0;
+}
+
+void ScriptEngineContext::collectionLoadFinished(const QString& collectionName)
+{
+    Q_UNUSED(collectionName);
+}
+
+#ifdef HAVE_UI_LOADER
+QDialog* ScriptEngineContext::createDialog(DialogDescriber* cont)
+{
+    QUiLoader loader;
+    QByteArray desc = cont->description();
+    QBuffer buffer(&desc);
+    buffer.open(QIODevice::ReadOnly);
+    QDialog* dialog = dynamic_cast<QDialog*>(loader.load(&buffer));
+    m_createdDialogs.push_back(QSharedPointer<QDialog>(dialog));
+    return dialog;
+}
+
+QDialog* ScriptEngineContext::findDialog(const QString& dialogName)
+{
+    foreach(DialogPtr dialog, m_createdDialogs){
+        if (dialog->objectName()==dialogName)
+            return dialog.data();
+    }
+    return 0;
+}
+
+DialogDescriber* ScriptEngineContext::findDialogContainer(const QString& dialogName)
+{
+    foreach (DialogDescriber::Ptr dialogCont , m_dialogs) {
+        if (dialogCont->name().compare(dialogName,Qt::CaseInsensitive)==0){
+            return dialogCont.data();
+        }
+    }
+    return 0;
+}
+
+QDialog* ScriptEngineContext::getDialog(const QString& dialogName)
+{
+    QDialog* dialog = findDialog(dialogName);
+    if (dialog){
+        return dialog;
+    } else {
+        DialogDescriber* cont = findDialogContainer(dialogName);
+        if (cont){
+            dialog = createDialog(cont);
+            if (dialog)
+                return dialog;
+        }
+    }
+    return 0;
+}
+#endif
+QString ScriptEngineContext::initScript() const
+{
+    return m_initScript;
+}
+
+void ScriptEngineContext::setInitScript(const QString& initScript)
+{
+    m_initScript = initScript;
+}
+
+DialogDescriber::Ptr DialogDescriber::create(const QString& name, const QByteArray& desc) {
+    Ptr res(new DialogDescriber());
+    res->setName(name);
+    res->setDescription(desc);
+    return res;
 }
 
 } //namespace LimeReport

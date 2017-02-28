@@ -61,12 +61,25 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     setCentralWidget(m_previewReportWidget);
     layout()->setContentsMargins(1,1,1,1);
     connect(m_previewReportWidget,SIGNAL(pageChanged(int)), this,SLOT(slotPageChanged(int)) );
+    connect(m_previewReportWidget->d_ptr->m_previewPage,SIGNAL(selectionChanged()),this,SLOT(slotSelectionChanged()));
+    connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
 
+    m_fontEditor = new FontEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
+    m_fontEditor->setObjectName("fontTools");
+    m_fontEditor->setIconSize(ui->toolBar->iconSize());
+    m_textAlignmentEditor = new TextAlignmentEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Text align"),this);
+    m_textAlignmentEditor->setObjectName("textAlignmentTools");
+    m_textAlignmentEditor->setIconSize(ui->toolBar->iconSize());
+    addToolBar(Qt::TopToolBarArea,m_fontEditor);
+    addToolBar(Qt::TopToolBarArea,m_textAlignmentEditor);
 
     m_scalePercent = new QComboBox(this);
     m_scalePercent->setEditable(true);
     ui->toolBar->insertWidget(ui->actionZoomOut, m_scalePercent);
     initPercentCombobox();
+    
+//    connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
+    connect(ui->actionShowMessages, SIGNAL(triggered()), this, SLOT(slotShowErrors()));
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
     restoreSetting();
@@ -153,6 +166,11 @@ void PreviewReportWindow::setMenuVisible(bool value)
     ui->menubar->setVisible(value);
 }
 
+void PreviewReportWindow::setHideResultEditButton(bool value)
+{
+    ui->actionEdit_Mode->setVisible(value);
+}
+
 QSettings*PreviewReportWindow::settings()
 {
     if (m_settings){
@@ -226,6 +244,11 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 #endif
 }
 
+void PreviewReportWindow::showEvent(QShowEvent *)
+{
+    m_fontEditor->setVisible(ui->actionEdit_Mode->isChecked());
+    m_textAlignmentEditor->setVisible(ui->actionEdit_Mode->isChecked());
+}
 void PreviewReportWindow::selectStateIcon()
 {
     if (ui->toolBar->isHidden()){
@@ -268,6 +291,28 @@ void PreviewReportWindow::slotPageNavigatorChanged(int value)
 void PreviewReportWindow::slotShowErrors()
 {
     m_previewReportWidget->setErrorsMesagesVisible(ui->actionShowMessages->isChecked());
+}
+
+void PreviewReportWindow::on_actionEdit_Mode_triggered(bool checked)
+{
+    m_previewReportWidget->d_ptr->m_previewPage->setItemMode((checked)?ItemModes(DesignMode):PreviewMode);
+    m_textAlignmentEditor->setVisible(checked);
+    m_fontEditor->setVisible(checked);
+    //m_reportPages.at(m_currentPage)->setItemMode((checked)?DesignMode:PreviewMode);
+}
+
+void PreviewReportWindow::slotSelectionChanged()
+{
+    QGraphicsScene* page=dynamic_cast<QGraphicsScene*>(sender());
+    if (page){
+        if (page->selectedItems().count()==1){
+            BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(page->selectedItems().at(0));
+            if (item) {
+                m_fontEditor->setItem(item);
+                m_textAlignmentEditor->setItem(item);
+            }
+        }
+    }
 }
 
 ItemsReaderIntf *PreviewReportWindow::reader()

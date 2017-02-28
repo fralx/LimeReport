@@ -51,4 +51,20 @@ void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentF
     m_suppressAbsentFieldsAndVarsWarnings = suppressAbsentFieldsAndVarsWarnings;
 }
 
+QString escapeSimbols(const QString &value)
+{
+    QString result = value;
+    result.replace("\"","\\\"");
+    result.replace('\n',"\\n");
+    return result;
+}
+
+QString replaceHTMLSymbols(const QString &value)
+{
+    QString result = value;
+    result.replace("<","&lt;");
+    result.replace(">","&gt;");
+    return result;
+}
+
 } //namespace LimeReport

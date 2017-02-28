@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/scriptbrowser">
+        <file alias="/images/dialog">images/Dialog.png</file>
+        <file alias="/images/dialog_add">images/Dialog_add.png</file>
+        <file alias="/images/dialog_delete">images/Dialog_delete.png</file>
+        <file alias="/images/dialog_run">images/Dialog_run.png</file>
+        <file alias="/images/function">images/function3.png</file>
+        <file alias="/images/function_add">images/function_add.png</file>
+        <file alias="/images/function_delete">images/function_delete.png</file>
+        <file alias="/images/function_edit">images/function_edit.png</file>
+        <file>images/green_cube.png</file>
+        <file alias="/images/item">images/green_cube1.png</file>
+    </qresource>
+</RCC>

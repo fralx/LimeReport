@@ -41,6 +41,16 @@ FontEditorWidget::FontEditorWidget(ReportDesignWidget *reportEditor, QWidget *pa
     initEditor();
 }
 
+FontEditorWidget::FontEditorWidget(PageDesignIntf *page, const QString &title, QWidget *parent)
+    :ItemEditorWidget(page,title,parent), m_ignoreSlots(false) {
+    initEditor();
+}
+
+FontEditorWidget::FontEditorWidget(LimeReport::PageDesignIntf *page, QWidget *parent)
+    :ItemEditorWidget(page,parent), m_ignoreSlots(false){
+    initEditor();
+}
+
 void FontEditorWidget::setItemEvent(BaseDesignIntf* item)
 {
 
@@ -112,26 +122,31 @@ void FontEditorWidget::updateValues(const QFont& font)
 void FontEditorWidget::slotFontChanged(const QFont &font)
 {
     if (reportEditor() && !m_ignoreSlots) reportEditor()->setFont(font);
+    if (page()) page()->setFont(font);
 }
 
 void FontEditorWidget::slotFontSizeChanged(const QString &value)
 {
-    if (reportEditor() && !m_ignoreSlots){
-        QFont resFont(m_fontNameEditor->currentFont());
-        resFont.setPointSize(value.toInt());
-        reportEditor()->setFont(resFont);
-    }
+    if (m_ignoreSlots) return;
+
+    QFont resFont(fontNameEditor()->currentFont());
+    resFont.setPointSize(value.toInt());
+
+    if (reportEditor()) reportEditor()->setFont(resFont);
+    if (page()) page()->setFont(resFont);
 }
 
 void FontEditorWidget::slotFontAttribsChanged(bool)
 {
-    if (reportEditor()&& !m_ignoreSlots){
-        QFont resFont(m_fontNameEditor->currentFont());
-        resFont.setBold(m_fontBold->isChecked());
-        resFont.setItalic(m_fontItalic->isChecked());
-        resFont.setUnderline(m_fontUnderline->isChecked());
-        reportEditor()->setFont(resFont);
-    }
+    if (m_ignoreSlots) return;
+
+    QFont resFont(m_fontNameEditor->currentFont());
+    resFont.setBold(m_fontBold->isChecked());
+    resFont.setItalic(m_fontItalic->isChecked());
+    resFont.setUnderline(m_fontUnderline->isChecked());
+    if (reportEditor()) reportEditor()->setFont(resFont);
+    if (page()) page()->setFont(resFont);
+
 }
 
 void FontEditorWidget::slotPropertyChanged(const QString &objectName, const QString &property, const QVariant& oldValue, const QVariant& newValue)

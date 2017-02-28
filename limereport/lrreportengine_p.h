@@ -55,7 +55,8 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer
     Q_OBJECT
     Q_DECLARE_PUBLIC(ReportEngine)
     Q_PROPERTY(ACollectionProperty pages READ fakeCollectionReader())
-    Q_PROPERTY(QObject* datasourcesManager READ dataManager())
+    Q_PROPERTY(QObject* datasourcesManager READ dataManager)
+    Q_PROPERTY(QObject* scriptContext READ scriptContext)
     Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)
     friend class PreviewReportWidget;
 public:
@@ -64,12 +65,16 @@ public:
 public:
     explicit ReportEnginePrivate(QObject *parent = 0);
     virtual ~ReportEnginePrivate();
-    PageDesignIntf*     appendPage(const QString &pageName = "");
-    PageDesignIntf*     createPreviewPage();
-    PageDesignIntf*     pageAt(int index){return (index<=(m_pages.count()-1)) ? m_pages.at(index):0;}
-    int                 pageCount() {return m_pages.count();}
-    DataSourceManager*  dataManager(){return m_datasources;}
-    IDataSourceManager* dataManagerIntf(){return m_datasources;}
+
+    PageDesignIntf*      appendPage(const QString& pageName="");
+    bool deletePage(PageDesignIntf *page);
+    PageDesignIntf*      createPreviewPage();
+    PageDesignIntf*      pageAt(int index){return (index<=(m_pages.count()-1)) ? m_pages.at(index):0;}
+    int                  pageCount() {return m_pages.count();}
+    DataSourceManager*   dataManager(){return m_datasources;}
+    ScriptEngineContext* scriptContext(){return m_scriptEngineContext;}
+    ScriptEngineManager* scriptManager(){return &ScriptEngineManager::instance();}
+    IDataSourceManager*  dataManagerIntf(){return m_datasources;}
 
     IScriptEngineManager* scriptManagerIntf(){
         ScriptEngineManager::instance().setDataManager(dataManager());
@@ -78,6 +83,7 @@ public:
 
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
+    bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
@@ -116,6 +122,11 @@ public:
     bool suppressFieldAndVarError() const;
     void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
     bool isBusy();
+    bool resultIsEditable() const;
+    void setResultEditable(bool value);
+
+    void setPassPhrase(const QString &passPhrase);
+
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -148,6 +159,7 @@ private:
 private:
     QList<PageDesignIntf*> m_pages;
     DataSourceManager* m_datasources;
+    ScriptEngineContext* m_scriptEngineContext;
     ReportRender::Ptr m_reportRender;
     QString m_fileName;
     QString m_lastError;
@@ -164,6 +176,8 @@ private:
     QPointer<ReportDesignWindow> m_designerWindow;
     ReportSettings m_reportSettings;
     bool m_reportRendering;
+    bool m_resultIsEditable;
+    QString m_passPhrase;
 };
 
 }

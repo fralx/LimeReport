@@ -73,8 +73,8 @@ class DataSourceModel : public QAbstractItemModel{
 public:
     DataSourceModel():m_rootNode(new DataNode()){}
     DataSourceModel(DataSourceManager* dataManager);
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
     ~DataSourceModel();
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -115,6 +115,7 @@ public:
     bool addModel(const QString& name, QAbstractItemModel *model, bool owned);
     void removeModel(const QString& name);
     ICallbackDatasource* createCallbackDatasouce(const QString &name);
+    void registerDbCredentialsProvider(IDbCredentialsProvider *provider);
     void addCallbackDatasource(ICallbackDatasource *datasource, const QString &name);
     void setReportVariable(const QString& name, const QVariant& value);
     void deleteVariable(const QString& name);
@@ -131,7 +132,7 @@ public:
     QString queryText(const QString& dataSourceName);
     QString connectionName(const QString& dataSourceName);
     void removeDatasource(const QString& name);
-    void removeConnection(const QString& name);
+    void removeConnection(const QString& connectionName);
     bool isQuery(const QString& dataSourceName);
     bool containsDatasource(const QString& dataSourceName);
     bool isSubQuery(const QString& dataSourceName);
@@ -150,6 +151,7 @@ public:
     int proxyIndexByName(const QString& dataSourceName);
     int connectionIndexByName(const QString& connectionName);
 
+    QList<ConnectionDesc *> &conections();
     bool dataSourceIsValid(const QString& name);
     IDataSource* dataSource(const QString& name);
     IDataSourceHolder* dataSourceHolder(const QString& name);
@@ -192,6 +194,13 @@ public:
     QString defaultDatabasePath() const;
     void setDefaultDatabasePath(const QString &defaultDatabasePath);
 
+    QString putGroupFunctionsExpressions(QString expression);
+    void    clearGroupFuntionsExpressions();
+    QString getExpression(QString index);
+
+    ReportSettings *reportSettings() const;
+    void setReportSettings(ReportSettings *reportSettings);
+
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
@@ -214,8 +223,7 @@ protected:
     void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
-
-    bool checkConnection(QSqlDatabase &db);
+    bool checkConnection(QSqlDatabase db);
 private slots:
     void slotConnectionRenamed(const QString& oldName,const QString& newName);
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
@@ -241,7 +249,12 @@ private:
     bool m_designTime;
     bool m_needUpdate;
     QString m_defaultDatabasePath;
+    ReportSettings* m_reportSettings;
+    QHash<QString,int> m_groupFunctionsExpressionsMap;
+    QVector<QString> m_groupFunctionsExpressions;
+    IDbCredentialsProvider* m_dbCredentialsProvider;
 };
 
 }
 #endif // LRDATASOURCEMANAGER_H
+

@@ -44,11 +44,14 @@ public:
     XMLWriter(QSharedPointer<QDomDocument> doc);
     ~XMLWriter() {}
 private:
+    // ItemsWriterIntf interface
     void  putItem(QObject* item);
     bool  saveToFile(QString fileName);
     QString saveToString();
     QByteArray saveToByteArray();
+    void setPassPhrase(const QString &passPhrase);
 
+    void init();
     QDomElement putQObjectItem(QString name, QObject* item);
     void putChildQObjectItem(QString name, QObject* item, QDomElement* parentNode);
     void putCollectionItem(QObject* item, QDomElement* parentNode=0);
@@ -66,6 +69,7 @@ private:
     QSharedPointer<QDomDocument> m_doc;
     QString m_fileName;
     QDomElement m_rootElement;
+    QString m_passPhrase;
 };
 
 }

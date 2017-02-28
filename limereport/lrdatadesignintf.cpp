@@ -350,12 +350,14 @@ void ModelToDataSource::slotModelDestroed()
 
 ConnectionDesc::ConnectionDesc(QSqlDatabase db, QObject *parent)
     : QObject(parent), m_connectionName(db.connectionName()), m_connectionHost(db.hostName()), m_connectionDriver(db.driverName()),
-      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false)
+      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false),
+      m_internal(false), m_keepDBCredentials(true)
 {}
 
 ConnectionDesc::ConnectionDesc(QObject *parent)
     :QObject(parent),m_connectionName(""),m_connectionHost(""),m_connectionDriver(""),
-      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false)
+      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false),
+      m_internal(false), m_keepDBCredentials(true)
 {}
 
 ConnectionDesc::Ptr ConnectionDesc::create(QSqlDatabase db, QObject *parent)
@@ -376,7 +378,27 @@ bool ConnectionDesc::isEqual(const QSqlDatabase &db)
            (db.hostName() == m_connectionHost) &&
            (db.connectionName() == m_connectionName) &&
            (db.userName() == m_user) &&
-           (db.password() == m_password);
+            (db.password() == m_password);
+}
+
+QString ConnectionDesc::connectionNameForUser(const QString &connectionName)
+{
+    return connectionName.compare(QSqlDatabase::defaultConnection) == 0 ? tr("defaultConnection") : connectionName;
+}
+
+QString ConnectionDesc::connectionNameForReport(const QString &connectionName)
+{
+    return connectionName.compare(tr("defaultConnection")) == 0 ? QSqlDatabase::defaultConnection : connectionName;
+}
+
+bool ConnectionDesc::keepDBCredentials() const
+{
+    return m_keepDBCredentials;
+}
+
+void ConnectionDesc::setKeepDBCredentials(bool keepDBCredentals)
+{
+    m_keepDBCredentials = keepDBCredentals;
 }
 
 QueryDesc::QueryDesc(QString queryName, QString queryText, QString connection)
@@ -736,11 +758,15 @@ bool CallbackDatasource::checkIfEmpty(){
     if (m_rowCount == 0) {
         return true;
     } else {
-        QVariant result = true;
+        QVariant isEmpty = true;
+        QVariant recordCount = 0;
         CallbackInfo info;
+        info.dataType = CallbackInfo::RowCount;
+        emit getCallbackData(info, recordCount);
+        if (recordCount.toInt()>0) return false;
         info.dataType = CallbackInfo::IsEmpty;
-        emit getCallbackData(info,result);
-        return result.toBool();
+        emit getCallbackData(info,isEmpty);
+        return isEmpty.toBool();
     }
 }
 

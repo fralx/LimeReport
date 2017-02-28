@@ -32,15 +32,16 @@
 #include <QGraphicsTextItem>
 #include <QtGui>
 #include <QLabel>
-#include "lritemdesignintf.h"
-#include <qnamespace.h>
-
 #include <QTextDocument>
+
+#include "lritemdesignintf.h"
+#include "lritemdesignintf.h"
+#include "lrpageinitintf.h"
 
 namespace LimeReport {
 
 class Tag;
-class TextItem : public LimeReport::ContentItemDesignIntf {
+class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_OBJECT
     Q_ENUMS(AutoWidth)
     Q_ENUMS(AngleType)
@@ -57,11 +58,19 @@ class TextItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(QColor fontColor READ fontColor WRITE setFontColorProperty)
     Q_PROPERTY(AngleType angle READ angle WRITE setAngle)
     Q_PROPERTY(int foregroundOpacity READ foregroundOpacity WRITE setForegroundOpacity)
+    Q_PROPERTY(bool underlines READ underlines WRITE setUnderlines)
+    Q_PROPERTY(bool adaptFontToSize READ adaptFontToSize WRITE setAdaptFontToSize)
     Q_PROPERTY(bool trimValue READ trimValue WRITE setTrimValue)
+    Q_PROPERTY(int lineSpacing READ lineSpacing WRITE setLineSpacing)
+    Q_PROPERTY(int underlineLineSize READ underlineLineSize WRITE setUnderlineLineSize)
     Q_PROPERTY(bool allowHTML READ allowHTML WRITE setAllowHTML)
     Q_PROPERTY(bool allowHTMLInFields READ allowHTMLInFields WRITE setAllowHTMLInFields)
     Q_PROPERTY(QString format READ format WRITE setFormat)
     Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
+    Q_PROPERTY(QString followTo READ followTo WRITE setFollowTo)
+    Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
+    Q_PROPERTY(qreal textIndent READ textIndent WRITE setTextIndent)
+    Q_PROPERTY(Qt::LayoutDirection textLayoutDirection READ textLayoutDirection WRITE setTextLayoutDirection)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -75,9 +84,6 @@ public:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*);
     QString content() const;
     void setContent(const QString& value);
-
-    //void setMarginSize(int value);
-
 
     void setAlignment(Qt::Alignment value);
     Qt::Alignment alignment(){return m_alignment;}
@@ -93,9 +99,12 @@ public:
     void setAutoWidth(AutoWidth value);
     AutoWidth autoWidth() const {return m_autoWidth;}
 
+    void setAdaptFontToSize(bool value);
+    bool adaptFontToSize() const {return m_adaptFontToSize;}
+
     bool canBeSplitted(int height) const;
     bool isSplittable() const { return true;}
-    bool isEmpty() const{return m_strText.isEmpty();}
+    bool isEmpty() const{return m_strText.trimmed().isEmpty() /*m_text->isEmpty()*/;}
     BaseDesignIntf* cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
@@ -112,9 +121,17 @@ public:
     void setAngle(const AngleType& value);
     int foregroundOpacity(){return m_foregroundOpacity;}
     void setForegroundOpacity(int value);
+    bool underlines(){return m_underlines;}
+    void setUnderlines(bool value);
 
     bool trimValue() const;
     void setTrimValue(bool trimValue);
+
+    int lineSpacing() const;
+    void setLineSpacing(int value);
+
+    int underlineLineSize() const;
+    void setUnderlineLineSize(int value);
 
     bool allowHTML() const;
     void setAllowHTML(bool allowHTML);
@@ -128,37 +145,69 @@ public:
     ValueType valueType() const;
     void setValueType(const ValueType valueType);
 
+    QSizeF textSize(){ return m_textSize;}
+    QString followTo() const;
+    void setFollowTo(const QString &followTo);
+    void setFollower(TextItem* follower);
+    void clearFollower();
+    bool hasFollower() const;
+    TextItem* follower() const { return m_follower;}
+    bool initFollower(QString follower);
+
+    // IPageInit interface
+    void pageObjectHasBeenLoaded();
+
+    typedef QSharedPointer<QTextDocument> TextPtr;
+
+    qreal textIndent() const;
+    void setTextIndent(const qreal &textIndent);
+    Qt::LayoutDirection textLayoutDirection() const;
+    void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
+    
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
     QString replaceBR(QString text);
     QString replaceReturns(QString text);
-    int fakeMarginSize();
+    int fakeMarginSize() const;
+    QString getTextPart(int height, int skipHeight);
+    void restoreLinksEvent();
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
-    void initTextSizes();
+    void initTextSizes() const;
+    void setTextFont(TextPtr text, const QFont &value) const;
+    void adaptFontSize(TextPtr text) const;
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
-    typedef QSharedPointer<QTextDocument> TextPtr;
-    TextPtr textDocument();
+
+    TextPtr textDocument() const;
 private:
     QString m_strText;
-
     //QTextLayout m_layout;
-    //QTextDocument* m_text;
+    //QTextDocument* m_text;    
     Qt::Alignment m_alignment;
     bool m_autoHeight;
     AutoWidth m_autoWidth;
-    QSizeF m_textSize;
-    qreal m_firstLineSize;
+    QSizeF mutable m_textSize;
+    qreal  mutable m_firstLineSize;
     AngleType m_angle;
     int m_foregroundOpacity;
+    bool m_underlines;
+    bool m_adaptFontToSize;
     bool m_trimValue;
+    int m_lineSpacing;
+    int m_underlineLineSize;
     bool m_allowHTML;
     bool m_allowHTMLInFields;
 
     QString m_format;
     ValueType m_valueType;
+    QString   m_followTo;
+    TextItem* m_follower;
+    qreal m_textIndent;
+    Qt::LayoutDirection m_textLayoutDirection;
 };
 
 }

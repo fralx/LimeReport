@@ -33,6 +33,7 @@
 #include "lrcollection.h"
 #include "lrdatasourcemanager.h"
 #include "lrpageitemdesignintf.h"
+#include "lrscriptenginemanager.h"
 #include "serializators/lrstorageintf.h"
 
 namespace LimeReport{
@@ -55,7 +56,6 @@ private:
     bool m_footerGroup;
 };
 
-typedef QList<PageItemDesignIntf::Ptr> ReportPages;
 
 struct PagesRange{
     int firstPage;
@@ -69,27 +69,37 @@ class ReportRender: public QObject
 public:
     enum DataRenderMode {StartNewPageAsNeeded, NotStartNewPage, ForcedStartPage};
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
+    enum ResetPageNuberType{BandReset, PageReset};
     typedef QSharedPointer<ReportRender> Ptr;    
     ~ReportRender();
     ReportRender(QObject *parent = 0);
     void setDatasources(DataSourceManager* value);
+    void setScriptContext(ScriptEngineContext* scriptContext);
     DataSourceManager*  datasources(){return m_datasources;}
     int     pageCount();
     PageItemDesignIntf::Ptr pageAt(int index);
     QString renderPageToString(PageDesignIntf *patternPage);
     ReportPages renderPageToPages(PageDesignIntf *patternPage);
+    void    secondRenderPass(ReportPages renderedPages);
 signals:
     void    pageRendered(int renderedPageCount);
 public slots:
     void    cancelRender();
 private:
+
+    void    baseDesignIntfToScript(BaseDesignIntf* item);
+
     void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initDatasource(const QString &name);
     void    initRenderPage();
+#ifdef HAVE_UI_LOADER
+    void    initDialogs();
+#endif
     void    initVariables();
+    bool    runInitScript();
     void    clearPageMap();
-    void    renderBand(BandDesignIntf *patternBand, DataRenderMode mode = NotStartNewPage, bool isLast = false);
+    BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
     void    renderPageFooter(PageItemDesignIntf* patternPage);
@@ -124,12 +134,12 @@ private:
     BandDesignIntf* findEnclosingGroup();
     bool    registerBand(BandDesignIntf* band, bool registerInChildren=true);
     BandDesignIntf *sliceBand(BandDesignIntf* band, BandDesignIntf *patternBand, bool isLast);
-    void    secondRenderPass();
+
     BandDesignIntf* saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf *patternBand);
     BandDesignIntf* renderData(BandDesignIntf* patternBand);
     void    startNewColumn();
     void    startNewPage();
-    void    resetPageNumber();
+    void    resetPageNumber(ResetPageNuberType resetType);
     int     findLastPageNumber(int currentPage);
     void    savePage(bool isLast = false);
     QString toString();
@@ -143,6 +153,7 @@ private:
     void renameChildItems(BaseDesignIntf *item);
 private:
     DataSourceManager* m_datasources;
+    ScriptEngineContext* m_scriptEngineContext;
     PageItemDesignIntf* m_renderPageItem;
     PageItemDesignIntf* m_patternPageItem;
     QList<PageItemDesignIntf::Ptr> m_renderedPages;

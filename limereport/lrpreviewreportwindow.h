@@ -41,6 +41,9 @@
 #include "serializators/lrxmlreader.h"
 #include "lrpreviewreportwidget.h"
 
+#include "items/editors/lrfonteditorwidget.h"
+#include "items/editors/lrtextalignmenteditorwidget.h"
+
 namespace LimeReport {
 
 namespace Ui {
@@ -62,6 +65,7 @@ public:
     void setToolBarVisible(bool value);
     void setStatusBarVisible(bool value);
     void setMenuVisible(bool value);
+    void setHideResultEditButton(bool value);
     QSettings* settings();
 protected:
     void writeSetting();
@@ -69,6 +73,7 @@ protected:
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *e);
     void moveEvent(QMoveEvent *e);
+    void showEvent(QShowEvent *);
     void selectStateIcon();
 public slots:
     void slotPrint();
@@ -79,6 +84,8 @@ public slots:
     void slotPageNavigatorChanged(int value);
     void slotShowErrors();
     void on_actionSaveToFile_triggered();
+    void slotSelectionChanged();
+    void on_actionEdit_Mode_triggered(bool checked);
     void slotFirstPage();
     void slotLastPage();
     void slotPrintToPDF();
@@ -91,12 +98,9 @@ private slots:
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
-
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();
-    //bool pageIsVisible(PageItemDesignIntf::Ptr page);
-    //QRectF calcPageShift(PageItemDesignIntf::Ptr page);
 private:
     Ui::PreviewReportWindow *ui;
     QSpinBox* m_pagesNavigator;
@@ -105,6 +109,9 @@ private:
     bool m_changingPage;
     QSettings* m_settings;
     bool m_ownedSettings;
+    FontEditorWidget* m_fontEditor;
+    TextAlignmentEditorWidget* m_textAlignmentEditor;
+    int m_priorScrolValue;
     PreviewReportWidget* m_previewReportWidget;
     QComboBox* m_scalePercent;
 };

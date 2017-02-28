@@ -45,8 +45,11 @@ class FontEditorWidget :public ItemEditorWidget{
 public:
     explicit FontEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
     explicit FontEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
+    explicit FontEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
+    explicit FontEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
 protected:
     void setItemEvent(BaseDesignIntf *item);
+    QFontComboBox* fontNameEditor(){return m_fontNameEditor;}
 private slots:
     void slotFontChanged(const QFont& font);
     void slotFontSizeChanged(const QString& value);

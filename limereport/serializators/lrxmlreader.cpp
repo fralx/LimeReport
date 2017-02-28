@@ -135,6 +135,11 @@ QString XMLReader::lastError()
     return m_error;
 }
 
+void XMLReader::setPassPhrase(const QString &passPhrase)
+{
+    m_passPhrase = passPhrase;
+}
+
 bool XMLReader::extractFirstNode()
 {
     if (m_firstNode.isNull()){
@@ -166,6 +171,10 @@ QVariant XMLReader::getValue(QDomElement *node)
 
     if (creator) {
         QScopedPointer<SerializatorIntf>serializator(creator(m_doc.data(),node));
+        CryptedSerializator* cs = dynamic_cast<CryptedSerializator*>(serializator.data());
+        if (cs){
+            cs->setPassPhrase(m_passPhrase);
+        }
         return serializator->loadValue();
     }
     return QVariant();
@@ -204,6 +213,10 @@ bool FileXMLReader::prepareReader(QDomDocument *doc)
         QFile source(m_fileName);
         if (source.open(QFile::ReadOnly)) {
             doc->setContent(&source);
+            if (doc->documentElement().nodeName()!="Report") {
+                m_error = QString(QObject::tr("Wrong file format"));
+                return false;
+            }
         } else {m_error=QString(QObject::tr("File %1 not opened")).arg(m_fileName); return false;}
     }
     return true;

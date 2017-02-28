@@ -92,6 +92,7 @@ class BandDesignIntf : public BaseDesignIntf
     Q_PROPERTY(bool keepBottomSpace READ keepBottomSpaceOption WRITE setKeepBottomSpaceOption )
     Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
+    Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
     Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
@@ -121,7 +122,7 @@ public:
     BandDesignIntf(BandsType bandType, const QString& xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0);
     ~BandDesignIntf();
 
-    void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual BandsType bandType() const;
     virtual QString bandTitle() const;
     virtual QIcon bandIcon() const;
@@ -206,7 +207,7 @@ public:
     bool startNewPage() const;
     void setStartNewPage(bool startNewPage);
 
-    void setAutoHeight(bool value){m_autoHeight=value;}
+    void setAutoHeight(bool value);
     bool autoHeight(){return m_autoHeight;}
 
     bool startFromNewPage() const;
@@ -243,6 +244,8 @@ protected:
     void setColumnsCount(int value);
     void setColumnsFillDirection(BandColumnsLayoutType value);
     void moveItemsDown(qreal startPos, qreal offset);
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private slots:
     void childBandDeleted(QObject* band);
 private:

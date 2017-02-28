@@ -41,6 +41,8 @@ const int b = 16;             /* number of bytes in key            */
 const int c = 4;              /* number  words in key = ceil(8*b/w)*/
 const int t = 26;             /* size of table S = 2*(r+1) words   */
 
+const char* passPhrase = "HjccbzHjlbyfCkjy";
+
 WORD P = 0xb7e15163, Q = 0x9e3779b9;
 
 #define ROTL(x,y) (((x)<<(y&(w-1))) | ((x)>>(w-(y&(w-1)))))
@@ -64,11 +66,15 @@ namespace LimeReport {
 
 class ChipperPrivate{
     friend class Chipper;
+public:
+    ChipperPrivate():m_prepared(false){}
+    bool isPrepared(){ return m_prepared;}
 private:
     void RC5_SETUP(const char *K);
     void RC5_ENCRYPT(WORD *pt, WORD *ct);
     void RC5_DECRYPT(WORD *ct, WORD *pt);
     WORD S[26];
+    bool m_prepared;
 };
 
 void ChipperPrivate::RC5_SETUP(const char *K)
@@ -82,6 +88,7 @@ void ChipperPrivate::RC5_SETUP(const char *K)
         A = S[i] = ROTL(S[i]+(A+B),3);
         B = L[j] = ROTL(L[j]+(A+B),(A+B));
     }
+    m_prepared = true;
 }
 
 void ChipperPrivate::RC5_ENCRYPT(WORD *pt, WORD *ct)
@@ -111,7 +118,8 @@ QByteArray Chipper::cryptString(QString value)
     buff += value;
     WTB pt, ct, prior;
 
-    d->RC5_SETUP("HjccbzHjlbyfCkjy");
+    if (!d->isPrepared())
+        d->RC5_SETUP(passPhrase);
 
     prior.word[0]=0;
     prior.word[1]=0;
@@ -144,7 +152,8 @@ QString Chipper::decryptByteArray(QByteArray value)
     QByteArray result;
     WTB pt, ct, prior;
 
-    d->RC5_SETUP("HjccbzHjlbyfCkjy");
+    if (!d->isPrepared())
+        d->RC5_SETUP(passPhrase);
     prior.word[0] = 0;
     prior.word[1] = 0;
 
@@ -173,6 +182,14 @@ QString Chipper::decryptByteArray(QByteArray value)
 }
 
 Chipper::Chipper(): d(new ChipperPrivate()){}
+
+Chipper::Chipper(QString passphrase): d(new ChipperPrivate())
+{
+    if (!passphrase.trimmed().isEmpty()){
+        passphrase = passphrase.leftJustified(16,'#');
+        d->RC5_SETUP(passphrase.toLatin1().data());
+    }
+}
 
 Chipper::~Chipper()
 {

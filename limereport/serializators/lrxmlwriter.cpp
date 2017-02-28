@@ -37,12 +37,19 @@ namespace LimeReport{
 
 XMLWriter::XMLWriter() : m_doc(new QDomDocument)
 {
-    m_rootElement=m_doc->createElement("Report");
-    m_doc->appendChild(m_rootElement);
+    init();
 }
 
 XMLWriter::XMLWriter(QSharedPointer<QDomDocument> doc) : m_doc(doc){
+    init();
+}
+
+void XMLWriter::init()
+{
     m_rootElement=m_doc->createElement("Report");
+    QDomNode xmlNode = m_doc->createProcessingInstruction("xml",
+                               "version=\"1.0\" encoding=\"UTF8\"");
+    m_doc->insertBefore(xmlNode,m_doc->firstChild());
     m_doc->appendChild(m_rootElement);
 }
 
@@ -106,6 +113,11 @@ QByteArray XMLWriter::saveToByteArray()
     return res;
 }
 
+void XMLWriter::setPassPhrase(const QString &passPhrase)
+{
+    m_passPhrase = passPhrase;
+}
+
 QDomElement XMLWriter::putQObjectItem(QString name, QObject *item)
 {
     Q_UNUSED(name)
@@ -151,6 +163,10 @@ void XMLWriter::saveProperty(QString name, QObject* item, QDomElement *node)
 
     if (creator) {
         QScopedPointer<SerializatorIntf> serializator(creator(m_doc.data(),node));
+        CryptedSerializator* cs = dynamic_cast<CryptedSerializator*>(serializator.data());
+        if (cs){
+            cs->setPassPhrase(m_passPhrase);
+        }
         serializator->save(
             item->property(name.toLatin1()),
             name

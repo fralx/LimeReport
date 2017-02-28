@@ -41,7 +41,7 @@ namespace LimeReport{
 
 ConnectionDialog::ConnectionDialog(LimeReport::IConnectionController *conControl, LimeReport::ConnectionDesc* connectionDesc, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConnectionDialog),m_connection(connectionDesc),m_controller(conControl)
+    ui(new Ui::ConnectionDialog), m_connection(connectionDesc), m_controller(conControl), m_savedConnectionName("")
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose,true);
@@ -56,6 +56,7 @@ ConnectionDialog::~ConnectionDialog()
 void ConnectionDialog::init()
 {
    ui->cbbDrivers->addItems(QSqlDatabase::drivers());
+   ui->cbbUseDefaultConnection->setEnabled(!m_controller->containsDefaultConnection());
 }
 
 void ConnectionDialog::showEvent(QShowEvent *)
@@ -101,33 +102,27 @@ void ConnectionDialog::checkFieldsFill()
 bool ConnectionDialog::checkConnection()
 {
     QScopedPointer<LimeReport::ConnectionDesc> con(uiToConnection());
-//    LimeReport::ConnectionDesc con;
-//    con.setName(ui->leConnectionName->text()+"_check");
-//    con.setHost(ui->leServerName->text());
-//    con.setUserName(ui->leUserName->text());
-//    con.setPassword(ui->lePassword->text());
-//    con.setDatabaseName(ui->leDataBase->text());
-//    con.setDriver(ui->cbbDrivers->currentText());
     if (!m_controller->checkConnectionDesc(con.data())){
         throw LimeReport::ReportError(m_controller->lastError());
     }
     return true;
 }
 
-LimeReport::ConnectionDesc *ConnectionDialog::uiToConnection(LimeReport::ConnectionDesc* conDesc)
+ConnectionDesc *ConnectionDialog::uiToConnection(LimeReport::ConnectionDesc* conDesc)
 {
     LimeReport::ConnectionDesc* result;
     if (conDesc)
         result = conDesc;
     else
         result = new LimeReport::ConnectionDesc();
-    result ->setName(ui->leConnectionName->text());
+    result ->setName(ConnectionDesc::connectionNameForReport(ui->leConnectionName->text()));
     result ->setHost(ui->leServerName->text());
     result ->setDriver(ui->cbbDrivers->currentText());
     result ->setUserName(ui->leUserName->text());
     result ->setPassword(ui->lePassword->text());
     result ->setDatabaseName(ui->leDataBase->text());
     result ->setAutoconnect(ui->cbAutoConnect->isChecked());
+    result->setKeepDBCredentials(!ui->cbbKeepCredentials->isChecked());
     return result ;
 }
 
@@ -135,19 +130,37 @@ void ConnectionDialog::connectionToUI()
 {
     init();
     if (!m_connection) return;
-    ui->leConnectionName->setText(m_connection->name());
+    ui->leConnectionName->setText(ConnectionDesc::connectionNameForUser(m_connection->name()));
+    ui->cbbUseDefaultConnection->setChecked(m_connection->name().compare(QSqlDatabase::defaultConnection) == 0);
     ui->leDataBase->setText(m_connection->databaseName());
     ui->leServerName->setText(m_connection->host());
     ui->leUserName->setText(m_connection->userName());
     ui->lePassword->setText(m_connection->password());
     ui->cbbDrivers->setCurrentIndex(ui->cbbDrivers->findText(m_connection->driver()));
     ui->cbAutoConnect->setChecked(m_connection->autoconnect());
+    ui->cbbKeepCredentials->setChecked(!m_connection->keepDBCredentials());
 }
-
 
 void ConnectionDialog::on_toolButton_clicked()
 {
     ui->leDataBase->setText(QFileDialog::getOpenFileName());
 }
 
+void ConnectionDialog::on_cbbUseDefaultConnection_toggled(bool checked)
+{
+    if (checked){
+        m_savedConnectionName = ui->leConnectionName->text();
+        ui->leConnectionName->setText(tr("defaultConnection"));
+        ui->leConnectionName->setEnabled(false);
+    } else {
+        ui->leConnectionName->setText(m_savedConnectionName);
+        ui->leConnectionName->setEnabled(true);
+    }
+}
+
 } // namespace LimeReport
+
+
+
+
+

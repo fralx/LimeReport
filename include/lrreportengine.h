@@ -60,6 +60,10 @@ private:
 
 class DataSourceManager;
 class ReportEnginePrivate;
+class PageDesignIntf;
+class PageItemDesignIntf;
+
+typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
 
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
@@ -69,7 +73,9 @@ public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
     bool    printReport(QPrinter *printer=0);
+    bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
     void    printToFile(const QString& fileName);
+    PageDesignIntf *createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
     void    designReport();
@@ -92,7 +98,10 @@ public:
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
     void setPreviewWindowTitle(const QString& title);
     void setPreviewWindowIcon(const QIcon& icon);
+    void setResultEditable(bool value);
+    bool resultIsEditable();
     bool isBusy();
+    void setPassPharse(QString& passPharse);
 signals:
     void renderStarted();
     void renderFinished();

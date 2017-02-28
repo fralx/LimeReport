@@ -58,9 +58,12 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
-    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")), m_reportRendering(false)
+    m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
+    m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy")
 {
-    m_datasources= new DataSourceManager(this);
+    m_datasources = new DataSourceManager(this);
+    m_datasources->setReportSettings(&m_reportSettings);
+    m_scriptEngineContext = new ScriptEngineContext(this);
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
 }
@@ -102,6 +105,17 @@ PageDesignIntf *ReportEnginePrivate::appendPage(const QString &pageName)
     PageDesignIntf* page = createPage(pageName);
     m_pages.append(page);
     return page;
+}
+
+bool ReportEnginePrivate::deletePage(PageDesignIntf *page){
+    QList<PageDesignIntf*>::iterator it = m_pages.begin();
+    while (it != m_pages.end()){
+        if (*it == page) {
+            it = m_pages.erase(it);
+            return true;
+        } else ++it;
+    }
+    return false;
 }
 
 PageDesignIntf *ReportEnginePrivate::createPreviewPage()
@@ -154,6 +168,7 @@ void ReportEnginePrivate::clearReport()
     m_pages.clear();
     m_datasources->clear(DataSourceManager::Owned);
     m_fileName="";
+    m_scriptEngineContext->clear();
     m_reportSettings.setDefaultValues();
     emit cleared();
 }
@@ -264,9 +279,44 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     printer =(printer)?printer:m_printer.data();
     if (printer&&printer->isValid()){
         try{
-            dataManager()->setDesignTime(false);
-            printReport(renderToPages(),*printer,PrintRange());
+			dataManager()->setDesignTime(false);
+            ReportPages pages = renderToPages();
             dataManager()->setDesignTime(true);
+            if (pages.count()>0){
+                printReport(pages,*printer,PrintRange());
+            }
+        } catch(ReportError &exception){
+            saveError(exception.what());
+        }
+        return true;
+    } else return false;
+}
+
+bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange)
+{
+
+    if (!printer&&!m_printerSelected){
+        QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
+        m_printerSelected = dialog.exec()!=QDialog::Rejected;
+        if (m_printerSelected){
+            printRange.setRangeType(dialog.printRange());
+            printRange.setFromPage(dialog.fromPage());
+            printRange.setToPage(dialog.toPage());
+        }
+
+    }
+    if (!printer&&!m_printerSelected) return false;
+
+    printer =(printer)?printer:m_printer.data();
+    if (printer&&printer->isValid()){
+        try{
+            if (pages.count()>0){
+                printReport(
+                    pages,
+                    *printer,
+                    printRange
+                );
+            }
         } catch(ReportError &exception){
             saveError(exception.what());
         }
@@ -333,6 +383,8 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
                 w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
                 w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
             }
+
+            w->setHideResultEditButton(resultIsEditable());
 
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));
@@ -412,6 +464,11 @@ void ReportEnginePrivate::cancelRender()
     m_reportRendering = false;
 }
 
+PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
+    Q_D(ReportEngine);
+    return d->createPreviewScene(parent);
+}
+
 void ReportEnginePrivate::designReport()
 {
     if (!m_designerWindow) {
@@ -456,18 +513,34 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName)
 {
     if (!QFile::exists(fileName)) return false;
 
-    clearReport();
+    clearReport();    
 
     ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
+    reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName=fileName;
             QFileInfo fi(fileName);
             m_reportName = fi.fileName();
+
+            QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
+            if (QFile::exists(dbSettingFileName)){
+                QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
+                foreach (ConnectionDesc* connection, dataManager()->conections()) {
+                    if (!connection->keepDBCredentials()){
+                        dbcredentals.beginGroup(connection->name());
+                        connection->setUserName(dbcredentals.value("user").toString());
+                        connection->setPassword(dbcredentals.value("password").toString());
+                        dbcredentals.endGroup();
+                    }
+                }
+            }
+
             dataManager()->connectAutoConnections();
             return true;
         };
-    }
+    }   
+    m_lastError = reader->lastError();
     return false;
 }
 
@@ -475,6 +548,7 @@ bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &nam
     clearReport();
 
     ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
+    reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName = "";
@@ -490,6 +564,7 @@ bool ReportEnginePrivate::loadFromString(const QString &report, const QString &n
     clearReport();
 
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(report);
+    reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
             m_fileName = "";
@@ -508,10 +583,35 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
     if (fi.suffix().isEmpty())
         fn+=".lrxml";
 
+    QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
+    QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
+
+    foreach (ConnectionDesc* connection, dataManager()->conections()) {
+        if (!connection->keepDBCredentials()){
+            dbcredentals.beginGroup(connection->name());
+            dbcredentals.setValue("user",connection->userName());
+            dbcredentals.setValue("password",connection->password());
+            dbcredentals.endGroup();
+            connection->setPassword("");
+            connection->setUserName("");
+        }
+    }
+
     QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->setPassPhrase(m_passPhrase);
     writer->putItem(this);
-    m_fileName=fn;
+    m_fileName=fn;   
     bool saved = writer->saveToFile(fn);
+
+    foreach (ConnectionDesc* connection, dataManager()->conections()) {
+        if (!connection->keepDBCredentials()){
+            dbcredentals.beginGroup(connection->name());
+            connection->setUserName(dbcredentals.value("user").toString());
+            connection->setPassword(dbcredentals.value("password").toString());
+            dbcredentals.endGroup();
+        }
+    }
+
     if (saved){
         foreach(PageDesignIntf* page, m_pages){
             page->setToSaved();
@@ -523,6 +623,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
 QByteArray ReportEnginePrivate::saveToByteArray()
 {
     QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->setPassPhrase(m_passPhrase);
     writer->putItem(this);
     QByteArray result = writer->saveToByteArray();
     if (!result.isEmpty()){
@@ -535,6 +636,7 @@ QByteArray ReportEnginePrivate::saveToByteArray()
 
 QString ReportEnginePrivate::saveToString(){
     QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    writer->setPassPhrase(m_passPhrase);
     writer->putItem(this);
     QString result = writer->saveToString();
     if (!result.isEmpty()){
@@ -566,8 +668,24 @@ QString ReportEnginePrivate::renderToString()
     dataManager()->setDesignTime(false);
     if (m_pages.count()){
         render.setDatasources(dataManager());
+        render.setScriptContext(scriptContext());
         return render.renderPageToString(m_pages.at(0));
     }else return QString();
+}
+
+void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
+{
+    m_passPhrase = passPhrase;
+}
+
+bool ReportEnginePrivate::resultIsEditable() const
+{
+    return m_resultIsEditable;
+}
+
+void ReportEnginePrivate::setResultEditable(bool value)
+{
+    m_resultIsEditable = value;
 }
 
 bool ReportEnginePrivate::suppressFieldAndVarError() const
@@ -618,15 +736,23 @@ ReportPages ReportEnginePrivate::renderToPages()
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
     if (m_pages.count()){
+        ReportPages result;
         m_reportRendering = true;
         emit renderStarted();
         m_reportRender->setDatasources(dataManager());
-        m_pages.at(0)->setReportSettings(&m_reportSettings);
-        ReportPages result = m_reportRender->renderPageToPages(m_pages.at(0));
+        m_reportRender->setScriptContext(scriptContext());
+
+        foreach(PageDesignIntf* page , m_pages){
+        	m_pages.at(0)->setReportSettings(&m_reportSettings);
+        	result.append(m_reportRender->renderPageToPages(page));
+        }
+
+        m_reportRender->secondRenderPass(result);
         emit renderFinished();
+        m_reportRender.clear();
         m_reportRendering = false;
         return result;
-    }else {
+    } else {
         return ReportPages();
     }
 }
@@ -659,6 +785,11 @@ bool ReportEngine::printReport(QPrinter *printer)
 {
     Q_D(ReportEngine);
     return d->printReport(printer);
+}
+
+bool ReportEngine::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange){
+    Q_D(ReportEngine);
+    return d->printPages(pages,printer, printRange);
 }
 
 void ReportEngine::printToFile(const QString &fileName)
@@ -707,10 +838,28 @@ void ReportEngine::setPreviewWindowIcon(const QIcon &icon)
     d->setPreviewWindowIcon(icon);
 }
 
+void ReportEngine::setResultEditable(bool value)
+{
+    Q_D(ReportEngine);
+    d->setResultEditable(value);
+}
+
+bool ReportEngine::resultIsEditable()
+{
+    Q_D(ReportEngine);
+    return d->resultIsEditable();
+}
+
 bool ReportEngine::isBusy()
 {
     Q_D(ReportEngine);
     return d->isBusy();
+}
+
+void ReportEngine::setPassPharse(QString &passPharse)
+{
+    Q_D(ReportEngine);
+    d->setPassPhrase(passPharse);
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

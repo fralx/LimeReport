@@ -31,6 +31,7 @@
 #include "lrdatasourcemanager.h"
 #include "lrbanddesignintf.h"
 #include "lritemdesignintf.h"
+#include "lrscriptenginemanager.h"
 
 #include <QRegExp>
 
@@ -38,26 +39,51 @@ namespace LimeReport {
 
 void GroupFunction::slotBandRendered(BandDesignIntf *band)
 {
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+
+    QRegExp rxField(Const::FIELD_RX);
+    QRegExp rxVar(Const::VARIABLE_RX);
+
     switch (m_dataType){
     case Field:
-        if (m_dataManager->containsField(m_data)){
-            m_values.push_back(m_dataManager->fieldData(m_data));
-        } else {
-            setInvalid(tr("Field \"%1\" not found").arg(m_data));
+        if (rxField.indexIn(m_data) != -1){
+            QString field = rxField.cap(1);
+            if (m_dataManager->containsField(field)){
+                m_values.push_back(m_dataManager->fieldData(field));
+            } else {
+                setInvalid(tr("Field \"%1\" not found").arg(m_data));
+            }
         }
         break;
     case Variable:
-        if (m_dataManager->containsVariable(m_data)){
-            m_values.push_back(m_dataManager->variable(m_data));
-        } else {
-            setInvalid(tr("Variable \"%1\" not found").arg(m_data));
+        if (rxVar.indexIn(m_data) != -1){
+            QString var = rxVar.cap(1);
+            if (m_dataManager->containsVariable(var)){
+                m_values.push_back(m_dataManager->variable(var));
+            } else {
+                setInvalid(tr("Variable \"%1\" not found").arg(m_data));
+            }
         }
         break;
+    case Script:
+    {
+        QVariant value = sm.evaluateScript(m_data);
+        if (value.isValid()){
+            m_values.push_back(value);
+        } else {
+            setInvalid(tr("Wrong script syntax \"%1\" ").arg(m_data));
+        }
+        break;
+    }
     case ContentItem:{
-        ContentItemDesignIntf* item = dynamic_cast<ContentItemDesignIntf*>(band->childByName(m_data));
+        QString itemName = m_data;
+        ContentItemDesignIntf* item = dynamic_cast<ContentItemDesignIntf*>(band->childByName(itemName.remove('"')));
         if (item)
             m_values.push_back(item->content());
-        else setInvalid(tr("Item \"%1\" not found").arg(m_data));
+        else if (m_name.compare("COUNT",Qt::CaseInsensitive) == 0) {
+            m_values.push_back(1);
+        } else setInvalid(tr("Item \"%1\" not found").arg(m_data));
+
         break;
     }
     default:
@@ -88,24 +114,27 @@ QVariant GroupFunction::multiplication(QVariant value1, QVariant value2)
 GroupFunction::GroupFunction(const QString &expression, const QString &dataBandName, DataSourceManager* dataManager)
     :m_dataBandName(dataBandName), m_dataManager(dataManager),m_isValid(true), m_errorMessage("")
 {
+    m_data = expression;
     QRegExp rxField(Const::FIELD_RX,Qt::CaseInsensitive);
-    if (rxField.indexIn(expression)>=0){
-        m_dataType=Field;
-        m_data = rxField.cap(1);
+    QRegExp rxVariable(Const::VARIABLE_RX,Qt::CaseInsensitive);
+    QRegExp rxScript(Const::SCRIPT_RX,Qt::CaseInsensitive);
+
+    if (rxScript.indexIn(expression) != -1){
+        m_dataType = Script;
         return;
     }
 
-    QRegExp rxVariable(Const::VARIABLE_RX,Qt::CaseInsensitive);
-    if (rxVariable.indexIn(expression)>=0){
-        m_dataType=Variable;
-        m_data = rxVariable.cap(1);
+    if (rxField.indexIn(expression) != -1){
+        m_dataType=Field;
+        return;
+    }
+
+    if (rxVariable.indexIn(expression) != -1){
+        m_dataType = Variable;
         return;
     }
 
     m_dataType = ContentItem;
-    m_data = expression;
-    m_data = m_data.remove('"');
-
 }
 
 GroupFunction *GroupFunctionFactory::createGroupFunction(const QString &functionName, const QString &expression, const QString& dataBandName, DataSourceManager *dataManager)
