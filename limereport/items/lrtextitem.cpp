@@ -101,7 +101,7 @@ void TextItem::preparePopUpMenu(QMenu &menu)
     action->setCheckable(true);
     action->setChecked(allowHTMLInFields());
 
-    action = menu.addAction(tr("Strethc to max height"));
+    action = menu.addAction(tr("Stretch to max height"));
     action->setCheckable(true);
     action->setChecked(stretchToMaxHeight());
 
@@ -121,7 +121,7 @@ void TextItem::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Allow HTML in fields")) == 0){
         setProperty("allowHTMLInFields",action->isChecked());
     }
-    if (action->text().compare(tr("Strethc to max height")) == 0){
+    if (action->text().compare(tr("Stretch to max height")) == 0){
         setProperty("stretchToMaxHeight",action->isChecked());
     }
 }
