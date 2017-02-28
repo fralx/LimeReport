@@ -1,139 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">О программе</translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation type="obsolete">Автор</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation type="obsolete">Лицензия</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="obsolete">Закрыть</translation>
-    </message>
-    <message>
-        <source>Version 1.1.1</source>
-        <translation type="obsolete">Версия</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectionDialog</name>
-    <message>
-        <source>Connection</source>
-        <translation type="obsolete">Соединение</translation>
-    </message>
-    <message>
-        <source>Connection Name</source>
-        <translation type="obsolete">Название</translation>
-    </message>
-    <message>
-        <source>Driver</source>
-        <translation type="obsolete">Драйвер</translation>
-    </message>
-    <message>
-        <source>Server </source>
-        <translation type="obsolete">Сервер</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation type="obsolete">Пользователь</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="obsolete">Пароль</translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <translation type="obsolete">База данных</translation>
-    </message>
-    <message>
-        <source>Auto connect</source>
-        <translation type="obsolete">Автоматическое соединение</translation>
-    </message>
-    <message>
-        <source>Check connection</source>
-        <translation type="obsolete">Проверить соединение</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Отмена</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="obsolete">Ошибка</translation>
-    </message>
-    <message>
-        <source>Connection succsesfully established!</source>
-        <translation type="obsolete">Соединение успешно установлено!</translation>
-    </message>
-    <message>
-        <source>Connection Name is empty</source>
-        <translation type="obsolete">Наименование соединения не указано</translation>
-    </message>
-    <message>
-        <source>Connection with name </source>
-        <translation type="obsolete">Соединение</translation>
-    </message>
-    <message>
-        <source> already exists </source>
-        <translation type="obsolete">уже существует</translation>
-    </message>
-</context>
-<context>
-    <name>DataBrowser</name>
-    <message>
-        <source>Datasources</source>
-        <translation type="obsolete">Источники данных</translation>
-    </message>
-    <message>
-        <source>Add database connection</source>
-        <translation type="obsolete">Добавить соединение с базой</translation>
-    </message>
-    <message>
-        <source>Add new datasource</source>
-        <translation type="obsolete">Добавить новый источник данных</translation>
-    </message>
-    <message>
-        <source>View data</source>
-        <translation type="obsolete">Просмотр данных в источнике</translation>
-    </message>
-    <message>
-        <source>Change datasource</source>
-        <translation type="obsolete">Изменить источник данных</translation>
-    </message>
-    <message>
-        <source>Delete datasource</source>
-        <translation type="obsolete">Удалить источник данных</translation>
-    </message>
-    <message>
-        <source>Show error</source>
-        <translation type="obsolete">Показать ошибки</translation>
-    </message>
-    <message>
-        <source>Variables</source>
-        <translation type="obsolete">Переменные</translation>
-    </message>
-    <message>
-        <source>Add new variable</source>
-        <translation type="obsolete">Добавить новую переменную</translation>
-    </message>
-    <message>
-        <source>Edit variable</source>
-        <translation type="obsolete">Редактировать переменную</translation>
-    </message>
-    <message>
-        <source>Delete variable</source>
-        <translation type="obsolete">Удалить переменную</translation>
-    </message>
-</context>
+<TS version="2.1" language="ru_RU">
 <context>
     <name>LRVariableDialog</name>
     <message>
@@ -158,45 +25,30 @@
     </message>
 </context>
 <context>
-    <name>LimeReport::AVariablesHolder</name>
-    <message>
-        <source>variable with name </source>
-        <translation type="obsolete">переменная</translation>
-    </message>
-    <message>
-        <source> already exists !!</source>
-        <translation type="obsolete">уже существует !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="obsolete">не существует !!</translation>
-    </message>
-</context>
-<context>
     <name>LimeReport::AboutDialog</name>
     <message>
         <source>About</source>
-        <translation type="unfinished">О программе</translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Автор</translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <source>License</source>
-        <translation type="unfinished">Лицензия</translation>
+        <translation>Лицензия</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Закрыть</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>Version 1.1.1</source>
-        <translation type="unfinished">Версия</translation>
+        <translation>Версия 1.1.1</translation>
     </message>
     <message>
         <source>Lime Report</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -212,7 +64,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;Copyright 2015 Arin Alexander. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -221,9 +73,9 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -338,7 +190,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; font-style:italic; color:#000000;&quot;&gt;signature of Ty Coon&lt;/span&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; color:#000000;&quot;&gt;, 1 April 1990&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; color:#000000;&quot;&gt;Ty Coon, President of Vice&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; color:#000000; background-color:#ffffff;&quot;&gt;That&apos;s all there is to it!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -382,76 +234,127 @@ p, li { white-space: pre-wrap; }
         <source> connected to </source>
         <translation> соединён с</translation>
     </message>
+    <message>
+        <source>Bring to top</source>
+        <translation>На передний план</translation>
+    </message>
+    <message>
+        <source>Send to back</source>
+        <translation>На задний план</translation>
+    </message>
+    <message>
+        <source>Auto height</source>
+        <translation>Автоматическая высота</translation>
+    </message>
+    <message>
+        <source>Splittable</source>
+        <translation>Разбивать содержимое на части</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::BaseDesignIntf</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Вырезать</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Вставить</translation>
+    </message>
+    <message>
+        <source>Bring to top</source>
+        <translation>На передний план</translation>
+    </message>
+    <message>
+        <source>Send to back</source>
+        <translation>На задний план</translation>
+    </message>
+    <message>
+        <source>No borders</source>
+        <translation>Удалить границы</translation>
+    </message>
+    <message>
+        <source>All borders</source>
+        <translation>Внешние границы</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDialog</name>
     <message>
         <source>Connection</source>
-        <translation type="unfinished">Соединение</translation>
+        <translation>Соединение</translation>
+    </message>
+    <message>
+        <source>Use default application connection</source>
+        <translation>Использовать соединение по умолчанию</translation>
     </message>
     <message>
         <source>Connection Name</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Название</translation>
     </message>
     <message>
         <source>Driver</source>
-        <translation type="unfinished">Драйвер</translation>
+        <translation>Драйвер</translation>
     </message>
     <message>
         <source>Server </source>
-        <translation type="unfinished">Сервер</translation>
+        <translation>Сервер</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished">Пользователь</translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Пароль</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <source>Database</source>
-        <translation type="unfinished">База данных</translation>
+        <translation>База данных</translation>
     </message>
     <message>
         <source>Auto connect</source>
-        <translation type="unfinished">Автоматическое соединение</translation>
+        <translation>Автоматическое соединение</translation>
     </message>
     <message>
         <source>Check connection</source>
-        <translation type="unfinished">Проверить соединение</translation>
+        <translation>Проверить соединение</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <source>Connection succsesfully established!</source>
-        <translation type="unfinished">Соединение успешно установлено!</translation>
+        <translation>Соединение успешно установлено!</translation>
     </message>
     <message>
         <source>Connection Name is empty</source>
-        <translation type="unfinished">Наименование соединения не указано</translation>
+        <translation>Наименование соединения не указано</translation>
     </message>
     <message>
         <source>Connection with name </source>
-        <translation type="unfinished">Соединение</translation>
+        <translation>Соединение</translation>
     </message>
     <message>
         <source> already exists </source>
-        <translation type="unfinished">уже существует</translation>
+        <translation>уже существует</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ок</translation>
     </message>
 </context>
 <context>
@@ -469,6 +372,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::ScriptBrowser</name>
+    <message>
+        <source>Functions</source>
+        <translation>Функции</translation>
+    </message>
+    <message>
+        <source>Dialogs</source>
+        <translation>Диалоги</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::DataBrowser</name>
     <message>
         <source>Datasources</source>
@@ -476,43 +390,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Add database connection</source>
-        <translation type="unfinished">Добавить соединение с базой</translation>
+        <translation>Добавить соединение с базой</translation>
     </message>
     <message>
         <source>Add new datasource</source>
-        <translation type="unfinished">Добавить новый источник данных</translation>
+        <translation>Добавить новый источник данных</translation>
     </message>
     <message>
         <source>View data</source>
-        <translation type="unfinished">Просмотр данных в источнике</translation>
+        <translation>Просмотр данных в источнике</translation>
     </message>
     <message>
         <source>Change datasource</source>
-        <translation type="unfinished">Изменить источник данных</translation>
+        <translation>Изменить источник данных</translation>
     </message>
     <message>
         <source>Delete datasource</source>
-        <translation type="unfinished">Удалить источник данных</translation>
+        <translation>Удалить источник данных</translation>
     </message>
     <message>
         <source>Show error</source>
-        <translation type="unfinished">Показать ошибки</translation>
+        <translation>Показать ошибки</translation>
     </message>
     <message>
         <source>Variables</source>
-        <translation type="unfinished">Переменные</translation>
+        <translation>Переменные</translation>
     </message>
     <message>
         <source>Add new variable</source>
-        <translation type="unfinished">Добавить новую переменную</translation>
+        <translation>Добавить новую переменную</translation>
     </message>
     <message>
         <source>Edit variable</source>
-        <translation type="unfinished">Редактировать переменную</translation>
+        <translation>Редактировать переменную</translation>
     </message>
     <message>
         <source>Delete variable</source>
-        <translation type="unfinished">Удалить переменную</translation>
+        <translation>Удалить переменную</translation>
     </message>
     <message>
         <source>Attention</source>
@@ -524,12 +438,12 @@ p, li { white-space: pre-wrap; }
         <translation>Вы действительно хотите удалить &quot;%1&quot; соединение ?</translation>
     </message>
     <message>
-        <source>User variables</source>
-        <translation type="obsolete">Пользовательские переменные</translation>
-    </message>
-    <message>
         <source>System variables</source>
         <translation>Системные переменные</translation>
+    </message>
+    <message>
+        <source>User variables</source>
+        <translation>Пользовательские переменные</translation>
     </message>
     <message>
         <source>Do you really want to delete &quot;%1&quot; datasource ?</source>
@@ -537,32 +451,28 @@ p, li { white-space: pre-wrap; }
         <translation>Вы действительно хотите удалить источник данных &quot;%1&quot; ?</translation>
     </message>
     <message>
-        <source>Do you really want delete variable &quot;%1&quot; ?</source>
-        <translation type="obsolete">Вы действительно хотите удалить переменную &quot;%1&quot; ?</translation>
-    </message>
-    <message>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Do you really want to delete variable &quot;%1&quot; ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы действительно хотите удалить переменную &quot;%1&quot; ?</translation>
     </message>
     <message>
         <source>Grab variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Захватить переменную</translation>
     </message>
     <message>
         <source>Report variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменные отчета</translation>
     </message>
     <message>
         <source>External variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Внешние переменные</translation>
     </message>
 </context>
 <context>
@@ -604,7 +514,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Variable &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменная &quot;%1&quot; не найдена!</translation>
     </message>
 </context>
 <context>
@@ -759,7 +669,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>All borders</source>
-        <translation>Внешние границы</translation>
+        <translation>Все границы</translation>
     </message>
 </context>
 <context>
@@ -788,17 +698,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>LimeReport::PageDesignIntf</name>
-    <message>
-        <source>Warning</source>
-        <translation type="obsolete">Предупреждение</translation>
-    </message>
-    <message>
-        <source>Multi band deletion not allowed</source>
-        <translation type="obsolete">Удаление нескольких бандов запрещено</translation>
-    </message>
-</context>
-<context>
     <name>LimeReport::PageFooter</name>
     <message>
         <source>Page Footer</source>
@@ -816,126 +715,110 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PreviewReportWidget</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>PDF file name</source>
-        <translation type="unfinished">Имя PDF файла</translation>
+        <translation>Имя PDF файла</translation>
     </message>
     <message>
         <source>Report file name</source>
-        <translation type="unfinished">Файл отчета</translation>
+        <translation>Имя файла отчета</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PreviewReportWindow</name>
     <message>
         <source>View</source>
-        <translation type="unfinished">Просмотр</translation>
+        <translation>Просмотр</translation>
     </message>
     <message>
         <source>Report</source>
-        <translation type="unfinished">Отчет</translation>
+        <translation>Отчет</translation>
     </message>
     <message>
         <source>toolBar</source>
-        <translation type="unfinished">Панель инструментов</translation>
+        <translation>Панель инструментов</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Печать</translation>
+        <translation>Печать</translation>
     </message>
     <message>
         <source>Zoom In</source>
-        <translation type="unfinished">Увеличить</translation>
+        <translation>Увеличить</translation>
     </message>
     <message>
         <source>Zoom Out</source>
-        <translation type="unfinished">Уменьшить</translation>
+        <translation>Уменьшить</translation>
     </message>
     <message>
         <source>Prior Page</source>
-        <translation type="unfinished">Предыдущая страница</translation>
+        <translation>Предыдущая страница</translation>
     </message>
     <message>
         <source>Next Page</source>
-        <translation type="unfinished">Следующая страница</translation>
+        <translation>Следующая страница</translation>
     </message>
     <message>
         <source>Close Preview</source>
-        <translation type="unfinished">Закрыть</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>Edit Mode</source>
-        <translation type="unfinished">Режим редактирования</translation>
+        <translation>Режим редактирования</translation>
     </message>
     <message>
         <source>Save to file</source>
-        <translation type="unfinished">Записать в файл</translation>
+        <translation>Сохранить в файл</translation>
     </message>
     <message>
         <source>Show errors</source>
-        <translation type="unfinished">Показать ошибки</translation>
+        <translation>Показать ошибки</translation>
     </message>
     <message>
         <source>First Page</source>
-        <translation type="unfinished">Первая страница</translation>
+        <translation>Первая страница</translation>
     </message>
     <message>
         <source>First page</source>
-        <translation type="unfinished">Первая страница</translation>
+        <translation>Первая страница</translation>
     </message>
     <message>
         <source>Last Page</source>
-        <translation type="unfinished">Последняя страница</translation>
+        <translation>Последняя страница</translation>
     </message>
     <message>
         <source>Print To PDF</source>
-        <translation type="unfinished">Печать в PDF</translation>
+        <translation>Печать в PDF</translation>
     </message>
     <message>
         <source>Page: </source>
-        <translation type="unfinished">Страница: </translation>
+        <translation>Страница: </translation>
     </message>
     <message>
         <source> of %1</source>
-        <translation type="unfinished"> из %1</translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation type="obsolete">Файл отчета</translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
-        <translation type="obsolete">Имя PDF файла</translation>
+        <translation> из %1</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Предосмотр</translation>
     </message>
     <message>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Fit page width</source>
-        <translation type="unfinished"></translation>
+        <translation>По ширине страницы</translation>
     </message>
     <message>
         <source>Fit page</source>
-        <translation type="unfinished"></translation>
+        <translation>Страница целиком</translation>
     </message>
     <message>
         <source>One to one</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Font</source>
-        <translation type="unfinished">Шрифт</translation>
-    </message>
-    <message>
-        <source>Text align</source>
-        <translation type="unfinished"></translation>
+        <translation>Один к одному</translation>
     </message>
 </context>
 <context>
@@ -956,20 +839,60 @@ p, li { white-space: pre-wrap; }
         <translation>Значение</translation>
     </message>
     <message>
+        <source>fullPage</source>
+        <translation>Страница целиком</translation>
+    </message>
+    <message>
+        <source>gridStep</source>
+        <translation>Шаг сетки</translation>
+    </message>
+    <message>
+        <source>oldPrintMode</source>
+        <translation>Старый режим печати</translation>
+    </message>
+    <message>
+        <source>resourcePath</source>
+        <translation>Путь к ресурсам</translation>
+    </message>
+    <message>
+        <source>autoSize</source>
+        <translation>Автоматический размер</translation>
+    </message>
+    <message>
+        <source>center</source>
+        <translation>Центрировать</translation>
+    </message>
+    <message>
+        <source>field</source>
+        <translation>Поле</translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation>Изображение</translation>
+    </message>
+    <message>
+        <source>keepAspectRatio</source>
+        <translation>Сохранять соотношение сторон</translation>
+    </message>
+    <message>
+        <source>scale</source>
+        <translation>Масштабировать</translation>
+    </message>
+    <message>
         <source>leftMargin</source>
-        <translation>Отступ левый</translation>
+        <translation>Левый отступ</translation>
     </message>
     <message>
         <source>rightMargin</source>
-        <translation>Отступ правый</translation>
+        <translation>Правый отступ</translation>
     </message>
     <message>
         <source>topMargin</source>
-        <translation>Отступ верхний</translation>
+        <translation>Верхний отступ</translation>
     </message>
     <message>
         <source>bottomMargin</source>
-        <translation>Отступ нижний</translation>
+        <translation>Нижний отступ</translation>
     </message>
     <message>
         <source>objectName</source>
@@ -980,12 +903,24 @@ p, li { white-space: pre-wrap; }
         <translation>Границы</translation>
     </message>
     <message>
+        <source>condition</source>
+        <translation>Условие</translation>
+    </message>
+    <message>
+        <source>keepGroupTogether</source>
+        <translation>Сохранять группу вместе</translation>
+    </message>
+    <message>
+        <source>groupFieldName</source>
+        <translation>Столбец группы</translation>
+    </message>
+    <message>
         <source>geometry</source>
         <translation>Геометрия</translation>
     </message>
     <message>
         <source>itemAlign</source>
-        <translation>Расположение объекта</translation>
+        <translation>Выравнивание объекта</translation>
     </message>
     <message>
         <source>pageOrientation</source>
@@ -1013,19 +948,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>datasource</source>
-        <translation type="unfinished">источник данных</translation>
+        <translation>Источник данных</translation>
     </message>
     <message>
         <source>alignment</source>
-        <translation type="unfinished">расположение</translation>
+        <translation>Выравнивание</translation>
     </message>
     <message>
         <source>content</source>
-        <translation type="unfinished">содержимое</translation>
+        <translation>Содержимое</translation>
     </message>
     <message>
         <source>itemLocation</source>
-        <translation type="unfinished">Расположение объекта</translation>
+        <translation>Расположение объекта</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -1033,115 +968,187 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>reprintOnEachPage</source>
-        <translation type="unfinished"></translation>
+        <translation>Печатать на каждой странице</translation>
     </message>
     <message>
         <source>borderLineSize</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина линии границы</translation>
+    </message>
+    <message>
+        <source>textIndent</source>
+        <translation>Отступ текста</translation>
+    </message>
+    <message>
+        <source>textLayoutDirection</source>
+        <translation>Направление текста</translation>
+    </message>
+    <message>
+        <source>lineSpacing</source>
+        <translation>Межстрочный интервал</translation>
+    </message>
+    <message>
+        <source>underlines</source>
+        <translation>Подчеркивание</translation>
+    </message>
+    <message>
+        <source>underlineLineSize</source>
+        <translation>Толщина подчеркивания</translation>
+    </message>
+    <message>
+        <source>format</source>
+        <translation>Формат</translation>
+    </message>
+    <message>
+        <source>valueType</source>
+        <translation>Тип значения</translation>
+    </message>
+    <message>
+        <source>adaptFontToSize</source>
+        <translation>Шрифт по размеру</translation>
+    </message>
+    <message>
+        <source>followTo</source>
+        <translation>Следует за</translation>
+    </message>
+    <message>
+        <source>backgroundBrushStyle</source>
+        <translation>Стиль заполнения фона</translation>
     </message>
     <message>
         <source>autoHeight</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическая высота</translation>
     </message>
     <message>
         <source>backgroundColor</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет фона</translation>
     </message>
     <message>
-        <source>columnCount</source>
-        <translation type="unfinished"></translation>
+        <source>alternateBackgroundColor</source>
+        <translation>Альтернативный цвет фона</translation>
+    </message>
+    <message>
+        <source>columnsCount</source>
+        <translation>Количество столбцов</translation>
     </message>
     <message>
         <source>columnsFillDirection</source>
-        <translation type="unfinished"></translation>
+        <translation>Направление заполнения столбцов</translation>
     </message>
     <message>
         <source>keepBottomSpace</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранять отступ снизу</translation>
     </message>
     <message>
         <source>keepFooterTogether</source>
-        <translation type="unfinished"></translation>
+        <translation>Привязать колонтитул к данным</translation>
     </message>
     <message>
         <source>keepSubdetailTogether</source>
-        <translation type="unfinished"></translation>
+        <translation>Привязать подчиненные данные</translation>
     </message>
     <message>
         <source>printIfEmpty</source>
-        <translation type="unfinished"></translation>
+        <translation>Печатать, если пустое</translation>
     </message>
     <message>
         <source>sliceLastRow</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрезать последнюю запись</translation>
     </message>
     <message>
         <source>splittable</source>
-        <translation type="unfinished"></translation>
+        <translation>Разбивать содержимое на части</translation>
     </message>
     <message>
         <source>angle</source>
-        <translation type="unfinished"></translation>
+        <translation>Угол поворота</translation>
     </message>
     <message>
         <source>autoWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическая ширина</translation>
     </message>
     <message>
         <source>backgroundMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим фона</translation>
     </message>
     <message>
         <source>backgroundOpacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Заполненость фона</translation>
     </message>
     <message>
         <source>font</source>
-        <translation type="unfinished"></translation>
+        <translation>Шрифт</translation>
     </message>
     <message>
         <source>fontColor</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет шрифта</translation>
     </message>
     <message>
         <source>foregroundOpacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Заполненость переднего плана</translation>
     </message>
     <message>
         <source>margin</source>
-        <translation type="unfinished"></translation>
+        <translation>Поля</translation>
     </message>
     <message>
         <source>stretchToMaxHeight</source>
-        <translation type="unfinished"></translation>
+        <translation>Растягивать до максимальной высоты</translation>
     </message>
     <message>
         <source>trimValue</source>
-        <translation type="unfinished"></translation>
+        <translation>Обрезать пробелы с краев</translation>
     </message>
     <message>
         <source>lineWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина линии</translation>
     </message>
     <message>
         <source>opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Заполненость</translation>
     </message>
     <message>
         <source>penStyle</source>
-        <translation type="unfinished"></translation>
+        <translation>Стиль пера</translation>
     </message>
     <message>
         <source>shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Фигура</translation>
     </message>
     <message>
         <source>shapeBrush</source>
-        <translation type="unfinished"></translation>
+        <translation>Кисть фигуры</translation>
     </message>
     <message>
         <source>shapeBrushColor</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет кисти</translation>
+    </message>
+    <message>
+        <source>allowHTML</source>
+        <translation>Разрешить HTML</translation>
+    </message>
+    <message>
+        <source>allowHTMLInFields</source>
+        <translation>Разрешить HTML в полях</translation>
+    </message>
+    <message>
+        <source>printAlways</source>
+        <translation>Печатать всегда</translation>
+    </message>
+    <message>
+        <source>borderColor</source>
+        <translation>Цвет границ</translation>
+    </message>
+    <message>
+        <source>startNewPage</source>
+        <translation>Начинать новую страницу</translation>
+    </message>
+    <message>
+        <source>startFromNewPage</source>
+        <translation>Начинать с новой страницы</translation>
+    </message>
+    <message>
+        <source>resetPageNumber</source>
+        <translation>Обнулять номер страницы</translation>
     </message>
 </context>
 <context>
@@ -1172,22 +1179,6 @@ p, li { white-space: pre-wrap; }
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
-    <message>
-        <source>Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Script</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
-    </message>
-    <message>
-        <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWindow</name>
@@ -1206,6 +1197,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Redo</source>
         <translation>Повторить действие</translation>
+    </message>
+    <message>
+        <source>New Report Page</source>
+        <translation>Новая страница отчета</translation>
+    </message>
+    <message>
+        <source>Delete Report Page</source>
+        <translation>Удалить страницу отчета</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -1356,6 +1355,10 @@ p, li { white-space: pre-wrap; }
         <translation>Завершение группы</translation>
     </message>
     <message>
+        <source>Tear-off Band</source>
+        <translation>Отрыв данных</translation>
+    </message>
+    <message>
         <source>File</source>
         <translation>Файл</translation>
     </message>
@@ -1380,8 +1383,12 @@ p, li { white-space: pre-wrap; }
         <translation>Инспектор данных</translation>
     </message>
     <message>
+        <source>Script Browser</source>
+        <translation>Инспектор скриптов</translation>
+    </message>
+    <message>
         <source>Report has been modified ! Do you want save the report ?</source>
-        <translation>Отчет был изменен ! Хотите его записать ?</translation>
+        <translation>Отчет был изменен ! Хотите его сохранить ?</translation>
     </message>
     <message>
         <source>Report file name</source>
@@ -1393,39 +1400,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Abort</source>
-        <translation>О генераторе</translation>
+        <translation>Прервать</translation>
     </message>
     <message>
         <source> page rendered</source>
-        <translation>создается страница</translation>
+        <translation> создается страница</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished">Предупреждение</translation>
+        <translation>Предупреждение</translation>
     </message>
     <message>
         <source>Use magnet</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать магнит</translation>
     </message>
     <message>
         <source>Recent Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Последние файлы</translation>
     </message>
     <message>
         <source>File &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Report Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete Report Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Script Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл &quot;%1&quot; не найден!</translation>
     </message>
 </context>
 <context>
@@ -1436,7 +1431,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Предосмотр</translation>
     </message>
 </context>
 <context>
@@ -1472,153 +1467,99 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::SQLEditDialog</name>
     <message>
         <source>Datasource</source>
-        <translation type="unfinished">Источник данных</translation>
+        <translation>Источник данных</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished">Соединение</translation>
+        <translation>Соединение</translation>
     </message>
     <message>
         <source>Datasource Name</source>
-        <translation type="unfinished">Имя источника</translation>
+        <translation>Имя источника</translation>
     </message>
     <message>
         <source>Subdetail</source>
-        <translation type="unfinished">Подчиненный</translation>
+        <translation>Подчиненный</translation>
     </message>
     <message>
         <source>Master datasource</source>
-        <translation type="unfinished">Главный источник</translation>
+        <translation>Главный источник</translation>
     </message>
     <message>
         <source>Subquery mode</source>
-        <translation type="unfinished">Режим подзапроса</translation>
+        <translation>Режим подзапроса</translation>
     </message>
     <message>
         <source>Filter mode</source>
-        <translation type="unfinished">Режим фильтрации</translation>
+        <translation>Режим фильтрации</translation>
     </message>
     <message>
         <source>SQL</source>
-        <translation type="unfinished">SQL запрос</translation>
+        <translation>SQL запрос</translation>
     </message>
     <message>
         <source>Hide Preview</source>
-        <translation type="unfinished">Скрыть</translation>
+        <translation>Скрыть</translation>
     </message>
     <message>
         <source>Child datasource</source>
-        <translation type="unfinished">Подчиненный источник</translation>
+        <translation>Подчиненный источник</translation>
     </message>
     <message>
         <source>Fields map</source>
-        <translation type="unfinished">Поля для связи источников</translation>
+        <translation>Поля для связи источников</translation>
     </message>
     <message>
         <source>Data preview</source>
-        <translation type="unfinished">Данные</translation>
+        <translation>Данные</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <source>Datasource Name is empty !</source>
-        <translation type="unfinished">Имя источника данных не заполнено !</translation>
+        <translation>Имя источника данных не заполнено !</translation>
     </message>
     <message>
         <source>SQL is empty !</source>
-        <translation type="unfinished">SQL запрос пустой !</translation>
+        <translation>SQL запрос пустой !</translation>
     </message>
     <message>
         <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="unfinished">Источник данных с именем: &quot;%1&quot; уже существует !</translation>
+        <translation>Источник данных с именем: &quot;%1&quot; уже существует !</translation>
     </message>
     <message>
         <source>Datasource with name %1 already exist</source>
-        <translation type="unfinished">Источник данных с именем: &quot;%1&quot; уже существует</translation>
+        <translation>Источник данных с именем: &quot;%1&quot; уже существует</translation>
     </message>
     <message>
         <source>Attention</source>
-        <translation type="unfinished">Внимание</translation>
+        <translation>Внимание</translation>
     </message>
     <message>
         <source>Connection is not specified</source>
-        <translation type="unfinished">Соединение не указано</translation>
+        <translation>Соединение не указано</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished">Обновить</translation>
+        <translation>Обновить</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Предосмотр</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LimeReport::ScriptBrowser</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Functions</source>
-        <translation type="unfinished">Функции</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dialogs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished">Тип</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished">Имя переменной</translation>
-    </message>
-    <message>
-        <source>NO CATEGORY</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
-    </message>
-    <message>
-        <source>Dialog with name: %1 already exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>wrong file format</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LimeReport::ScriptEngineContext</name>
-    <message>
-        <source>Dialog with name: %1 can`t be created</source>
-        <translation type="unfinished"></translation>
+        <translation>Ок</translation>
     </message>
 </context>
 <context>
@@ -1645,34 +1586,34 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Locale</source>
-        <translation type="unfinished"></translation>
+        <translation>Локализация</translation>
     </message>
     <message>
         <source>CurrencySymbol</source>
-        <translation type="unfinished"></translation>
+        <translation>Символ валюты</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
     <message>
         <source>Designer setting</source>
-        <translation type="unfinished">Настройки дизайнера</translation>
+        <translation>Настройки дизайнера</translation>
     </message>
     <message>
         <source>Default font</source>
-        <translation type="unfinished">Шрифт по умолчанию</translation>
+        <translation>Шрифт по умолчанию</translation>
     </message>
     <message>
         <source>Grid</source>
-        <translation type="unfinished">Сетка</translation>
+        <translation>Сетка</translation>
     </message>
     <message>
         <source>Vertical grid step</source>
-        <translation type="unfinished">Вертикальный шаг</translation>
+        <translation>Вертикальный шаг сетки</translation>
     </message>
     <message>
         <source>Horizontal grid step</source>
-        <translation type="unfinished">Горизонтальный шаг</translation>
+        <translation>Горизонтальный шаг сетки</translation>
     </message>
 </context>
 <context>
@@ -1717,152 +1658,100 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::TextItem</name>
+    <message>
+        <source>Edit</source>
+        <translation>Правка</translation>
+    </message>
+    <message>
+        <source>Auto height</source>
+        <translation>Автоматическая высота</translation>
+    </message>
+    <message>
+        <source>Allow HTML</source>
+        <translation>Разрешить HTML</translation>
+    </message>
+    <message>
+        <source>Allow HTML in fields</source>
+        <translation>Разрешить HTML в полях</translation>
+    </message>
+    <message>
+        <source>Stretch to max height</source>
+        <translation>Растягивать до максимальной высоты</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
+        <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <source>TextItem &quot; %1 &quot; not found !</source>
+        <translation>Текстовый элемент &quot;%1&quot; не найден!</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::TextItemEditor</name>
     <message>
         <source>Text Item Editor</source>
-        <translation type="unfinished">Редактор текстового элемента</translation>
+        <translation>Редактор текстового элемента</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished">Содержимое</translation>
+        <translation>Содержимое</translation>
     </message>
     <message>
         <source>Functions</source>
-        <translation type="unfinished">Функции</translation>
+        <translation>Функции</translation>
     </message>
     <message>
         <source>Editor settings</source>
-        <translation type="unfinished">Настройки</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <source>Editor font</source>
-        <translation type="unfinished">Шрифт редактора</translation>
+        <translation>Шрифт редактора</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Данные</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ок</translation>
     </message>
     <message>
         <source>Ctrl+Return</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>LimeReport::VariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation type="unfinished">переменная</translation>
+        <translation>переменная</translation>
     </message>
     <message>
         <source> already exists !!</source>
-        <translation type="unfinished">уже существует !!</translation>
+        <translation>уже существует !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation type="unfinished">не существует !!</translation>
-    </message>
-</context>
-<context>
-    <name>PreviewReportWindow</name>
-    <message>
-        <source>Preview</source>
-        <translation type="obsolete">Предварительный просмотр</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="obsolete">Просмотр</translation>
-    </message>
-    <message>
-        <source>Report</source>
-        <translation type="obsolete">Отчет</translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation type="obsolete">Панель инструментов</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="obsolete">Печать</translation>
-    </message>
-    <message>
-        <source>Zoom In</source>
-        <translation type="obsolete">Увеличить</translation>
-    </message>
-    <message>
-        <source>Zoom Out</source>
-        <translation type="obsolete">Уменьшить</translation>
-    </message>
-    <message>
-        <source>Prior Page</source>
-        <translation type="obsolete">Предыдущая страница</translation>
-    </message>
-    <message>
-        <source>Next Page</source>
-        <translation type="obsolete">Следующая страница</translation>
-    </message>
-    <message>
-        <source>Close Preview</source>
-        <translation type="obsolete">Закрыть</translation>
-    </message>
-    <message>
-        <source>Edit Mode</source>
-        <translation type="obsolete">Режим редактирования</translation>
-    </message>
-    <message>
-        <source>Save to file</source>
-        <translation type="obsolete">Записать в файл</translation>
-    </message>
-    <message>
-        <source>Show errors</source>
-        <translation type="obsolete">Показать ошибки</translation>
-    </message>
-    <message>
-        <source>First Page</source>
-        <translation type="obsolete">Первая страница</translation>
-    </message>
-    <message>
-        <source>First page</source>
-        <translation type="obsolete">Первая страница</translation>
-    </message>
-    <message>
-        <source>Last Page</source>
-        <translation type="obsolete">Последняя страница</translation>
-    </message>
-    <message>
-        <source>Print To PDF</source>
-        <translation type="obsolete">Печать в PDF</translation>
-    </message>
-    <message>
-        <source>Page: </source>
-        <translation type="obsolete">Страница: </translation>
-    </message>
-    <message>
-        <source> of %1</source>
-        <translation type="obsolete"> из %1</translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation type="obsolete">Файл отчета</translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
-        <translation type="obsolete">Имя PDF файла</translation>
+        <translation>не существует !!</translation>
     </message>
 </context>
 <context>
@@ -1917,7 +1806,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>alignment</source>
-        <translation>расположение</translation>
+        <translation>Выравнивание объекта</translation>
     </message>
     <message>
         <source>Barcode Item</source>
@@ -1946,10 +1835,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Invalid connection! %1</source>
         <translation>Неверное соединение %1</translation>
-    </message>
-    <message>
-        <source>Master datasource &quot;%1&quot; not found!</source>
-        <translation type="obsolete">Главный источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Child</source>
@@ -2008,236 +1893,60 @@ p, li { white-space: pre-wrap; }
         <translation>Файл %1 не открыт</translation>
     </message>
     <message>
-        <source>TopLine</source>
-        <translation type="obsolete">Верхняя граница</translation>
-    </message>
-    <message>
-        <source>BottomLine</source>
-        <translation type="obsolete">Нижняя граница</translation>
-    </message>
-    <message>
-        <source>LeftLine</source>
-        <translation type="obsolete">Левая граница</translation>
-    </message>
-    <message>
-        <source>RightLine</source>
-        <translation type="obsolete">Правая граница</translation>
-    </message>
-    <message>
         <source>content</source>
         <translation>содержимое</translation>
     </message>
     <message>
         <source>Master datasource &quot;%1&quot; not found!!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Главный источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Master datasouce &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Главный источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>bool</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QColor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QFont</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QImage</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>int</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>qreal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QRect</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QRectF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QString</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Content string is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Строка содержимого пустая</translation>
     </message>
     <message>
         <source>Content is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SQLEditDialog</name>
-    <message>
-        <source>Datasource</source>
-        <translation type="obsolete">Источник данных</translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation type="obsolete">Соединение</translation>
-    </message>
-    <message>
-        <source>Datasource Name</source>
-        <translation type="obsolete">Имя источника</translation>
-    </message>
-    <message>
-        <source>Subdetail</source>
-        <translation type="obsolete">Подчиненный</translation>
-    </message>
-    <message>
-        <source>Master datasource</source>
-        <translation type="obsolete">Главный источник</translation>
-    </message>
-    <message>
-        <source>Subquery mode</source>
-        <translation type="obsolete">Режим подзапроса</translation>
-    </message>
-    <message>
-        <source>Filter mode</source>
-        <translation type="obsolete">Режим фильтрации</translation>
-    </message>
-    <message>
-        <source>SQL</source>
-        <translation type="obsolete">SQL запрос</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="obsolete">Предпросмотр</translation>
-    </message>
-    <message>
-        <source>Hide Preview</source>
-        <translation type="obsolete">Скрыть</translation>
-    </message>
-    <message>
-        <source>Child datasource</source>
-        <translation type="obsolete">Подчиненный источник</translation>
-    </message>
-    <message>
-        <source>Fields map</source>
-        <translation type="obsolete">Поля для связи источников</translation>
-    </message>
-    <message>
-        <source>Data preview</source>
-        <translation type="obsolete">Данные</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Отмена</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="obsolete">Ошибка</translation>
-    </message>
-    <message>
-        <source>Datasource Name is empty !</source>
-        <translation type="obsolete">Имя источника данных не заполнено !</translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation type="obsolete">SQL запрос пустой !</translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="obsolete">Источник данных с именем: &quot;%1&quot; уже существует !</translation>
-    </message>
-    <message>
-        <source>Datasource with name %1 already exist</source>
-        <translation type="obsolete">Источник данных с именем: &quot;%1&quot; уже существует</translation>
-    </message>
-    <message>
-        <source>Attention</source>
-        <translation type="obsolete">Внимание</translation>
-    </message>
-    <message>
-        <source>Connection is not specified</source>
-        <translation type="obsolete">Соединение не указано</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation type="obsolete">Обновить</translation>
-    </message>
-</context>
-<context>
-    <name>SettingDialog</name>
-    <message>
-        <source>Designer setting</source>
-        <translation type="obsolete">Настройки дизайнера</translation>
-    </message>
-    <message>
-        <source>Default font</source>
-        <translation type="obsolete">Шрифт по умолчанию</translation>
-    </message>
-    <message>
-        <source>Grid</source>
-        <translation type="obsolete">Сетка</translation>
-    </message>
-    <message>
-        <source>Vertical grid step</source>
-        <translation type="obsolete">Вертикальный шаг</translation>
-    </message>
-    <message>
-        <source>Horizontal grid step</source>
-        <translation type="obsolete">Горизонтальный шаг</translation>
-    </message>
-</context>
-<context>
-    <name>TextItemEditor</name>
-    <message>
-        <source>Text Item Editor</source>
-        <translation type="obsolete">Редактор текстового элемента</translation>
-    </message>
-    <message>
-        <source>Content</source>
-        <translation type="obsolete">Содержимое</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="obsolete">Источники данных</translation>
-    </message>
-    <message>
-        <source>Functions</source>
-        <translation type="obsolete">Функции</translation>
-    </message>
-    <message>
-        <source>Editor settings</source>
-        <translation type="obsolete">Настройки</translation>
-    </message>
-    <message>
-        <source>Editor font</source>
-        <translation type="obsolete">Шрифт редактора</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Отмена</translation>
-    </message>
-</context>
-<context>
-    <name>WaitForm</name>
-    <message>
-        <source>Wait</source>
-        <translation type="obsolete">Ожидайте</translation>
-    </message>
-    <message>
-        <source>Please wait ...</source>
-        <translation type="obsolete">Пожалуста подождите ...</translation>
+        <translation>Содержимое пустое</translation>
     </message>
 </context>
 </TS>
