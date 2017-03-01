@@ -133,7 +133,7 @@ void TextItemEditor::initUI()
         ui->tabWidget->setVisible(false);
     }
 
-    foreach (LimeReport::ScriptFunctionDesc functionDesc, se.functionsDescriber()) {
+    foreach (LimeReport::ScriptFunctionDesc functionDesc, se.functionsDescribers()) {
         dataWords<<functionDesc.name;
     }
 

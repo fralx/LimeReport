@@ -167,17 +167,29 @@ void ReportRender::setScriptContext(ScriptEngineContext* scriptContext)
 
 bool ReportRender::runInitScript(){
     if (m_scriptEngineContext){
-        QScriptEngine* engine = ScriptEngineManager::instance().scriptEngine();
+        ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
+#ifndef USE_QJSENGINE
         engine->pushContext();
-        QScriptValue res = engine->evaluate(m_scriptEngineContext->initScript());
+#endif
+        ScriptValueType res = engine->evaluate(m_scriptEngineContext->initScript());
         if (res.isBool()) return res.toBool();
+#ifdef  USE_QJSENGINE
+        if (res.isError()){
+            QMessageBox::critical(0,tr("Error"),
+                QString("Line %1: %2 ").arg(res.property("lineNumber").toString())
+                                       .arg(res.toString())
+            );
+            return false;
+        }
+#else
         if (engine->hasUncaughtException()) {
             QMessageBox::critical(0,tr("Error"),
                 QString("Line %1: %2 ").arg(engine->uncaughtExceptionLineNumber())
                                        .arg(engine->uncaughtException().toString())
             );
             return false;
-        }
+        }    
+#endif
     }
     return true;
 }
@@ -269,8 +281,9 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
             renderBand(tearOffBand, 0, StartNewPageAsNeeded);
 
         savePage(true);
-
+#ifndef USE_QJSENGINE
         ScriptEngineManager::instance().scriptEngine()->popContext();
+#endif
     }
 }
 
@@ -314,11 +327,24 @@ void ReportRender::initVariables()
 }
 
 #ifdef HAVE_UI_LOADER
+
+#ifdef USE_QJSENGINE
+void registerChildObjects(ScriptEngineType* se, ScriptValueType* sv){
+    foreach(QObject* obj, sv->toQObject()->children()){
+        ScriptValueType child = se->newQObject(obj);
+        sv->setProperty(obj->objectName(),child);
+        registerChildObjects(se, &child);
+    }
+}
+#endif
 void ReportRender::initDialogs(){
     if (m_scriptEngineContext){
-        QScriptEngine* se = ScriptEngineManager::instance().scriptEngine();
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
         foreach(DialogDescriber::Ptr dialog, m_scriptEngineContext->dialogsDescriber()){
-            QScriptValue sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
+            ScriptValueType sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
+#ifdef USE_QJSENGINE
+            registerChildObjects(se,&sv);
+#endif
             se->globalObject().setProperty(dialog->name(),sv);
         }
     }
@@ -1249,18 +1275,26 @@ void ReportRender::baseDesignIntfToScript(BaseDesignIntf *item)
         if (item->metaObject()->indexOfSignal("afterRender()")!=-1)
             item->disconnect(SIGNAL(afterRender()));
 
-        QScriptEngine* engine = ScriptEngineManager::instance().scriptEngine();
-        QScriptValue sItem = engine->globalObject().property(item->patternName());
+        ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
+
+#ifdef USE_QJSENGINE
+        //sItem = engine->newQObject(item);
+        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        engine->globalObject().setProperty(item->patternName(), sItem);
+#else
+        ScriptValueType sItem = engine->globalObject().property(item->patternName());
         if (sItem.isValid()){
             engine->newQObject(sItem, item);
         } else {
             sItem = engine->newQObject(item);
             engine->globalObject().setProperty(item->patternName(),sItem);
         }
+#endif
         foreach(BaseDesignIntf* child, item->childBaseItems()){
             baseDesignIntfToScript(child);
         }
     }
+
 }
 
 }

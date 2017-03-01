@@ -42,6 +42,13 @@
 #  define LIMEREPORT_EXPORT   /**/
 #endif
 
+#ifdef USE_QJSENGINE
+//#include <QJSEngine>
+#include <QQmlEngine>
+#else
+#include <QScriptEngine>
+#endif
+
 namespace LimeReport {
 
 #ifdef __GNUC__
@@ -91,6 +98,7 @@ namespace Const{
     const QString GROUP_FUNCTION_RX = "(%1\\s*"+GROUP_FUNCTION_PARAM_RX+")";
     const QString GROUP_FUNCTION_NAME_RX = "%1\\s*\\((.*[^\\)])\\)";
     const int SCENE_MARGIN = 50;
+    const QString FUNCTION_MANAGER_NAME = "LimeReport";
 }
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);
@@ -130,6 +138,20 @@ namespace Const{
     typedef QStyleOptionViewItem StyleOptionViewItem;
 #endif
 
+#ifdef USE_QJSENGINE
+    typedef QQmlEngine ScriptEngineType;
+    typedef QJSValue ScriptValueType;
+    template <typename T>
+    static inline QJSValue getCppOwnedJSValue(QJSEngine &e, T *p)
+    {
+        QJSValue res = e.newQObject(p);
+        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
+        return res;
+    }
+#else
+    typedef QScriptEngine ScriptEngineType;
+    typedef QScriptValue ScriptValueType;
+#endif
 
 } // namespace LimeReport
 
