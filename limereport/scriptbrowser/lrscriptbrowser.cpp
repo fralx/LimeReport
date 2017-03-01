@@ -67,7 +67,7 @@ void ScriptBrowser::updateFunctionTree()
     ui->twFunctions->clear();
     ScriptEngineManager* sm = reportEditor()->scriptManager();
     QMap<QString,QTreeWidgetItem*> categ;
-    foreach(ScriptFunctionDesc fd, sm->functionsDescriber()){
+    foreach(ScriptFunctionDesc fd, sm->functionsDescribers()){
         QString functionCategory = (fd.category!="") ? fd.category : tr("NO CATEGORY");
         if (categ.contains(functionCategory)){
             QTreeWidgetItem* item = new QTreeWidgetItem(categ.value(fd.category),QStringList(fd.name));

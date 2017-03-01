@@ -95,8 +95,8 @@ MainWindow::MainWindow(QWidget *parent) :
     report->dataManager()->addModel("string_list",stringListModel,true);
     QStringList strList;
     strList<<"value1"<<"value2";
-    QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
-    report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
+    //QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
+    //report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
 
 
 }

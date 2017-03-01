@@ -1,6 +1,6 @@
 CONFIG += build_translations
 CONFIG += zint
-
+CONFIG += qjsengine
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += uitools
 }
@@ -68,10 +68,14 @@ TRANSLATIONS_PATH = $$PWD/translations
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES+=HAVE_QT5
-    QT+= printsupport widgets
+    QT+= printsupport widgets qml
     contains(QT,uitools){
         message(uitools)
         DEFINES += HAVE_UI_LOADER
+    }
+    contains(CONFIG, qjsengine){
+        message(qjsengine)
+        DEFINES += USE_QJSENGINE
     }
 }
 
