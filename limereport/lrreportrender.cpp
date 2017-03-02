@@ -407,7 +407,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
 
 
         bandClone->setBackgroundColor(
-                    (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt()%2!=0 ?
+                    (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt() %2 !=0 ?
                          bandClone->backgroundColor():
                          bandClone->alternateBackgroundColor()
                     )

@@ -1081,33 +1081,58 @@ QObject* DataSourceManager::elementAt(const QString &collectionName, int index)
 void DataSourceManager::collectionLoadFinished(const QString &collectionName)
 {
 
-    if (collectionName.compare("connections",Qt::CaseInsensitive)==0){
+    if (collectionName.compare("connections",Qt::CaseInsensitive) == 0){
 
     }
 
-    if (collectionName.compare("queries",Qt::CaseInsensitive)==0){
-        foreach(QueryDesc* query,m_queries){
-            connect(query, SIGNAL(queryTextChanged(QString,QString)),
-                    this, SLOT(slotQueryTextChanged(QString,QString)));
-            putHolder(query->queryName(),new QueryHolder(query->queryText(), query->connectionName(), this));
+    if (collectionName.compare("queries",Qt::CaseInsensitive) == 0){
+
+        QMutableListIterator<QueryDesc*> it(m_queries);
+        while (it.hasNext()){
+            it.next();
+            if (!m_datasources.contains(it.value()->queryName().toLower())){
+                connect(it.value(), SIGNAL(queryTextChanged(QString,QString)),
+                        this, SLOT(slotQueryTextChanged(QString,QString)));
+                putHolder(it.value()->queryName(),new QueryHolder(it.value()->queryText(), it.value()->connectionName(), this));
+            } else {
+                delete it.value();
+                it.remove();
+            }
+        }
+
+    }
+
+    if (collectionName.compare("subqueries",Qt::CaseInsensitive) == 0){
+
+        QMutableListIterator<SubQueryDesc*> it(m_subqueries);
+        while (it.hasNext()){
+            it.next();
+            if (!m_datasources.contains(it.value()->queryName().toLower())){
+                connect(it.value(), SIGNAL(queryTextChanged(QString,QString)),
+                        this, SLOT(slotQueryTextChanged(QString,QString)));
+                putHolder(it.value()->queryName(),new QueryHolder(it.value()->queryText(), it.value()->connectionName(), this));
+            } else {
+                delete it.value();
+                it.remove();
+            }
+        }
+
+    }
+
+    if (collectionName.compare("subproxies",Qt::CaseInsensitive) == 0){
+        QMutableListIterator<ProxyDesc*> it(m_proxies);
+        while (it.hasNext()){
+            it.next();
+            if (!m_datasources.contains(it.value()->name().toLower())){
+                putHolder(it.value()->name(),new ProxyHolder(it.value(), this));
+            } else {
+                delete it.value();
+                it.remove();
+            }
         }
     }
 
-    if (collectionName.compare("subqueries",Qt::CaseInsensitive)==0){
-        foreach(SubQueryDesc* query,m_subqueries){
-            connect(query, SIGNAL(queryTextChanged(QString,QString)),
-                    this, SLOT(slotQueryTextChanged(QString,QString)));
-            putHolder(query->queryName(),new SubQueryHolder(query->queryText(), query->connectionName(), query->master(), this));
-        }
-    }
-
-    if(collectionName.compare("subproxies",Qt::CaseInsensitive)==0){
-        foreach(ProxyDesc* proxy,m_proxies){
-            putHolder(proxy->name(),new ProxyHolder(proxy, this));
-        }
-    }
-
-    if(collectionName.compare("variables",Qt::CaseInsensitive)==0){
+    if (collectionName.compare("variables",Qt::CaseInsensitive) == 0){
         foreach (VarDesc* item, m_tempVars) {
             if (!m_reportVariables.containsVariable(item->name())){
                 m_reportVariables.addVariable(item->name(),item->value(),VarDesc::Report,FirstPass);
