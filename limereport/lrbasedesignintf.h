@@ -34,6 +34,7 @@
 #include <QGraphicsItem>
 #include <QtGui>
 #include <QtXml>
+#include <QMenu>
 #include "lrcollection.h"
 #include "lrglobal.h"
 #include "serializators/lrstorageintf.h"
