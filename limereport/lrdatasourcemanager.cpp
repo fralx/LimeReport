@@ -856,7 +856,7 @@ QList<QString> DataSourceManager::childDatasources(const QString &parentDatasour
     foreach(QString datasourceName, dataSourceNames()){
         if (isSubQuery(datasourceName)){
             SubQueryHolder* sh = dynamic_cast<SubQueryHolder*>(dataSourceHolder(datasourceName));
-            if (sh->masterDatasource().compare(parentDatasourceName,Qt::CaseInsensitive)==0){
+            if (sh && sh->masterDatasource().compare(parentDatasourceName,Qt::CaseInsensitive)==0){
                 result.append(datasourceName);
             }
         }
@@ -868,7 +868,8 @@ void DataSourceManager::invalidateChildren(const QString &parentDatasourceName)
 {
     foreach(QString datasourceName, childDatasources(parentDatasourceName)){
         SubQueryHolder* sh = dynamic_cast<SubQueryHolder*>(dataSourceHolder(datasourceName));
-        sh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+        if (sh)
+            sh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
         invalidateChildren(datasourceName);
     }
 }
@@ -1110,7 +1111,12 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
             if (!m_datasources.contains(it.value()->queryName().toLower())){
                 connect(it.value(), SIGNAL(queryTextChanged(QString,QString)),
                         this, SLOT(slotQueryTextChanged(QString,QString)));
-                putHolder(it.value()->queryName(),new QueryHolder(it.value()->queryText(), it.value()->connectionName(), this));
+                putHolder(it.value()->queryName(),new SubQueryHolder(
+                              it.value()->queryText(),
+                              it.value()->connectionName(),
+                              it.value()->master(),
+                              this)
+                );
             } else {
                 delete it.value();
                 it.remove();

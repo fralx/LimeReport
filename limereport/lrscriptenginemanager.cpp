@@ -566,8 +566,11 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                 context.replace(rx.cap(0),fieldValue);
 
             } else {
-                QString error = QString("Field %1 not found in %2 !!! ").arg(field).arg(reportItem->objectName());
-                dataManager()->putError(error);
+                QString error;
+                if (reportItem){
+                    error = QString("Field %1 not found in %2 !!! ").arg(field).arg(reportItem->objectName());
+                    dataManager()->putError(error);
+                }
                 varValue = QVariant();
                 if (!dataManager()->reportSettings() || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
                     context.replace(rx.cap(0),error);
