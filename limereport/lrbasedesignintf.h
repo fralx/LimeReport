@@ -76,6 +76,7 @@ protected:
 };
 
 class DataSourceManager;
+class ReportRender;
 
 class  BaseDesignIntf :
         public QObject, public QGraphicsItem, public ICollectionContainer, public ObjectLoadingStateIntf {
@@ -94,7 +95,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
-
+    friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
 
