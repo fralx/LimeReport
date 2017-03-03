@@ -147,7 +147,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startNewPage(false),
     m_startFromNewPage(false),
     m_printAlways(false),
-    m_repeatOnEachRow(false)
+    m_repeatOnEachRow(false),
+    m_useAlternateBackgroundColor(false)
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -447,7 +448,7 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
 
     QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
     autoSplittableAction->setCheckable(true);
-    autoSplittableAction->setChecked(isSplittable());
+    autoSplittableAction->setChecked(isSplittable());    
 }
 
 void BandDesignIntf::processPopUpAction(QAction *action)
@@ -780,6 +781,21 @@ void BandDesignIntf::childBandDeleted(QObject *band)
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
 }
 
+bool BandDesignIntf::useAlternateBackgroundColor() const
+{
+    return m_useAlternateBackgroundColor;
+}
+
+void BandDesignIntf::setUseAlternateBackgroundColor(bool useAlternateBackgroundColor)
+{
+    if (m_useAlternateBackgroundColor != useAlternateBackgroundColor){
+        QColor oldValue = m_useAlternateBackgroundColor;
+        m_useAlternateBackgroundColor=useAlternateBackgroundColor;
+        if (!isLoading())
+            notify("useAlternateBackgroundColor",oldValue,useAlternateBackgroundColor);
+    }
+}
+
 QColor BandDesignIntf::alternateBackgroundColor() const
 {
     if (metaObject()->indexOfProperty("alternateBackgroundColor")!=-1)
@@ -790,7 +806,12 @@ QColor BandDesignIntf::alternateBackgroundColor() const
 
 void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgroundColor)
 {
-    m_alternateBackgroundColor = alternateBackgroundColor;
+    if (m_alternateBackgroundColor != alternateBackgroundColor){
+        QColor oldValue = m_alternateBackgroundColor;
+        m_alternateBackgroundColor=alternateBackgroundColor;
+        if (!isLoading())
+            notify("alternateBackgroundColor",oldValue,alternateBackgroundColor);
+    }
 }
 
 bool BandDesignIntf::repeatOnEachRow() const

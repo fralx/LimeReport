@@ -431,13 +431,14 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (patternBand->isFooter())
             m_lastRenderedFooter = patternBand;
 
-
-        bandClone->setBackgroundColor(
-                    (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt() %2 !=0 ?
-                         bandClone->backgroundColor():
-                         bandClone->alternateBackgroundColor()
-                    )
-        );
+        if (bandClone->useAlternateBackgroundColor()){
+            bandClone->setBackgroundColor(
+                        (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt() %2 == 0 ?
+                             bandClone->backgroundColor() :
+                             bandClone->alternateBackgroundColor()
+                        )
+            );
+        }
 
         patternBand->emitBandRendered(bandClone);
         emit(patternBand->afterRender());

@@ -219,6 +219,8 @@ public:
     void setRepeatOnEachRow(bool repeatOnEachRow);
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
+    bool useAlternateBackgroundColor() const;
+    void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);
 
 signals:
     void bandRendered(BandDesignIntf* band);
@@ -276,7 +278,8 @@ private:
     bool                        m_printAlways;
     bool                        m_repeatOnEachRow;
     QMap<QString,BaseDesignIntf*> m_slicedItems;
-    QColor m_alternateBackgroundColor;
+    QColor  m_alternateBackgroundColor;
+    bool    m_useAlternateBackgroundColor;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

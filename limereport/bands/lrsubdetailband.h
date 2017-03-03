@@ -43,6 +43,7 @@ class SubDetailBand : public DataBandDesignIntf
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
     Q_PROPERTY(bool keepFooterTogether READ keepFooterTogether WRITE setKeepFooterTogether)
     Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE setAlternateBackgroundColor)
+    Q_PROPERTY(bool useAlternateBackgroundColor READ useAlternateBackgroundColor WRITE setUseAlternateBackgroundColor)
 public:
     SubDetailBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}

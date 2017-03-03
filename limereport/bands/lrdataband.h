@@ -48,10 +48,13 @@ class DataBand : public DataBandDesignIntf
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
     Q_PROPERTY(bool startFromNewPage READ startFromNewPage WRITE setStartFromNewPage)
     Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE setAlternateBackgroundColor)
+    Q_PROPERTY(bool useAlternateBackgroundColor READ useAlternateBackgroundColor WRITE setUseAlternateBackgroundColor)
 public:
     DataBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
     bool isData() const {return true;}
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 protected:
     QColor bandColor() const;
 private:
@@ -82,7 +85,7 @@ class DataFooterBand : public BandDesignIntf
     Q_OBJECT
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)	
-    Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
+    Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
     DataFooterBand(QObject* owner=0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}
