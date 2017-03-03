@@ -105,6 +105,10 @@ void TextItem::preparePopUpMenu(QMenu &menu)
     action->setCheckable(true);
     action->setChecked(stretchToMaxHeight());
 
+    action = menu.addAction(tr("Transparent"));
+    action->setCheckable(true);
+    action->setChecked(backgroundMode() == TransparentMode);
+
 }
 
 void TextItem::processPopUpAction(QAction *action)
@@ -123,6 +127,13 @@ void TextItem::processPopUpAction(QAction *action)
     }
     if (action->text().compare(tr("Stretch to max height")) == 0){
         setProperty("stretchToMaxHeight",action->isChecked());
+    }
+    if (action->text().compare(tr("Transparent")) == 0){
+        if (action->isChecked()){
+            setProperty("backgroundMode",TransparentMode);
+        } else {
+            setProperty("backgroundMode",OpaqueMode);
+        }
     }
 }
 
