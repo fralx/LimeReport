@@ -3,6 +3,7 @@
 
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QPrinterInfo>
 #include <QScrollBar>
 #include <QFileDialog>
 
@@ -157,7 +158,13 @@ void PreviewReportWidget::lastPage()
 
 void PreviewReportWidget::print()
 {
+
+    QPrinterInfo pi;
     QPrinter printer(QPrinter::HighResolution);
+
+    if (!pi.defaultPrinter().isNull())
+        printer.setPrinterName(pi.defaultPrinterName());
+
     QPrintDialog dialog(&printer,QApplication::activeWindow());
     if (dialog.exec()==QDialog::Accepted){
         if (!d_ptr->m_reportPages.isEmpty())

@@ -29,6 +29,7 @@
  ****************************************************************************/
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QPrinterInfo>
 #include <QMessageBox>
 #include <QApplication>
 #include <QDesktopWidget>
@@ -271,6 +272,9 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, cons
 bool ReportEnginePrivate::printReport(QPrinter* printer)
 {
     if (!printer&&!m_printerSelected){
+        QPrinterInfo pi;
+        if (!pi.defaultPrinter().isNull())
+            m_printer.data()->setPrinterName(pi.defaultPrinterName());
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
     }
@@ -294,8 +298,10 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
 
 bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange)
 {
-
     if (!printer&&!m_printerSelected){
+        QPrinterInfo pi;
+        if (!pi.defaultPrinter().isNull())
+            m_printer.data()->setPrinterName(pi.defaultPrinterName());
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
         if (m_printerSelected){
