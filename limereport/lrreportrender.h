@@ -151,6 +151,7 @@ private:
     qreal columnHeigth(int columnIndex);
     qreal maxColumnHeight();
     void renameChildItems(BaseDesignIntf *item);
+    void renderGroupFooterByHeader(BandDesignIntf *groupHeader);
 private:
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
@@ -182,7 +183,6 @@ private:
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_curentNameIndex;
-
 
 };
 } // namespace LimeReport
