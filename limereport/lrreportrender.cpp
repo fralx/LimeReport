@@ -699,14 +699,26 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
     }
 }
 
+void ReportRender::renderGroupFooterByHeader(BandDesignIntf* groupHeader){
+    foreach (BandDesignIntf* header, groupHeader->childrenByType(BandDesignIntf::GroupHeader)){
+        renderGroupFooterByHeader(header);
+    }
+    foreach (BandDesignIntf* footer, groupHeader->childrenByType(BandDesignIntf::GroupFooter)){
+        renderBand(footer, 0, StartNewPageAsNeeded);
+    }
+}
+
 void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
 {
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){
         IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb && gb->isStarted()){
             if (band->reprintOnEachPage()) m_reprintableBands.removeOne(band);
-            if (band->childBands().count()>0){
-                renderBand(band->childBands().at(0), 0, StartNewPageAsNeeded);
+            foreach(BandDesignIntf* header, band->childrenByType(BandDesignIntf::GroupHeader)){
+                renderGroupFooterByHeader(header);
+            }
+            foreach(BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)){
+                renderBand(footer, 0, StartNewPageAsNeeded);
             }
             closeDataGroup(band);
         }
