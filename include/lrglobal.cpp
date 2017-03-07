@@ -67,4 +67,13 @@ QString replaceHTMLSymbols(const QString &value)
     return result;
 }
 
+QVector<QString> normalizeCaptures(const QRegExp& reg){
+    QVector<QString> result;
+    foreach (QString cap, reg.capturedTexts()) {
+        if (!cap.isEmpty())
+            result.append(cap);
+    }
+    return result;
+}
+
 } //namespace LimeReport
