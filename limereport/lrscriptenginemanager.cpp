@@ -1295,13 +1295,7 @@ void JSFunctionDesc::setScriptWrapper(const QString &scriptWrapper)
 QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName)
 {
     if (m_scriptEngineManager->dataManager()){
-        QString expression = "";
-        if (name.compare("COUNT",Qt::CaseInsensitive) == 0){
-            expression = " ";
-        } else {
-            expression = m_scriptEngineManager->dataManager()->getExpression(expressionID);
-        }
-
+        QString expression = m_scriptEngineManager->dataManager()->getExpression(expressionID);
         GroupFunction* gf =  m_scriptEngineManager->dataManager()->groupFunction(name,expression,bandName);
         if (gf){
             if (gf->isValid()){
