@@ -777,7 +777,7 @@ void BaseDesignIntf::emitObjectNamePropertyChanged(const QString &oldName, const
 
 int BaseDesignIntf::borderLineSize() const
 {
-    return 0 /*m_borderLineSize*/;
+    return m_borderLineSize;
 }
 
 void BaseDesignIntf::setBorderLineSize(int value)
