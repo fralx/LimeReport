@@ -257,11 +257,12 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         }
 
         clearPageMap();
-        startNewPage();
+        startNewPage(true);
 
 
+        renderReportHeader(m_patternPageItem, AfterPageHeader);
 
-        renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader), 0, StartNewPageAsNeeded);
+//        renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader), 0, StartNewPageAsNeeded);
 
         BandDesignIntf* lastRenderedBand = 0;
         for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
@@ -605,6 +606,17 @@ void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
     }
 }
 
+void ReportRender::renderReportHeader(PageItemDesignIntf *patternPage, PageRenderStage stage)
+{
+    BandDesignIntf* band = patternPage->bandByType(BandDesignIntf::ReportHeader);
+    if (band){
+        if (band->property("printBeforePageHeader").toBool() && stage == BeforePageHeader )
+            renderBand(band, 0, StartNewPageAsNeeded);
+        if (!band->property("printBeforePageHeader").toBool() && stage == AfterPageHeader )
+            renderBand(band, 0, StartNewPageAsNeeded);
+    }
+}
+
 void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
 {
     BandDesignIntf* band = patternPage->bandByType(BandDesignIntf::PageFooter);
@@ -897,7 +909,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
 
     }
 
-    if (band->height()<=m_maxHeightByColumn[m_currentColumn]){
+    if (band->height() <= m_maxHeightByColumn[m_currentColumn]){
 
         if (band->bandType()==BandDesignIntf::PageFooter){
            for (int i=0;i<m_maxHeightByColumn.size();++i)
@@ -1061,7 +1073,7 @@ void ReportRender::startNewColumn(){
     }
 }
 
-void ReportRender::startNewPage()
+void ReportRender::startNewPage(bool isFirst)
 {
     m_renderPageItem=0;
     m_currentColumn=0;
@@ -1078,6 +1090,7 @@ void ReportRender::startNewPage()
 
     emit m_patternPageItem->beforeRender();
 
+    if (isFirst) renderReportHeader(m_patternPageItem, BeforePageHeader);
     renderPageHeader(m_patternPageItem);
 
     m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem);

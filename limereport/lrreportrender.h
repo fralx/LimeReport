@@ -70,6 +70,7 @@ public:
     enum DataRenderMode {StartNewPageAsNeeded, NotStartNewPage, ForcedStartPage};
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
     enum ResetPageNuberType{BandReset, PageReset};
+    enum PageRenderStage{BeforePageHeader, AfterPageHeader};
     typedef QSharedPointer<ReportRender> Ptr;    
     ~ReportRender();
     ReportRender(QObject *parent = 0);
@@ -102,6 +103,7 @@ private:
     BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
+    void    renderReportHeader(PageItemDesignIntf* patternPage, PageRenderStage stage);
     void    renderPageFooter(PageItemDesignIntf* patternPage);
     void    moveTearOffBand();
     void    renderPageItems(PageItemDesignIntf* patternPage);
@@ -138,7 +140,7 @@ private:
     BandDesignIntf* saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf *patternBand);
     BandDesignIntf* renderData(BandDesignIntf* patternBand);
     void    startNewColumn();
-    void    startNewPage();
+    void    startNewPage(bool isFirst = false);
     void    resetPageNumber(ResetPageNuberType resetType);
     int     findLastPageNumber(int currentPage);
     void    savePage(bool isLast = false);
