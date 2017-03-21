@@ -128,6 +128,8 @@ public:
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
+    void restoreItems();
+    void recalcItems(DataSourceManager* dataManager);
     void updateBandNameLabel();
 
     virtual QColor selectionColor() const;
@@ -220,8 +222,8 @@ public:
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
     bool useAlternateBackgroundColor() const;
-    void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);
-
+    void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
+    void replaceGroupsFunction(BandDesignIntf *band);
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
@@ -248,6 +250,7 @@ protected:
     void moveItemsDown(qreal startPos, qreal offset);
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
+
 private slots:
     void childBandDeleted(QObject* band);
 private:
