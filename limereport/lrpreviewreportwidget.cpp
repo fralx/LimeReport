@@ -60,14 +60,15 @@ PageItemDesignIntf::Ptr PreviewReportWidgetPrivate::currentPage()
     else return PageItemDesignIntf::Ptr(0);
 }
 
-PreviewReportWidget::PreviewReportWidget(ReportEnginePrivate *report, QWidget *parent) :
+PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this))
 {
     ui->setupUi(this);
-    d_ptr->m_previewPage = report->createPreviewPage();
+    d_ptr->m_report = report->d_ptr;
+    d_ptr->m_previewPage = d_ptr->m_report->createPreviewPage();
     d_ptr->m_previewPage->setItemMode( LimeReport::PreviewMode );
-    d_ptr->m_report = report;
+
 
     ui->errorsView->setVisible(false);
     connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));

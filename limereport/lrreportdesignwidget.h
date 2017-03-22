@@ -150,7 +150,7 @@ protected:
     void createTabs();
 private:
     bool eventFilter(QObject *target, QEvent *event);
-    ReportDesignWidget(ReportEnginePrivate* report,QMainWindow *mainWindow,QWidget *parent = 0);
+    ReportDesignWidget(ReportEngine* report,QMainWindow *mainWindow,QWidget *parent = 0);
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;

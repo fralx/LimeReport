@@ -62,7 +62,7 @@ namespace LimeReport{
 
 ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
-ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *parent, QSettings* settings) :
+ReportDesignWindow::ReportDesignWindow(ReportEngine *report, QWidget *parent, QSettings* settings) :
     QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false), m_progressDialog(0), m_showProgressDialog(true)
 {
     initReportEditor(report);
@@ -437,7 +437,7 @@ void ReportDesignWindow::createMainMenu()
     m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
-void ReportDesignWindow::initReportEditor(ReportEnginePrivate* report)
+void ReportDesignWindow::initReportEditor(ReportEngine* report)
 {
     m_reportDesignWidget=new ReportDesignWidget(report,this,this);
     setCentralWidget(m_reportDesignWidget);
