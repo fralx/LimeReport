@@ -90,6 +90,7 @@ private:
 
     void    baseDesignIntfToScript(BaseDesignIntf* item);
 
+
     void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initDatasource(const QString &name);
@@ -112,12 +113,17 @@ private:
     void    renderChildHeader(BandDesignIntf* parent, BandPrintMode printMode);
     void    renderChildFooter(BandDesignIntf* parent, BandPrintMode printMode);
     void    renderChildBands(BandDesignIntf* parentBand);
+    void    recalcIfNeeded(BandDesignIntf *band);
+    void    renderDataHeader(BandDesignIntf* header);
     void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource, bool firstTime);
     void    renderGroupFooter(BandDesignIntf* parentBand);
 
     void    initGroups();
+    bool    containsGroupsFunction(BandDesignIntf* band);
     void    extractGroupsFunction(BandDesignIntf* band);
     void    replaceGroupsFunction(BandDesignIntf* band);
+
+    BandDesignIntf *findRecalcableBand(BandDesignIntf *patternBand);
 
     void    popPageFooterGroupValues(BandDesignIntf* dataBand);
     void    pushPageFooterGroupValues(BandDesignIntf* dataBand);
@@ -162,6 +168,7 @@ private:
     QList<PageItemDesignIntf::Ptr> m_renderedPages;
     QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
     QList<BandDesignIntf*> m_reprintableBands;
+    QList<BandDesignIntf*> m_recalcBands;
 //    QList<BandDesignIntf*> m_lastRenderedHeaders;
 
     //int m_maxHeightByColumn[0];

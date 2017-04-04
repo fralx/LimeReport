@@ -64,6 +64,7 @@ class SubDetailHeaderBand : public BandDesignIntf
 public:
     SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
+    bool isHeader() const {return true;}
 protected:
     QColor bandColor() const;
 private:

@@ -272,6 +272,8 @@ public:
     void setZValueProperty(qreal value);
     QString patternName() const;
     void setPatternName(const QString &patternName);
+    BaseDesignIntf* patternItem() const;
+    void setPatternItem(BaseDesignIntf* patternItem);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -397,6 +399,7 @@ private:
     QColor  m_borderColor;
     ReportSettings* m_reportSettings;
     QString m_patternName;
+    BaseDesignIntf* m_patternItem;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
