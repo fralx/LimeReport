@@ -39,7 +39,6 @@
 #include "serializators/lrxmlreader.h"
 
 #include <memory>
-
 #include <QMetaObject>
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
@@ -1525,8 +1524,7 @@ BaseDesignIntf *Marker::object() const
     return m_object;
 }
 
-
-}
+} //namespace LimeReport
 
 
 
