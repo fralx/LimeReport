@@ -99,33 +99,8 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-bool Segment::intersect(Segment value)
-{
-    return ((value.m_end>=m_begin)&&(value.m_end<=m_end))   ||
-           ((value.m_begin>=m_begin)&&(value.m_end>=m_end))   ||
-           ((value.m_begin>=m_begin)&&(value.m_end<=m_end)) ||
-           ((value.m_begin<m_begin)&&(value.m_end>m_end)) ;
-}
-
-qreal Segment::intersectValue(Segment value)
-{
-    if ((value.m_end>=m_begin)&&(value.m_end<=m_end)){
-        return value.m_end-m_begin;
-    }
-    if ((value.m_begin>=m_begin)&&(value.m_end>=m_end)){
-        return m_end-value.m_begin;
-    }
-    if ((value.m_begin>=m_begin)&&(value.m_end<=m_end)){
-        return value.m_end-value.m_begin;
-    }
-    if ((value.m_begin<m_begin)&&(value.m_end>m_end)){
-        return m_end-m_begin;
-    }
-    return 0;
-}
-
 BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, QObject* owner, QGraphicsItem *parent) :
-    BaseDesignIntf(xmlTypeName, owner,parent),
+    ItemsContainerDesignInft(xmlTypeName, owner,parent),
     m_bandType(bandType),
     m_bandIndex(static_cast<int>(bandType)),
     m_dataSourceName(""),
@@ -581,95 +556,9 @@ void BandDesignIntf::setSplittable(bool value){
     }
 }
 
-bool itemSortContainerLessThen(const PItemSortContainer c1, const PItemSortContainer c2)
-{
-    VSegment vS1(c1->m_rect),vS2(c2->m_rect);
-    HSegment hS1(c1->m_rect),hS2(c2->m_rect);
-    if (vS1.intersectValue(vS2)>hS1.intersectValue(hS2))
-        return c1->m_rect.x()<c2->m_rect.x();
-    else return c1->m_rect.y()<c2->m_rect.y();
-}
-
 bool bandIndexLessThen(const BandDesignIntf* b1, const BandDesignIntf* b2)
 {
     return b1->bandIndex()<b2->bandIndex();
-}
-
-void BandDesignIntf::snapshotItemsLayout()
-{
-    m_bandItems.clear();
-    foreach(BaseDesignIntf *childItem,childBaseItems()){
-          m_bandItems.append(PItemSortContainer(new ItemSortContainer(childItem)));
-    }
-    qSort(m_bandItems.begin(),m_bandItems.end(),itemSortContainerLessThen);
-}
-
-void BandDesignIntf::arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type)
-{
-    bool needArrage=(type==Force);
-
-    foreach (PItemSortContainer item, m_bandItems) {
-        if (item->m_item->isNeedUpdateSize(pass)){
-            item->m_item->updateItemSize(dataManager, pass);
-            needArrage=true;
-        }
-    }
-
-    if (needArrage){
-        //qSort(m_bandItems.begin(),m_bandItems.end(),itemSortContainerLessThen);
-        for (int i=0;i<m_bandItems.count();i++)
-            for (int j=i;j<m_bandItems.count();j++){
-                if ((i!=j) && (m_bandItems[i]->m_item->collidesWithItem(m_bandItems[j]->m_item))){
-                    HSegment hS1(m_bandItems[j]->m_rect),hS2(m_bandItems[i]->m_rect);
-                    VSegment vS1(m_bandItems[j]->m_rect),vS2(m_bandItems[i]->m_rect);
-                    if (m_bandItems[i]->m_rect.bottom()<m_bandItems[i]->m_item->geometry().bottom()){
-                       if (hS1.intersectValue(hS2)>vS1.intersectValue(vS2))
-                           m_bandItems[j]->m_item->setY(m_bandItems[i]->m_item->y()+m_bandItems[i]->m_item->height()
-                                                      +m_bandItems[j]->m_rect.top()-m_bandItems[i]->m_rect.bottom());
-
-                    }
-                    if (m_bandItems[i]->m_rect.right()<m_bandItems[i]->m_item->geometry().right()){
-                       if (vS1.intersectValue(vS2)>hS1.intersectValue(hS2))
-                       m_bandItems[j]->m_item->setX(m_bandItems[i]->m_item->geometry().right()+
-                                                  (m_bandItems[j]->m_rect.x()-m_bandItems[i]->m_rect.right()));
-                    }
-                }
-            }
-    }
-
-    if(needArrage||pass==FirstPass){
-        int maxBottom = findMaxBottom();
-        foreach(BaseDesignIntf* item,childBaseItems()){
-            ItemDesignIntf* childItem=dynamic_cast<ItemDesignIntf*>(item);
-            if (childItem){
-                if (childItem->stretchToMaxHeight())
-                    childItem->setHeight(maxBottom-childItem->geometry().top());
-            }
-        }
-    }
-
-}
-
-qreal BandDesignIntf::findMaxBottom()
-{
-    qreal maxBottom=0;
-    foreach(QGraphicsItem* item,childItems()){
-        BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
-        if(subItem)
-           if ( subItem->isVisible() && (subItem->geometry().bottom()>maxBottom) )
-               maxBottom=subItem->geometry().bottom();
-    }
-    return maxBottom;
-}
-
-qreal BandDesignIntf::findMaxHeight(){
-    qreal maxHeight=0;
-    foreach(QGraphicsItem* item,childItems()){
-        BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
-        if(subItem)
-           if (subItem->geometry().height()>maxHeight) maxHeight=subItem->geometry().height();
-    }
-    return maxHeight;
 }
 
 void BandDesignIntf::trimToMaxHeight(int maxHeight)

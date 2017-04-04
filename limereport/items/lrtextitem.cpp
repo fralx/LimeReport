@@ -691,7 +691,7 @@ bool TextItem::isNeedUpdateSize(RenderPass pass) const
 {
     Q_UNUSED(pass)
 
-    if ((autoHeight() && autoWidth()) || hasFollower()){
+    if ((autoHeight() || autoWidth()) || hasFollower()){
         initTextSizes();
     }
 
