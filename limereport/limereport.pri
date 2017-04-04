@@ -89,7 +89,8 @@ SOURCES += \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
+    $$REPORT_PATH/lritemscontainerdesignitf.cpp
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -188,7 +189,8 @@ HEADERS += \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h 
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \ 
+    $$REPORT_PATH/lritemscontainerdesignitf.h
     
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h

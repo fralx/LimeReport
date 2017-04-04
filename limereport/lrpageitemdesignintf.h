@@ -31,13 +31,14 @@
 #define LRPAGEITEM_H
 #include "lrbasedesignintf.h"
 #include "lrbanddesignintf.h"
+#include "lritemscontainerdesignitf.h"
 #include <QList>
 #include <QColor>
 
 namespace LimeReport{
 
 class ReportRender;
-class PageItemDesignIntf : public LimeReport::BaseDesignIntf
+class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
 {
     Q_OBJECT
     Q_ENUMS(Orientation)
@@ -115,6 +116,7 @@ public:
     bool canContainChildren(){ return true;}
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
+    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);
 
 protected slots:
     void bandDeleted(QObject* band);

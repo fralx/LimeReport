@@ -661,9 +661,10 @@ void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
         }
     }
     m_renderPageItem->restoreLinks();
-    foreach(BaseDesignIntf* item, pageItems){
-        item->updateItemSize(m_datasources);
-    }
+    m_renderPageItem->updateSubItemsSize(FirstPass,m_datasources);
+//    foreach(BaseDesignIntf* item, pageItems){
+//        item->updateItemSize(m_datasources);
+//    }
 }
 
 qreal ReportRender::calcPageFooterHeight(PageItemDesignIntf *patternPage)
