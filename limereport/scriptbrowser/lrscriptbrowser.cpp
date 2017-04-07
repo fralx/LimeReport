@@ -117,7 +117,7 @@ void ScriptBrowser::updateDialogsTree()
 {
     ui->twDialogs->clear();
     ScriptEngineContext* sc = reportEditor()->scriptContext();
-    foreach(DialogDescriber::Ptr dc, sc->dialogsDescriber()){
+    foreach(DialogDescriber::Ptr dc, sc->dialogDescribers()){
         QTreeWidgetItem* dialogItem = new QTreeWidgetItem(ui->twDialogs,QStringList(dc->name()));
         dialogItem->setIcon(0,QIcon(":/scriptbrowser/images/dialog"));
         fillDialog(dialogItem,dc->description());

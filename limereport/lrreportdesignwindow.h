@@ -126,6 +126,7 @@ protected:
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
 private:
+    void initReportEditor(ReportEnginePrivate* report);
     void createActions();
     void createBandsButton();
     void createMainMenu();
@@ -134,9 +135,16 @@ private:
     void createItemsActions();
     void createObjectInspector();
     void createObjectsBrowser();
-    void initReportEditor(ReportEnginePrivate* report);
     void createDataWindow();
     void createScriptWindow();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void createDialogWidgetBox();
+    void createDialogPropertyEditor();
+    void createDialogObjectInspector();
+    void createDialogActionEditor();
+    void createDialogResourceEditor();
+    void createDialogSignalSlotEditor();
+#endif
     void updateRedoUndo();
     void updateAvaibleBands();
     void startNewReport();
@@ -146,6 +154,7 @@ private:
     void removeNotExistedRecentFiles();
     void removeNotExistedRecentFilesFromMenu(const QString& fileName);
     void addRecentFile(const QString& fileName);
+    void showDefaultEditors();
 private:
     static ReportDesignWindow* m_instance;
     QStatusBar* m_statusBar;
@@ -235,6 +244,12 @@ private:
     QProgressDialog* m_progressDialog;
     bool m_showProgressDialog;
     QMap<QString,QDateTime> m_recentFiles;
+    QVector<QDockWidget*> m_pageEditors;
+    QVector<QDockWidget*> m_dialogEditors;
+    ReportDesignWidget::EditorTabType m_editorTabType;
+    QByteArray m_pageEditorsState;
+    QByteArray m_dialogEditorsState;
+
 };
 
 class ObjectNameValidator : public ValidatorIntf{

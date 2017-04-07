@@ -144,21 +144,21 @@ public:
 #endif
     explicit ScriptEngineContext(QObject* parent=0):QObject(parent){}
 #ifdef HAVE_UI_LOADER
-    void  addDialog(const QString& name, const QByteArray &description);
+    void    addDialog(const QString& name, const QByteArray &description);
     bool    previewDialog(const QString& dialogName);
     bool    containsDialog(const QString& dialogName);
-    const   QVector<DialogDescriber::Ptr>& dialogsDescriber(){return m_dialogs;}
+    const   QVector<DialogDescriber::Ptr>& dialogDescribers(){return m_dialogs;}
     void    deleteDialog(const QString& dialogName);
     QDialog *getDialog(const QString &dialogName);
 #endif
-    void clear();
+    void    clear();
     QString initScript() const;
-    void setInitScript(const QString& initScript);
+    void    setInitScript(const QString& initScript);
 protected:
     QObject* createElement(const QString& collectionName,const QString& elementType);
-    int elementsCount(const QString& collectionName);
+    int      elementsCount(const QString& collectionName);
     QObject* elementAt(const QString& collectionName,int index);
-    void collectionLoadFinished(const QString &collectionName);
+    void     collectionLoadFinished(const QString &collectionName);
 #ifdef HAVE_UI_LOADER
     QDialog *createDialog(DialogDescriber *cont);
     QDialog *findDialog(const QString &dialogName);

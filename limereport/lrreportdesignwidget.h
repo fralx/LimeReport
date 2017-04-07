@@ -48,6 +48,7 @@ namespace LimeReport {
 class ReportEnginePrivate;
 class DataBrowser;
 class ReportDesignWindow;
+class DialogDesigner;
 
 class ReportDesignWidget : public QWidget
 {
@@ -55,8 +56,20 @@ class ReportDesignWidget : public QWidget
     Q_PROPERTY(QObject* datasourcesManager READ dataManager())
     friend class ReportDesignWindow;
 public:
+    enum ToolWindowType{
+        WidgetBox = 1,
+        ObjectInspector = 2,
+        ActionEditor = 3,
+        SignalSlotEditor = 4,
+        PropertyEditor = 5,
+        ResourceEditor = 6
+    };
+    enum EditorTabType{
+        Page,
+        Dialog,
+        Script
+    };
     ~ReportDesignWidget();
-//    static ReportDesignWidget* instance(){return m_instance;}
     void createStartPage();
     void clear();
     DataSourceManager* dataManager();
@@ -76,7 +89,6 @@ public:
     QList<QGraphicsItem *> selectedItems();
     QStringList datasourcesNames();
     void scale( qreal sx, qreal sy);
-//    void setDatabrowser(DataBrowser* databrowser);
     ReportEnginePrivate* report(){return m_report;}
     QString reportFileName();
     bool isNeedToSave();
@@ -88,7 +100,9 @@ public:
     bool useGrid(){ return m_useGrid;}
     bool useMagnet() const;
     void setUseMagnet(bool useMagnet);
-
+    DialogDesigner *dialogDesigner() const;
+    QWidget* toolWindow(ToolWindowType windowType);
+    EditorTabType activeTabType();
 public slots:
     void saveToFile(const QString&);
     bool save();
@@ -155,6 +169,7 @@ private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
     QTextEdit* m_scriptEditor;
+    DialogDesigner* m_dialogDesigner;
     QMainWindow *m_mainWindow;
     QTabWidget* m_tabWidget;
     GraphicsViewZoomer* m_zoomer;
@@ -163,7 +178,6 @@ private:
     int m_horizontalGridStep;
     bool m_useGrid;
     bool m_useMagnet;
-//    static ReportDesignWidget* m_instance;
 };
 
 }

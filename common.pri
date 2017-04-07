@@ -1,6 +1,8 @@
 CONFIG += build_translations
 CONFIG += zint
 CONFIG += qjsengine
+CONFIG += dialogdesigner
+
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += uitools
 }

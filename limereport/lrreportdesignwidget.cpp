@@ -33,6 +33,7 @@
 #include "lrreportengine_p.h"
 #include "lrbasedesignintf.h"
 #include "lrsettingdialog.h"
+#include "dialogdesigner/lrdialogdesigner.h"
 
 #include <QDebug>
 #include <QObject>
@@ -46,10 +47,8 @@
 
 namespace LimeReport {
 
-// ReportDesignIntf
-
 ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
-    QWidget(parent), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
+    QWidget(parent), m_dialogDesigner(new DialogDesigner(this)), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
 {
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setTabPosition(QTabWidget::South);
@@ -73,12 +72,44 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
     connect(m_report,SIGNAL(cleared()),this,SIGNAL(cleared()));
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
 
-    //m_instance=this;
     m_scriptEditor->setPlainText(report->scriptContext()->initScript());
     m_zoomer = new GraphicsViewZoomer(activeView());
 #ifdef Q_OS_WIN
     m_defaultFont = QFont("Arial",10);
 #endif
+}
+
+DialogDesigner *ReportDesignWidget::dialogDesigner() const
+{
+    return m_dialogDesigner;
+}
+
+QWidget *ReportDesignWidget::toolWindow(ReportDesignWidget::ToolWindowType windowType)
+{
+    switch (windowType) {
+    case WidgetBox:
+        return dialogDesigner()->widgetBox();
+    case PropertyEditor:
+        return dialogDesigner()->propertyEditor();
+    case ObjectInspector:
+        return dialogDesigner()->objectInspector();
+    case ActionEditor:
+        return dialogDesigner()->actionEditor();
+    case ResourceEditor:
+        return dialogDesigner()->resourcesEditor();
+    case SignalSlotEditor:
+        return dialogDesigner()->signalSlotEditor();
+    default:
+        return 0;
+    }
+}
+
+ReportDesignWidget::EditorTabType ReportDesignWidget::activeTabType()
+{
+    QString tabType = m_tabWidget->tabWhatsThis(m_tabWidget->currentIndex());
+    if ( tabType.compare("dialog") == 0) return Dialog;
+    if ( tabType.compare("script") == 0) return Script;
+    return Page;
 }
 
 bool ReportDesignWidget::useMagnet() const
@@ -139,6 +170,7 @@ void ReportDesignWidget::loadState(QSettings* settings)
 
 
 void ReportDesignWidget::createTabs(){
+    int pageIndex  = -1;
     for (int i = 0; i<m_report->pageCount();++i){
         QGraphicsView* view = new QGraphicsView(qobject_cast<QWidget*>(this));
         view->setBackgroundBrush(QBrush(Qt::gray));
@@ -152,11 +184,22 @@ void ReportDesignWidget::createTabs(){
         view->centerOn(0,0);
         view->scale(0.5,0.5);
         connectPage(m_report->pageAt(i));
-        m_tabWidget->addTab(view,QIcon(),tr("Page")+QString::number(i+1));
+        pageIndex = m_tabWidget->addTab(view,QIcon(),m_report->pageAt(i)->pageItem()->objectName());
+        m_tabWidget->setTabWhatsThis(pageIndex, "page");
     }
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QWidget* dialogEditor;
+    foreach(DialogDescriber::Ptr dialogDesc, m_report->scriptContext()->dialogDescribers()){
+        dialogEditor = m_dialogDesigner->createFormEditor(dialogDesc->description());
+        pageIndex = m_tabWidget->addTab(dialogEditor,QIcon(),dialogDesc->name());
+        m_tabWidget->setTabWhatsThis(pageIndex,"dialog");
+    }
+#endif
     m_scriptEditor = new QTextEdit(this);
-    m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
+    pageIndex = m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
+    m_tabWidget->setTabWhatsThis(pageIndex,"script");
     m_tabWidget->setCurrentIndex(0);
+
 }
 
 ReportDesignWidget::~ReportDesignWidget()
@@ -189,7 +232,6 @@ void ReportDesignWidget::connectPage(PageDesignIntf *page)
     connect(page, SIGNAL(pageUpdateFinished(LimeReport::PageDesignIntf*)),
             this, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)));
 
-    //activeView()->centerOn(0,0);
     emit activePageChanged();
 }
 
@@ -604,6 +646,9 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
             foreach (QGraphicsItem* item, view->scene()->selectedItems()) item->setSelected(false);
         }
         m_zoomer->setView(view);
+    }
+    if (activeTabType() == Dialog){
+        m_dialogDesigner->setActiveEditor(m_tabWidget->widget(index));
     }
     emit activePageChanged();
 }
