@@ -1226,6 +1226,8 @@ void PageDesignIntf::copy()
         if (shouldWrite) {
             clipboard->setText(writer->saveToString());
         }
+
+        delete writer;
     }
 }
 
