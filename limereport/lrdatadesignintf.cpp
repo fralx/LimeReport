@@ -299,7 +299,7 @@ int ModelToDataSource::columnCount()
 
 QString ModelToDataSource::columnNameByIndex(int columnIndex)
 {
-    if (isInvalid()) return ""; 
+    if (isInvalid()) return "";
     QString result = m_model->headerData(columnIndex,Qt::Horizontal, Qt::UserRole).isValid()?
                      m_model->headerData(columnIndex,Qt::Horizontal, Qt::UserRole).toString():
                      m_model->headerData(columnIndex,Qt::Horizontal).toString();
@@ -704,7 +704,6 @@ int CallbackDatasource::columnCount(){
             int currIndex = 0;
             do {
                 QVariant columnName;
-                CallbackInfo info;
                 info.dataType = CallbackInfo::ColumnHeaderData;
                 info.index = currIndex;
                 emit getCallbackData(info,columnName);
