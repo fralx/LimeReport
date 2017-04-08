@@ -2169,7 +2169,7 @@ void PropertyItemAlignChangedCommand::undoIt()
     if (reportItem && (reportItem->property(m_propertyName.toLatin1()) != m_oldValue)) {
         reportItem->setProperty(m_propertyName.toLatin1(), m_oldValue);
     }
-    if (m_oldValue == BaseDesignIntf::DesignedItemAlign){
+    if (reportItem && (m_oldValue == BaseDesignIntf::DesignedItemAlign)){
         reportItem->setPos(m_savedPos);
     }
 }
