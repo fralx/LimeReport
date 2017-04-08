@@ -314,7 +314,7 @@ void DataSourceManager::removeModel(const QString &name)
         removeDatasource(name.toLower());
 }
 
-ICallbackDatasource *DataSourceManager::createCallbackDatasouce(const QString& name)
+ICallbackDatasource *DataSourceManager::createCallbackDatasource(const QString& name)
 {
     ICallbackDatasource* ds = new CallbackDatasource();
     IDataSourceHolder* holder = new CallbackDatasourceHolder(dynamic_cast<IDataSource*>(ds),true);
