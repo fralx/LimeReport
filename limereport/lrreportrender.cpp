@@ -442,6 +442,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                             BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
                             registerBand(upperPart);
                             delete bandClone;
+                            bandClone = NULL;
                         }
                     } else {
 
@@ -459,6 +460,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
                                 registerBand(upperPart);
                                 delete bandClone;
+                                bandClone = NULL;
                             };
                         } else {
                             bandClone->setHeight(m_maxHeightByColumn[m_currentColumn]);
