@@ -51,7 +51,7 @@ class  BaseDesignIntf;
 
 class Marker : public QGraphicsItem{
 public:
-    Marker(QGraphicsItem* parent=0):QGraphicsItem(parent){}
+    Marker(QGraphicsItem* parent=0):QGraphicsItem(parent),m_object(NULL){}
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
@@ -266,7 +266,7 @@ public:
     QColor borderColor() const;
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
-    virtual bool canContainChildren(){ return false;}    
+    virtual bool canContainChildren(){ return false;}
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
