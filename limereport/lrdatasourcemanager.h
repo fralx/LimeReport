@@ -71,7 +71,7 @@ class DataSourceModel : public QAbstractItemModel{
     Q_OBJECT
     friend class DataSourceManager;
 public:
-    DataSourceModel():m_rootNode(new DataNode()){}
+    DataSourceModel():m_dataManager(NULL),m_rootNode(new DataNode()){}
     DataSourceModel(DataSourceManager* dataManager);
     ~DataSourceModel();
     QModelIndex index(int row, int column, const QModelIndex &parent) const;

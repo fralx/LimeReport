@@ -13,6 +13,7 @@ class PreviewReportWidgetPrivate
 {
 public:
     PreviewReportWidgetPrivate(PreviewReportWidget* previewReportWidget):
+      m_previewPage(NULL), m_report(NULL), m_zoomer(NULL),
       m_currentPage(1), m_changingPage(false), m_priorScrolValue(0), m_scalePercent(50),
       q_ptr(previewReportWidget) {}
     bool pageIsVisible();
