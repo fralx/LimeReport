@@ -106,7 +106,6 @@ bool XMLReader::readItem(QObject *item)
 
 void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 {
-
     ObjectLoadingStateIntf* lf = dynamic_cast<ObjectLoadingStateIntf*>(item);
     if(lf) lf->objectLoadStarted();
     for (int i=0;i<node->childNodes().count();i++){
@@ -123,8 +122,8 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 
     BaseDesignIntf* baseObj = dynamic_cast<BaseDesignIntf*>(item);
     if(baseObj) {
-        foreach(QGraphicsItem* item,baseObj->childItems()){
-            BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(item);
+        foreach(QGraphicsItem* childItem,baseObj->childItems()){
+            BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(childItem);
             if (baseItem) baseItem->parentObjectLoadFinished();
         }
     }

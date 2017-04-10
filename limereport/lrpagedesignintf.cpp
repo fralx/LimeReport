@@ -1306,7 +1306,7 @@ void PageDesignIntf::deleteSelected()
 }
 
 void PageDesignIntf::cut()
-{    
+{
     CommandIf::Ptr command = CutCommand::create(this);
     saveCommand(command);
 }
@@ -1729,8 +1729,8 @@ CommandIf::Ptr DeleteLayoutCommand::create(PageDesignIntf *page, LayoutDesignInt
     DeleteLayoutCommand* command = new DeleteLayoutCommand();
     command->setPage(page);
     command->setItem(item);
-    foreach (BaseDesignIntf* item, item->childBaseItems()){
-        command->m_childItems.append(item->objectName());
+    foreach (BaseDesignIntf* childItem, item->childBaseItems()){
+        command->m_childItems.append(childItem->objectName());
     }
     return CommandIf::Ptr(command);
 }
@@ -1847,7 +1847,7 @@ CommandIf::Ptr CutCommand::create(PageDesignIntf *page)
     foreach(QGraphicsItem * item, page->selectedItems()) {
         if (!dynamic_cast<PageItemDesignIntf*>(item)){
             BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
-    
+
             if (reportItem) {
                 command->m_itemNames.push_back(reportItem->objectName());
                 writer->putItem(reportItem);
