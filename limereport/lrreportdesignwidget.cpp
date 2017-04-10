@@ -74,7 +74,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
 
     //m_instance=this;
-    m_scriptEditor->setPlainText(report->scriptContext()->initScript());
+    m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
     m_zoomer = new GraphicsViewZoomer(activeView());
 #ifdef Q_OS_WIN
     m_defaultFont = QFont("Arial",10);

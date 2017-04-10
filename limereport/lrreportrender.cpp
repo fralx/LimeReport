@@ -481,9 +481,12 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
 
 void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 {
+    if (dataBand == NULL )
+        return;
+
     IDataSource* bandDatasource = 0;
     m_lastRenderedFooter = 0;
-    if (dataBand && !dataBand->datasourceName().isEmpty())
+    if (!dataBand->datasourceName().isEmpty())
        bandDatasource = datasources()->dataSource(dataBand->datasourceName());
 
     BandDesignIntf* header = dataBand->bandHeader();
@@ -691,7 +694,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
 //            }
         }
 
-        if (!gb->isStarted()){
+        if (gb && !gb->isStarted()){
             if (band->reprintOnEachPage())
                 m_reprintableBands.append(band);
             gb->startGroup(m_datasources);
