@@ -48,7 +48,11 @@
 namespace LimeReport {
 
 ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
-    QWidget(parent), m_dialogDesigner(new DialogDesigner(this)), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
+    QWidget(parent),
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    m_dialogDesigner(new DialogDesigner(this)),
+#endif
+    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
 {
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setTabPosition(QTabWidget::South);
@@ -74,8 +78,13 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
 
     m_scriptEditor->setPlainText(report->scriptContext()->initScript());
     m_zoomer = new GraphicsViewZoomer(activeView());
+
 #ifdef Q_OS_WIN
     m_defaultFont = QFont("Arial",10);
+#endif
+
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    connect(m_dialogDesigner, SIGNAL(dialogChanged()), this, SLOT(slotDialogChanged()));
 #endif
 }
 
@@ -110,6 +119,20 @@ ReportDesignWidget::EditorTabType ReportDesignWidget::activeTabType()
     if ( tabType.compare("dialog") == 0) return Dialog;
     if ( tabType.compare("script") == 0) return Script;
     return Page;
+}
+
+void ReportDesignWidget::initDialogDesignerToolBar(QToolBar *toolBar)
+{
+    m_dialogDesigner->initToolBar(toolBar);
+}
+
+void ReportDesignWidget::updateDialogs()
+{
+    for ( int i = 0; i<m_tabWidget->count(); ++i ){
+        if (m_tabWidget->tabWhatsThis(i).compare("dialog") == 0){
+            m_report->scriptContext()->changeDialog(m_tabWidget->tabText(i), m_dialogDesigner->getDialogDescription(m_tabWidget->widget(i)));
+        }
+    }
 }
 
 bool ReportDesignWidget::useMagnet() const
@@ -299,7 +322,12 @@ void ReportDesignWidget::slotItemSelected(BaseDesignIntf *item){
 }
 
 void ReportDesignWidget::saveToFile(const QString &fileName){
+
     m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    updateDialogs();
+#endif
+
     if (m_report->saveToFile(fileName)) {
             m_report->emitSaveFinished();
     }
@@ -308,6 +336,10 @@ void ReportDesignWidget::saveToFile(const QString &fileName){
 bool ReportDesignWidget::save()
 {
     m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    updateDialogs();
+#endif
+
     if (!m_report->reportFileName().isEmpty()){
         if (m_report->saveToFile()){
             m_report->emitSaveFinished();
@@ -499,12 +531,18 @@ void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
 void ReportDesignWidget::previewReport()
 {
     report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    updateDialogs();
+#endif
     report()->previewReport();
 }
 
 void ReportDesignWidget::printReport()
 {
     report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    updateDialogs();
+#endif
     setCursor(Qt::WaitCursor);
     report()->printReport();
     setCursor(Qt::ArrowCursor);
@@ -652,6 +690,14 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     }
     emit activePageChanged();
 }
+
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+
+void ReportDesignWidget::slotDialogChanged()
+{
+}
+
+#endif
 
 bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
 {

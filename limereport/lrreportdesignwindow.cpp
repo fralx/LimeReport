@@ -80,6 +80,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     createDialogActionEditor();
     createDialogResourceEditor();
     createDialogSignalSlotEditor();
+    createDialogDesignerToolBar();
 #endif
     m_instance=this;
     m_statusBar=new QStatusBar(this);
@@ -87,11 +88,12 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     m_statusBar->insertWidget(0,m_lblReportName);
     setStatusBar(m_statusBar);
     setWindowTitle("Lime Report Designer");
+    showDefaultEditors();
+    showDefaultToolBars();
     restoreSetting();
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
     m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
     m_editorTabType = ReportDesignWidget::Page;
-    showDefaultEditors();
 }
 
 ReportDesignWindow::~ReportDesignWindow()
@@ -323,6 +325,9 @@ void ReportDesignWindow::createToolBars()
     addToolBar(m_itemsBordersEditorBar);
 
     createReportToolBar();
+
+    m_pageTools << m_mainToolBar << m_reportToolBar << m_fontEditorBar << m_textAlignmentEditorBar << m_itemsBordersEditorBar;
+
 }
 
 void ReportDesignWindow::createItemsActions()
@@ -573,6 +578,14 @@ void ReportDesignWindow::createDialogSignalSlotEditor()
     m_dialogEditors.append(doc);
 }
 
+void ReportDesignWindow::createDialogDesignerToolBar()
+{
+    m_dialogDesignerToolBar = addToolBar(tr("Dialog Designer Tools"));
+    m_dialogDesignerToolBar->setObjectName("DialogDesignerTools");
+    m_reportDesignWidget->initDialogDesignerToolBar(m_dialogDesignerToolBar);
+    m_dialogTools << m_dialogDesignerToolBar;
+}
+
 #endif
 void ReportDesignWindow::createDataWindow()
 {
@@ -622,6 +635,7 @@ void ReportDesignWindow::startNewReport()
     m_newReportFooter->setEnabled(true);
     m_editorTabType = ReportDesignWidget::Page;
     showDefaultEditors();
+    showDefaultToolBars();
 }
 
 void ReportDesignWindow::writePosition()
@@ -1048,6 +1062,7 @@ void ReportDesignWindow::slotLoadReport()
             	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
                 addRecentFile(fileName);
                 m_editorTabType = ReportDesignWidget::Page;
+                showDefaultToolBars();
                 showDefaultEditors();
             }
         }
@@ -1215,6 +1230,14 @@ void ReportDesignWindow::updateAvaibleBands(){
     }
 }
 
+void ReportDesignWindow::showDefaultToolBars(){
+    foreach (QToolBar* tb, m_pageTools){
+        tb->setVisible(m_editorTabType != ReportDesignWidget::Dialog);
+    }
+    foreach (QToolBar* tb, m_dialogTools){
+        tb->setVisible(m_editorTabType == ReportDesignWidget::Dialog);
+    }
+}
 
 void ReportDesignWindow::showDefaultEditors(){
     foreach (QDockWidget* w, m_pageEditors) {
@@ -1248,12 +1271,14 @@ void ReportDesignWindow::slotActivePageChanged()
             restoreState(m_dialogEditorsState);
         else
             showDefaultEditors();
+            showDefaultToolBars();
         break;
     default:
         if (!m_pageEditors.isEmpty())
             restoreState(m_pageEditorsState);
         else
             showDefaultEditors();
+            showDefaultToolBars();
         break;
     }
 

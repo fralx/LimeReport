@@ -144,6 +144,7 @@ private:
     void createDialogActionEditor();
     void createDialogResourceEditor();
     void createDialogSignalSlotEditor();
+    void createDialogDesignerToolBar();
 #endif
     void updateRedoUndo();
     void updateAvaibleBands();
@@ -154,6 +155,7 @@ private:
     void removeNotExistedRecentFiles();
     void removeNotExistedRecentFilesFromMenu(const QString& fileName);
     void addRecentFile(const QString& fileName);
+    void showDefaultToolBars();
     void showDefaultEditors();
 private:
     static ReportDesignWindow* m_instance;
@@ -162,6 +164,9 @@ private:
     QToolBar* m_fontToolBar;
     QToolBar* m_reportToolBar;
     QToolBar* m_alignToolBar;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QToolBar* m_dialogDesignerToolBar;
+#endif
     QToolButton* m_newBandButton;
     QMenuBar* m_mainMenu;
     QMenu* m_fileMenu;
@@ -249,6 +254,8 @@ private:
     ReportDesignWidget::EditorTabType m_editorTabType;
     QByteArray m_pageEditorsState;
     QByteArray m_dialogEditorsState;
+    QVector<QToolBar*> m_pageTools;
+    QVector<QToolBar*> m_dialogTools;
 
 };
 

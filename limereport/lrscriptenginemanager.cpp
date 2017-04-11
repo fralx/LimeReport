@@ -1067,6 +1067,17 @@ void ScriptEngineContext::addDialog(const QString& name, const QByteArray& descr
     m_dialogs.push_back(DialogDescriber::create(name,description));
 }
 
+bool ScriptEngineContext::changeDialog(const QString& name, const QByteArray& description)
+{
+    foreach( DialogDescriber::Ptr describer, m_dialogs){
+        if (describer->name().compare(name) == 0){
+            describer->setDescription(description);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool ScriptEngineContext::previewDialog(const QString& dialogName)
 {
     QDialog* dialog = getDialog(dialogName);

@@ -144,7 +144,8 @@ public:
 #endif
     explicit ScriptEngineContext(QObject* parent=0):QObject(parent){}
 #ifdef HAVE_UI_LOADER
-    void    addDialog(const QString& name, const QByteArray &description);
+    void    addDialog(const QString& name, const QByteArray& description);
+    bool    changeDialog(const QString& name, const QByteArray &description);
     bool    previewDialog(const QString& dialogName);
     bool    containsDialog(const QString& dialogName);
     const   QVector<DialogDescriber::Ptr>& dialogDescribers(){return m_dialogs;}

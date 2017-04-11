@@ -15,3 +15,6 @@ QT += designer designercomponents-private
 
 SOURCES += $$PWD/lrdialogdesigner.cpp
 HEADERS += $$PWD/lrdialogdesigner.h
+
+RESOURCES += \
+    $$PWD/dialogdesigner.qrc

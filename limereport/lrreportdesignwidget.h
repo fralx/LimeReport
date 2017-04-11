@@ -54,7 +54,6 @@ class ReportDesignWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QObject* datasourcesManager READ dataManager())
-    friend class ReportDesignWindow;
 public:
     enum ToolWindowType{
         WidgetBox = 1,
@@ -69,6 +68,7 @@ public:
         Dialog,
         Script
     };
+    ReportDesignWidget(ReportEnginePrivate* report,QMainWindow *mainWindow,QWidget *parent = 0);
     ~ReportDesignWidget();
     void createStartPage();
     void clear();
@@ -103,6 +103,10 @@ public:
     DialogDesigner *dialogDesigner() const;
     QWidget* toolWindow(ToolWindowType windowType);
     EditorTabType activeTabType();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void initDialogDesignerToolBar(QToolBar* toolBar);
+    void updateDialogs();
+#endif
 public slots:
     void saveToFile(const QString&);
     bool save();
@@ -135,13 +139,16 @@ public slots:
     void printReport();
     void addPage();
     void deleteCurrentPage();
+    void slotPagesLoadFinished();
 private slots:
     void slotItemSelected(LimeReport::BaseDesignIntf *item);
     void slotSelectionChanged();
-    void slotPagesLoadFinished();
     void slotDatasourceCollectionLoaded(const QString&);
     void slotSceneRectChanged(QRectF);
     void slotCurrentTabChanged(int index);
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void slotDialogChanged();
+#endif
 signals:
     void insertModeStarted();
     void itemInserted(LimeReport::PageDesignIntf*,QPointF,const QString&);
@@ -164,7 +171,6 @@ protected:
     void createTabs();
 private:
     bool eventFilter(QObject *target, QEvent *event);
-    ReportDesignWidget(ReportEnginePrivate* report,QMainWindow *mainWindow,QWidget *parent = 0);
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
