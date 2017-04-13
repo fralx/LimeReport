@@ -211,11 +211,6 @@ void ReportDesignWindow::createActions()
     m_testAction->setIcon(QIcon(":/report/images/pin"));
     connect(m_testAction,SIGNAL(triggered()),this,SLOT(slotTest()));
 
-//    m_printReportAction = new QAction(tr("Print Report"),this);
-//    m_printReportAction->setIcon(QIcon(":/report/images/print"));
-//    m_printReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_P));
-//    connect(m_printReportAction,SIGNAL(triggered()),this,SLOT(slotPrintReport()));
-
     m_editLayoutMode = new QAction(tr("Edit layouts mode"),this);
     m_editLayoutMode->setIcon(QIcon(":/report/images/editlayout"));
     m_editLayoutMode->setCheckable(true);
@@ -231,15 +226,22 @@ void ReportDesignWindow::createActions()
 
     m_hideLeftPanel = new QAction(tr("Hide left panel"),this);
     m_hideLeftPanel->setCheckable(true);
-//    m_hideLeftPanel->setChecked(true);
     m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
     connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
 
     m_hideRightPanel = new QAction(tr("Hide right panel"),this);
     m_hideRightPanel->setCheckable(true);
-//    m_hideRightPanel->setChecked(true);
     m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
     connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    m_deleteDialogAction = new QAction(tr("Delete dialog"), this);
+    m_deleteDialogAction->setIcon(QIcon(":/report//images/deleteDialog"));
+    connect(m_deleteDialogAction, SIGNAL(triggered()), this, SLOT(slotDeleteDialog()));
+
+    m_addNewDialogAction = new QAction(tr("Add new dialog"), this);
+    m_addNewDialogAction->setIcon(QIcon(":/report//images/addDialog"));
+    connect(m_addNewDialogAction, SIGNAL(triggered()), this, SLOT(slotAddNewDialog()));
+#endif
 }
 
 void ReportDesignWindow::createReportToolBar()
@@ -252,7 +254,6 @@ void ReportDesignWindow::createReportToolBar()
     m_reportToolBar->setObjectName("reportTools");
     createItemsActions();
     m_reportToolBar->addSeparator();
-    //m_reportToolBar->addAction(m_editLayoutMode);
     m_reportToolBar->addAction(m_addHLayout);
     m_reportToolBar->addSeparator();
     m_reportToolBar->addAction(m_deleteItemAction);
@@ -286,6 +287,9 @@ void ReportDesignWindow::createToolBars()
 
     m_mainToolBar->addAction(m_newPageAction);
     m_mainToolBar->addAction(m_deletePageAction);
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    m_mainToolBar->addAction(m_addNewDialogAction);
+#endif
     m_mainToolBar->addSeparator();
 
     m_mainToolBar->addAction(m_copyAction);
@@ -582,6 +586,11 @@ void ReportDesignWindow::createDialogDesignerToolBar()
 {
     m_dialogDesignerToolBar = addToolBar(tr("Dialog Designer Tools"));
     m_dialogDesignerToolBar->setObjectName("DialogDesignerTools");
+    m_dialogDesignerToolBar->addAction(m_saveReportAction);
+    m_dialogDesignerToolBar->addAction(m_previewReportAction);
+    m_dialogDesignerToolBar->addSeparator();
+    m_dialogDesignerToolBar->addAction(m_deleteDialogAction);
+    m_dialogDesignerToolBar->addSeparator();
     m_reportDesignWidget->initDialogDesignerToolBar(m_dialogDesignerToolBar);
     m_dialogTools << m_dialogDesignerToolBar;
 }
@@ -1257,6 +1266,7 @@ void ReportDesignWindow::slotActivePageChanged()
     switch (m_editorTabType) {
     case ReportDesignWidget::Dialog:
         m_dialogEditorsState = saveState();
+        m_scriptBrowser->updateDialogsTree();
         break;
     default:
         m_pageEditorsState = saveState();
@@ -1387,6 +1397,20 @@ void ReportDesignWindow::slotPageDeleted()
 {
     m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
 }
+
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+void ReportDesignWindow::slotDeleteDialog()
+{
+    if ( m_editorTabType == ReportDesignWidget::Dialog ){
+        m_reportDesignWidget->report()->scriptContext()->deleteDialog(m_reportDesignWidget->activeDialogName());
+    }
+}
+
+void ReportDesignWindow::slotAddNewDialog()
+{
+    m_reportDesignWidget->addNewDialog();
+}
+#endif
 
 void ReportDesignWindow::closeEvent(QCloseEvent * event)
 {

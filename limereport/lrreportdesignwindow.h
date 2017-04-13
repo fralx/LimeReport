@@ -119,6 +119,10 @@ private slots:
     void slotLoadRecentFile(const QString fileName);
     void slotPageAdded(PageDesignIntf* );
     void slotPageDeleted();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void slotDeleteDialog();
+    void slotAddNewDialog();
+#endif
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -217,6 +221,10 @@ private:
     QAction* m_addHLayout;
     QAction* m_hideLeftPanel;
     QAction* m_hideRightPanel;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QAction* m_deleteDialogAction;
+    QAction* m_addNewDialogAction;
+#endif
     QMenu*   m_recentFilesMenu;
 
     QSignalMapper* m_bandsAddSignalsMap;

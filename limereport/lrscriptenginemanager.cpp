@@ -1065,6 +1065,7 @@ void DialogDescriber::setDescription(const QByteArray &description)
 void ScriptEngineContext::addDialog(const QString& name, const QByteArray& description)
 {
     m_dialogs.push_back(DialogDescriber::create(name,description));
+    emit dialogAdded(name);
 }
 
 bool ScriptEngineContext::changeDialog(const QString& name, const QByteArray& description)
@@ -1072,6 +1073,37 @@ bool ScriptEngineContext::changeDialog(const QString& name, const QByteArray& de
     foreach( DialogDescriber::Ptr describer, m_dialogs){
         if (describer->name().compare(name) == 0){
             describer->setDescription(description);
+            {
+                QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
+                while(it!=m_createdDialogs.end()){
+                    if ((*it)->objectName()==name){
+                        it = m_createdDialogs.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ScriptEngineContext::changeDialogName(const QString& oldName, const QString& newName)
+{
+    foreach( DialogDescriber::Ptr describer, m_dialogs){
+        if (describer->name().compare(oldName) == 0){
+            describer->setName(newName);
+            {
+                QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
+                while(it!=m_createdDialogs.end()){
+                    if ((*it)->objectName()==oldName){
+                        it = m_createdDialogs.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
             return true;
         }
     }
@@ -1106,6 +1138,7 @@ void ScriptEngineContext::deleteDialog(const QString& dialogName)
         while(it!=m_dialogs.end()){
             if ((*it)->name()==dialogName){
                 it = m_dialogs.erase(it);
+                emit dialogDeleted(dialogName);
             } else {
                 ++it;
             }
@@ -1188,6 +1221,10 @@ QDialog* ScriptEngineContext::createDialog(DialogDescriber* cont)
     buffer.open(QIODevice::ReadOnly);
     QDialog* dialog = dynamic_cast<QDialog*>(loader.load(&buffer));
     m_createdDialogs.push_back(QSharedPointer<QDialog>(dialog));
+    if (cont->name().compare(dialog->objectName())){
+        cont->setName(dialog->objectName());
+        emit dialogNameChanged(dialog->objectName());
+    }
     return dialog;
 }
 
@@ -1225,6 +1262,18 @@ QDialog* ScriptEngineContext::getDialog(const QString& dialogName)
     }
     return 0;
 }
+
+QString ScriptEngineContext::getNewDialogName()
+{
+    QString result = "Dialog";
+    int index = m_dialogs.size() - 1;
+    while (containsDialog(result)){
+        index++;
+        result = QString("Dialog%1").arg(index);
+    }
+    return result;
+}
+
 #endif
 QString ScriptEngineContext::initScript() const
 {

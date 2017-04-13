@@ -59,6 +59,7 @@ void ScriptBrowser::setReportEditor(ReportDesignWidget* report)
     m_report=report;
     connect(m_report,SIGNAL(cleared()),this,SLOT(slotClear()));
     connect(m_report,SIGNAL(loaded()),this,SLOT(slotUpdate()));
+    connect(m_report->scriptContext(), SIGNAL(dialogAdded(QString)), this, SLOT(slotDialogAdded(QString)));
     updateFunctionTree();
 }
 
@@ -138,6 +139,11 @@ void ScriptBrowser::slotUpdate()
     updateFunctionTree();
 }
 
+void ScriptBrowser::slotDialogAdded(QString)
+{
+    updateDialogsTree();
+}
+
 #ifdef HAVE_UI_LOADER
 void ScriptBrowser::on_tbAddDialog_clicked()
 {
@@ -157,7 +163,7 @@ void ScriptBrowser::on_tbAddDialog_clicked()
                         if (!m_report->scriptContext()->containsDialog(dialog->objectName())){
                             file.seek(0);
                             m_report->scriptContext()->addDialog(dialog->objectName(),file.readAll());
-                            updateDialogsTree();
+                            //updateDialogsTree();
                         } else {
                             QMessageBox::critical(this,tr("Error"),tr("Dialog with name: %1 already exists").arg(dialog->objectName()));
                         }

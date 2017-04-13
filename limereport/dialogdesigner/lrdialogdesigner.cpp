@@ -18,6 +18,7 @@
 #include <QDesignerFormEditorInterface>
 #include <QAction>
 #include <QDebug>
+#include <QVBoxLayout>
 #include "pluginmanager_p.h"
 //#include <QExtensionManager>
 
@@ -25,14 +26,14 @@
 
 namespace LimeReport{
 
-DialogDesigner::DialogDesigner(QObject *parent) : QObject(parent)
+DialogDesignerManager::DialogDesignerManager(QObject *parent) : QObject(parent)
 {
     QDesignerComponents::initializeResources();
     m_formEditor = QDesignerComponents::createFormEditor(this);
     QDesignerComponents::initializePlugins(m_formEditor);
     QDesignerComponents::createTaskMenu(m_formEditor, this);
 
-    m_editWidgetsAction = new QAction(tr("Edit Widgets"));
+    m_editWidgetsAction = new QAction(tr("Edit Widgets"), this);
     m_editWidgetsAction->setIcon(QIcon(":/images/images/widgettool.png"));
     m_editWidgetsAction->setEnabled(false);
     connect(m_editWidgetsAction, SIGNAL(triggered()), this, SLOT(slotEditWidgets()));
@@ -102,7 +103,7 @@ DialogDesigner::DialogDesigner(QObject *parent) : QObject(parent)
 
 }
 
-DialogDesigner::~DialogDesigner()
+DialogDesignerManager::~DialogDesignerManager()
 {
     for (int i = 0; i<m_designerToolWindows.size();++i){
         if (m_designerToolWindows[i])
@@ -113,13 +114,18 @@ DialogDesigner::~DialogDesigner()
     delete m_formEditor;
 }
 
-void DialogDesigner::initToolBar(QToolBar *tb)
+void DialogDesignerManager::initToolBar(QToolBar *tb)
 {
     tb->setIconSize(QSize(16,16));
+    m_formEditor->formWindowManager()->actionCopy()->setIcon(QIcon(":/report/images/copy"));
     tb->addAction(m_formEditor->formWindowManager()->actionCopy());
+    m_formEditor->formWindowManager()->actionPaste()->setIcon(QIcon(":/report/images/paste"));
     tb->addAction(m_formEditor->formWindowManager()->actionPaste());
+    m_formEditor->formWindowManager()->actionCut()->setIcon(QIcon(":/report/images/cut"));
     tb->addAction(m_formEditor->formWindowManager()->actionCut());
+    m_formEditor->formWindowManager()->actionUndo()->setIcon(QIcon(":/report/images/undo"));
     tb->addAction(m_formEditor->formWindowManager()->actionUndo());
+    m_formEditor->formWindowManager()->actionRedo()->setIcon(QIcon(":/report/images/redo"));
     tb->addAction(m_formEditor->formWindowManager()->actionRedo());
 
     tb->addActions(m_modes->actions());
@@ -135,7 +141,7 @@ void DialogDesigner::initToolBar(QToolBar *tb)
     tb->addAction(m_formEditor->formWindowManager()->actionAdjustSize());
 }
 
-QWidget *DialogDesigner::createFormEditor(const QString &content)
+QWidget *DialogDesignerManager::createFormEditor(const QString &content)
 {
     QDesignerFormWindowInterface* wnd = m_formEditor->formWindowManager()->createFormWindow(0, Qt::Window);
     wnd->setContents(content);
@@ -143,25 +149,32 @@ QWidget *DialogDesigner::createFormEditor(const QString &content)
     m_formEditor->objectInspector()->setFormWindow(wnd);
     wnd->editWidgets();
 
-    connect(wnd, SIGNAL(changed()), this, SIGNAL(dialogChanged()));
+    DialogDesigner* dialogDesigner = new DialogDesigner(wnd, m_formEditor);
 
-    SharedTools::WidgetHost *placeholder = new SharedTools::WidgetHost(0,wnd);
-    placeholder->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
-    placeholder->setFocusProxy( wnd );
+    connect(dialogDesigner, SIGNAL(dialogChanged()), this, SLOT(slotDialogChanged()));
+    connect(dialogDesigner, SIGNAL(dialogNameChanged(QString,QString)), this, SIGNAL(dialogNameChanged(QString,QString)));
+    connect(dialogDesigner, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)));
 
-    return placeholder;    
+    m_dialogDesigners.append(dialogDesigner);
+
+    return dialogDesigner;
+
 }
 
-QByteArray DialogDesigner::getDialogDescription(QWidget *form)
+QByteArray DialogDesignerManager::getDialogDescription(QWidget *form)
 {
-    SharedTools::WidgetHost* wh = dynamic_cast<SharedTools::WidgetHost*>(form);
-    if (wh){
-        return wh->formWindow()->contents().toUtf8();
+    QByteArray result;
+    DialogDesigner* dialogDesigner = dynamic_cast<DialogDesigner*>(form);
+    Q_ASSERT(dialogDesigner != NULL);
+    //SharedTools::WidgetHost* wh = dynamic_cast<SharedTools::WidgetHost*>(form);
+    if (dialogDesigner){
+        result = dialogDesigner->dialogContent();
+        //wh->formWindow()->setDirty(false);
     }
-    return QByteArray();
+    return result;
 }
 
-void DialogDesigner::setActiveEditor(QWidget *widget)
+void DialogDesignerManager::setActiveEditor(QWidget *widget)
 {
     SharedTools::WidgetHost* wh = dynamic_cast<SharedTools::WidgetHost*>(widget);
     if (wh){
@@ -169,52 +182,70 @@ void DialogDesigner::setActiveEditor(QWidget *widget)
     }
 }
 
-QWidget* DialogDesigner::widgetBox() const
+void DialogDesignerManager::setDirty(bool value)
+{
+    foreach(DialogDesigner* dialogDesigner, m_dialogDesigners){
+        dialogDesigner->setChanged(value);
+    }
+}
+
+QWidget* DialogDesignerManager::widgetBox() const
 {
     return m_widgetBox;
 }
 
-QWidget* DialogDesigner::actionEditor() const
+QWidget* DialogDesignerManager::actionEditor() const
 {
     return m_actionEditor;
 }
 
-QWidget* DialogDesigner::propertyEditor() const
+QWidget* DialogDesignerManager::propertyEditor() const
 {
     return m_propertyEditor;
 }
 
-QWidget* DialogDesigner::objectInspector() const
+QWidget* DialogDesignerManager::objectInspector() const
 {
     return m_objectInspector;
 }
 
-QWidget *DialogDesigner::signalSlotEditor() const
+QWidget *DialogDesignerManager::signalSlotEditor() const
 {
     return m_signalSlotEditor;
 }
 
-QWidget *DialogDesigner::resourcesEditor() const
+QWidget *DialogDesignerManager::resourcesEditor() const
 {
     return m_resourcesEditor;
 }
 
-void DialogDesigner::slotObjectDestroyed(QObject *object)
+void DialogDesignerManager::slotObjectDestroyed(QObject* object)
 {
+
+    QList<DialogDesigner*>::Iterator it = m_dialogDesigners.begin();
+    while(it!=m_dialogDesigners.end()){
+        if (*it == object){
+            it = m_dialogDesigners.erase(it);
+            return;
+        } else {
+            ++it;
+        }
+    }
+
     for ( int i = 0; i<m_designerToolWindows.size();++i){
         m_designerToolWindows[i] = m_designerToolWindows[i] == object ? 0 : m_designerToolWindows[i];
     }
 
 }
 
-void DialogDesigner::slotEditWidgets()
+void DialogDesignerManager::slotEditWidgets()
 {
    for (int i = 0; i<m_formEditor->formWindowManager()->formWindowCount(); ++i){
        m_formEditor->formWindowManager()->formWindow(i)->editWidgets();
    }
 }
 
-void DialogDesigner::slotActiveFormWindowChanged(QDesignerFormWindowInterface *formWindow)
+void DialogDesignerManager::slotActiveFormWindowChanged(QDesignerFormWindowInterface *formWindow)
 {
     if (formWindow){
         m_editWidgetsAction->setEnabled(true);
@@ -222,7 +253,15 @@ void DialogDesigner::slotActiveFormWindowChanged(QDesignerFormWindowInterface *f
     }
 }
 
-QString DialogDesigner::iconPathByName(const QString &name)
+void DialogDesignerManager::slotDialogChanged()
+{
+    DialogDesigner* dialogDesigner = dynamic_cast<DialogDesigner*>(sender());
+    if (dialogDesigner){
+        emit dialogChanged(dialogDesigner->dialogName());
+    }
+}
+
+QString DialogDesignerManager::iconPathByName(const QString &name)
 {
     if (name.compare("__qt_edit_signals_slots_action") == 0)
         return ":/images/images/signalslottool.png";
@@ -231,6 +270,76 @@ QString DialogDesigner::iconPathByName(const QString &name)
     if (name.compare("_qt_edit_tab_order_action") == 0)
         return ":/images/images/tabordertool.png";
     return "";
+}
+
+DialogDesigner::DialogDesigner(QDesignerFormWindowInterface* wnd, QDesignerFormEditorInterface* formEditor, QWidget *parent, Qt::WindowFlags flags)
+    :QWidget(parent, flags), m_formEditor(formEditor)
+{
+    m_dialogName = wnd->mainContainer()->objectName();
+    connect(wnd, SIGNAL(changed()), this, SIGNAL(dialogChanged()));
+    connect(wnd->mainContainer(), SIGNAL(objectNameChanged(QString)), this, SLOT(slotMainContainerNameChanged(QString)));
+
+    m_designerHolder = new SharedTools::WidgetHost(this,wnd);
+    m_designerHolder->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+    m_designerHolder->setFocusProxy( wnd );
+
+    QVBoxLayout* l = new QVBoxLayout(this);
+    l->addWidget(m_designerHolder);
+    setLayout(l);
+
+}
+
+DialogDesigner::~DialogDesigner(){}
+
+QString DialogDesigner::dialogName() const
+{
+    return m_dialogName;
+}
+
+void DialogDesigner::setDialogName(const QString &dialogName)
+{
+    m_dialogName = dialogName;
+}
+
+bool DialogDesigner::isChanged()
+{
+    return m_designerHolder->formWindow()->isDirty();
+}
+
+void DialogDesigner::setChanged(bool value)
+{
+    m_designerHolder->formWindow()->setDirty(false);
+}
+
+QByteArray DialogDesigner::dialogContent()
+{
+    if (m_designerHolder && m_designerHolder->formWindow())
+        return m_designerHolder->formWindow()->contents().toUtf8();
+    return QByteArray();
+}
+
+void DialogDesigner::undo()
+{
+    Q_ASSERT(m_formEditor != NULL);
+    if (m_formEditor){
+        m_formEditor->formWindowManager()->actionUndo()->trigger();
+    }
+}
+
+void DialogDesigner::redo()
+{
+    Q_ASSERT(m_formEditor != NULL);
+    if (m_formEditor){
+        m_formEditor->formWindowManager()->actionRedo()->trigger();
+    }
+}
+
+void DialogDesigner::slotMainContainerNameChanged(QString newName)
+{
+    if (m_dialogName.compare(newName) != 0){
+        emit dialogNameChanged(m_dialogName, newName);
+        m_dialogName = newName;
+    }
 }
 
 }

@@ -175,5 +175,7 @@
         <file alias="/images/addBand">images/addBand2.png</file>
         <file alias="/images/editMode">images/edit_control_4_24.png</file>
         <file alias="/images/logo32">images/logo_32x32_1.png</file>
+        <file alias="/images/addDialog">images/addDialog.png</file>
+        <file alias="/images/deleteDialog">images/deleteDialog.png</file>
     </qresource>
 </RCC>

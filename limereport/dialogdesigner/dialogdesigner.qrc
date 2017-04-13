@@ -6,4 +6,7 @@
         <file>images/tabordertool.png</file>
         <file>images/widgettool.png</file>
     </qresource>
+    <qresource prefix="/templates">
+        <file>templates/Dialog.ui</file>
+    </qresource>
 </RCC>

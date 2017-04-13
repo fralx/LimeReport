@@ -48,6 +48,7 @@ namespace LimeReport {
 class ReportEnginePrivate;
 class DataBrowser;
 class ReportDesignWindow;
+class DialogDesignerManager;
 class DialogDesigner;
 
 class ReportDesignWidget : public QWidget
@@ -100,15 +101,17 @@ public:
     bool useGrid(){ return m_useGrid;}
     bool useMagnet() const;
     void setUseMagnet(bool useMagnet);
-    DialogDesigner *dialogDesigner() const;
-    QWidget* toolWindow(ToolWindowType windowType);
     EditorTabType activeTabType();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void initDialogDesignerToolBar(QToolBar* toolBar);
     void updateDialogs();
+    DialogDesignerManager *dialogDesignerManager() const;
+    QString activeDialogName();
+    DialogDesigner* activeDialogPage();
+    QWidget* toolWindow(ToolWindowType windowType);
 #endif
 public slots:
-    void saveToFile(const QString&);
+    bool saveToFile(const QString&);
     bool save();
     bool loadFromFile(const QString&);
     void deleteSelectedItems();
@@ -140,6 +143,10 @@ public slots:
     void addPage();
     void deleteCurrentPage();
     void slotPagesLoadFinished();
+    void slotDialogDeleted(QString dialogName);
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void addNewDialog();
+#endif
 private slots:
     void slotItemSelected(LimeReport::BaseDesignIntf *item);
     void slotSelectionChanged();
@@ -147,7 +154,8 @@ private slots:
     void slotSceneRectChanged(QRectF);
     void slotCurrentTabChanged(int index);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
-    void slotDialogChanged();
+    void slotDialogChanged(QString);
+    void slotDialogNameChanged(QString oldName, QString newName);
 #endif
 signals:
     void insertModeStarted();
@@ -169,13 +177,18 @@ signals:
     void pageDeleted();
 protected:
     void createTabs();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void createNewDialogTab(const QString& dialogName,const QByteArray& description);
+#endif
 private:
     bool eventFilter(QObject *target, QEvent *event);
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
     QTextEdit* m_scriptEditor;
-    DialogDesigner* m_dialogDesigner;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    DialogDesignerManager* m_dialogDesignerManager;
+#endif
     QMainWindow *m_mainWindow;
     QTabWidget* m_tabWidget;
     GraphicsViewZoomer* m_zoomer;
@@ -184,6 +197,7 @@ private:
     int m_horizontalGridStep;
     bool m_useGrid;
     bool m_useMagnet;
+    bool m_dialogChanged;
 };
 
 }
