@@ -78,8 +78,8 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     createDialogPropertyEditor();
     createDialogObjectInspector();
     createDialogActionEditor();
-    createDialogResourceEditor();
     createDialogSignalSlotEditor();
+    createDialogResourceEditor();
     createDialogDesignerToolBar();
 #endif
     m_instance=this;
@@ -330,7 +330,9 @@ void ReportDesignWindow::createToolBars()
 
     createReportToolBar();
 
-    m_pageTools << m_mainToolBar << m_reportToolBar << m_fontEditorBar << m_textAlignmentEditorBar << m_itemsBordersEditorBar;
+    m_pageTools << m_mainToolBar << m_reportToolBar << m_fontEditorBar
+                << m_textAlignmentEditorBar << m_itemsAlignmentEditorBar
+                << m_itemsBordersEditorBar;
 
 }
 
@@ -544,42 +546,45 @@ void ReportDesignWindow::createDialogPropertyEditor()
 
 void ReportDesignWindow::createDialogObjectInspector()
 {
-    QDockWidget *doc = new QDockWidget(this);
-    doc->setWindowTitle(tr("Object Inspector"));
-    doc->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ObjectInspector));
-    doc->setObjectName("ObjectInspector");
-    addDockWidget(Qt::RightDockWidgetArea,doc);
-    m_dialogEditors.append(doc);
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("Object Inspector"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ObjectInspector));
+    dock->setObjectName("ObjectInspector");
+    addDockWidget(Qt::RightDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
 }
 
 void ReportDesignWindow::createDialogActionEditor()
 {
-    QDockWidget *doc = new QDockWidget(this);
-    doc->setWindowTitle(tr("Action Editor"));
-    doc->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ActionEditor));
-    doc->setObjectName("ActionEditor");
-    addDockWidget(Qt::BottomDockWidgetArea,doc);
-    m_dialogEditors.append(doc);
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("Action Editor"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ActionEditor));
+    dock->setObjectName("ActionEditor");
+    addDockWidget(Qt::BottomDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+    m_docksToTabify.append(dock);
 }
 
 void ReportDesignWindow::createDialogResourceEditor()
 {
-    QDockWidget *doc = new QDockWidget(this);
-    doc->setWindowTitle(tr("Resource Editor"));
-    doc->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ResourceEditor));
-    doc->setObjectName("ResourceEditor");
-    addDockWidget(Qt::BottomDockWidgetArea,doc);
-    m_dialogEditors.append(doc);
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("Resource Editor"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ResourceEditor));
+    dock->setObjectName("ResourceEditor");
+    addDockWidget(Qt::BottomDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+    m_docksToTabify.append(dock);
 }
 
 void ReportDesignWindow::createDialogSignalSlotEditor()
 {
-    QDockWidget *doc = new QDockWidget(this);
-    doc->setWindowTitle(tr("SignalSlot Editor"));
-    doc->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::SignalSlotEditor));
-    doc->setObjectName("SignalSlotEditor");
-    addDockWidget(Qt::BottomDockWidgetArea,doc);
-    m_dialogEditors.append(doc);
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("SignalSlot Editor"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::SignalSlotEditor));
+    dock->setObjectName("SignalSlotEditor");
+    addDockWidget(Qt::BottomDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+    m_docksToTabify.append(dock);
 }
 
 void ReportDesignWindow::createDialogDesignerToolBar()
@@ -1252,9 +1257,15 @@ void ReportDesignWindow::showDefaultEditors(){
     foreach (QDockWidget* w, m_pageEditors) {
         w->setVisible(m_editorTabType != ReportDesignWidget::Dialog);
     }
+#ifdef HAVE_QTDESIGNER_INTEGRATION
     foreach (QDockWidget* w, m_dialogEditors) {
         w->setVisible(m_editorTabType == ReportDesignWidget::Dialog);
     }
+    for ( int i = 0; i < m_docksToTabify.size() - 1; ++i){
+        tabifyDockWidget(m_docksToTabify.at(i),m_docksToTabify.at(i+1));
+    }
+    m_docksToTabify.at(0)->raise();
+#endif
 }
 
 void ReportDesignWindow::slotActivePageChanged()

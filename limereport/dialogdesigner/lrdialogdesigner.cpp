@@ -96,7 +96,7 @@ DialogDesignerManager::DialogDesignerManager(QObject *parent) : QObject(parent)
     m_actionEditor->setObjectName("ActionEditor");
     m_formEditor->setActionEditor(m_actionEditor);
     m_designerToolWindows.append(m_actionEditor);
-    connect(m_formEditor, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)) );
+    connect(m_actionEditor, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)) );
 
     m_designerIntegration = new QDesignerIntegration(m_formEditor,this);
     m_formEditor->setIntegration(m_designerIntegration);

@@ -259,6 +259,7 @@ private:
     QMap<QString,QDateTime> m_recentFiles;
     QVector<QDockWidget*> m_pageEditors;
     QVector<QDockWidget*> m_dialogEditors;
+    QVector<QDockWidget*> m_docksToTabify;
     ReportDesignWidget::EditorTabType m_editorTabType;
     QByteArray m_pageEditorsState;
     QByteArray m_dialogEditorsState;
