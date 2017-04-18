@@ -164,8 +164,12 @@ void PreviewReportWidget::print()
     QPrinter printer(QPrinter::HighResolution);
 
     if (!pi.defaultPrinter().isNull())
-        printer.setPrinterName(pi.defaultPrinterName());
-
+#ifdef HAVE_QT4
+            printer.setPrinterName(pi.defaultPrinter().printerName());
+#endif
+#ifdef HAVE_QT5
+            printer.setPrinterName(pi.defaultPrinterName());
+#endif
     QPrintDialog dialog(&printer,QApplication::activeWindow());
     if (dialog.exec()==QDialog::Accepted){
         if (!d_ptr->m_reportPages.isEmpty())
