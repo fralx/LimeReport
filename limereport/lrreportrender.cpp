@@ -339,7 +339,7 @@ void registerChildObjects(ScriptEngineType* se, ScriptValueType* sv){
 void ReportRender::initDialogs(){
     if (m_scriptEngineContext){
         ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
-        foreach(DialogDescriber::Ptr dialog, m_scriptEngineContext->dialogsDescriber()){
+        foreach(DialogDescriber::Ptr dialog, m_scriptEngineContext->dialogDescribers()){
             ScriptValueType sv = se->newQObject(m_scriptEngineContext->getDialog(dialog->name()));
 #ifdef USE_QJSENGINE
             registerChildObjects(se,&sv);

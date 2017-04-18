@@ -1,5 +1,9 @@
 include(../common.pri)
 
+contains(CONFIG,dialogdesigner){
+    include($$REPORT_PATH/dialogdesigner/dialogdesigner.pri)
+}
+
 DEFINES += INSPECT_BASEDESIGN
 
 INCLUDEPATH += \
@@ -19,6 +23,15 @@ SOURCES += \
     $$REPORT_PATH/bands/lrgroupbands.cpp \
     $$REPORT_PATH/bands/lrsubdetailband.cpp \
     $$REPORT_PATH/bands/lrtearoffband.cpp \
+    $$REPORT_PATH/databrowser/lrdatabrowser.cpp \
+    $$REPORT_PATH/databrowser/lrsqleditdialog.cpp \
+    $$REPORT_PATH/databrowser/lrconnectiondialog.cpp \
+    $$REPORT_PATH/databrowser/lrvariabledialog.cpp \
+    $$REPORT_PATH/databrowser/lrdatabrowsertree.cpp \
+    $$REPORT_PATH/serializators/lrxmlqrectserializator.cpp \
+    $$REPORT_PATH/serializators/lrxmlbasetypesserializators.cpp \
+    $$REPORT_PATH/serializators/lrxmlreader.cpp \
+    $$REPORT_PATH/serializators/lrxmlwriter.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrstringpropitem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrrectproptem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrintpropitem.cpp \
@@ -44,16 +57,8 @@ SOURCES += \
     $$REPORT_PATH/objectinspector/lrobjectitemmodel.cpp \
     $$REPORT_PATH/objectinspector/lrobjectpropitem.cpp \
     $$REPORT_PATH/objectinspector/lrpropertydelegate.cpp \
-    $$REPORT_PATH/objectsbrowser/lrobjectbrowser.cpp \
-    $$REPORT_PATH/databrowser/lrdatabrowser.cpp \
-    $$REPORT_PATH/databrowser/lrsqleditdialog.cpp \
-    $$REPORT_PATH/databrowser/lrconnectiondialog.cpp \
-    $$REPORT_PATH/databrowser/lrvariabledialog.cpp \
-    $$REPORT_PATH/databrowser/lrdatabrowsertree.cpp \
-    $$REPORT_PATH/serializators/lrxmlqrectserializator.cpp \
-    $$REPORT_PATH/serializators/lrxmlbasetypesserializators.cpp \
-    $$REPORT_PATH/serializators/lrxmlreader.cpp \
-    $$REPORT_PATH/serializators/lrxmlwriter.cpp \
+    $$REPORT_PATH/objectsbrowser/lrobjectbrowser.cpp \   
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
     $$REPORT_PATH/items/lrsubitemparentpropitem.cpp \
     $$REPORT_PATH/items/lralignpropitem.cpp \
     $$REPORT_PATH/items/lrhorizontallayout.cpp \
@@ -89,8 +94,8 @@ SOURCES += \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp
+
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -146,6 +151,7 @@ HEADERS += \
     $$REPORT_PATH/objectinspector/lrobjectpropitem.h \
     $$REPORT_PATH/objectinspector/lrpropertydelegate.h \
     $$REPORT_PATH/objectsbrowser/lrobjectbrowser.h \
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \
     $$REPORT_PATH/items/editors/lritemeditorwidget.h \
     $$REPORT_PATH/items/editors/lrfonteditorwidget.h \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.h \
@@ -189,7 +195,6 @@ HEADERS += \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \ 
     $$REPORT_PATH/lritemscontainerdesignitf.h
     
 contains(CONFIG,zint){

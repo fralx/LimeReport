@@ -62,6 +62,7 @@ protected:
 private slots:
     void slotClear();
     void slotUpdate();
+    void slotDialogAdded(QString);
 #ifdef HAVE_UI_LOADER
     void on_tbAddDialog_clicked();
     void on_tbRunDialog_clicked();
