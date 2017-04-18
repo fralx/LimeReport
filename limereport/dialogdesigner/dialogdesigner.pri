@@ -19,7 +19,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     CONFIG  *= designer
     qtAddLibrary( QtDesignerComponents )
 }
-#QT += designer designercomponents-private
 
 SOURCES += $$PWD/lrdialogdesigner.cpp
 HEADERS += $$PWD/lrdialogdesigner.h
