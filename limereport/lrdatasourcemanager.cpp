@@ -258,7 +258,11 @@ void DataSourceManager::clearGroupFuntionsExpressions()
 
 QString DataSourceManager::getExpression(QString index)
 {
-   return m_groupFunctionsExpressions.at(index.toInt());
+    bool ok = false;
+    int i = index.toInt(&ok);
+    if (ok && m_groupFunctionsExpressions.size()>i)
+        return m_groupFunctionsExpressions.at(index.toInt());
+    else return "";
 }
 
 bool DataSourceManager::designTime() const

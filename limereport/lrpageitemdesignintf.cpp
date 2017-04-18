@@ -46,24 +46,26 @@ bool bandSortBandLessThenByIndex(const BandDesignIntf *c1, const BandDesignIntf 
 }
 
 PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
-    BaseDesignIntf("PageItem",owner,parent),
+    ItemsContainerDesignInft("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
+    setFlag(QGraphicsItem::ItemClipsChildrenToShape);
     initPageSize(m_pageSize);
 }
 
 PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &rect, QObject *owner, QGraphicsItem *parent) :
-    BaseDesignIntf("PageItem",owner,parent),
+    ItemsContainerDesignInft("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
+    setFlag(QGraphicsItem::ItemClipsChildrenToShape);
     initPageSize(rect.size());
 }
 
@@ -314,6 +316,12 @@ void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
             notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
         }
     }
+}
+
+void PageItemDesignIntf::updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager)
+{
+    snapshotItemsLayout();
+    arrangeSubItems(pass, dataManager);
 }
 
 bool PageItemDesignIntf::oldPrintMode() const

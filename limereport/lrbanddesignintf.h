@@ -31,6 +31,7 @@
 #define LRBANDDESIGNINTF_H
 #include "lrbasedesignintf.h"
 #include "lrdatasourcemanager.h"
+#include "lritemscontainerdesignitf.h"
 #include <QObject>
 
 namespace LimeReport {
@@ -81,10 +82,7 @@ private:
     BandDesignIntf* m_band;
 };
 
-struct ItemSortContainer;
-typedef QSharedPointer< ItemSortContainer > PItemSortContainer;
-
-class BandDesignIntf : public BaseDesignIntf
+class BandDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
     Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight )
@@ -128,6 +126,8 @@ public:
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
+    void restoreItems();
+    void recalcItems(DataSourceManager* dataManager);
     void updateBandNameLabel();
 
     virtual QColor selectionColor() const;
@@ -220,15 +220,11 @@ public:
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
     bool useAlternateBackgroundColor() const;
-    void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);
-
+    void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
+    void replaceGroupsFunction(BandDesignIntf *band);
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
-    void  snapshotItemsLayout();
-    void  arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type = AsNeeded);
-    qreal findMaxBottom();
-    qreal findMaxHeight();
     void  trimToMaxHeight(int maxHeight);
     void  setBandTypeText(const QString& value);
     QString bandTypeText(){return m_bandTypeText;}
@@ -248,6 +244,7 @@ protected:
     void moveItemsDown(qreal startPos, qreal offset);
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
+
 private slots:
     void childBandDeleted(QObject* band);
 private:
@@ -289,37 +286,7 @@ public:
     DataBandDesignIntf(BandsType bandType, QString xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0);
 };
 
-class Segment{
-public:
-    Segment(qreal segmentStart,qreal segmentEnd):m_begin(segmentStart),m_end(segmentEnd){}
-    bool intersect(Segment value);
-    qreal intersectValue(Segment value);
-private:
-    qreal m_begin;
-    qreal m_end;
-};
-
-class VSegment : public Segment{
-public:
-    VSegment(QRectF rect):Segment(rect.top(),rect.bottom()){}
-};
-
-struct HSegment :public Segment{
-public:
-    HSegment(QRectF rect):Segment(rect.left(),rect.right()){}
-};
-
-struct ItemSortContainer {
-    QRectF m_rect;
-    BaseDesignIntf * m_item;
-    ItemSortContainer(BaseDesignIntf *item){
-        m_item=item;
-        m_rect=item->geometry();
-    }
-};
-
-bool itemSortContainerLessThen(const PItemSortContainer c1, const PItemSortContainer c2);
 bool bandIndexLessThen(const BandDesignIntf* b1, const BandDesignIntf* b2);
 
-}
+} // namespace LimeReport
 #endif // LRBANDDESIGNINTF_H

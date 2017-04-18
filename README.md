@@ -1,4 +1,6 @@
-LimeReport v1.3.11    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
+LimeReport v1.4.7    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
+-----------
+Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 -----------
 
 ##Features
@@ -37,6 +39,17 @@ LimeReport v1.3.11    [![Build Status](https://api.travis-ci.org/fralx/LimeRepor
 For more samples see a demo
 
 ## Change log
+
+###1.4.7
+1. Multipage
+2. Dialogs
+3. Render events 
+4. Initscript
+5. Memory usage has been reduced 
+6. Datasource manager has been refactored
+7. Report items context menus have been added
+8. Editable report
+And many others minor fixes and improvements
 
 ###1.3.11
 1. LimeReport project structure has been changed

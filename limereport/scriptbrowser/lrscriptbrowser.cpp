@@ -59,6 +59,7 @@ void ScriptBrowser::setReportEditor(ReportDesignWidget* report)
     m_report=report;
     connect(m_report,SIGNAL(cleared()),this,SLOT(slotClear()));
     connect(m_report,SIGNAL(loaded()),this,SLOT(slotUpdate()));
+    connect(m_report->scriptContext(), SIGNAL(dialogAdded(QString)), this, SLOT(slotDialogAdded(QString)));
     updateFunctionTree();
 }
 
@@ -117,7 +118,7 @@ void ScriptBrowser::updateDialogsTree()
 {
     ui->twDialogs->clear();
     ScriptEngineContext* sc = reportEditor()->scriptContext();
-    foreach(DialogDescriber::Ptr dc, sc->dialogsDescriber()){
+    foreach(DialogDescriber::Ptr dc, sc->dialogDescribers()){
         QTreeWidgetItem* dialogItem = new QTreeWidgetItem(ui->twDialogs,QStringList(dc->name()));
         dialogItem->setIcon(0,QIcon(":/scriptbrowser/images/dialog"));
         fillDialog(dialogItem,dc->description());
@@ -136,6 +137,11 @@ void ScriptBrowser::slotUpdate()
     updateDialogsTree();
 #endif
     updateFunctionTree();
+}
+
+void ScriptBrowser::slotDialogAdded(QString)
+{
+    updateDialogsTree();
 }
 
 #ifdef HAVE_UI_LOADER
@@ -157,7 +163,7 @@ void ScriptBrowser::on_tbAddDialog_clicked()
                         if (!m_report->scriptContext()->containsDialog(dialog->objectName())){
                             file.seek(0);
                             m_report->scriptContext()->addDialog(dialog->objectName(),file.readAll());
-                            updateDialogsTree();
+                            //updateDialogsTree();
                         } else {
                             QMessageBox::critical(this,tr("Error"),tr("Dialog with name: %1 already exists").arg(dialog->objectName()));
                         }

@@ -39,7 +39,6 @@
 #include "serializators/lrxmlreader.h"
 
 #include <memory>
-
 #include <QMetaObject>
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
@@ -79,7 +78,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_changingItemAlign(false),
     m_borderColor(Qt::black),
     m_reportSettings(0),
-    m_patternName("")
+    m_patternName(""),
+    m_patternItem(0)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -712,6 +712,16 @@ void BaseDesignIntf::setPatternName(const QString &patternName)
     m_patternName = patternName;
 }
 
+BaseDesignIntf* BaseDesignIntf::patternItem() const
+{
+    return m_patternItem;
+}
+
+void BaseDesignIntf::setPatternItem(BaseDesignIntf *patternItem)
+{
+    m_patternItem = patternItem;
+}
+
 ReportSettings *BaseDesignIntf::reportSettings() const
 {
     return m_reportSettings;
@@ -1330,6 +1340,7 @@ BaseDesignIntf *BaseDesignIntf::cloneItem(ItemMode mode, QObject *owner, QGraphi
 {
     BaseDesignIntf *clone = cloneItemWOChild(mode, owner, parent);
     clone->setPatternName(this->objectName());
+    clone->setPatternItem(this);
 #ifdef HAVE_QT5
     foreach(QObject * child, children()) {
 #else
@@ -1525,8 +1536,7 @@ BaseDesignIntf *Marker::object() const
     return m_object;
 }
 
-
-}
+} //namespace LimeReport
 
 
 
