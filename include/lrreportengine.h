@@ -63,11 +63,15 @@ class DataSourceManager;
 class ReportEnginePrivate;
 class PageDesignIntf;
 class PageItemDesignIntf;
+class ReportDesignWidget;
+class PreviewReportWidget;
 
 typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
 
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
+    friend class ReportDesignWidget;
+    friend class PreviewReportWidget;
 public:
     static void setSettings(QSettings *value){m_settings=value;}
 public:

@@ -381,7 +381,8 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
         ReportPages pages = renderToPages();
         dataManager()->setDesignTime(true);
         if (pages.count()>0){
-            PreviewReportWindow* w = new PreviewReportWindow(this,0,settings());
+            Q_Q(ReportEngine);
+            PreviewReportWindow* w = new PreviewReportWindow(q,0,settings());
             w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
             w->setAttribute(Qt::WA_DeleteOnClose,true);
             w->setWindowModality(Qt::ApplicationModal);
@@ -415,7 +416,8 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
 
 PreviewReportWidget* ReportEnginePrivate::createPreviewWidget(QWidget* parent){
 
-    PreviewReportWidget* widget = new PreviewReportWidget(this, parent);
+    Q_Q(ReportEngine);
+    PreviewReportWidget* widget = new PreviewReportWidget(q, parent);
     try{
         dataManager()->setDesignTime(false);
         ReportPages pages = renderToPages();
@@ -488,7 +490,8 @@ PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
 void ReportEnginePrivate::designReport()
 {
     if (!m_designerWindow) {
-            m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
+            Q_Q(ReportEngine);
+            m_designerWindow = new LimeReport::ReportDesignWindow(q,QApplication::activeWindow(),settings());
             m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
             m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
             m_designerWindow->setShowProgressDialog(m_showProgressDialog);

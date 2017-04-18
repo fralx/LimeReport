@@ -47,7 +47,9 @@
 
 namespace LimeReport {
 
-ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
+// ReportDesignIntf
+
+ReportDesignWidget::ReportDesignWidget(ReportEngine *report, QMainWindow *mainWindow, QWidget *parent) :
     QWidget(parent),
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     m_dialogDesignerManager(new DialogDesignerManager(this)),
@@ -66,7 +68,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
         m_report->appendPage("page1");
     }
     else {
-        m_report=report;
+        m_report=report->d_ptr;
         if (!m_report->pageCount()) m_report->appendPage("page1");
     }
 
@@ -77,7 +79,8 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
     connect(m_report->scriptContext(), SIGNAL(dialogDeleted(QString)), this, SLOT(slotDialogDeleted(QString)));
 
-    m_scriptEditor->setPlainText(report->scriptContext()->initScript());
+    //m_instance=this;
+    m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
     m_zoomer = new GraphicsViewZoomer(activeView());
 
 #ifdef Q_OS_WIN

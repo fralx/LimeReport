@@ -69,7 +69,7 @@ public:
         Dialog,
         Script
     };
-    ReportDesignWidget(ReportEnginePrivate* report,QMainWindow *mainWindow,QWidget *parent = 0);
+    ReportDesignWidget(ReportEngine* report, QMainWindow *mainWindow, QWidget *parent = 0);
     ~ReportDesignWidget();
     void createStartPage();
     void clear();

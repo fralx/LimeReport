@@ -34,6 +34,8 @@
 #include "lrreportengine_p.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
+#include "items/editors/lrfonteditorwidget.h"
+#include "items/editors/lrtextalignmenteditorwidget.h"
 
 #include <QPrinter>
 #include <QPrintDialog>
@@ -43,7 +45,7 @@
 
 namespace LimeReport{
 
-PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
+PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
     ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false)
 {
