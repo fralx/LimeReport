@@ -94,7 +94,7 @@ signals:
 public slots:
     virtual void updateProperty(const QString &name, const QVariant &value, bool enableSubPropertyHandling);
     // Additional signals of designer property editor
-    virtual void updatePropertyComment(const QString &name, const QString &value);
+//    virtual void updatePropertyComment(const QString &name, const QString &value);
     virtual void resetProperty(const QString &name);
     virtual void addDynamicProperty(const QString &name, const QVariant &value);
     virtual void removeDynamicProperty(const QString &name);

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include <QToolBar>
+#include <QActionGroup>
 
 class QDesignerFormEditorInterface;
 class QDesignerFormWindowInterface;
@@ -23,7 +24,7 @@ namespace LimeReport{
 class DialogDesigner : public QWidget{
     Q_OBJECT
 public:
-    DialogDesigner(QDesignerFormWindowInterface *wnd, QDesignerFormEditorInterface* formEditor, QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::WindowFlags());
+    DialogDesigner(QDesignerFormWindowInterface *wnd, QDesignerFormEditorInterface* formEditor, QWidget *parent = NULL, Qt::WindowFlags flags = Qt::WindowFlags());
     ~DialogDesigner();
     QString dialogName() const;
     void    setDialogName(const QString &dialogName);
@@ -34,11 +35,11 @@ public slots:
     void undo();
     void redo();
 signals:
-    void dialogChanged();
+    void dialogChanged(QString dialogName);
     void dialogNameChanged(QString oldName, QString newName);
-
 private slots:
     void slotMainContainerNameChanged(QString newName);
+    void slotDialogChanged();
 private:
     QString m_dialogName;
     SharedTools::WidgetHost* m_designerHolder;
@@ -69,7 +70,6 @@ private slots:
     void slotObjectDestroyed(QObject* object);
     void slotEditWidgets();
     void slotActiveFormWindowChanged(QDesignerFormWindowInterface *formWindow);
-    void slotDialogChanged();
 private:
     QString iconPathByName(const QString& name);
 private:

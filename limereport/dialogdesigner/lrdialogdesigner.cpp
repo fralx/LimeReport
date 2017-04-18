@@ -3,9 +3,6 @@
 #include <QPluginLoader>
 
 #include <QDesignerComponents>
-#include <QDesignerIntegration>
-#include <abstractobjectinspector.h>
-
 #include <QDesignerFormEditorInterface>
 #include <QDesignerFormWindowInterface>
 #include <QDesignerFormWindowManagerInterface>
@@ -19,10 +16,17 @@
 #include <QAction>
 #include <QDebug>
 #include <QVBoxLayout>
-#include "pluginmanager_p.h"
-//#include <QExtensionManager>
 
+#if HAVE_QT5
+#include <QDesignerIntegration>
+#endif
+#if HAVE_QT4
+#include "qdesigner_integration_p.h"
+#include <QtDesigner/QDesignerIntegrationInterface>
+#endif
+#include "pluginmanager_p.h"
 #include "widgethost.h"
+#include <abstractobjectinspector.h>
 
 namespace LimeReport{
 
@@ -98,7 +102,12 @@ DialogDesignerManager::DialogDesignerManager(QObject *parent) : QObject(parent)
     m_designerToolWindows.append(m_actionEditor);
     connect(m_actionEditor, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)) );
 
+#ifdef HAVE_QT4
+    m_designerIntegration = new qdesigner_internal::QDesignerIntegration(m_formEditor,this);
+#endif
+#ifdef HAVE_QT5
     m_designerIntegration = new QDesignerIntegration(m_formEditor,this);
+#endif
     m_formEditor->setIntegration(m_designerIntegration);
 
 }
@@ -151,7 +160,7 @@ QWidget *DialogDesignerManager::createFormEditor(const QString &content)
 
     DialogDesigner* dialogDesigner = new DialogDesigner(wnd, m_formEditor);
 
-    connect(dialogDesigner, SIGNAL(dialogChanged()), this, SLOT(slotDialogChanged()));
+    connect(dialogDesigner, SIGNAL(dialogChanged(QString)), this, SIGNAL(dialogChanged(QString)));
     connect(dialogDesigner, SIGNAL(dialogNameChanged(QString,QString)), this, SIGNAL(dialogNameChanged(QString,QString)));
     connect(dialogDesigner, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)));
 
@@ -253,14 +262,6 @@ void DialogDesignerManager::slotActiveFormWindowChanged(QDesignerFormWindowInter
     }
 }
 
-void DialogDesignerManager::slotDialogChanged()
-{
-    DialogDesigner* dialogDesigner = dynamic_cast<DialogDesigner*>(sender());
-    if (dialogDesigner){
-        emit dialogChanged(dialogDesigner->dialogName());
-    }
-}
-
 QString DialogDesignerManager::iconPathByName(const QString &name)
 {
     if (name.compare("__qt_edit_signals_slots_action") == 0)
@@ -276,8 +277,7 @@ DialogDesigner::DialogDesigner(QDesignerFormWindowInterface* wnd, QDesignerFormE
     :QWidget(parent, flags), m_formEditor(formEditor)
 {
     m_dialogName = wnd->mainContainer()->objectName();
-    connect(wnd, SIGNAL(changed()), this, SIGNAL(dialogChanged()));
-    connect(wnd->mainContainer(), SIGNAL(objectNameChanged(QString)), this, SLOT(slotMainContainerNameChanged(QString)));
+    connect(wnd, SIGNAL(changed()), this, SLOT(slotDialogChanged()));
 
     m_designerHolder = new SharedTools::WidgetHost(this,wnd);
     m_designerHolder->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
@@ -308,7 +308,7 @@ bool DialogDesigner::isChanged()
 
 void DialogDesigner::setChanged(bool value)
 {
-    m_designerHolder->formWindow()->setDirty(false);
+    m_designerHolder->formWindow()->setDirty(value);
 }
 
 QByteArray DialogDesigner::dialogContent()
@@ -339,6 +339,19 @@ void DialogDesigner::slotMainContainerNameChanged(QString newName)
     if (m_dialogName.compare(newName) != 0){
         emit dialogNameChanged(m_dialogName, newName);
         m_dialogName = newName;
+    }
+}
+
+void DialogDesigner::slotDialogChanged()
+{
+    Q_ASSERT(m_designerHolder != NULL);
+    if (m_designerHolder && m_designerHolder->formWindow()){
+        if ( m_designerHolder->formWindow()->mainContainer()->objectName().compare(m_dialogName) !=0 ){
+            emit dialogNameChanged(m_dialogName, m_designerHolder->formWindow()->mainContainer()->objectName());
+            m_dialogName = m_designerHolder->formWindow()->mainContainer()->objectName();
+        }
+        emit dialogChanged(m_dialogName);
+        m_designerHolder->formWindow()->setDirty(false);
     }
 }
 

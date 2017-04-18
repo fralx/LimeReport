@@ -274,7 +274,12 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
+#ifdef HAVE_QT4
+            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+#endif
+#ifdef HAVE_QT5
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
+#endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
     }
@@ -301,7 +306,12 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, Print
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
+#ifdef HAVE_QT4
+            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+#endif
+#ifdef HAVE_QT5
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
+#endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
         if (m_printerSelected){
