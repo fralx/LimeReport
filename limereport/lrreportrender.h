@@ -87,29 +87,20 @@ signals:
 public slots:
     void    cancelRender();
 private:
-
-    void    baseDesignIntfToScript(BaseDesignIntf* item);
-
-
-    void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initDatasource(const QString &name);
     void    initRenderPage();
-#ifdef HAVE_UI_LOADER
-    void    initDialogs();
-#endif
     void    initVariables();
-    bool    runInitScript();
+    void    initGroups();
     void    clearPageMap();
+
+    void    renderPage(PageDesignIntf *patternPage);
     BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
     void    renderReportHeader(PageItemDesignIntf* patternPage, PageRenderStage stage);
     void    renderPageFooter(PageItemDesignIntf* patternPage);
-    void    moveTearOffBand();
     void    renderPageItems(PageItemDesignIntf* patternPage);
-    qreal   calcPageFooterHeight(PageItemDesignIntf* patternPage);
-    qreal   calcSlicePercent(qreal height);
     void    renderChildHeader(BandDesignIntf* parent, BandPrintMode printMode);
     void    renderChildFooter(BandDesignIntf* parent, BandPrintMode printMode);
     void    renderChildBands(BandDesignIntf* parentBand);
@@ -117,8 +108,10 @@ private:
     void    renderDataHeader(BandDesignIntf* header);
     void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource, bool firstTime);
     void    renderGroupFooter(BandDesignIntf* parentBand);
+    void    moveTearOffBand();
+    qreal   calcPageFooterHeight(PageItemDesignIntf* patternPage);
+    qreal   calcSlicePercent(qreal height);
 
-    void    initGroups();
     bool    containsGroupsFunction(BandDesignIntf* band);
     void    extractGroupsFunction(BandDesignIntf* band);
     void    replaceGroupsFunction(BandDesignIntf* band);
@@ -169,10 +162,7 @@ private:
     QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
     QList<BandDesignIntf*> m_reprintableBands;
     QList<BandDesignIntf*> m_recalcBands;
-//    QList<BandDesignIntf*> m_lastRenderedHeaders;
 
-    //int m_maxHeightByColumn[0];
-    //int m_currentStartDataPos;
     int m_currentIndex;
     int m_pageCount;
 

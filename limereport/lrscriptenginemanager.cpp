@@ -32,12 +32,14 @@
 #include <QDate>
 #include <QStringList>
 #include <QScriptValueIterator>
+#include <QMessageBox>
 #ifdef HAVE_UI_LOADER
 #include <QUiLoader>
 #include <QBuffer>
 #include <QWidget>
 #endif
 #include "lrdatasourcemanager.h"
+#include "lrbasedesignintf.h"
 
 Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
@@ -192,145 +194,8 @@ void ScriptEngineModel::updateModel()
         }
         categ->addChild(funcDesc.name,funcDesc.description,ScriptEngineNode::Function,QIcon(":/report/images/function"));
     }
-    //reset();
     endResetModel();
 }
-
-//QScriptValue line(QScriptContext* pcontext, QScriptEngine* pengine){
-//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-//    DataSourceManager* dm = sm->dataManager();
-//    QString band = pcontext->argument(0).toString();
-//    QScriptValue res;
-//    QString varName = QLatin1String("line_")+band.toLower();
-//    if (dm->variable(varName).isValid()){
-//        res=pengine->newVariant(dm->variable(varName));
-//    } else res=pengine->newVariant(QString("Variable line for band %1 not found").arg(band));
-//    return res;
-//}
-
-//QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
-
-//    QString name = pcontext->argument(0).toString();
-//    QVariant value = pcontext->argument(1).toVariant();
-
-//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-//    DataSourceManager* dm = sm->dataManager();
-
-//    dm->changeVariable(name,value);
-//    return QScriptValue();
-//}
-
-//QScriptValue getVariable(QScriptContext* pcontext, QScriptEngine* pengine){
-
-//    QString name = pcontext->argument(0).toString();
-
-//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-//    DataSourceManager* dm = sm->dataManager();
-//    QScriptValue res = pengine->newVariant(dm->variable(name));
-
-//    return res;
-//}
-
-//QScriptValue getField(QScriptContext* pcontext, QScriptEngine* pengine){
-
-//    QString name = pcontext->argument(0).toString();
-
-//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-//    DataSourceManager* dm = sm->dataManager();
-//    QScriptValue res = pengine->newVariant(dm->fieldData(name));
-
-//    return res;
-//}
-
-//QScriptValue numberFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-//    QVariant value = pcontext->argument(0).toVariant();
-//    char format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString()[0].toLatin1():'f';
-//    int precision = (pcontext->argumentCount()>2)?pcontext->argument(2).toInt32():2;
-//    QString locale = (pcontext->argumentCount()>3)?pcontext->argument(3).toString():"";
-//    QScriptValue res = (locale.isEmpty())?pengine->newVariant(QString::number(value.toDouble(),format,precision)):
-//                                          pengine->newVariant(QLocale(locale).toString(value.toDouble(),format,precision));
-//    return res;
-//}
-//#if QT_VERSION>0x040800
-//QScriptValue currencyFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-//    QVariant value = pcontext->argument(0).toVariant();
-//    QString locale = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().name();
-//    return pengine->newVariant(QLocale(locale).toCurrencyString(value.toDouble()));
-//}
-
-//QScriptValue currencyUSBasedFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-//    QVariant value = pcontext->argument(0).toVariant();
-//    QString CurrencySymbol = (pcontext->argumentCount()>1)?pcontext->argument(1).toString():QLocale::system().currencySymbol();
-//    // Format it using USA locale
-//    QString vTempStr=QLocale(QLocale::English, QLocale::UnitedStates).toCurrencyString(value.toDouble());
-//    // Replace currency symbol if necesarry
-//    if (CurrencySymbol!="") vTempStr.replace("$", CurrencySymbol);
-//    return pengine->newVariant(vTempStr);
-//}
-//#endif
-//QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-//    QVariant value = pcontext->argument(0).toVariant();
-//    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
-//    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDate(),format));
-//    return res;
-//}
-
-//QScriptValue timeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-//    QVariant value = pcontext->argument(0).toVariant();
-//    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"hh:mm";
-//    QScriptValue res = pengine->newVariant(QLocale().toString(value.toTime(),format));
-//    return res;
-//}
-
-//QScriptValue dateTimeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
-//    QVariant value = pcontext->argument(0).toVariant();
-//    QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy hh:mm";
-//    QScriptValue res = pengine->newVariant(QLocale().toString(value.toDateTime(),format));
-//    return res;
-//}
-
-//QScriptValue now(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
-//    return pengine->newVariant(QDateTime::currentDateTime());
-//}
-
-//QScriptValue date(QScriptContext* /*pcontext*/, QScriptEngine* pengine){
-//    return pengine->newVariant(QDate::currentDate());
-//}
-
-//QScriptValue callGroupFunction(const QString& functionName, QScriptContext* pcontext, QScriptEngine* pengine){
-
-//    ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
-//    DataSourceManager* dm = sm->dataManager();
-
-//    QString expression;
-//    QString band;
-
-//    if (functionName.compare("COUNT",Qt::CaseInsensitive) == 0 && pcontext->argumentCount()==1){
-//        expression = " ";
-//        band = pcontext->argument(0).toString();
-//    } else {
-//        expression = dm->getExpression(pcontext->argument(0).toString());
-//        band = pcontext->argument(1).toString();
-//    }
-
-//    QScriptValue res;
-//    GroupFunction* gf = dm->groupFunction(functionName,expression,band);
-//    if (gf){
-//        if (gf->isValid()){
-//            res=pengine->newVariant(gf->calculate());
-//        }else{
-//            res=pengine->newVariant(gf->error());
-//        }
-//    }
-//    else {
-//        res=pengine->newVariant(QString(QObject::tr("Function %1 not found or have wrong arguments").arg(functionName)));
-//    }
-//    return res;
-//}
-
-//QScriptValue groupFunction(QScriptContext* pcontext, QScriptEngine* pengine){
-//    return callGroupFunction(pcontext->callee().property("functionName").toString(),pcontext,pengine);
-//}
 
 ScriptEngineManager::~ScriptEngineManager()
 {
@@ -896,20 +761,6 @@ ScriptEngineManager::ScriptEngineManager()
     createSetVariableFunction();
     createGetFieldFunction();
     createGetVariableFunction();
-
-//    addFunction("line",line,"SYSTEM", "line(\""+tr("BandName")+"\")");
-//    addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
-//                tr("Precision")+"\",\""+
-//                tr("Locale")+"\")");
-
-//    addFunction("dateFormat",dateFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-//    addFunction("timeFormat",timeFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-//    addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-//    addFunction("date",date,"DATE&TIME","date()");
-//    addFunction("now",now,"DATE&TIME","now()");
-//    addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
-//    addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
-//    addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
 #ifndef USE_QJSENGINE
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
@@ -919,15 +770,6 @@ ScriptEngineManager::ScriptEngineManager()
     QScriptValue fontConstructor = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
     m_scriptEngine->globalObject().setProperty("QFont", fontConstructor);
 #endif
-//    foreach(QString func, dataManager()->groupFunctionNames()){
-//        addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")");
-//    }
-
-//    foreach(ScriptFunctionDesc func, m_functions){
-//        if (func.type==ScriptFunctionDesc::Native)
-//            m_scriptEngine->globalObject().setProperty(func.name,func.scriptValue);
-//    }
-
     m_model = new ScriptEngineModel(this);
 
 }
@@ -1275,6 +1117,93 @@ QString ScriptEngineContext::getNewDialogName()
 }
 
 #endif
+
+void ScriptEngineContext::baseDesignIntfToScript(BaseDesignIntf* item)
+{
+    if ( item ) {
+
+        if (item->metaObject()->indexOfSignal("beforeRender()")!=-1)
+            item->disconnect(SIGNAL(beforeRender()));
+        if (item->metaObject()->indexOfSignal("afterData()")!=-1)
+            item->disconnect(SIGNAL(afterData()));
+        if (item->metaObject()->indexOfSignal("afterRender()")!=-1)
+            item->disconnect(SIGNAL(afterRender()));
+
+        ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
+
+#ifdef USE_QJSENGINE
+        //sItem = engine->newQObject(item);
+        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        engine->globalObject().setProperty(item->patternName(), sItem);
+#else
+        ScriptValueType sItem = engine->globalObject().property(item->patternName());
+        if (sItem.isValid()){
+            engine->newQObject(sItem, item);
+        } else {
+            sItem = engine->newQObject(item);
+            engine->globalObject().setProperty(item->patternName(),sItem);
+        }
+#endif
+        foreach(BaseDesignIntf* child, item->childBaseItems()){
+            baseDesignIntfToScript(child);
+        }
+    }
+}
+
+#ifdef HAVE_UI_LOADER
+
+#ifdef USE_QJSENGINE
+void registerChildObjects(ScriptEngineType* se, ScriptValueType* sv){
+    foreach(QObject* obj, sv->toQObject()->children()){
+        ScriptValueType child = se->newQObject(obj);
+        sv->setProperty(obj->objectName(),child);
+        registerChildObjects(se, &child);
+    }
+}
+#endif
+
+void ScriptEngineContext::initDialogs(){
+    ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
+    foreach(DialogDescriber::Ptr dialog, dialogDescribers()){
+        ScriptValueType sv = se->newQObject(getDialog(dialog->name()));
+#ifdef USE_QJSENGINE
+        registerChildObjects(se,&sv);
+#endif
+        se->globalObject().setProperty(dialog->name(),sv);
+    }
+}
+
+#endif
+
+
+bool ScriptEngineContext::runInitScript(){
+
+    ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
+#ifndef USE_QJSENGINE
+    engine->pushContext();
+#endif
+    ScriptValueType res = engine->evaluate(initScript());
+    if (res.isBool()) return res.toBool();
+#ifdef  USE_QJSENGINE
+    if (res.isError()){
+        QMessageBox::critical(0,tr("Error"),
+            QString("Line %1: %2 ").arg(res.property("lineNumber").toString())
+                                   .arg(res.toString())
+        );
+        return false;
+    }
+#else
+    if (engine->hasUncaughtException()) {
+        QMessageBox::critical(0,tr("Error"),
+            QString("Line %1: %2 ").arg(engine->uncaughtExceptionLineNumber())
+                                   .arg(engine->uncaughtException().toString())
+        );
+        return false;
+    }
+#endif
+    return true;
+}
+
 QString ScriptEngineContext::initScript() const
 {
     return m_initScript;

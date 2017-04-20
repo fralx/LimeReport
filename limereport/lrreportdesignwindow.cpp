@@ -1277,7 +1277,9 @@ void ReportDesignWindow::slotActivePageChanged()
     switch (m_editorTabType) {
     case ReportDesignWidget::Dialog:
         m_dialogEditorsState = saveState();
+#ifdef HAVE_UI_LOADER
         m_scriptBrowser->updateDialogsTree();
+#endif
         break;
     default:
         m_pageEditorsState = saveState();

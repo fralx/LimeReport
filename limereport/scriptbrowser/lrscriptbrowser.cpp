@@ -59,7 +59,9 @@ void ScriptBrowser::setReportEditor(ReportDesignWidget* report)
     m_report=report;
     connect(m_report,SIGNAL(cleared()),this,SLOT(slotClear()));
     connect(m_report,SIGNAL(loaded()),this,SLOT(slotUpdate()));
+#ifdef HAVE_UI_LOADER
     connect(m_report->scriptContext(), SIGNAL(dialogAdded(QString)), this, SLOT(slotDialogAdded(QString)));
+#endif
     updateFunctionTree();
 }
 
@@ -139,12 +141,13 @@ void ScriptBrowser::slotUpdate()
     updateFunctionTree();
 }
 
+#ifdef HAVE_UI_LOADER
+
 void ScriptBrowser::slotDialogAdded(QString)
 {
     updateDialogsTree();
 }
 
-#ifdef HAVE_UI_LOADER
 void ScriptBrowser::on_tbAddDialog_clicked()
 {
     QFileDialog fileDialog(this);

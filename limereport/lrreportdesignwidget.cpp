@@ -77,8 +77,9 @@ ReportDesignWidget::ReportDesignWidget(ReportEngine *report, QMainWindow *mainWi
     connect(m_report,SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
     connect(m_report,SIGNAL(cleared()),this,SIGNAL(cleared()));
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
+#ifdef HAVE_UI_LOADER
     connect(m_report->scriptContext(), SIGNAL(dialogDeleted(QString)), this, SLOT(slotDialogDeleted(QString)));
-
+#endif
     //m_instance=this;
     m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
     m_zoomer = new GraphicsViewZoomer(activeView());

@@ -181,7 +181,6 @@ private:
     bool m_reportRendering;
     bool m_resultIsEditable;
     QString m_passPhrase;
-
     QFileSystemWatcher  *m_fileWatcher;
 };
 

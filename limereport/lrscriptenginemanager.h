@@ -54,6 +54,7 @@
 namespace LimeReport{
 
 class DataSourceManager;
+class BaseDesignIntf;
 
 struct ScriptFunctionDesc{
     enum FuncType {Native,Script};
@@ -153,14 +154,19 @@ public:
     void    deleteDialog(const QString& dialogName);
     QDialog *getDialog(const QString &dialogName);
     QString getNewDialogName();
+    void    initDialogs();
 #endif
+    void    baseDesignIntfToScript(BaseDesignIntf *item);
     void    clear();
     QString initScript() const;
     void    setInitScript(const QString& initScript);
+    bool    runInitScript();
+#ifdef HAVE_UI_LOADER
 signals:
     void    dialogNameChanged(QString dialogName);
     void    dialogDeleted(QString dialogName);
     void    dialogAdded(QString dialogName);
+#endif
 protected:
     QObject* createElement(const QString& collectionName,const QString& elementType);
     int      elementsCount(const QString& collectionName);

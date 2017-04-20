@@ -795,22 +795,34 @@ ReportPages ReportEnginePrivate::renderToPages()
 
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
+
     if (m_pages.count()){
+#ifdef HAVE_UI_LOADER
+        m_scriptEngineContext->initDialogs();
+#endif
         ReportPages result;
         m_reportRendering = true;
-        emit renderStarted();
+
         m_reportRender->setDatasources(dataManager());
         m_reportRender->setScriptContext(scriptContext());
 
-        foreach(PageDesignIntf* page , m_pages){
-        	m_pages.at(0)->setReportSettings(&m_reportSettings);
-        	result.append(m_reportRender->renderPageToPages(page));
+        foreach (PageDesignIntf* page, m_pages) {
+            scriptContext()->baseDesignIntfToScript(page->pageItem());
         }
 
-        m_reportRender->secondRenderPass(result);
-        emit renderFinished();
-        m_reportRender.clear();
-        m_reportRendering = false;
+        if (m_scriptEngineContext->runInitScript()){
+            emit renderStarted();
+
+            foreach(PageDesignIntf* page , m_pages){
+                page->setReportSettings(&m_reportSettings);
+                result.append(m_reportRender->renderPageToPages(page));
+            }
+
+            m_reportRender->secondRenderPass(result);
+            emit renderFinished();
+            m_reportRender.clear();
+            m_reportRendering = false;
+        }
         return result;
     } else {
         return ReportPages();
