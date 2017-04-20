@@ -71,19 +71,19 @@ MainWindow::MainWindow(QWidget *parent) :
         };
     }
 
-    LimeReport::ICallbackDatasource * callbackDatasource = report->dataManager()->createCallbackDatasouce("master");
+    LimeReport::ICallbackDatasource * callbackDatasource = report->dataManager()->createCallbackDatasource("master");
     connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
             this, SLOT(slotGetCallbackData(LimeReport::CallbackInfo,QVariant&)));
     connect(callbackDatasource, SIGNAL(changePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)),
             this, SLOT(slotChangePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)));
 
-    callbackDatasource = report->dataManager()->createCallbackDatasouce("detail");
+    callbackDatasource = report->dataManager()->createCallbackDatasource("detail");
     connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
             this, SLOT(slotGetCallbackChildData(LimeReport::CallbackInfo,QVariant&)));
     connect(callbackDatasource, SIGNAL(changePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)),
             this, SLOT(slotChangeChildPos(const LimeReport::CallbackInfo::ChangePosType&,bool&)));
 
-    callbackDatasource = report->dataManager()->createCallbackDatasouce("oneSlotDS");
+    callbackDatasource = report->dataManager()->createCallbackDatasource("oneSlotDS");
     connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
             this, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
 

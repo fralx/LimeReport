@@ -63,6 +63,7 @@ public:
     void setPages(ReportPages pages);
     void exec();
     void initPreview(int pagesCount);
+    void reloadPreview();
     void setSettings(QSettings* value);
     void setErrorMessages(const QStringList& value);
     void setToolBarVisible(bool value);

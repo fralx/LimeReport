@@ -1191,7 +1191,10 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* a = menu.exec(event->screenPos());
     if (a){
         if (a == cutAction)
+        {
             page->cut();
+            return;
+        }
         if (a == copyAction)
             page->copy();
         if (a == pasteAction)

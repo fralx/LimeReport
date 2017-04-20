@@ -43,7 +43,7 @@ class AlignmentPropItem : public ObjectPropItem
 {
     Q_OBJECT
 public:
-    AlignmentPropItem():ObjectPropItem(){}
+    AlignmentPropItem():ObjectPropItem(),m_horizEditor(NULL),m_vertEditor(NULL){}
     AlignmentPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
     QString displayValue() const;
     void setPropertyValue(QVariant value);

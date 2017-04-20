@@ -71,7 +71,7 @@ class DataSourceModel : public QAbstractItemModel{
     Q_OBJECT
     friend class DataSourceManager;
 public:
-    DataSourceModel():m_rootNode(new DataNode()){}
+    DataSourceModel():m_dataManager(NULL),m_rootNode(new DataNode()){}
     DataSourceModel(DataSourceManager* dataManager);
     ~DataSourceModel();
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
@@ -114,7 +114,7 @@ public:
     void addProxy(const QString& name, QString master, QString detail, QList<FieldsCorrelation> fields);
     bool addModel(const QString& name, QAbstractItemModel *model, bool owned);
     void removeModel(const QString& name);
-    ICallbackDatasource* createCallbackDatasouce(const QString &name);
+    ICallbackDatasource* createCallbackDatasource(const QString &name);
     void registerDbCredentialsProvider(IDbCredentialsProvider *provider);
     void addCallbackDatasource(ICallbackDatasource *datasource, const QString &name);
     void setReportVariable(const QString& name, const QVariant& value);

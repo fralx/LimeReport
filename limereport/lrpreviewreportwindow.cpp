@@ -138,6 +138,11 @@ void PreviewReportWindow::initPreview(int pagesCount)
     m_pagesNavigator->setValue(1);
 }
 
+void PreviewReportWindow::reloadPreview()
+{
+   m_previewReportWidget->refreshPages();
+}
+
 void PreviewReportWindow::setSettings(QSettings* value)
 {
     if (m_ownedSettings)

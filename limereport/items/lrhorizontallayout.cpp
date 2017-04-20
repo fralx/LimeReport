@@ -390,8 +390,8 @@ void HorizontalLayout::slotOnChildDestroy(QObject* child)
 BaseDesignIntf* HorizontalLayout::findNext(BaseDesignIntf* item){
     if (m_children.count()<childItems().size()-1){
         m_children.clear();
-        foreach (BaseDesignIntf* item, childBaseItems()) {
-            m_children.append(item);
+        foreach (BaseDesignIntf* childItem, childBaseItems()) {
+            m_children.append(childItem);
         }
     }
     qSort(m_children.begin(),m_children.end(),lessThen);
@@ -404,8 +404,8 @@ BaseDesignIntf* HorizontalLayout::findNext(BaseDesignIntf* item){
 BaseDesignIntf* HorizontalLayout::findPrior(BaseDesignIntf* item){
     if (m_children.count()<childItems().size()-1){
         m_children.clear();
-        foreach (BaseDesignIntf* item, childBaseItems()) {
-            m_children.append(item);
+        foreach (BaseDesignIntf* childItem, childBaseItems()) {
+            m_children.append(childItem);
         }
     }
     qSort(m_children.begin(),m_children.end(),lessThen);

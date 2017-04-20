@@ -33,6 +33,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QFileSystemWatcher>
 
 #include "time.h"
 
@@ -60,13 +61,15 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
-    m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy")
+    m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
+    m_fileWatcher( new QFileSystemWatcher( this ) )
 {
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
     m_scriptEngineContext = new ScriptEngineContext(this);
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
+    connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
 }
 
 ReportEnginePrivate::~ReportEnginePrivate()
@@ -156,7 +159,7 @@ void ReportEnginePrivate::slotDataSourceCollectionLoaded(const QString &collecti
     emit datasourceCollectionLoadFinished(collectionName);
 }
 
-void ReportEnginePrivate::slotPreviewWindowDestroed(QObject* window)
+void ReportEnginePrivate::slotPreviewWindowDestroyed(QObject* window)
 {
     if (m_activePreview == window){
         m_activePreview = 0;
@@ -404,7 +407,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setHideResultEditButton(resultIsEditable());
 
             m_activePreview = w;
-            connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));
+            connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
             qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
             w->exec();
         }
@@ -475,6 +478,63 @@ void ReportEnginePrivate::setCurrentReportsDir(const QString &dirName)
         m_reportsDir = dirName;
 }
 
+bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
+{
+    PreviewReportWindow  *currentPreview = qobject_cast<PreviewReportWindow *>(m_activePreview);
+   
+    if (!QFile::exists(fileName))
+    {
+       if ( hasActivePreview() )
+       {          
+          QMessageBox::information( NULL,
+                                    tr( "Report File Change" ),
+                                    tr( "The report file \"%1\" has changed names or been deleted.\n\nThis preview is no longer valid." ).arg( fileName )
+                                    );
+          
+          clearReport();
+          
+          currentPreview->close();
+       }
+       
+       return false;
+    }
+
+    clearReport();
+
+    ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
+    reader->setPassPhrase(m_passPhrase);
+    if (reader->first()){
+        if (reader->readItem(this)){
+            m_fileName=fileName;
+            QFileInfo fi(fileName);
+            m_reportName = fi.fileName();
+
+            QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
+            if (QFile::exists(dbSettingFileName)){
+                QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
+                foreach (ConnectionDesc* connection, dataManager()->conections()) {
+                    if (!connection->keepDBCredentials()){
+                        dbcredentals.beginGroup(connection->name());
+                        connection->setUserName(dbcredentals.value("user").toString());
+                        connection->setPassword(dbcredentals.value("password").toString());
+                        dbcredentals.endGroup();
+                    }
+                }
+            }
+
+            dataManager()->connectAutoConnections();
+
+            if ( hasActivePreview() )
+            {
+               currentPreview->reloadPreview();
+            }
+            return true;
+        };
+    }
+    m_lastError = reader->lastError();
+    return false;
+}
+
 void ReportEnginePrivate::cancelRender()
 {
     if (m_reportRender)
@@ -528,39 +588,20 @@ QSettings*ReportEnginePrivate::settings()
     }
 }
 
-bool ReportEnginePrivate::loadFromFile(const QString &fileName)
+bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
 {
-    if (!QFile::exists(fileName)) return false;
+   // only watch one file at a time
+   if ( !m_fileWatcher->files().isEmpty() )
+   {
+      m_fileWatcher->removePaths( m_fileWatcher->files() );
+   }
 
-    clearReport();    
+   if ( autoLoadPreviewOnChange )
+   {
+      m_fileWatcher->addPath( fileName );
+   }
 
-    ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
-    reader->setPassPhrase(m_passPhrase);
-    if (reader->first()){
-        if (reader->readItem(this)){
-            m_fileName=fileName;
-            QFileInfo fi(fileName);
-            m_reportName = fi.fileName();
-
-            QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
-            if (QFile::exists(dbSettingFileName)){
-                QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
-                foreach (ConnectionDesc* connection, dataManager()->conections()) {
-                    if (!connection->keepDBCredentials()){
-                        dbcredentals.beginGroup(connection->name());
-                        connection->setUserName(dbcredentals.value("user").toString());
-                        connection->setPassword(dbcredentals.value("password").toString());
-                        dbcredentals.endGroup();
-                    }
-                }
-            }
-
-            dataManager()->connectAutoConnections();
-            return true;
-        };
-    }   
-    m_lastError = reader->lastError();
-    return false;
+   return slotLoadFromFile( fileName );
 }
 
 bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &name){
@@ -899,10 +940,10 @@ IScriptEngineManager *ReportEngine::scriptManager()
     return d->scriptManagerIntf();
 }
 
-bool ReportEngine::loadFromFile(const QString &fileName)
+bool ReportEngine::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
 {
     Q_D(ReportEngine);
-    return d->loadFromFile(fileName);
+    return d->loadFromFile(fileName, autoLoadPreviewOnChange);
 }
 
 bool ReportEngine::loadFromByteArray(QByteArray* data){

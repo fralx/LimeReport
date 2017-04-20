@@ -87,7 +87,7 @@ public:
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();
-    bool    loadFromFile(const QString& fileName);
+    bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange = false);
     bool    loadFromByteArray(QByteArray *data);
     bool    loadFromString(const QString& data);
     QString reportFileName();

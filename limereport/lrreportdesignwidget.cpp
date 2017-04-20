@@ -422,7 +422,7 @@ bool ReportDesignWidget::save()
 
 bool ReportDesignWidget::loadFromFile(const QString &fileName)
 {
-    if (m_report->loadFromFile(fileName)){
+    if (m_report->loadFromFile(fileName,false)){
         createTabs();
         //connectPage(m_report->pageAt(0));
         m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
