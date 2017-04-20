@@ -491,18 +491,20 @@ TextItem::TextPtr TextItem::textDocument() const
         setTextFont(text,_font);
     }
 
-    text->documentLayout();
+    //text->documentLayout();
+    if (m_lineSpacing != 1 || m_textIndent !=0 ){
 
-    for ( QTextBlock block = text->begin(); block.isValid(); block = block.next())
-    {
-        QTextCursor tc = QTextCursor(block);
-        QTextBlockFormat fmt = block.blockFormat();
-        fmt.setTextIndent(m_textIndent);
-
-        if(fmt.lineHeight() != m_lineSpacing) {
-            fmt.setLineHeight(m_lineSpacing,QTextBlockFormat::LineDistanceHeight);
+        for ( QTextBlock block = text->begin(); block.isValid(); block = block.next())
+        {
+            QTextCursor tc = QTextCursor(block);
+            QTextBlockFormat fmt = block.blockFormat();
+            fmt.setTextIndent(m_textIndent);
+            if (fmt.lineHeight() != m_lineSpacing) {
+                fmt.setLineHeight(m_lineSpacing,QTextBlockFormat::LineDistanceHeight);
+            }
             tc.setBlockFormat( fmt );
         }
+
     }
 
     return text;
