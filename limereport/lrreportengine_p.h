@@ -144,7 +144,7 @@ protected:
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:
-    void slotPreviewWindowDestroed(QObject *window);
+    void slotPreviewWindowDestroyed(QObject *window);
 private:
     //ICollectionContainer
     virtual QObject*    createElement(const QString&,const QString&);

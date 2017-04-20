@@ -155,7 +155,7 @@ void ReportEnginePrivate::slotDataSourceCollectionLoaded(const QString &collecti
     emit datasourceCollectionLoadFinished(collectionName);
 }
 
-void ReportEnginePrivate::slotPreviewWindowDestroed(QObject* window)
+void ReportEnginePrivate::slotPreviewWindowDestroyed(QObject* window)
 {
     if (m_activePreview == window){
         m_activePreview = 0;
@@ -387,7 +387,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setHideResultEditButton(resultIsEditable());
 
             m_activePreview = w;
-            connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroed(QObject*)));
+            connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
             qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
             w->exec();
         }
