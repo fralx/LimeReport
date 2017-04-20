@@ -42,6 +42,8 @@
 #include "serializators/lrstorageintf.h"
 #include "lrscriptenginemanager.h"
 
+class QFileSystemWatcher;
+
 namespace LimeReport{
 
 class PageDesignIntf;
@@ -91,7 +93,7 @@ public:
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
     QSettings*  settings();
-    bool    loadFromFile(const QString& fileName);
+    bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange);
     bool    loadFromByteArray(QByteArray *data, const QString& name = "");
     bool    loadFromString(const QString& report, const QString& name = "");
     QString reportFileName(){return m_fileName;}
@@ -138,6 +140,7 @@ signals:
     void    onSave();
     void    saveFinished();
 public slots:
+    bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
 protected:
     PageDesignIntf* createPage(const QString& pageName="");
@@ -178,6 +181,8 @@ private:
     bool m_reportRendering;
     bool m_resultIsEditable;
     QString m_passPhrase;
+
+    QFileSystemWatcher  *m_fileWatcher;
 };
 
 }
