@@ -63,7 +63,7 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer
     friend class PreviewReportWidget;
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
-    static void printReport(ReportPages pages, QPrinter &printer, const PrintRange &printRange);
+    static void printReport(ReportPages pages, QPrinter &printer);
 public:
     explicit ReportEnginePrivate(QObject *parent = 0);
     virtual ~ReportEnginePrivate();
@@ -85,7 +85,7 @@ public:
 
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
-    bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
+    bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);

@@ -209,7 +209,7 @@ void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& pri
     }
 }
 
-void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, const PrintRange& printRange)
+void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
 {
     LimeReport::PageDesignIntf renderPage;
     renderPage.setItemMode(PrintMode);
@@ -217,13 +217,13 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer, cons
 
     bool isFirst = true;
     int currenPage = 1;
-    foreach(PageItemDesignIntf::Ptr page,pages){
+    foreach(PageItemDesignIntf::Ptr page, pages){
 
         if (
-                (printRange.rangeType()==QPrintDialog::AllPages) ||
-                (   (printRange.rangeType()==QPrintDialog::PageRange) &&
-                    (currenPage>=printRange.fromPage()) &&
-                    (currenPage<=printRange.toPage())
+                (printer.printRange() == QPrinter::AllPages) ||
+                (   (printer.printRange()==QPrinter::PageRange) &&
+                    (currenPage>=printer.fromPage()) &&
+                    (currenPage<=printer.toPage())
                 )
            )
         {
@@ -295,7 +295,7 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
             ReportPages pages = renderToPages();
             dataManager()->setDesignTime(true);
             if (pages.count()>0){
-                printReport(pages,*printer,PrintRange());
+                printReport(pages,*printer);
             }
         } catch(ReportError &exception){
             saveError(exception.what());
@@ -304,7 +304,7 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     } else return false;
 }
 
-bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange)
+bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
 {
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
@@ -317,12 +317,6 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, Print
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
-        if (m_printerSelected){
-            printRange.setRangeType(dialog.printRange());
-            printRange.setFromPage(dialog.fromPage());
-            printRange.setToPage(dialog.toPage());
-        }
-
     }
     if (!printer&&!m_printerSelected) return false;
 
@@ -332,8 +326,7 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer, Print
             if (pages.count()>0){
                 printReport(
                     pages,
-                    *printer,
-                    printRange
+                    *printer
                 );
             }
         } catch(ReportError &exception){
@@ -859,9 +852,9 @@ bool ReportEngine::printReport(QPrinter *printer)
     return d->printReport(printer);
 }
 
-bool ReportEngine::printPages(ReportPages pages, QPrinter *printer, PrintRange printRange){
+bool ReportEngine::printPages(ReportPages pages, QPrinter *printer){
     Q_D(ReportEngine);
-    return d->printPages(pages,printer, printRange);
+    return d->printPages(pages,printer);
 }
 
 void ReportEngine::printToFile(const QString &fileName)

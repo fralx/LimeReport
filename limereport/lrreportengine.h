@@ -78,7 +78,7 @@ public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
     bool    printReport(QPrinter *printer=0);
-    bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
+    bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     PageDesignIntf *createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);

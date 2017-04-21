@@ -175,8 +175,7 @@ void PreviewReportWidget::print()
         if (!d_ptr->m_reportPages.isEmpty())
             ReportEnginePrivate::printReport(
                 d_ptr->m_reportPages,
-                printer,
-                PrintRange(dialog.printRange(),dialog.fromPage(),dialog.toPage())
+                printer
             );
         foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
             d_ptr->m_previewPage->reactivatePageItem(pageItem);
@@ -196,7 +195,7 @@ void PreviewReportWidget::printToPDF()
         printer.setOutputFileName(fileName);
         printer.setOutputFormat(QPrinter::PdfFormat);
         if (!d_ptr->m_reportPages.isEmpty()){
-            ReportEnginePrivate::printReport(d_ptr->m_reportPages,printer,PrintRange());
+            ReportEnginePrivate::printReport(d_ptr->m_reportPages,printer);
         }
         foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
             d_ptr->m_previewPage->reactivatePageItem(pageItem);
