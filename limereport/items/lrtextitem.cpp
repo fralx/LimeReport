@@ -491,7 +491,9 @@ TextItem::TextPtr TextItem::textDocument() const
         setTextFont(text,_font);
     }
 
-    //text->documentLayout();
+    if (follower())
+        text->documentLayout();
+
     if (m_lineSpacing != 1 || m_textIndent !=0 ){
 
         for ( QTextBlock block = text->begin(); block.isValid(); block = block.next())
