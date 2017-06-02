@@ -130,7 +130,7 @@ void PageDesignIntf::updatePageRect()
     }
     this->setSceneRect(-Const::SCENE_MARGIN, -Const::SCENE_MARGIN,
                        pageItem()->geometry().width() + Const::SCENE_MARGIN*2,
-                       pageItem()->geometry().height() + Const::SCENE_MARGIN*2);
+                       pageItem()->boundingRect().height() + Const::SCENE_MARGIN*2);
     emit sceneRectChanged(sceneRect());
 }
 

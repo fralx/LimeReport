@@ -49,7 +49,8 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     ItemsContainerDesignInft("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
-    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
+    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -61,7 +62,8 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     ItemsContainerDesignInft("PageItem",owner,parent),
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
-    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false)
+    m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -79,14 +81,24 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
 {
 
     if (itemMode() & DesignMode){
+        QRectF rect = pageRect();
+        if (isExtendedInDesignMode()) rect.adjust(0,0,0,m_extendedHeight);
         ppainter->save();
         ppainter->setOpacity(0.8);
         ppainter->fillRect(boundingRect(),pageBorderColor());
         ppainter->setOpacity(1);
-        ppainter->fillRect(pageRect(),Qt::white);
-        paintGrid(ppainter);
+        ppainter->fillRect(rect,Qt::white);
+        paintGrid(ppainter,rect);
         ppainter->setPen(gridColor());
         ppainter->drawRect(boundingRect());
+        if (m_isExtendedInDesignMode){
+            QPen pen;
+            pen.setColor(Qt::red);
+            pen.setStyle(Qt::DashLine);
+            pen.setWidth(2);
+            ppainter->setPen(pen);
+            ppainter->drawLine(pageRect().bottomLeft(),pageRect().bottomRight());
+        }
         ppainter->restore();
     }
 
@@ -138,6 +150,16 @@ QColor PageItemDesignIntf::gridColor() const
 {
     //return QColor(240,240,240);
     return QColor(170,200,150);
+}
+
+QRectF PageItemDesignIntf::boundingRect() const
+{
+    if (!isExtendedInDesignMode())
+        return BaseDesignIntf::boundingRect();
+    else {
+        QRectF result = BaseDesignIntf::boundingRect();
+        return result.adjusted(0,0,0,m_extendedHeight);
+    }
 }
 
 void PageItemDesignIntf::clear()
@@ -301,6 +323,32 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     for(int i=0;i<columnCount;++i){
         posByColumns.append(pos);
     }
+}
+
+int PageItemDesignIntf::extendedHeight() const
+{
+    return m_extendedHeight;
+}
+
+void PageItemDesignIntf::setExtendedHeight(int extendedHeight)
+{
+    m_extendedHeight = extendedHeight;
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
+    if (page) page->updatePageRect();
+    update();
+}
+
+bool PageItemDesignIntf::isExtendedInDesignMode() const
+{
+    return m_isExtendedInDesignMode;
+}
+
+void PageItemDesignIntf::setExtendedInDesignMode(bool pageIsExtended)
+{
+    m_isExtendedInDesignMode = pageIsExtended;
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
+    if (page) page->updatePageRect();
+    update();
 }
 
 bool PageItemDesignIntf::resetPageNumber() const
@@ -630,27 +678,27 @@ void PageItemDesignIntf::updateMarginRect()
     update();
 }
 
-void PageItemDesignIntf::paintGrid(QPainter *ppainter)
+void PageItemDesignIntf::paintGrid(QPainter *ppainter, QRectF rect)
 {
     ppainter->save();
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(0.5);
-    for (int i=0;i<=(pageRect().height()-50)/100;i++){
-        ppainter->drawLine(pageRect().x(),(i*100)+pageRect().y()+50,pageRect().right(),i*100+pageRect().y()+50);
+    for (int i=0;i<=(rect.height()-50)/100;i++){
+        ppainter->drawLine(rect.x(),(i*100)+rect.y()+50,rect.right(),i*100+rect.y()+50);
     };
-    for (int i=0;i<=((pageRect().width()-50)/100);i++){
-        ppainter->drawLine(i*100+pageRect().x()+50,pageRect().y(),i*100+pageRect().x()+50,pageRect().bottom());
+    for (int i=0;i<=((rect.width()-50)/100);i++){
+        ppainter->drawLine(i*100+rect.x()+50,rect.y(),i*100+rect.x()+50,rect.bottom());
     };
 
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(1);
-    for (int i=0;i<=(pageRect().width()/100);i++){
-        ppainter->drawLine(i*100+pageRect().x(),pageRect().y(),i*100+pageRect().x(),pageRect().bottom());
+    for (int i=0;i<=(rect.width()/100);i++){
+        ppainter->drawLine(i*100+rect.x(),rect.y(),i*100+rect.x(),rect.bottom());
     };
-    for (int i=0;i<=pageRect().height()/100;i++){
-        ppainter->drawLine(pageRect().x(),i*100+pageRect().y(),pageRect().right(),i*100+pageRect().y());
+    for (int i=0;i<=rect.height()/100;i++){
+        ppainter->drawLine(rect.x(),i*100+rect.y(),rect.right(),i*100+rect.y());
     };
-    ppainter->drawRect(pageRect());
+    ppainter->drawRect(rect);
     ppainter->restore();
 }
 

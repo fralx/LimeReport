@@ -53,6 +53,8 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(bool fullPage READ fullPage WRITE setFullPage)
     Q_PROPERTY(bool oldPrintMode READ oldPrintMode WRITE setOldPrintMode)
     Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
+    Q_PROPERTY(bool isExtendedInDesignMode READ isExtendedInDesignMode WRITE setExtendedInDesignMode)
+    Q_PROPERTY(int  extendedHeight READ extendedHeight WRITE setExtendedHeight)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -74,6 +76,7 @@ public:
     virtual QColor selectionColor() const;
     virtual QColor pageBorderColor() const;
     virtual QColor gridColor() const;
+    virtual QRectF boundingRect() const;
     void clear();
     const BandsList& childBands() const {return m_bands;}
     BandDesignIntf * bandByType(BandDesignIntf::BandsType bandType) const;
@@ -118,6 +121,11 @@ public:
     void setResetPageNumber(bool resetPageNumber);
     void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);
 
+    bool isExtendedInDesignMode() const;
+    void setExtendedInDesignMode(bool isExtendedInDesignMode);
+    int  extendedHeight() const;
+    void setExtendedHeight(int extendedHeight);
+
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
@@ -131,7 +139,7 @@ protected:
     QColor  selectionMarkerColor(){return Qt::transparent;}
     void    preparePopUpMenu(QMenu &menu);
 private:
-    void paintGrid(QPainter *ppainter);
+    void paintGrid(QPainter *ppainter, QRectF rect);
     void initColumnsPos(QVector<qreal>&posByColumns, qreal pos, int columnCount);
 private:
     int m_topMargin;
@@ -146,6 +154,8 @@ private:
     bool m_fullPage;
     bool m_oldPrintMode;
     bool m_resetPageNumber;
+    bool m_isExtendedInDesignMode;
+    int  m_extendedHeight;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;
