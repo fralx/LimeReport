@@ -50,7 +50,9 @@
 #include "lrpreviewreportwindow.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
-
+#ifdef HAVE_STATIC_BUILD
+#include "lrfactoryinitializer.h"
+#endif
 namespace LimeReport{
 
 QSettings* ReportEngine::m_settings = 0;
@@ -63,6 +65,11 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
     m_fileWatcher( new QFileSystemWatcher( this ) )
 {
+#ifdef HAVE_STATIC_BUILD
+    initReportItems();
+    initObjectInspectorProperties();
+    initSerializators();
+#endif
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
     m_scriptEngineContext = new ScriptEngineContext(this);
