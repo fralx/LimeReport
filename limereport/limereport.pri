@@ -72,6 +72,7 @@ SOURCES += \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
     $$REPORT_PATH/items/lrshapeitem.cpp \
     $$REPORT_PATH/items/lrtextitem.cpp \
+    $$REPORT_PATH/lrfactoryinitializer.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
     $$REPORT_PATH/lrpagedesignintf.cpp \
@@ -165,6 +166,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
+    $$REPORT_PATH/lrfactoryinitializer.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
     $$REPORT_PATH/lrbandsmanager.h \
@@ -213,8 +215,6 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
-
-
 
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \

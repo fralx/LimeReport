@@ -3,14 +3,17 @@ CONFIG += zint
 CONFIG += qjsengine
 CONFIG += dialogdesigner
 
+ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+contains(CONFIG,zint){
+    DEFINES += HAVE_ZINT
+}
+
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += uitools
 }
 lessThan(QT_MAJOR_VERSION, 5){
     CONFIG += uitools
 }
-
-ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
 
 CONFIG(release, debug|release){
     message(Release)
@@ -88,3 +91,5 @@ lessThan(QT_MAJOR_VERSION, 5){
         DEFINES += HAVE_UI_LOADER
     }
 }
+
+

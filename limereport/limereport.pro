@@ -3,6 +3,7 @@ TEMPLATE = lib
 
 CONFIG += lib
 CONFIG += dll
+#CONFIG += staticlib
 CONFIG += create_prl
 CONFIG += link_prl
 
@@ -12,7 +13,14 @@ macx{
     CONFIG  += plugin
 }
 
-DEFINES += LIMEREPORT_EXPORTS
+!staticlib:{
+    DEFINES += LIMEREPORT_EXPORTS
+}
+
+staticlib:{
+    DEFINES += HAVE_STATIC_BUILD
+    message(STATIC_BUILD)
+}
 
 EXTRA_FILES += \
     $$PWD/lrglobal.cpp \
