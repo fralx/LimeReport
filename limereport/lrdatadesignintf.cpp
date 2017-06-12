@@ -673,12 +673,15 @@ void CallbackDatasource::first(){
 
 QVariant CallbackDatasource::data(const QString& columnName)
 {
-    CallbackInfo info;
-    info.dataType = CallbackInfo::ColumnData;
-    info.columnName = columnName;
-    info.index = m_currentRow;
     QVariant result;
-    emit getCallbackData(info,result);
+    if (!eof()) //Don't read past the end
+    {
+        CallbackInfo info;
+        info.dataType = CallbackInfo::ColumnData;
+        info.columnName = columnName;
+        info.index = m_currentRow;
+        emit getCallbackData(info,result);
+    }
     return result;
 }
 
