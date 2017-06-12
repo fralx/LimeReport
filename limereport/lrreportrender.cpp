@@ -691,8 +691,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
         IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb&&gb->isNeedToClose(datasources())){
             if (band->childBands().count()>0){
-                dataSource->prior();
-
+                bool didGoBack = dataSource->prior();
                 foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
                     foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
                         renderBand(footer, 0);
@@ -704,7 +703,12 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                     renderBand(footer, 0, StartNewPageAsNeeded);
                 }
 
-                dataSource->next();
+                if (didGoBack)
+                {
+                    //New Method to undo prior... Alternatively pass in bool isUndoPrior into next()
+                    dataSource->undoPrior();
+                    //dataSource->next(); //Also emit changePos, which it should not at this point
+                }
             }
             closeDataGroup(band);
         }

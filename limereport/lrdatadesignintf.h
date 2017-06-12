@@ -53,6 +53,7 @@ public:
     virtual bool next() = 0;
     virtual bool hasNext() = 0;
     virtual bool prior() = 0;
+    virtual void undoPrior() = 0;
     virtual void first() = 0;
     virtual void last() = 0;
     virtual bool bof() = 0;
@@ -354,6 +355,7 @@ public:
     bool next();
     bool hasNext();
     bool prior();
+    void undoPrior() {m_curRow++;}
     void first();
     void last();
     bool eof();
@@ -384,6 +386,7 @@ public:
     bool next();
     bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow); else return false;}
     bool prior(){ if (m_currentRow !=-1) {m_currentRow--; return true;} else return false;}
+    void undoPrior() {m_currentRow++;}
     void first();
     void last(){}
     bool bof(){return m_currentRow == -1;}
