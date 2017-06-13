@@ -9,7 +9,9 @@
 
 
 #include "items/lrtextitem.h"
+#ifdef HAVE_ZINT
 #include "items/lrbarcodeitem.h"
+#endif
 #include "items/lrhorizontallayout.h"
 #include "items/lrimageitem.h"
 #include "items/lrshapeitem.h"

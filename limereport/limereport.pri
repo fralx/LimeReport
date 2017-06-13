@@ -72,7 +72,6 @@ SOURCES += \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
     $$REPORT_PATH/items/lrshapeitem.cpp \
     $$REPORT_PATH/items/lrtextitem.cpp \
-    $$REPORT_PATH/lrfactoryinitializer.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
     $$REPORT_PATH/lrpagedesignintf.cpp \
@@ -97,6 +96,9 @@ SOURCES += \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp
 
+contains(CONFIG, staticbuild){
+    SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
+}
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -198,7 +200,11 @@ HEADERS += \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lritemscontainerdesignitf.h
-    
+
+contains(CONFIG, staticbuild){
+    HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
+}
+
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
 }
