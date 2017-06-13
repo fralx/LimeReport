@@ -330,66 +330,85 @@ void ReportRender::clearPageMap()
     m_renderedPages.clear();
 }
 
-void ReportRender::extractGroupsFunction(BandDesignIntf *band)
-{
-    foreach(BaseDesignIntf* item,band->childBaseItems()){
-        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
-        if (contentItem&&(contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}")))){
-            foreach(const QString &functionName, m_datasources->groupFunctionNames()){
-                QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
-                QRegExp rxName(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName));
-                if (rx.indexIn(contentItem->content())>=0){
-                    int pos = 0;
-                    while ( (pos = rx.indexIn(contentItem->content(),pos)) != -1){
-                        QVector<QString> captures = normalizeCaptures(rx);
-                        if (captures.size()>=3){
-                            int dsIndex = captures.size() == 3 ? Const::DATASOURCE_INDEX - 1 : Const::DATASOURCE_INDEX;
-                            BandDesignIntf* dataBand = m_patternPageItem->bandByName(captures.at(dsIndex));
-                            if (dataBand){
-                                GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
-                                if (gf){
-                                    connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
-                                }
-                            } else {
-                                GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),captures.at(dsIndex));
-                                gf->setInvalid(tr("Databand \"%1\" not found").arg(captures.at(dsIndex)));
+void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
+    if ( contentItem && contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}"))){
+        foreach(const QString &functionName, m_datasources->groupFunctionNames()){
+            QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            QRegExp rxName(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName));
+            if (rx.indexIn(contentItem->content())>=0){
+                int pos = 0;
+                while ( (pos = rx.indexIn(contentItem->content(),pos)) != -1){
+                    QVector<QString> captures = normalizeCaptures(rx);
+                    if (captures.size()>=3){
+                        int dsIndex = captures.size() == 3 ? Const::DATASOURCE_INDEX - 1 : Const::DATASOURCE_INDEX;
+                        BandDesignIntf* dataBand = m_patternPageItem->bandByName(captures.at(dsIndex));
+                        if (dataBand){
+                            GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
+                            if (gf){
+                                connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
                             }
+                        } else {
+                            GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),captures.at(dsIndex));
+                            gf->setInvalid(tr("Databand \"%1\" not found").arg(captures.at(dsIndex)));
                         }
-                        pos += rx.matchedLength();
                     }
-                } else if (rxName.indexIn(contentItem->content())>=0){
-                    GroupFunction* gf = datasources()->addGroupFunction(functionName,rxName.cap(1),band->objectName(),"");
-                    gf->setInvalid(tr("Wrong using function %1").arg(functionName));
+                    pos += rx.matchedLength();
                 }
+            } else if (rxName.indexIn(contentItem->content())>=0){
+                GroupFunction* gf = datasources()->addGroupFunction(functionName,rxName.cap(1),band->objectName(),"");
+                gf->setInvalid(tr("Wrong using function %1").arg(functionName));
             }
         }
     }
 }
 
-
-void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
-{
-    foreach(BaseDesignIntf* item,band->childBaseItems()){
+void ReportRender::extractGroupFunctionsFromContainer(BaseDesignIntf* baseItem, BandDesignIntf* band){
+    foreach (BaseDesignIntf* item, baseItem->childBaseItems()) {
         ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
-        if (contentItem){
-            QString content = contentItem->content();
-            foreach(const QString &functionName, m_datasources->groupFunctionNames()){
-                QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
-                if (rx.indexIn(content)>=0){
-                    int pos = 0;
-                    while ( (pos = rx.indexIn(content,pos))!= -1 ){
-                        QVector<QString> captures = normalizeCaptures(rx);
-                        if (captures.size() >= 3){
-                            QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
-                            content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
-                        }
-                        pos += rx.matchedLength();
+        if (contentItem) extractGroupFuntionsFromItem(contentItem, band);
+        else extractGroupFunctionsFromContainer(item, band);
+    }
+}
+
+void ReportRender::extractGroupFunctions(BandDesignIntf *band)
+{
+    extractGroupFunctionsFromContainer(band, band);
+}
+
+
+void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
+    if (contentItem){
+        QString content = contentItem->content();
+        foreach(const QString &functionName, m_datasources->groupFunctionNames()){
+            QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            if (rx.indexIn(content)>=0){
+                int pos = 0;
+                while ( (pos = rx.indexIn(content,pos))!= -1 ){
+                    QVector<QString> captures = normalizeCaptures(rx);
+                    if (captures.size() >= 3){
+                        QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
+                        content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
                     }
-                    contentItem->setContent(content);
+                    pos += rx.matchedLength();
                 }
+                contentItem->setContent(content);
             }
         }
     }
+}
+
+void ReportRender::replaceGroupFunctionsInContainer(BaseDesignIntf* baseItem, BandDesignIntf* band)
+{
+    foreach(BaseDesignIntf* item, baseItem->childBaseItems()){
+        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
+        if (contentItem) replaceGroupFunctionsInItem(contentItem, band);
+        else replaceGroupFunctionsInContainer(item, band);
+    }
+}
+
+void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
+{
+    replaceGroupFunctionsInContainer(band, band);
 }
 
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
@@ -748,7 +767,7 @@ void ReportRender::initGroups()
 {
     m_datasources->clearGroupFunction();
     foreach(BandDesignIntf* band, m_patternPageItem->childBands()){
-        if (band->isFooter()) extractGroupsFunction(band);
+        if (band->isFooter()) extractGroupFunctions(band);
         if (band->isHeader()){
             IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
             if (gb) gb->closeGroup();

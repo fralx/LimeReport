@@ -40,6 +40,7 @@ namespace LimeReport{
 
 class PageDesignIntf;
 class BandDesignIntf;
+class ContentItemDesignIntf;
 
 class GroupBandsHolder: public QList<BandDesignIntf*>{
 public:
@@ -86,9 +87,7 @@ signals:
 public slots:
     void    cancelRender();
 private:
-
     void    baseDesignIntfToScript(BaseDesignIntf* item);
-
     void    renderPage(PageDesignIntf *patternPage);
     void    initDatasources();
     void    initDatasource(const QString &name);
@@ -112,9 +111,12 @@ private:
     void    renderChildBands(BandDesignIntf* parentBand);
     void    renderGroupHeader(BandDesignIntf* parentBand, IDataSource* dataSource, bool firstTime);
     void    renderGroupFooter(BandDesignIntf* parentBand);
-
     void    initGroups();
-    void    extractGroupsFunction(BandDesignIntf* band);
+    void    extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band);
+    void    extractGroupFunctionsFromContainer(BaseDesignIntf* baseItem, BandDesignIntf* band);
+    void    extractGroupFunctions(BandDesignIntf* band);
+    void    replaceGroupFunctionsInItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band);
+    void    replaceGroupFunctionsInContainer(BaseDesignIntf* baseItem, BandDesignIntf* band);
     void    replaceGroupsFunction(BandDesignIntf* band);
 
     void    popPageFooterGroupValues(BandDesignIntf* dataBand);
@@ -183,6 +185,7 @@ private:
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_curentNameIndex;
+
 
 };
 } // namespace LimeReport
