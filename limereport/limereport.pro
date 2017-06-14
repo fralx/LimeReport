@@ -13,13 +13,12 @@ macx{
     CONFIG  += plugin
 }
 
-!staticlib:{
-    DEFINES += LIMEREPORT_EXPORTS
-}
+DEFINES += LIMEREPORT_EXPORTS
 
-staticlib:{
+contains(CONFIG, staticlib){
     DEFINES += HAVE_STATIC_BUILD
     message(STATIC_BUILD)
+    DEFINES -= LIMEREPORT_EXPORTS
 }
 
 EXTRA_FILES += \
