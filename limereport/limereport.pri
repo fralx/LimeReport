@@ -92,7 +92,7 @@ SOURCES += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp
 
-contains(CONFIG, staticbuild){
+contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
 }
     
@@ -197,7 +197,7 @@ HEADERS += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \ 
     $$REPORT_PATH/lritemscontainerdesignitf.h
 
-contains(CONFIG, staticbuild){
+contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
 }
 

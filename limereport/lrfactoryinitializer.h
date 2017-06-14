@@ -1,3 +1,4 @@
+void initResources();
 namespace LimeReport{
     void initReportItems();
     void initObjectInspectorProperties();

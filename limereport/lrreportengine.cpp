@@ -66,6 +66,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_fileWatcher( new QFileSystemWatcher( this ) )
 {
 #ifdef HAVE_STATIC_BUILD
+    initResources();
     initReportItems();
     initObjectInspectorProperties();
     initSerializators();
