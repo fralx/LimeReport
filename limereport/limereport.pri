@@ -96,7 +96,7 @@ SOURCES += \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp
 
-contains(CONFIG, staticbuild){
+contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
 }
     
@@ -201,7 +201,7 @@ HEADERS += \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lritemscontainerdesignitf.h
 
-contains(CONFIG, staticbuild){
+contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
 }
 
