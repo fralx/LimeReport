@@ -551,9 +551,9 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
         if (reportItem){
             QScriptValue svThis =  se->globalObject().property("THIS");
             if (svThis.isValid()){
-                se->newQObject(svThis, this);
+                se->newQObject(svThis, reportItem);
             } else {
-                svThis = se->newQObject(this);
+                svThis = se->newQObject(reportItem);
                 se->globalObject().setProperty("THIS",svThis);
             }
         }

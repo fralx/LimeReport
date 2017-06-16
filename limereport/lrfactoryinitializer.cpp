@@ -39,7 +39,7 @@
 #include "serializators/lrxmlqrectserializator.h"
 #include "serializators/lrxmlserializatorsfactory.h"
 
-inline void initResources(){
+void initResources(){
     Q_INIT_RESOURCE(report);
     Q_INIT_RESOURCE(lobjectinspector);
     Q_INIT_RESOURCE(lrdatabrowser);
@@ -95,9 +95,11 @@ BaseDesignIntf * createTextItem(QObject* owner, LimeReport::BaseDesignIntf*  par
     return new LimeReport::TextItem(owner,parent);
 }
 
+#ifdef HAVE_ZINT
 BaseDesignIntf * createBarcodeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new BarcodeItem(owner,parent);
 }
+#endif
 
 BaseDesignIntf* createHLayout(QObject *owner, LimeReport::BaseDesignIntf  *parent)
 {
