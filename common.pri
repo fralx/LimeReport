@@ -1,5 +1,8 @@
 CONFIG += build_translations
-CONFIG += zint
+
+!contains(CONFIG, no_zint){
+    CONFIG += zint
+}
 
 ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
 contains(CONFIG,zint){

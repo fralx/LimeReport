@@ -1,9 +1,15 @@
 TARGET = limereport
 TEMPLATE = lib
 
-CONFIG += lib
-CONFIG += dll
-#CONFIG += staticlib
+contains(CONFIG, static_build){
+    CONFIG += staticlib
+}
+
+!contains(CONFIG, staticlib){
+    CONFIG += lib
+    CONFIG += dll
+}
+
 CONFIG += create_prl
 CONFIG += link_prl
 
