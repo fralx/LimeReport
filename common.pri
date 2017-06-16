@@ -4,8 +4,12 @@ CONFIG += build_translations
     CONFIG += zint
 }
 
-CONFIG += qjsengine
-CONFIG += dialogdesigner
+!contains(CONFIG, qtscriptengine){
+    CONFIG += qjsengine
+}
+!contains(CONFIG, no_formdesigner){
+    CONFIG += dialogdesigner
+}
 
 ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
 contains(CONFIG,zint){
