@@ -151,6 +151,7 @@ bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
             IDataSource* ds = dataManager->dataSource(datasourceName);
             if (ds){
                 if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
+                if (!ds->data(m_groupFiledName).isValid()) return false;
                 return ds->data(m_groupFiledName)!=m_groupFieldValue;
             }
         } else {

@@ -553,7 +553,10 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         m_reprintableBands.removeOne(header);
         if (header) recalcIfNeeded(header);
 
-        renderGroupFooter(dataBand);
+        if (bandDatasource->prior()){
+            renderGroupFooter(dataBand);
+            bandDatasource->next();
+        }
 
         if (footer && !footer->printAlways())
             renderBand(footer, 0, StartNewPageAsNeeded);
@@ -724,11 +727,8 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                     renderBand(footer, 0, StartNewPageAsNeeded);
                 }
 
-                if (didGoBack)
-                {
-                    //New Method to undo prior... Alternatively pass in bool isUndoPrior into next()
-                    dataSource->undoPrior();
-                    //dataSource->next(); //Also emit changePos, which it should not at this point
+                if (didGoBack){
+                    dataSource->next();
                 }
             }
             closeDataGroup(band);

@@ -638,11 +638,22 @@ QVariant MasterDetailProxyModel::masterData(QString fieldName) const
 
 bool CallbackDatasource::next(){
     if (!m_eof){
+
+        if (m_currentRow>-1){
+            if (!m_getDataFromCache && checkNextRecord(m_currentRow)){
+                for (int i = 0; i < m_columnCount; ++i ){
+                    m_valuesCache[columnNameByIndex(i)] = data(columnNameByIndex(i));
+                }
+            }
+
+        }
         m_currentRow++;
-        bool result = false;
-        emit changePos(CallbackInfo::Next,result);
+        bool result = true;
+        if (!m_getDataFromCache)
+            emit changePos(CallbackInfo::Next,result);
+        m_getDataFromCache = false;
         if (m_rowCount != -1){
-            if (m_rowCount>0 && m_currentRow<m_rowCount){
+            if (m_rowCount > 0 && m_currentRow < m_rowCount){
                 m_eof = false;
             } else {
                 m_eof = true;
@@ -653,6 +664,22 @@ bool CallbackDatasource::next(){
             return result;
         }
     } else return false;
+}
+
+bool CallbackDatasource::prior(){
+     if (m_currentRow !=-1) {
+        if (!m_getDataFromCache && !m_valuesCache.isEmpty()){
+            m_getDataFromCache = true;
+            if (eof()) m_currentRow--;
+            m_currentRow--;
+            m_eof = false;
+            return true;
+        } else {
+            return false;
+        }
+     } else {
+         return false;
+     }
 }
 
 void CallbackDatasource::first(){
@@ -674,13 +701,17 @@ void CallbackDatasource::first(){
 QVariant CallbackDatasource::data(const QString& columnName)
 {
     QVariant result;
-    if (!eof()) //Don't read past the end
+    if (!eof() && !bof())
     {
-        CallbackInfo info;
-        info.dataType = CallbackInfo::ColumnData;
-        info.columnName = columnName;
-        info.index = m_currentRow;
-        emit getCallbackData(info,result);
+        if (!m_getDataFromCache){
+            CallbackInfo info;
+            info.dataType = CallbackInfo::ColumnData;
+            info.columnName = columnName;
+            info.index = m_currentRow;
+            emit getCallbackData(info,result);
+        } else {
+            result = m_valuesCache[columnName];
+        }
     }
     return result;
 }
@@ -744,8 +775,9 @@ int CallbackDatasource::columnIndexByName(QString name)
 }
 
 bool CallbackDatasource::checkNextRecord(int recordNum){
-    if (m_rowCount>0 && m_currentRow<m_rowCount){
-        return true;
+    if (bof()) checkIfEmpty();
+    if (m_rowCount > 0) {
+        return (m_currentRow < (m_rowCount-1));
     } else {
         QVariant result = false;
         CallbackInfo info;
@@ -765,7 +797,10 @@ bool CallbackDatasource::checkIfEmpty(){
         CallbackInfo info;
         info.dataType = CallbackInfo::RowCount;
         emit getCallbackData(info, recordCount);
-        if (recordCount.toInt()>0) return false;
+        if (recordCount.toInt()>0) {
+            m_rowCount = recordCount.toInt();
+            return false;
+        }
         info.dataType = CallbackInfo::IsEmpty;
         emit getCallbackData(info,isEmpty);
         return isEmpty.toBool();
