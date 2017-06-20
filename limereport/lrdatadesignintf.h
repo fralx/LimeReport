@@ -53,7 +53,6 @@ public:
     virtual bool next() = 0;
     virtual bool hasNext() = 0;
     virtual bool prior() = 0;
-    virtual void undoPrior() = 0;
     virtual void first() = 0;
     virtual void last() = 0;
     virtual bool bof() = 0;
@@ -355,7 +354,6 @@ public:
     bool next();
     bool hasNext();
     bool prior();
-    void undoPrior() {m_curRow++;}
     void first();
     void last();
     bool eof();
@@ -382,11 +380,11 @@ private:
 class CallbackDatasource :public ICallbackDatasource, public IDataSource {
     Q_OBJECT
 public:
-    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1), m_rowCount(-1){}
+    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1),
+        m_rowCount(-1), m_getDataFromCache(false){}
     bool next();
     bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow); else return false;}
-    bool prior(){ if (m_currentRow !=-1) {m_currentRow--; return true;} else return false;}
-    void undoPrior() {m_currentRow++;}
+    bool prior();
     void first();
     void last(){}
     bool bof(){return m_currentRow == -1;}
@@ -407,6 +405,8 @@ private:
     bool m_eof;
     int m_columnCount;
     int m_rowCount;
+    QHash<QString, QVariant> m_valuesCache;
+    bool m_getDataFromCache;
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{
