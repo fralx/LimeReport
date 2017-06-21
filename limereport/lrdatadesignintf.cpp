@@ -762,7 +762,7 @@ QString CallbackDatasource::columnNameByIndex(int columnIndex)
 int CallbackDatasource::columnIndexByName(QString name)
 {
     for (int i=0;i<m_headers.size();++i) {
-        if (m_headers[i].compare(name) == 0)
+        if (m_headers[i].compare(name, Qt::CaseInsensitive) == 0)
             return i;
     }
 //    if (m_headers.size()==0){
