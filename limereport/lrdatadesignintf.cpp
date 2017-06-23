@@ -638,14 +638,18 @@ QVariant MasterDetailProxyModel::masterData(QString fieldName) const
 
 bool CallbackDatasource::next(){
     if (!m_eof){
-
+        bool nextRowExists = checkNextRecord(m_currentRow);
         if (m_currentRow>-1){
-            if (!m_getDataFromCache && checkNextRecord(m_currentRow)){
+            if (!m_getDataFromCache && nextRowExists){
                 for (int i = 0; i < m_columnCount; ++i ){
                     m_valuesCache[columnNameByIndex(i)] = data(columnNameByIndex(i));
                 }
-            }
 
+            }
+        }
+        if (!nextRowExists){
+            m_eof = true;
+            return false;
         }
         m_currentRow++;
         bool result = true;
@@ -670,7 +674,6 @@ bool CallbackDatasource::prior(){
      if (m_currentRow !=-1) {
         if (!m_getDataFromCache && !m_valuesCache.isEmpty()){
             m_getDataFromCache = true;
-            if (eof()) m_currentRow--;
             m_currentRow--;
             m_eof = false;
             return true;
@@ -701,7 +704,7 @@ void CallbackDatasource::first(){
 QVariant CallbackDatasource::data(const QString& columnName)
 {
     QVariant result;
-    if (!eof() && !bof())
+    if (!bof())
     {
         if (!m_getDataFromCache){
             CallbackInfo info;
