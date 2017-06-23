@@ -1117,7 +1117,7 @@ void ReportRender::startNewPage(bool isFirst)
 
     checkLostHeadersOnPrevPage();
     pasteGroups();
-    renderPageItems(m_patternPageItem);
+
 }
 
 void ReportRender::resetPageNumber(ResetPageNuberType resetType)
@@ -1250,6 +1250,7 @@ void ReportRender::moveTearOffBand(){
 
 void ReportRender::savePage(bool isLast)
 {
+    renderPageItems(m_patternPageItem);
     checkFooterGroup(m_lastDataBand);
     cutGroups();
     rearrangeColumnsItems();
