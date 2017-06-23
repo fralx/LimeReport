@@ -247,8 +247,6 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         clearPageMap();
         startNewPage();
 
-
-
         renderBand(m_patternPageItem->bandByType(BandDesignIntf::ReportHeader), 0, StartNewPageAsNeeded);
 
         BandDesignIntf* lastRenderedBand = 0;
@@ -1096,7 +1094,7 @@ void ReportRender::startNewPage()
 
     checkLostHeadersOnPrevPage();
     pasteGroups();
-    renderPageItems(m_patternPageItem);
+
 }
 
 void ReportRender::resetPageNumber(ResetPageNuberType resetType)
@@ -1229,6 +1227,7 @@ void ReportRender::moveTearOffBand(){
 
 void ReportRender::savePage(bool isLast)
 {
+    renderPageItems(m_patternPageItem);
     checkFooterGroup(m_lastDataBand);
     cutGroups();
     rearrangeColumnsItems();
