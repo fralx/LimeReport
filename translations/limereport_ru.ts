@@ -232,7 +232,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::BandDesignIntf</name>
     <message>
         <source> connected to </source>
-        <translation> соединён с</translation>
+        <translation> соединён с </translation>
     </message>
     <message>
         <source>Bring to top</source>
@@ -286,7 +286,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::ConnectionDesc</name>
     <message>
         <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -309,7 +309,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Server </source>
-        <translation>Сервер</translation>
+        <translation>Сервер </translation>
     </message>
     <message>
         <source>User</source>
@@ -349,11 +349,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connection with name </source>
-        <translation>Соединение</translation>
+        <translation>Соединение </translation>
     </message>
     <message>
         <source> already exists </source>
-        <translation>уже существует</translation>
+        <translation> уже существует </translation>
     </message>
     <message>
         <source>...</source>
@@ -365,11 +365,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Dont keep credentals in lrxml</source>
-        <translation type="unfinished"></translation>
+        <translation>Не хранить логин с паролем в lrxml</translation>
     </message>
     <message>
         <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -384,6 +384,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Data</source>
         <translation>Данные</translation>
+    </message>
+    <message>
+        <source>useAlternateBackgroundColor</source>
+        <translation>Использовать алтернативный цвет фона</translation>
     </message>
 </context>
 <context>
@@ -522,7 +526,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Database &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>База данных &quot;%1&quot; не найдена</translation>
     </message>
 </context>
 <context>
@@ -537,7 +541,38 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>External variables</source>
-        <translation type="unfinished">Внешние переменные</translation>
+        <translation>Внешние переменные</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::DialogDesignerManager</name>
+    <message>
+        <source>Edit Widgets</source>
+        <translation>Редактировать виджеты</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>Панель виджетов</translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation>Инспектор объектов</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>Редактор свойств</translation>
+    </message>
+    <message>
+        <source>Signals &amp;&amp; Slots Editor</source>
+        <translation>Редактор сигналов и слотов</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>Редактор ресурсов</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>Редактор дейчтвий</translation>
     </message>
 </context>
 <context>
@@ -593,11 +628,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Group field not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле для группировки не найдено</translation>
     </message>
     <message>
         <source>Datasource &quot;%1&quot; not found !!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Источник данных &quot;%1&quot; не найден !</translation>
     </message>
 </context>
 <context>
@@ -616,7 +651,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wrong script syntax &quot;%1&quot; </source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильный синиаксис скипта &quot;%1&quot; </translation>
     </message>
 </context>
 <context>
@@ -739,7 +774,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
         <source>Paste</source>
-        <translation type="unfinished">Вставить</translation>
+        <translation>Вставить</translation>
     </message>
 </context>
 <context>
@@ -853,23 +888,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <source>Show Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать панель иструментов</translation>
     </message>
     <message>
         <source>Show toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать панель иструментов</translation>
     </message>
     <message>
         <source>Font</source>
-        <translation type="unfinished">Шрифт</translation>
+        <translation>Шрифт</translation>
     </message>
     <message>
         <source>Text align</source>
-        <translation type="unfinished"></translation>
+        <translation>Выравнивание текста</translation>
     </message>
 </context>
 <context>
@@ -1203,7 +1238,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>columnCount</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество колонок</translation>
     </message>
 </context>
 <context>
@@ -1236,19 +1271,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Страница</translation>
     </message>
     <message>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрипт</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильный формат файла</translation>
     </message>
 </context>
 <context>
@@ -1263,7 +1298,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Undo</source>
-        <translation>Отменить действие </translation>
+        <translation>Отменить действие</translation>
     </message>
     <message>
         <source>Redo</source>
@@ -1307,7 +1342,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Save Report As</source>
-        <translation>Сохранить отчет как </translation>
+        <translation>Сохранить отчет как</translation>
     </message>
     <message>
         <source>Load Report</source>
@@ -1375,7 +1410,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Report bands</source>
-        <translation>Банды</translation>
+        <translation>Разделы</translation>
     </message>
     <message>
         <source>Report Header</source>
@@ -1427,7 +1462,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Tear-off Band</source>
-        <translation>Отрыв данных</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
     <message>
         <source>File</source>
@@ -1493,6 +1528,38 @@ p, li { white-space: pre-wrap; }
         <source>File &quot;%1&quot; not found!</source>
         <translation>Файл &quot;%1&quot; не найден!</translation>
     </message>
+    <message>
+        <source>Delete dialog</source>
+        <translation>Удалить диалог</translation>
+    </message>
+    <message>
+        <source>Add new dialog</source>
+        <translation>Добавить диалог</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>Панель виджетов</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>Редактор свойств</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>Редактор действий</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>Редактор ресурсов</translation>
+    </message>
+    <message>
+        <source>SignalSlot Editor</source>
+        <translation>Редактор сигналов и слотов</translation>
+    </message>
+    <message>
+        <source>Dialog Designer Tools</source>
+        <translation>Инструменты создания диалогов</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
@@ -1503,6 +1570,16 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Preview</source>
         <translation>Предосмотр</translation>
+    </message>
+    <message>
+        <source>Report File Change</source>
+        <translation>Монитор изменений файлов</translation>
+    </message>
+    <message>
+        <source>The report file &quot;%1&quot; has changed names or been deleted.
+
+This preview is no longer valid.</source>
+        <translation>Файл отчета &quot;%1&quot; изменил имя или был удален.</translation>
     </message>
 </context>
 <context>
@@ -1535,7 +1612,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>page index out of range</source>
-        <translation type="unfinished"></translation>
+        <translation>индекс страницы вышел за границы диапазона</translation>
     </message>
 </context>
 <context>
@@ -1638,7 +1715,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -1653,46 +1730,50 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Форма</translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Имя переменной</translation>
+        <translation>Имя переменной</translation>
     </message>
     <message>
         <source>NO CATEGORY</source>
-        <translation type="unfinished"></translation>
+        <translation>БЕЗ КАТЕГОРИИ</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <source>Dialog with name: %1 already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалог с именем %1 уже существует</translation>
     </message>
     <message>
         <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>ui файл должен содержать QDialog вместо QWidget или QMainWindow</translation>
     </message>
     <message>
         <source>wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>неправильный формат файла</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
         <source>Dialog with name: %1 can`t be created</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалог с именем: %1 не может быть создан</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
     </message>
 </context>
 <context>
@@ -1727,11 +1808,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Variable %1 not found</source>
-        <translation type="unfinished">Переменная %1 не найдена</translation>
+        <translation>Переменная %1 не найдена</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Имя переменной</translation>
+        <translation>Имя переменной</translation>
+    </message>
+    <message>
+        <source>Function manger with name &quot;%1&quot; already exists !</source>
+        <translation>Менеджер функций с именем &quot;%1&quot; уже существует!</translation>
     </message>
 </context>
 <context>
@@ -1758,15 +1843,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Designer Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки дизайнера</translation>
     </message>
     <message>
         <source>Report Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки отчета</translation>
     </message>
     <message>
         <source>Suppress absent fields and variables warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Не выводить сообщения об отсутствия полей или переменных</translation>
     </message>
 </context>
 <context>
@@ -1787,7 +1872,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::TearOffBand</name>
     <message>
         <source>Tear-off Band</source>
-        <translation type="unfinished">Отрыв данных</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
 </context>
 <context>
@@ -1845,11 +1930,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
-        <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot;</translation>
+        <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot; </translation>
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; not found !</source>
         <translation>Текстовый элемент &quot;%1&quot; не найден!</translation>
+    </message>
+    <message>
+        <source>Transparent</source>
+        <translation>Прозрачный</translation>
     </message>
 </context>
 <context>
@@ -1903,15 +1992,15 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::VariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation>переменная</translation>
+        <translation>переменная </translation>
     </message>
     <message>
         <source> already exists !!</source>
-        <translation>уже существует !!</translation>
+        <translation> уже существует !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation>не существует !!</translation>
+        <translation> не существует !!</translation>
     </message>
 </context>
 <context>
@@ -2002,7 +2091,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> and child </source>
-        <translation>и подчиненный</translation>
+        <translation> и подчиненный </translation>
     </message>
     <message>
         <source>datasouce &quot;%1&quot; not found!</source>
@@ -2110,11 +2199,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Tear-off Band</source>
-        <translation type="unfinished">Отрыв данных</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
     <message>
         <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Не правильный формат файла</translation>
+    </message>
+    <message>
+        <source>Datasource manager not found</source>
+        <translation>Менеджер источников данных не найден</translation>
     </message>
 </context>
 </TS>
