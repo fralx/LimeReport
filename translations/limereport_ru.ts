@@ -232,7 +232,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::BandDesignIntf</name>
     <message>
         <source> connected to </source>
-        <translation> соединён с</translation>
+        <translation> соединён с </translation>
     </message>
     <message>
         <source>Bring to top</source>
@@ -309,7 +309,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Server </source>
-        <translation>Сервер</translation>
+        <translation>Сервер </translation>
     </message>
     <message>
         <source>User</source>
@@ -349,11 +349,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connection with name </source>
-        <translation>Соединение</translation>
+        <translation>Соединение </translation>
     </message>
     <message>
         <source> already exists </source>
-        <translation>уже существует</translation>
+        <translation> уже существует </translation>
     </message>
     <message>
         <source>...</source>
@@ -384,6 +384,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Data</source>
         <translation>Данные</translation>
+    </message>
+    <message>
+        <source>useAlternateBackgroundColor</source>
+        <translation>Использовать алтернативный цвет фона</translation>
     </message>
 </context>
 <context>
@@ -538,6 +542,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>External variables</source>
         <translation>Внешние переменные</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::DialogDesignerManager</name>
+    <message>
+        <source>Edit Widgets</source>
+        <translation>Редактировать виджеты</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>Панель виджетов</translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation>Инспектор объектов</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>Редактор свойств</translation>
+    </message>
+    <message>
+        <source>Signals &amp;&amp; Slots Editor</source>
+        <translation>Редактор сигналов и слотов</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>Редактор ресурсов</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>Редактор дейчтвий</translation>
     </message>
 </context>
 <context>
@@ -1263,7 +1298,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Undo</source>
-        <translation>Отменить действие </translation>
+        <translation>Отменить действие</translation>
     </message>
     <message>
         <source>Redo</source>
@@ -1307,7 +1342,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Save Report As</source>
-        <translation>Сохранить отчет как </translation>
+        <translation>Сохранить отчет как</translation>
     </message>
     <message>
         <source>Load Report</source>
@@ -1375,7 +1410,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Report bands</source>
-        <translation>Банды</translation>
+        <translation>Разделы</translation>
     </message>
     <message>
         <source>Report Header</source>
@@ -1427,7 +1462,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Tear-off Band</source>
-        <translation>Отрыв данных</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
     <message>
         <source>File</source>
@@ -1493,6 +1528,38 @@ p, li { white-space: pre-wrap; }
         <source>File &quot;%1&quot; not found!</source>
         <translation>Файл &quot;%1&quot; не найден!</translation>
     </message>
+    <message>
+        <source>Delete dialog</source>
+        <translation>Удалить диалог</translation>
+    </message>
+    <message>
+        <source>Add new dialog</source>
+        <translation>Добавить диалог</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>Панель виджетов</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>Редактор свойств</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>Редактор действий</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>Редактор ресурсов</translation>
+    </message>
+    <message>
+        <source>SignalSlot Editor</source>
+        <translation>Редактор сигналов и слотов</translation>
+    </message>
+    <message>
+        <source>Dialog Designer Tools</source>
+        <translation>Инструменты создания диалогов</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
@@ -1503,6 +1570,16 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Preview</source>
         <translation>Предосмотр</translation>
+    </message>
+    <message>
+        <source>Report File Change</source>
+        <translation>Монитор изменений файлов</translation>
+    </message>
+    <message>
+        <source>The report file &quot;%1&quot; has changed names or been deleted.
+
+This preview is no longer valid.</source>
+        <translation>Файл отчета &quot;%1&quot; изменил имя или был удален.</translation>
     </message>
 </context>
 <context>
@@ -1657,7 +1734,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>Type</source>
@@ -1669,7 +1746,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>NO CATEGORY</source>
-        <translation></translation>
+        <translation>БЕЗ КАТЕГОРИИ</translation>
     </message>
     <message>
         <source>Error</source>
@@ -1693,6 +1770,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>Диалог с именем: %1 не может быть создан</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
     </message>
 </context>
 <context>
@@ -1791,7 +1872,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::TearOffBand</name>
     <message>
         <source>Tear-off Band</source>
-        <translation>Отрыв данных</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
 </context>
 <context>
@@ -1849,11 +1930,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
-        <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot;</translation>
+        <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot; </translation>
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; not found !</source>
         <translation>Текстовый элемент &quot;%1&quot; не найден!</translation>
+    </message>
+    <message>
+        <source>Transparent</source>
+        <translation>Прозрачный</translation>
     </message>
 </context>
 <context>
@@ -1907,15 +1992,15 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::VariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation>переменная</translation>
+        <translation>переменная </translation>
     </message>
     <message>
         <source> already exists !!</source>
-        <translation>уже существует !!</translation>
+        <translation> уже существует !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation>не существует !!</translation>
+        <translation> не существует !!</translation>
     </message>
 </context>
 <context>
@@ -2006,7 +2091,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> and child </source>
-        <translation>и подчиненный</translation>
+        <translation> и подчиненный </translation>
     </message>
     <message>
         <source>datasouce &quot;%1&quot; not found!</source>
@@ -2114,7 +2199,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Tear-off Band</source>
-        <translation>Отрыв данных</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
     <message>
         <source>Wrong file format</source>
