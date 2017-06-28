@@ -171,7 +171,7 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     if (itemMode() & DesignMode){
         painter->save();
         QString bandText = objectName();
-        if (parentBand()) bandText+=QLatin1String(" connected to ")+parentBand()->objectName();
+        if (parentBand()) bandText+=tr(" connected to ")+parentBand()->objectName();
         QFont font("Arial", 7 * Const::fontFACTOR, -1, true);
         QFontMetrics fontMetrics(font);
 
@@ -229,9 +229,15 @@ void BandDesignIntf::setBandIndex(int value)
     m_bandIndex=value;
 }
 
-void BandDesignIntf::changeBandIndex(int value)
+void BandDesignIntf::changeBandIndex(int value, bool firstTime)
 {
-    int indexOffset = value - m_bandIndex;
+    int indexOffset;
+
+    if (firstTime && bandHeader())
+        value += 1;
+
+    indexOffset = value - m_bandIndex;
+
     foreach(BandDesignIntf* band, childBands()){
         int newIndex = band->bandIndex()+indexOffset;
         band->changeBandIndex(newIndex);
@@ -291,6 +297,16 @@ bool BandDesignIntf::isConnectedToBand(BandDesignIntf::BandsType bandType) const
 {
     foreach(BandDesignIntf* band,childBands()) if (band->bandType()==bandType) return true;
     return false;
+}
+
+int BandDesignIntf::maxChildIndex(BandDesignIntf::BandsType bandType) const{
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if ( (childBand->bandIndex() > bandIndex()) && (childBand->bandType() < bandType) ){
+            curIndex = std::max(curIndex,childBand->maxChildIndex());
+        }
+    }
+    return curIndex;
 }
 
 int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{

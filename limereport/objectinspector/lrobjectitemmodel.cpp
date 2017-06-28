@@ -124,7 +124,16 @@ void QObjectPropertyModel::translatePropertyName()
     tr("image");
     tr("keepAspectRatio");
     tr("columnsCount");
-
+    tr("useAlternateBackgroundColor");
+    tr("printBeforePageHeader");
+    tr("maxScalePercent");
+    tr("printOnFirstPage");
+    tr("printOnLastPage");
+    tr("printAlways");
+    tr("repeatOnEachRow");
+    tr("condition");
+    tr("groupFieldName");
+    tr("keepGroupTogether");
 }
 
 void QObjectPropertyModel::clearObjectsList()

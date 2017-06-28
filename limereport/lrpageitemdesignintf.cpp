@@ -202,10 +202,16 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     int bandIndex=-1;
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
     foreach(BandDesignIntf* band,m_bands){
-        if ((band->bandType()==BandDesignIntf::GroupHeader)&&(band->bandType()>bandType)) break;
-        if ((band->bandType()<=bandType)){
-            if (bandIndex<=band->bandIndex()) bandIndex=band->maxChildIndex()+1;
-        }
+        if ((band->bandType() == BandDesignIntf::GroupHeader) && ( band->bandType() > bandType)) break;
+        if ((band->bandType() <= bandType)){
+            if (bandIndex <= band->bandIndex()) {
+                if (bandType != BandDesignIntf::Data){
+                    bandIndex=band->maxChildIndex(bandType)+1;
+                } else {
+                    bandIndex=band->maxChildIndex()+1;
+                }
+            }
+        } else { increaseBandIndex = true; break;}
     }
 
     if (bandIndex==-1) {
@@ -222,7 +228,7 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
 
         switch (bandType) {
         case BandDesignIntf::SubDetailBand:
-            bandIndex = parentBand->maxChildIndex() + 1;
+            bandIndex = parentBand->maxChildIndex(bandType) + 1;
             increaseBandIndex = true;
             break;
         case BandDesignIntf::SubDetailHeader:
@@ -364,7 +370,8 @@ void PageItemDesignIntf::relocateBands()
     if (!(itemMode() & DesignMode)){
         while ( (bandIndex < m_bands.count()) &&
                 ((m_bands[bandIndex]->bandType() == BandDesignIntf::TearOffBand) ||
-                (m_bands[bandIndex]->bandType() == BandDesignIntf::PageFooter))
+                (m_bands[bandIndex]->bandType() == BandDesignIntf::PageFooter) ||
+                 m_bands[bandIndex]->bandType() == BandDesignIntf::ReportFooter )
         ){
             bandIndex++;
         }
@@ -588,8 +595,9 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
         }
     }
     if (curIndex != band->bandIndex()){
-        bandToSwap->changeBandIndex(band->bandIndex());
-        band->changeBandIndex(curIndex);
+        int swapIndex = bandToSwap->maxChildIndex();
+        bandToSwap->changeBandIndex(band->bandIndex(),true);
+        band->changeBandIndex(swapIndex,true);
     }
 
     relocateBands();
