@@ -83,6 +83,48 @@ void QObjectPropertyModel::translatePropertyName()
     tr("shape");
     tr("shapeBrush");
     tr("shapeBrushColor");
+    tr("gridStep");
+    tr("fullPage");
+    tr("oldPrintMode");
+    tr("borderColor");
+    tr("resetPageNumber");
+    tr("alternateBackgroundColor");
+    tr("backgroundBrushStyle");
+    tr("columnCount");
+    tr("startFromNewPage");
+    tr("startNewPage");
+    tr("adaptFontToSize");
+    tr("allowHTML");
+    tr("allowHTMLInFields");
+    tr("backgroundBrushStyle");
+    tr("followTo");
+    tr("format");
+    tr("lineSpacing");
+    tr("textIndent");
+    tr("textLayoutDirection");
+    tr("underlineLineSize");
+    tr("underlines");
+    tr("valueType");
+    tr("securityLevel");
+    tr("testValue");
+    tr("whitespace");
+    tr("resourcePath");
+    tr("scale");
+    tr("cornerRadius");
+    tr("shapeColor");
+    tr("layoutType");
+    tr("barcodeType");
+    tr("barcodeWidth");
+    tr("foregroundColor");
+    tr("inputMode");
+    tr("pdf417CodeWords");
+    tr("autoSize");
+    tr("center");
+    tr("field");
+    tr("image");
+    tr("keepAspectRatio");
+    tr("columnsCount");
+
 }
 
 void QObjectPropertyModel::clearObjectsList()

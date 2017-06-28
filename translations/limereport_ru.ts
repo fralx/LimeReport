@@ -943,43 +943,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>fullPage</source>
-        <translation type="vanished">Страница целиком</translation>
+        <translation>Страница целиком</translation>
     </message>
     <message>
         <source>gridStep</source>
-        <translation type="vanished">Шаг сетки</translation>
+        <translation>Шаг сетки</translation>
     </message>
     <message>
         <source>oldPrintMode</source>
-        <translation type="vanished">Старый режим печати</translation>
+        <translation>Старый режим печати</translation>
     </message>
     <message>
         <source>resourcePath</source>
-        <translation type="vanished">Путь к ресурсам</translation>
+        <translation>Путь к ресурсам</translation>
     </message>
     <message>
         <source>autoSize</source>
-        <translation type="vanished">Автоматический размер</translation>
+        <translation>Автоматический размер</translation>
     </message>
     <message>
         <source>center</source>
-        <translation type="vanished">Центрировать</translation>
+        <translation>Центрировать</translation>
     </message>
     <message>
         <source>field</source>
-        <translation type="vanished">Поле</translation>
+        <translation>Поле</translation>
     </message>
     <message>
         <source>image</source>
-        <translation type="vanished">Изображение</translation>
+        <translation>Изображение</translation>
     </message>
     <message>
         <source>keepAspectRatio</source>
-        <translation type="vanished">Сохранять соотношение сторон</translation>
+        <translation>Сохранять соотношение сторон</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation type="vanished">Масштабировать</translation>
+        <translation>Масштабировать</translation>
     </message>
     <message>
         <source>leftMargin</source>
@@ -1079,43 +1079,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>textIndent</source>
-        <translation type="vanished">Отступ текста</translation>
+        <translation>Отступ текста</translation>
     </message>
     <message>
         <source>textLayoutDirection</source>
-        <translation type="vanished">Направление текста</translation>
+        <translation>Направление текста</translation>
     </message>
     <message>
         <source>lineSpacing</source>
-        <translation type="vanished">Межстрочный интервал</translation>
+        <translation>Межстрочный интервал</translation>
     </message>
     <message>
         <source>underlines</source>
-        <translation type="vanished">Подчеркивание</translation>
+        <translation>Подчеркивание</translation>
     </message>
     <message>
         <source>underlineLineSize</source>
-        <translation type="vanished">Толщина подчеркивания</translation>
+        <translation>Толщина подчеркивания</translation>
     </message>
     <message>
         <source>format</source>
-        <translation type="vanished">Формат</translation>
+        <translation>Формат</translation>
     </message>
     <message>
         <source>valueType</source>
-        <translation type="vanished">Тип значения</translation>
+        <translation>Тип значения</translation>
     </message>
     <message>
         <source>adaptFontToSize</source>
-        <translation type="vanished">Шрифт по размеру</translation>
+        <translation>Шрифт по размеру</translation>
     </message>
     <message>
         <source>followTo</source>
-        <translation type="vanished">Следует за</translation>
+        <translation>Следует за</translation>
     </message>
     <message>
         <source>backgroundBrushStyle</source>
-        <translation type="vanished">Стиль заполнения фона</translation>
+        <translation>Стиль заполнения фона</translation>
     </message>
     <message>
         <source>autoHeight</source>
@@ -1127,11 +1127,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>alternateBackgroundColor</source>
-        <translation type="vanished">Альтернативный цвет фона</translation>
+        <translation>Альтернативный цвет фона</translation>
     </message>
     <message>
         <source>columnsCount</source>
-        <translation type="vanished">Количество столбцов</translation>
+        <translation>Количество столбцов</translation>
     </message>
     <message>
         <source>columnsFillDirection</source>
@@ -1227,11 +1227,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>allowHTML</source>
-        <translation type="vanished">Разрешить HTML</translation>
+        <translation>Разрешить HTML</translation>
     </message>
     <message>
         <source>allowHTMLInFields</source>
-        <translation type="vanished">Разрешить HTML в полях</translation>
+        <translation>Разрешить HTML в полях</translation>
     </message>
     <message>
         <source>printAlways</source>
@@ -1239,23 +1239,75 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>borderColor</source>
-        <translation type="vanished">Цвет границ</translation>
+        <translation>Цвет границ</translation>
     </message>
     <message>
         <source>startNewPage</source>
-        <translation type="vanished">Начинать новую страницу</translation>
+        <translation>Начинать новую страницу</translation>
     </message>
     <message>
         <source>startFromNewPage</source>
-        <translation type="vanished">Начинать с новой страницы</translation>
+        <translation>Начинать с новой страницы</translation>
     </message>
     <message>
         <source>resetPageNumber</source>
-        <translation type="vanished">Обнулять номер страницы</translation>
+        <translation>Обнулять номер страницы</translation>
     </message>
     <message>
         <source>columnCount</source>
         <translation>Количество столбцов</translation>
+    </message>
+    <message>
+        <source>alternateBackgroundMode</source>
+        <translation type="obsolete">Альтернативный цвет фона</translation>
+    </message>
+    <message>
+        <source>textIdent</source>
+        <translation type="obsolete">Параграф</translation>
+    </message>
+    <message>
+        <source>securityLevel</source>
+        <translation type="unfinished">Уровень безопасности</translation>
+    </message>
+    <message>
+        <source>testValue</source>
+        <translation>Тестовое значение</translation>
+    </message>
+    <message>
+        <source>whitespace</source>
+        <translation type="unfinished">Отступ</translation>
+    </message>
+    <message>
+        <source>cornerRadius</source>
+        <translation type="unfinished">Радиус закругления</translation>
+    </message>
+    <message>
+        <source>shapeColor</source>
+        <translation>Цвет фигуры</translation>
+    </message>
+    <message>
+        <source>layoutType</source>
+        <translation>Тип группировки</translation>
+    </message>
+    <message>
+        <source>barcodeType</source>
+        <translation>Тип штрихкода</translation>
+    </message>
+    <message>
+        <source>barcodeWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>foregroundColor</source>
+        <translation>Цвет переднего плана</translation>
+    </message>
+    <message>
+        <source>inputMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pdf417CodeWords</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
