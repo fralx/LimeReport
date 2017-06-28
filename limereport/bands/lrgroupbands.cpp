@@ -155,7 +155,7 @@ bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
                 return ds->data(m_groupFiledName)!=m_groupFieldValue;
             }
         } else {
-            dataManager->putError(tr("Datasource \"%1\" not found !!!").arg(datasourceName));
+            dataManager->putError(tr("Datasource \"%1\" not found!").arg(datasourceName));
         }
     }
 

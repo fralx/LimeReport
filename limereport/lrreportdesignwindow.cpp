@@ -683,7 +683,7 @@ bool ReportDesignWindow::checkNeedToSave()
 {
     if (m_reportDesignWidget->isNeedToSave()){
         QMessageBox::StandardButton button = QMessageBox::question(
-            this,"",tr("Report has been modified ! Do you want save the report ?"),
+            this,"",tr("Report has been modified! Do you want save the report?"),
             QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::Yes
         );
         switch (button) {
@@ -1267,7 +1267,7 @@ bool ObjectNameValidator::validate(const QString &propName, const QVariant &prop
         BaseDesignIntf* bd = dynamic_cast<BaseDesignIntf*>(object);
         if (bd){
             if (bd->page()->reportItemByName(propValue.toString())){
-                msg = QString(QObject::tr("Object with name %1 already exists").arg(propValue.toString()));
+                msg = QString(QObject::tr("Object with name %1 already exists!").arg(propValue.toString()));
                 return false;
             } else (bd->emitObjectNamePropertyChanged(object->objectName(),propValue.toString()));
         }
