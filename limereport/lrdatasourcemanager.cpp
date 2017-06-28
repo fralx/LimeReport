@@ -584,7 +584,7 @@ QList<ConnectionDesc *>& DataSourceManager::conections()
 bool DataSourceManager::dataSourceIsValid(const QString &name)
 {
     if (m_datasources.value(name.toLower())) return !m_datasources.value(name.toLower())->isInvalid();
-    else throw ReportError(tr("Datasource \"%1\" not found !").arg(name));
+    else throw ReportError(tr("Datasource \"%1\" not found!").arg(name));
 }
 
 bool DataSourceManager::isQuery(const QString &dataSourceName)
@@ -664,7 +664,7 @@ void DataSourceManager::addConnectionDesc(ConnectionDesc * connection)
             }
         }
     } else {
-       throw ReportError(tr("connection with name \"%1\" already exists !").arg(connection->name()));
+       throw ReportError(tr("Connection with name \"%1\" already exists!").arg(connection->name()));
     }
 }
 
@@ -689,7 +689,7 @@ void DataSourceManager::putHolder(const QString& name, IDataSourceHolder *dataSo
             name.toLower(),
             dataSource
         );
-    } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(name));
+    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(name));
 }
 
 void DataSourceManager::putQueryDesc(QueryDesc* queryDesc)
@@ -698,7 +698,7 @@ void DataSourceManager::putQueryDesc(QueryDesc* queryDesc)
         m_queries.append(queryDesc);
         connect(queryDesc, SIGNAL(queryTextChanged(QString,QString)),
                 this, SLOT(slotQueryTextChanged(QString,QString)));
-    } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(queryDesc->queryName()));
+    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(queryDesc->queryName()));
 }
 
 void DataSourceManager::putSubQueryDesc(SubQueryDesc *subQueryDesc)
@@ -707,14 +707,14 @@ void DataSourceManager::putSubQueryDesc(SubQueryDesc *subQueryDesc)
         m_subqueries.append(subQueryDesc);
         connect(subQueryDesc, SIGNAL(queryTextChanged(QString,QString)),
                 this, SLOT(slotQueryTextChanged(QString,QString)));
-    } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(subQueryDesc->queryName()));
+    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(subQueryDesc->queryName()));
 }
 
 void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
 {
     if (!containsDatasource(proxyDesc->name())){
         m_proxies.append(proxyDesc);
-    } else throw ReportError(tr("datasource with name \"%1\" already exists !").arg(proxyDesc->name()));
+    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(proxyDesc->name()));
 }
 
 bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc){
@@ -946,7 +946,7 @@ IDataSource *DataSourceManager::dataSource(const QString &name)
             return holder->dataSource(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
         }
     } else {
-        setLastError(tr("Datasource \"%1\" not found !").arg(name));
+        setLastError(tr("Datasource \"%1\" not found!").arg(name));
         return 0;
     }
 }

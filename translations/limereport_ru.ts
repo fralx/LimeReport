@@ -357,12 +357,8 @@ p, li { white-space: pre-wrap; }
         <translation>Соединение </translation>
     </message>
     <message>
-        <source> already exists </source>
-        <translation> уже существует </translation>
-    </message>
-    <message>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>Ok</source>
@@ -375,6 +371,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>defaultConnection</source>
         <translation>Соединение по умолчанию</translation>
+    </message>
+    <message>
+        <source> already exists! </source>
+        <translation> уже существует! </translation>
     </message>
 </context>
 <context>
@@ -392,7 +392,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>useAlternateBackgroundColor</source>
-        <translation>Использовать альтернативный цвет фона</translation>
+        <translation type="vanished">Использовать альтернативный цвет фона</translation>
     </message>
 </context>
 <context>
@@ -446,11 +446,6 @@ p, li { white-space: pre-wrap; }
         <translation>Внимание</translation>
     </message>
     <message>
-        <source>Do you really want to delete &quot;%1&quot; connection ?</source>
-        <oldsource>Do you really want delete &quot;%1&quot; connection ?</oldsource>
-        <translation>Вы действительно хотите удалить &quot;%1&quot; соединение ?</translation>
-    </message>
-    <message>
         <source>System variables</source>
         <translation>Системные переменные</translation>
     </message>
@@ -459,21 +454,12 @@ p, li { white-space: pre-wrap; }
         <translation>Пользовательские переменные</translation>
     </message>
     <message>
-        <source>Do you really want to delete &quot;%1&quot; datasource ?</source>
-        <oldsource>Do you really want delete &quot;%1&quot; datasource ?</oldsource>
-        <translation>Вы действительно хотите удалить источник данных &quot;%1&quot; ?</translation>
-    </message>
-    <message>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
         <source>...</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Do you really want to delete variable &quot;%1&quot; ?</source>
-        <translation>Вы действительно хотите удалить переменную &quot;%1&quot; ?</translation>
     </message>
     <message>
         <source>Grab variable</source>
@@ -486,6 +472,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>External variables</source>
         <translation>Внешние переменные</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &quot;%1&quot; connection?</source>
+        <translation>Вы действительно хотите удалить &quot;%1&quot; соединение?</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &quot;%1&quot; datasource?</source>
+        <translation>Вы действительно хотите удалить источник данных &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete variable &quot;%1&quot;?</source>
+        <translation>Вы действительно хотите удалить переменную &quot;%1&quot;?</translation>
     </message>
 </context>
 <context>
@@ -509,19 +507,6 @@ p, li { white-space: pre-wrap; }
         <translation>Соединение &quot;%1&quot; не открыто</translation>
     </message>
     <message>
-        <source>Datasource &quot;%1&quot; not found !</source>
-        <translation>Источник данных &quot;%1&quot; не найден !</translation>
-    </message>
-    <message>
-        <source>connection with name &quot;%1&quot; already exists !</source>
-        <translation>соединение &quot;%1&quot; уже существует !</translation>
-    </message>
-    <message>
-        <source>datasource with name &quot;%1&quot; already exists !</source>
-        <oldsource>data source with name &quot;%1&quot; already exists !!</oldsource>
-        <translation>источник данных &quot;%1&quot; уже существует !</translation>
-    </message>
-    <message>
         <source>invalid connection</source>
         <translation>нет соединения</translation>
     </message>
@@ -532,6 +517,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Database &quot;%1&quot; not found</source>
         <translation>База данных &quot;%1;&quot; не найдена</translation>
+    </message>
+    <message>
+        <source>Datasource &quot;%1&quot; not found!</source>
+        <translation>Источник данных &quot;%1&quot; не найден!</translation>
+    </message>
+    <message>
+        <source>connection with name &quot;%1&quot; already exists!</source>
+        <translation>соединение &quot;%1&quot; уже существует!</translation>
+    </message>
+    <message>
+        <source>datasource with name &quot;%1&quot; already exists!</source>
+        <translation>источник данных &quot;%1&quot; уже существует!</translation>
     </message>
 </context>
 <context>
@@ -553,31 +550,31 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::DialogDesignerManager</name>
     <message>
         <source>Edit Widgets</source>
-        <translation>Редактировать виджеты</translation>
+        <translation type="vanished">Редактировать виджеты</translation>
     </message>
     <message>
         <source>Widget Box</source>
-        <translation>Панель виджетов</translation>
+        <translation type="vanished">Панель виджетов</translation>
     </message>
     <message>
         <source>Object Inspector</source>
-        <translation>Инспектор объектов</translation>
+        <translation type="vanished">Инспектор объектов</translation>
     </message>
     <message>
         <source>Property Editor</source>
-        <translation>Редактор свойств</translation>
+        <translation type="vanished">Редактор свойств</translation>
     </message>
     <message>
         <source>Signals &amp;&amp; Slots Editor</source>
-        <translation>Редактор сигналов и слотов</translation>
+        <translation type="vanished">Редактор сигналов и слотов</translation>
     </message>
     <message>
         <source>Resource Editor</source>
-        <translation>Редактор ресурсов</translation>
+        <translation type="vanished">Редактор ресурсов</translation>
     </message>
     <message>
         <source>Action Editor</source>
-        <translation>Редактор действий</translation>
+        <translation type="vanished">Редактор действий</translation>
     </message>
 </context>
 <context>
@@ -636,8 +633,8 @@ p, li { white-space: pre-wrap; }
         <translation>Поле группы не найдено</translation>
     </message>
     <message>
-        <source>Datasource &quot;%1&quot; not found !!!</source>
-        <translation>Источник данных &quot;%1;&quot; не найден !!!</translation>
+        <source>Datasource &quot;%1&quot; not found!</source>
+        <translation>Источник данных &quot;%1&quot; не найден!</translation>
     </message>
 </context>
 <context>
@@ -1163,7 +1160,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>backgroundOpacity</source>
-        <translation>Заполненость фона</translation>
+        <translation>Непрозрачность фона</translation>
     </message>
     <message>
         <source>font</source>
@@ -1175,7 +1172,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>foregroundOpacity</source>
-        <translation>Заполненость переднего плана</translation>
+        <translation>Непрозрачность переднего плана</translation>
     </message>
     <message>
         <source>margin</source>
@@ -1195,7 +1192,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>opacity</source>
-        <translation>Заполненость</translation>
+        <translation>Непрозрачность</translation>
     </message>
     <message>
         <source>penStyle</source>
@@ -1498,10 +1495,6 @@ p, li { white-space: pre-wrap; }
         <translation>Инспектор скриптов</translation>
     </message>
     <message>
-        <source>Report has been modified ! Do you want save the report ?</source>
-        <translation>Отчет был изменен ! Хотите его сохранить ?</translation>
-    </message>
-    <message>
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
@@ -1535,35 +1528,39 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Delete dialog</source>
-        <translation>Удалить диалог</translation>
+        <translation type="vanished">Удалить диалог</translation>
     </message>
     <message>
         <source>Add new dialog</source>
-        <translation>Добавить диалог</translation>
+        <translation type="vanished">Добавить диалог</translation>
     </message>
     <message>
         <source>Widget Box</source>
-        <translation>Панель виджетов</translation>
+        <translation type="vanished">Панель виджетов</translation>
     </message>
     <message>
         <source>Property Editor</source>
-        <translation>Редактор свойств</translation>
+        <translation type="vanished">Редактор свойств</translation>
     </message>
     <message>
         <source>Action Editor</source>
-        <translation>Редактор действий</translation>
+        <translation type="vanished">Редактор действий</translation>
     </message>
     <message>
         <source>Resource Editor</source>
-        <translation>Редактор ресурсов</translation>
+        <translation type="vanished">Редактор ресурсов</translation>
     </message>
     <message>
         <source>SignalSlot Editor</source>
-        <translation>Редактор сигналов и слотов</translation>
+        <translation type="vanished">Редактор сигналов и слотов</translation>
     </message>
     <message>
         <source>Dialog Designer Tools</source>
-        <translation>Инструменты создания диалогов</translation>
+        <translation type="vanished">Инструменты создания диалогов</translation>
+    </message>
+    <message>
+        <source>Report has been modified! Do you want save the report?</source>
+        <translation>Отчет был изменен! Хотите его сохранить?</translation>
     </message>
 </context>
 <context>
@@ -1679,18 +1676,6 @@ This preview is no longer valid.</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <source>Datasource Name is empty !</source>
-        <translation>Имя источника данных не заполнено !</translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation>SQL запрос пустой !</translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation>Источник данных с именем: &quot;%1&quot; уже существует !</translation>
-    </message>
-    <message>
         <source>Datasource with name %1 already exist</source>
         <translation>Источник данных с именем: &quot;%1&quot; уже существует</translation>
     </message>
@@ -1721,6 +1706,18 @@ This preview is no longer valid.</source>
     <message>
         <source>defaultConnection</source>
         <translation>Соединение по умолчанию</translation>
+    </message>
+    <message>
+        <source>Datasource Name is empty!</source>
+        <translation>Имя источника данных не заполнено!</translation>
+    </message>
+    <message>
+        <source>SQL is empty!</source>
+        <translation>SQL запрос пустой!</translation>
+    </message>
+    <message>
+        <source>Datasource with name: &quot;%1&quot; already exists!</source>
+        <translation>Источник данных с именем: &quot;%1&quot; уже существует!</translation>
     </message>
 </context>
 <context>
@@ -1778,7 +1775,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Error</source>
-        <translation>Ошибка</translation>
+        <translation type="vanished">Ошибка</translation>
     </message>
 </context>
 <context>
@@ -1818,10 +1815,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Name</source>
         <translation>Имя переменной</translation>
-    </message>
-    <message>
-        <source>Field %1 not found in %2 !!! </source>
-        <translation>Поле %1 не найдено в %2 !!!</translation>
     </message>
 </context>
 <context>
@@ -1938,12 +1931,12 @@ This preview is no longer valid.</source>
         <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot; </translation>
     </message>
     <message>
-        <source>TextItem &quot; %1 &quot; not found !</source>
+        <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>Текстовый элемент &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Transparent</source>
-        <translation>Прозрачный</translation>
+        <translation type="vanished">Прозрачный</translation>
     </message>
 </context>
 <context>
@@ -2000,12 +1993,12 @@ This preview is no longer valid.</source>
         <translation>переменная </translation>
     </message>
     <message>
-        <source> already exists !!</source>
-        <translation> уже существует !!</translation>
+        <source> already exists!</source>
+        <translation> уже существует!</translation>
     </message>
     <message>
-        <source> does not exists !!</source>
-        <translation> не существует !!</translation>
+        <source> does not exists!</source>
+        <translation> не существует!</translation>
     </message>
 </context>
 <context>
@@ -2100,7 +2093,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>datasouce &quot;%1&quot; not found!</source>
-        <translation>источник данных &quot;%1&quot; не найден !</translation>
+        <translation>источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Attention!</source>
@@ -2112,7 +2105,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Object with name %1 already exists</source>
-        <translation>Объект с именем %1 уже существует</translation>
+        <translation type="vanished">Объект с именем %1 уже существует</translation>
     </message>
     <message>
         <source>Function %1 not found or have wrong arguments</source>
@@ -2152,7 +2145,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Master datasource &quot;%1&quot; not found!!!</source>
-        <translation>Главный источник данных &quot;%1&quot; не найден!</translation>
+        <translation type="vanished">Главный источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Master datasouce &quot;%1&quot; not found!</source>
@@ -2212,7 +2205,15 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Datasource manager not found</source>
-        <translation>Менеджер источников данных не найден</translation>
+        <translation type="vanished">Менеджер источников данных не найден</translation>
+    </message>
+    <message>
+        <source>Master datasource &quot;%1&quot; not found!</source>
+        <translation>Главный источник данных &quot;%1&quot; не найден!</translation>
+    </message>
+    <message>
+        <source>Object with name %1 already exists!</source>
+        <translation>Объект с именем %1 уже существует!</translation>
     </message>
 </context>
 </TS>
