@@ -131,7 +131,7 @@ public:
     virtual QColor selectionColor() const;
     int bandIndex() const;
     void setBandIndex(int value);
-    void changeBandIndex(int value);
+    void changeBandIndex(int value, bool firstTime = false);
     void setBandType(BandsType value){m_bandType=value;}
 
     QString datasourceName();
@@ -151,7 +151,9 @@ public:
     bool isConnectedToBand(BandDesignIntf::BandsType bandType) const;
 
     int minChildIndex(BandsType bandType);
+    int maxChildIndex(BandDesignIntf::BandsType bandType) const;
     int maxChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>()) const;
+
 
     BandDesignIntf* parentBand() const {return m_parentBand;}
 
@@ -217,7 +219,6 @@ public:
     void setRepeatOnEachRow(bool repeatOnEachRow);
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
-
 signals:
     void bandRendered(BandDesignIntf* band);
 protected:
