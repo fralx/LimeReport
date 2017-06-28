@@ -147,11 +147,11 @@ void SQLEditDialog::hideEvent(QHideEvent *)
 
 void SQLEditDialog::check()
 {
-    if (ui->leDatasourceName->text().isEmpty()) throw LimeReport::ReportError(tr("Datasource Name is empty !"));
-    if (ui->textEditSQL->toPlainText().isEmpty() && (!ui->rbProxy) ) throw LimeReport::ReportError(tr("SQL is empty !"));
+    if (ui->leDatasourceName->text().isEmpty()) throw LimeReport::ReportError(tr("Datasource Name is empty!"));
+    if (ui->textEditSQL->toPlainText().isEmpty() && (!ui->rbProxy) ) throw LimeReport::ReportError(tr("SQL is empty!"));
     if (m_dialogMode==AddMode){
         if (m_datasources->containsDatasource(ui->leDatasourceName->text())){
-            throw LimeReport::ReportError(QString(tr("Datasource with name: \"%1\" already exists !")).arg(ui->leDatasourceName->text()));
+            throw LimeReport::ReportError(QString(tr("Datasource with name: \"%1\" already exists!")).arg(ui->leDatasourceName->text()));
         }
     }
 }

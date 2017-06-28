@@ -95,7 +95,7 @@ void ConnectionDialog::checkFieldsFill()
 {
     if (ui->leConnectionName->text().isEmpty()){throw LimeReport::ReportError(tr("Connection Name is empty"));}
     if (!m_changeMode&&QSqlDatabase::connectionNames().contains(ui->leConnectionName->text())) {
-        throw LimeReport::ReportError(tr("Connection with name ")+ui->leConnectionName->text()+tr(" already exists "));
+        throw LimeReport::ReportError(tr("Connection with name ")+ui->leConnectionName->text()+tr(" already exists! "));
     }
 }
 

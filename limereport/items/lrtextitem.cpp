@@ -576,7 +576,7 @@ void TextItem::setFollowTo(const QString &followTo)
                 QMessageBox::critical(
                     0,
                     tr("Error"),
-                    tr("TextItem \" %1 \" not found !")
+                    tr("TextItem \" %1 \" not found!")
                         .arg(m_followTo)
                 );
                 notify("followTo",followTo,"");
