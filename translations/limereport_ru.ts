@@ -1007,15 +1007,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>condition</source>
-        <translation type="vanished">Условие</translation>
+        <translation>Условие</translation>
     </message>
     <message>
         <source>keepGroupTogether</source>
-        <translation type="vanished">Сохранять группу вместе</translation>
+        <translation>Сохранять группу вместе</translation>
     </message>
     <message>
         <source>groupFieldName</source>
-        <translation type="vanished">Столбец группы</translation>
+        <translation>Столбец группы</translation>
     </message>
     <message>
         <source>geometry</source>
@@ -1235,7 +1235,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>printAlways</source>
-        <translation type="vanished">Печатать всегда</translation>
+        <translation>Печатать всегда</translation>
     </message>
     <message>
         <source>borderColor</source>
@@ -1308,6 +1308,30 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>pdf417CodeWords</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>useAlternateBackgroundColor</source>
+        <translation>Использовать альтернативный цвет фона</translation>
+    </message>
+    <message>
+        <source>printBeforePageHeader</source>
+        <translation>Печатать перед заголовком страницы</translation>
+    </message>
+    <message>
+        <source>maxScalePercent</source>
+        <translation>Максимальный процент уменьшения</translation>
+    </message>
+    <message>
+        <source>printOnFirstPage</source>
+        <translation>Печатать на первой странице</translation>
+    </message>
+    <message>
+        <source>printOnLastPage</source>
+        <translation>Печатать на последней странице</translation>
+    </message>
+    <message>
+        <source>repeatOnEachRow</source>
+        <translation>Печатать на каждой странице</translation>
     </message>
 </context>
 <context>
