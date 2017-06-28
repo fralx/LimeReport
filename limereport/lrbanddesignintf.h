@@ -121,6 +121,7 @@ public:
     ~BandDesignIntf();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void translateBandsName();
     virtual BandsType bandType() const;
     virtual QString bandTitle() const;
     virtual QIcon bandIcon() const;
@@ -245,7 +246,7 @@ protected:
     void moveItemsDown(qreal startPos, qreal offset);
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
-
+    QString translateBandName(const BaseDesignIntf *item) const;
 private slots:
     void childBandDeleted(QObject* band);
 private:

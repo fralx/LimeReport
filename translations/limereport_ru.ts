@@ -262,6 +262,74 @@ p, li { white-space: pre-wrap; }
         <source>Splittable</source>
         <translation>Разбивать содержимое на части</translation>
     </message>
+    <message>
+        <source>DataBand</source>
+        <translation>Данные</translation>
+    </message>
+    <message>
+        <source>ReportHeader</source>
+        <translation>Заголовок отчета</translation>
+    </message>
+    <message>
+        <source>ReportFooter</source>
+        <translation>Завершение отчета</translation>
+    </message>
+    <message>
+        <source>PageHeader</source>
+        <translation>Верхний колонтитул</translation>
+    </message>
+    <message>
+        <source>PageFooter</source>
+        <translation>Нижний колонтитул</translation>
+    </message>
+    <message>
+        <source>Subdetail</source>
+        <translation type="obsolete">Подчиненный</translation>
+    </message>
+    <message>
+        <source>DataHeaderBand</source>
+        <translation>Заголовок данных</translation>
+    </message>
+    <message>
+        <source>DataFooterBand</source>
+        <translation>Завершение данных</translation>
+    </message>
+    <message>
+        <source>SubdetailBand</source>
+        <translation type="vanished">Подчиненные данные</translation>
+    </message>
+    <message>
+        <source>SubdetailHeaderBand</source>
+        <translation type="vanished">Заголовок подчиненных данных</translation>
+    </message>
+    <message>
+        <source>SubdetailFooterBand</source>
+        <translation type="vanished">Завершение подчиненных данных</translation>
+    </message>
+    <message>
+        <source>GroupBandHeader</source>
+        <translation>Заголовок группы</translation>
+    </message>
+    <message>
+        <source>GroupBandFooter</source>
+        <translation>Завершение группы</translation>
+    </message>
+    <message>
+        <source>TearOffBand</source>
+        <translation>Полоса для отрывания</translation>
+    </message>
+    <message>
+        <source>SubDetailBand</source>
+        <translation>Подчиненные данные</translation>
+    </message>
+    <message>
+        <source>SubDetailHeaderBand</source>
+        <translation>Заголовок подчиненных данных</translation>
+    </message>
+    <message>
+        <source>SubDetailFooterBand</source>
+        <translation>Завершение подчиненных данных</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>

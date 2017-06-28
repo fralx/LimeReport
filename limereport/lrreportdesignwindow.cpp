@@ -1182,8 +1182,10 @@ void ReportDesignWindow::slotBandAdded(PageDesignIntf *, BandDesignIntf * band)
             break;
         case BandDesignIntf::ReportFooter:
             m_newReportFooter->setDisabled(true);
+            break;
         case BandDesignIntf::TearOffBand:
             m_newTearOffBand->setDisabled(true);
+            break;
         default:
             break;
         }
