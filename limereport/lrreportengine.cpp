@@ -409,7 +409,6 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
 
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
-            qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
             w->exec();
         }
     } catch (ReportError &exception){
