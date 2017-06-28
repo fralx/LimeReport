@@ -73,7 +73,12 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Александр Арин&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -387,7 +392,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>useAlternateBackgroundColor</source>
-        <translation>Использовать алтернативный цвет фона</translation>
+        <translation>Использовать альтернативный цвет фона</translation>
     </message>
 </context>
 <context>
@@ -572,7 +577,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Action Editor</source>
-        <translation>Редактор дейчтвий</translation>
+        <translation>Редактор действий</translation>
     </message>
 </context>
 <context>
@@ -651,7 +656,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wrong script syntax &quot;%1&quot; </source>
-        <translation>Неверный синтаксис скрипта &quot;%1&quot; </translation>
+        <translation>Неправильный синтаксис скрипта &quot;%1&quot; </translation>
     </message>
 </context>
 <context>
@@ -868,7 +873,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview</source>
-        <translation>Предосмотр</translation>
+        <translation>Предпросмотр</translation>
     </message>
     <message>
         <source>Ctrl+P</source>
@@ -2203,7 +2208,11 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Wrong file format</source>
-        <translation>Неверный формат файла</translation>
+        <translation>Неправильный формат файла</translation>
+    </message>
+    <message>
+        <source>Datasource manager not found</source>
+        <translation>Менеджер источников данных не найден</translation>
     </message>
 </context>
 </TS>
