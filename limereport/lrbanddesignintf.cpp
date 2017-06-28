@@ -159,6 +159,16 @@ BandDesignIntf::~BandDesignIntf()
     delete m_bandNameLabel;
 }
 
+int extractItemIndex(const BaseDesignIntf* item){
+    QString objectName = extractClassName(item->metaObject()->className());
+    QString value = item->objectName().right(item->objectName().size() - objectName.size());
+    return value.toInt();
+}
+
+QString BandDesignIntf::translateBandName(const BaseDesignIntf* item) const{
+    return tr(extractClassName(item->metaObject()->className()).toLatin1())+QString::number(extractItemIndex(item));
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -170,8 +180,7 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
     if (itemMode() & DesignMode){
         painter->save();
-        QString bandText = objectName();
-        if (parentBand()) bandText+=tr(" connected to ")+parentBand()->objectName();
+        QString bandText = bandTitle();
         QFont font("Arial", 7 * Const::fontFACTOR, -1, true);
         QFontMetrics fontMetrics(font);
 
@@ -202,6 +211,23 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     BaseDesignIntf::paint(painter,option,widget);
 }
 
+void BandDesignIntf::translateBandsName()
+{
+    tr("DataBand");
+    tr("DataHeaderBand");
+    tr("DataFooterBand");
+    tr("ReportHeader");
+    tr("ReportFooter");
+    tr("PageHeader");
+    tr("PageFooter");
+    tr("SubDetailBand");
+    tr("SubDetailHeaderBand");
+    tr("SubDetailFooterBand");
+    tr("GroupBandHeader");
+    tr("GroupBandFooter");
+    tr("TearOffBand");
+}
+
 BandDesignIntf::BandsType  BandDesignIntf::bandType() const
 {
     return m_bandType;
@@ -209,8 +235,8 @@ BandDesignIntf::BandsType  BandDesignIntf::bandType() const
 
 QString  BandDesignIntf::bandTitle() const
 {
-    QString result = objectName();
-    if (parentBand()) result +=tr(" connected to ")+parentBand()->objectName();
+    QString result = translateBandName(this);
+    if (parentBand()) result +=tr(" connected to ") + translateBandName(parentBand());
     return result;
 }
 
