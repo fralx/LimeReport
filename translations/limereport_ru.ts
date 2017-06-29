@@ -1968,6 +1968,26 @@ This preview is no longer valid.</source>
         <source>Name</source>
         <translation>Имя переменной</translation>
     </message>
+    <message>
+        <source>GROUP FUNCTIONS</source>
+        <translation>АГРЕГАТНЫЕ ФУНКЦИИ</translation>
+    </message>
+    <message>
+        <source>SYSTEM</source>
+        <translation>СИСТЕМНЫЕ</translation>
+    </message>
+    <message>
+        <source>NUMBER</source>
+        <translation>ЧИСЛОВЫЕ</translation>
+    </message>
+    <message>
+        <source>DATE&amp;TIME</source>
+        <translation>ДАТА И ВРЕМЯ</translation>
+    </message>
+    <message>
+        <source>GENERAL</source>
+        <translation>ОБЩИЕ</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
