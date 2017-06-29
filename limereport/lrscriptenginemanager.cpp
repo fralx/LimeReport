@@ -427,7 +427,7 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
         if (m_dataManager){
             foreach(QString func, m_dataManager->groupFunctionNames()){
                 if (isFunctionExists(func)) deleteFunction(func);
-                addFunction(func, groupFunction,"GROUP FUNCTIONS", func+"(\""+tr("Value")+"\",\""+tr("BandName")+"\")");
+                addFunction(func, groupFunction,tr("GROUP FUNCTIONS"), func+"(\""+tr("Value")+"\",\""+tr("BandName")+"\")");
             }
             foreach(ScriptFunctionDesc func, m_functions){
                 if (func.type==ScriptFunctionDesc::Native)
@@ -612,22 +612,22 @@ ScriptEngineManager::ScriptEngineManager()
     m_scriptEngine = new QScriptEngine;
 
     //addFunction("dateToStr",dateToStr,"DATE", "dateToStr(\"value\",\"format\")");
-    addFunction("line",line,"SYSTEM", "line(\""+tr("BandName")+"\")");
-    addFunction("numberFormat",numberFormat,"NUMBER", "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
+    addFunction("line",line,tr("SYSTEM"), "line(\""+tr("BandName")+"\")");
+    addFunction("numberFormat",numberFormat,tr("NUMBER"), "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
                 tr("Precision")+"\",\""+
                 tr("Locale")+"\")");
-    addFunction("dateFormat",dateFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-    addFunction("timeFormat",timeFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-    addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-    addFunction("date",date,"DATE&TIME","date()");
-    addFunction("now",now,"DATE&TIME","now()");
+    addFunction("dateFormat",dateFormat,tr("DATE&TIME"), "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("timeFormat",timeFormat,tr("DATE&TIME"), "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("dateTimeFormat", dateTimeFormat, tr("DATE&TIME"), "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    addFunction("date",date,tr("DATE&TIME"),"date()");
+    addFunction("now",now,tr("DATE&TIME"),"now()");
 #if QT_VERSION>0x040800
-    addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
-    addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
+    addFunction("currencyFormat",currencyFormat,tr("NUMBER"),"currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
+    addFunction("currencyUSBasedFormat",currencyUSBasedFormat,tr("NUMBER"),"currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
 #endif
-    addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
-    addFunction("getVariable", getVariable, "GENERAL", "getVariable(\""+tr("Name")+"\")");
-    addFunction("getField", getField, "GENERAL", "getField(\""+tr("Name")+"\")");
+    addFunction("setVariable", setVariable, tr("GENERAL"), "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
+    addFunction("getVariable", getVariable, tr("GENERAL"), "getVariable(\""+tr("Name")+"\")");
+    addFunction("getField", getField, tr("GENERAL"), "getField(\""+tr("Name")+"\")");
 
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
