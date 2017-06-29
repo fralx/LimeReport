@@ -332,7 +332,7 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
             foreach(QString func, m_dataManager->groupFunctionNames()){
                 JSFunctionDesc describer(
                     func,
-                    "GROUP FUNCTIONS",
+                    tr("GROUP FUNCTIONS"),
                     func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")",
                     LimeReport::Const::FUNCTION_MANAGER_NAME,
                     m_functionManager,
@@ -545,7 +545,7 @@ bool ScriptEngineManager::createLineFunction()
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("SYSTEM");
+    fd.setCategory(tr("SYSTEM"));
     fd.setName("line");
     fd.setDescription("line(\""+tr("BandName")+"\")");
     fd.setScriptWrapper(QString("function line(bandName){ return %1.line(bandName);}").arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
@@ -560,7 +560,7 @@ bool ScriptEngineManager::createNumberFomatFunction()
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("NUMBER");
+    fd.setCategory(tr("NUMBER"));
     fd.setName("numberFormat");
     fd.setDescription("numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
                       tr("Precision")+"\",\""+
@@ -582,7 +582,7 @@ bool ScriptEngineManager::createDateFormatFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("DATE&TIME");
+    fd.setCategory(tr("DATE&TIME"));
     fd.setName("dateFormat");
     fd.setDescription("dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     fd.setScriptWrapper(QString("function dateFormat(value, format){"
@@ -599,7 +599,7 @@ bool ScriptEngineManager::createTimeFormatFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("DATE&TIME");
+    fd.setCategory(tr("DATE&TIME"));
     fd.setName("timeFormat");
     fd.setDescription("timeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     fd.setScriptWrapper(QString("function timeFormat(value, format){"
@@ -616,7 +616,7 @@ bool ScriptEngineManager::createDateTimeFormatFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("DATE&TIME");
+    fd.setCategory(tr("DATE&TIME"));
     fd.setName("dateTimeFormat");
     fd.setDescription("dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     fd.setScriptWrapper(QString("function dateTimeFormat(value, format){"
@@ -633,7 +633,7 @@ bool ScriptEngineManager::createDateFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("DATE&TIME");
+    fd.setCategory(tr("DATE&TIME"));
     fd.setName("date");
     fd.setDescription("date()");
     fd.setScriptWrapper(QString("function date(){"
@@ -650,7 +650,7 @@ bool ScriptEngineManager::createNowFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("DATE&TIME");
+    fd.setCategory(tr("DATE&TIME"));
     fd.setName("now");
     fd.setDescription("now()");
     fd.setScriptWrapper(QString("function now(){"
@@ -666,7 +666,7 @@ bool ScriptEngineManager::createCurrencyFormatFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("NUMBER");
+    fd.setCategory(tr("NUMBER"));
     fd.setName("currencyFormat");
     fd.setDescription("currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
     fd.setScriptWrapper(QString("function currencyFormat(value, locale){"
@@ -683,7 +683,7 @@ bool ScriptEngineManager::createCurrencyUSBasedFormatFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("NUMBER");
+    fd.setCategory(tr("NUMBER"));
     fd.setName("currencyUSBasedFormat");
     fd.setDescription("currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
     fd.setScriptWrapper(QString("function currencyUSBasedFormat(value, currencySymbol){"
@@ -700,7 +700,7 @@ bool ScriptEngineManager::createSetVariableFunction(){
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("GENERAL");
+    fd.setCategory(tr("GENERAL"));
     fd.setName("setVariable");
     fd.setDescription("setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
     fd.setScriptWrapper(QString("function setVariable(name, value){"
@@ -715,7 +715,7 @@ bool ScriptEngineManager::createGetVariableFunction()
     JSFunctionDesc fd;
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("GENERAL");
+    fd.setCategory(tr("GENERAL"));
     fd.setName("getVariable");
     fd.setDescription("getVariable(\""+tr("Name")+"\")");
     fd.setScriptWrapper(QString("function getVariable(name){"
@@ -730,7 +730,7 @@ bool ScriptEngineManager::createGetFieldFunction()
     JSFunctionDesc fd;
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
-    fd.setCategory("GENERAL");
+    fd.setCategory(tr("GENERAL"));
     fd.setName("getField");
     fd.setDescription("getField(\""+tr("Name")+"\")");
     fd.setScriptWrapper(QString("function getField(name){"

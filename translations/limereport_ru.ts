@@ -1991,6 +1991,26 @@ This preview is no longer valid.</source>
         <source>Field %1 not found in %2!</source>
         <translation>Поле %1 не найдено в %2!</translation>
     </message>
+    <message>
+        <source>GROUP FUNCTIONS</source>
+        <translation type="unfinished">АГРЕГАТНЫЕ ФУНКЦИИ</translation>
+    </message>
+    <message>
+        <source>SYSTEM</source>
+        <translation type="unfinished">СИСТЕМНЫЕ</translation>
+    </message>
+    <message>
+        <source>NUMBER</source>
+        <translation type="unfinished">ЧИСЛОВЫЕ</translation>
+    </message>
+    <message>
+        <source>DATE&amp;TIME</source>
+        <translation>ДАТА И ВРЕМЯ</translation>
+    </message>
+    <message>
+        <source>GENERAL</source>
+        <translation>ОБЩИЕ</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
