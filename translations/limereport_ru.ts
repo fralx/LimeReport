@@ -1993,15 +1993,15 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>GROUP FUNCTIONS</source>
-        <translation type="unfinished">АГРЕГАТНЫЕ ФУНКЦИИ</translation>
+        <translation>АГРЕГАТНЫЕ ФУНКЦИИ</translation>
     </message>
     <message>
         <source>SYSTEM</source>
-        <translation type="unfinished">СИСТЕМНЫЕ</translation>
+        <translation>СИСТЕМНЫЕ</translation>
     </message>
     <message>
         <source>NUMBER</source>
-        <translation type="unfinished">ЧИСЛОВЫЕ</translation>
+        <translation>ЧИСЛОВЫЕ</translation>
     </message>
     <message>
         <source>DATE&amp;TIME</source>
