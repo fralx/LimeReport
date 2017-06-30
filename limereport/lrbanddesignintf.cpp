@@ -145,6 +145,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_bandNameLabel->setVisible(false);
     if (scene()) scene()->addItem(m_bandNameLabel);
     m_alternateBackgroundColor = backgroundColor();
+    connect(this, SIGNAL(propertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotPropertyObjectNameChanged(const QString&,const QString&)));
 }
 
 BandDesignIntf::~BandDesignIntf()
@@ -166,7 +168,12 @@ int extractItemIndex(const BaseDesignIntf* item){
 }
 
 QString BandDesignIntf::translateBandName(const BaseDesignIntf* item) const{
-    return tr(extractClassName(item->metaObject()->className()).toLatin1())+QString::number(extractItemIndex(item));
+    QString defaultBandName = extractClassName(item->metaObject()->className()).toLatin1()+QString::number(extractItemIndex(item));
+    if (item->objectName().compare(defaultBandName) == 0){
+        return tr(extractClassName(item->metaObject()->className()).toLatin1())+QString::number(extractItemIndex(item));
+    } else {
+        return item->objectName();
+    }
 }
 
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -612,7 +619,7 @@ void BandDesignIntf::trimToMaxHeight(int maxHeight)
 
 void BandDesignIntf::setBandTypeText(const QString &value){
     m_bandTypeText=value;
-    m_bandNameLabel->updateLabel();
+    m_bandNameLabel->updateLabel(bandTitle());
 }
 
 QSet<BandDesignIntf::BandsType> BandDesignIntf::groupBands()
@@ -670,7 +677,7 @@ QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
             m_bandMarker->update(0,0,
                                  m_bandMarker->boundingRect().width(),
                                  m_bandMarker->boundingRect().width());
-            m_bandNameLabel->updateLabel();
+            m_bandNameLabel->updateLabel(bandTitle());
             m_bandNameLabel->setVisible(value.toBool());
 
         }
@@ -722,6 +729,13 @@ QColor BandDesignIntf::alternateBackgroundColor() const
 void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgroundColor)
 {
     m_alternateBackgroundColor = alternateBackgroundColor;
+}
+
+void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
+{
+    update();
+    if (m_bandNameLabel)
+        m_bandNameLabel->updateLabel(newName);
 }
 
 bool BandDesignIntf::repeatOnEachRow() const
@@ -878,7 +892,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
 
 void BandDesignIntf::updateBandNameLabel()
 {
-    if (m_bandNameLabel) m_bandNameLabel->updateLabel();
+    if (m_bandNameLabel) m_bandNameLabel->updateLabel(bandTitle());
 }
 
 QColor BandDesignIntf::selectionColor() const
@@ -921,7 +935,7 @@ QRectF BandNameLabel::boundingRect() const
     return m_rect;
 }
 
-void BandNameLabel::updateLabel()
+void BandNameLabel::updateLabel(const QString& bandName)
 {
     QFont font("Arial",7*Const::fontFACTOR,-1,true);
     QFontMetrics fontMetrics(font);
@@ -929,7 +943,7 @@ void BandNameLabel::updateLabel()
     m_rect = QRectF(
                 m_band->pos().x()+10,
                 m_band->pos().y()-(fontMetrics.height()+10),
-                fontMetrics.width(m_band->bandTitle())+20,fontMetrics.height()+10
+                fontMetrics.width(bandName)+20,fontMetrics.height()+10
                 );
     update();
 }
