@@ -658,7 +658,7 @@ void ReportRender::renderChildHeader(BandDesignIntf *parent, BandPrintMode print
         if (band->metaObject()->indexOfProperty("printAlways")>0){
             printAlways=band->property("printAlways").toBool();
         }
-        if ((band != m_lastRenderedHeader) && (printAlways == (printMode == PrintAlwaysPrintable)) )
+        if (printAlways == (printMode == PrintAlwaysPrintable))
             renderBand(band, 0, StartNewPageAsNeeded);
     }
 }
