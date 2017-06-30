@@ -74,7 +74,7 @@ public:
     explicit BandNameLabel(BandDesignIntf* band, QGraphicsItem* parent=0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
-    void updateLabel();
+    void updateLabel(const QString &bandName);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 private:
     QRectF m_rect;
@@ -225,7 +225,7 @@ public:
     void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
     void replaceGroupsFunction(BandDesignIntf *band);
 signals:
-    void bandRendered(BandDesignIntf* band);
+    void bandRendered(BandDesignIntf* band);        
 protected:
     void  trimToMaxHeight(int maxHeight);
     void  setBandTypeText(const QString& value);
@@ -249,6 +249,7 @@ protected:
     QString translateBandName(const BaseDesignIntf *item) const;
 private slots:
     void childBandDeleted(QObject* band);
+    void slotPropertyObjectNameChanged(const QString&,const QString&);
 private:
     QString                     m_bandTypeText;
     BandsType                   m_bandType;

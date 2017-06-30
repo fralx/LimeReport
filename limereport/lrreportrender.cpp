@@ -484,6 +484,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
     IDataSource* bandDatasource = 0;
     m_lastRenderedFooter = 0;
+
     if (!dataBand->datasourceName().isEmpty())
        bandDatasource = datasources()->dataSource(dataBand->datasourceName());
 
@@ -644,7 +645,8 @@ void ReportRender::renderChildHeader(BandDesignIntf *parent, BandPrintMode print
         if (band->metaObject()->indexOfProperty("printAlways")>0){
             printAlways=band->property("printAlways").toBool();
         }
-        if (printAlways == (printMode==PrintAlwaysPrintable) )  renderBand(band, 0, StartNewPageAsNeeded);
+        if ((band != m_lastRenderedHeader) && (printAlways == (printMode == PrintAlwaysPrintable)) )
+            renderBand(band, 0, StartNewPageAsNeeded);
     }
 }
 
@@ -668,9 +670,9 @@ void ReportRender::renderChildBands(BandDesignIntf *parentBand)
         if (!band->datasourceName().isEmpty())
             ds = m_datasources->dataSource(band->datasourceName());
         if (ds) ds->first();
-        renderChildHeader(band,PrintAlwaysPrintable);
+        //renderChildHeader(band,PrintAlwaysPrintable);
         renderDataBand(band);
-        renderChildFooter(band,PrintAlwaysPrintable);
+        //renderChildFooter(band,PrintAlwaysPrintable);
         closeFooterGroup(band);
     }
 }
