@@ -880,7 +880,8 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         }
     }
 
-    if ( (band->columnsCount()>1) && !band->isHeader()){
+    if ( (band->columnsCount()>1) &&
+         (!band->isHeader() || (band->bandNestingLevel()>0 && band->columnsFillDirection() != BandDesignIntf::Horizontal ))){
 
         if (m_maxHeightByColumn.size()!=band->columnsCount()){
             for(int i=1;i<band->columnsCount();++i){
@@ -908,7 +909,8 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
             m_maxHeightByColumn[m_currentColumn]-=band->height();
         }
 
-        if (band->isHeader() && band->columnsCount()>1){
+        if ( (band->columnsCount()>1) &&
+             (band->isHeader() && (band->bandNestingLevel()==0 || band->columnsFillDirection()==BandDesignIntf::Horizontal))){
 
             qreal bandPos = m_currentStartDataPos[m_currentColumn];
             m_currentStartDataPos[m_currentColumn]+=band->height();

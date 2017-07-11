@@ -168,6 +168,7 @@ public:
     virtual bool isHeader() const {return false;}
     virtual bool isGroupHeader() const {return false;}
     virtual bool isData() const {return false;}
+    virtual int  bandNestingLevel(){return 0;}
     bool isBand(){return true;}
 
     void setTryToKeepTogether(bool value);
