@@ -87,16 +87,16 @@ contains(CONFIG,build_translations){
         return($$result)
     }
 
-    TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
+    TRANSLATIONS = $$prependAll(LANGUAGES, \"$$TRANSLATIONS_PATH/limereport_,.ts\")
 
     qtPrepareTool(LUPDATE, lupdate)
-    ts.commands = $$LUPDATE $$PWD -ts $$TRANSLATIONS
+    ts.commands = $$LUPDATE $$shell_quote($$PWD) -ts $$TRANSLATIONS
 
     TRANSLATIONS_FILES =
     qtPrepareTool(LRELEASE, lrelease)
     for(tsfile, TRANSLATIONS) {
         qmfile = $$tsfile
-        qmfile ~= s,.ts$,.qm,
+        qmfile ~= s,".ts\"$",".qm\"",
         qm.commands += $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         tmp_command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         TRANSLATIONS_FILES += $$qmfile

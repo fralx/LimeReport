@@ -54,7 +54,7 @@ win32 {
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     !contains(CONFIG, static_build){
         contains(CONFIG,zint){
             LIBS += -L$${DEST_LIBS} -lQtZint

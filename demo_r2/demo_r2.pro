@@ -59,6 +59,6 @@ win32 {
     }
     LIBS += -L$${DEST_LIBS} -llimereport
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
 }
 
