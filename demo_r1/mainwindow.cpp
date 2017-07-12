@@ -33,8 +33,8 @@
 #include <QMessageBox>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
-#include "lrreportengine.h"
-#include "lrcallbackdatasourceintf.h"
+#include <LimeReport>
+#include <LRCallbackDS>
 #include <QDebug>
 #include <QStringListModel>
 
@@ -71,19 +71,21 @@ MainWindow::MainWindow(QWidget *parent) :
         };
     }
 
-    LimeReport::ICallbackDatasource * callbackDatasource = report->dataManager()->createCallbackDatasouce("master");
+    LimeReport::ICallbackDatasource * callbackDatasource = report->dataManager()->createCallbackDatasource("master");
     connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
             this, SLOT(slotGetCallbackData(LimeReport::CallbackInfo,QVariant&)));
     connect(callbackDatasource, SIGNAL(changePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)),
             this, SLOT(slotChangePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)));
-    //report->dataManager()->addCallbackDatasource(callbackDatasource,"master");
 
-    callbackDatasource = report->dataManager()->createCallbackDatasouce("detail");
+    callbackDatasource = report->dataManager()->createCallbackDatasource("detail");
     connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
             this, SLOT(slotGetCallbackChildData(LimeReport::CallbackInfo,QVariant&)));
     connect(callbackDatasource, SIGNAL(changePos(const LimeReport::CallbackInfo::ChangePosType&,bool&)),
             this, SLOT(slotChangeChildPos(const LimeReport::CallbackInfo::ChangePosType&,bool&)));
-    //report->dataManager()->addCallbackDatasource(callbackDatasource,"detail");
+
+    callbackDatasource = report->dataManager()->createCallbackDatasource("oneSlotDS");
+    connect(callbackDatasource, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+            this, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
 
     QStringList simpleData;
     simpleData << "value1" << "value2" << "value3";
@@ -93,8 +95,8 @@ MainWindow::MainWindow(QWidget *parent) :
     report->dataManager()->addModel("string_list",stringListModel,true);
     QStringList strList;
     strList<<"value1"<<"value2";
-    QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
-    report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
+    //QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
+    //report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
 
 
 }
@@ -102,6 +104,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_customers;
+    delete m_orders;
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -207,4 +211,33 @@ void MainWindow::slotChangeChildPos(const LimeReport::CallbackInfo::ChangePosTyp
     if (!ds) return;
     if (type == LimeReport::CallbackInfo::First) result = ds->first();
     else result = ds->next();
+}
+
+void MainWindow::slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data)
+{
+    QStringList columns;
+    columns << "Name" << "Value" << "Image";
+    switch (info.dataType) {
+            case LimeReport::CallbackInfo::RowCount:
+                data = 4;
+                break;
+            case LimeReport::CallbackInfo::ColumnCount:
+                data = columns.size();
+                break;
+//            case LimeReport::CallbackInfo::IsEmpty:
+//                data = false;
+//                break;
+            case LimeReport::CallbackInfo::ColumnHeaderData: {
+                data = columns.at(info.index);
+                break;
+            }
+            case LimeReport::CallbackInfo::ColumnData:
+                if (info.columnName == "Image")
+                    data = QImage(":/report//images/logo32");
+                else {
+                    data = info.columnName+" "+QString::number(info.index);
+                }
+                break;
+            default: break;
+        }
 }

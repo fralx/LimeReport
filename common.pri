@@ -1,14 +1,27 @@
 CONFIG += build_translations
-CONFIG += zint
 
-#greaterThan(QT_MAJOR_VERSION, 4) {
-#    QT += uitools
-#}
-#lessThan(QT_MAJOR_VERSION, 5){
-#    CONFIG += uitools
-#}
+!contains(CONFIG, no_zint){
+    CONFIG += zint
+}
+
+!contains(CONFIG, qtscriptengine){
+    CONFIG += qjsengine
+}
+!contains(CONFIG, no_formdesigner){
+    CONFIG += dialogdesigner
+}
 
 ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+contains(CONFIG,zint){
+    DEFINES += HAVE_ZINT
+}
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += uitools
+}
+lessThan(QT_MAJOR_VERSION, 5){
+    CONFIG += uitools
+}
 
 CONFIG(release, debug|release){
     message(Release)
@@ -55,8 +68,8 @@ OBJECTS_DIR    = $${ARCH_DIR}/$${BUILD_TYPE}/obj
 RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
-LIMEREPORT_VERSION_MINOR = 3
-LIMEREPORT_VERSION_RELEASE = 11
+LIMEREPORT_VERSION_MINOR = 4
+LIMEREPORT_VERSION_RELEASE = 22
 
 LIMEREPORT_VERSION = '\\"$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}\\"'
 DEFINES += LIMEREPORT_VERSION_STR=\"$${LIMEREPORT_VERSION}\"
@@ -68,10 +81,14 @@ TRANSLATIONS_PATH = $$PWD/translations
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES+=HAVE_QT5
-    QT+= printsupport widgets
+    QT+= printsupport widgets qml
     contains(QT,uitools){
         message(uitools)
         DEFINES += HAVE_UI_LOADER
+    }
+    contains(CONFIG, qjsengine){
+        message(qjsengine)
+        DEFINES += USE_QJSENGINE
     }
 }
 
@@ -82,3 +99,5 @@ lessThan(QT_MAJOR_VERSION, 5){
         DEFINES += HAVE_UI_LOADER
     }
 }
+
+

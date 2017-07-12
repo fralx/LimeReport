@@ -37,7 +37,7 @@ class EnumPropItem : public ObjectPropItem
 {
     Q_OBJECT
 public:
-    EnumPropItem():ObjectPropItem(){}
+    EnumPropItem():ObjectPropItem(), m_settingValue(false){}
     EnumPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
         :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_settingValue(false){}
     EnumPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly, QVector<int> acceptableValues)

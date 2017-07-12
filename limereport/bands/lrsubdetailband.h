@@ -43,9 +43,11 @@ class SubDetailBand : public DataBandDesignIntf
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
     Q_PROPERTY(bool keepFooterTogether READ keepFooterTogether WRITE setKeepFooterTogether)
     Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE setAlternateBackgroundColor)
+    Q_PROPERTY(bool useAlternateBackgroundColor READ useAlternateBackgroundColor WRITE setUseAlternateBackgroundColor)
 public:
     SubDetailBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const {return false;}
+    int  bandNestingLevel(){ return 1;}
     bool isHasHeader() const;
     bool isHasFooter() const;
 private:
@@ -63,6 +65,8 @@ class SubDetailHeaderBand : public BandDesignIntf
 public:
     SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
+    bool isHeader() const {return true;}
+    int  bandNestingLevel(){ return 1;}
 protected:
     QColor bandColor() const;
 private:
@@ -79,6 +83,7 @@ public:
     SubDetailFooterBand(QObject* owner = 0, QGraphicsItem* parent=0);
     virtual bool isUnique() const;
     bool isFooter() const{return true;}
+    int  bandNestingLevel(){ return 1;}
 protected:
     QColor bandColor() const;
 private:

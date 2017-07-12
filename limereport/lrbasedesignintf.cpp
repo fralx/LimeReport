@@ -34,16 +34,18 @@
 #include "lrreportdesignwidget.h"
 #include "qgraphicsitem.h"
 #include "lrdesignelementsfactory.h"
-
 #include "lrhorizontallayout.h"
+#include "serializators/lrstorageintf.h"
+#include "serializators/lrxmlreader.h"
 
 #include <memory>
-
 #include <QMetaObject>
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
 #include <QDialog>
 #include <QVBoxLayout>
+#include <QMenu>
+#include <QClipboard>
 
 namespace LimeReport
 {
@@ -64,19 +66,20 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_BGMode(OpaqueMode),
     m_opacity(100),
     m_borderLinesFlags(0),
-    m_hintFrame(0),
     m_storageTypeName(storageTypeName),
     m_itemMode(DesignMode),
     m_objectState(ObjectCreated),
     m_selectionMarker(0),
     m_joinMarker(0),
-    m_backgroundBrush(Solid),
-    m_backgroundBrushcolor(Qt::white),
+    m_backgroundBrushStyle(SolidPattern),
+    m_backgroundColor(Qt::white),
     m_margin(4),
     m_itemAlign(DesignedItemAlign),
     m_changingItemAlign(false),
     m_borderColor(Qt::black),
-    m_reportSettings(0)
+    m_reportSettings(0),
+    m_patternName(""),
+    m_patternItem(0)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -85,9 +88,6 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
         m_font = QFont("Arial",10);
     }
     initFlags();
-
-
-    //connect(this,SIGNAL(objectNameChanged(QString)),this,SLOT(slotObjectNameChanged(QString)));
 }
 
 QRectF BaseDesignIntf::boundingRect() const
@@ -124,21 +124,23 @@ QString BaseDesignIntf::parentReportItemName() const
     else return "";
 }
 
-void BaseDesignIntf::setBackgroundBrushMode(BaseDesignIntf::BrushMode value)
+void BaseDesignIntf::setBackgroundBrushStyle(BrushStyle value)
 {
-    if ( value != m_backgroundBrush  ){
-        m_backgroundBrush=value;
+    if ( value != m_backgroundBrushStyle  ){
+        BrushStyle oldValue = m_backgroundBrushStyle;
+        m_backgroundBrushStyle=value;
         if (!isLoading()) update();
+        notify("backgroundBrushStyle", static_cast<int>(oldValue), static_cast<int>(value));
     }
 }
 
 void BaseDesignIntf::setBackgroundColor(QColor value)
 {
-    if (value != m_backgroundBrushcolor){
-        QColor oldValue = m_backgroundBrushcolor;
-        m_backgroundBrushcolor=value;
+    if (value != m_backgroundColor){
+        QColor oldValue = m_backgroundColor;
+        m_backgroundColor=value;
         if (!isLoading()) update();
-        notify("backgroundColor",oldValue,m_backgroundBrushcolor);
+        notify("backgroundColor", oldValue, value);
     }
 }
 
@@ -240,6 +242,31 @@ QFont BaseDesignIntf::transformToSceneFont(const QFont& value) const
     QFont f = value;
     f.setPixelSize(f.pointSize()*Const::fontFACTOR);
     return f;
+}
+
+QString BaseDesignIntf::expandDataFields(QString context, ExpandType expandType, DataSourceManager* dataManager)
+{
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+    if (sm.dataManager() != dataManager) sm.setDataManager(dataManager);
+    return sm.expandDataFields(context, expandType, m_varValue, this);
+}
+
+QString BaseDesignIntf::expandUserVariables(QString context, RenderPass pass, ExpandType expandType, DataSourceManager* dataManager)
+{
+
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+    if (sm.dataManager() != dataManager) sm.setDataManager(dataManager);
+    return sm.expandUserVariables(context, pass, expandType, m_varValue);
+
+}
+
+QString BaseDesignIntf::expandScripts(QString context, DataSourceManager* dataManager)
+{
+
+    ScriptEngineManager& sm = ScriptEngineManager::instance();
+    if (sm.dataManager() != dataManager) sm.setDataManager(dataManager);
+    return sm.expandScripts(context,m_varValue,this);
+
 }
 
 void BaseDesignIntf::setupPainter(QPainter *painter) const
@@ -352,7 +379,6 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
     setupPainter(ppainter);
-
     drawBorder(ppainter, rect());
     if (isSelected()) {drawSelection(ppainter, rect());}
     drawResizeZone(ppainter);
@@ -368,24 +394,28 @@ QColor calcColor(QColor color){
       return Qt::white;
     else
       return Qt::black;
-};
+}
 
-void BaseDesignIntf::prepareRect(QPainter *ppainter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
+void BaseDesignIntf::prepareRect(QPainter *painter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
 {
-    ppainter->save();
+    painter->save();
+
+    QBrush brush(m_backgroundColor,static_cast<Qt::BrushStyle>(m_backgroundBrushStyle));
+    brush.setTransform(painter->worldTransform().inverted());
+
     if (isSelected() && (opacity() == 100) && (m_BGMode!=TransparentMode)) {
-        ppainter->fillRect(rect(), QBrush(QColor(m_backgroundBrushcolor)));
+        painter->fillRect(rect(), brush);
     }
     else {
         if (m_BGMode == OpaqueMode) {
-            ppainter->setOpacity(qreal(m_opacity) / 100);
-            ppainter->fillRect(rect(), QBrush(m_backgroundBrushcolor));
+            painter->setOpacity(qreal(m_opacity) / 100);
+            painter->fillRect(rect(), brush);
         } else if (itemMode() & DesignMode){
-            ppainter->setOpacity(0.1);
-            ppainter->fillRect(rect(), QBrush(QPixmap(":/report/empty")));
+            painter->setOpacity(0.1);
+            painter->fillRect(rect(), QBrush(QPixmap(":/report/images/empty")));
         }
     }
-    ppainter->restore();
+    painter->restore();
 }
 
 void BaseDesignIntf::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
@@ -670,6 +700,26 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
         delete m_selectionMarker;
         m_selectionMarker = 0;
     }
+}
+
+QString BaseDesignIntf::patternName() const
+{
+    return (m_patternName.isEmpty()) ? objectName() : m_patternName;
+}
+
+void BaseDesignIntf::setPatternName(const QString &patternName)
+{
+    m_patternName = patternName;
+}
+
+BaseDesignIntf* BaseDesignIntf::patternItem() const
+{
+    return m_patternItem;
+}
+
+void BaseDesignIntf::setPatternItem(BaseDesignIntf *patternItem)
+{
+    m_patternItem = patternItem;
 }
 
 ReportSettings *BaseDesignIntf::reportSettings() const
@@ -987,6 +1037,19 @@ void BaseDesignIntf::parentChangedEvent(BaseDesignIntf *)
 
 }
 
+void BaseDesignIntf::restoreLinks()
+{
+#ifdef HAVE_QT5
+    foreach(QObject * child, children()) {
+#else
+    foreach(QObject * child, QObject::children()) {
+#endif
+        BaseDesignIntf *childItem = dynamic_cast<BaseDesignIntf *>(child);
+        if (childItem) {childItem->restoreLinks();}
+    }
+    restoreLinksEvent();
+}
+
 QPainterPath BaseDesignIntf::shape() const
 {
     QPainterPath path;
@@ -1096,6 +1159,56 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         showEditorDialog();
     }
     QGraphicsItem::mouseDoubleClickEvent(event);
+}
+
+void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
+    if (!page->selectedItems().contains(this)){
+        page->clearSelection();
+        this->setSelected(true);
+    }
+    QMenu menu;
+    QAction* copyAction = menu.addAction(QIcon(":/report/images/copy.png"), tr("Copy"));
+    copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
+    QAction* cutAction = menu.addAction(QIcon(":/report//images/cut"), tr("Cut"));
+    cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste.png"), tr("Paste"));
+    pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
+    pasteAction->setEnabled(false);
+    QClipboard *clipboard = QApplication::clipboard();
+    ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
+    if (reader->first() && reader->itemType() == "Object"){
+        pasteAction->setEnabled(true);
+    }
+    menu.addSeparator();
+    QAction* brinToTopAction = menu.addAction(QIcon(":/report//images/bringToTop"), tr("Bring to top"));
+    QAction* sendToBackAction = menu.addAction(QIcon(":/report//images/sendToBack"), tr("Send to back"));
+    menu.addSeparator();
+    QAction* noBordersAction = menu.addAction(QIcon(":/report//images/noLines"), tr("No borders"));
+    QAction* allBordersAction = menu.addAction(QIcon(":/report//images/allLines"), tr("All borders"));
+    preparePopUpMenu(menu);
+    QAction* a = menu.exec(event->screenPos());
+    if (a){
+        if (a == cutAction)
+        {
+            page->cut();
+            return;
+        }
+        if (a == copyAction)
+            page->copy();
+        if (a == pasteAction)
+            page->paste();
+        if (a == brinToTopAction)
+            page->bringToFront();
+        if (a == sendToBackAction)
+            page->sendToBack();
+        if (a == noBordersAction)
+            page->setBorders(BaseDesignIntf::NoLine);
+        if (a == allBordersAction)
+            page->setBorders(BaseDesignIntf::AllLines);
+        processPopUpAction(a);
+    }
 }
 
 int BaseDesignIntf::possibleMoveDirectionFlags() const
@@ -1229,6 +1342,8 @@ void BaseDesignIntf::collectionLoadFinished(const QString &collectionName)
 BaseDesignIntf *BaseDesignIntf::cloneItem(ItemMode mode, QObject *owner, QGraphicsItem *parent)
 {
     BaseDesignIntf *clone = cloneItemWOChild(mode, owner, parent);
+    clone->setPatternName(this->objectName());
+    clone->setPatternItem(this);
 #ifdef HAVE_QT5
     foreach(QObject * child, children()) {
 #else
@@ -1424,8 +1539,7 @@ BaseDesignIntf *Marker::object() const
     return m_object;
 }
 
-
-}
+} //namespace LimeReport
 
 
 

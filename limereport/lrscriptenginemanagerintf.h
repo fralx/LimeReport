@@ -30,15 +30,19 @@
 #ifndef LRSCRIPTENGINEMANAGERINTF_H
 #define LRSCRIPTENGINEMANAGERINTF_H
 
-#include <QtScript/QScriptEngine>
+//#include <QJSEngine>
+#include "lrglobal.h"
 
 namespace LimeReport{
 
+
 class IScriptEngineManager{
 public:
-    virtual QScriptEngine* scriptEngine() = 0;
-    virtual bool addFunction(const QString& name, QScriptEngine::FunctionSignature function,
+    virtual ScriptEngineType* scriptEngine() = 0;
+#ifndef USE_QJSENGINE
+    virtual bool addFunction(const QString& name, ScriptEngineType::FunctionSignature function,
                              const QString& category="", const QString& description="") = 0;
+#endif
     virtual bool addFunction(const QString &name, const QString& script,
                              const QString &category="", const QString &description="") = 0;
     virtual const QString& lastError() const = 0;
@@ -46,4 +50,5 @@ public:
 };
 
 } //namespace LimeReport
+
 #endif // LRSCRIPTENGINEMANAGERINTF_H

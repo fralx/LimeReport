@@ -34,6 +34,8 @@
 #include "lrreportengine_p.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
+#include "items/editors/lrfonteditorwidget.h"
+#include "items/editors/lrtextalignmenteditorwidget.h"
 
 #include <QPrinter>
 #include <QPrintDialog>
@@ -43,7 +45,7 @@
 
 namespace LimeReport{
 
-PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
+PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
     ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false)
 {
@@ -136,6 +138,11 @@ void PreviewReportWindow::initPreview(int pagesCount)
     m_pagesNavigator->setValue(1);
 }
 
+void PreviewReportWindow::reloadPreview()
+{
+   m_previewReportWidget->refreshPages();
+}
+
 void PreviewReportWindow::setSettings(QSettings* value)
 {
     if (m_ownedSettings)
@@ -164,6 +171,11 @@ void PreviewReportWindow::setStatusBarVisible(bool value)
 void PreviewReportWindow::setMenuVisible(bool value)
 {
     ui->menubar->setVisible(value);
+}
+
+void PreviewReportWindow::setHideResultEditButton(bool value)
+{
+    ui->actionEdit_Mode->setVisible(value);
 }
 
 QSettings*PreviewReportWindow::settings()

@@ -56,6 +56,7 @@
 #include <QApplication>
 #include <QMessageBox>
 
+
 namespace LimeReport
 {
 
@@ -124,12 +125,12 @@ void PageDesignIntf::updatePageRect()
         m_pageItem->setRightMargin(5);
         m_pageItem->setObjectName("ReportPage1");
         connect(m_pageItem.data(), SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)), this, SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)));
-        connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeomertyChanged(QObject *, QRectF, QRectF)));
+        connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeometryChanged(QObject *, QRectF, QRectF)));
         connect(m_pageItem.data(), SIGNAL(objectLoaded(QObject *)), this, SLOT(slotPageItemLoaded(QObject *)));
     }
     this->setSceneRect(-Const::SCENE_MARGIN, -Const::SCENE_MARGIN,
                        pageItem()->geometry().width() + Const::SCENE_MARGIN*2,
-                       pageItem()->geometry().height() + Const::SCENE_MARGIN*2);
+                       pageItem()->boundingRect().height() + Const::SCENE_MARGIN*2);
     emit sceneRectChanged(sceneRect());
 }
 
@@ -744,6 +745,15 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
         ti->setContent(data);
+        if (!isVar){
+            BandDesignIntf* parentBand = dynamic_cast<BandDesignIntf*>(ti->parentItem());
+            if (parentBand && parentBand->datasourceName().isEmpty()){
+                QRegExp dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
+                if (dataSource.indexIn(data) != -1){
+                    parentBand->setProperty("datasource",dataSource.cap(1));
+                }
+            }
+        }
     }
 }
 
@@ -767,7 +777,7 @@ QStringList PageDesignIntf::possibleParentItems()
     return itemsList;
 }
 
-void PageDesignIntf::slotPageGeomertyChanged(QObject *, QRectF /*newGeometry*/, QRectF)
+void PageDesignIntf::slotPageGeometryChanged(QObject *, QRectF /*newGeometry*/, QRectF)
 {
     if (!m_isLoading){
         pageItem()->relocateBands();
@@ -1216,6 +1226,8 @@ void PageDesignIntf::copy()
         if (shouldWrite) {
             clipboard->setText(writer->saveToString());
         }
+
+        delete writer;
     }
 }
 
@@ -1231,8 +1243,13 @@ BaseDesignIntf* PageDesignIntf::findDestObject(BaseDesignIntf* item){
 void PageDesignIntf::paste()
 {
     QClipboard *clipboard = QApplication::clipboard();
-    if (!selectedItems().isEmpty()) {
-        BaseDesignIntf* destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
+    BaseDesignIntf* destItem = 0;
+    ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
+    if (reader->first() && reader->itemType() == "Object"){
+        if (!selectedItems().isEmpty())
+            destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
+        else
+            destItem = this->pageItem();
         if (destItem){
             CommandIf::Ptr command = PasteCommand::create(this, clipboard->text(), destItem);
             saveCommand(command);
@@ -1289,7 +1306,7 @@ void PageDesignIntf::deleteSelected()
 }
 
 void PageDesignIntf::cut()
-{    
+{
     CommandIf::Ptr command = CutCommand::create(this);
     saveCommand(command);
 }
@@ -1712,8 +1729,8 @@ CommandIf::Ptr DeleteLayoutCommand::create(PageDesignIntf *page, LayoutDesignInt
     DeleteLayoutCommand* command = new DeleteLayoutCommand();
     command->setPage(page);
     command->setItem(item);
-    foreach (BaseDesignIntf* item, item->childBaseItems()){
-        command->m_childItems.append(item->objectName());
+    foreach (BaseDesignIntf* childItem, item->childBaseItems()){
+        command->m_childItems.append(childItem->objectName());
     }
     return CommandIf::Ptr(command);
 }
@@ -1830,7 +1847,7 @@ CommandIf::Ptr CutCommand::create(PageDesignIntf *page)
     foreach(QGraphicsItem * item, page->selectedItems()) {
         if (!dynamic_cast<PageItemDesignIntf*>(item)){
             BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
-    
+
             if (reportItem) {
                 command->m_itemNames.push_back(reportItem->objectName());
                 writer->putItem(reportItem);
@@ -2154,7 +2171,7 @@ void PropertyItemAlignChangedCommand::undoIt()
     if (reportItem && (reportItem->property(m_propertyName.toLatin1()) != m_oldValue)) {
         reportItem->setProperty(m_propertyName.toLatin1(), m_oldValue);
     }
-    if (m_oldValue == BaseDesignIntf::DesignedItemAlign){
+    if (reportItem && (m_oldValue == BaseDesignIntf::DesignedItemAlign)){
         reportItem->setPos(m_savedPos);
     }
 }

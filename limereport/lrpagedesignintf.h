@@ -252,7 +252,7 @@ namespace LimeReport {
             void setTextAlign(const Qt::Alignment& alignment);
             void setBorders(const BaseDesignIntf::BorderLines& border);
         private slots:
-            void slotPageGeomertyChanged(QObject*, QRectF, QRectF );
+            void slotPageGeometryChanged(QObject*, QRectF, QRectF );
             void slotItemPropertyChanged(QString propertyName, const QVariant &oldValue, const QVariant &newValue);
             void slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
             void bandDeleted(QObject* band);

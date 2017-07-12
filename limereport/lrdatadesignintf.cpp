@@ -299,7 +299,7 @@ int ModelToDataSource::columnCount()
 
 QString ModelToDataSource::columnNameByIndex(int columnIndex)
 {
-    if (isInvalid()) return ""; 
+    if (isInvalid()) return "";
     QString result = m_model->headerData(columnIndex,Qt::Horizontal, Qt::UserRole).isValid()?
                      m_model->headerData(columnIndex,Qt::Horizontal, Qt::UserRole).toString():
                      m_model->headerData(columnIndex,Qt::Horizontal).toString();
@@ -350,12 +350,14 @@ void ModelToDataSource::slotModelDestroed()
 
 ConnectionDesc::ConnectionDesc(QSqlDatabase db, QObject *parent)
     : QObject(parent), m_connectionName(db.connectionName()), m_connectionHost(db.hostName()), m_connectionDriver(db.driverName()),
-      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false)
+      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false),
+      m_internal(false), m_keepDBCredentials(true)
 {}
 
 ConnectionDesc::ConnectionDesc(QObject *parent)
     :QObject(parent),m_connectionName(""),m_connectionHost(""),m_connectionDriver(""),
-      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false)
+      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false),
+      m_internal(false), m_keepDBCredentials(true)
 {}
 
 ConnectionDesc::Ptr ConnectionDesc::create(QSqlDatabase db, QObject *parent)
@@ -367,6 +369,36 @@ void ConnectionDesc::setName(const QString &value)
 {
     if (m_connectionName!=value) emit nameChanged(m_connectionName,value);
     m_connectionName=value;
+}
+
+bool ConnectionDesc::isEqual(const QSqlDatabase &db)
+{
+    return (db.databaseName() == m_databaseName) &&
+           (db.driverName() == m_connectionDriver) &&
+           (db.hostName() == m_connectionHost) &&
+           (db.connectionName() == m_connectionName) &&
+           (db.userName() == m_user) &&
+            (db.password() == m_password);
+}
+
+QString ConnectionDesc::connectionNameForUser(const QString &connectionName)
+{
+    return connectionName.compare(QSqlDatabase::defaultConnection) == 0 ? tr("defaultConnection") : connectionName;
+}
+
+QString ConnectionDesc::connectionNameForReport(const QString &connectionName)
+{
+    return connectionName.compare(tr("defaultConnection")) == 0 ? QSqlDatabase::defaultConnection : connectionName;
+}
+
+bool ConnectionDesc::keepDBCredentials() const
+{
+    return m_keepDBCredentials;
+}
+
+void ConnectionDesc::setKeepDBCredentials(bool keepDBCredentals)
+{
+    m_keepDBCredentials = keepDBCredentals;
 }
 
 QueryDesc::QueryDesc(QString queryName, QString queryText, QString connection)
@@ -389,7 +421,7 @@ void SubQueryHolder::setMasterDatasource(const QString &value)
 void SubQueryHolder::extractParams()
 {
     if (!dataManager()->containsDatasource(m_masterDatasource)){
-        setLastError(QObject::tr("Master datasource \"%1\" not found!!!").arg(m_masterDatasource));
+        setLastError(QObject::tr("Master datasource \"%1\" not found!").arg(m_masterDatasource));
         setPrepared(false);
     } else {
         m_preparedSQL = replaceFields(replaceVariables(queryText()));
@@ -606,11 +638,26 @@ QVariant MasterDetailProxyModel::masterData(QString fieldName) const
 
 bool CallbackDatasource::next(){
     if (!m_eof){
+        bool nextRowExists = checkNextRecord(m_currentRow);
+        if (m_currentRow>-1){
+            if (!m_getDataFromCache && nextRowExists){
+                for (int i = 0; i < m_columnCount; ++i ){
+                    m_valuesCache[columnNameByIndex(i)] = data(columnNameByIndex(i));
+                }
+
+            }
+        }
+        if (!nextRowExists){
+            m_eof = true;
+            return false;
+        }
         m_currentRow++;
-        bool result = false;
-        emit changePos(CallbackInfo::Next,result);
+        bool result = true;
+        if (!m_getDataFromCache)
+            emit changePos(CallbackInfo::Next,result);
+        m_getDataFromCache = false;
         if (m_rowCount != -1){
-            if (m_rowCount>0 && m_currentRow<m_rowCount){
+            if (m_rowCount > 0 && m_currentRow < m_rowCount){
                 m_eof = false;
             } else {
                 m_eof = true;
@@ -621,6 +668,21 @@ bool CallbackDatasource::next(){
             return result;
         }
     } else return false;
+}
+
+bool CallbackDatasource::prior(){
+     if (m_currentRow !=-1) {
+        if (!m_getDataFromCache && !m_valuesCache.isEmpty()){
+            m_getDataFromCache = true;
+            m_currentRow--;
+            m_eof = false;
+            return true;
+        } else {
+            return false;
+        }
+     } else {
+         return false;
+     }
 }
 
 void CallbackDatasource::first(){
@@ -641,12 +703,19 @@ void CallbackDatasource::first(){
 
 QVariant CallbackDatasource::data(const QString& columnName)
 {
-    CallbackInfo info;
-    info.dataType = CallbackInfo::ColumnData;
-    info.columnName = columnName;
-    info.index = m_currentRow;
     QVariant result;
-    emit getCallbackData(info,result);
+    if (!bof())
+    {
+        if (!m_getDataFromCache){
+            CallbackInfo info;
+            info.dataType = CallbackInfo::ColumnData;
+            info.columnName = columnName;
+            info.index = m_currentRow;
+            emit getCallbackData(info,result);
+        } else {
+            result = m_valuesCache[columnName];
+        }
+    }
     return result;
 }
 
@@ -672,7 +741,6 @@ int CallbackDatasource::columnCount(){
             int currIndex = 0;
             do {
                 QVariant columnName;
-                CallbackInfo info;
                 info.dataType = CallbackInfo::ColumnHeaderData;
                 info.index = currIndex;
                 emit getCallbackData(info,columnName);
@@ -697,7 +765,7 @@ QString CallbackDatasource::columnNameByIndex(int columnIndex)
 int CallbackDatasource::columnIndexByName(QString name)
 {
     for (int i=0;i<m_headers.size();++i) {
-        if (m_headers[i].compare(name) == 0)
+        if (m_headers[i].compare(name, Qt::CaseInsensitive) == 0)
             return i;
     }
 //    if (m_headers.size()==0){
@@ -710,8 +778,9 @@ int CallbackDatasource::columnIndexByName(QString name)
 }
 
 bool CallbackDatasource::checkNextRecord(int recordNum){
-    if (m_rowCount>0 && m_currentRow<m_rowCount){
-        return true;
+    if (bof()) checkIfEmpty();
+    if (m_rowCount > 0) {
+        return (m_currentRow < (m_rowCount-1));
     } else {
         QVariant result = false;
         CallbackInfo info;
@@ -726,11 +795,18 @@ bool CallbackDatasource::checkIfEmpty(){
     if (m_rowCount == 0) {
         return true;
     } else {
-        QVariant result = true;
+        QVariant isEmpty = true;
+        QVariant recordCount = 0;
         CallbackInfo info;
+        info.dataType = CallbackInfo::RowCount;
+        emit getCallbackData(info, recordCount);
+        if (recordCount.toInt()>0) {
+            m_rowCount = recordCount.toInt();
+            return false;
+        }
         info.dataType = CallbackInfo::IsEmpty;
-        emit getCallbackData(info,result);
-        return result.toBool();
+        emit getCallbackData(info,isEmpty);
+        return isEmpty.toBool();
     }
 }
 

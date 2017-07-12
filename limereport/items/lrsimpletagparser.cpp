@@ -63,7 +63,7 @@ QString HtmlContext::parseTag(QVector<Tag *> &storage, QString text, int &curPos
     tagName.remove('>');
 
     while (buff.contains(rx)){
-        int pos=rx.indexIn(buff);
+        pos=rx.indexIn(buff);
         buff=buff.right(buff.length()-pos);
         curPos+=pos;
         if (extractWord(rx.cap(0),1).compare(extractWord(tagName,1),Qt::CaseInsensitive)==0){

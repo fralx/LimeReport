@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+#include <QMenu>
 
 namespace LimeReport {
 
@@ -98,33 +99,8 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-bool Segment::intersect(Segment value)
-{
-    return ((value.m_end>=m_begin)&&(value.m_end<=m_end))   ||
-           ((value.m_begin>=m_begin)&&(value.m_end>=m_end))   ||
-           ((value.m_begin>=m_begin)&&(value.m_end<=m_end)) ||
-           ((value.m_begin<m_begin)&&(value.m_end>m_end)) ;
-}
-
-qreal Segment::intersectValue(Segment value)
-{
-    if ((value.m_end>=m_begin)&&(value.m_end<=m_end)){
-        return value.m_end-m_begin;
-    }
-    if ((value.m_begin>=m_begin)&&(value.m_end>=m_end)){
-        return m_end-value.m_begin;
-    }
-    if ((value.m_begin>=m_begin)&&(value.m_end<=m_end)){
-        return value.m_end-value.m_begin;
-    }
-    if ((value.m_begin<m_begin)&&(value.m_end>m_end)){
-        return m_end-m_begin;
-    }
-    return 0;
-}
-
 BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, QObject* owner, QGraphicsItem *parent) :
-    BaseDesignIntf(xmlTypeName, owner,parent),
+    ItemsContainerDesignInft(xmlTypeName, owner,parent),
     m_bandType(bandType),
     m_bandIndex(static_cast<int>(bandType)),
     m_dataSourceName(""),
@@ -146,7 +122,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startNewPage(false),
     m_startFromNewPage(false),
     m_printAlways(false),
-    m_repeatOnEachRow(false)
+    m_repeatOnEachRow(false),
+    m_useAlternateBackgroundColor(false)
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -169,6 +146,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_bandNameLabel->setVisible(false);
     if (scene()) scene()->addItem(m_bandNameLabel);
     m_alternateBackgroundColor = backgroundColor();
+    connect(this, SIGNAL(propertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotPropertyObjectNameChanged(const QString&,const QString&)));
 }
 
 BandDesignIntf::~BandDesignIntf()
@@ -183,16 +162,34 @@ BandDesignIntf::~BandDesignIntf()
     delete m_bandNameLabel;
 }
 
-void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    if (backgroundColor()!=Qt::white) {
-        ppainter->fillRect(rect(),backgroundColor());
+int extractItemIndex(const BaseDesignIntf* item){
+    QString objectName = extractClassName(item->metaObject()->className());
+    QString value = item->objectName().right(item->objectName().size() - objectName.size());
+    return value.toInt();
+}
+
+QString BandDesignIntf::translateBandName(const BaseDesignIntf* item) const{
+    QString defaultBandName = extractClassName(item->metaObject()->className()).toLatin1()+QString::number(extractItemIndex(item));
+    if (item->objectName().compare(defaultBandName) == 0){
+        return tr(extractClassName(item->metaObject()->className()).toLatin1())+QString::number(extractItemIndex(item));
+    } else {
+        return item->objectName();
     }
-    if (itemMode()&DesignMode){
-        ppainter->save();
-        QString bandText = objectName();
-        if (parentBand()) bandText+=QLatin1String(" connected to ")+parentBand()->objectName();
-        QFont font("Arial",7*Const::fontFACTOR,-1,true);
+}
+
+void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+
+    if ( !(backgroundColor() == Qt::white && backgroundBrushStyle() == SolidPattern) ) {
+        QBrush brush(backgroundColor(), static_cast<Qt::BrushStyle>(backgroundBrushStyle()));
+        brush.setTransform(painter->worldTransform().inverted());
+        painter->fillRect(rect(), brush);
+    }
+
+    if (itemMode() & DesignMode){
+        painter->save();
+        QString bandText = bandTitle();
+        QFont font("Arial", 7 * Const::fontFACTOR, -1, true);
         QFontMetrics fontMetrics(font);
 
         QVector<QRectF> bandNameRects;
@@ -204,22 +201,39 @@ void BandDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
         //if (isSelected()) ppainter->setPen(QColor(167,244,167));
        // else ppainter->setPen(QColor(220,220,220));
 
-        ppainter->setFont(font);
+        painter->setFont(font);
         for (int i=0;i<bandNameRects.count();i++){
             QRectF labelRect = bandNameRects[i].adjusted(-2,-2,2,2);
             if ((labelRect.height())<height() && (childBaseItems().isEmpty()) && !isSelected()){
-                ppainter->setRenderHint(QPainter::Antialiasing);
-                ppainter->setBrush(bandColor());
-                ppainter->setOpacity(Const::BAND_NAME_AREA_OPACITY);
-                ppainter->drawRoundedRect(labelRect,8,8);
-                ppainter->setOpacity(Const::BAND_NAME_TEXT_OPACITY);
-                ppainter->setPen(Qt::black);
-                ppainter->drawText(bandNameRects[i],Qt::AlignHCenter,bandText);
+                painter->setRenderHint(QPainter::Antialiasing);
+                painter->setBrush(bandColor());
+                painter->setOpacity(Const::BAND_NAME_AREA_OPACITY);
+                painter->drawRoundedRect(labelRect,8,8);
+                painter->setOpacity(Const::BAND_NAME_TEXT_OPACITY);
+                painter->setPen(Qt::black);
+                painter->drawText(bandNameRects[i],Qt::AlignHCenter,bandText);
             }
         }
-        ppainter->restore();
+        painter->restore();
     }
-    BaseDesignIntf::paint(ppainter,option,widget);
+    BaseDesignIntf::paint(painter,option,widget);
+}
+
+void BandDesignIntf::translateBandsName()
+{
+    tr("DataBand");
+    tr("DataHeaderBand");
+    tr("DataFooterBand");
+    tr("ReportHeader");
+    tr("ReportFooter");
+    tr("PageHeader");
+    tr("PageFooter");
+    tr("SubDetailBand");
+    tr("SubDetailHeaderBand");
+    tr("SubDetailFooterBand");
+    tr("GroupBandHeader");
+    tr("GroupBandFooter");
+    tr("TearOffBand");
 }
 
 BandDesignIntf::BandsType  BandDesignIntf::bandType() const
@@ -229,8 +243,8 @@ BandDesignIntf::BandsType  BandDesignIntf::bandType() const
 
 QString  BandDesignIntf::bandTitle() const
 {
-    QString result = objectName();
-    if (parentBand()) result +=tr(" connected to ")+parentBand()->objectName();
+    QString result = translateBandName(this);
+    if (parentBand()) result +=tr(" connected to ") + translateBandName(parentBand());
     return result;
 }
 
@@ -249,9 +263,15 @@ void BandDesignIntf::setBandIndex(int value)
     m_bandIndex=value;
 }
 
-void BandDesignIntf::changeBandIndex(int value)
+void BandDesignIntf::changeBandIndex(int value, bool firstTime)
 {
-    int indexOffset = value - m_bandIndex;
+    int indexOffset;
+
+    if (firstTime && bandHeader())
+        value += 1;
+
+    indexOffset = value - m_bandIndex;
+
     foreach(BandDesignIntf* band, childBands()){
         int newIndex = band->bandIndex()+indexOffset;
         band->changeBandIndex(newIndex);
@@ -313,6 +333,16 @@ bool BandDesignIntf::isConnectedToBand(BandDesignIntf::BandsType bandType) const
     return false;
 }
 
+int BandDesignIntf::maxChildIndex(BandDesignIntf::BandsType bandType) const{
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if ( (childBand->bandIndex() > bandIndex()) && (childBand->bandType() < bandType) ){
+            curIndex = std::max(curIndex,childBand->maxChildIndex());
+        }
+    }
+    return curIndex;
+}
+
 int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{
     int curIndex = bandIndex();
     foreach(BandDesignIntf* childBand, childBands()){
@@ -357,6 +387,7 @@ bool BandDesignIntf::canBeSplitted(int height) const
 
 bool BandDesignIntf::isEmpty() const
 {
+    if (!isVisible()) return true;
     foreach(QGraphicsItem* qgItem,childItems()){
         BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(qgItem);
         if ((item)&&(!item->isEmpty())) return false;
@@ -424,6 +455,47 @@ void BandDesignIntf::moveItemsDown(qreal startPos, qreal offset){
        if (item->pos().y()>=startPos)
            item->setPos(item->x(),item->y()+offset);
    }
+}
+
+void BandDesignIntf::preparePopUpMenu(QMenu &menu)
+{
+    foreach (QAction* action, menu.actions()) {
+        if (action->text().compare(tr("Bring to top")) == 0 ||
+            action->text().compare(tr("Send to back")) == 0  )
+            action->setEnabled(false);
+    }
+
+    menu.addSeparator();
+    QAction* autoHeightAction = menu.addAction(tr("Auto height"));
+    autoHeightAction->setCheckable(true);
+    autoHeightAction->setChecked(autoHeight());
+
+    QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
+    autoSplittableAction->setCheckable(true);
+    autoSplittableAction->setChecked(isSplittable());    
+}
+
+void BandDesignIntf::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Auto height")) == 0){
+        setProperty("autoHeight",action->isChecked());
+    }
+    if (action->text().compare(tr("Splittable")) == 0){
+        setProperty("splittable",action->isChecked());
+    }
+}
+
+void BandDesignIntf::recalcItems(DataSourceManager* dataManager)
+{
+    foreach(BaseDesignIntf* bi, childBaseItems()){
+        ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
+        if (bi){
+            ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
+            ci->setContent(pci->content());
+        }
+    }
+
+    updateItemSize(dataManager,FirstPass,height());
 }
 
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
@@ -547,95 +619,9 @@ void BandDesignIntf::setSplittable(bool value){
     }
 }
 
-bool itemSortContainerLessThen(const PItemSortContainer c1, const PItemSortContainer c2)
-{
-    VSegment vS1(c1->m_rect),vS2(c2->m_rect);
-    HSegment hS1(c1->m_rect),hS2(c2->m_rect);
-    if (vS1.intersectValue(vS2)>hS1.intersectValue(hS2))
-        return c1->m_rect.x()<c2->m_rect.x();
-    else return c1->m_rect.y()<c2->m_rect.y();
-}
-
 bool bandIndexLessThen(const BandDesignIntf* b1, const BandDesignIntf* b2)
 {
     return b1->bandIndex()<b2->bandIndex();
-}
-
-void BandDesignIntf::snapshotItemsLayout()
-{
-    m_bandItems.clear();
-    foreach(BaseDesignIntf *childItem,childBaseItems()){
-          m_bandItems.append(PItemSortContainer(new ItemSortContainer(childItem)));
-    }
-    qSort(m_bandItems.begin(),m_bandItems.end(),itemSortContainerLessThen);
-}
-
-void BandDesignIntf::arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type)
-{
-    bool needArrage=(type==Force);
-
-    foreach (PItemSortContainer item, m_bandItems) {
-        if (item->m_item->isNeedUpdateSize(pass)){
-            item->m_item->updateItemSize(dataManager, pass);
-            needArrage=true;
-        }
-    }
-
-    if (needArrage){
-        //qSort(m_bandItems.begin(),m_bandItems.end(),itemSortContainerLessThen);
-        for (int i=0;i<m_bandItems.count();i++)
-            for (int j=i;j<m_bandItems.count();j++){
-                if ((i!=j) && (m_bandItems[i]->m_item->collidesWithItem(m_bandItems[j]->m_item))){
-                    HSegment hS1(m_bandItems[j]->m_rect),hS2(m_bandItems[i]->m_rect);
-                    VSegment vS1(m_bandItems[j]->m_rect),vS2(m_bandItems[i]->m_rect);
-                    if (m_bandItems[i]->m_rect.bottom()<m_bandItems[i]->m_item->geometry().bottom()){
-                       if (hS1.intersectValue(hS2)>vS1.intersectValue(vS2))
-                           m_bandItems[j]->m_item->setY(m_bandItems[i]->m_item->y()+m_bandItems[i]->m_item->height()
-                                                      +m_bandItems[j]->m_rect.top()-m_bandItems[i]->m_rect.bottom());
-
-                    }
-                    if (m_bandItems[i]->m_rect.right()<m_bandItems[i]->m_item->geometry().right()){
-                       if (vS1.intersectValue(vS2)>hS1.intersectValue(hS2))
-                       m_bandItems[j]->m_item->setX(m_bandItems[i]->m_item->geometry().right()+
-                                                  (m_bandItems[j]->m_rect.x()-m_bandItems[i]->m_rect.right()));
-                    }
-                }
-            }
-    }
-
-    if(needArrage||pass==FirstPass){
-        int maxBottom = findMaxBottom();
-        foreach(BaseDesignIntf* item,childBaseItems()){
-            ItemDesignIntf* childItem=dynamic_cast<ItemDesignIntf*>(item);
-            if (childItem){
-                if (childItem->stretchToMaxHeight())
-                    childItem->setHeight(maxBottom-childItem->geometry().top());
-            }
-        }
-    }
-
-}
-
-qreal BandDesignIntf::findMaxBottom()
-{
-    qreal maxBottom=0;
-    foreach(QGraphicsItem* item,childItems()){
-        BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
-        if(subItem)
-           if ( subItem->isVisible() && (subItem->geometry().bottom()>maxBottom) )
-               maxBottom=subItem->geometry().bottom();
-    }
-    return maxBottom;
-}
-
-qreal BandDesignIntf::findMaxHeight(){
-    qreal maxHeight=0;
-    foreach(QGraphicsItem* item,childItems()){
-        BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
-        if(subItem)
-           if (subItem->geometry().height()>maxHeight) maxHeight=subItem->geometry().height();
-    }
-    return maxHeight;
 }
 
 void BandDesignIntf::trimToMaxHeight(int maxHeight)
@@ -647,7 +633,7 @@ void BandDesignIntf::trimToMaxHeight(int maxHeight)
 
 void BandDesignIntf::setBandTypeText(const QString &value){
     m_bandTypeText=value;
-    m_bandNameLabel->updateLabel();
+    m_bandNameLabel->updateLabel(bandTitle());
 }
 
 QSet<BandDesignIntf::BandsType> BandDesignIntf::groupBands()
@@ -705,7 +691,7 @@ QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
             m_bandMarker->update(0,0,
                                  m_bandMarker->boundingRect().width(),
                                  m_bandMarker->boundingRect().width());
-            m_bandNameLabel->updateLabel();
+            m_bandNameLabel->updateLabel(bandTitle());
             m_bandNameLabel->setVisible(value.toBool());
 
         }
@@ -746,6 +732,21 @@ void BandDesignIntf::childBandDeleted(QObject *band)
     m_childBands.removeAt(m_childBands.indexOf(reinterpret_cast<BandDesignIntf*>(band)));
 }
 
+bool BandDesignIntf::useAlternateBackgroundColor() const
+{
+    return m_useAlternateBackgroundColor;
+}
+
+void BandDesignIntf::setUseAlternateBackgroundColor(bool useAlternateBackgroundColor)
+{
+    if (m_useAlternateBackgroundColor != useAlternateBackgroundColor){
+        QColor oldValue = m_useAlternateBackgroundColor;
+        m_useAlternateBackgroundColor=useAlternateBackgroundColor;
+        if (!isLoading())
+            notify("useAlternateBackgroundColor",oldValue,useAlternateBackgroundColor);
+    }
+}
+
 QColor BandDesignIntf::alternateBackgroundColor() const
 {
     if (metaObject()->indexOfProperty("alternateBackgroundColor")!=-1)
@@ -756,7 +757,19 @@ QColor BandDesignIntf::alternateBackgroundColor() const
 
 void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgroundColor)
 {
-    m_alternateBackgroundColor = alternateBackgroundColor;
+    if (m_alternateBackgroundColor != alternateBackgroundColor){
+        QColor oldValue = m_alternateBackgroundColor;
+        m_alternateBackgroundColor=alternateBackgroundColor;
+        if (!isLoading())
+            notify("alternateBackgroundColor",oldValue,alternateBackgroundColor);
+    }
+}
+
+void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
+{
+    update();
+    if (m_bandNameLabel)
+        m_bandNameLabel->updateLabel(newName);
 }
 
 bool BandDesignIntf::repeatOnEachRow() const
@@ -797,6 +810,14 @@ bool BandDesignIntf::startNewPage() const
 void BandDesignIntf::setStartNewPage(bool startNewPage)
 {
     m_startNewPage = startNewPage;
+}
+
+void BandDesignIntf::setAutoHeight(bool value){
+    if (m_autoHeight != value){
+        m_autoHeight=value;
+        if (!isLoading())
+            notify("autoHeight",!value,value);
+    }
 }
 
 bool BandDesignIntf::reprintOnEachPage() const
@@ -889,6 +910,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
+    restoreLinks();
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);
     if (autoHeight()){
@@ -902,9 +924,20 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
+void BandDesignIntf::restoreItems()
+{
+    foreach(BaseDesignIntf* bi, childBaseItems()){
+        ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
+        if (ci){
+            ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
+            ci->setContent(pci->content());
+        }
+    }
+}
+
 void BandDesignIntf::updateBandNameLabel()
 {
-    if (m_bandNameLabel) m_bandNameLabel->updateLabel();
+    if (m_bandNameLabel) m_bandNameLabel->updateLabel(bandTitle());
 }
 
 QColor BandDesignIntf::selectionColor() const
@@ -947,7 +980,7 @@ QRectF BandNameLabel::boundingRect() const
     return m_rect;
 }
 
-void BandNameLabel::updateLabel()
+void BandNameLabel::updateLabel(const QString& bandName)
 {
     QFont font("Arial",7*Const::fontFACTOR,-1,true);
     QFontMetrics fontMetrics(font);
@@ -955,7 +988,7 @@ void BandNameLabel::updateLabel()
     m_rect = QRectF(
                 m_band->pos().x()+10,
                 m_band->pos().y()-(fontMetrics.height()+10),
-                fontMetrics.width(m_band->bandTitle())+20,fontMetrics.height()+10
+                fontMetrics.width(bandName)+20,fontMetrics.height()+10
                 );
     update();
 }

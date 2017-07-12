@@ -34,15 +34,10 @@
 #include <QDomComment>
 #include <QSpinBox>
 #include <QComboBox>
+#include <QSettings>
+#include <QEventLoop>
 
-#include "lrpagedesignintf.h"
-#include "lrreportrender.h"
-#include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
-#include "lrpreviewreportwidget.h"
-
-#include "items/editors/lrfonteditorwidget.h"
-#include "items/editors/lrtextalignmenteditorwidget.h"
 
 namespace LimeReport {
 
@@ -50,21 +45,31 @@ namespace Ui {
 class PreviewReportWindow;
 }
 
+class PreviewReportWidget;
+class FontEditorWidget;
+class TextAlignmentEditorWidget;
+class ReportEngine;
+class PageItemDesignIntf;
+typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
+
+
 class PreviewReportWindow : public QMainWindow
 {
     Q_OBJECT   
 public:
-    explicit PreviewReportWindow(ReportEnginePrivate *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=0);
+    explicit PreviewReportWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=0);
     ~PreviewReportWindow();
     void setReportReader(ItemsReaderIntf::Ptr reader);
     void setPages(ReportPages pages);
     void exec();
     void initPreview(int pagesCount);
+    void reloadPreview();
     void setSettings(QSettings* value);
     void setErrorMessages(const QStringList& value);
     void setToolBarVisible(bool value);
     void setStatusBarVisible(bool value);
     void setMenuVisible(bool value);
+    void setHideResultEditButton(bool value);
     QSettings* settings();
 protected:
     void writeSetting();
@@ -97,7 +102,6 @@ private slots:
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
-
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();

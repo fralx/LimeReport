@@ -79,6 +79,23 @@ bool DataBand::isUnique() const
     return false;
 }
 
+void DataBand::preparePopUpMenu(QMenu &menu)
+{
+    DataBandDesignIntf::preparePopUpMenu(menu);
+
+    QAction* autoSplittableAction = menu.addAction(tr("useAlternateBackgroundColor"));
+    autoSplittableAction->setCheckable(true);
+    autoSplittableAction->setChecked(useAlternateBackgroundColor());
+}
+
+void DataBand::processPopUpAction(QAction *action)
+{
+    DataBandDesignIntf::processPopUpAction(action);
+    if (action->text().compare(tr("useAlternateBackgroundColor")) == 0){
+        setProperty("useAlternateBackgroundColor",action->isChecked());
+    }
+}
+
 QColor DataBand::bandColor() const
 {
     return QColor(Qt::darkGreen);

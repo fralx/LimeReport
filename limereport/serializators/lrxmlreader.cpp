@@ -106,7 +106,6 @@ bool XMLReader::readItem(QObject *item)
 
 void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 {
-
     ObjectLoadingStateIntf* lf = dynamic_cast<ObjectLoadingStateIntf*>(item);
     if(lf) lf->objectLoadStarted();
     for (int i=0;i<node->childNodes().count();i++){
@@ -123,8 +122,8 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 
     BaseDesignIntf* baseObj = dynamic_cast<BaseDesignIntf*>(item);
     if(baseObj) {
-        foreach(QGraphicsItem* item,baseObj->childItems()){
-            BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(item);
+        foreach(QGraphicsItem* childItem,baseObj->childItems()){
+            BaseDesignIntf* baseItem = dynamic_cast<BaseDesignIntf*>(childItem);
             if (baseItem) baseItem->parentObjectLoadFinished();
         }
     }
@@ -133,6 +132,11 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 QString XMLReader::lastError()
 {
     return m_error;
+}
+
+void XMLReader::setPassPhrase(const QString &passPhrase)
+{
+    m_passPhrase = passPhrase;
 }
 
 bool XMLReader::extractFirstNode()
@@ -166,6 +170,10 @@ QVariant XMLReader::getValue(QDomElement *node)
 
     if (creator) {
         QScopedPointer<SerializatorIntf>serializator(creator(m_doc.data(),node));
+        CryptedSerializator* cs = dynamic_cast<CryptedSerializator*>(serializator.data());
+        if (cs){
+            cs->setPassPhrase(m_passPhrase);
+        }
         return serializator->loadValue();
     }
     return QVariant();

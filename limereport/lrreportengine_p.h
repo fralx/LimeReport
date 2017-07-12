@@ -42,6 +42,8 @@
 #include "serializators/lrstorageintf.h"
 #include "lrscriptenginemanager.h"
 
+class QFileSystemWatcher;
+
 namespace LimeReport{
 
 class PageDesignIntf;
@@ -61,7 +63,7 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer
     friend class PreviewReportWidget;
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
-    static void printReport(ReportPages pages, QPrinter &printer, const PrintRange &printRange);
+    static void printReport(ReportPages pages, QPrinter &printer);
 public:
     explicit ReportEnginePrivate(QObject *parent = 0);
     virtual ~ReportEnginePrivate();
@@ -83,7 +85,7 @@ public:
 
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
-    bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
+    bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
@@ -91,7 +93,7 @@ public:
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
     QSettings*  settings();
-    bool    loadFromFile(const QString& fileName);
+    bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange);
     bool    loadFromByteArray(QByteArray *data, const QString& name = "");
     bool    loadFromString(const QString& report, const QString& name = "");
     QString reportFileName(){return m_fileName;}
@@ -121,6 +123,11 @@ public:
 
     bool suppressFieldAndVarError() const;
     void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
+    bool isBusy();
+    bool resultIsEditable() const;
+    void setResultEditable(bool value);
+
+    void setPassPhrase(const QString &passPhrase);
 
 signals:
     void    pagesLoadFinished();
@@ -133,13 +140,14 @@ signals:
     void    onSave();
     void    saveFinished();
 public slots:
+    bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
 protected:
     PageDesignIntf* createPage(const QString& pageName="");
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:
-    void slotPreviewWindowDestroed(QObject *window);
+    void slotPreviewWindowDestroyed(QObject *window);
 private:
     //ICollectionContainer
     virtual QObject*    createElement(const QString&,const QString&);
@@ -170,6 +178,10 @@ private:
     QString m_previewWindowTitle;
     QPointer<ReportDesignWindow> m_designerWindow;
     ReportSettings m_reportSettings;
+    bool m_reportRendering;
+    bool m_resultIsEditable;
+    QString m_passPhrase;
+    QFileSystemWatcher  *m_fileWatcher;
 };
 
 }

@@ -50,7 +50,7 @@ protected:
     void init();
     void checkFieldsFill();
     bool checkConnection();
-    LimeReport::ConnectionDesc* uiToConnection(LimeReport::ConnectionDesc *conDesc = 0);
+    ConnectionDesc* uiToConnection(LimeReport::ConnectionDesc *conDesc = 0);
     void connectionToUI();
 signals:
     void conectionRegistred(LimeReport::ConnectionDesc* connectionDesc);
@@ -58,11 +58,14 @@ private slots:
     void slotAccept();
     void slotCheckConnection();
     void on_toolButton_clicked();
+    void on_cbbUseDefaultConnection_toggled(bool checked);
+
 private:
     Ui::ConnectionDialog *ui;
-    LimeReport::ConnectionDesc* m_connection;
+    ConnectionDesc* m_connection;
     bool m_changeMode;
-    LimeReport::IConnectionController* m_controller;
+    IConnectionController* m_controller;
+    QString m_savedConnectionName;
 };
 
 } // namespace LimeReport

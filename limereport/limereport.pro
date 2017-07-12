@@ -1,8 +1,15 @@
 TARGET = limereport
 TEMPLATE = lib
 
-CONFIG += lib
-CONFIG += dll
+contains(CONFIG, static_build){
+    CONFIG += staticlib
+}
+
+!contains(CONFIG, staticlib){
+    CONFIG += lib
+    CONFIG += dll
+}
+
 CONFIG += create_prl
 CONFIG += link_prl
 
@@ -13,6 +20,12 @@ macx{
 }
 
 DEFINES += LIMEREPORT_EXPORTS
+
+contains(CONFIG, staticlib){
+    DEFINES += HAVE_STATIC_BUILD
+    message(STATIC_BUILD)
+    DEFINES -= LIMEREPORT_EXPORTS
+}
 
 EXTRA_FILES += \
     $$PWD/lrglobal.cpp \
@@ -67,23 +80,23 @@ contains(CONFIG,zint){
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es_ES
+    LANGUAGES = ru es_ES ar
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3
         return($$result)
     }
 
-    TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
+    TRANSLATIONS = $$prependAll(LANGUAGES, \"$$TRANSLATIONS_PATH/limereport_,.ts\")
 
     qtPrepareTool(LUPDATE, lupdate)
-    ts.commands = $$LUPDATE $$PWD -ts $$TRANSLATIONS
+    ts.commands = $$LUPDATE $$shell_quote($$PWD) -ts $$TRANSLATIONS
 
     TRANSLATIONS_FILES =
     qtPrepareTool(LRELEASE, lrelease)
     for(tsfile, TRANSLATIONS) {
         qmfile = $$tsfile
-        qmfile ~= s,.ts$,.qm,
+        qmfile ~= s,".ts\"$",".qm\"",
         qm.commands += $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         tmp_command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         TRANSLATIONS_FILES += $$qmfile

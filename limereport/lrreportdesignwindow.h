@@ -59,7 +59,7 @@ class ReportDesignWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit ReportDesignWindow(ReportEnginePrivate* report, QWidget *parent = 0, QSettings* settings=0);
+    explicit ReportDesignWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0);
     ~ReportDesignWindow();
     static ReportDesignWindow* instance(){return m_instance;}
 
@@ -119,6 +119,10 @@ private slots:
     void slotLoadRecentFile(const QString fileName);
     void slotPageAdded(PageDesignIntf* );
     void slotPageDeleted();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void slotDeleteDialog();
+    void slotAddNewDialog();
+#endif
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -126,6 +130,7 @@ protected:
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
 private:
+    void initReportEditor(ReportEnginePrivate* report);
     void createActions();
     void createBandsButton();
     void createMainMenu();
@@ -134,9 +139,18 @@ private:
     void createItemsActions();
     void createObjectInspector();
     void createObjectsBrowser();
-    void initReportEditor(ReportEnginePrivate* report);
+    void initReportEditor(ReportEngine *report);
     void createDataWindow();
     void createScriptWindow();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void createDialogWidgetBox();
+    void createDialogPropertyEditor();
+    void createDialogObjectInspector();
+    void createDialogActionEditor();
+    void createDialogResourceEditor();
+    void createDialogSignalSlotEditor();
+    void createDialogDesignerToolBar();
+#endif
     void updateRedoUndo();
     void updateAvaibleBands();
     void startNewReport();
@@ -146,6 +160,8 @@ private:
     void removeNotExistedRecentFiles();
     void removeNotExistedRecentFilesFromMenu(const QString& fileName);
     void addRecentFile(const QString& fileName);
+    void showDefaultToolBars();
+    void showDefaultEditors();
 private:
     static ReportDesignWindow* m_instance;
     QStatusBar* m_statusBar;
@@ -153,6 +169,9 @@ private:
     QToolBar* m_fontToolBar;
     QToolBar* m_reportToolBar;
     QToolBar* m_alignToolBar;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QToolBar* m_dialogDesignerToolBar;
+#endif
     QToolButton* m_newBandButton;
     QMenuBar* m_mainMenu;
     QMenu* m_fileMenu;
@@ -203,6 +222,10 @@ private:
     QAction* m_addHLayout;
     QAction* m_hideLeftPanel;
     QAction* m_hideRightPanel;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QAction* m_deleteDialogAction;
+    QAction* m_addNewDialogAction;
+#endif
     QMenu*   m_recentFilesMenu;
 
     QSignalMapper* m_bandsAddSignalsMap;
@@ -235,6 +258,15 @@ private:
     QProgressDialog* m_progressDialog;
     bool m_showProgressDialog;
     QMap<QString,QDateTime> m_recentFiles;
+    QVector<QDockWidget*> m_pageEditors;
+    QVector<QDockWidget*> m_dialogEditors;
+    QVector<QDockWidget*> m_docksToTabify;
+    ReportDesignWidget::EditorTabType m_editorTabType;
+    QByteArray m_pageEditorsState;
+    QByteArray m_dialogEditorsState;
+    QVector<QToolBar*> m_pageTools;
+    QVector<QToolBar*> m_dialogTools;
+
 };
 
 class ObjectNameValidator : public ValidatorIntf{

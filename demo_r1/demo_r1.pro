@@ -27,8 +27,10 @@ macx{
 
 unix:{
     LIBS += -L$${DEST_LIBS} -llimereport
-    contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS} -lQtZint
+    !contains(CONFIG, static_build){
+        contains(CONFIG,zint){
+            LIBS += -L$${DEST_LIBS} -lQtZint
+        }
     }
     DESTDIR = $$DEST_DIR
 #    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
@@ -52,9 +54,11 @@ win32 {
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
-    contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS} -lQtZint
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    !contains(CONFIG, static_build){
+        contains(CONFIG,zint){
+            LIBS += -L$${DEST_LIBS} -lQtZint
+        }
     }
     LIBS += -L$${DEST_LIBS} -llimereport
 }

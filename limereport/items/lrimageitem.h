@@ -44,12 +44,14 @@ class ImageItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(bool scale READ scale WRITE setScale)
     Q_PROPERTY(bool keepAspectRatio READ keepAspectRatio WRITE setKeepAspectRatio)
     Q_PROPERTY(bool center READ center WRITE setCenter)
+    Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
 public:
     ImageItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setImage(QImage value);
     QImage image(){return m_picture;}
-    void setContent(const QString &value){m_content=value;}
+    void setResourcePath(const QString &value){m_resourcePath=value;}
+    QString resourcePath() const;
     QString datasource() const;
     void setDatasource(const QString &datasource);
     QString field() const;
@@ -72,8 +74,8 @@ protected:
     bool isNeedUpdateSize(RenderPass) const;
     bool drawDesignBorders() const {return m_picture.isNull();}
 private:
-    QImage m_picture;
-    QString m_content;
+    QImage  m_picture;
+    QString m_resourcePath;
     QString m_datasource;
     QString m_field;
     bool    m_autoSize;

@@ -110,6 +110,7 @@ class ConnectionDesc : public QObject{
     Q_PROPERTY(QString password READ password WRITE setPassword)
     Q_PROPERTY(QString host READ host WRITE setHost)
     Q_PROPERTY(bool autoconnect READ autoconnect WRITE setAutoconnect)
+    Q_PROPERTY(bool keepDBCredentials READ keepDBCredentials WRITE setKeepDBCredentials)
 public:
     typedef QSharedPointer<ConnectionDesc> Ptr;
     ConnectionDesc(QSqlDatabase db, QObject* parent=0);
@@ -124,11 +125,19 @@ public:
     void    setDatabaseName(const QString &value){m_databaseName=value;}
     QString databaseName(){return m_databaseName;}
     void    setUserName(const QString &value){m_user=value;}
-    QString userName(){return m_user;}
+    QString userName(){ return m_user; }
     void    setPassword(const QString &value){m_password=value;}
-    QString password(){return m_password;}
+    QString password(){ return m_password; }
     void    setAutoconnect(bool value){m_autoconnect=value;}
     bool    autoconnect(){return m_autoconnect;}
+    bool    isEqual(const QSqlDatabase& db);
+    bool    isInternal(){ return m_internal; }
+    void    setInternal(bool value) {m_internal = value;}
+    bool    keepDBCredentials() const;
+    void    setKeepDBCredentials(bool keepDBCredentials);
+public:
+    static QString connectionNameForUser(const QString& connectionName);
+    static QString connectionNameForReport(const QString& connectionName);    
 signals:
     void nameChanged(const QString& oldName,const QString& newName);
 private:
@@ -139,6 +148,8 @@ private:
     QString m_user;
     QString m_password;
     bool    m_autoconnect;
+    bool    m_internal;
+    bool    m_keepDBCredentials;
 };
 
 class IConnectionController{
@@ -146,6 +157,7 @@ public:
     virtual void addConnectionDesc(ConnectionDesc* connection) = 0;
     virtual void changeConnectionDesc(ConnectionDesc* connection) = 0;
     virtual bool checkConnectionDesc(ConnectionDesc* connection) = 0;
+    virtual bool containsDefaultConnection() = 0;
     virtual QString lastError() const = 0;
 };
 
@@ -368,10 +380,11 @@ private:
 class CallbackDatasource :public ICallbackDatasource, public IDataSource {
     Q_OBJECT
 public:
-    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1), m_rowCount(-1){}
+    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1),
+        m_rowCount(-1), m_getDataFromCache(false){}
     bool next();
     bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow); else return false;}
-    bool prior(){ if (m_currentRow !=-1) {m_currentRow--; return true;} else return false;}
+    bool prior();
     void first();
     void last(){}
     bool bof(){return m_currentRow == -1;}
@@ -392,6 +405,8 @@ private:
     bool m_eof;
     int m_columnCount;
     int m_rowCount;
+    QHash<QString, QVariant> m_valuesCache;
+    bool m_getDataFromCache;
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{

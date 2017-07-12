@@ -124,8 +124,8 @@ void TextItemEditor::initUI()
         ui->twData->setModel(dm->datasourcesModel());
         ui->twScriptEngine->setModel(se.model());
 
-        foreach(QString dsName,dm->dataSourceNames()){
-            foreach(QString field, dm->fieldNames(dsName)){
+        foreach(const QString &dsName,dm->dataSourceNames()){
+            foreach(const QString &field, dm->fieldNames(dsName)){
                 dataWords<<dsName+"."+field;
             }
         }
@@ -133,7 +133,7 @@ void TextItemEditor::initUI()
         ui->tabWidget->setVisible(false);
     }
 
-    foreach (LimeReport::ScriptFunctionDesc functionDesc, se.functionsDescriber()) {
+    foreach (LimeReport::ScriptFunctionDesc functionDesc, se.functionsDescribers()) {
         dataWords<<functionDesc.name;
     }
 

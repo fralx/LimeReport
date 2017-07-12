@@ -42,7 +42,7 @@ class BandDesignIntf;
 class GroupFunction : public QObject{
     Q_OBJECT
 public:
-    enum DataType{Variable,Field,Srcipt,ContentItem};
+    enum DataType{Variable, Field, Script, ContentItem};
     GroupFunction(const QString& expression, const QString& dataBandName, DataSourceManager *dataManager);
     bool isValid(){return m_isValid;}
     void setInvalid(QString message){m_isValid=false,m_errorMessage=message;}

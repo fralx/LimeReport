@@ -101,7 +101,7 @@ void SQLEditDialog::accept()
         else result.resultMode=SQLEditResult::SubProxy;
     }
 
-    result.connectionName=ui->cbbConnection->currentText();
+    result.connectionName = ConnectionDesc::connectionNameForReport(ui->cbbConnection->currentText());
     result.datasourceName=ui->leDatasourceName->text();
     result.sql=ui->textEditSQL->toPlainText();
     result.dialogMode=m_dialogMode;
@@ -147,11 +147,11 @@ void SQLEditDialog::hideEvent(QHideEvent *)
 
 void SQLEditDialog::check()
 {
-    if (ui->leDatasourceName->text().isEmpty()) throw LimeReport::ReportError(tr("Datasource Name is empty !"));
-    if (ui->textEditSQL->toPlainText().isEmpty() && (!ui->rbProxy) ) throw LimeReport::ReportError(tr("SQL is empty !"));
+    if (ui->leDatasourceName->text().isEmpty()) throw LimeReport::ReportError(tr("Datasource Name is empty!"));
+    if (ui->textEditSQL->toPlainText().isEmpty() && (!ui->rbProxy) ) throw LimeReport::ReportError(tr("SQL is empty!"));
     if (m_dialogMode==AddMode){
         if (m_datasources->containsDatasource(ui->leDatasourceName->text())){
-            throw LimeReport::ReportError(QString(tr("Datasource with name: \"%1\" already exists !")).arg(ui->leDatasourceName->text()));
+            throw LimeReport::ReportError(QString(tr("Datasource with name: \"%1\" already exists!")).arg(ui->leDatasourceName->text()));
         }
     }
 }
@@ -159,15 +159,19 @@ void SQLEditDialog::check()
 void SQLEditDialog::initConnections()
 {
     foreach(QString connectionName, QSqlDatabase::connectionNames()){
-        ui->cbbConnection->addItem(QIcon(":/databrowser/images/plug-connect.png"),connectionName);
+        ui->cbbConnection->addItem(QIcon(":/databrowser/images/plug-connect.png"),ConnectionDesc::connectionNameForUser(connectionName));
     }
+
     foreach(QString connectionName, m_datasources->connectionNames()){
+        connectionName = (connectionName.compare(QSqlDatabase::defaultConnection)==0) ?
+                         tr("defaultConnection") : connectionName;
         if (ui->cbbConnection->findText(connectionName,Qt::MatchExactly )==-1)
-            ui->cbbConnection->addItem(QIcon(":/databrowser/images/plug-disconnect.png"),connectionName);
+            ui->cbbConnection->addItem(QIcon(":/databrowser/images/plug-disconnect.png"),ConnectionDesc::connectionNameForUser(connectionName));
     }
+
     ui->cbbConnection->setCurrentIndex(ui->cbbConnection->findText(m_defaultConnection));
     if (!m_oldDatasourceName.isEmpty()){
-        ui->cbbConnection->setCurrentIndex(ui->cbbConnection->findText(m_datasources->connectionName(m_oldDatasourceName)));
+        ui->cbbConnection->setCurrentIndex(ui->cbbConnection->findText(ConnectionDesc::connectionNameForUser(m_datasources->connectionName(m_oldDatasourceName))));
     }
 }
 
@@ -202,7 +206,7 @@ void SQLEditDialog::setDataSources(LimeReport::DataSourceManager *dataSources, Q
 
 void SQLEditDialog::setDefaultConnection(QString defaultConnection)
 {
-    m_defaultConnection=defaultConnection;
+    m_defaultConnection = ConnectionDesc::connectionNameForUser(defaultConnection);
 }
 
 void SQLEditDialog::slotDataSourceNameEditing()
@@ -298,7 +302,11 @@ void SQLEditDialog::slotPreviewData()
         QMessageBox::critical(this,tr("Attention"),tr("Connection is not specified"));
         return;
     }
-    m_previewModel = m_datasources->previewSQL(ui->cbbConnection->currentText(),ui->textEditSQL->toPlainText(),ui->leMaster->text());
+    m_previewModel = m_datasources->previewSQL(
+                ConnectionDesc::connectionNameForReport(ui->cbbConnection->currentText()),
+                ui->textEditSQL->toPlainText(),
+                ui->leMaster->text()
+    );
     if (m_previewModel){
         ui->tvPreview->setModel(m_previewModel.data());
         ui->gbDataPreview->setVisible(true);

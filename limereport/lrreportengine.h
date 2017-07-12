@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QPrintDialog>
+//#include <QJSEngine>
 
 #include "lrglobal.h"
 #include "lrdatasourcemanagerintf.h"
@@ -62,18 +63,22 @@ class DataSourceManager;
 class ReportEnginePrivate;
 class PageDesignIntf;
 class PageItemDesignIntf;
+class ReportDesignWidget;
+class PreviewReportWidget;
 
 typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
 
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
+    friend class ReportDesignWidget;
+    friend class PreviewReportWidget;
 public:
     static void setSettings(QSettings *value){m_settings=value;}
 public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
     bool    printReport(QPrinter *printer=0);
-    bool    printPages(ReportPages pages, QPrinter *printer, PrintRange printRange = PrintRange());
+    bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     PageDesignIntf *createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);
@@ -82,7 +87,7 @@ public:
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();
-    bool    loadFromFile(const QString& fileName);
+    bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange = false);
     bool    loadFromByteArray(QByteArray *data);
     bool    loadFromString(const QString& data);
     QString reportFileName();
@@ -98,6 +103,10 @@ public:
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
     void setPreviewWindowTitle(const QString& title);
     void setPreviewWindowIcon(const QIcon& icon);
+    void setResultEditable(bool value);
+    bool resultIsEditable();
+    bool isBusy();
+    void setPassPharse(QString& passPharse);
 signals:
     void renderStarted();
     void renderFinished();

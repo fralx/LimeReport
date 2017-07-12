@@ -62,7 +62,7 @@ namespace LimeReport{
 
 ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
-ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *parent, QSettings* settings) :
+ReportDesignWindow::ReportDesignWindow(ReportEngine *report, QWidget *parent, QSettings* settings) :
     QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false), m_progressDialog(0), m_showProgressDialog(true)
 {
     initReportEditor(report);
@@ -73,15 +73,27 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     createDataWindow();
     createScriptWindow();
     createObjectsBrowser();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    createDialogWidgetBox();
+    createDialogPropertyEditor();
+    createDialogObjectInspector();
+    createDialogActionEditor();
+    createDialogSignalSlotEditor();
+    createDialogResourceEditor();
+    createDialogDesignerToolBar();
+#endif
     m_instance=this;
     m_statusBar=new QStatusBar(this);
     m_lblReportName = new QLabel(report->reportFileName(),this);
     m_statusBar->insertWidget(0,m_lblReportName);
     setStatusBar(m_statusBar);
     setWindowTitle("Lime Report Designer");
+    showDefaultEditors();
+    showDefaultToolBars();
     restoreSetting();
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
     m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
+    m_editorTabType = ReportDesignWidget::Page;
 }
 
 ReportDesignWindow::~ReportDesignWindow()
@@ -199,11 +211,6 @@ void ReportDesignWindow::createActions()
     m_testAction->setIcon(QIcon(":/report/images/pin"));
     connect(m_testAction,SIGNAL(triggered()),this,SLOT(slotTest()));
 
-//    m_printReportAction = new QAction(tr("Print Report"),this);
-//    m_printReportAction->setIcon(QIcon(":/report/images/print"));
-//    m_printReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_P));
-//    connect(m_printReportAction,SIGNAL(triggered()),this,SLOT(slotPrintReport()));
-
     m_editLayoutMode = new QAction(tr("Edit layouts mode"),this);
     m_editLayoutMode->setIcon(QIcon(":/report/images/editlayout"));
     m_editLayoutMode->setCheckable(true);
@@ -219,15 +226,22 @@ void ReportDesignWindow::createActions()
 
     m_hideLeftPanel = new QAction(tr("Hide left panel"),this);
     m_hideLeftPanel->setCheckable(true);
-//    m_hideLeftPanel->setChecked(true);
     m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
     connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
 
     m_hideRightPanel = new QAction(tr("Hide right panel"),this);
     m_hideRightPanel->setCheckable(true);
-//    m_hideRightPanel->setChecked(true);
     m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
     connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    m_deleteDialogAction = new QAction(tr("Delete dialog"), this);
+    m_deleteDialogAction->setIcon(QIcon(":/report//images/deleteDialog"));
+    connect(m_deleteDialogAction, SIGNAL(triggered()), this, SLOT(slotDeleteDialog()));
+
+    m_addNewDialogAction = new QAction(tr("Add new dialog"), this);
+    m_addNewDialogAction->setIcon(QIcon(":/report//images/addDialog"));
+    connect(m_addNewDialogAction, SIGNAL(triggered()), this, SLOT(slotAddNewDialog()));
+#endif
 }
 
 void ReportDesignWindow::createReportToolBar()
@@ -240,7 +254,6 @@ void ReportDesignWindow::createReportToolBar()
     m_reportToolBar->setObjectName("reportTools");
     createItemsActions();
     m_reportToolBar->addSeparator();
-    //m_reportToolBar->addAction(m_editLayoutMode);
     m_reportToolBar->addAction(m_addHLayout);
     m_reportToolBar->addSeparator();
     m_reportToolBar->addAction(m_deleteItemAction);
@@ -274,6 +287,9 @@ void ReportDesignWindow::createToolBars()
 
     m_mainToolBar->addAction(m_newPageAction);
     m_mainToolBar->addAction(m_deletePageAction);
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    m_mainToolBar->addAction(m_addNewDialogAction);
+#endif
     m_mainToolBar->addSeparator();
 
     m_mainToolBar->addAction(m_copyAction);
@@ -313,6 +329,11 @@ void ReportDesignWindow::createToolBars()
     addToolBar(m_itemsBordersEditorBar);
 
     createReportToolBar();
+
+    m_pageTools << m_mainToolBar << m_reportToolBar << m_fontEditorBar
+                << m_textAlignmentEditorBar << m_itemsAlignmentEditorBar
+                << m_itemsBordersEditorBar;
+
 }
 
 void ReportDesignWindow::createItemsActions()
@@ -437,7 +458,7 @@ void ReportDesignWindow::createMainMenu()
     m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
-void ReportDesignWindow::initReportEditor(ReportEnginePrivate* report)
+void ReportDesignWindow::initReportEditor(ReportEngine* report)
 {
     m_reportDesignWidget=new ReportDesignWidget(report,this,this);
     setCentralWidget(m_reportDesignWidget);
@@ -475,7 +496,6 @@ void ReportDesignWindow::createObjectInspector()
     m_objectInspector->setModel(m_propertyModel);
     m_objectInspector->setAlternatingRowColors(true);
     m_objectInspector->setRootIsDecorated(!m_propertyModel->subclassesAsLevel());
-
     QDockWidget *objectDoc = new QDockWidget(this);
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
@@ -485,6 +505,7 @@ void ReportDesignWindow::createObjectInspector()
     objectDoc->setWindowTitle(tr("Object Inspector"));
     objectDoc->setWidget(w);
     objectDoc->setObjectName("objectInspector");
+    m_pageEditors.append(objectDoc);
     addDockWidget(Qt::LeftDockWidgetArea,objectDoc);
 }
 
@@ -497,9 +518,89 @@ void ReportDesignWindow::createObjectsBrowser()
     doc->setObjectName("structureDoc");
     addDockWidget(Qt::RightDockWidgetArea,doc);
     m_objectsBrowser->setMainWindow(this);
+    m_pageEditors.append(doc);
     m_objectsBrowser->setReportEditor(m_reportDesignWidget);
 }
 
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+
+void ReportDesignWindow::createDialogWidgetBox()
+{
+    QDockWidget *doc = new QDockWidget(this);
+    doc->setWindowTitle(tr("Widget Box"));
+    doc->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::WidgetBox));
+    doc->setObjectName("WidgetBox");
+    addDockWidget(Qt::LeftDockWidgetArea,doc);
+    m_dialogEditors.append(doc);
+}
+
+void ReportDesignWindow::createDialogPropertyEditor()
+{
+    QDockWidget *doc = new QDockWidget(this);
+    doc->setWindowTitle(tr("Property Editor"));
+    doc->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::PropertyEditor));
+    doc->setObjectName("PropertyEditor");
+    addDockWidget(Qt::RightDockWidgetArea,doc);
+    m_dialogEditors.append(doc);
+}
+
+void ReportDesignWindow::createDialogObjectInspector()
+{
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("Object Inspector"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ObjectInspector));
+    dock->setObjectName("ObjectInspector");
+    addDockWidget(Qt::RightDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+}
+
+void ReportDesignWindow::createDialogActionEditor()
+{
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("Action Editor"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ActionEditor));
+    dock->setObjectName("ActionEditor");
+    addDockWidget(Qt::BottomDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+    m_docksToTabify.append(dock);
+}
+
+void ReportDesignWindow::createDialogResourceEditor()
+{
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("Resource Editor"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::ResourceEditor));
+    dock->setObjectName("ResourceEditor");
+    addDockWidget(Qt::BottomDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+    m_docksToTabify.append(dock);
+}
+
+void ReportDesignWindow::createDialogSignalSlotEditor()
+{
+    QDockWidget *dock = new QDockWidget(this);
+    dock->setWindowTitle(tr("SignalSlot Editor"));
+    dock->setWidget(m_reportDesignWidget->toolWindow(ReportDesignWidget::SignalSlotEditor));
+    dock->setObjectName("SignalSlotEditor");
+    addDockWidget(Qt::BottomDockWidgetArea,dock);
+    m_dialogEditors.append(dock);
+    m_docksToTabify.append(dock);
+}
+
+void ReportDesignWindow::createDialogDesignerToolBar()
+{
+    m_dialogDesignerToolBar = addToolBar(tr("Dialog Designer Tools"));
+    m_dialogDesignerToolBar->setObjectName("DialogDesignerTools");
+    m_dialogDesignerToolBar->addAction(m_saveReportAction);
+    m_dialogDesignerToolBar->addAction(m_previewReportAction);
+    m_dialogDesignerToolBar->addSeparator();
+    m_dialogDesignerToolBar->addAction(m_deleteDialogAction);
+    m_dialogDesignerToolBar->addSeparator();
+    m_reportDesignWidget->initDialogDesignerToolBar(m_dialogDesignerToolBar);
+    m_dialogTools << m_dialogDesignerToolBar;
+}
+
+#endif
 void ReportDesignWindow::createDataWindow()
 {
     QDockWidget *dataDoc = new QDockWidget(this);
@@ -510,6 +611,7 @@ void ReportDesignWindow::createDataWindow()
     addDockWidget(Qt::LeftDockWidgetArea,dataDoc);
     m_dataBrowser->setSettings(settings());
     m_dataBrowser->setMainWindow(this);
+    m_pageEditors.append(dataDoc);
     m_dataBrowser->setReportEditor(m_reportDesignWidget);
 }
 
@@ -522,6 +624,7 @@ void ReportDesignWindow::createScriptWindow()
     dataDoc->setObjectName("scriptDoc");
     addDockWidget(Qt::LeftDockWidgetArea,dataDoc);
     m_scriptBrowser->setReportEditor(m_reportDesignWidget);
+    m_pageEditors.append(dataDoc);
 #ifdef HAVE_UI_LOADER
     m_scriptBrowser->updateDialogsTree();
 #endif
@@ -539,10 +642,14 @@ void ReportDesignWindow::startNewReport()
     m_reportDesignWidget->createStartPage();
     m_lblReportName->setText("");
     updateRedoUndo();
+    m_reportDesignWidget->slotPagesLoadFinished();
     m_newPageHeader->setEnabled(true);
     m_newPageFooter->setEnabled(true);
     m_newReportHeader->setEnabled(true);
     m_newReportFooter->setEnabled(true);
+    m_editorTabType = ReportDesignWidget::Page;
+    showDefaultEditors();
+    showDefaultToolBars();
 }
 
 void ReportDesignWindow::writePosition()
@@ -556,7 +663,16 @@ void ReportDesignWindow::writePosition()
 void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
-    settings()->setValue("State",saveState());
+    switch (m_editorTabType) {
+    case ReportDesignWidget::Page:
+        settings()->setValue("PageEditorsState", saveState());
+        settings()->setValue("DialogEditorsState", m_dialogEditorsState);
+        break;
+    default:
+        settings()->setValue("DialogEditorsState", saveState());
+        settings()->setValue("PageEditorsState", m_pageEditorsState);
+        break;
+    }
     settings()->setValue("InspectorFirsColumnWidth",m_objectInspector->columnWidth(0));
     settings()->endGroup();
     settings()->beginGroup("RecentFiles");
@@ -649,9 +765,15 @@ void ReportDesignWindow::restoreSetting()
         resize(screenWidth*0.8, screenHeight*0.8);
         move(x, y);
     }
-    v = settings()->value("State");
+    v = settings()->value("PageEditorsState");
     if (v.isValid()){
+        m_pageEditorsState = v.toByteArray();
         restoreState(v.toByteArray());
+        m_editorTabType = ReportDesignWidget::Page;
+    }
+    v = settings()->value("DialogEditorsState");
+    if (v.isValid()){
+        m_dialogEditorsState = v.toByteArray();
     }
     v = settings()->value("InspectorFirsColumnWidth");
     if (v.isValid()){
@@ -682,7 +804,7 @@ bool ReportDesignWindow::checkNeedToSave()
 {
     if (m_reportDesignWidget->isNeedToSave()){
         QMessageBox::StandardButton button = QMessageBox::question(
-            this,"",tr("Report has been modified ! Do you want save the report ?"),
+            this,"",tr("Report has been modified! Do you want save the report?"),
             QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::Yes
         );
         switch (button) {
@@ -953,6 +1075,9 @@ void ReportDesignWindow::slotLoadReport()
                 unsetCursor();
             	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
                 addRecentFile(fileName);
+                m_editorTabType = ReportDesignWidget::Page;
+                showDefaultToolBars();
+                showDefaultEditors();
             }
         }
 
@@ -1057,8 +1182,10 @@ void ReportDesignWindow::slotBandAdded(PageDesignIntf *, BandDesignIntf * band)
             break;
         case BandDesignIntf::ReportFooter:
             m_newReportFooter->setDisabled(true);
+            break;
         case BandDesignIntf::TearOffBand:
             m_newTearOffBand->setDisabled(true);
+            break;
         default:
             break;
         }
@@ -1119,11 +1246,67 @@ void ReportDesignWindow::updateAvaibleBands(){
     }
 }
 
+void ReportDesignWindow::showDefaultToolBars(){
+    foreach (QToolBar* tb, m_pageTools){
+        tb->setVisible(m_editorTabType != ReportDesignWidget::Dialog);
+    }
+    foreach (QToolBar* tb, m_dialogTools){
+        tb->setVisible(m_editorTabType == ReportDesignWidget::Dialog);
+    }
+}
+
+void ReportDesignWindow::showDefaultEditors(){
+    foreach (QDockWidget* w, m_pageEditors) {
+        w->setVisible(m_editorTabType != ReportDesignWidget::Dialog);
+    }
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    foreach (QDockWidget* w, m_dialogEditors) {
+        w->setVisible(m_editorTabType == ReportDesignWidget::Dialog);
+    }
+    for ( int i = 0; i < m_docksToTabify.size() - 1; ++i){
+        tabifyDockWidget(m_docksToTabify.at(i),m_docksToTabify.at(i+1));
+    }
+    m_docksToTabify.at(0)->raise();
+#endif
+}
+
 void ReportDesignWindow::slotActivePageChanged()
 {
     m_propertyModel->setObject(0);
     updateRedoUndo();
     updateAvaibleBands();
+
+    switch (m_editorTabType) {
+    case ReportDesignWidget::Dialog:
+        m_dialogEditorsState = saveState();
+#ifdef HAVE_UI_LOADER
+        m_scriptBrowser->updateDialogsTree();
+#endif
+        break;
+    default:
+        m_pageEditorsState = saveState();
+        break;
+    }
+
+    m_editorTabType = m_reportDesignWidget->activeTabType();
+
+    switch (m_editorTabType) {
+    case ReportDesignWidget::Dialog:
+        if (!m_dialogEditorsState.isEmpty())
+            restoreState(m_dialogEditorsState);
+        else
+            showDefaultEditors();
+            showDefaultToolBars();
+        break;
+    default:
+        if (!m_pageEditors.isEmpty())
+            restoreState(m_pageEditorsState);
+        else
+            showDefaultEditors();
+            showDefaultToolBars();
+        break;
+    }
+
 }
 
 void ReportDesignWindow::renderStarted()
@@ -1230,6 +1413,20 @@ void ReportDesignWindow::slotPageDeleted()
     m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
 }
 
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+void ReportDesignWindow::slotDeleteDialog()
+{
+    if ( m_editorTabType == ReportDesignWidget::Dialog ){
+        m_reportDesignWidget->report()->scriptContext()->deleteDialog(m_reportDesignWidget->activeDialogName());
+    }
+}
+
+void ReportDesignWindow::slotAddNewDialog()
+{
+    m_reportDesignWidget->addNewDialog();
+}
+#endif
+
 void ReportDesignWindow::closeEvent(QCloseEvent * event)
 {
     if (checkNeedToSave()){    
@@ -1266,7 +1463,7 @@ bool ObjectNameValidator::validate(const QString &propName, const QVariant &prop
         BaseDesignIntf* bd = dynamic_cast<BaseDesignIntf*>(object);
         if (bd){
             if (bd->page()->reportItemByName(propValue.toString())){
-                msg = QString(QObject::tr("Object with name %1 already exists").arg(propValue.toString()));
+                msg = QString(QObject::tr("Object with name %1 already exists!").arg(propValue.toString()));
                 return false;
             } else (bd->emitObjectNamePropertyChanged(object->objectName(),propValue.toString()));
         }

@@ -56,16 +56,21 @@ BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *par
 
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-   if (!m_datasource.isEmpty() && !m_field.isEmpty() && m_picture.isNull()){
-       IDataSource* ds = dataManager->dataSource(m_datasource);
-       if (ds) {
-          QVariant data = ds->data(m_field);
-          if (data.isValid()){
-              if (data.type()==QVariant::Image){
-                m_picture =  data.value<QImage>();
-              } else
-                m_picture.loadFromData(data.toByteArray());
-          }
+
+   if (m_picture.isNull()){
+       if (!m_datasource.isEmpty() && !m_field.isEmpty()){
+           IDataSource* ds = dataManager->dataSource(m_datasource);
+           if (ds) {
+              QVariant data = ds->data(m_field);
+              if (data.isValid()){
+                  if (data.type()==QVariant::Image){
+                    m_picture =  data.value<QImage>();
+                  } else
+                    m_picture.loadFromData(data.toByteArray());
+              }
+           }
+       } else if (!m_resourcePath.isEmpty()){
+           m_picture = QImage(m_resourcePath);
        }
    }
    if (m_autoSize){
@@ -78,6 +83,11 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
 bool ImageItem::isNeedUpdateSize(RenderPass) const
 {
     return m_picture.isNull() || m_autoSize;
+}
+
+QString ImageItem::resourcePath() const
+{
+    return m_resourcePath;
 }
 
 qreal ImageItem::minHeight() const{
@@ -231,6 +241,7 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
     if (img.isNull() && itemMode()==DesignMode){
         QString text;
         ppainter->setFont(transformToSceneFont(QFont("Arial",10)));
+        ppainter->setPen(Qt::black);
         if (!datasource().isEmpty() && !field().isEmpty())
             text = datasource()+"."+field();
         else text = tr("Image");

@@ -46,7 +46,7 @@ bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instanc
 namespace LimeReport {
 
 ReportHeader::ReportHeader(QObject *owner, QGraphicsItem *parent)
-    : BandDesignIntf(LimeReport::BandDesignIntf::ReportHeader,xmlTag,owner,parent) {
+    : BandDesignIntf(LimeReport::BandDesignIntf::ReportHeader,xmlTag,owner,parent), m_printBeforePageHeader(false) {
         setBandTypeText(tr("Report Header"));
         setMarkerColor(bandColor());
 }
@@ -58,6 +58,19 @@ BaseDesignIntf *ReportHeader::createSameTypeItem(QObject *owner, QGraphicsItem *
 QColor ReportHeader::bandColor() const
 {
     return QColor(152,69,167);
+}
+
+bool ReportHeader::printBeforePageHeader() const
+{
+    return m_printBeforePageHeader;
+}
+
+void ReportHeader::setPrintBeforePageHeader(bool printBeforePageHeader)
+{
+    if (m_printBeforePageHeader != printBeforePageHeader){
+        m_printBeforePageHeader = printBeforePageHeader;
+        notify("printBeforePageHeader",!m_printBeforePageHeader,m_printBeforePageHeader);
+    }
 }
 
 }
