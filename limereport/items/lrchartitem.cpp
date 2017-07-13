@@ -42,24 +42,7 @@ QColor color_map[39] = {
         QColor(96,125,139), QColor(241,153,185),  QColor(64,64,64),
         QColor(188,229,218), QColor(139,0,0), QColor(139,139,0), QColor(171, 130, 255),
         QColor(139, 123, 139), QColor(255, 0, 255), QColor(139, 69, 19)
-    };
-//QColor color_map1[55] = {
-//    QColor(245,147,51), QColor(244,89,73), QColor(0,142,195), QColor(1,107,159),
-//    QColor(242,219,127), QColor(1,127,111), QColor(143,149,166), QColor(1,173,235),
-//    QColor(35,63,142), QColor(121,78,38), QColor(254,195,115), QColor(237,38,110),
-//    QColor(240,102,125), QColor(92,97,98), QColor(0,101,94), QColor(239,59,31),
-//    QColor(1,73,133), QColor(0,89,151), QColor(237,27,35), QColor(219,3,107),
-//    QColor(0,173,239), QColor(167,138,117), QColor(0,134,124), QColor(0,110,68),
-//    QColor(242,199,17), QColor(247,168,114), QColor(65,174,74), QColor(1,142,76),
-//    QColor(1,82,165), QColor(0,111,134), QColor(69,128,43), QColor(254,222,86),
-//    QColor(152,262,59), QColor(237,0,137), QColor(188,26,141), QColor(0,57,115),
-//    QColor(150,180,127), QColor(146,154,160), QColor(1,82,132), QColor(23,97,134),
-//    QColor(95,194,171), QColor(0,114,187), QColor(200,133,183), QColor(81,33,127),
-//    QColor(0,254,0), QColor(0,0,254), QColor(254,254,0),
-//    QColor(254,0,254),QColor(0,254,254), QColor(0,80,0), QColor(80,0,0),
-//    QColor(0,0,80), QColor(80,80,0), QColor(80,0,80),
-//    QColor(0,80,80),
-//};
+};
 
 QString SeriesItem::name() const
 {
@@ -228,6 +211,7 @@ void ChartItem::updateItemSize(DataSourceManager *dataManager, RenderPass , int 
     if (dataManager && dataManager->dataSource(m_datasource)){
         IDataSource* ds =  dataManager->dataSource(m_datasource);
         foreach (SeriesItem* series, m_series) {
+            series->setLabelsColumn(m_labelsField);
             series->fillSeriesData(ds);
         }
         fillLabels(ds);
