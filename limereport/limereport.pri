@@ -94,8 +94,11 @@ SOURCES += \
     $$REPORT_PATH/lrsimplecrypt.cpp \    
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
-    $$REPORT_PATH/lritemscontainerdesignitf.cpp
-
+    $$REPORT_PATH/lritemscontainerdesignitf.cpp \
+	$$REPORT_PATH/lrcolorindicator.cpp \
+    $$REPORT_PATH/items/lrchartitem.cpp \
+    $$REPORT_PATH/items/lrchartitemeditor.cpp
+    
 contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
 }
@@ -199,8 +202,11 @@ HEADERS += \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
-    $$REPORT_PATH/lritemscontainerdesignitf.h
-
+    $$REPORT_PATH/lritemscontainerdesignitf.h \
+	$$REPORT_PATH/lrcolorindicator.h \
+    $$REPORT_PATH/items/lrchartitem.h \
+    $$REPORT_PATH/items/lrchartitemeditor.h
+    
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
 }
@@ -221,6 +227,7 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
+    $$REPORT_PATH/items/lrchartitemeditor.ui
 
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \
