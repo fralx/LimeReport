@@ -54,6 +54,9 @@ namespace{
     bool VARIABLE_IS_NOT_USED registredImageFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("field","LimeReport::ImageItem"),QObject::tr("field"),createFieldPropItem
     );
+    bool VARIABLE_IS_NOT_USED registredChartDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("datasource","LimeReport::ChartItem"),QObject::tr("datasource"),createDatasourcePropItem
+    );
 }
 
 QWidget* LimeReport::DatasourcePropItem::createProperyEditor(QWidget *parent) const{
