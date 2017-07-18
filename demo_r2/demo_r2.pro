@@ -1,7 +1,12 @@
 include(../common.pri)
 QT += core gui
 
-TARGET = LRDemo_r2
+contains(CONFIG,release) {
+	TARGET = LRDemo_r2
+} else {
+	TARGET = LRDemo_r2d
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -57,7 +62,12 @@ win32 {
             LIBS += -L$${DEST_LIBS} -lQtZint
         }
     }
-    LIBS += -L$${DEST_LIBS} -llimereport
+    LIBS += -L$${DEST_LIBS}
+	contains(CONFIG,release) {
+		LIBS += -llimereport
+	} else {
+		LIBS += -llimereportd
+	}
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
 }
