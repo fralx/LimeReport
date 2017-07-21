@@ -226,6 +226,8 @@ DataSourceManager::DataSourceManager(QObject *parent) :
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("MAX"),new ConstructorGroupFunctionCreator<MaxGroupFunction>);
     setSystemVariable(QLatin1String("#PAGE"),1,FirstPass);
     setSystemVariable(QLatin1String("#PAGE_COUNT"),0,SecondPass);
+    setSystemVariable(QLatin1String("#IS_LAST_PAGEFOOTER"),false,FirstPass);
+    setSystemVariable(QLatin1String("#IS_FIRST_PAGEFOOTER"),false,FirstPass);
     m_datasourcesModel.setDataSourceManager(this);
 }
 
