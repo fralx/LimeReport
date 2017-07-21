@@ -309,6 +309,8 @@ void ReportRender::initVariables()
 {
     m_datasources->setReportVariable("#PAGE",1);
     m_datasources->setReportVariable("#PAGE_COUNT",0);
+    m_datasources->setReportVariable("#IS_LAST_PAGEFOOTER",false);
+    m_datasources->setReportVariable("#IS_FIRST_PAGEFOOTER",false);
 }
 
 #ifdef HAVE_UI_LOADER
@@ -1230,6 +1232,11 @@ void ReportRender::moveTearOffBand(){
 
 void ReportRender::savePage(bool isLast)
 {
+
+
+    m_datasources->setReportVariable("#IS_LAST_PAGEFOOTER",isLast);
+    m_datasources->setReportVariable("#IS_FISRT_PAGEFOOTER",m_datasources->variable("#PAGE").toInt()==1);
+
     renderPageItems(m_patternPageItem);
     checkFooterGroup(m_lastDataBand);
     cutGroups();
