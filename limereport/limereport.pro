@@ -1,4 +1,9 @@
-TARGET = limereport
+contains(CONFIG,release) {
+	TARGET = limereport
+} else {
+	TARGET = limereportd
+}
+
 TEMPLATE = lib
 
 contains(CONFIG, static_build){
@@ -73,7 +78,12 @@ contains(CONFIG,zint){
     message(zint)
     INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
     DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
-    LIBS += -L$${DEST_LIBS} -lQtZint
+	LIBS += -L$${DEST_LIBS}
+	contains(CONFIG,release) {
+		LIBS += -lQtZint
+	} else {
+		LIBS += -lQtZintd
+	}
 }
 
 #######

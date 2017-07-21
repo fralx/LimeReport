@@ -1,7 +1,11 @@
 include(../common.pri)
 QT += core gui
 
-TARGET = LRDesigner
+contains(CONFIG,release) {
+	TARGET = LRDesigner
+} else {
+	TARGET = LRDesignerd
+}
 TEMPLATE = app
 
 SOURCES += main.cpp
@@ -47,6 +51,11 @@ win32 {
             LIBS += -L$${DEST_LIBS} -lQtZint
         }
     }
-    LIBS += -L$${DEST_LIBS} -llimereport
+    LIBS += -L$${DEST_LIBS}
+	contains(CONFIG,release) {
+		LIBS += -llimereport
+	} else {
+		LIBS += -llimereportd
+	}
 }
 
