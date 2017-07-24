@@ -1233,9 +1233,8 @@ void ReportRender::moveTearOffBand(){
 void ReportRender::savePage(bool isLast)
 {
 
-
     m_datasources->setReportVariable("#IS_LAST_PAGEFOOTER",isLast);
-    m_datasources->setReportVariable("#IS_FISRT_PAGEFOOTER",m_datasources->variable("#PAGE").toInt()==1);
+    m_datasources->setReportVariable("#IS_FIRST_PAGEFOOTER",m_datasources->variable("#PAGE").toInt()==1);
 
     renderPageItems(m_patternPageItem);
     checkFooterGroup(m_lastDataBand);
