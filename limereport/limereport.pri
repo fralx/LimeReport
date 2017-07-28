@@ -97,7 +97,8 @@ SOURCES += \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp \
 	$$REPORT_PATH/lrcolorindicator.cpp \
     $$REPORT_PATH/items/lrchartitem.cpp \
-    $$REPORT_PATH/items/lrchartitemeditor.cpp
+    $$REPORT_PATH/items/lrchartitemeditor.cpp \
+    $$REPORT_PATH/lrreporttranslation.cpp
     
 contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
@@ -205,7 +206,8 @@ HEADERS += \
     $$REPORT_PATH/lritemscontainerdesignitf.h \
 	$$REPORT_PATH/lrcolorindicator.h \
     $$REPORT_PATH/items/lrchartitem.h \
-    $$REPORT_PATH/items/lrchartitemeditor.h
+    $$REPORT_PATH/items/lrchartitemeditor.h \
+    $$REPORT_PATH/lrreporttranslation.h
     
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h

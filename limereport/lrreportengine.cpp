@@ -90,6 +90,11 @@ ReportEnginePrivate::~ReportEnginePrivate()
     }
     foreach(PageDesignIntf* page,m_pages) delete page;
     m_pages.clear();
+
+    foreach(ReportTranslation* translation, m_translations)
+        delete translation;
+    m_translations.clear();
+
     if (m_ownedSettings&&m_settings) delete m_settings;
 }
 
@@ -178,10 +183,14 @@ void ReportEnginePrivate::clearReport()
 {
     foreach(PageDesignIntf* page,m_pages) delete page;
     m_pages.clear();
+    foreach(ReportTranslation* reportTranslation, m_translations)
+        delete reportTranslation;
+    m_translations.clear();
     m_datasources->clear(DataSourceManager::Owned);
     m_fileName="";
     m_scriptEngineContext->clear();
     m_reportSettings.setDefaultValues();
+
     emit cleared();
 }
 
@@ -379,7 +388,7 @@ bool ReportEnginePrivate::printToPDF(const QString &fileName)
 
 void ReportEnginePrivate::previewReport(PreviewHints hints)
 { 
-    QTime start = QTime::currentTime();
+//    QTime start = QTime::currentTime();
     try{
         dataManager()->setDesignTime(false);
         ReportPages pages = renderToPages();
@@ -733,9 +742,60 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
+PageDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
+{
+    foreach(PageDesignIntf* page, m_pages){
+        if ( page->objectName().compare(pageName, Qt::CaseInsensitive) == 0)
+            return page;
+    }
+    return 0;
+}
+
 void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
 {
     m_passPhrase = passPhrase;
+}
+
+bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
+{
+    if (!m_translations.keys().contains(language)){
+        ReportTranslation* translation = new ReportTranslation(language,m_pages);
+        m_translations.insert(language, translation);
+        return true;
+    } else {
+        m_lastError =  tr("Language %1 already exists").arg(QLocale::languageToString(language));
+        return false;
+    }
+}
+
+bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
+    if (!m_translations.keys().contains(language)) return false;
+    ReportTranslation* translation = m_translations.value(language);
+
+    foreach(PageTranslation* pageTranslation, translation->pagesTranslation()){
+        PageDesignIntf* page = getPageByName(pageTranslation->pageName);
+        if (page){
+            foreach(ItemTranslation itemTranslation, pageTranslation->itemsTranslation){
+                BaseDesignIntf* item = page->pageItem()->childByName(itemTranslation.itemName);
+                if (item) {
+                    foreach(PropertyTranslation propertyTranslation, itemTranslation.propertyesTranslation){
+                        item->setProperty(propertyTranslation.propertyName.toLatin1(),propertyTranslation.value);
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+QList<QLocale::Language> ReportEnginePrivate::aviableLanguages()
+{
+    return  m_translations.keys();
+}
+
+ReportTranslation*ReportEnginePrivate::reportTranslation(QLocale::Language language)
+{
+    return m_translations.value(language);
 }
 
 bool ReportEnginePrivate::resultIsEditable() const
@@ -934,6 +994,24 @@ void ReportEngine::setPassPharse(QString &passPharse)
     d->setPassPhrase(passPharse);
 }
 
+QList<QLocale::Language> ReportEngine::aviableLanguages()
+{
+    Q_D(ReportEngine);
+    return d->aviableLanguages();
+}
+
+bool ReportEngine::addTranslationLanguage(QLocale::Language language)
+{
+    Q_D(ReportEngine);
+    return d->addTranslationLanguage(language);
+}
+
+bool ReportEngine::setReportLanguage(QLocale::Language language)
+{
+    Q_D(ReportEngine);
+    return d->setReportLanguage(language);
+}
+
 void ReportEngine::setShowProgressDialog(bool value)
 {
     Q_D(ReportEngine);
@@ -1046,6 +1124,5 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
 }
 
+}// namespace LimeReport
 
-
-}

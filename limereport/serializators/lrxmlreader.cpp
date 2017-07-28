@@ -33,6 +33,7 @@
 #include "lrbasedesignintf.h"
 #include "lrdesignelementsfactory.h"
 #include "lrcollection.h"
+#include "lrreporttranslation.h"
 
 #include <QDebug>
 
@@ -112,11 +113,12 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
         QDomElement currentNode =node->childNodes().at(i).toElement();
         if (currentNode.attribute("Type")=="Object"){
             readQObject(item,&currentNode);
-        }else if (currentNode.attribute("Type")=="Collection")
+        } else if (currentNode.attribute("Type")=="Collection")
         {
             readCollection(item,&currentNode);
-        }
-        else readProperty(item,&currentNode);
+        } else if (currentNode.attribute("Type")=="Translation"){
+            readTranslation(item,&currentNode);
+        } else readProperty(item,&currentNode);
     }
     if (lf) lf->objectLoadFinished();
 
@@ -191,13 +193,44 @@ void XMLReader::readCollection(QObject *item, QDomElement *node)
     ICollectionContainer* collection = dynamic_cast<ICollectionContainer*>(item);
     if (collection){
         QString collectionName = node->nodeName();
-        for(int i=0;i<node->childNodes().count();i++){
+        for(int i = 0; i < node->childNodes().count(); ++i){
             QDomElement currentNode =node->childNodes().at(i).toElement();
             QObject* obj = collection->createElement(collectionName,currentNode.attribute("ClassName"));
             if (obj)
                 readItemFromNode(obj,&currentNode);
         }
         collection->collectionLoadFinished(collectionName);
+    }
+}
+
+void XMLReader::readTranslation(QObject* item, QDomElement* node)
+{
+    ITranslationContainer* tranclationContainer = dynamic_cast<ITranslationContainer*>(item);
+    if (tranclationContainer){
+        Translations* translations = tranclationContainer->translations();
+        for (int langIndex = 0; langIndex<node->childNodes().count(); ++langIndex){
+            QDomElement languageNode = node->childNodes().at(langIndex).toElement();
+            ReportTranslation* curTranslation = new ReportTranslation((QLocale::Language)(languageNode.attributeNode("Value").value().toInt()));
+            for (int pageIndex = 0; pageIndex < languageNode.childNodes().count(); ++pageIndex){
+                QDomElement pageNode = languageNode.childNodes().at(pageIndex).toElement();
+                PageTranslation* pageTranslation = curTranslation->createEmptyPageTranslation();
+                pageTranslation->pageName = pageNode.nodeName();
+                for (int itemIndex = 0; itemIndex < pageNode.childNodes().count(); ++itemIndex){
+                    QDomElement itemNode = pageNode.childNodes().at(itemIndex).toElement();
+                    ItemTranslation itemTranslation;
+                    itemTranslation.itemName = itemNode.nodeName();
+                    for (int propertyIndex = 0; propertyIndex < itemNode.childNodes().count(); ++propertyIndex){
+                        QDomElement propertyNode = itemNode.childNodes().at(propertyIndex).toElement();
+                        PropertyTranslation propertyTranslation;
+                        propertyTranslation.propertyName = propertyNode.nodeName();
+                        propertyTranslation.value = propertyNode.attribute("Value");
+                        itemTranslation.propertyesTranslation.append(propertyTranslation);
+                    }
+                    pageTranslation->itemsTranslation.append(itemTranslation);
+                }
+            }
+            translations->insert(curTranslation->language(),curTranslation);
+        }
     }
 }
 
