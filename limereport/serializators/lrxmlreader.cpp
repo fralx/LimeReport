@@ -217,16 +217,18 @@ void XMLReader::readTranslation(QObject* item, QDomElement* node)
                 pageTranslation->pageName = pageNode.nodeName();
                 for (int itemIndex = 0; itemIndex < pageNode.childNodes().count(); ++itemIndex){
                     QDomElement itemNode = pageNode.childNodes().at(itemIndex).toElement();
-                    ItemTranslation itemTranslation;
-                    itemTranslation.itemName = itemNode.nodeName();
+                    ItemTranslation* itemTranslation = new ItemTranslation();
+                    itemTranslation->itemName = itemNode.nodeName();
                     for (int propertyIndex = 0; propertyIndex < itemNode.childNodes().count(); ++propertyIndex){
                         QDomElement propertyNode = itemNode.childNodes().at(propertyIndex).toElement();
-                        PropertyTranslation propertyTranslation;
-                        propertyTranslation.propertyName = propertyNode.nodeName();
-                        propertyTranslation.value = propertyNode.attribute("Value");
-                        itemTranslation.propertyesTranslation.append(propertyTranslation);
+                        PropertyTranslation* propertyTranslation = new PropertyTranslation;
+                        propertyTranslation->propertyName = propertyNode.nodeName();
+                        propertyTranslation->value = propertyNode.attribute("Value");
+                        propertyTranslation->sourceValue = propertyNode.attribute("SourceValue");
+                        propertyTranslation->checked = propertyNode.attribute("Checked").compare("Y") == 0;
+                        itemTranslation->propertyesTranslation.append(propertyTranslation);
                     }
-                    pageTranslation->itemsTranslation.append(itemTranslation);
+                    pageTranslation->itemsTranslation.insert(itemTranslation->itemName, itemTranslation);
                 }
             }
             translations->insert(curTranslation->language(),curTranslation);

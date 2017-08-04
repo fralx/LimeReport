@@ -167,6 +167,15 @@ void ReportEnginePrivate::showError(QString message)
     QMessageBox::critical(0,tr("Error"),message);
 }
 
+void ReportEnginePrivate::updateTranslations()
+{
+    foreach(ReportTranslation* translation, m_translations.values()){
+        foreach(PageDesignIntf* page, m_pages){
+            translation->updatePageTranslation(page);
+        }
+    }
+}
+
 void ReportEnginePrivate::slotDataSourceCollectionLoaded(const QString &collectionName)
 {
     emit datasourceCollectionLoadFinished(collectionName);
@@ -775,11 +784,11 @@ bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
     foreach(PageTranslation* pageTranslation, translation->pagesTranslation()){
         PageDesignIntf* page = getPageByName(pageTranslation->pageName);
         if (page){
-            foreach(ItemTranslation itemTranslation, pageTranslation->itemsTranslation){
-                BaseDesignIntf* item = page->pageItem()->childByName(itemTranslation.itemName);
+            foreach(ItemTranslation* itemTranslation, pageTranslation->itemsTranslation){
+                BaseDesignIntf* item = page->pageItem()->childByName(itemTranslation->itemName);
                 if (item) {
-                    foreach(PropertyTranslation propertyTranslation, itemTranslation.propertyesTranslation){
-                        item->setProperty(propertyTranslation.propertyName.toLatin1(),propertyTranslation.value);
+                    foreach(PropertyTranslation* propertyTranslation, itemTranslation->propertyesTranslation){
+                        item->setProperty(propertyTranslation->propertyName.toLatin1(), propertyTranslation->value);
                     }
                 }
             }

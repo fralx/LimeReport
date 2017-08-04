@@ -34,6 +34,7 @@
 #include "lrbasedesignintf.h"
 #include "lrsettingdialog.h"
 #include "dialogdesigner/lrdialogdesigner.h"
+#include "translationeditor/translationeditor.h"
 
 #include <QDebug>
 #include <QObject>
@@ -137,6 +138,7 @@ ReportDesignWidget::EditorTabType ReportDesignWidget::activeTabType()
     QString tabType = m_tabWidget->tabWhatsThis(m_tabWidget->currentIndex());
     if ( tabType.compare("dialog") == 0) return Dialog;
     if ( tabType.compare("script") == 0) return Script;
+    if ( tabType.compare("translations") == 0) return Translations;
     return Page;
 }
 
@@ -245,9 +247,12 @@ void ReportDesignWidget::createTabs(){
         dialogDesigner = m_dialogDesignerManager->createFormEditor(dialogDesc->description());
         pageIndex = m_tabWidget->addTab(dialogDesigner,QIcon(),dialogDesc->name());
         m_tabWidget->setTabWhatsThis(pageIndex,"dialog");
-
     }
 #endif
+
+    m_traslationEditor = new TranslationEditor(this);
+    pageIndex = m_tabWidget->addTab(m_traslationEditor,QIcon(),tr("Translations"));
+    m_tabWidget->setTabWhatsThis(pageIndex,"translations");
 
 }
 
@@ -771,6 +776,9 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     }
     updateDialogs();
 #endif
+    if (activeTabType() == Translations){
+        m_traslationEditor->setReportEngine(report());
+    }
     emit activePageChanged();
 }
 

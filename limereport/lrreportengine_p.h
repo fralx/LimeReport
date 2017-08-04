@@ -135,7 +135,6 @@ public:
     bool setReportLanguage(QLocale::Language language);
     QList<QLocale::Language> aviableLanguages();
     ReportTranslation* reportTranslation(QLocale::Language language);
-
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -166,6 +165,7 @@ private:
     //ICollectionContainer
     //ITranslationContainer
     Translations* translations(){ return &m_translations;}
+    void updateTranslations();
     //ITranslationContainer
     ReportPages renderToPages();
     QString renderToString();

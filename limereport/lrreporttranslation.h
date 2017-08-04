@@ -24,16 +24,22 @@ namespace LimeReport{
 struct PropertyTranslation{
     QString propertyName;
     QString value;
+    QString sourceValue;
+    bool    checked;
+    bool    sourceHasBeenChanged;
 };
 
 struct ItemTranslation{
     QString itemName;
-    QList<PropertyTranslation> propertyesTranslation;
+    PropertyTranslation* findProperty(const QString& propertyName);
+    ~ItemTranslation();
+    QList<PropertyTranslation*> propertyesTranslation;
 };
 
 struct PageTranslation{
     QString pageName;
-    QList<ItemTranslation> itemsTranslation;
+    ~PageTranslation();
+    QHash<QString,ItemTranslation*> itemsTranslation;
 };
 
 class ReportTranslation{
@@ -45,6 +51,9 @@ public:
     QLocale::Language language() const;
     QList<PageTranslation*> pagesTranslation() const;
     PageTranslation* createEmptyPageTranslation();
+    void updatePageTranslation(PageDesignIntf* page);
+    PageTranslation* findPageTranslation(const QString& page_name);
+    void createItemTranslation(BaseDesignIntf* item, PageTranslation* pageTranslation);
 private:
     PageTranslation* createPageTranslation(PageDesignIntf* page);
 private:
@@ -58,6 +67,7 @@ typedef QMap<QLocale::Language, ReportTranslation*> Translations;
 class ITranslationContainer{
 public:
     virtual Translations* translations() = 0;
+    virtual void updateTranslations() = 0;
 };
 
 } // namespace LimeReport

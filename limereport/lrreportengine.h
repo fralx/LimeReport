@@ -72,6 +72,7 @@ class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
     friend class ReportDesignWidget;
     friend class PreviewReportWidget;
+    friend class TranslationEditor;
 public:
     static void setSettings(QSettings *value){m_settings=value;}
 public:

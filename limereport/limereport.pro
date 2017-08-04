@@ -86,7 +86,6 @@ contains(CONFIG,zint){
 	}
 }
 
-#######
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
