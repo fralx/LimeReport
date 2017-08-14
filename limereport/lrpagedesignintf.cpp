@@ -1071,6 +1071,14 @@ void PageDesignIntf::setReportSettings(ReportSettings *reportSettings)
     m_pageItem->setReportSettings(m_reportSettings);
 }
 
+void PageDesignIntf::setPropertyToSelectedItems(const char* name, const QVariant& value)
+{
+    foreach(QGraphicsItem* gi, selectedItems()){
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(gi);
+        if(item && item->metaObject()->indexOfProperty(name) != -1 ) item->setProperty(name,value);
+    }
+}
+
 bool PageDesignIntf::magneticMovement() const
 {
     return m_magneticMovement;

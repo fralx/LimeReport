@@ -292,6 +292,14 @@ void BandDesignIntf::setDataSourceName(const QString &datasource){
     m_dataSourceName=datasource;
 }
 
+void BandDesignIntf::setKeepBottomSpaceOption(bool value){
+    if (m_keepBottomSpace!=value){
+        m_keepBottomSpace=value;
+        if (!isLoading())
+            notify("keepBottomSpace",!value,value);
+    }
+}
+
 void BandDesignIntf::addChildBand(BandDesignIntf *band)
 {
     m_childBands.append(band);
@@ -466,13 +474,25 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     }
 
     menu.addSeparator();
-    QAction* autoHeightAction = menu.addAction(tr("Auto height"));
-    autoHeightAction->setCheckable(true);
-    autoHeightAction->setChecked(autoHeight());
+    QAction* currAction = menu.addAction(tr("Auto height"));
+    currAction->setCheckable(true);
+    currAction->setChecked(autoHeight());
 
-    QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
-    autoSplittableAction->setCheckable(true);
-    autoSplittableAction->setChecked(isSplittable());
+    currAction = menu.addAction(tr("Splittable"));
+    currAction->setCheckable(true);
+    currAction->setChecked(isSplittable());
+
+    currAction = menu.addAction(tr("Keep bottom space"));
+    currAction->setCheckable(true);
+    currAction->setChecked(keepBottomSpaceOption());
+
+    currAction = menu.addAction(tr("Start from new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startFromNewPage());
+
+    currAction = menu.addAction(tr("Start new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startNewPage());
 }
 
 void BandDesignIntf::processPopUpAction(QAction *action)
@@ -482,6 +502,15 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     }
     if (action->text().compare(tr("Splittable")) == 0){
         setProperty("splittable",action->isChecked());
+    }
+    if (action->text().compare(tr("Keep bottom space")) == 0){
+        setProperty("keepBottomSpace",action->isChecked());
+    }
+    if (action->text().compare(tr("Start new page")) == 0){
+        setProperty("startNewPage",action->isChecked());
+    }
+    if (action->text().compare(tr("Start from new page")) == 0){
+        setProperty("startFromNewPage",action->isChecked());
     }
 }
 
@@ -772,7 +801,11 @@ bool BandDesignIntf::startFromNewPage() const
 
 void BandDesignIntf::setStartFromNewPage(bool startWithNewPage)
 {
-    m_startFromNewPage = startWithNewPage;
+    if (m_startFromNewPage != startWithNewPage){
+        m_startFromNewPage = startWithNewPage;
+        if (!isLoading())
+            notify("startFromNewPage", !startWithNewPage, startWithNewPage);
+    }
 }
 
 bool BandDesignIntf::startNewPage() const
@@ -782,7 +815,11 @@ bool BandDesignIntf::startNewPage() const
 
 void BandDesignIntf::setStartNewPage(bool startNewPage)
 {
-    m_startNewPage = startNewPage;
+    if (m_startNewPage != startNewPage){
+        m_startNewPage = startNewPage;
+        if (!isLoading())
+            notify("startNewPage", !startNewPage, startNewPage);
+    }
 }
 
 void BandDesignIntf::setAutoHeight(bool value){

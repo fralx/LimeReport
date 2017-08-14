@@ -150,7 +150,7 @@ public:
     QString datasourceName();
     void setDataSourceName(const QString& datasourceName);
 
-    void setKeepBottomSpaceOption(bool value){m_keepBottomSpace=value;}
+    void setKeepBottomSpaceOption(bool value);
     bool keepBottomSpaceOption() const {return m_keepBottomSpace;}
 
     void addChildBand(BandDesignIntf* band);
