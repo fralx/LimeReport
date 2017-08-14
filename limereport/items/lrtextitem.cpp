@@ -783,7 +783,7 @@ QString TextItem::getTextPart(int height, int skipHeight){
     int textPos = 0;
 
     TextPtr text = textDocument();
-
+    text->documentLayout();
     QTextBlock curBlock = text->begin();
     QString resultText = "";
 
