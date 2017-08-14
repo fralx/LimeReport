@@ -801,11 +801,6 @@ qreal BandDesignIntf::bottomSpace() const
     return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
 }
 
-qreal BandDesignIntf::bottomSpace() const
-{
-    return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
-}
-
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
 {
     update();
