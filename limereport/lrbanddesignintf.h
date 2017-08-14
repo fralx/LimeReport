@@ -82,6 +82,18 @@ private:
     BandDesignIntf* m_band;
 };
 
+class InitializedValue{
+public:
+    InitializedValue(): m_value(-1), m_isInitialized(false){}
+    InitializedValue(qreal value): m_value(value), m_isInitialized(true){}
+    qreal   value() const { return m_value;}
+    void    setValue( qreal value){ m_value = value; m_isInitialized = true;}
+    bool    isValid() const{ return m_isInitialized;}
+private:
+    qreal   m_value;
+    bool    m_isInitialized;
+};
+
 class BandDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
@@ -221,6 +233,7 @@ public:
     void setRepeatOnEachRow(bool repeatOnEachRow);
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
+    qreal bottomSpace() const;
 signals:
     void bandRendered(BandDesignIntf* band);        
 protected:
@@ -275,7 +288,8 @@ private:
     bool                        m_printAlways;
     bool                        m_repeatOnEachRow;
     QMap<QString,BaseDesignIntf*> m_slicedItems;
-    QColor m_alternateBackgroundColor;
+    QColor 						m_alternateBackgroundColor;
+    InitializedValue 			m_bottomSpace;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

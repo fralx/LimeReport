@@ -122,7 +122,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startNewPage(false),
     m_startFromNewPage(false),
     m_printAlways(false),
-    m_repeatOnEachRow(false)
+    m_repeatOnEachRow(false),
+    m_bottomSpace()
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -488,7 +489,8 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
 {
     int maxBottom = 0;
     BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    BaseDesignIntf* upperItem;
+    upperPart->m_bottomSpace = this->bottomSpace();
+    BaseDesignIntf* upperItem = 0;
 
     upperPart->initFromItem(this);
 
@@ -534,6 +536,7 @@ bool itemLessThen(QGraphicsItem* i1, QGraphicsItem* i2){
 BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     BandDesignIntf* bottomPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
+    bottomPart->m_bottomSpace = this->bottomSpace();
     bottomPart->initFromItem(this);
 
     QList<QGraphicsItem*> bandItems;
@@ -550,17 +553,16 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
             }
             else if ((item->geometry().top()<height) && (item->geometry().bottom()>height)){
                 int sliceHeight = height-item->geometry().top();
-                if (item->canBeSplitted(sliceHeight)) {
+                if (item->isSplittable() && item->canBeSplitted(sliceHeight)) {
                     BaseDesignIntf* tmpItem=item->cloneBottomPart(sliceHeight,bottomPart,bottomPart);
                     tmpItem->setPos(tmpItem->pos().x(),0);
                     if (tmpItem->pos().y()<0) tmpItem->setPos(tmpItem->pos().x(),0);
-                    qreal sizeOffset = (m_slicedItems.value(tmpItem->objectName())->height()+tmpItem->height()) - item->height();
-                    qreal bottomOffset = (height - m_slicedItems.value(tmpItem->objectName())->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
-                    moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
-                }
-                else if (item->isSplittable()){
-                    BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
-                    tmpItem->setPos(tmpItem->pos().x(),0);
+                    BaseDesignIntf* slicedItem = m_slicedItems.value(tmpItem->objectName());
+                    if (slicedItem){
+                        qreal sizeOffset = (slicedItem->height()+tmpItem->height()) - item->height();
+                        qreal bottomOffset = (height - slicedItem->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
+                        moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
+                    }
                 } else {
                     if ((item->geometry().bottom()-height)>height){
                         BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
@@ -731,6 +733,11 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
     m_alternateBackgroundColor = alternateBackgroundColor;
 }
 
+qreal BandDesignIntf::bottomSpace() const
+{
+    return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
+}
+
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
 {
     update();
@@ -872,7 +879,7 @@ void BandDesignIntf::setKeepFooterTogether(bool value)
 void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     qreal spaceBorder=0;
-    if (keepBottomSpaceOption()) spaceBorder=height()-findMaxBottom();
+    if (keepBottomSpaceOption()) spaceBorder = bottomSpace();
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
