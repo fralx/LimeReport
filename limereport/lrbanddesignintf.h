@@ -82,6 +82,18 @@ private:
     BandDesignIntf* m_band;
 };
 
+class InitializedValue{
+public:
+    InitializedValue(): m_value(-1), m_isInitialized(false){}
+    InitializedValue(qreal value): m_value(value), m_isInitialized(true){}
+    qreal   value() const { return m_value;}
+    void    setValue( qreal value){ m_value = value; m_isInitialized = true;}
+    bool    isValid() const{ return m_isInitialized;}
+private:
+    qreal   m_value;
+    bool    m_isInitialized;
+};
+
 class BandDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
@@ -140,7 +152,7 @@ public:
     QString datasourceName();
     void setDataSourceName(const QString& datasourceName);
 
-    void setKeepBottomSpaceOption(bool value){m_keepBottomSpace=value;}
+    void setKeepBottomSpaceOption(bool value);
     bool keepBottomSpaceOption() const {return m_keepBottomSpace;}
 
     void addChildBand(BandDesignIntf* band);
@@ -225,6 +237,7 @@ public:
     bool useAlternateBackgroundColor() const;
     void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
     void replaceGroupsFunction(BandDesignIntf *band);
+    qreal bottomSpace() const;
 signals:
     void bandRendered(BandDesignIntf* band);        
 protected:
@@ -279,8 +292,9 @@ private:
     bool                        m_printAlways;
     bool                        m_repeatOnEachRow;
     QMap<QString,BaseDesignIntf*> m_slicedItems;
-    QColor  m_alternateBackgroundColor;
-    bool    m_useAlternateBackgroundColor;
+    QColor 						m_alternateBackgroundColor;
+    bool                        m_useAlternateBackgroundColor;
+    InitializedValue 			m_bottomSpace;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

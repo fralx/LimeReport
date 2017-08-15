@@ -182,6 +182,8 @@ namespace LimeReport {
             ReportSettings *getReportSettings() const;
             void setReportSettings(ReportSettings *reportSettings);
 
+            void setPropertyToSelectedItems(const char *name, const QVariant &value);
+
     protected:
 
             virtual void keyPressEvent(QKeyEvent *event);

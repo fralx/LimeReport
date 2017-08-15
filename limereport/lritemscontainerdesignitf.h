@@ -44,8 +44,8 @@ public:
 protected:
   void  snapshotItemsLayout();
   void  arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type = AsNeeded);
-  qreal findMaxBottom();
-  qreal findMaxHeight();
+  qreal findMaxBottom() const;
+  qreal findMaxHeight() const;
 private:
   QVector<PItemSortContainer> m_containerItems;
 

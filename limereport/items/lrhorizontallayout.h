@@ -74,6 +74,7 @@ public:
     bool isEmpty() const;
     LayoutType layoutType() const;
     void setLayoutType(const LayoutType &layoutType);
+    bool isSplittable() const { return true;}
 protected:
     void collectionLoadFinished(const QString &collectionName);
     void objectLoadFinished();

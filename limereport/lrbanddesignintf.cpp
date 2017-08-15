@@ -123,7 +123,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startFromNewPage(false),
     m_printAlways(false),
     m_repeatOnEachRow(false),
-    m_useAlternateBackgroundColor(false)
+    m_useAlternateBackgroundColor(false),
+    m_bottomSpace()
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -290,6 +291,14 @@ QString BandDesignIntf::datasourceName(){
 
 void BandDesignIntf::setDataSourceName(const QString &datasource){
     m_dataSourceName=datasource;
+}
+
+void BandDesignIntf::setKeepBottomSpaceOption(bool value){
+    if (m_keepBottomSpace!=value){
+        m_keepBottomSpace=value;
+        if (!isLoading())
+            notify("keepBottomSpace",!value,value);
+    }
 }
 
 void BandDesignIntf::addChildBand(BandDesignIntf *band)
@@ -466,13 +475,25 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     }
 
     menu.addSeparator();
-    QAction* autoHeightAction = menu.addAction(tr("Auto height"));
-    autoHeightAction->setCheckable(true);
-    autoHeightAction->setChecked(autoHeight());
+    QAction* currAction = menu.addAction(tr("Auto height"));
+    currAction->setCheckable(true);
+    currAction->setChecked(autoHeight());
 
-    QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
-    autoSplittableAction->setCheckable(true);
-    autoSplittableAction->setChecked(isSplittable());    
+    currAction = menu.addAction(tr("Splittable"));
+    currAction->setCheckable(true);
+    currAction->setChecked(isSplittable());
+
+    currAction = menu.addAction(tr("Keep bottom space"));
+    currAction->setCheckable(true);
+    currAction->setChecked(keepBottomSpaceOption());
+
+    currAction = menu.addAction(tr("Start from new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startFromNewPage());
+
+    currAction = menu.addAction(tr("Start new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startNewPage());
 }
 
 void BandDesignIntf::processPopUpAction(QAction *action)
@@ -482,6 +503,15 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     }
     if (action->text().compare(tr("Splittable")) == 0){
         setProperty("splittable",action->isChecked());
+    }
+    if (action->text().compare(tr("Keep bottom space")) == 0){
+        setProperty("keepBottomSpace",action->isChecked());
+    }
+    if (action->text().compare(tr("Start new page")) == 0){
+        setProperty("startNewPage",action->isChecked());
+    }
+    if (action->text().compare(tr("Start from new page")) == 0){
+        setProperty("startFromNewPage",action->isChecked());
     }
 }
 
@@ -502,7 +532,8 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
 {
     int maxBottom = 0;
     BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    BaseDesignIntf* upperItem;
+    upperPart->m_bottomSpace = this->bottomSpace();
+    BaseDesignIntf* upperItem = 0;
 
     upperPart->initFromItem(this);
 
@@ -548,6 +579,7 @@ bool itemLessThen(QGraphicsItem* i1, QGraphicsItem* i2){
 BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     BandDesignIntf* bottomPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
+    bottomPart->m_bottomSpace = this->bottomSpace();
     bottomPart->initFromItem(this);
 
     QList<QGraphicsItem*> bandItems;
@@ -564,17 +596,16 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
             }
             else if ((item->geometry().top()<height) && (item->geometry().bottom()>height)){
                 int sliceHeight = height-item->geometry().top();
-                if (item->canBeSplitted(sliceHeight)) {
+                if (item->isSplittable() && item->canBeSplitted(sliceHeight)) {
                     BaseDesignIntf* tmpItem=item->cloneBottomPart(sliceHeight,bottomPart,bottomPart);
                     tmpItem->setPos(tmpItem->pos().x(),0);
                     if (tmpItem->pos().y()<0) tmpItem->setPos(tmpItem->pos().x(),0);
-                    qreal sizeOffset = (m_slicedItems.value(tmpItem->objectName())->height()+tmpItem->height()) - item->height();
-                    qreal bottomOffset = (height - m_slicedItems.value(tmpItem->objectName())->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
-                    moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
-                }
-                else if (item->isSplittable()){
-                    BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
-                    tmpItem->setPos(tmpItem->pos().x(),0);
+                    BaseDesignIntf* slicedItem = m_slicedItems.value(tmpItem->objectName());
+                    if (slicedItem){
+                        qreal sizeOffset = (slicedItem->height()+tmpItem->height()) - item->height();
+                        qreal bottomOffset = (height - slicedItem->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
+                        moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
+                    }
                 } else {
                     if ((item->geometry().bottom()-height)>height){
                         BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
@@ -765,6 +796,11 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
     }
 }
 
+qreal BandDesignIntf::bottomSpace() const
+{
+    return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
+}
+
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
 {
     update();
@@ -799,7 +835,11 @@ bool BandDesignIntf::startFromNewPage() const
 
 void BandDesignIntf::setStartFromNewPage(bool startWithNewPage)
 {
-    m_startFromNewPage = startWithNewPage;
+    if (m_startFromNewPage != startWithNewPage){
+        m_startFromNewPage = startWithNewPage;
+        if (!isLoading())
+            notify("startFromNewPage", !startWithNewPage, startWithNewPage);
+    }
 }
 
 bool BandDesignIntf::startNewPage() const
@@ -809,7 +849,11 @@ bool BandDesignIntf::startNewPage() const
 
 void BandDesignIntf::setStartNewPage(bool startNewPage)
 {
-    m_startNewPage = startNewPage;
+    if (m_startNewPage != startNewPage){
+        m_startNewPage = startNewPage;
+        if (!isLoading())
+            notify("startNewPage", !startNewPage, startNewPage);
+    }
 }
 
 void BandDesignIntf::setAutoHeight(bool value){
@@ -906,7 +950,7 @@ void BandDesignIntf::setKeepFooterTogether(bool value)
 void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     qreal spaceBorder=0;
-    if (keepBottomSpaceOption()) spaceBorder=height()-findMaxBottom();
+    if (keepBottomSpaceOption()) spaceBorder = bottomSpace();
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }

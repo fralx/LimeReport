@@ -117,16 +117,16 @@ void TextItem::processPopUpAction(QAction *action)
         this->showEditorDialog();
     }
     if (action->text().compare(tr("Auto height")) == 0){
-        setProperty("autoHeight",action->isChecked());
+        page()->setPropertyToSelectedItems("autoHeight",action->isChecked());
     }
     if (action->text().compare(tr("Allow HTML")) == 0){
-        setProperty("allowHTML",action->isChecked());
+        page()->setPropertyToSelectedItems("allowHTML",action->isChecked());
     }
     if (action->text().compare(tr("Allow HTML in fields")) == 0){
-        setProperty("allowHTMLInFields",action->isChecked());
+        page()->setPropertyToSelectedItems("allowHTMLInFields",action->isChecked());
     }
     if (action->text().compare(tr("Stretch to max height")) == 0){
-        setProperty("stretchToMaxHeight",action->isChecked());
+        page()->setPropertyToSelectedItems("stretchToMaxHeight",action->isChecked());
     }
     if (action->text().compare(tr("Transparent")) == 0){
         if (action->isChecked()){
@@ -794,7 +794,7 @@ QString TextItem::getTextPart(int height, int skipHeight){
     int textPos = 0;
 
     TextPtr text = textDocument();
-
+    text->documentLayout();
     QTextBlock curBlock = text->begin();
     QString resultText = "";
 
