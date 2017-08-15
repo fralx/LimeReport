@@ -41,6 +41,7 @@
 #include "lrreportrender.h"
 #include "serializators/lrstorageintf.h"
 #include "lrscriptenginemanager.h"
+#include "lrreporttranslation.h"
 
 class QFileSystemWatcher;
 
@@ -52,7 +53,7 @@ class ReportDesignWindow;
 
 //TODO: Add on render callback
 
-class ReportEnginePrivate : public QObject, public ICollectionContainer
+class ReportEnginePrivate : public QObject, public ICollectionContainer, public ITranslationContainer
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(ReportEngine)
@@ -60,6 +61,8 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer
     Q_PROPERTY(QObject* datasourcesManager READ dataManager)
     Q_PROPERTY(QObject* scriptContext READ scriptContext)
     Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)
+    Q_PROPERTY(ATranslationProperty translation READ fakeTranslationReader)
+
     friend class PreviewReportWidget;
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
@@ -128,7 +131,11 @@ public:
     void setResultEditable(bool value);
 
     void setPassPhrase(const QString &passPhrase);
-
+    bool addTranslationLanguage(QLocale::Language language);
+    bool removeTranslationLanguage(QLocale::Language language);
+    bool setReportLanguage(QLocale::Language language);
+    QList<QLocale::Language> aviableLanguages();
+    ReportTranslation* reportTranslation(QLocale::Language language);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -157,8 +164,14 @@ private:
     void    saveError(QString message);
     void    showError(QString message);
     //ICollectionContainer
+    //ITranslationContainer
+    Translations* translations(){ return &m_translations;}
+    void updateTranslations();
+    //ITranslationContainer
     ReportPages renderToPages();
     QString renderToString();
+    PageDesignIntf* getPageByName(const QString& pageName);
+    ATranslationProperty fakeTranslationReader(){ return ATranslationProperty();}
 private:
     QList<PageDesignIntf*> m_pages;
     DataSourceManager* m_datasources;
@@ -182,6 +195,9 @@ private:
     bool m_resultIsEditable;
     QString m_passPhrase;
     QFileSystemWatcher  *m_fileWatcher;
+    Translations m_translations;
+    QLocale::Language m_reportLanguage;
+    void activateLanguage(QLocale::Language language);
 };
 
 }

@@ -116,4 +116,10 @@ void ItemDesignIntf::initFlags()
 Spacer::Spacer(QObject *owner, QGraphicsItem *parent)
     :ItemDesignIntf("Spacer",owner,parent){}
 
+QMap<QString, QString> ContentItemDesignIntf::getStringForTranslation(){
+    QMap<QString,QString>map;
+    map.insert("content",content());
+    return map;
+}
+
 }// namespace LimeReport

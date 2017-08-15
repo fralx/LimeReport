@@ -237,6 +237,7 @@ public:
     virtual void beforeDelete();
 
     QList<BaseDesignIntf*> childBaseItems();
+    QList<BaseDesignIntf*> allChildBaseItems();
     BaseDesignIntf* childByName(const QString& name);
 
     virtual QWidget *defaultEditor();
@@ -274,6 +275,7 @@ public:
     void setPatternName(const QString &patternName);
     BaseDesignIntf* patternItem() const;
     void setPatternItem(BaseDesignIntf* patternItem);
+    virtual QMap<QString, QString> getStringForTranslation();
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -283,6 +285,7 @@ public:
     Q_INVOKABLE qreal getItemPosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
+
 
 protected:
 
@@ -344,6 +347,8 @@ protected:
     virtual void preparePopUpMenu(QMenu& menu){Q_UNUSED(menu)}
     virtual void processPopUpAction(QAction* action){Q_UNUSED(action)}
 
+    void addChildItems(QList<BaseDesignIntf*>* list);
+
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -400,6 +405,7 @@ private:
     ReportSettings* m_reportSettings;
     QString m_patternName;
     BaseDesignIntf* m_patternItem;
+    
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);

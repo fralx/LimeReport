@@ -72,6 +72,7 @@ class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
     friend class ReportDesignWidget;
     friend class PreviewReportWidget;
+    friend class TranslationEditor;
 public:
     static void setSettings(QSettings *value){m_settings=value;}
 public:
@@ -107,6 +108,10 @@ public:
     bool resultIsEditable();
     bool isBusy();
     void setPassPharse(QString& passPharse);
+
+    QList<QLocale::Language> aviableLanguages();
+    bool setReportLanguage(QLocale::Language language);
+
 signals:
     void renderStarted();
     void renderFinished();

@@ -1423,6 +1423,21 @@ QList<BaseDesignIntf *> BaseDesignIntf::childBaseItems()
     return resList;
 }
 
+
+void BaseDesignIntf::addChildItems(QList<BaseDesignIntf*>* list){
+    foreach(BaseDesignIntf* item, childBaseItems()){
+        list->append(item);
+        item->addChildItems(list);
+    }
+}
+
+QList<BaseDesignIntf*> BaseDesignIntf::allChildBaseItems()
+{
+    QList<BaseDesignIntf *> resList;
+    addChildItems(&resList);
+    return resList;
+}
+
 BaseDesignIntf *BaseDesignIntf::childByName(const QString &name)
 {
     foreach(BaseDesignIntf* item, childBaseItems()){
@@ -1539,11 +1554,8 @@ BaseDesignIntf *Marker::object() const
     return m_object;
 }
 
+QMap<QString, QString> BaseDesignIntf::getStringForTranslation(){
+    return QMap<QString,QString>();
+}
+
 } //namespace LimeReport
-
-
-
-
-
-
-

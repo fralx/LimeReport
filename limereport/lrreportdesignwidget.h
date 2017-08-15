@@ -50,6 +50,7 @@ class DataBrowser;
 class ReportDesignWindow;
 class DialogDesignerManager;
 class DialogDesigner;
+class TranslationEditor;
 
 class ReportDesignWidget : public QWidget
 {
@@ -67,7 +68,8 @@ public:
     enum EditorTabType{
         Page,
         Dialog,
-        Script
+        Script,
+        Translations
     };
     ReportDesignWidget(ReportEngine* report, QMainWindow *mainWindow, QWidget *parent = 0);
     ~ReportDesignWidget();
@@ -186,6 +188,7 @@ private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
     QTextEdit* m_scriptEditor;
+    TranslationEditor* m_traslationEditor;
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     DialogDesignerManager* m_dialogDesignerManager;
 #endif

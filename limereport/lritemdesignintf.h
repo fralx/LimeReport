@@ -75,6 +75,7 @@ public:
         :ItemDesignIntf(xmlTypeName,owner,parent){}
     virtual QString content() const = 0;
     virtual void setContent(const QString& value) = 0;
+    QMap<QString, QString> getStringForTranslation();
 };
 
 class LayoutDesignIntf : public ItemDesignIntf{

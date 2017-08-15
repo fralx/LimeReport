@@ -72,6 +72,7 @@ SOURCES += \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
     $$REPORT_PATH/items/lrshapeitem.cpp \
     $$REPORT_PATH/items/lrtextitem.cpp \
+    $$REPORT_PATH/translationeditor/translationeditor.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
     $$REPORT_PATH/lrpagedesignintf.cpp \
@@ -95,9 +96,11 @@ SOURCES += \
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp \
-	$$REPORT_PATH/lrcolorindicator.cpp \
+    $$REPORT_PATH/lrcolorindicator.cpp \
     $$REPORT_PATH/items/lrchartitem.cpp \
-    $$REPORT_PATH/items/lrchartitemeditor.cpp
+    $$REPORT_PATH/items/lrchartitemeditor.cpp \
+    $$REPORT_PATH/lrreporttranslation.cpp \
+    $$REPORT_PATH/translationeditor/languageselectdialog.cpp
     
 contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
@@ -171,6 +174,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
+    $$REPORT_PATH/translationeditor/translationeditor.h \
     $$REPORT_PATH/lrfactoryinitializer.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
@@ -203,9 +207,11 @@ HEADERS += \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lritemscontainerdesignitf.h \
-	$$REPORT_PATH/lrcolorindicator.h \
+    $$REPORT_PATH/lrcolorindicator.h \
     $$REPORT_PATH/items/lrchartitem.h \
-    $$REPORT_PATH/items/lrchartitemeditor.h
+    $$REPORT_PATH/items/lrchartitemeditor.h \
+    $$REPORT_PATH/lrreporttranslation.h \
+    $$REPORT_PATH/translationeditor/languageselectdialog.h
     
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
@@ -227,12 +233,14 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
-    $$REPORT_PATH/items/lrchartitemeditor.ui
+    $$REPORT_PATH/items/lrchartitemeditor.ui \
+    $$REPORT_PATH/translationeditor/translationeditor.ui \
+    $$PWD/translationeditor/languageselectdialog.ui
 
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \
     $$REPORT_PATH/databrowser/lrdatabrowser.qrc \
     $$REPORT_PATH/report.qrc \
     $$REPORT_PATH/items/items.qrc \
-    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.qrc
-
+    $$REPORT_PATH/scriptbrowser/lrscriptbrowser.qrc \
+    $$REPORT_PATH/translationeditor/translationeditor.qrc
