@@ -66,8 +66,12 @@ typedef QMap<QLocale::Language, ReportTranslation*> Translations;
 
 class ITranslationContainer{
 public:
+    virtual ~ITranslationContainer(){}
     virtual Translations* translations() = 0;
     virtual void updateTranslations() = 0;
+    virtual bool addTranslationLanguage(QLocale::Language language) = 0;
+    virtual bool removeTranslationLanguage(QLocale::Language language) = 0;
+    virtual QList<QLocale::Language> aviableLanguages() = 0;
 };
 
 } // namespace LimeReport

@@ -64,7 +64,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
-    m_fileWatcher( new QFileSystemWatcher( this ) )
+    m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
@@ -768,7 +768,12 @@ void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
 bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
 {
     if (!m_translations.keys().contains(language)){
-        ReportTranslation* translation = new ReportTranslation(language,m_pages);
+        ReportTranslation* translation = 0;
+        if (!m_translations.contains(QLocale::AnyLanguage)){
+            translation = new ReportTranslation(QLocale::AnyLanguage,m_pages);
+            m_translations.insert(QLocale::AnyLanguage,translation);
+        }
+        translation = new ReportTranslation(language,m_pages);
         m_translations.insert(language, translation);
         return true;
     } else {
@@ -777,8 +782,14 @@ bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
     }
 }
 
-bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
-    if (!m_translations.keys().contains(language)) return false;
+bool ReportEnginePrivate::removeTranslationLanguage(QLocale::Language language)
+{
+    return m_translations.remove(language) != 0;
+}
+
+void ReportEnginePrivate::activateLanguage(QLocale::Language language)
+{
+    if (!m_translations.keys().contains(language)) return;
     ReportTranslation* translation = m_translations.value(language);
 
     foreach(PageTranslation* pageTranslation, translation->pagesTranslation()){
@@ -794,6 +805,12 @@ bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
             }
         }
     }
+}
+
+bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
+    m_reportLanguage = language;
+    if (!m_translations.keys().contains(language)) return false;
+//    activateLanguage(language);
     return true;
 }
 
@@ -861,7 +878,7 @@ ReportPages ReportEnginePrivate::renderToPages()
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
     dataManager()->updateDatasourceModel();
-
+    activateLanguage(m_reportLanguage);
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
 
@@ -892,6 +909,7 @@ ReportPages ReportEnginePrivate::renderToPages()
             m_reportRender.clear();
             m_reportRendering = false;
         }
+        activateLanguage(QLocale::AnyLanguage);
         return result;
     } else {
         return ReportPages();
@@ -1007,12 +1025,6 @@ QList<QLocale::Language> ReportEngine::aviableLanguages()
 {
     Q_D(ReportEngine);
     return d->aviableLanguages();
-}
-
-bool ReportEngine::addTranslationLanguage(QLocale::Language language)
-{
-    Q_D(ReportEngine);
-    return d->addTranslationLanguage(language);
 }
 
 bool ReportEngine::setReportLanguage(QLocale::Language language)

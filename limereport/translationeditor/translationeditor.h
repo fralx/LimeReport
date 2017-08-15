@@ -29,7 +29,14 @@ private slots:
     void on_tbStrings_itemSelectionChanged();
     void on_teTranslation_textChanged();
     void on_cbChecked_toggled(bool checked);
-    void on_twPages_itemSelectionChanged();
+    void on_twPages_itemSelectionChanged();   
+    void on_tbAddLanguage_clicked();
+    void on_tbDeleteLanguage_clicked();
+    void slotItemChecked();
+    void on_lvLanguages_itemSelectionChanged();
+
+private:
+    QLocale::Language getLanguageByName(const QString& languageName);
 private:
     Ui::TranslationEditor *ui;
     ITranslationContainer* m_translationContainer;

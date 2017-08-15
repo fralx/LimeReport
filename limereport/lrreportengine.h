@@ -109,9 +109,7 @@ public:
     bool isBusy();
     void setPassPharse(QString& passPharse);
 
-
     QList<QLocale::Language> aviableLanguages();
-    bool addTranslationLanguage(QLocale::Language language);
     bool setReportLanguage(QLocale::Language language);
 
 signals:

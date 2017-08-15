@@ -132,6 +132,7 @@ public:
 
     void setPassPhrase(const QString &passPhrase);
     bool addTranslationLanguage(QLocale::Language language);
+    bool removeTranslationLanguage(QLocale::Language language);
     bool setReportLanguage(QLocale::Language language);
     QList<QLocale::Language> aviableLanguages();
     ReportTranslation* reportTranslation(QLocale::Language language);
@@ -195,6 +196,8 @@ private:
     QString m_passPhrase;
     QFileSystemWatcher  *m_fileWatcher;
     Translations m_translations;
+    QLocale::Language m_reportLanguage;
+    void activateLanguage(QLocale::Language language);
 };
 
 }

@@ -56,7 +56,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QToolButton" name="toolButton">
+              <widget class="QToolButton" name="tbAddLanguage">
                <property name="text">
                 <string>...</string>
                </property>
@@ -64,16 +64,22 @@
                 <iconset resource="translationeditor.qrc">
                  <normaloff>:/translationeditor/images/add.png</normaloff>:/translationeditor/images/add.png</iconset>
                </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
-              <widget class="QToolButton" name="toolButton_2">
+              <widget class="QToolButton" name="tbDeleteLanguage">
                <property name="text">
                 <string>...</string>
                </property>
                <property name="icon">
                 <iconset resource="translationeditor.qrc">
                  <normaloff>:/translationeditor/images/remove.png</normaloff>:/translationeditor/images/remove.png</iconset>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

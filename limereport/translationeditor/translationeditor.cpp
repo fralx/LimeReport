@@ -3,12 +3,15 @@
 #include "lrreportengine.h"
 #include "lrreportengine_p.h"
 #include "lrreporttranslation.h"
+#include "languageselectdialog.h"
+#include <QShortcut>
 
 namespace LimeReport {
 
 TranslationEditor::TranslationEditor(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TranslationEditor), m_translationContainer(0)
+    ui(new Ui::TranslationEditor), m_translationContainer(0),
+    m_currentReportTranslation(0), m_currentPageTranslation(0), m_currentPropertyTranslation(0)
 {
     ui->setupUi(this);
     ui->splitter_3->setStretchFactor(1,10);
@@ -25,6 +28,7 @@ TranslationEditor::TranslationEditor(QWidget *parent) :
     ui->tbStrings->setHorizontalHeaderItem(1,new QTableWidgetItem(tr("Report Item")));
     ui->tbStrings->setHorizontalHeaderItem(2,new QTableWidgetItem(tr("Property")));
     ui->tbStrings->setHorizontalHeaderItem(3,new QTableWidgetItem(tr("Source text")));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return), this, SLOT(slotItemChecked()));
     //ui->tbStrings->setSortingEnabled(true);
 
 }
@@ -32,6 +36,10 @@ TranslationEditor::TranslationEditor(QWidget *parent) :
 void TranslationEditor::setReportEngine(ITranslationContainer* translationContainer)
 {
     m_translationContainer = translationContainer;
+    m_currentReportTranslation = 0;
+    m_currentPageTranslation = 0;
+    m_currentPropertyTranslation = 0;
+
     if (m_translationContainer){
         m_translationContainer->updateTranslations();
         updateUi();
@@ -43,10 +51,22 @@ TranslationEditor::~TranslationEditor()
     delete ui;
 }
 
+QLocale::Language TranslationEditor::getLanguageByName(const QString& languageName){
+   foreach(QLocale::Language language, m_translationContainer->translations()->keys()){
+       if (QLocale::languageToString(language).compare(languageName) == 0){
+           return language;
+       }
+   }
+   return QLocale::AnyLanguage;
+}
 
 void TranslationEditor::updateUi()
 {
     ui->lvLanguages->clear();
+    ui->twPages->clear();
+    ui->tbStrings->clearContents();
+    ui->teTranslation->setPlainText("");
+    ui->cbChecked->setEnabled(false);
 
     Q_ASSERT(m_translationContainer != 0);
     if (m_translationContainer){
@@ -54,11 +74,12 @@ void TranslationEditor::updateUi()
         Q_ASSERT(translations != 0);
         if (translations){
             foreach(QLocale::Language language, translations->keys()){
-                ui->lvLanguages->addItem(QLocale::languageToString(language));
+                if (language != QLocale::AnyLanguage)
+                    ui->lvLanguages->addItem(QLocale::languageToString(language));
             }
             if (!translations->keys().isEmpty()){
                 ui->lvLanguages->item(0)->setSelected(true);
-                activateLanguage(translations->keys().at(0));
+                activateLanguage(getLanguageByName(ui->lvLanguages->item(0)->text()));
             }
         }
     }
@@ -138,18 +159,22 @@ void TranslationEditor::activateTranslation(const QString& itemName, const QStri
 
 void TranslationEditor::on_tbStrings_itemSelectionChanged()
 {
-    activateTranslation(ui->tbStrings->item(ui->tbStrings->currentRow(),1)->text(), ui->tbStrings->item(ui->tbStrings->currentRow(),2)->text());
+    if (m_currentPageTranslation)
+        activateTranslation(ui->tbStrings->item(ui->tbStrings->currentRow(),1)->text(), ui->tbStrings->item(ui->tbStrings->currentRow(),2)->text());
 }
 
 void TranslationEditor::on_teTranslation_textChanged()
 {
-    m_currentPropertyTranslation->value = ui->teTranslation->toPlainText();
+    if (m_currentPropertyTranslation)
+        m_currentPropertyTranslation->value = ui->teTranslation->toPlainText();
 }
 
 void TranslationEditor::on_cbChecked_toggled(bool checked)
 {
-    m_currentPropertyTranslation->checked = checked;
-    ui->tbStrings->item(ui->tbStrings->currentRow(),0)->setIcon(checked ? QIcon(":/translationeditor/images/checked.png"):QIcon());
+    if (m_currentPropertyTranslation){
+        m_currentPropertyTranslation->checked = checked;
+        ui->tbStrings->item(ui->tbStrings->currentRow(),0)->setIcon(checked ? QIcon(":/translationeditor/images/checked.png"):QIcon());
+    }
 }
 
 void TranslationEditor::on_twPages_itemSelectionChanged()
@@ -159,7 +184,42 @@ void TranslationEditor::on_twPages_itemSelectionChanged()
     }
 }
 
+void TranslationEditor::on_tbAddLanguage_clicked()
+{
+    LanguageSelectDialog dialog;
+    if (dialog.exec()){
+        m_translationContainer->addTranslationLanguage(dialog.getSelectedLanguage());
+        updateUi();
+        activateLanguage(dialog.getSelectedLanguage());
+    }
+}
+
+void TranslationEditor::on_tbDeleteLanguage_clicked()
+{
+    m_translationContainer->removeTranslationLanguage(m_currentReportTranslation->language());
+    updateUi();
+}
+
+void TranslationEditor::slotItemChecked()
+{
+    if (ui->tbStrings->currentRow()<ui->tbStrings->rowCount()){
+        ui->cbChecked->setChecked(true);
+        ui->tbStrings->selectRow(ui->tbStrings->currentRow()+1);
+        ui->teTranslation->setFocus();
+    }
+}
+
+void TranslationEditor::on_lvLanguages_itemSelectionChanged()
+{
+    if (ui->lvLanguages->currentItem() && m_currentReportTranslation){
+        activateLanguage(getLanguageByName(ui->lvLanguages->currentItem()->text()));
+    }
+}
+
 } //namespace LimeReport
+
+
+
 
 
 
