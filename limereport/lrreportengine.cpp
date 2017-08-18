@@ -112,6 +112,7 @@ PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
 {
     PageDesignIntf* page =new PageDesignIntf();
     page->setObjectName(pageName);
+    page->pageItem()->setObjectName("Report"+pageName);
     page->setReportEditor(this);
     page->setReportSettings(&m_reportSettings);
     return page;
@@ -763,6 +764,14 @@ PageDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
 void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
 {
     m_passPhrase = passPhrase;
+}
+
+void ReportEnginePrivate::reorderPages(const QList<PageDesignIntf *>& reorderedPages)
+{
+    m_pages.clear();
+    foreach(PageDesignIntf* page, reorderedPages){
+        m_pages.append(page);
+    }
 }
 
 bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
