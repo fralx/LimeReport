@@ -201,6 +201,8 @@ ScriptEngineManager::~ScriptEngineManager()
 {
     delete m_model;
     m_model = 0;
+    delete m_tableOfContens;
+    m_tableOfContens = 0;
     delete m_scriptEngine;
 }
 
@@ -342,8 +344,10 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                      .arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                 );
                 addFunction(describer);
-
             }
+            ICallbackDatasource* tableOfContens = m_dataManager->createCallbackDatasource("tableofcontens");
+            connect(tableOfContens, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+                    m_tableOfContens, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
         }
     }
 }
@@ -532,6 +536,11 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
         }
     }
     return QVariant();
+}
+
+void ScriptEngineManager::addTableOfContensItem(const QString& content, int pageNumber, int indent)
+{
+    m_tableOfContens->setItem(content, pageNumber, indent);
 }
 
 void ScriptEngineManager::updateModel()
@@ -740,6 +749,36 @@ bool ScriptEngineManager::createGetFieldFunction()
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createAddTableOfContensItemFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("addTableOfContensItem");
+    fd.setDescription("addTableOfContensItem(\""+tr("Content")+"\", \""+tr("Page Number")+", \""+tr("Indent")+"\")");
+    fd.setScriptWrapper(QString("function addTableOfContensItem(content, pageNumber, indent){"
+                                "return %1.addTableOfContensItem(content, pageNumber, indent);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createClearTableOfContensFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("clearTableOfContens");
+    fd.setDescription("clearTableOfContens()");
+    fd.setScriptWrapper(QString("function clearTableOfContens(){"
+                                "return %1.clearTableOfContens();}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 ScriptEngineManager::ScriptEngineManager()
     :m_model(0), m_dataManager(0)
 {
@@ -770,8 +809,11 @@ ScriptEngineManager::ScriptEngineManager()
     QScriptValue fontConstructor = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
     m_scriptEngine->globalObject().setProperty("QFont", fontConstructor);
 #endif
-    m_model = new ScriptEngineModel(this);
+    createAddTableOfContensItemFunction();
+    createClearTableOfContensFunction();
 
+    m_model = new ScriptEngineModel(this);
+    m_tableOfContens = new TableOfContens();
 }
 
 bool ScriptExtractor::parse()
@@ -1118,10 +1160,9 @@ QString ScriptEngineContext::getNewDialogName()
 
 #endif
 
-void ScriptEngineContext::baseDesignIntfToScript(BaseDesignIntf* item)
+void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDesignIntf* item)
 {
     if ( item ) {
-
         if (item->metaObject()->indexOfSignal("beforeRender()")!=-1)
             item->disconnect(SIGNAL(beforeRender()));
         if (item->metaObject()->indexOfSignal("afterData()")!=-1)
@@ -1134,9 +1175,9 @@ void ScriptEngineContext::baseDesignIntfToScript(BaseDesignIntf* item)
 #ifdef USE_QJSENGINE
         //sItem = engine->newQObject(item);
         ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
-        engine->globalObject().setProperty(item->patternName(), sItem);
+        engine->globalObject().setProperty(pageName+"_"+item->patternName(), sItem);
 #else
-        ScriptValueType sItem = engine->globalObject().property(item->patternName());
+        ScriptValueType sItem = engine->globalObject().property(pageName+"_"+item->patternName());
         if (sItem.isValid()){
             engine->newQObject(sItem, item);
         } else {
@@ -1145,7 +1186,7 @@ void ScriptEngineContext::baseDesignIntfToScript(BaseDesignIntf* item)
         }
 #endif
         foreach(BaseDesignIntf* child, item->childBaseItems()){
-            baseDesignIntfToScript(child);
+            baseDesignIntfToScript(pageName, child);
         }
     }
 }
@@ -1179,6 +1220,7 @@ void ScriptEngineContext::initDialogs(){
 bool ScriptEngineContext::runInitScript(){
 
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
+    ScriptEngineManager::instance().clearTableOfContens();
 #ifndef USE_QJSENGINE
     engine->pushContext();
 #endif
@@ -1376,6 +1418,16 @@ QVariant ScriptFunctionsManager::getField(const QString &field)
     return dm->fieldData(field);
 }
 
+void ScriptFunctionsManager::addTableOfContensItem(const QString& content, int pageNumber, int indent)
+{
+    scriptEngineManager()->addTableOfContensItem(content, pageNumber, indent);
+}
+
+void ScriptFunctionsManager::clearTableOfContens()
+{
+    scriptEngineManager()->clearTableOfContens();
+}
+
 #ifdef USE_QJSENGINE
 QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool bold, bool italic, bool underLine)
 {
@@ -1411,6 +1463,69 @@ ScriptEngineManager *ScriptFunctionsManager::scriptEngineManager() const
 void ScriptFunctionsManager::setScriptEngineManager(ScriptEngineManager *scriptEngineManager)
 {
     m_scriptEngineManager = scriptEngineManager;
+}
+
+TableOfContens::~TableOfContens()
+{
+    clear();
+}
+
+void TableOfContens::setItem(const QString& content, int pageNumber, int indent)
+{
+    ContentItem * item = 0;
+    if (m_hash.contains(content)){
+        ContentItem* item = m_hash.value(content);
+        item->pageNumber = pageNumber;
+        item->indent = indent;
+    } else {
+        ContentItem* item = new ContentItem;
+        item->content = content;
+        item->pageNumber = pageNumber;
+        item->indent = indent;
+
+        m_tableOfContens.append(item);
+        m_hash.insert(content, item);
+    }
+
+}
+
+void TableOfContens::slotOneSlotDS(CallbackInfo info, QVariant& data)
+{
+    QStringList columns;
+    columns << "Content" << "Page number";
+
+    switch (info.dataType) {
+        case LimeReport::CallbackInfo::RowCount:
+            data = m_tableOfContens.count();
+            break;
+        case LimeReport::CallbackInfo::ColumnCount:
+            data = columns.size();
+            break;
+        case LimeReport::CallbackInfo::ColumnHeaderData: {
+            data = columns.at(info.index);
+            break;
+        }
+        case LimeReport::CallbackInfo::ColumnData:
+            if (info.index < m_tableOfContens.count()){
+                ContentItem* item = m_tableOfContens.at(info.index);
+                if (info.columnName == "Content")
+                    data = item->content.rightJustified(item->indent+item->content.size());
+                else
+                    data = QString::number(item->pageNumber);
+            }
+            break;
+        default: break;
+    }
+}
+
+void LimeReport::TableOfContens::clear(){
+
+    m_hash.clear();
+    foreach(ContentItem* item, m_tableOfContens){
+        delete item;
+    }
+    m_tableOfContens.clear();
+
 }
 
 } //namespace LimeReport

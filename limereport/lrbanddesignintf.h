@@ -240,6 +240,7 @@ public:
     qreal bottomSpace() const;
 signals:
     void bandRendered(BandDesignIntf* band);        
+    void bandRegistred();
 protected:
     void  trimToMaxHeight(int maxHeight);
     void  setBandTypeText(const QString& value);

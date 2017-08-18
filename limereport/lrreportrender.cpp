@@ -982,6 +982,8 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         if (band->isData()) m_renderedDataBandCount++;
         band->setObjectName(band->objectName()+QString::number(++m_curentNameIndex));
         renameChildItems(band);
+        if (m_lastDataBand)
+            emit m_lastDataBand->bandRegistred();
         return true;
     } else return false;
 }
@@ -1065,7 +1067,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
 {
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
 
-    m_scriptEngineContext->baseDesignIntfToScript(bandClone);
+    m_scriptEngineContext->baseDesignIntfToScript(patternBand->page()->pageItem()->objectName(), bandClone);
     emit(patternBand->beforeRender());
 
     if (patternBand->isFooter()){
@@ -1078,7 +1080,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
 
     bandClone->updateItemSize(m_datasources);
 
-    m_scriptEngineContext->baseDesignIntfToScript(bandClone);
+    //m_scriptEngineContext->baseDesignIntfToScript(bandClone);
     emit(patternBand->afterData());
 
     return bandClone;
@@ -1101,7 +1103,7 @@ void ReportRender::startNewPage(bool isFirst)
     initColumns();
     initRenderPage();
 
-    m_scriptEngineContext->baseDesignIntfToScript(m_renderPageItem);
+    m_scriptEngineContext->baseDesignIntfToScript(m_renderPageItem->patternName(), m_renderPageItem);
 
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
     m_maxHeightByColumn[m_currentColumn]=m_renderPageItem->pageRect().height();
@@ -1110,7 +1112,11 @@ void ReportRender::startNewPage(bool isFirst)
 
     emit m_patternPageItem->beforeRender();
 
-    if (isFirst) renderReportHeader(m_patternPageItem, BeforePageHeader);
+    if (isFirst) {
+        renderReportHeader(m_patternPageItem, BeforePageHeader);
+        emit m_patternPageItem->beforeFirstPageRendered();
+    }
+
     renderPageHeader(m_patternPageItem);
 
     m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem);
@@ -1303,6 +1309,7 @@ void ReportRender::savePage(bool isLast)
 
     moveTearOffBand();
     emit m_patternPageItem->afterRender();
+    if (isLast) emit m_patternPageItem->afterLastPageRendered();
 
 }
 

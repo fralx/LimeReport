@@ -78,7 +78,7 @@ public:
     int                  pageCount() {return m_pages.count();}
     DataSourceManager*   dataManager(){return m_datasources;}
     ScriptEngineContext* scriptContext(){return m_scriptEngineContext;}
-    ScriptEngineManager* scriptManager(){return &ScriptEngineManager::instance();}
+    ScriptEngineManager* scriptManager();
     IDataSourceManager*  dataManagerIntf(){return m_datasources;}
 
     IScriptEngineManager* scriptManagerIntf(){
