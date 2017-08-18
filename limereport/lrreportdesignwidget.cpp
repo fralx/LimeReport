@@ -820,7 +820,12 @@ void ReportDesignWidget::slotPagePropertyObjectNameChanged(const QString &oldVal
 {
     for (int i = 0; i < m_tabWidget->count(); ++i ){
         if (m_tabWidget->tabText(i).compare(oldValue) == 0){
-            m_tabWidget->setTabText(i, newValue);
+            QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->widget(i));
+            if (view){
+                PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(view->scene());
+                if (page->pageItem() == sender())
+                    m_tabWidget->setTabText(i, newValue);
+            }
         }
     }
 }
