@@ -128,6 +128,8 @@ private slots:
     void slotDatasourceCollectionLoaded(const QString&);
     void slotSceneRectChanged(QRectF);
     void slotCurrentTabChanged(int index);
+    void slotPagePropertyObjectNameChanged(const QString& oldValue, const QString& newValue);
+    void slotTabMoved(int from, int to);
 signals:
     void insertModeStarted();
     void itemInserted(LimeReport::PageDesignIntf*,QPointF,const QString&);
