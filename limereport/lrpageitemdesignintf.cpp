@@ -331,21 +331,6 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
-QString PageItemDesignIntf::initScript() const
-{
-    return m_initScript;
-}
-
-void PageItemDesignIntf::setInitScript(const QString& value)
-{
-    if (m_initScript.compare(value) != 0){
-        QString old_value = m_initScript;
-        m_initScript = value;
-        if (!isLoading())
-            notify("initScript", old_value, value);
-    }
-}
-
 bool PageItemDesignIntf::getIsTOC() const
 {
     return m_isTOC;

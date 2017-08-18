@@ -67,7 +67,7 @@ class TableOfContens : public QObject{
     Q_OBJECT
 public:
     ~TableOfContens();
-    void setItem(const QString& content, int pageNumber, int indent = 0);
+    void setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
     void clear();
 private slots:
    void slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data);
@@ -264,7 +264,7 @@ public:
     Q_INVOKABLE QVariant getVariable(const QString& name);
     Q_INVOKABLE QVariant getField(const QString& field);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
-    Q_INVOKABLE void     addTableOfContensItem(const QString& content, int pageNumber, int indent = 0);
+    Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
     Q_INVOKABLE void     clearTableOfContens();
 #ifdef USE_QJSENGINE
     Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
@@ -305,7 +305,7 @@ public:
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
     QVariant evaluateScript(const QString &script);
-    void    addTableOfContensItem(const QString& content, int pageNumber, int indent);
+    void    addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent);
     void    clearTableOfContens(){ m_tableOfContens->clear(); }
 
 protected:

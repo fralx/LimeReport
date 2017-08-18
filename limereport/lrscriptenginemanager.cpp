@@ -538,9 +538,9 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     return QVariant();
 }
 
-void ScriptEngineManager::addTableOfContensItem(const QString& content, int pageNumber, int indent)
+void ScriptEngineManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
 {
-    m_tableOfContens->setItem(content, pageNumber, indent);
+    m_tableOfContens->setItem(uniqKey, content, pageNumber, indent);
 }
 
 void ScriptEngineManager::updateModel()
@@ -756,9 +756,9 @@ bool ScriptEngineManager::createAddTableOfContensItemFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("addTableOfContensItem");
-    fd.setDescription("addTableOfContensItem(\""+tr("Content")+"\", \""+tr("Page Number")+", \""+tr("Indent")+"\")");
-    fd.setScriptWrapper(QString("function addTableOfContensItem(content, pageNumber, indent){"
-                                "return %1.addTableOfContensItem(content, pageNumber, indent);}"
+    fd.setDescription("addTableOfContensItem(\""+tr("Unique identifier")+" \""+tr("Content")+"\", \""+tr("Page Number")+", \""+tr("Indent")+"\")");
+    fd.setScriptWrapper(QString("function addTableOfContensItem(uniqKey, content, pageNumber, indent){"
+                                "return %1.addTableOfContensItem(uniqKey, content, pageNumber, indent);}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
@@ -1418,9 +1418,9 @@ QVariant ScriptFunctionsManager::getField(const QString &field)
     return dm->fieldData(field);
 }
 
-void ScriptFunctionsManager::addTableOfContensItem(const QString& content, int pageNumber, int indent)
+void ScriptFunctionsManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
 {
-    scriptEngineManager()->addTableOfContensItem(content, pageNumber, indent);
+    scriptEngineManager()->addTableOfContensItem(uniqKey, content, pageNumber, indent);
 }
 
 void ScriptFunctionsManager::clearTableOfContens()
@@ -1470,21 +1470,21 @@ TableOfContens::~TableOfContens()
     clear();
 }
 
-void TableOfContens::setItem(const QString& content, int pageNumber, int indent)
+void TableOfContens::setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
 {
     ContentItem * item = 0;
-    if (m_hash.contains(content)){
-        ContentItem* item = m_hash.value(content);
-        item->pageNumber = pageNumber;
-        item->indent = indent;
-    } else {
-        ContentItem* item = new ContentItem;
+    if (m_hash.contains(uniqKey)){
+        item = m_hash.value(uniqKey);
         item->content = content;
         item->pageNumber = pageNumber;
         item->indent = indent;
-
+    } else {
+        item = new ContentItem;
+        item->content = content;
+        item->pageNumber = pageNumber;
+        item->indent = indent;
         m_tableOfContens.append(item);
-        m_hash.insert(content, item);
+        m_hash.insert(uniqKey, item);
     }
 
 }
