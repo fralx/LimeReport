@@ -159,6 +159,8 @@ private slots:
     void slotDialogChanged(QString);
     void slotDialogNameChanged(QString oldName, QString newName);
 #endif
+    void slotPagePropertyObjectNameChanged(const QString& oldValue, const QString& newValue);
+    void slotTabMoved(int from, int to);
 signals:
     void insertModeStarted();
     void itemInserted(LimeReport::PageDesignIntf*,QPointF,const QString&);
