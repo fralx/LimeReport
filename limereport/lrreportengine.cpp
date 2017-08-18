@@ -575,7 +575,7 @@ void ReportEnginePrivate::designReport()
             m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
             m_designerWindow->setShowProgressDialog(m_showProgressDialog);
      }
-
+     m_datasources->updateDatasourceModel();
 #ifdef Q_OS_WIN    
     m_designerWindow->setWindowModality(Qt::ApplicationModal);
 #endif
@@ -902,22 +902,41 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRender->setScriptContext(scriptContext());
 
         foreach (PageDesignIntf* page, m_pages) {
-            scriptContext()->baseDesignIntfToScript(page->pageItem());
+            scriptContext()->baseDesignIntfToScript(page->pageItem()->objectName(), page->pageItem());
         }
 
         if (m_scriptEngineContext->runInitScript()){
             emit renderStarted();
 
             foreach(PageDesignIntf* page , m_pages){
-                page->setReportSettings(&m_reportSettings);
-                result.append(m_reportRender->renderPageToPages(page));
+                if (!page->pageItem()->getIsTOC()){
+                    page->setReportSettings(&m_reportSettings);
+                    result.append(m_reportRender->renderPageToPages(page));
+                }
+            }
+
+            bool isFirst = true;
+
+            foreach(PageDesignIntf* page , m_pages){
+                if (page->pageItem()->getIsTOC()){
+                    page->setReportSettings(&m_reportSettings);
+                    if (isFirst){
+                        ReportPages pages = m_reportRender->renderPageToPages(page);
+                        for (int i=0; i<pages.count(); ++i){
+                            result.insert(i,pages.at(i));
+                        }
+                    }
+                    else
+                        result.append(m_reportRender->renderPageToPages(page));
+                }
+                isFirst = false;
             }
 
             m_reportRender->secondRenderPass(result);
             emit renderFinished();
             m_reportRender.clear();
-            m_reportRendering = false;
         }
+        m_reportRendering = false;
         activateLanguage(QLocale::AnyLanguage);
         return result;
     } else {
@@ -1152,6 +1171,11 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
+}
+
+ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
+    ScriptEngineManager::instance().setDataManager(dataManager());
+    return &ScriptEngineManager::instance();
 }
 
 }// namespace LimeReport

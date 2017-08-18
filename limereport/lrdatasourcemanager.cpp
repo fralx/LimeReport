@@ -389,6 +389,7 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
 void DataSourceManager::updateDatasourceModel()
 {
     m_datasourcesModel.updateModel();
+    emit datasourcesChanged();
     m_needUpdate = false;
 }
 

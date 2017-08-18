@@ -49,12 +49,33 @@
 #include "base/lrsingleton.h"
 #include "lrglobal.h"
 #include "lrscriptenginemanagerintf.h"
+#include "lrcallbackdatasourceintf.h"
 #include "lrcollection.h"
 
 namespace LimeReport{
 
 class DataSourceManager;
 class BaseDesignIntf;
+
+struct ContentItem {
+    QString content;
+    int     indent;
+    int     pageNumber;
+};
+
+class TableOfContens : public QObject{
+    Q_OBJECT
+public:
+    ~TableOfContens();
+    void setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
+    void clear();
+private slots:
+   void slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data);
+private:
+   QVector<ContentItem*> m_tableOfContens;
+   QHash<QString, ContentItem* > m_hash;
+};
+
 
 struct ScriptFunctionDesc{
     enum FuncType {Native,Script};
@@ -156,7 +177,7 @@ public:
     QString getNewDialogName();
     void    initDialogs();
 #endif
-    void    baseDesignIntfToScript(BaseDesignIntf *item);
+    void    baseDesignIntfToScript(const QString& pageName, BaseDesignIntf *item);
     void    clear();
     QString initScript() const;
     void    setInitScript(const QString& initScript);
@@ -242,7 +263,9 @@ public:
     Q_INVOKABLE void     setVariable(const QString& name, QVariant value);
     Q_INVOKABLE QVariant getVariable(const QString& name);
     Q_INVOKABLE QVariant getField(const QString& field);
-    Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}        
+    Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
+    Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
+    Q_INVOKABLE void     clearTableOfContens();
 #ifdef USE_QJSENGINE
     Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
 #endif
@@ -282,6 +305,8 @@ public:
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
     QVariant evaluateScript(const QString &script);
+    void    addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent);
+    void    clearTableOfContens(){ m_tableOfContens->clear(); }
 
 protected:
     void updateModel();
@@ -300,6 +325,8 @@ private:
     bool createSetVariableFunction();
     bool createGetVariableFunction();
     bool createGetFieldFunction();
+    bool createAddTableOfContensItemFunction();
+    bool createClearTableOfContensFunction();
 private:
     ScriptEngineManager();
     ScriptEngineType*  m_scriptEngine;
@@ -309,6 +336,7 @@ private:
     ScriptEngineContext* m_context;
     DataSourceManager* m_dataManager;
     ScriptFunctionsManager* m_functionManager;
+    TableOfContens* m_tableOfContens;
 };
 
 class ScriptExtractor

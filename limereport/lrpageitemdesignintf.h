@@ -55,6 +55,7 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
     Q_PROPERTY(bool isExtendedInDesignMode READ isExtendedInDesignMode WRITE setExtendedInDesignMode)
     Q_PROPERTY(int  extendedHeight READ extendedHeight WRITE setExtendedHeight)
+    Q_PROPERTY(bool pageIsTOC READ getIsTOC WRITE setIsTOC)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -126,6 +127,11 @@ public:
     int  extendedHeight() const;
     void setExtendedHeight(int extendedHeight);
 
+    bool getIsTOC() const;
+    void setIsTOC(bool isTOC);
+signals:
+    void beforeFirstPageRendered();
+    void afterLastPageRendered();
 protected slots:
     void bandDeleted(QObject* band);
     void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
@@ -156,6 +162,7 @@ private:
     bool m_resetPageNumber;
     bool m_isExtendedInDesignMode;
     int  m_extendedHeight;
+    bool m_isTOC;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;

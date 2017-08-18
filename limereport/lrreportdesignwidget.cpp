@@ -237,6 +237,8 @@ void ReportDesignWidget::createTabs(){
         connectPage(m_report->pageAt(i));
         pageIndex = m_tabWidget->addTab(view,QIcon(),m_report->pageAt(i)->pageItem()->objectName());
         m_tabWidget->setTabWhatsThis(pageIndex, "page");
+        connect(m_report->pageAt(i)->pageItem(), SIGNAL(propertyObjectNameChanged(QString,QString)),
+                this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
     }
 
     m_scriptEditor = new QTextEdit(this);
@@ -832,6 +834,9 @@ void ReportDesignWidget::slotPagePropertyObjectNameChanged(const QString &oldVal
 
 void ReportDesignWidget::slotTabMoved(int from, int to)
 {
+    Q_UNUSED(from)
+    Q_UNUSED(to)
+
     QList<PageDesignIntf*> pages;
 
     for ( int i = 0; i < m_tabWidget->tabBar()->count(); ++i){
