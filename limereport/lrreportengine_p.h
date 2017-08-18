@@ -128,7 +128,7 @@ public:
     void setResultEditable(bool value);
 
     void setPassPhrase(const QString &passPhrase);
-
+    void reorderPages(const QList<PageDesignIntf *> &reorderedPages);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);

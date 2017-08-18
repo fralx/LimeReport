@@ -53,6 +53,9 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow 
 {
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setTabPosition(QTabWidget::South);
+    m_tabWidget->setMovable(true);
+    connect(m_tabWidget->tabBar(), SIGNAL(tabMoved(int,int)), this, SLOT(slotTabMoved(int,int)));
+
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(m_tabWidget);
     setLayout(mainLayout);
@@ -152,7 +155,9 @@ void ReportDesignWidget::createTabs(){
         view->centerOn(0,0);
         view->scale(0.5,0.5);
         connectPage(m_report->pageAt(i));
-        m_tabWidget->addTab(view,QIcon(),tr("Page")+QString::number(i+1));
+        m_tabWidget->addTab(view,QIcon(),m_report->pageAt(i)->pageItem()->objectName());
+        connect(m_report->pageAt(i)->pageItem(), SIGNAL(propertyObjectNameChanged(QString,QString)),
+                this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
     }
     m_scriptEditor = new QTextEdit(this);
     m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
@@ -476,8 +481,10 @@ void ReportDesignWidget::addPage()
     PageDesignIntf* page = m_report->appendPage("page"+QString::number(m_report->pageCount()+1));
     view->setScene(page);
     int index = m_report->pageCount()-1;
-    m_tabWidget->insertTab(index,view,QIcon(),tr("Page")+QString::number(m_report->pageCount()));
+    m_tabWidget->insertTab(index,view,QIcon(),page->pageItem()->objectName());
     m_tabWidget->setCurrentIndex(index);
+    connect(page->pageItem(), SIGNAL(propertyObjectNameChanged(QString,QString)),
+            this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
     connectPage(page);
     view->scale(0.5,0.5);
     view->centerOn(0,0);
@@ -606,6 +613,33 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
         m_zoomer->setView(view);
     }
     emit activePageChanged();
+}
+
+void ReportDesignWidget::slotPagePropertyObjectNameChanged(const QString &oldValue, const QString &newValue)
+{
+    for (int i = 0; i < m_tabWidget->count(); ++i ){
+        if (m_tabWidget->tabText(i).compare(oldValue) == 0){
+            m_tabWidget->setTabText(i, newValue);
+        }
+    }
+}
+
+void ReportDesignWidget::slotTabMoved(int from, int to)
+{
+    QList<PageDesignIntf*> pages;
+
+    for ( int i = 0; i < m_tabWidget->tabBar()->count(); ++i){
+        QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->widget(i));
+        if (view){
+            PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(view->scene());
+            if (page){
+                pages.append(page);
+            }
+        }
+    }
+
+    m_report->reorderPages(pages);
+
 }
 
 bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
