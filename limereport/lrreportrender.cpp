@@ -420,6 +420,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         }
 
         patternBand->emitBandRendered(bandClone);
+        m_scriptEngineContext->setCurrentBand(bandClone);
         emit(patternBand->afterRender());
 
         if ( isLast && bandClone->keepFooterTogether() && bandClone->sliceLastRow() ){
@@ -1025,12 +1026,23 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
 
 }
 
+void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+    if (band){
+        TableOfContens* toc = m_scriptEngineContext->tableOfContens();
+        foreach (QString key, band->bookmarks()){
+            toc->setItem(key, band->getBookMark(key).toString(), pageNumber);
+        }
+    }
+}
+
 void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
     for(int i=0; i<renderedPages.count(); ++i){
         PageItemDesignIntf::Ptr page = renderedPages.at(i);
         m_datasources->setReportVariable("#PAGE_COUNT",findLastPageNumber(i));
         foreach(BaseDesignIntf* item, page->childBaseItems()){
+            if (!m_scriptEngineContext->tableOfContens()->isEmpty()) updateTOC(item, i+1);
             item->updateItemSize(m_datasources, SecondPass);
         }
     }
@@ -1044,10 +1056,13 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
     if (!bottomBandPart->isEmpty()){
         if (patternBand->keepFooterTogether())
             closeFooterGroup(patternBand);
+        if (upperBandPart->isEmpty())
+            bottomBandPart->copyBookmarks(band);
     }
     if (!upperBandPart->isEmpty()){
         upperBandPart->updateItemSize(m_datasources, FirstPass, height);
         registerBand(upperBandPart);
+        upperBandPart->copyBookmarks(band);
     } else delete upperBandPart;
 
     if (band->columnsCount()>1 &&
@@ -1068,6 +1083,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
 
     m_scriptEngineContext->baseDesignIntfToScript(patternBand->page()->pageItem()->objectName(), bandClone);
+    m_scriptEngineContext->setCurrentBand(bandClone);
     emit(patternBand->beforeRender());
 
     if (patternBand->isFooter()){
@@ -1308,6 +1324,7 @@ void ReportRender::savePage(bool isLast)
     }
 
     moveTearOffBand();
+    m_scriptEngineContext->setCurrentPage(m_renderPageItem);
     emit m_patternPageItem->afterRender();
     if (isLast) emit m_patternPageItem->afterLastPageRendered();
 

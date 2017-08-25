@@ -56,6 +56,8 @@ namespace LimeReport{
 
 class DataSourceManager;
 class BaseDesignIntf;
+class PageItemDesignIntf;
+class BandDesignIntf;
 
 struct ContentItem {
     QString content;
@@ -66,9 +68,11 @@ struct ContentItem {
 class TableOfContens : public QObject{
     Q_OBJECT
 public:
+    TableOfContens(QObject* parent = 0):QObject(parent){}
     ~TableOfContens();
     void setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
     void clear();
+    bool isEmpty(){ return m_tableOfContens.isEmpty();}
 private slots:
    void slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data);
 private:
@@ -164,7 +168,7 @@ public:
 #ifdef HAVE_UI_LOADER
     typedef QSharedPointer<QDialog> DialogPtr;
 #endif
-    explicit ScriptEngineContext(QObject* parent=0):QObject(parent){}
+    explicit ScriptEngineContext(QObject* parent=0):QObject(parent), m_tableOfContens(new TableOfContens(this)){}
 #ifdef HAVE_UI_LOADER
     void    addDialog(const QString& name, const QByteArray& description);
     bool    changeDialog(const QString& name, const QByteArray &description);
@@ -182,7 +186,15 @@ public:
     QString initScript() const;
     void    setInitScript(const QString& initScript);
     bool    runInitScript();
-#ifdef HAVE_UI_LOADER
+
+    BandDesignIntf* getCurrentBand() const;
+    void setCurrentBand(BandDesignIntf* currentBand);
+    PageItemDesignIntf* getCurrentPage() const;
+    void setCurrentPage(PageItemDesignIntf* currentPage);
+    TableOfContens* tableOfContens() const;
+    void setTableOfContens(TableOfContens* tableOfContens);
+
+#ifdef HAVE_UI_LOADER    
 signals:
     void    dialogNameChanged(QString dialogName);
     void    dialogDeleted(QString dialogName);
@@ -205,6 +217,9 @@ private:
 #endif
     QString m_lastError;
     QString m_initScript;
+    BandDesignIntf* m_currentBand;
+    PageItemDesignIntf* m_currentPage;
+    TableOfContens* m_tableOfContens;
 };
 
 class JSFunctionDesc{
@@ -306,7 +321,7 @@ public:
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
     QVariant evaluateScript(const QString &script);
     void    addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent);
-    void    clearTableOfContens(){ m_tableOfContens->clear(); }
+    void    clearTableOfContens();
 
 protected:
     void updateModel();
@@ -336,7 +351,6 @@ private:
     ScriptEngineContext* m_context;
     DataSourceManager* m_dataManager;
     ScriptFunctionsManager* m_functionManager;
-    TableOfContens* m_tableOfContens;
 };
 
 class ScriptExtractor

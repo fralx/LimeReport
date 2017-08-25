@@ -79,7 +79,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_borderColor(Qt::black),
     m_reportSettings(0),
     m_patternName(""),
-    m_patternItem(0)
+    m_patternItem(0),
+    m_fillInSecondPass(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -700,6 +701,21 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
         delete m_selectionMarker;
         m_selectionMarker = 0;
     }
+}
+
+bool BaseDesignIntf::fillInSecondPass() const
+{
+    return m_fillInSecondPass;
+}
+
+void BaseDesignIntf::setFillInSecondPass(bool fillInSecondPass)
+{
+
+    if (m_fillInSecondPass != fillInSecondPass){
+        m_fillInSecondPass = fillInSecondPass;
+        notify("fillInSecondPass",!fillInSecondPass,fillInSecondPass);
+    }
+
 }
 
 QString BaseDesignIntf::patternName() const

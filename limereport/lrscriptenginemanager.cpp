@@ -40,6 +40,7 @@
 #endif
 #include "lrdatasourcemanager.h"
 #include "lrbasedesignintf.h"
+#include "lrbanddesignintf.h"
 
 Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
@@ -201,8 +202,6 @@ ScriptEngineManager::~ScriptEngineManager()
 {
     delete m_model;
     m_model = 0;
-    delete m_tableOfContens;
-    m_tableOfContens = 0;
     delete m_scriptEngine;
 }
 
@@ -345,9 +344,12 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                 );
                 addFunction(describer);
             }
-            ICallbackDatasource* tableOfContens = m_dataManager->createCallbackDatasource("tableofcontens");
-            connect(tableOfContens, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
-                    m_tableOfContens, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
+
+//            qDebug()<<"is script context exists before set datamanager is called"<< (m_context == 0);
+
+//            ICallbackDatasource* tableOfContens = m_dataManager->createCallbackDatasource("tableofcontens");
+//            connect(tableOfContens, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+//                    m_tableOfContens, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
         }
     }
 }
@@ -431,8 +433,8 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                         fieldValue = replaceHTMLSymbols(varValue.toString());
                     else fieldValue = varValue.toString();
                 }
-
-                context.replace(rx.cap(0),fieldValue);
+                if (varValue.isValid())
+                    context.replace(rx.cap(0),fieldValue);
 
             } else {
                 QString error;
@@ -540,7 +542,20 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
 
 void ScriptEngineManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
 {
-    m_tableOfContens->setItem(uniqKey, content, pageNumber, indent);
+    Q_ASSERT(m_context != 0);
+    if (m_context){
+        BandDesignIntf* currentBand = m_context->getCurrentBand();
+        m_context->tableOfContens()->setItem(uniqKey, content, pageNumber, indent);
+        if (currentBand)
+            currentBand->addBookmark(uniqKey, content);
+    }
+}
+
+void ScriptEngineManager::clearTableOfContens(){
+    if (m_context) {
+        if (m_context->tableOfContens())
+            m_context->tableOfContens()->clear();
+    }
 }
 
 void ScriptEngineManager::updateModel()
@@ -813,7 +828,6 @@ ScriptEngineManager::ScriptEngineManager()
     createClearTableOfContensFunction();
 
     m_model = new ScriptEngineModel(this);
-    m_tableOfContens = new TableOfContens();
 }
 
 bool ScriptExtractor::parse()
@@ -1049,6 +1063,7 @@ void ScriptEngineContext::clear()
     m_createdDialogs.clear();
 #endif
     m_initScript.clear();
+    m_tableOfContens->clear();
     m_lastError="";
 }
 
@@ -1129,6 +1144,36 @@ DialogDescriber* ScriptEngineContext::findDialogContainer(const QString& dialogN
         }
     }
     return 0;
+}
+
+TableOfContens* ScriptEngineContext::tableOfContens() const
+{
+    return m_tableOfContens;
+}
+
+void ScriptEngineContext::setTableOfContens(TableOfContens* tableOfContens)
+{
+    m_tableOfContens = tableOfContens;
+}
+
+PageItemDesignIntf* ScriptEngineContext::getCurrentPage() const
+{
+    return m_currentPage;
+}
+
+void ScriptEngineContext::setCurrentPage(PageItemDesignIntf* currentPage)
+{
+    m_currentPage = currentPage;
+}
+
+BandDesignIntf* ScriptEngineContext::getCurrentBand() const
+{
+    return m_currentBand;
+}
+
+void ScriptEngineContext::setCurrentBand(BandDesignIntf* currentBand)
+{
+    m_currentBand = currentBand;
 }
 
 QDialog* ScriptEngineContext::getDialog(const QString& dialogName)
@@ -1221,6 +1266,9 @@ bool ScriptEngineContext::runInitScript(){
 
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
     ScriptEngineManager::instance().clearTableOfContens();
+    ScriptEngineManager::instance().setContext(this);
+    m_tableOfContens->clear();
+
 #ifndef USE_QJSENGINE
     engine->pushContext();
 #endif
@@ -1477,7 +1525,8 @@ void TableOfContens::setItem(const QString& uniqKey, const QString& content, int
         item = m_hash.value(uniqKey);
         item->content = content;
         item->pageNumber = pageNumber;
-        item->indent = indent;
+        if (indent>0)
+            item->indent = indent;
     } else {
         item = new ContentItem;
         item->content = content;

@@ -96,6 +96,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(bool fillInSecondPass READ fillInSecondPass WRITE setFillInSecondPass)
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
@@ -276,6 +277,8 @@ public:
     BaseDesignIntf* patternItem() const;
     void setPatternItem(BaseDesignIntf* patternItem);
     virtual QMap<QString, QString> getStringForTranslation();
+    bool fillInSecondPass() const;
+    void setFillInSecondPass(bool fillInSecondPass);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -285,7 +288,6 @@ public:
     Q_INVOKABLE qreal getItemPosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
-
 
 protected:
 
@@ -405,6 +407,7 @@ private:
     ReportSettings* m_reportSettings;
     QString m_patternName;
     BaseDesignIntf* m_patternItem;
+    bool    m_fillInSecondPass;
     
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

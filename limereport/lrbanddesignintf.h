@@ -238,6 +238,12 @@ public:
     void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
     void replaceGroupsFunction(BandDesignIntf *band);
     qreal bottomSpace() const;
+
+    void addBookmark(const QString& key, const QVariant& value){ m_bookmarks.insert(key, value);}
+    QList<QString> bookmarks(){ return m_bookmarks.keys();}
+    QVariant getBookMark(const QString& key);
+    void copyBookmarks(BandDesignIntf* sourceBand);
+
 signals:
     void bandRendered(BandDesignIntf* band);        
     void bandRegistred();
@@ -262,6 +268,7 @@ protected:
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
     QString translateBandName(const BaseDesignIntf *item) const;
+
 private slots:
     void childBandDeleted(QObject* band);
     void slotPropertyObjectNameChanged(const QString&,const QString&);
@@ -296,6 +303,7 @@ private:
     QColor 						m_alternateBackgroundColor;
     bool                        m_useAlternateBackgroundColor;
     InitializedValue 			m_bottomSpace;
+    QMap<QString,QVariant>      m_bookmarks;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

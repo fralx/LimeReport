@@ -736,13 +736,17 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
     ExpandType expandType = (allowHTML() && !allowHTMLInFields())?ReplaceHTMLSymbols:NoEscapeSymbols;
     switch(pass){
     case FirstPass:
-        context=expandUserVariables(context, pass, expandType, dataManager);
-        context=expandScripts(context, dataManager);
-        context=expandDataFields(context, expandType, dataManager);
+        if (!fillInSecondPass()){
+            context=expandUserVariables(context, pass, expandType, dataManager);
+            context=expandScripts(context, dataManager);
+            context=expandDataFields(context, expandType, dataManager);
+        }
         break;
     case SecondPass:;
         context=expandUserVariables(context, pass, expandType, dataManager);
         context=expandScripts(context, dataManager);
+        if (fillInSecondPass())
+            context=expandDataFields(context, expandType, dataManager);
     }
 
     if (expandType == NoEscapeSymbols && !m_varValue.isNull() &&m_valueType!=Default) {

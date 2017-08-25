@@ -178,6 +178,13 @@ QString BandDesignIntf::translateBandName(const BaseDesignIntf* item) const{
     }
 }
 
+void BandDesignIntf::copyBookmarks(BandDesignIntf* sourceBand)
+{
+    foreach(QString key, sourceBand->bookmarks()){
+        addBookmark(key,sourceBand->getBookMark(key));
+    }
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -799,6 +806,12 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
 qreal BandDesignIntf::bottomSpace() const
 {
     return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
+}
+
+QVariant BandDesignIntf::getBookMark(const QString& key){
+    if (m_bookmarks.contains(key))
+        return m_bookmarks.value(key);
+    else return QVariant();
 }
 
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)

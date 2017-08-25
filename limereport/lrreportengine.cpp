@@ -75,6 +75,11 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
     m_scriptEngineContext = new ScriptEngineContext(this);
+
+    ICallbackDatasource* tableOfContens = m_datasources->createCallbackDatasource("tableofcontens");
+    connect(tableOfContens, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+            m_scriptEngineContext->tableOfContens(), SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
+
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
@@ -917,6 +922,8 @@ ReportPages ReportEnginePrivate::renderToPages()
 
             bool isFirst = true;
 
+//            m_reportRender->secondRenderPass(result);
+
             foreach(PageDesignIntf* page , m_pages){
                 if (page->pageItem()->getIsTOC()){
                     page->setReportSettings(&m_reportSettings);
@@ -933,6 +940,7 @@ ReportPages ReportEnginePrivate::renderToPages()
             }
 
             m_reportRender->secondRenderPass(result);
+
             emit renderFinished();
             m_reportRender.clear();
         }
@@ -1174,6 +1182,7 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
 }
 
 ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
+    ScriptEngineManager::instance().setContext(scriptContext());
     ScriptEngineManager::instance().setDataManager(dataManager());
     return &ScriptEngineManager::instance();
 }
