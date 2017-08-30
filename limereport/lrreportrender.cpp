@@ -148,7 +148,7 @@ void ReportRender::renameChildItems(BaseDesignIntf *item){
 
 ReportRender::ReportRender(QObject *parent)
     :QObject(parent), m_renderPageItem(0), m_pageCount(0),
-     m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0)
+     m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0), m_renderingFirstTOC(false)
 {
     initColumns();
 }
@@ -188,13 +188,22 @@ void ReportRender::initDatasource(const QString& name){
     }
 }
 
-void ReportRender::renderPage(PageDesignIntf* patternPage)
+void ReportRender::renderPage(PageDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
 {
     m_curentNameIndex = 0;
     m_patternPageItem = patternPage->pageItem();
+    m_renderingFirstTOC = isTOC && isFirst;
 
-    if (m_patternPageItem->resetPageNumber() && m_pageCount>0) {
+    if (m_patternPageItem->resetPageNumber() && m_pageCount>0 && !isTOC) {
         resetPageNumber(PageReset);
+    }
+
+    if (m_renderingFirstTOC && resetPageNumbers){
+        PagesRange range;
+        range.firstPage = 0;
+        range.lastPage = 0;
+        m_ranges.insert(0,range);
+        m_pageCount = 0;
     }
 
     m_renderCanceled = false;
@@ -238,6 +247,12 @@ void ReportRender::renderPage(PageDesignIntf* patternPage)
         renderBand(tearOffBand, 0, StartNewPageAsNeeded);
 
     savePage(true);
+
+    if (m_renderingFirstTOC && resetPageNumbers && m_ranges.count()>1){
+        m_ranges[1].firstPage = m_ranges.at(0).lastPage+1;
+        m_ranges[1].lastPage += m_ranges.at(0).lastPage+1;
+    }
+
 #ifndef USE_QJSENGINE
     ScriptEngineManager::instance().scriptEngine()->popContext();
 #endif
@@ -264,6 +279,11 @@ QString ReportRender::renderPageToString(PageDesignIntf *patternPage)
 ReportPages ReportRender::renderPageToPages(PageDesignIntf *patternPage)
 {
     renderPage(patternPage);
+    return m_renderedPages;
+}
+
+ReportPages ReportRender::renderTOC(PageDesignIntf* patternPage, bool first, bool resetPages){
+    renderPage(patternPage, true, first, resetPages);
     return m_renderedPages;
 }
 
@@ -1038,11 +1058,21 @@ void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
 
 void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
+
+    if (!m_scriptEngineContext->tableOfContens()->isEmpty()){
+        for(int i=0; i<renderedPages.count(); ++i){
+            PageItemDesignIntf::Ptr page = renderedPages.at(i);
+            foreach(BaseDesignIntf* item, page->childBaseItems()){
+                updateTOC(item, findPageNumber(i));
+            }
+        }
+    }
+
     for(int i=0; i<renderedPages.count(); ++i){
         PageItemDesignIntf::Ptr page = renderedPages.at(i);
+        m_datasources->setReportVariable("#PAGE",findPageNumber(i));
         m_datasources->setReportVariable("#PAGE_COUNT",findLastPageNumber(i));
         foreach(BaseDesignIntf* item, page->childBaseItems()){
-            if (!m_scriptEngineContext->tableOfContens()->isEmpty()) updateTOC(item, i+1);
             item->updateItemSize(m_datasources, SecondPass);
         }
     }
@@ -1155,7 +1185,7 @@ void ReportRender::resetPageNumber(ResetPageNuberType resetType)
 {
     PagesRange range;
     if (!m_ranges.isEmpty()){
-        m_ranges.last().lastPage = (resetType == BandReset)? m_pageCount : m_pageCount-1;
+        currentRange().lastPage = (resetType == BandReset)? m_pageCount : m_pageCount-1;
         range.firstPage = m_pageCount+((resetType == BandReset)? 1 : 0);
     } else {
         range.firstPage = m_pageCount;
@@ -1171,6 +1201,15 @@ int ReportRender::findLastPageNumber(int currentPage)
     foreach (PagesRange range, m_ranges) {
         if ( range.firstPage<= (currentPage) && range.lastPage>= (currentPage) )
             return (range.lastPage-(range.firstPage))+1;
+    }
+    return 0;
+}
+
+int ReportRender::findPageNumber(int currentPage)
+{
+    foreach (PagesRange range, m_ranges) {
+        if ( range.firstPage<= (currentPage) && range.lastPage>= (currentPage) )
+            return (currentPage - range.firstPage)+1;
     }
     return 0;
 }
@@ -1302,13 +1341,13 @@ void ReportRender::savePage(bool isLast)
         }
     }
 
-    if (m_ranges.last().lastPage==0 && m_ranges.count()>1) {
+    if (currentRange(m_renderingFirstTOC).lastPage==0 && m_ranges.count()>1) {
         m_datasources->setReportVariable("#PAGE",1);
     } else {
         m_datasources->setReportVariable("#PAGE",m_datasources->variable("#PAGE").toInt()+1);
     }
 
-    m_ranges.last().lastPage = m_pageCount;
+    currentRange(m_renderingFirstTOC).lastPage = m_pageCount;
 
     BandDesignIntf* pageFooter = m_renderPageItem->bandByType(BandDesignIntf::PageFooter);
     if (pageFooter) pageFooter->setBandIndex(++m_currentIndex);

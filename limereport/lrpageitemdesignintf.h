@@ -55,7 +55,7 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
     Q_PROPERTY(bool isExtendedInDesignMode READ isExtendedInDesignMode WRITE setExtendedInDesignMode)
     Q_PROPERTY(int  extendedHeight READ extendedHeight WRITE setExtendedHeight)
-    Q_PROPERTY(bool pageIsTOC READ getIsTOC WRITE setIsTOC)
+    Q_PROPERTY(bool pageIsTOC READ isTOC WRITE setIsTOC)
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -127,7 +127,7 @@ public:
     int  extendedHeight() const;
     void setExtendedHeight(int extendedHeight);
 
-    bool getIsTOC() const;
+    bool isTOC() const;
     void setIsTOC(bool isTOC);
 signals:
     void beforeFirstPageRendered();

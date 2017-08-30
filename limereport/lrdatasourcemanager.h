@@ -126,6 +126,7 @@ public:
     QVariant variable(const QString& variableName);
     RenderPass variablePass(const QString& name);
     QStringList variableNames();
+    QStringList variableNamesByRenderPass(RenderPass pass);
     QStringList namesOfUserVariables();
     VarDesc::VarType variableType(const QString& name);
     bool variableIsSystem(const QString& name);
@@ -161,6 +162,12 @@ public:
     QStringList fieldNames(const QString& datasourceName);
     bool containsField(const QString& fieldName);
     QVariant fieldData(const QString& fieldName);
+    QVariant fieldDataByKey(
+            const QString& datasourceName,
+            const QString& valueFieldName,
+            const QString& keyFieldName,
+            QVariant keyValue
+    );
 
     QString extractDataSource(const QString& fieldName);
     QString extractFieldName(const QString& fieldName);

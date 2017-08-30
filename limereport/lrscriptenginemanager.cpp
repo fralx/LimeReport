@@ -364,21 +364,21 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass pas
             pos += rx.matchedLength();
             if (dataManager()->containsVariable(variable) ){
                 try {
-                    if (pass==dataManager()->variablePass(variable)){
-                        varValue = dataManager()->variable(variable);
-                        switch (expandType){
-                        case EscapeSymbols:
-                            context.replace(rx.cap(0),escapeSimbols(varValue.toString()));
-                        break;
-                        case NoEscapeSymbols:
-                            context.replace(rx.cap(0),varValue.toString());
-                        break;
-                        case ReplaceHTMLSymbols:
-                            context.replace(rx.cap(0),replaceHTMLSymbols(varValue.toString()));
-                        break;
-                        }
-                        pos=0;
+
+                    varValue = dataManager()->variable(variable);
+                    switch (expandType){
+                    case EscapeSymbols:
+                        context.replace(rx.cap(0),escapeSimbols(varValue.toString()));
+                    break;
+                    case NoEscapeSymbols:
+                        context.replace(rx.cap(0),varValue.toString());
+                    break;
+                    case ReplaceHTMLSymbols:
+                        context.replace(rx.cap(0),replaceHTMLSymbols(varValue.toString()));
+                    break;
                     }
+                    pos=0;
+
                 } catch (ReportError e){
                     dataManager()->putError(e.what());
                     if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
@@ -540,12 +540,12 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     return QVariant();
 }
 
-void ScriptEngineManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
+void ScriptEngineManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int indent)
 {
     Q_ASSERT(m_context != 0);
     if (m_context){
         BandDesignIntf* currentBand = m_context->getCurrentBand();
-        m_context->tableOfContens()->setItem(uniqKey, content, pageNumber, indent);
+        m_context->tableOfContens()->setItem(uniqKey, content, 0, indent);
         if (currentBand)
             currentBand->addBookmark(uniqKey, content);
     }
@@ -764,6 +764,25 @@ bool ScriptEngineManager::createGetFieldFunction()
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createGetFieldByKeyFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getFieldByKeyField");
+    fd.setDescription("getFieldByKeyField(\""+tr("Datasource")+"\", \""+
+                      tr("ValueField")+"\",\""+
+                      tr("KeyField")+"\", \""+
+                      tr("KeyFieldValue")+"\")"
+    );
+    fd.setScriptWrapper(QString("function getFieldByKeyField(datasource, valueFieldName, keyFieldName, keyValue){"
+                                "return %1.getFieldByKeyField(datasource, valueFieldName, keyFieldName, keyValue);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 bool ScriptEngineManager::createAddTableOfContensItemFunction()
 {
     JSFunctionDesc fd;
@@ -771,9 +790,9 @@ bool ScriptEngineManager::createAddTableOfContensItemFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("addTableOfContensItem");
-    fd.setDescription("addTableOfContensItem(\""+tr("Unique identifier")+" \""+tr("Content")+"\", \""+tr("Page Number")+", \""+tr("Indent")+"\")");
-    fd.setScriptWrapper(QString("function addTableOfContensItem(uniqKey, content, pageNumber, indent){"
-                                "return %1.addTableOfContensItem(uniqKey, content, pageNumber, indent);}"
+    fd.setDescription("addTableOfContensItem(\""+tr("Unique identifier")+" \""+tr("Content")+"\", \""+tr("Indent")+"\")");
+    fd.setScriptWrapper(QString("function addTableOfContensItem(uniqKey, content, indent){"
+                                "return %1.addTableOfContensItem(uniqKey, content, indent);}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
@@ -814,6 +833,7 @@ ScriptEngineManager::ScriptEngineManager()
 #endif
     createSetVariableFunction();
     createGetFieldFunction();
+    createGetFieldByKeyFunction();
     createGetVariableFunction();
 #ifndef USE_QJSENGINE
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
@@ -1466,9 +1486,15 @@ QVariant ScriptFunctionsManager::getField(const QString &field)
     return dm->fieldData(field);
 }
 
-void ScriptFunctionsManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
+QVariant ScriptFunctionsManager::getFieldByKeyField(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue)
 {
-    scriptEngineManager()->addTableOfContensItem(uniqKey, content, pageNumber, indent);
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
+    return dm->fieldDataByKey(datasourceName, valueFieldName, keyFieldName, keyValue);
+}
+
+void ScriptFunctionsManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int indent)
+{
+    scriptEngineManager()->addTableOfContensItem(uniqKey, content, indent);
 }
 
 void ScriptFunctionsManager::clearTableOfContens()
@@ -1532,6 +1558,7 @@ void TableOfContens::setItem(const QString& uniqKey, const QString& content, int
         item->content = content;
         item->pageNumber = pageNumber;
         item->indent = indent;
+        item->uniqKey = uniqKey;
         m_tableOfContens.append(item);
         m_hash.insert(uniqKey, item);
     }
@@ -1541,7 +1568,7 @@ void TableOfContens::setItem(const QString& uniqKey, const QString& content, int
 void TableOfContens::slotOneSlotDS(CallbackInfo info, QVariant& data)
 {
     QStringList columns;
-    columns << "Content" << "Page number";
+    columns << "Content" << "Page number" << "Content Key";
 
     switch (info.dataType) {
         case LimeReport::CallbackInfo::RowCount:
@@ -1557,9 +1584,11 @@ void TableOfContens::slotOneSlotDS(CallbackInfo info, QVariant& data)
         case LimeReport::CallbackInfo::ColumnData:
             if (info.index < m_tableOfContens.count()){
                 ContentItem* item = m_tableOfContens.at(info.index);
-                if (info.columnName == "Content")
+                if (info.columnName.compare("Content",Qt::CaseInsensitive) == 0)
                     data = item->content.rightJustified(item->indent+item->content.size());
-                else
+                if (info.columnName.compare("Content Key",Qt::CaseInsensitive) == 0)
+                    data = item->uniqKey;
+                if (info.columnName.compare("Page number",Qt::CaseInsensitive) == 0)
                     data = QString::number(item->pageNumber);
             }
             break;

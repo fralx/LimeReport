@@ -58,6 +58,7 @@ public:
     virtual bool bof() = 0;
     virtual bool eof() = 0;
     virtual QVariant data(const QString& columnName) = 0;
+    virtual QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData) = 0;
     virtual int columnCount() = 0;
     virtual QString columnNameByIndex(int columnIndex) = 0;
     virtual int columnIndexByName(QString name) = 0;
@@ -359,6 +360,7 @@ public:
     bool eof();
     bool bof();
     QVariant data(const QString& columnName);
+    QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
     QString columnNameByIndex(int columnIndex);
     int columnIndexByName(QString name);
@@ -390,6 +392,7 @@ public:
     bool bof(){return m_currentRow == -1;}
     bool eof(){return m_eof;}
     QVariant data(const QString &columnName);
+    QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
     QString columnNameByIndex(int columnIndex);
     int columnIndexByName(QString name);
@@ -407,6 +410,7 @@ private:
     int m_rowCount;
     QHash<QString, QVariant> m_valuesCache;
     bool m_getDataFromCache;
+    QVariant callbackData(const QString& columnName, int row);
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{

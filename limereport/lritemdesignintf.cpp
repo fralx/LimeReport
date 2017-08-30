@@ -122,4 +122,14 @@ QMap<QString, QString> ContentItemDesignIntf::getStringForTranslation(){
     return map;
 }
 
+bool ContentItemDesignIntf::isContentBackedUp() const
+{
+    return m_contentBackedUp;
+}
+
+void ContentItemDesignIntf::setContentBackedUp(bool contentBackedUp)
+{
+    m_contentBackedUp = contentBackedUp;
+}
+
 }// namespace LimeReport

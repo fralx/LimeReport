@@ -914,29 +914,35 @@ ReportPages ReportEnginePrivate::renderToPages()
             emit renderStarted();
 
             foreach(PageDesignIntf* page , m_pages){
-                if (!page->pageItem()->getIsTOC()){
+                if (!page->pageItem()->isTOC()){
                     page->setReportSettings(&m_reportSettings);
                     result.append(m_reportRender->renderPageToPages(page));
                 }
             }
 
-            bool isFirst = true;
 
 //            m_reportRender->secondRenderPass(result);
 
-            foreach(PageDesignIntf* page , m_pages){
-                if (page->pageItem()->getIsTOC()){
+            for (int i=0; i<m_pages.count(); ++i){
+                 PageDesignIntf* page = m_pages.at(i);
+                if (page->pageItem()->isTOC()){
                     page->setReportSettings(&m_reportSettings);
-                    if (isFirst){
-                        ReportPages pages = m_reportRender->renderPageToPages(page);
-                        for (int i=0; i<pages.count(); ++i){
-                            result.insert(i,pages.at(i));
+                    if (i==0){
+                        PageDesignIntf* secondPage = 0;
+                        if (m_pages.count()>1) secondPage = m_pages.at(1);
+                        ReportPages pages = m_reportRender->renderTOC(
+                                    page,
+                                    true,
+                                    secondPage && secondPage->pageItem()->resetPageNumber()
+                        );
+                        for (int j=0; j<pages.count(); ++j){
+                            result.insert(j,pages.at(j));
                         }
-                    }
-                    else
+
+                    } else {
                         result.append(m_reportRender->renderPageToPages(page));
+                    }
                 }
-                isFirst = false;
             }
 
             m_reportRender->secondRenderPass(result);

@@ -339,7 +339,7 @@ void TextItem::updateLayout()
 bool TextItem::isNeedExpandContent() const
 {
     QRegExp rx("$*\\{[^{]*\\}");
-    return content().contains(rx);
+    return content().contains(rx) || isContentBackedUp();
 }
 
 QString TextItem::replaceBR(QString text)
@@ -733,23 +733,35 @@ void TextItem::setAlignment(Qt::Alignment value)
 void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
     QString context=content();
-    ExpandType expandType = (allowHTML() && !allowHTMLInFields())?ReplaceHTMLSymbols:NoEscapeSymbols;
+    foreach (QString variableName, dataManager->variableNamesByRenderPass(SecondPass)) {
+        QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+        if (context.contains(rx) && pass == FirstPass){
+            backupContent();
+            break;
+        }
+    }
+
+    ExpandType expandType = (allowHTML() && !allowHTMLInFields()) ? ReplaceHTMLSymbols : NoEscapeSymbols;
     switch(pass){
     case FirstPass:
         if (!fillInSecondPass()){
             context=expandUserVariables(context, pass, expandType, dataManager);
             context=expandScripts(context, dataManager);
             context=expandDataFields(context, expandType, dataManager);
+        } else {
+            context=expandDataFields(context, expandType, dataManager);
         }
         break;
-    case SecondPass:;
+    case SecondPass:
+        if (isContentBackedUp()) {
+            restoreContent();
+            context = content();
+        }
         context=expandUserVariables(context, pass, expandType, dataManager);
         context=expandScripts(context, dataManager);
-        if (fillInSecondPass())
-            context=expandDataFields(context, expandType, dataManager);
     }
 
-    if (expandType == NoEscapeSymbols && !m_varValue.isNull() &&m_valueType!=Default) {
+    if (expandType == NoEscapeSymbols && !m_varValue.isNull() &&m_valueType != Default) {
         setContent(formatFieldValue());
     } else {
         setContent(context);

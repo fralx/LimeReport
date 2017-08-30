@@ -63,6 +63,7 @@ struct ContentItem {
     QString content;
     int     indent;
     int     pageNumber;
+    QString uniqKey;
 };
 
 class TableOfContens : public QObject{
@@ -278,8 +279,9 @@ public:
     Q_INVOKABLE void     setVariable(const QString& name, QVariant value);
     Q_INVOKABLE QVariant getVariable(const QString& name);
     Q_INVOKABLE QVariant getField(const QString& field);
+    Q_INVOKABLE QVariant getFieldByKeyField(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
-    Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
+    Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int indent = 0);
     Q_INVOKABLE void     clearTableOfContens();
 #ifdef USE_QJSENGINE
     Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
@@ -320,7 +322,7 @@ public:
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
     QVariant evaluateScript(const QString &script);
-    void    addTableOfContensItem(const QString& uniqKey, const QString& content, int pageNumber, int indent);
+    void    addTableOfContensItem(const QString& uniqKey, const QString& content, int indent);
     void    clearTableOfContens();
 
 protected:
@@ -340,6 +342,7 @@ private:
     bool createSetVariableFunction();
     bool createGetVariableFunction();
     bool createGetFieldFunction();
+    bool createGetFieldByKeyFunction();
     bool createAddTableOfContensItemFunction();
     bool createClearTableOfContensFunction();
 private:

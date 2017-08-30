@@ -56,7 +56,6 @@ public:
     virtual void clearUserVariables()=0;
     virtual ICallbackDatasource* createCallbackDatasource(const QString& name) = 0;
     virtual void registerDbCredentialsProvider(IDbCredentialsProvider* provider) = 0;
-    //virtual void addCallbackDatasource(ICallbackDatasource* datasource, const QString& name) = 0;
 };
 
 }

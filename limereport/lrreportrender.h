@@ -82,6 +82,7 @@ public:
     PageItemDesignIntf::Ptr pageAt(int index);
     QString renderPageToString(PageDesignIntf *patternPage);
     ReportPages renderPageToPages(PageDesignIntf *patternPage);
+    ReportPages renderTOC(PageDesignIntf* patternPage, bool first, bool resetPages);
     void    secondRenderPass(ReportPages renderedPages);
 signals:
     void    pageRendered(int renderedPageCount);
@@ -95,7 +96,7 @@ private:
     void    initGroups();
     void    clearPageMap();
 
-    void    renderPage(PageDesignIntf *patternPage);
+    void    renderPage(PageDesignIntf *patternPage, bool isTOC = false, bool isFirst = false, bool resetPageNumbers = false);
     BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
@@ -147,6 +148,7 @@ private:
     void    startNewPage(bool isFirst = false);
     void    resetPageNumber(ResetPageNuberType resetType);
     int     findLastPageNumber(int currentPage);
+    int     findPageNumber(int currentPage);
     void    savePage(bool isLast = false);
     QString toString();
     void initColumns();
@@ -159,6 +161,7 @@ private:
     void renameChildItems(BaseDesignIntf *item);
     void renderGroupFooterByHeader(BandDesignIntf *groupHeader);
     void updateTOC(BaseDesignIntf* item, int pageNumber);
+    PagesRange& currentRange(bool isTOC = false){ return (isTOC) ? m_ranges.first(): m_ranges.last();}
 private:
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
@@ -188,9 +191,7 @@ private:
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_curentNameIndex;
-
-
-
+    bool            m_renderingFirstTOC;
 };
 } // namespace LimeReport
 #endif // LRREPORTRENDER_H

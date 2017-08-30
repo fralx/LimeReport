@@ -331,7 +331,7 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
-bool PageItemDesignIntf::getIsTOC() const
+bool PageItemDesignIntf::isTOC() const
 {
     return m_isTOC;
 }

@@ -224,7 +224,7 @@ DataSourceManager::DataSourceManager(QObject *parent) :
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("AVG"),new ConstructorGroupFunctionCreator<AvgGroupFunction>);
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("MIN"),new ConstructorGroupFunctionCreator<MinGroupFunction>);
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("MAX"),new ConstructorGroupFunctionCreator<MaxGroupFunction>);
-    setSystemVariable(QLatin1String("#PAGE"),1,FirstPass);
+    setSystemVariable(QLatin1String("#PAGE"),1,SecondPass);
     setSystemVariable(QLatin1String("#PAGE_COUNT"),0,SecondPass);
     setSystemVariable(QLatin1String("#IS_LAST_PAGEFOOTER"),false,FirstPass);
     setSystemVariable(QLatin1String("#IS_FIRST_PAGEFOOTER"),false,FirstPass);
@@ -1377,6 +1377,15 @@ QVariant DataSourceManager::fieldData(const QString &fieldName)
     return QVariant();
 }
 
+QVariant DataSourceManager::fieldDataByKey(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue)
+{
+    IDataSource* ds = dataSource(datasourceName);
+    if (ds){
+        return ds->dataByKeyField(valueFieldName, keyFieldName, keyValue);
+    }
+    return QVariant();
+}
+
 QVariant DataSourceManager::variable(const QString &variableName)
 {
     if (m_userVariables.containsVariable(variableName))
@@ -1401,6 +1410,17 @@ bool DataSourceManager::variableIsSystem(const QString &name)
 QStringList DataSourceManager::variableNames()
 {
     return m_reportVariables.variableNames();
+}
+
+QStringList DataSourceManager::variableNamesByRenderPass(RenderPass pass)
+{
+    QStringList result;
+    foreach(QString variableName, m_reportVariables.variableNames()){
+        if (m_reportVariables.variablePass(variableName) == pass){
+            result.append(variableName);
+        }
+    }
+    return result;
 }
 
 QStringList DataSourceManager::namesOfUserVariables(){
