@@ -819,6 +819,10 @@ ScriptEngineManager::ScriptEngineManager()
     m_scriptEngine = new ScriptEngineType;
     m_functionManager = new ScriptFunctionsManager(this);
     m_functionManager->setScriptEngineManager(this);
+#ifndef USE_QJSENGINE
+    m_scriptEngine->setDefaultPrototype(qMetaTypeId<QComboBox*>(),
+                                  m_scriptEngine->newQObject(new ComboBoxPrototype()));
+#endif
 
     createLineFunction();
     createNumberFomatFunction();
@@ -1238,7 +1242,6 @@ void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDe
         ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 
 #ifdef USE_QJSENGINE
-        //sItem = engine->newQObject(item);
         ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
         engine->globalObject().setProperty(pageName+"_"+item->patternName(), sItem);
 #else
@@ -1247,13 +1250,30 @@ void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDe
             engine->newQObject(sItem, item);
         } else {
             sItem = engine->newQObject(item);
-            engine->globalObject().setProperty(item->patternName(),sItem);
+            engine->globalObject().setProperty(pageName+"_"+item->patternName(),sItem);
         }
 #endif
         foreach(BaseDesignIntf* child, item->childBaseItems()){
             baseDesignIntfToScript(pageName, child);
         }
     }
+}
+
+void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
+{
+    ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
+#ifdef USE_QJSENGINE
+        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        engine->globalObject().setProperty(name, sItem);
+#else
+        ScriptValueType sItem = engine->globalObject().property(name);
+        if (sItem.isValid()){
+            engine->newQObject(sItem, item);
+        } else {
+            sItem = engine->newQObject(item);
+            engine->globalObject().setProperty(name,sItem);
+        }
+#endif
 }
 
 #ifdef HAVE_UI_LOADER
@@ -1502,7 +1522,10 @@ void ScriptFunctionsManager::clearTableOfContens()
     scriptEngineManager()->clearTableOfContens();
 }
 
+
+
 #ifdef USE_QJSENGINE
+
 QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool bold, bool italic, bool underLine)
 {
     QFont result (family, pointSize);
@@ -1511,6 +1534,45 @@ QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool bo
     result.setUnderline(underLine);
     return result;
 }
+
+void ScriptFunctionsManager::addItemsToComboBox(QJSValue object, const QStringList &values)
+{
+    QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
+    if (comboBox){
+        comboBox->addItems(values);
+    }
+}
+
+void ScriptFunctionsManager::addItemToComboBox(QJSValue object, const QString &value)
+{
+    QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
+    if (comboBox){
+        comboBox->addItem(value);
+    }
+}
+
+QJSValue ScriptFunctionsManager::createComboBoxWrapper(QJSValue comboBox)
+{
+    QComboBox* item = dynamic_cast<QComboBox*>(comboBox.toQObject());
+    if (item){
+        ComboBoxWrapper* wrapper = new ComboBoxWrapper(item);
+        return m_scriptEngineManager->scriptEngine()->newQObject(wrapper);
+    }
+    return QJSValue();
+}
+
+QJSValue ScriptFunctionsManager::createWrapper(QJSValue item)
+{
+    QObject* object = item.toQObject();
+    if (object){
+        IWrapperCreator* wrapper = m_wrappersFactory.value(object->metaObject()->className());
+        if (wrapper){
+            return m_scriptEngineManager->scriptEngine()->newQObject(wrapper->createWrapper(item.toQObject()));
+        }
+    }
+    return QJSValue();
+}
+
 #endif
 QFont ScriptFunctionsManager::font(QVariantMap params){
     if (!params.contains("family")){
@@ -1605,6 +1667,37 @@ void LimeReport::TableOfContens::clear(){
     m_tableOfContens.clear();
 
 }
+
+#ifdef USE_QJSENGINE
+
+QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
+{
+    QComboBox* comboBox = dynamic_cast<QComboBox*>(item);
+    if (comboBox){
+        return  new ComboBoxWrapper(comboBox);
+    }
+    return 0;
+}
+
+#endif
+
+#ifndef USE_QJSENGINE
+void ComboBoxPrototype::addItem(const QString &text)
+{
+    QComboBox* comboBox = qscriptvalue_cast<QComboBox*>(thisObject());
+    if (comboBox){
+        comboBox->addItem(text);
+    }
+}
+
+void ComboBoxPrototype::addItems(const QStringList &texts)
+{
+    QComboBox* comboBox = qscriptvalue_cast<QComboBox*>(thisObject());
+    if (comboBox){
+        comboBox->addItems(texts);
+    }
+}
+#endif
 
 } //namespace LimeReport
 

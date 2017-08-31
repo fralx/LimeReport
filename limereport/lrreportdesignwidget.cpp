@@ -268,6 +268,7 @@ void ReportDesignWidget::createNewDialogTab(const QString& dialogName, const QBy
     int pageIndex = m_tabWidget->addTab(dialogDesigner,QIcon(),dialogName);
     m_tabWidget->setTabWhatsThis(pageIndex,"dialog");
     m_tabWidget->setCurrentIndex(pageIndex);
+    m_dialogDesignerManager->setActiveEditor(dialogDesigner);
 }
 
 DialogDesigner*ReportDesignWidget::activeDialogPage()

@@ -67,6 +67,8 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer, public 
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
     static void printReport(ReportPages pages, QPrinter &printer);
+    Q_INVOKABLE QStringList aviableReportTranslations();
+    Q_INVOKABLE void setReportTranslation(const QString& languageName);
 public:
     explicit ReportEnginePrivate(QObject *parent = 0);
     virtual ~ReportEnginePrivate();

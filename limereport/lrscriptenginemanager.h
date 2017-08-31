@@ -38,7 +38,7 @@
 #include <QtGlobal>
 #include <QScriptable>
 #include <QFont>
-
+#include <QComboBox>
 
 //#include <QJSEngine>
 
@@ -183,6 +183,7 @@ public:
     void    initDialogs();
 #endif
     void    baseDesignIntfToScript(const QString& pageName, BaseDesignIntf *item);
+    void    qobjectToScript(const QString &name, QObject* item);
     void    clear();
     QString initScript() const;
     void    setInitScript(const QString& initScript);
@@ -262,10 +263,48 @@ private:
     QString  m_scriptWrapper;
 };
 
+
+#ifndef USE_QJSENGINE
+class ComboBoxPrototype : public QObject, public QScriptable{
+    Q_OBJECT
+public:
+    ComboBoxPrototype(QObject* parent = 0):QObject(parent){}
+public slots:
+    void addItem( const QString& text);
+    void addItems(const QStringList& texts);
+};
+#endif
+
+#ifdef USE_QJSENGINE
+
+class IWrapperCreator{
+public:
+    virtual QObject* createWrapper(QObject* item) = 0;
+    virtual ~IWrapperCreator(){}
+};
+
+class ComboBoxWrapper : public QObject{
+    Q_OBJECT
+public:
+    ComboBoxWrapper(QComboBox* comboBox, QObject* parent = 0) : QObject(parent), m_comboBox(comboBox){}
+    Q_INVOKABLE void addItems(const QStringList& texts){ m_comboBox->addItems(texts);}
+    Q_INVOKABLE void addItem(const QString& text){ m_comboBox->addItem(text);}
+private:
+    QComboBox* m_comboBox;
+};
+
+class ComboBoxWrapperCreator: public IWrapperCreator{
+private:
+    QObject* createWrapper(QObject* item);
+};
+
+#endif
+
 class ScriptFunctionsManager : public QObject{
     Q_OBJECT
 public:
-    explicit ScriptFunctionsManager(QObject* parent = 0):QObject(parent){}
+    explicit ScriptFunctionsManager(QObject* parent = 0):QObject(parent){ m_wrappersFactory.insert("QComboBox",new  ComboBoxWrapperCreator());}
+    ~ScriptFunctionsManager(){ foreach(IWrapperCreator* wrapper, m_wrappersFactory.values()){ delete wrapper;} m_wrappersFactory.clear();}
     Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName);
     Q_INVOKABLE QVariant line(const QString& bandName);
     Q_INVOKABLE QVariant numberFormat(QVariant value, const char &format, int precision, const QString &locale);
@@ -283,8 +322,13 @@ public:
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
     Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int indent = 0);
     Q_INVOKABLE void     clearTableOfContens();
+
 #ifdef USE_QJSENGINE
     Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
+    Q_INVOKABLE void addItemsToComboBox(QJSValue object, const QStringList& values);
+    Q_INVOKABLE void addItemToComboBox(QJSValue object, const QString& value);
+    Q_INVOKABLE QJSValue createComboBoxWrapper(QJSValue comboBox);
+    Q_INVOKABLE QJSValue createWrapper(QJSValue item);
 #endif
     Q_INVOKABLE QFont font(QVariantMap params);
     ScriptEngineManager *scriptEngineManager() const;
@@ -292,6 +336,7 @@ public:
     static QColor createQColor(const QString& color){ return QColor(color);}
 private:
     ScriptEngineManager* m_scriptEngineManager;
+    QMap<QString, IWrapperCreator*> m_wrappersFactory;
 };
 
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager
@@ -435,4 +480,9 @@ public:
 };
 
 }
+
+#ifndef USE_QJSENGINE
+Q_DECLARE_METATYPE(LimeReport::ComboBoxPrototype*);
+#endif
+
 #endif // LRSCRIPTENGINEMANAGER_H

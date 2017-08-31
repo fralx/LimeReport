@@ -304,6 +304,24 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
     delete painter;
 }
 
+QStringList ReportEnginePrivate::aviableReportTranslations()
+{
+    QStringList result;
+    foreach (QLocale::Language language, aviableLanguages()){
+        result << QLocale::languageToString(language);
+    }
+    return result;
+}
+
+void ReportEnginePrivate::setReportTranslation(const QString &languageName)
+{
+    foreach(QLocale::Language language, aviableLanguages()){
+       if (QLocale::languageToString(language).compare(languageName) == 0){
+           setReportLanguage(language);
+       }
+    }
+};
+
 bool ReportEnginePrivate::printReport(QPrinter* printer)
 {
     if (!printer&&!m_printerSelected){
@@ -892,7 +910,7 @@ ReportPages ReportEnginePrivate::renderToPages()
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
     dataManager()->updateDatasourceModel();
-    activateLanguage(m_reportLanguage);
+
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
 
@@ -910,7 +928,11 @@ ReportPages ReportEnginePrivate::renderToPages()
             scriptContext()->baseDesignIntfToScript(page->pageItem()->objectName(), page->pageItem());
         }
 
+        scriptContext()->qobjectToScript("engine",this);
+
         if (m_scriptEngineContext->runInitScript()){
+
+            activateLanguage(m_reportLanguage);
             emit renderStarted();
 
             foreach(PageDesignIntf* page , m_pages){
