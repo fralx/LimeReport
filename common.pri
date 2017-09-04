@@ -11,7 +11,7 @@ CONFIG += build_translations
     CONFIG += dialogdesigner
 }
 
-ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+ZINT_PATH = $$PWD/3rdparty/zint-2.6.1
 contains(CONFIG,zint){
     DEFINES += HAVE_ZINT
 }

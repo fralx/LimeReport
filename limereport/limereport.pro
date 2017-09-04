@@ -76,8 +76,8 @@ win32 {
 
 contains(CONFIG,zint){
     message(zint)
-    INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
-    DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
+    INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
+    DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
 	LIBS += -L$${DEST_LIBS}
 	contains(CONFIG,release) {
 		LIBS += -lQtZint
