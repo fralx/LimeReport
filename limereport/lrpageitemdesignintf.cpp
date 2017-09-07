@@ -50,7 +50,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -331,6 +331,19 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+bool PageItemDesignIntf::getSetPageSizeToPrinter() const
+{
+    return m_setPageSizeToPrinter;
+}
+
+void PageItemDesignIntf::setSetPageSizeToPrinter(bool setPageSizeToPrinter)
+{
+    if (m_setPageSizeToPrinter != setPageSizeToPrinter){
+        m_setPageSizeToPrinter = setPageSizeToPrinter;
+        notify("setPageSizeToPrinter", !setPageSizeToPrinter, setPageSizeToPrinter);
+    }
+}
+
 bool PageItemDesignIntf::isTOC() const
 {
     return m_isTOC;
@@ -340,9 +353,7 @@ void PageItemDesignIntf::setIsTOC(bool isTOC)
 {
     if (m_isTOC != isTOC){
         m_isTOC = isTOC;
-        if (!isLoading()){
-            notify("pageIsTOC", !isTOC, isTOC);
-        }
+        notify("pageIsTOC", !isTOC, isTOC);
     }
 }
 
@@ -381,9 +392,7 @@ void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
 {
     if (m_resetPageNumber!=resetPageNumber){
         m_resetPageNumber = resetPageNumber;
-        if (!isLoading()){
-            notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
-        }
+        notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
     }
 }
 
@@ -605,6 +614,46 @@ void PageItemDesignIntf::preparePopUpMenu(QMenu &menu)
         if (action->text().compare(tr("Paste")) != 0)
             action->setVisible(false);
     }
+
+    menu.addSeparator();
+
+    QAction* action = menu.addAction(tr("Page is TOC"));
+    action->setCheckable(true);
+    action->setChecked(isTOC());
+
+    action = menu.addAction(tr("Reset page number"));
+    action->setCheckable(true);
+    action->setChecked(resetPageNumber());
+
+    action = menu.addAction(tr("Full page"));
+    action->setCheckable(true);
+    action->setChecked(fullPage());
+
+    action = menu.addAction(tr("Set page size to printer"));
+    action->setCheckable(true);
+    action->setChecked(getSetPageSizeToPrinter());
+
+//    action = menu.addAction(tr("Transparent"));
+//    action->setCheckable(true);
+//    action->setChecked(backgroundMode() == TransparentMode);
+
+}
+
+void PageItemDesignIntf::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Page is TOC")) == 0){
+        page()->setPropertyToSelectedItems("pageIsTOC",action->isChecked());
+    }
+    if (action->text().compare(tr("Reset page number")) == 0){
+        page()->setPropertyToSelectedItems("resetPageNumber",action->isChecked());
+    }
+    if (action->text().compare(tr("Full page")) == 0){
+        page()->setPropertyToSelectedItems("fullPage",action->isChecked());
+    }
+    if (action->text().compare(tr("Set page size to printer")) == 0){
+        page()->setPropertyToSelectedItems("setPageSizeToPrinter",action->isChecked());
+    }
+
 }
 void PageItemDesignIntf::initPageSize(const PageItemDesignIntf::PageSize &size)
 {

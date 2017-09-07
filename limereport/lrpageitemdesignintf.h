@@ -56,6 +56,7 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(bool isExtendedInDesignMode READ isExtendedInDesignMode WRITE setExtendedInDesignMode)
     Q_PROPERTY(int  extendedHeight READ extendedHeight WRITE setExtendedHeight)
     Q_PROPERTY(bool pageIsTOC READ isTOC WRITE setIsTOC)
+    Q_PROPERTY(bool setPageSizeToPrinter READ getSetPageSizeToPrinter WRITE setSetPageSizeToPrinter )
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -129,6 +130,9 @@ public:
 
     bool isTOC() const;
     void setIsTOC(bool isTOC);
+    bool getSetPageSizeToPrinter() const;
+    void setSetPageSizeToPrinter(bool setPageSizeToPrinter);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -144,6 +148,7 @@ protected:
     void    initPageSize(const QSizeF &size);
     QColor  selectionMarkerColor(){return Qt::transparent;}
     void    preparePopUpMenu(QMenu &menu);
+    void    processPopUpAction(QAction *action);
 private:
     void paintGrid(QPainter *ppainter, QRectF rect);
     void initColumnsPos(QVector<qreal>&posByColumns, qreal pos, int columnCount);
@@ -163,6 +168,7 @@ private:
     bool m_isExtendedInDesignMode;
     int  m_extendedHeight;
     bool m_isTOC;
+    bool m_setPageSizeToPrinter;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;

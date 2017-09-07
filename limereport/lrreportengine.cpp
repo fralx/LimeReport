@@ -249,6 +249,15 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
 
     bool isFirst = true;
     int currenPage = 1;
+
+
+    qreal leftMargin, topMargin, rightMargin, bottomMargin;
+    printer.getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
+
+    QRectF printerPageRect = printer.pageRect(QPrinter::Millimeter);
+    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
+                                 (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
+
     foreach(PageItemDesignIntf::Ptr page, pages){
 
         if (
@@ -261,6 +270,7 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
         {
 
             QPointF pagePos = page->pos();
+
             page->setPos(0,0);
             renderPage.setPageItem(page);
             renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
@@ -282,9 +292,11 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
                     QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
                                 QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
                                 renderPage.pageItem()->sizeMM();
-                    printer.setPaperSize(pageSize,QPrinter::Millimeter);
+                    if (page->getSetPageSizeToPrinter())
+                      printer.setPaperSize(pageSize,QPrinter::Millimeter);
                 } else {
-                    printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
+                    if (page->getSetPageSizeToPrinter())
+                      printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
                 }
             }
 
@@ -293,9 +305,23 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
             } else {
                 isFirst=false;
                 painter = new QPainter(&printer);
+            }            
+
+            if (printerPageRect.width() < page->geometry().width()){
+                qreal pageWidth = page->geometry().width();
+                QRectF currentPrintingRect = printerPageRect;
+                while (pageWidth>0){
+                    renderPage.render(painter, printer.pageRect(), currentPrintingRect);
+                    currentPrintingRect.adjust(printerPageRect.size().width(),0,printerPageRect.size().width(),0);
+                    pageWidth -= printerPageRect.size().width();
+                    if (pageWidth>0) printer.newPage();
+                }
+
+            } else {
+               renderPage.render(painter);
             }
 
-            renderPage.render(painter);
+
             page->setPos(pagePos);
         }
 
