@@ -7,6 +7,7 @@ CONFIG += build_translations
 !contains(CONFIG, qtscriptengine){
     CONFIG += qjsengine
 }
+
 !contains(CONFIG, no_formdesigner){
     CONFIG += dialogdesigner
 }

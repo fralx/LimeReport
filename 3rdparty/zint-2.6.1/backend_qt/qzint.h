@@ -19,12 +19,13 @@
 #include <QColor>
 #include <QPainter>
 
+#include "qzint_global.h"
 #include "zint.h"
 
 namespace Zint
 {
 
-class QZint
+class QZINTSHARED_EXPORT QZint
 {
 private:
 
@@ -120,9 +121,9 @@ private:
 	float m_scale;
 	int m_option_3;
 	bool m_hidetext;
-        float m_dot_size;
-        int target_size_horiz;
-        int target_size_vert;
+    float m_dot_size;
+    int target_size_horiz;
+    int target_size_vert;
 };
 }
 #endif

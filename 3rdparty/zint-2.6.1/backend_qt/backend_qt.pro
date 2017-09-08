@@ -22,8 +22,6 @@ unix{
     CONFIG += plugin
 }
 
-#VERSION = 2.4.4
-
 INCLUDEPATH += $$PWD/../backend
 DEFINES +=  _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS ZINT_VERSION=\\\"$$VERSION\\\"
 contains(CONFIG,release) {
