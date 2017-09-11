@@ -1491,7 +1491,11 @@ QVariant ScriptFunctionsManager::currencyUSBasedFormat(QVariant value, const QSt
 void ScriptFunctionsManager::setVariable(const QString &name, QVariant value)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
-    dm->changeVariable(name,value);
+    if (dm->containsVariable(name)){
+        dm->changeVariable(name,value);
+    } else {
+        dm->addVariable(name, value, VarDesc::User);
+    }
 }
 
 QVariant ScriptFunctionsManager::getVariable(const QString &name)
