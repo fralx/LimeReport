@@ -1,27 +1,27 @@
-CONFIG += build_translations
+CONFIG *= build_translations
 
 !contains(CONFIG, no_zint){
-    CONFIG += zint
+    CONFIG *= zint
 }
 
 !contains(CONFIG, qtscriptengine){
-    CONFIG += qjsengine
+    CONFIG *= qjsengine
 }
 
 !contains(CONFIG, no_formdesigner){
-    CONFIG += dialogdesigner
+    CONFIG *= dialogdesigner
 }
 
 ZINT_PATH = $$PWD/3rdparty/zint-2.6.1
 contains(CONFIG,zint){
-    DEFINES += HAVE_ZINT
+    DEFINES *= HAVE_ZINT
 }
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += uitools
+    QT *= uitools
 }
 lessThan(QT_MAJOR_VERSION, 5){
-    CONFIG += uitools
+    CONFIG *= uitools
 }
 
 CONFIG(release, debug|release){
@@ -72,32 +72,31 @@ LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 4
 LIMEREPORT_VERSION_RELEASE = 40
 
-LIMEREPORT_VERSION = '\\"$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}\\"'
-DEFINES += LIMEREPORT_VERSION_STR=\"$${LIMEREPORT_VERSION}\"
-DEFINES += LIMEREPORT_VERSION=$${LIMEREPORT_VERSION}
+LIMEREPORT_VERSION = '$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}'
+DEFINES *= LIMEREPORT_VERSION_STR=\\\"$${LIMEREPORT_VERSION}\\\"
 
-QT += script xml sql
+QT *= script xml sql
 REPORT_PATH = $$PWD/limereport
 TRANSLATIONS_PATH = $$PWD/translations
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    DEFINES+=HAVE_QT5
-    QT+= printsupport widgets qml
+    DEFINES *= HAVE_QT5
+    QT *= printsupport widgets qml
     contains(QT,uitools){
         message(uitools)
-        DEFINES += HAVE_UI_LOADER
+        DEFINES *= HAVE_UI_LOADER
     }
     contains(CONFIG, qjsengine){
         message(qjsengine)
-        DEFINES += USE_QJSENGINE
+        DEFINES *= USE_QJSENGINE
     }
 }
 
 lessThan(QT_MAJOR_VERSION, 5){
-    DEFINES+=HAVE_QT4
+    DEFINES *= HAVE_QT4
     CONFIG(uitools){
         message(uitools)
-        DEFINES += HAVE_UI_LOADER
+        DEFINES *= HAVE_UI_LOADER
     }
 }
 

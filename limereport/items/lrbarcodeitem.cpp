@@ -99,7 +99,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
         break;
     }
 
-    bc.render(*ppainter,bcRect,Zint::QZint::KeepAspectRatio);
+    bc.render(*ppainter,bcRect);
     ppainter->restore();
     ItemDesignIntf::paint(ppainter,option,widget);
 }

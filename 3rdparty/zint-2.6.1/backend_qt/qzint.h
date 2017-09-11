@@ -86,7 +86,7 @@ public:
 
 	QString error_message();
 
-	void render(QPainter & painter, const QRectF & paintRect, AspectRatioMode mode=IgnoreAspectRatio);
+	void render(QPainter & painter, const QRectF & paintRect);
 
 	const QString & lastError();
 	bool hasErrors();

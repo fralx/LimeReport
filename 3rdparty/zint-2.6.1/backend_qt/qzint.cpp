@@ -300,7 +300,7 @@ namespace Zint {
         return result;
     }
 
-    void QZint::render(QPainter & painter, const QRectF & paintRect, AspectRatioMode mode) {
+    void QZint::render(QPainter & painter, const QRectF & paintRect) {
         bool textdone;
         int comp_offset = 0;
         int xoffset = m_whitespace;

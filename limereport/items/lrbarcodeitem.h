@@ -30,7 +30,6 @@
 #ifndef LRBARCODEITEM_H
 #define LRBARCODEITEM_H
 #include "lritemdesignintf.h"
-#include <qzint.h>
 
 namespace LimeReport{
 
@@ -184,7 +183,6 @@ public:
     void setInputMode(const InputMode &inputMode);
 
 private:
-    Zint::QZint m_bc;
     QString m_content;
     QString m_designTestValue;
     BarcodeType m_barcodeType;
