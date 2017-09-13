@@ -33,7 +33,6 @@
 #include "lrdatasourcemanager.h"
 #include "lrscriptenginemanager.h"
 #include "lrdatadesignintf.h"
-#include "lrdatasourcemanager.h"
 
 #include <QMenu>
 #include <QScrollBar>

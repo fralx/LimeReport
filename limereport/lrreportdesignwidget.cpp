@@ -35,6 +35,7 @@
 #include "lrsettingdialog.h"
 #include "dialogdesigner/lrdialogdesigner.h"
 #include "translationeditor/translationeditor.h"
+#include "scripteditor/lrscripteditor.h"
 
 #include <QDebug>
 #include <QObject>
@@ -243,6 +244,12 @@ void ReportDesignWidget::createTabs(){
 
     m_scriptEditor = new QTextEdit(this);
     pageIndex = m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
+    m_tabWidget->setTabWhatsThis(pageIndex,"script");
+    m_tabWidget->setCurrentIndex(0);
+
+    m_newScriptEditor = new ScriptEditor(this);
+    m_newScriptEditor->setReportEngine(m_report);
+    pageIndex = m_tabWidget->addTab(m_newScriptEditor,QIcon(),tr("New Script Editor"));
     m_tabWidget->setTabWhatsThis(pageIndex,"script");
     m_tabWidget->setCurrentIndex(0);
 
@@ -787,6 +794,11 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     if (activeTabType() == Translations){
         m_traslationEditor->setReportEngine(report());
     }
+
+    if (activeTabType() == Script){
+        m_newScriptEditor->initCompleter();
+    }
+
     emit activePageChanged();
 }
 
