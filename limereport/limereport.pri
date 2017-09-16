@@ -12,7 +12,8 @@ INCLUDEPATH += \
     $$REPORT_PATH/bands \
     $$REPORT_PATH/base \
     $$REPORT_PATH/objectinspector \
-    $$REPORT_PATH/databrowser
+    $$REPORT_PATH/databrowser \
+    $$REPORT_PATH/scripteditor
 
 SOURCES += \
     $$REPORT_PATH/bands/lrpageheader.cpp \
@@ -60,6 +61,7 @@ SOURCES += \
     $$REPORT_PATH/objectsbrowser/lrobjectbrowser.cpp \   
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
     $$REPORT_PATH/scripteditor/lrscripteditor.cpp \
+    $$REPORT_PATH/scripteditor/lrcodeeditor.cpp \
     $$REPORT_PATH/items/lrsubitemparentpropitem.cpp \
     $$REPORT_PATH/items/lralignpropitem.cpp \
     $$REPORT_PATH/items/lrhorizontallayout.cpp \
@@ -163,6 +165,7 @@ HEADERS += \
     $$REPORT_PATH/objectsbrowser/lrobjectbrowser.h \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \
     $$REPORT_PATH/scripteditor/lrscripteditor.h \
+    $$REPORT_PATH/scripteditor/lrcodeeditor.h \
     $$REPORT_PATH/items/editors/lritemeditorwidget.h \
     $$REPORT_PATH/items/editors/lrfonteditorwidget.h \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.h \
@@ -237,7 +240,7 @@ FORMS += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
     $$REPORT_PATH/items/lrchartitemeditor.ui \
     $$REPORT_PATH/translationeditor/translationeditor.ui \
-    $$REPORT_PATH/translationeditor/languageselectdialog.ui
+    $$REPORT_PATH/translationeditor/languageselectdialog.ui \
     $$REPORT_PATH/scripteditor/lrscripteditor.ui
 
 RESOURCES += \

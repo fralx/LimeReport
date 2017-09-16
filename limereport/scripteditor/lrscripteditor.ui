@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ScriptEditor</class>
- <widget class="QWidget" name="ScriptEditor">
+ <class>LimeReport::ScriptEditor</class>
+ <widget class="QWidget" name="LimeReport::ScriptEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -52,7 +52,7 @@
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <widget class="TextEditorWithCompleater" name="textEdit">
+        <widget class="LimeReport::CodeEditor" name="textEdit">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -129,9 +129,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TextEditorWithCompleater</class>
+   <class>LimeReport::CodeEditor</class>
    <extends>QTextEdit</extends>
-   <header>lrscripteditor.h</header>
+   <header>lrcodeeditor.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

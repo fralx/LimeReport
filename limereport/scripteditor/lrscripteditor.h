@@ -12,24 +12,6 @@ namespace LimeReport{
 class ReportEnginePrivate;
 class BaseDesignIntf;
 
-class TextEditorWithCompleater :public QTextEdit
-{
-    Q_OBJECT
-public:
-    TextEditorWithCompleater(QWidget* parent=0);
-    void setCompleter(QCompleter* value);
-    QCompleter* compleater() const{ return m_compleater;}
-protected:
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual void focusInEvent(QFocusEvent *e);
-private:
-    QString textUnderCursor() const;
-private slots:
-    void insertCompletion(const QString& completion);
-private:
-    QCompleter* m_compleater;
-};
-
 namespace Ui {
 class ScriptEditor;
 }
