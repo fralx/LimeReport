@@ -92,6 +92,9 @@ public:
     int userVariablesCount();
     VarDesc* userVariableAt(int index);
 signals:
+    void variableHasBeenAdded(const QString& variableName);
+    void variableHasBeenChanged(const QString& variableName);
+    void variableHasBennDeleted(const QString& variableName);
 private:
     QMap<QString,VarDesc*> m_varNames;
     QList<VarDesc*> m_userVariables;

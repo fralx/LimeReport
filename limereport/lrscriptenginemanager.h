@@ -319,6 +319,7 @@ public:
     Q_INVOKABLE QVariant getVariable(const QString& name);
     Q_INVOKABLE QVariant getField(const QString& field);
     Q_INVOKABLE QVariant getFieldByKeyField(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue);
+    Q_INVOKABLE void     reopenDatasource(const QString& datasourceName);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
     Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int indent = 0);
     Q_INVOKABLE void     clearTableOfContens();
@@ -390,6 +391,7 @@ private:
     bool createGetFieldByKeyFunction();
     bool createAddTableOfContensItemFunction();
     bool createClearTableOfContensFunction();
+    bool createReopenDatasourceFunction();
 private:
     ScriptEngineManager();
     ScriptEngineType*  m_scriptEngine;
