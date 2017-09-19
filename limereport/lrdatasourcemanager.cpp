@@ -228,6 +228,16 @@ DataSourceManager::DataSourceManager(QObject *parent) :
     setSystemVariable(QLatin1String("#PAGE_COUNT"),0,SecondPass);
     setSystemVariable(QLatin1String("#IS_LAST_PAGEFOOTER"),false,FirstPass);
     setSystemVariable(QLatin1String("#IS_FIRST_PAGEFOOTER"),false,FirstPass);
+
+    connect(&m_reportVariables, SIGNAL(variableHasBeenAdded(QString)),
+            this, SLOT(slotVariableHasBeenAdded(QString)) );
+    connect(&m_reportVariables, SIGNAL(variableHasBeenChanged(QString)),
+            this, SLOT(slotVariableHasBeenChanged(QString)));
+    connect(&m_userVariables, SIGNAL(variableHasBeenAdded(QString)),
+            this, SLOT(slotVariableHasBeenAdded(QString)) );
+    connect(&m_userVariables, SIGNAL(variableHasBeenChanged(QString)),
+            this, SLOT(slotVariableHasBeenChanged(QString)));
+
     m_datasourcesModel.setDataSourceManager(this);
 }
 
@@ -1233,6 +1243,32 @@ void DataSourceManager::slotQueryTextChanged(const QString &queryName, const QSt
     if (holder){
         holder->setQueryText(queryText);
     }
+}
+
+void DataSourceManager::invalidateQueriesContainsVariable(const QString& variableName)
+{
+    if (!variableIsSystem(variableName)){
+        foreach (const QString& datasourceName, dataSourceNames()){
+            QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
+            if (holder){
+                QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+                if  (holder->queryText().contains(rx))
+                    holder->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+            }
+        }
+    }
+}
+
+void DataSourceManager::slotVariableHasBeenAdded(const QString& variableName)
+{
+    //qDebug()<< "variable has been added"<< variableName;
+    invalidateQueriesContainsVariable(variableName);
+}
+
+void DataSourceManager::slotVariableHasBeenChanged(const QString& variableName)
+{
+    //qDebug()<< "variable has been changed"<< variableName;
+    invalidateQueriesContainsVariable(variableName);
 }
 
 void DataSourceManager::clear(ClearMethod method)
