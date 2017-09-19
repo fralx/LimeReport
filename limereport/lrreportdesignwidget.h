@@ -191,8 +191,7 @@ private:
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
-    QTextEdit* m_scriptEditor;
-    ScriptEditor* m_newScriptEditor;
+    ScriptEditor* m_scriptEditor;
     TranslationEditor* m_traslationEditor;
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     DialogDesignerManager* m_dialogDesignerManager;

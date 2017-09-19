@@ -24,6 +24,15 @@ public:
     ~ScriptEditor();
     void setReportEngine(ReportEnginePrivate* reportEngine);
     void initCompleter();
+    QByteArray saveState();
+    void restoreState(QByteArray state);
+    void setPlainText(const QString &text);
+    QString toPlainText();
+private slots:
+    void on_twData_doubleClicked(const QModelIndex &index);
+
+    void on_twScriptEngine_doubleClicked(const QModelIndex &index);
+
 private:
     void addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords);
 private:

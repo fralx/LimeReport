@@ -13,116 +13,92 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QSplitter" name="splitter">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title">
-      <string>Content</string>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>2</number>
+     <widget class="LimeReport::CodeEditor" name="textEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="leftMargin">
-       <number>2</number>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
-      <property name="topMargin">
-       <number>2</number>
+     </widget>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::South</enum>
       </property>
-      <property name="rightMargin">
-       <number>2</number>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="bottomMargin">
-       <number>2</number>
-      </property>
-      <item>
-       <widget class="QSplitter" name="splitter">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Data</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>3</number>
         </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+        <property name="leftMargin">
+         <number>3</number>
         </property>
-        <widget class="LimeReport::CodeEditor" name="textEdit">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-        </widget>
-        <widget class="QTabWidget" name="tabWidget">
-         <property name="tabPosition">
-          <enum>QTabWidget::South</enum>
-         </property>
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="tab">
-          <attribute name="title">
-           <string>Data</string>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <widget class="QTreeView" name="twData">
+          <attribute name="headerVisible">
+           <bool>false</bool>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <property name="spacing">
-            <number>3</number>
-           </property>
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <item>
-            <widget class="QTreeView" name="twData">
-             <attribute name="headerVisible">
-              <bool>false</bool>
-             </attribute>
-            </widget>
-           </item>
-          </layout>
          </widget>
-         <widget class="QWidget" name="tab_2">
-          <attribute name="title">
-           <string>Functions</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QSplitter" name="splitter_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <widget class="QTreeView" name="twScriptEngine">
-              <attribute name="headerVisible">
-               <bool>false</bool>
-              </attribute>
-             </widget>
-             <widget class="QLabel" name="lblDescription">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </widget>
-           </item>
-          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Functions</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QTreeView" name="twScriptEngine">
+           <attribute name="headerVisible">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+          <widget class="QLabel" name="lblDescription">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </widget>
-        </widget>
-       </widget>
-      </item>
-     </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </widget>
    </item>
   </layout>

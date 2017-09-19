@@ -14,6 +14,7 @@ ScriptEditor::ScriptEditor(QWidget *parent) :
     ui(new Ui::ScriptEditor)
 {
     ui->setupUi(this);
+    setFocusProxy(ui->textEdit);
     m_completer = new QCompleter(this);
     ui->textEdit->setCompleter(m_completer);
 }
@@ -78,6 +79,26 @@ void ScriptEditor::initCompleter()
     m_completer->setModel(new QStringListModel(dataWords,m_completer));
 }
 
+QByteArray ScriptEditor::saveState()
+{
+    return ui->splitter->saveState();
+}
+
+void ScriptEditor::restoreState(QByteArray state)
+{
+    ui->splitter->restoreState(state);
+}
+
+void ScriptEditor::setPlainText(const QString& text)
+{
+    ui->textEdit->setPlainText(text);
+}
+
+QString ScriptEditor::toPlainText()
+{
+    return ui->textEdit->toPlainText();
+}
+
 void ScriptEditor::addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords)
 {
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
@@ -99,4 +120,31 @@ void ScriptEditor::addItemToCompleater(const QString& pageName, BaseDesignIntf* 
     }
 }
 
+void ScriptEditor::on_twData_doubleClicked(const QModelIndex &index)
+{
+    if (!index.isValid()) return;
+    LimeReport::DataNode* node = static_cast<LimeReport::DataNode*>(index.internalPointer());
+    if (node->type()==LimeReport::DataNode::Field){
+        ui->textEdit->insertPlainText(QString("$D{%1.%2}").arg(node->parent()->name()).arg(node->name()));
+    }
+    if (node->type()==LimeReport::DataNode::Variable){
+        ui->textEdit->insertPlainText(QString("$V{%1}").arg(node->name()));
+    }
+    ui->textEdit->setFocus();
+}
+
+void ScriptEditor::on_twScriptEngine_doubleClicked(const QModelIndex &index)
+{
+    if (!index.isValid()) return;
+    LimeReport::ScriptEngineNode* node = static_cast<LimeReport::ScriptEngineNode*>(index.internalPointer());
+    if (node->type()==LimeReport::ScriptEngineNode::Function){
+        ui->textEdit->insertPlainText(node->name()+"()");
+    }
+    ui->textEdit->setFocus();
+}
+
 } // namespace LimeReport
+
+
+
+

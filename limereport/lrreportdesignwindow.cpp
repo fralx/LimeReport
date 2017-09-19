@@ -664,14 +664,21 @@ void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
     switch (m_editorTabType) {
-    case ReportDesignWidget::Page:
-        settings()->setValue("PageEditorsState", saveState());
-        settings()->setValue("DialogEditorsState", m_dialogEditorsState);
-        break;
-    default:
-        settings()->setValue("DialogEditorsState", saveState());
-        settings()->setValue("PageEditorsState", m_pageEditorsState);
-        break;
+        case ReportDesignWidget::Page:
+            settings()->setValue("PageEditorsState", saveState());
+            settings()->setValue("DialogEditorsState", m_dialogEditorsState);
+            settings()->setValue("ScriptEditorsState", m_scriptEditorState);
+            break;
+        case ReportDesignWidget::Script:
+            settings()->setValue("ScriptEditorsState", saveState());
+            settings()->setValue("DialogEditorsState", m_dialogEditorsState);
+            settings()->setValue("PageEditorsState", m_pageEditorsState);
+            break;
+        default:
+            settings()->setValue("DialogEditorsState", saveState());
+            settings()->setValue("PageEditorsState", m_pageEditorsState);
+            settings()->setValue("ScriptEditorsState", m_scriptEditorState);
+            break;
     }
     settings()->setValue("InspectorFirsColumnWidth",m_objectInspector->columnWidth(0));
     settings()->endGroup();
@@ -774,6 +781,10 @@ void ReportDesignWindow::restoreSetting()
     v = settings()->value("DialogEditorsState");
     if (v.isValid()){
         m_dialogEditorsState = v.toByteArray();
+    }
+    v = settings()->value("ScriptEditorsState");
+    if (v.isValid()){
+        m_scriptEditorState = v.toByteArray();
     }
     v = settings()->value("InspectorFirsColumnWidth");
     if (v.isValid()){
@@ -1277,12 +1288,15 @@ void ReportDesignWindow::slotActivePageChanged()
     updateAvaibleBands();
 
     switch (m_editorTabType) {
-    case ReportDesignWidget::Dialog:
-        m_dialogEditorsState = saveState();
+        case ReportDesignWidget::Dialog:
+            m_dialogEditorsState = saveState();
 #ifdef HAVE_UI_LOADER
-        m_scriptBrowser->updateDialogsTree();
+            m_scriptBrowser->updateDialogsTree();
 #endif
-        break;
+            break;
+        case ReportDesignWidget::Script:
+            m_scriptEditorState = saveState();
+            break;
     default:
         m_pageEditorsState = saveState();
         break;
@@ -1291,20 +1305,30 @@ void ReportDesignWindow::slotActivePageChanged()
     m_editorTabType = m_reportDesignWidget->activeTabType();
 
     switch (m_editorTabType) {
-    case ReportDesignWidget::Dialog:
-        if (!m_dialogEditorsState.isEmpty())
-            restoreState(m_dialogEditorsState);
-        else
-            showDefaultEditors();
-            showDefaultToolBars();
-        break;
-    default:
-        if (!m_pageEditors.isEmpty())
-            restoreState(m_pageEditorsState);
-        else
-            showDefaultEditors();
-            showDefaultToolBars();
-        break;
+        case ReportDesignWidget::Dialog:
+            if (!m_dialogEditorsState.isEmpty()){
+                restoreState(m_dialogEditorsState);
+            } else {
+                showDefaultEditors();
+                showDefaultToolBars();
+            }
+            break;
+        case ReportDesignWidget::Script:
+            if (!m_scriptEditorState.isEmpty()){
+                restoreState(m_scriptEditorState);
+            } else {
+                showDefaultEditors();
+                showDefaultToolBars();
+            }
+            break;
+        default:
+            if (!m_pageEditors.isEmpty()){
+                restoreState(m_pageEditorsState);
+            } else {
+                showDefaultEditors();
+                showDefaultToolBars();
+            }
+            break;
     }
 
 }
