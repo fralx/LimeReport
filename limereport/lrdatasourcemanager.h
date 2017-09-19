@@ -160,14 +160,15 @@ public:
     QStringList dataSourceNames(const QString& connectionName);
     QStringList connectionNames();
     QStringList fieldNames(const QString& datasourceName);
-    bool containsField(const QString& fieldName);
-    QVariant fieldData(const QString& fieldName);
-    QVariant fieldDataByKey(
+    bool        containsField(const QString& fieldName);
+    QVariant    fieldData(const QString& fieldName);
+    QVariant    fieldDataByKey(
             const QString& datasourceName,
             const QString& valueFieldName,
             const QString& keyFieldName,
             QVariant keyValue
     );
+    void    reopenDatasource(const QString& datasourceName);
 
     QString extractDataSource(const QString& fieldName);
     QString extractFieldName(const QString& fieldName);
@@ -231,9 +232,12 @@ protected:
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
     bool checkConnection(QSqlDatabase db);
+    void invalidateQueriesContainsVariable(const QString& variableName);
 private slots:
     void slotConnectionRenamed(const QString& oldName,const QString& newName);
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
+    void slotVariableHasBeenAdded(const QString& variableName);
+    void slotVariableHasBeenChanged(const QString& variableName);
 private:
     explicit DataSourceManager(QObject *parent = 0);
     bool initAndOpenDB(QSqlDatabase &db, ConnectionDesc &connectionDesc);

@@ -813,6 +813,21 @@ bool ScriptEngineManager::createClearTableOfContensFunction()
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createReopenDatasourceFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("reopenDatasource");
+    fd.setDescription("reopenDatasource(\""+tr("datasourceName")+"\")");
+    fd.setScriptWrapper(QString("function reopenDatasource(datasourceName){"
+                                "return %1.reopenDatasource(datasourceName);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 ScriptEngineManager::ScriptEngineManager()
     :m_model(0), m_dataManager(0)
 {
@@ -850,6 +865,7 @@ ScriptEngineManager::ScriptEngineManager()
 #endif
     createAddTableOfContensItemFunction();
     createClearTableOfContensFunction();
+    createReopenDatasourceFunction();
 
     m_model = new ScriptEngineModel(this);
 }
@@ -1514,6 +1530,12 @@ QVariant ScriptFunctionsManager::getFieldByKeyField(const QString& datasourceNam
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldDataByKey(datasourceName, valueFieldName, keyFieldName, keyValue);
+}
+
+void ScriptFunctionsManager::reopenDatasource(const QString& datasourceName)
+{
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
+    return dm->reopenDatasource(datasourceName);
 }
 
 void ScriptFunctionsManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int indent)
