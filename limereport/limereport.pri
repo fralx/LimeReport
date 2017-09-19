@@ -62,6 +62,7 @@ SOURCES += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
     $$REPORT_PATH/scripteditor/lrscripteditor.cpp \
     $$REPORT_PATH/scripteditor/lrcodeeditor.cpp \
+    $$REPORT_PATH/scripteditor/lrscripthighlighter.cpp \
     $$REPORT_PATH/items/lrsubitemparentpropitem.cpp \
     $$REPORT_PATH/items/lralignpropitem.cpp \
     $$REPORT_PATH/items/lrhorizontallayout.cpp \
@@ -166,6 +167,7 @@ HEADERS += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \
     $$REPORT_PATH/scripteditor/lrscripteditor.h \
     $$REPORT_PATH/scripteditor/lrcodeeditor.h \
+    $$REPORT_PATH/scripteditor/lrscripthighlighter.h \
     $$REPORT_PATH/items/editors/lritemeditorwidget.h \
     $$REPORT_PATH/items/editors/lrfonteditorwidget.h \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.h \

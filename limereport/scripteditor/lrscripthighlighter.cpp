@@ -1,5 +1,6 @@
 #include "lrscripthighlighter.h"
 #include <QDebug>
+#include <QPalette>
 
 namespace LimeReport{
 
@@ -17,25 +18,38 @@ static const char *const keywords[KEYWORDS_COUNT] = {
 
 enum LiteralsType{SpaceFound, AlpahabetFound, NumberFound, HashFound, SlashFound, AsterixFound,
                  BracketFound, QuotationFound, ApostropheFound, SeparatorFound, BackSlashFound, LiteralsCount};
-enum States {MayBeKeyWord, Code, MayBeComment, Comment, Comment2, MayBeComment2End, String, String2, MayBeNumber, Separator, StatesCount};
+enum States {Start, MayBeKeyWord, Code, MayBeComment, Comment, Comment2, MayBeComment2End, String, String2, MayBeNumber, Separator, StatesCount};
+
+void ScriptHighlighter::createParentheisisInfo(const char& literal, TextBlockData *data, const QString& text)
+{
+    int pos = text.indexOf(literal);
+    while (pos != -1) {
+        ParenthesisInfo *info = new ParenthesisInfo;
+        info->character = literal;
+        info->position = pos;
+        data->insert(info);
+        pos = text.indexOf(literal, pos + 1);
+    }
+}
 
 void ScriptHighlighter::highlightBlock(const QString& text)
 {
     int literal = -1;
     bool lastWasBackSlash = false;
-    int state = previousBlockState() != -1 ? previousBlockState() : MayBeKeyWord ;
+    int state = previousBlockState() != -1 ? previousBlockState() : Start ;
     int oldState = -1;
     int stateMaschine[StatesCount][LiteralsCount] = {
+        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Separator},
         {Separator, MayBeKeyWord, Code, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Separator},
         {Separator, Code, Code, Separator, Separator, Separator, Separator, String, String2, Separator, Separator},
-        {Separator, Code, Code, Code, Comment, Comment2, Code, String, String2, Separator, Code},
+        {Separator, Code, MayBeNumber, Code, Comment, Comment2, Code, String, String2, Separator, Code},
         {Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment},
         {Comment2, Comment2, Comment2, Comment2, Comment2, MayBeComment2End, Comment2, Comment2, Comment2, Comment2, Comment2},
         {Comment2, Comment2, Comment2, Comment2, Separator, Comment2, Comment2, Comment2, Comment2, Comment2, Comment2},
         {String, String, String, String, String, String, String, Separator, String, String, String},
         {String2, String2, String2, String2, String2, String2, String2, String2, Separator, String2, String2},
         {Separator, Code, MayBeNumber, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Code},
-        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, String, String2, Separator, Separator }
+        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Separator }
     };
 
     QString buffer;
@@ -86,33 +100,127 @@ void ScriptHighlighter::highlightBlock(const QString& text)
         oldState = state;
         state = stateMaschine[state][literal];
 
+        buffer += currentChar;
+
         if (oldState != state){
             switch( state ){
                 case MayBeComment:
+                    if (oldState == MayBeNumber){
+                        setFormat(i-(buffer.length()-1), buffer.length()-1, m_formats[NumberFormat]);
+                    }
+                    buffer.clear();
+                    buffer += currentChar;
+
+                    break;
+                case MayBeKeyWord:
+                case MayBeNumber:
                     buffer.clear();
                     buffer += currentChar;
                     break;
                 case Comment2:
-                    buffer += currentChar;
-                    qDebug()<<buffer;
-                    break;
+                    setCurrentBlockState(Comment2);
                 case Separator:
                     switch(oldState){
-                        case Comment2:
-                            qDebug()<<buffer;
+                        case MayBeComment2End:
+                            setFormat(i-(buffer.length()-1), buffer.length(), m_formats[CommentFormat]);
+                            setCurrentBlockState(-1);
+                            buffer.clear();
+                            break;
+                        case MayBeKeyWord:
+                            if (isKeyWord(buffer.left(buffer.length()-1))){
+                                setFormat(i-(buffer.length()-1), buffer.length()-1, m_formats[KeywordFormat]);
+                            }
+                            buffer.clear();
+                            break;
+                        case MayBeNumber:
+                            setFormat(i-(buffer.length()-1), buffer.length()-1, m_formats[NumberFormat]);
+                            buffer.clear();
+                        case String:
+                        case String2:
+                            setFormat(i-(buffer.length()-1), buffer.length(), m_formats[StringFormat]);
                             buffer.clear();
                             break;
                     }
                 default:
                     break;
             }
-        } else {
-            buffer += currentChar;
+        }
+
+        if ( state == Comment || state == Comment2 ){
+            setFormat(i-(buffer.length()-1), buffer.length(), m_formats[CommentFormat]);
+        }
+
+        if ( state == String || state == String2 ){
+            setFormat(i-(buffer.length()-1), buffer.length(), m_formats[StringFormat]);
         }
 
         i++;
         if ( i>= text.length()) break;
     }
+
+    TextBlockData *data = new TextBlockData;
+
+
+    for (int i = 0; i < PARENHEIS_COUNT; ++i){
+        createParentheisisInfo(parenthesisCharacters[LeftParenthesis][i].toLatin1(), data, text);
+        createParentheisisInfo(parenthesisCharacters[RightParenthesis][i].toLatin1(), data, text);
+    }
+//    createParentheisisInfo('(', data, text);
+//    createParentheisisInfo(')', data, text);
+//    createParentheisisInfo('{', data, text);
+//    createParentheisisInfo('}', data, text);
+//    createParentheisisInfo('[', data, text);
+//    createParentheisisInfo(']', data, text);
+
+    setCurrentBlockUserData(data);
+}
+
+bool ScriptHighlighter::isKeyWord(const QString& word)
+{
+    for (int i = 0; i < KEYWORDS_COUNT-1; ++i){
+        if (QLatin1String(keywords[i]) == word) return true;
+    }
+    return false;
+}
+
+bool ScriptHighlighter::isDark(QColor color)
+{
+    double a = 1 - ( 0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255;
+    return  (a < 0.5);
+}
+
+ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
+    QSyntaxHighlighter(parent)
+{
+
+    if ( isDark(QPalette().background().color())){
+        m_formats[NumberFormat].setForeground(Qt::darkBlue);
+        m_formats[StringFormat].setForeground(Qt::darkGreen);
+        m_formats[KeywordFormat].setForeground(Qt::darkYellow);
+        m_formats[CommentFormat].setForeground(Qt::darkGreen);
+        m_formats[CommentFormat].setFontItalic(true);
+    } else {
+        m_formats[NumberFormat].setForeground(QColor("#ff6aad"));
+        m_formats[StringFormat].setForeground(QColor("#b27f40"));
+        m_formats[KeywordFormat].setForeground(QColor("#45c5d5"));
+        m_formats[CommentFormat].setForeground(QColor("#a1a4a9"));
+        m_formats[CommentFormat].setFontItalic(true);
+    }
+}
+
+QVector<ParenthesisInfo*> TextBlockData::parentheses()
+{
+    return m_parentheses;
+}
+
+void TextBlockData::insert(ParenthesisInfo* info)
+{
+    int i = 0;
+    while (i < m_parentheses.size() &&
+        info->position > m_parentheses.at(i)->position)
+        ++i;
+
+    m_parentheses.insert(i, info);
 }
 
 } // namespace LimeReport

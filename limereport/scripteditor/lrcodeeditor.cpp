@@ -24,7 +24,9 @@ CodeEditor::CodeEditor(QWidget *parent)
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
-    (void) new ScriptHighlighter(document());
+    new ScriptHighlighter(document());
+    connect(this, SIGNAL(cursorPositionChanged()),
+            this, SLOT(matchParentheses()));
 }
 
 void CodeEditor::setCompleter(QCompleter *value)
@@ -143,6 +145,105 @@ QString CodeEditor::textUnderCursor() const
     return tc.selectedText();
 }
 
+bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numLeftParentheses)
+{
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    QVector<ParenthesisInfo *> infos = data->parentheses();
+
+    int docPos = currentBlock.position();
+    for (; i < infos.size(); ++i) {
+        ParenthesisInfo *info = infos.at(i);
+
+        if (info->character == parenthesisType) {
+            ++numLeftParentheses;
+            continue;
+        }
+
+        if (info->character == getParenthesisReverceChar(parenthesisType)){
+            if (numLeftParentheses == 0) {
+                createParenthesisSelection(docPos + info->position);
+                return true;
+            } else
+                --numLeftParentheses;
+        }
+
+    }
+
+    currentBlock = currentBlock.next();
+    if (currentBlock.isValid())
+        return matchLeftParenthesis(currentBlock, parenthesisType, 0, numLeftParentheses);
+
+    return false;
+}
+
+bool CodeEditor::matchRightParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numRightParentheses)
+{
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    QVector<ParenthesisInfo *> parentheses = data->parentheses();
+
+    int docPos = currentBlock.position();
+    for (; i > -1 && parentheses.size() > 0; --i) {
+        ParenthesisInfo *info = parentheses.at(i);
+        if (info->character == parenthesisType) {
+            ++numRightParentheses;
+            continue;
+        }
+        if (info->character == getParenthesisReverceChar(parenthesisType)){
+            if (numRightParentheses == 0) {
+                createParenthesisSelection(docPos + info->position);
+                return true;
+            } else
+                --numRightParentheses;
+        }
+    }
+
+    currentBlock = currentBlock.previous();
+    if (currentBlock.isValid())
+        return matchRightParenthesis(currentBlock, parenthesisType, 0, numRightParentheses);
+
+    return false;
+}
+
+void CodeEditor::createParenthesisSelection(int pos)
+{
+    QList<QTextEdit::ExtraSelection> selections = extraSelections();
+
+    QTextEdit::ExtraSelection selection;
+    QTextCharFormat format = selection.format;
+    format.setBackground(QColor("#619934"));
+    format.setForeground(QColor("#ffffff"));
+    selection.format = format;
+
+    QTextCursor cursor = textCursor();
+    cursor.setPosition(pos);
+    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+    selection.cursor = cursor;
+
+    selections.append(selection);
+
+    setExtraSelections(selections);
+}
+
+bool CodeEditor::charIsParenthesis(QChar character, ParenthesisType type)
+{
+    for (int i = 0; i < PARENHEIS_COUNT; ++i){
+        if (character == parenthesisCharacters[type][i])
+            return true;
+    }
+    return false;
+}
+
+QChar CodeEditor::getParenthesisReverceChar(QChar parenthesisChar)
+{
+    for (int i = 0; i < PARENHEIS_COUNT; ++i){
+        if ( parenthesisCharacters[RightParenthesis][i] == parenthesisChar)
+            return parenthesisCharacters[LeftParenthesis][i];
+        if ( parenthesisCharacters[LeftParenthesis][i] == parenthesisChar)
+            return parenthesisCharacters[RightParenthesis][i];
+    }
+    return ' ';
+}
+
 void CodeEditor::insertCompletion(const QString &completion)
 {
     if (m_compleater->widget() != this)
@@ -155,7 +256,7 @@ void CodeEditor::insertCompletion(const QString &completion)
     setTextCursor(tc);
 }
 
-void CodeEditor::updateLineNumberAreaWidth(int newBlockCount)
+void CodeEditor::updateLineNumberAreaWidth(int /*newBlockCount*/)
 {
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
@@ -167,7 +268,7 @@ void CodeEditor::highlightCurrentLine()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(QPalette().background().color()).darker(160);
+        QColor lineColor = QColor(QPalette().background().color()).darker(100);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -188,6 +289,34 @@ void CodeEditor::updateLineNumberArea(const QRect& rect, int dy)
 
     if (rect.contains(viewport()->rect()))
         updateLineNumberAreaWidth(0);
+}
+
+void CodeEditor::matchParentheses()
+{
+    QList<QTextEdit::ExtraSelection> selections;
+    setExtraSelections(selections);
+
+    TextBlockData *data = static_cast<TextBlockData *>(textCursor().block().userData());
+
+    if (data) {
+        QVector<ParenthesisInfo *> infos = data->parentheses();
+
+        int pos = textCursor().block().position();
+        for (int i = 0; i < infos.size(); ++i) {
+            ParenthesisInfo *info = infos.at(i);
+
+            int curPos = textCursor().position() - textCursor().block().position();
+
+            if ( (info->position == (curPos - 1)) && charIsParenthesis(info->character, LeftParenthesis))
+            {
+                if (matchLeftParenthesis(textCursor().block(), info->character, i + 1, 0))
+                    createParenthesisSelection(pos + info->position);
+            } else if ( (info->position == (curPos - 1)) && charIsParenthesis(info->character, RightParenthesis)) {
+                if (matchRightParenthesis(textCursor().block(), info->character, i - 1, 0))
+                    createParenthesisSelection(pos + info->position);
+            }
+         }
+    }
 }
 
 } //namespace LimeReport

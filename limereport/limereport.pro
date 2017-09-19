@@ -118,10 +118,4 @@ contains(CONFIG,build_translations){
 
 #### EN AUTOMATIC TRANSLATIONS
 
-HEADERS += \
-    scripteditor/lrscripthighlighter.h
-
-SOURCES += \
-    scripteditor/lrscripthighlighter.cpp
-
 

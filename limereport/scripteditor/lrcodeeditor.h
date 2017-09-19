@@ -3,6 +3,7 @@
 
 #include <QPlainTextEdit>
 #include <QSyntaxHighlighter>
+#include "lrscripthighlighter.h"
 
 QT_BEGIN_NAMESPACE
 class QWidget;
@@ -28,11 +29,17 @@ protected:
     void resizeEvent(QResizeEvent *event);
 private:
     QString textUnderCursor() const;
+    bool    matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numLeftParentheses);
+    bool    matchRightParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numRightParentheses);
+    void    createParenthesisSelection(int pos);
+    bool    charIsParenthesis(QChar character, ParenthesisType type);
+    QChar   getParenthesisReverceChar(QChar parenthesisChar);
 private slots:
     void insertCompletion(const QString& completion);
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
+    void matchParentheses();
 private:
     QCompleter* m_compleater;
     QWidget *lineNumberArea;
