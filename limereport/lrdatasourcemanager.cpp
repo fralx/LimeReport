@@ -1250,12 +1250,14 @@ void DataSourceManager::slotQueryTextChanged(const QString &queryName, const QSt
 
 void DataSourceManager::invalidateQueriesContainsVariable(const QString& variableName)
 {
-    foreach (const QString& datasourceName, dataSourceNames()){
-        QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
-        if (holder){
-            QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
-            if  (holder->queryText().contains(rx))
-                holder->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+    if (!variableIsSystem(variableName)){
+        foreach (const QString& datasourceName, dataSourceNames()){
+            QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
+            if (holder){
+                QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+                if  (holder->queryText().contains(rx))
+                    holder->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+            }
         }
     }
 }
