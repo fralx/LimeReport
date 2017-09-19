@@ -216,7 +216,11 @@ QScriptValue setVariable(QScriptContext* pcontext, QScriptEngine* /*pengine*/){
     ScriptEngineManager* sm = qscriptvalue_cast<ScriptEngineManager*>(pcontext->callee().data());
     DataSourceManager* dm = sm->dataManager();
 
-    dm->changeVariable(name,value);
+    if (dm->containsVariable(name))
+        dm->changeVariable(name,value);
+    else
+        dm->addVariable(name, value);
+
     return QScriptValue();
 }
 

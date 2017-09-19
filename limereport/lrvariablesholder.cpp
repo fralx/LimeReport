@@ -61,6 +61,7 @@ void VariablesHolder::addVariable(const QString& name, const QVariant& value, Va
         m_varNames.insert(name,varValue);
         if (type==VarDesc::Report)
             m_userVariables.append(varValue);
+        emit variableHasBeenAdded(name);
     } else {
         throw ReportError(tr("variable with name ")+name+tr(" already exists!"));
     }
@@ -86,6 +87,7 @@ void VariablesHolder::deleteVariable(const QString &name)
         m_userVariables.removeOne(m_varNames.value(name));
         delete m_varNames.value(name);
         m_varNames.remove(name);
+        emit variableHasBennDeleted(name);
     }
 }
 
@@ -93,6 +95,7 @@ void VariablesHolder::changeVariable(const QString &name, const QVariant &value)
 {
     if(m_varNames.contains(name)) {
         m_varNames.value(name)->setValue(value);
+        emit variableHasBeenChanged(name);
     } else
         throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
 }
