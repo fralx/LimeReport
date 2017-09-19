@@ -51,6 +51,8 @@ class ReportDesignWindow;
 class DialogDesignerManager;
 class DialogDesigner;
 class TranslationEditor;
+class ScriptEditor;
+
 
 class ReportDesignWidget : public QWidget
 {
@@ -189,7 +191,7 @@ private:
 private:
     ReportEnginePrivate* m_report;
     QGraphicsView *m_view;
-    QTextEdit* m_scriptEditor;
+    ScriptEditor* m_scriptEditor;
     TranslationEditor* m_traslationEditor;
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     DialogDesignerManager* m_dialogDesignerManager;
@@ -205,5 +207,5 @@ private:
     bool m_dialogChanged;
 };
 
-}
+} // namespace LimeReport
 #endif // LRREPORTDESIGNWIDGET_H

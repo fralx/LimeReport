@@ -264,6 +264,7 @@ private:
     ReportDesignWidget::EditorTabType m_editorTabType;
     QByteArray m_pageEditorsState;
     QByteArray m_dialogEditorsState;
+    QByteArray m_scriptEditorState;
     QVector<QToolBar*> m_pageTools;
     QVector<QToolBar*> m_dialogTools;
 

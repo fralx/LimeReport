@@ -35,6 +35,7 @@
 #include "lrsettingdialog.h"
 #include "dialogdesigner/lrdialogdesigner.h"
 #include "translationeditor/translationeditor.h"
+#include "scripteditor/lrscripteditor.h"
 
 #include <QDebug>
 #include <QObject>
@@ -183,6 +184,7 @@ void ReportDesignWidget::saveState(QSettings* settings)
     settings->setValue("vGridStep",m_verticalGridStep);
     settings->setValue("defaultFont",m_defaultFont);
     settings->setValue("useGrid",m_useGrid);
+    settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
     settings->endGroup();
 }
 
@@ -215,6 +217,12 @@ void ReportDesignWidget::loadState(QSettings* settings)
     if (v.isValid()){
         m_useGrid = v.toBool();
     }
+
+    v = settings->value("ScriptEditorState");
+    if (v.isValid()){
+        m_scriptEditor->restoreState(v.toByteArray());
+    }
+
     settings->endGroup();
     applySettings();
 }
@@ -241,7 +249,8 @@ void ReportDesignWidget::createTabs(){
                 this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
     }
 
-    m_scriptEditor = new QTextEdit(this);
+    m_scriptEditor = new ScriptEditor(this);
+    m_scriptEditor->setReportEngine(m_report);
     pageIndex = m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
     m_tabWidget->setTabWhatsThis(pageIndex,"script");
     m_tabWidget->setCurrentIndex(0);
@@ -435,9 +444,11 @@ bool ReportDesignWidget::save()
 bool ReportDesignWidget::loadFromFile(const QString &fileName)
 {
     if (m_report->loadFromFile(fileName,false)){
+        QByteArray editorState = m_scriptEditor->saveState();
         createTabs();
         //connectPage(m_report->pageAt(0));
         m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
+        m_scriptEditor->restoreState(editorState);
         emit loaded();
         m_dialogChanged = false;
         return true;
@@ -787,6 +798,12 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     if (activeTabType() == Translations){
         m_traslationEditor->setReportEngine(report());
     }
+
+    if (activeTabType() == Script){
+        m_scriptEditor->initCompleter();
+        m_scriptEditor->setFocus();
+    }
+
     emit activePageChanged();
 }
 
