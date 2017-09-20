@@ -11,12 +11,13 @@ namespace LimeReport{
 
 ScriptEditor::ScriptEditor(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ScriptEditor)
+    ui(new Ui::ScriptEditor), m_reportEngine(0), m_page(0)
 {
     ui->setupUi(this);
     setFocusProxy(ui->textEdit);
     m_completer = new QCompleter(this);
     ui->textEdit->setCompleter(m_completer);
+    connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SIGNAL(splitterMoved(int,int)));
 }
 
 ScriptEditor::~ScriptEditor()
@@ -42,10 +43,50 @@ void ScriptEditor::setReportEngine(ReportEnginePrivate* reportEngine)
 
 }
 
+void ScriptEditor::setReportPage(PageDesignIntf* page)
+{
+    m_page = page;
+    DataSourceManager* dm = page->datasourceManager();
+    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
+    se.setDataManager(dm);
+
+    initCompleter();
+
+    if (dm){
+        if (dm->isNeedUpdateDatasourceModel())
+           dm->updateDatasourceModel();
+        ui->twData->setModel(dm->datasourcesModel());
+        ui->twScriptEngine->setModel(se.model());
+    }
+}
+
+void ScriptEditor::setPageBand(BandDesignIntf* band)
+{
+    if (band && ui->twData->model() && !band->datasourceName().isEmpty()){
+        QModelIndexList nodes = ui->twData->model()->match(
+                    ui->twData->model()->index(0,0),
+                    Qt::DisplayRole,
+                    band->datasourceName(),
+                    2,
+                    Qt::MatchRecursive
+        );
+        if (!nodes.isEmpty()){
+            ui->twData->expand(nodes.at(0).parent());
+            ui->twData->expand(nodes.at(0));
+        }
+    }
+}
+
 void ScriptEditor::initCompleter()
 {
     QStringList dataWords;
-    DataSourceManager* dm = m_reportEngine->dataManager();
+
+    DataSourceManager* dm = 0;
+    if (m_reportEngine)
+        dm = m_reportEngine->dataManager();
+    if (m_page)
+        dm = m_page->datasourceManager();
+
     ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
 
     QJSValue globalObject = se.scriptEngine()->globalObject();
@@ -68,11 +109,13 @@ void ScriptEditor::initCompleter()
         dataWords << varName.remove("#");
     }
 
-    for ( int i = 0; i < m_reportEngine->pageCount(); ++i){
-        PageDesignIntf* page = m_reportEngine->pageAt(i);
-        dataWords << page->pageItem()->objectName();
-        foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
-            addItemToCompleater(page->pageItem()->objectName(), item, dataWords);
+    if (m_reportEngine){
+        for ( int i = 0; i < m_reportEngine->pageCount(); ++i){
+            PageDesignIntf* page = m_reportEngine->pageAt(i);
+            dataWords << page->pageItem()->objectName();
+            foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
+                addItemToCompleater(page->pageItem()->objectName(), item, dataWords);
+            }
         }
     }
 
@@ -92,6 +135,16 @@ void ScriptEditor::restoreState(QByteArray state)
 void ScriptEditor::setPlainText(const QString& text)
 {
     ui->textEdit->setPlainText(text);
+}
+
+void ScriptEditor::setEditorFont(QFont font)
+{
+    ui->textEdit->setFont(font);
+}
+
+QFont ScriptEditor::editorFont()
+{
+    return ui->textEdit->font();
 }
 
 QString ScriptEditor::toPlainText()
