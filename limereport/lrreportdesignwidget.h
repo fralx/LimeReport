@@ -71,7 +71,8 @@ public:
         Page,
         Dialog,
         Script,
-        Translations
+        Translations,
+        TabTypeCount
     };
     ReportDesignWidget(ReportEngine* report, QMainWindow *mainWindow, QWidget *parent = 0);
     ~ReportDesignWidget();

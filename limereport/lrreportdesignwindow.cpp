@@ -63,7 +63,8 @@ namespace LimeReport{
 ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
 ReportDesignWindow::ReportDesignWindow(ReportEngine *report, QWidget *parent, QSettings* settings) :
-    QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false), m_progressDialog(0), m_showProgressDialog(true)
+    QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
+    m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page)
 {
     initReportEditor(report);
     createActions();
@@ -92,8 +93,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEngine *report, QWidget *parent, QS
     showDefaultToolBars();
     restoreSetting();
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
-    m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
-    m_editorTabType = ReportDesignWidget::Page;
+    m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));    
 }
 
 ReportDesignWindow::~ReportDesignWindow()
@@ -663,23 +663,12 @@ void ReportDesignWindow::writePosition()
 void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
-    switch (m_editorTabType) {
-        case ReportDesignWidget::Page:
-            settings()->setValue("PageEditorsState", saveState());
-            settings()->setValue("DialogEditorsState", m_dialogEditorsState);
-            settings()->setValue("ScriptEditorsState", m_scriptEditorState);
-            break;
-        case ReportDesignWidget::Script:
-            settings()->setValue("ScriptEditorsState", saveState());
-            settings()->setValue("DialogEditorsState", m_dialogEditorsState);
-            settings()->setValue("PageEditorsState", m_pageEditorsState);
-            break;
-        default:
-            settings()->setValue("DialogEditorsState", saveState());
-            settings()->setValue("PageEditorsState", m_pageEditorsState);
-            settings()->setValue("ScriptEditorsState", m_scriptEditorState);
-            break;
-    }
+
+    m_editorsStates[m_editorTabType] = saveState();
+    settings()->setValue("PageEditorsState",        m_editorsStates[ReportDesignWidget::Page]);
+    settings()->setValue("DialogEditorsState",      m_editorsStates[ReportDesignWidget::Dialog]);
+    settings()->setValue("ScriptEditorsState",      m_editorsStates[ReportDesignWidget::Script]);
+    settings()->setValue("TranslationEditorsState", m_editorsStates[ReportDesignWidget::Translations]);
     settings()->setValue("InspectorFirsColumnWidth",m_objectInspector->columnWidth(0));
     settings()->endGroup();
     settings()->beginGroup("RecentFiles");
@@ -774,18 +763,23 @@ void ReportDesignWindow::restoreSetting()
     }
     v = settings()->value("PageEditorsState");
     if (v.isValid()){
-        m_pageEditorsState = v.toByteArray();
-        restoreState(v.toByteArray());
+        m_editorsStates[ReportDesignWidget::Page] = v.toByteArray();
         m_editorTabType = ReportDesignWidget::Page;
     }
     v = settings()->value("DialogEditorsState");
     if (v.isValid()){
-        m_dialogEditorsState = v.toByteArray();
+        m_editorsStates[ReportDesignWidget::Dialog] = v.toByteArray();
     }
     v = settings()->value("ScriptEditorsState");
     if (v.isValid()){
-        m_scriptEditorState = v.toByteArray();
+        m_editorsStates[ReportDesignWidget::Script] = v.toByteArray();
     }
+
+    v = settings()->value("TranslationEditorsState");
+    if (v.isValid()){
+        m_editorsStates[ReportDesignWidget::Translations] = v.toByteArray();
+    }
+
     v = settings()->value("InspectorFirsColumnWidth");
     if (v.isValid()){
         m_objectInspector->setColumnWidth(0,v.toInt());
@@ -1087,7 +1081,7 @@ void ReportDesignWindow::slotLoadReport()
             	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
                 addRecentFile(fileName);
                 m_editorTabType = ReportDesignWidget::Page;
-                showDefaultToolBars();
+                //showDefaultToolBars();
                 showDefaultEditors();
             }
         }
@@ -1287,48 +1281,20 @@ void ReportDesignWindow::slotActivePageChanged()
     updateRedoUndo();
     updateAvaibleBands();
 
-    switch (m_editorTabType) {
-        case ReportDesignWidget::Dialog:
-            m_dialogEditorsState = saveState();
+    if (m_editorTabType == ReportDesignWidget::Dialog){
 #ifdef HAVE_UI_LOADER
-            m_scriptBrowser->updateDialogsTree();
+        m_scriptBrowser->updateDialogsTree();
 #endif
-            break;
-        case ReportDesignWidget::Script:
-            m_scriptEditorState = saveState();
-            break;
-    default:
-        m_pageEditorsState = saveState();
-        break;
     }
 
+    m_editorsStates[m_editorTabType] = saveState();
     m_editorTabType = m_reportDesignWidget->activeTabType();
 
-    switch (m_editorTabType) {
-        case ReportDesignWidget::Dialog:
-            if (!m_dialogEditorsState.isEmpty()){
-                restoreState(m_dialogEditorsState);
-            } else {
-                showDefaultEditors();
-                showDefaultToolBars();
-            }
-            break;
-        case ReportDesignWidget::Script:
-            if (!m_scriptEditorState.isEmpty()){
-                restoreState(m_scriptEditorState);
-            } else {
-                showDefaultEditors();
-                showDefaultToolBars();
-            }
-            break;
-        default:
-            if (!m_pageEditors.isEmpty()){
-                restoreState(m_pageEditorsState);
-            } else {
-                showDefaultEditors();
-                showDefaultToolBars();
-            }
-            break;
+    if (!m_editorsStates[m_editorTabType].isEmpty()){
+        restoreState(m_editorsStates[m_editorTabType]);
+    } else {
+        showDefaultEditors();
+        showDefaultToolBars();
     }
 
 }
@@ -1472,6 +1438,19 @@ void ReportDesignWindow::resizeEvent(QResizeEvent*)
 #ifdef Q_OS_UNIX
     writePosition();
 #endif
+}
+
+void ReportDesignWindow::showEvent(QShowEvent* event)
+{
+    QMainWindow::showEvent(event);
+
+    if (!m_editorsStates[m_editorTabType].isEmpty()){
+        restoreState(m_editorsStates[m_editorTabType]);
+    } else {
+        showDefaultEditors();
+        showDefaultToolBars();
+    }
+
 }
 
 void ReportDesignWindow::moveEvent(QMoveEvent*)

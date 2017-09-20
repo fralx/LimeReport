@@ -126,6 +126,7 @@ private slots:
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
+    void showEvent(QShowEvent* event);
     void moveEvent(QMoveEvent *);
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
@@ -262,9 +263,7 @@ private:
     QVector<QDockWidget*> m_dialogEditors;
     QVector<QDockWidget*> m_docksToTabify;
     ReportDesignWidget::EditorTabType m_editorTabType;
-    QByteArray m_pageEditorsState;
-    QByteArray m_dialogEditorsState;
-    QByteArray m_scriptEditorState;
+    QByteArray         m_editorsStates[ReportDesignWidget::TabTypeCount];
     QVector<QToolBar*> m_pageTools;
     QVector<QToolBar*> m_dialogTools;
 
