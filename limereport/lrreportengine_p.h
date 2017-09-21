@@ -129,6 +129,7 @@ public:
 
     void setPassPhrase(const QString &passPhrase);
     void reorderPages(const QList<PageDesignIntf *> &reorderedPages);
+    void clearSelection();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);

@@ -63,7 +63,7 @@ bool lessThen(BaseDesignIntf *c1, BaseDesignIntf* c2){
 HorizontalLayout::HorizontalLayout(QObject *owner, QGraphicsItem *parent)
     : LayoutDesignIntf(xmlTag, owner, parent),m_isRelocating(false),m_layoutType(Layout)
 {
-    setPossibleResizeDirectionFlags(ResizeBottom);
+    setPossibleResizeDirectionFlags(AllDirections);
     m_layoutMarker = new LayoutMarker(this);
     m_layoutMarker->setParentItem(this);
     m_layoutMarker->setColor(Qt::red);
@@ -86,6 +86,7 @@ BaseDesignIntf *HorizontalLayout::createSameTypeItem(QObject *owner, QGraphicsIt
 void HorizontalLayout::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event)
+    LayoutDesignIntf::hoverEnterEvent(event);
 //    if ((itemMode() & LayoutEditMode) || isSelected()){
 //        setChildVisibility(false);
 //    }
@@ -94,6 +95,7 @@ void HorizontalLayout::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 void HorizontalLayout::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event)
+    LayoutDesignIntf::hoverLeaveEvent(event);
 //    setChildVisibility(true);
 }
 
@@ -101,7 +103,7 @@ void HorizontalLayout::geometryChangedEvent(QRectF newRect, QRectF )
 {
     m_layoutMarker->setHeight(newRect.height());
     relocateChildren();
-    if (m_layoutType == Table && !m_isRelocating){
+    if (/*m_layoutType == Table && */!m_isRelocating){
         divideSpace();
     }
 }
@@ -203,6 +205,36 @@ void HorizontalLayout::setBorderLinesFlags(BaseDesignIntf::BorderLines flags)
         relocateChildren();
 }
 
+QVariant HorizontalLayout::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value)
+{
+    if (change == QGraphicsItem::ItemSelectedHasChanged){
+        m_isRelocating = true;
+        foreach(BaseDesignIntf* item, m_children){
+            item->setVisible(!value.toBool());
+        }
+        m_isRelocating = false;
+    }
+    return LayoutDesignIntf::itemChange(change, value);
+}
+
+void HorizontalLayout::paint(QPainter* ppainter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    if (isSelected()){
+        foreach( BaseDesignIntf* item, m_children){
+            ppainter->save();
+            ppainter->setPen(Qt::red);
+            ppainter->drawRect(
+                QRectF(item->pos().x(),item->pos().y(),
+                       item->rect().bottomRight().rx(),
+                       item->rect().bottomRight().ry()
+                )
+            );
+            ppainter->restore();
+        }
+    }
+    LayoutDesignIntf::paint(ppainter, option, widget);
+}
+
 void HorizontalLayout::restoreChild(BaseDesignIntf* item){
     if (m_children.contains(item)) return;
 
@@ -257,9 +289,22 @@ void HorizontalLayout::addChild(BaseDesignIntf *item, bool updateSize)
     item->setFixedPos(true);
     item->setPossibleResizeDirectionFlags(ResizeRight | ResizeBottom);
 
-    connect(item,SIGNAL(destroyed(QObject*)),this,SLOT(slotOnChildDestroy(QObject*)));
-    connect(item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF)));
-    connect(item, SIGNAL(itemVisibleHasChanged(BaseDesignIntf*)),this,SLOT(slotOnChildVisibleHasChanged(BaseDesignIntf*)));
+    connect(
+        item, SIGNAL(destroyed(QObject*)),
+        this, SLOT(slotOnChildDestroy(QObject*))
+    );
+    connect(
+        item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),
+        this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF))
+    );
+    connect(
+        item, SIGNAL(itemVisibleHasChanged(BaseDesignIntf*)),
+        this,SLOT(slotOnChildVisibleHasChanged(BaseDesignIntf*))
+    );
+    connect(
+        item, SIGNAL(itemSelectedHasBeenChanged(BaseDesignIntf*,bool)),
+        this, SLOT(slotOnChildSelectionHasChanged(BaseDesignIntf*,bool))
+    );
 
     if (updateSize){
         relocateChildren();
@@ -318,7 +363,7 @@ void HorizontalLayout::relocateChildren()
     qreal curX = spaceBorder;
     m_isRelocating = true;
     foreach (BaseDesignIntf* item, m_children) {
-        if (item->isVisible()){
+        if (item->isVisible() || itemMode() == DesignMode){
             item->setPos(curX,spaceBorder);
             curX+=item->width();
             item->setHeight(height()-(spaceBorder * 2));
@@ -423,7 +468,7 @@ void HorizontalLayout::divideSpace(){
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
 
     foreach(BaseDesignIntf* item, m_children){
-        if (item->isVisible()){
+        if (item->isVisible() || itemMode() == DesignMode ){
             itemsSumSize += item->width();
             visibleItemsCount++;
         }
@@ -431,10 +476,10 @@ void HorizontalLayout::divideSpace(){
     qreal delta = (width() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
 
     for (int i=0; i<m_children.size(); ++i){
-        if (m_children[i]->isVisible())
+        if (m_children[i]->isVisible() || itemMode() == DesignMode)
             m_children[i]->setWidth(m_children[i]->width()+delta);
         if ((i+1)<m_children.size())
-            if (m_children[i+1]->isVisible())
+            if (m_children[i+1]->isVisible() || itemMode() == DesignMode)
                 m_children[i+1]->setPos(m_children[i+1]->pos().x()+delta*(i+1),m_children[i+1]->pos().y());
     }
     m_isRelocating = false;
@@ -471,6 +516,11 @@ void HorizontalLayout::slotOnChildVisibleHasChanged(BaseDesignIntf *)
     if (m_layoutType == Table && !m_isRelocating){
         divideSpace();
     }
+}
+
+void HorizontalLayout::slotOnChildSelectionHasChanged(BaseDesignIntf* item, bool value)
+{
+    item->setZValue(value ? item->zValue()+1 : item->zValue()-1);
 }
 
 HorizontalLayout::LayoutType HorizontalLayout::layoutType() const

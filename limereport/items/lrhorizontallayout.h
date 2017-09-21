@@ -96,11 +96,15 @@ protected:
 
     void setItemAlign(const ItemAlign &itemAlign);
     void setBorderLinesFlags(BorderLines flags);
+
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    void    paint(QPainter* ppainter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 private slots:
     void slotOnChildDestroy(QObject *child);
     void slotOnChildGeometryChanged(QObject*item, QRectF newGeometry, QRectF oldGeometry);
     void slotOnChildItemAlignChanged(BaseDesignIntf* item, const ItemAlign&, const ItemAlign&);
     void slotOnChildVisibleHasChanged(BaseDesignIntf*);
+    void slotOnChildSelectionHasChanged(BaseDesignIntf* item, bool value);
     //void slotOnPosChanged(QObject*, QPointF newPos, QPointF );
 private:
     void divideSpace();

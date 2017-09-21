@@ -262,7 +262,7 @@ void ReportDesignWidget::slotItemSelected(BaseDesignIntf *item){
 }
 
 void ReportDesignWidget::saveToFile(const QString &fileName){
-    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
     if (m_report->saveToFile(fileName)) {
             m_report->emitSaveFinished();
     }
@@ -270,7 +270,7 @@ void ReportDesignWidget::saveToFile(const QString &fileName){
 
 bool ReportDesignWidget::save()
 {
-    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
     if (!m_report->reportFileName().isEmpty()){
         if (m_report->saveToFile()){
             m_report->emitSaveFinished();
@@ -459,15 +459,21 @@ void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
         activePage()->setBorders(borders);
 }
 
+void ReportDesignWidget::prepareReport()
+{
+    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    report()->clearSelection();
+}
+
 void ReportDesignWidget::previewReport()
 {
-    report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
     report()->previewReport();
 }
 
 void ReportDesignWidget::printReport()
 {
-    report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
     setCursor(Qt::WaitCursor);
     report()->printReport();
     setCursor(Qt::ArrowCursor);

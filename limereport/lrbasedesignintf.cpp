@@ -1008,6 +1008,7 @@ QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
     }
     if (change == QGraphicsItem::ItemSelectedChange) {
         turnOnSelectionMarker(value.toBool());
+        emit itemSelectedHasBeenChanged(this, value.toBool());
     }
     if (change == QGraphicsItem::ItemParentHasChanged) {
         parentChangedEvent(dynamic_cast<BaseDesignIntf*>(value.value<QGraphicsItem*>()));
