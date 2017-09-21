@@ -292,7 +292,8 @@ void HorizontalLayout::objectLoadFinished()
 
 void HorizontalLayout::updateLayoutSize()
 {
-    int w = ((borderLines() != 0) ? borderLineSize() : 0)*2;
+    int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
+    int w = spaceBorder*2;
     qreal h = 0;
     foreach(BaseDesignIntf* item, m_children){
         if (item->isVisible()){
@@ -300,7 +301,7 @@ void HorizontalLayout::updateLayoutSize()
             w+=item->width();
         }
     }
-    if (h>0) setHeight(h);
+    if (h>0) setHeight(h+spaceBorder*2);
     setWidth(w);
 }
 
@@ -418,14 +419,23 @@ BaseDesignIntf* HorizontalLayout::findPrior(BaseDesignIntf* item){
 void HorizontalLayout::divideSpace(){
     m_isRelocating = true;
     qreal itemsSumSize = 0;
+    int visibleItemsCount = 0;
+    int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
+
     foreach(BaseDesignIntf* item, m_children){
-        itemsSumSize += item->width();
+        if (item->isVisible()){
+            itemsSumSize += item->width();
+            visibleItemsCount++;
+        }
     }
-    qreal delta = (width() - itemsSumSize)/m_children.size();
+    qreal delta = (width() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
+
     for (int i=0; i<m_children.size(); ++i){
-        m_children[i]->setWidth(m_children[i]->width()+(delta));
+        if (m_children[i]->isVisible())
+            m_children[i]->setWidth(m_children[i]->width()+delta);
         if ((i+1)<m_children.size())
-            m_children[i+1]->setPos(m_children[i+1]->pos().x()+delta*(i+1),m_children[i+1]->pos().y());
+            if (m_children[i+1]->isVisible())
+                m_children[i+1]->setPos(m_children[i+1]->pos().x()+delta*(i+1),m_children[i+1]->pos().y());
     }
     m_isRelocating = false;
 }
