@@ -823,6 +823,15 @@ void ReportEnginePrivate::reorderPages(const QList<PageDesignIntf *>& reorderedP
     }
 }
 
+void ReportEnginePrivate::clearSelection()
+{
+    foreach (PageDesignIntf* page, m_pages) {
+        foreach(QGraphicsItem* item, page->selectedItems()){
+            item->setSelected(false);
+        }
+    }
+}
+
 bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
 {
     if (!m_translations.keys().contains(language)){

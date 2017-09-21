@@ -387,7 +387,7 @@ void ReportDesignWidget::slotItemSelected(BaseDesignIntf *item){
 bool ReportDesignWidget::saveToFile(const QString &fileName){
 
     bool result = false;
-    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
 #endif
@@ -408,7 +408,7 @@ bool ReportDesignWidget::saveToFile(const QString &fileName){
 
 bool ReportDesignWidget::save()
 {
-    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
 #endif
@@ -620,9 +620,15 @@ void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
         activePage()->setBorders(borders);
 }
 
+void ReportDesignWidget::prepareReport()
+{
+    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    report()->clearSelection();
+}
+
 void ReportDesignWidget::previewReport()
 {
-    report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
 #endif
@@ -631,7 +637,7 @@ void ReportDesignWidget::previewReport()
 
 void ReportDesignWidget::printReport()
 {
-    report()->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
+    prepareReport();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
 #endif

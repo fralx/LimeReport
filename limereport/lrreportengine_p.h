@@ -139,6 +139,7 @@ public:
     QList<QLocale::Language> aviableLanguages();
     ReportTranslation* reportTranslation(QLocale::Language language);
     void reorderPages(const QList<PageDesignIntf *> &reorderedPages);
+    void clearSelection();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);

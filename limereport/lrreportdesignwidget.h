@@ -206,6 +206,7 @@ private:
     bool m_useGrid;
     bool m_useMagnet;
     bool m_dialogChanged;
+    void prepareReport();
 };
 
 } // namespace LimeReport
