@@ -728,6 +728,15 @@ void ReportEnginePrivate::reorderPages(const QList<PageDesignIntf *>& reorderedP
     }
 }
 
+void ReportEnginePrivate::clearSelection()
+{
+    foreach (PageDesignIntf* page, m_pages) {
+        foreach(QGraphicsItem* item, page->selectedItems()){
+            item->setSelected(false);
+        }
+    }
+}
+
 bool ReportEnginePrivate::resultIsEditable() const
 {
     return m_resultIsEditable;

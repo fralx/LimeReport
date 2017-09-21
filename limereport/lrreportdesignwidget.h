@@ -166,6 +166,7 @@ private:
     bool m_useGrid;
     bool m_useMagnet;
 //    static ReportDesignWidget* m_instance;
+    void prepareReport();
 };
 
 }
