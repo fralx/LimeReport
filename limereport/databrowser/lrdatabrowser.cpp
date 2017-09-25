@@ -237,7 +237,7 @@ void DataBrowser::updateVariablesTree()
         }
     }
 
-    foreach(QString variableName,m_report->dataManager()->namesOfUserVariables()){
+    foreach(QString variableName,m_report->dataManager()->userVariableNames()){
         if (!m_report->dataManager()->variableNames().contains(variableName)){
             QStringList values;
             values<<variableName+"  ["+m_report->dataManager()->variable(variableName).toString()+"]"

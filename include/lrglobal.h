@@ -157,6 +157,17 @@ namespace Const{
     typedef QScriptValue ScriptValueType;
 #endif
 
+    class Enums
+    {
+    public:
+        enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};
+        Q_ENUM(VariableDataType)
+    private:
+        Enums(){}
+        Q_GADGET
+    };
+    typedef Enums::VariableDataType VariableDataType;
+
 } // namespace LimeReport
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(LimeReport::PreviewHints)

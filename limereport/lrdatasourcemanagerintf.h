@@ -31,6 +31,7 @@
 #define LRDATASOURCEMANAGERINTF_H
 
 #include "lrcallbackdatasourceintf.h"
+#include "lrglobal.h"
 
 class QVariant;
 class QString;
@@ -56,6 +57,11 @@ public:
     virtual void clearUserVariables()=0;
     virtual ICallbackDatasource* createCallbackDatasource(const QString& name) = 0;
     virtual void registerDbCredentialsProvider(IDbCredentialsProvider* provider) = 0;
+
+    virtual QStringList variableNames() = 0;
+    virtual bool variableIsMandatory(const QString& name) = 0;
+    virtual VariableDataType variableDataType(const QString& name) = 0;
+    virtual bool variableIsSystem(const QString& name) = 0;
 };
 
 }

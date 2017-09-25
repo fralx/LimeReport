@@ -211,7 +211,7 @@ void DataSourceModel::updateModel()
     }
 
     vars = m_rootNode->addChild(tr("External variables"),DataNode::Variables,QIcon(":/report/images/folder"));
-    foreach (QString name, m_dataManager->namesOfUserVariables()){
+    foreach (QString name, m_dataManager->userVariableNames()){
         vars->addChild(name,DataNode::Variable,QIcon(":/report/images/value"));
     }
 }
@@ -1072,7 +1072,7 @@ int DataSourceManager::elementsCount(const QString &collectionName)
         return m_proxies.count();
     }
     if (collectionName=="variables"){
-        return m_reportVariables.userVariablesCount();
+        return m_reportVariables.variablesCount();
     }
     return 0;
 }
@@ -1092,7 +1092,7 @@ QObject* DataSourceManager::elementAt(const QString &collectionName, int index)
         return m_proxies.at(index);
     }
     if (collectionName=="variables"){
-        return m_reportVariables.userVariableAt(index);
+        return m_reportVariables.variableAt(index);
     }
     return 0;
 }
@@ -1160,6 +1160,8 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
         foreach (VarDesc* item, m_tempVars) {
             if (!m_reportVariables.containsVariable(item->name())){
                 m_reportVariables.addVariable(item->name(),item->value(),VarDesc::Report,FirstPass);
+                VarDesc* currentVar = m_reportVariables.variableByName(item->name());
+                currentVar->initFrom(item);
             }
             delete item;
         }
@@ -1454,6 +1456,19 @@ bool DataSourceManager::variableIsSystem(const QString &name)
     return false;
 }
 
+bool DataSourceManager::variableIsMandatory(const QString& name)
+{
+    if (m_reportVariables.containsVariable(name))
+        return m_reportVariables.variableByName(name)->isMandatory();
+    return false;
+}
+
+void DataSourceManager::setVarableMandatory(const QString& name, bool value)
+{
+    if (m_reportVariables.containsVariable(name))
+        m_reportVariables.variableByName(name)->setMandatory(value);
+}
+
 QStringList DataSourceManager::variableNames()
 {
     return m_reportVariables.variableNames();
@@ -1470,7 +1485,7 @@ QStringList DataSourceManager::variableNamesByRenderPass(RenderPass pass)
     return result;
 }
 
-QStringList DataSourceManager::namesOfUserVariables(){
+QStringList DataSourceManager::userVariableNames(){
     return m_userVariables.variableNames();
 }
 
@@ -1479,6 +1494,19 @@ VarDesc::VarType DataSourceManager::variableType(const QString &name)
     if (m_reportVariables.containsVariable(name))
         return m_reportVariables.variableType(name);
     return VarDesc::User;
+}
+
+VariableDataType DataSourceManager::variableDataType(const QString& name)
+{
+    if (m_reportVariables.containsVariable(name))
+        return m_reportVariables.variableByName(name)->dataType();
+    return VariableDataType::Undefined;
+}
+
+void DataSourceManager::setVariableDataType(const QString& name, VariableDataType value)
+{
+    if (m_reportVariables.containsVariable(name))
+        m_reportVariables.variableByName(name)->setDataType(value);
 }
 
 void DataSourceManager::setAllDatasourcesToFirst()
