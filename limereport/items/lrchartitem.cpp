@@ -77,10 +77,9 @@ void SeriesItem::setLabelsColumn(const QString &labelsColumn)
 SeriesItem *SeriesItem::clone()
 {
     SeriesItem* result = new SeriesItem();
-    result->setName(name());
-    result->setLabelsColumn(labelsColumn());
-    result->setValuesColumn(valuesColumn());
-    result->setColor(color());
+    for (int i = 0; i < this->metaObject()->propertyCount(); ++i){
+        result->setProperty(this->metaObject()->property(i).name(),property(this->metaObject()->property(i).name()));
+    }
     return result;
 }
 
@@ -108,6 +107,16 @@ QColor SeriesItem::color() const
 void SeriesItem::setColor(const QColor &color)
 {
     m_color = color;
+}
+
+SeriesItem::SeriesItemPreferredType SeriesItem::preferredType() const
+{
+    return m_preferredType;
+}
+
+void SeriesItem::setPreferredType(const SeriesItemPreferredType& type)
+{
+    m_preferredType = type;
 }
 
 ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
@@ -665,6 +674,11 @@ void VerticalBarChart::paintChart(QPainter *painter, QRectF chartRect)
                   vPadding(chartRect)+valuesVMargin(painter),
                   -(hPadding(chartRect)*2),
                   -(vPadding(chartRect)+barsShift) ));
+    paintSerialLines(painter, chartRect.adjusted(
+                         hPadding(chartRect)*2+valuesHMargin(painter),
+                         vPadding(chartRect)+valuesVMargin(painter),
+                         -(hPadding(chartRect)*2),
+                         -(vPadding(chartRect)+barsShift) ));
     paintLabels(painter,calcRect);
 }
 
@@ -692,25 +706,36 @@ void VerticalBarChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
 
 void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
 {
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing,false);
+
     int delta = int(maxValue()-minValue());
     delta = genNextValue(delta);
 
+    int barSeriesCount = 0;
+    foreach(SeriesItem* series, m_chartItem->series()){
+        if (series->preferredType() == SeriesItem::Bar) barSeriesCount++;
+    }
+
+    barSeriesCount = (m_chartItem->itemMode()==DesignMode) ? seriesCount() : barSeriesCount;
+
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing,false);
+
     qreal vStep = barsRect.height() / delta;
-    qreal hStep = (barsRect.width() / valuesCount()) / seriesCount();
+    qreal hStep = (barsRect.width() / valuesCount()) / (barSeriesCount == 0 ? 1 : barSeriesCount);
     qreal topShift = (delta - (maxValue()-minValue())) * vStep +barsRect.top();
 
     if (!m_chartItem->series().isEmpty() && !m_chartItem->series().at(0)->data()->labels().isEmpty()){
         int curSeries = 0;
         foreach (SeriesItem* series, m_chartItem->series()) {
-            qreal curHOffset = curSeries*hStep+barsRect.left();
-            painter->setBrush(series->color());
-            foreach (qreal value, series->data()->values()) {
-                painter->drawRect(QRectF(curHOffset, maxValue()*vStep+topShift, hStep, -value*vStep));
-                curHOffset+=hStep*seriesCount();
+            if (series->preferredType() == SeriesItem::Bar){
+                qreal curHOffset = curSeries*hStep+barsRect.left();
+                painter->setBrush(series->color());
+                foreach (qreal value, series->data()->values()) {
+                    painter->drawRect(QRectF(curHOffset, maxValue()*vStep+topShift, hStep, -value*vStep));
+                    curHOffset+=hStep*barSeriesCount;
+                }
+                curSeries++;
             }
-            curSeries++;
         }
     } else {
         qreal curHOffset = barsRect.left();
@@ -721,6 +746,47 @@ void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
             painter->drawRect(QRectF(curHOffset, maxValue()*vStep+barsRect.top(), hStep, -designValues()[i]*vStep));
             curHOffset+=hStep;
             curColor++;
+        }
+    }
+    painter->restore();
+}
+
+void VerticalBarChart::paintSerialLines(QPainter* painter, QRectF barsRect)
+{
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing,true);
+    int delta = int(maxValue()-minValue());
+    delta = genNextValue(delta);
+
+    qreal vStep = barsRect.height() / delta;
+    qreal hStep = (barsRect.width() / valuesCount());
+    qreal topShift = (delta - (maxValue()-minValue())) * vStep +barsRect.top();
+
+    if (!m_chartItem->series().isEmpty() && !m_chartItem->series().at(0)->data()->labels().isEmpty()){
+        int curSeries = 0;
+        foreach (SeriesItem* series, m_chartItem->series()) {
+            if (series->preferredType() == SeriesItem::Line){
+                QPen pen(series->color());
+                pen.setWidth(4);
+                painter->setPen(pen);
+                for (int i = 0; i < series->data()->values().count()-1; ++i ){
+                    QPoint startPoint = QPoint((i+1)*hStep + barsRect.left()-hStep/2,
+                                               (maxValue()*vStep+topShift) - series->data()->values().at(i)*vStep
+                                        );
+                    QPoint endPoint = QPoint((i+2)*hStep + barsRect.left()-hStep/2,
+                                             (maxValue()*vStep+topShift) - series->data()->values().at(i+1)*vStep
+                                      );
+                    painter->drawLine(startPoint, endPoint);
+                    QRect startPointRect(startPoint,startPoint);
+                    QRect endPointRect(endPoint,endPoint);
+                    int radius = 4;
+                    painter->setBrush(series->color());
+                    painter->drawEllipse(startPointRect.adjusted(radius,radius,-radius,-radius));
+                    painter->drawEllipse(endPointRect.adjusted(radius,radius,-radius,-radius));
+
+                }
+            }
+            curSeries++;
         }
     }
     painter->restore();

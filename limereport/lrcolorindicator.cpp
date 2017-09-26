@@ -1,5 +1,6 @@
 #include "lrcolorindicator.h"
 #include <QPainter>
+#include <QDebug>
 
 void ColorIndicator::paintEvent(QPaintEvent* event)
 {
@@ -7,8 +8,19 @@ void ColorIndicator::paintEvent(QPaintEvent* event)
     painter.save();
     painter.setBrush(m_color);
     painter.setPen(Qt::gray);
-    QRect rect = event->rect().adjusted(3,3,-4,-4);
-    rect.setWidth(rect.height());
+
+    QRect rect = event->rect().adjusted(3,3,-3,-3);
+
+    if (rect.height() < rect.width()){
+        qreal offset = (rect.width()-rect.height()) / 2;
+        rect.setWidth(rect.height());
+        rect.adjust(offset,0,offset,0);
+    } else {
+        qreal offset = (rect.height()-rect.width()) / 2;
+        rect.setHeight(rect.width());
+        rect.adjust(0,offset,0,offset);
+    }
+
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawEllipse(rect);
     painter.restore();

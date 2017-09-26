@@ -1,6 +1,7 @@
 #ifndef LRCHARTITEM_H
 #define LRCHARTITEM_H
 #include "lritemdesignintf.h"
+#include "lrglobal.h"
 
 namespace LimeReport{
 
@@ -27,8 +28,11 @@ class SeriesItem : public QObject{
     Q_PROPERTY(QString valuesColumn READ valuesColumn WRITE setValuesColumn )
     Q_PROPERTY(QString labelsColumn READ labelsColumn WRITE setLabelsColumn )
     Q_PROPERTY(QColor color READ color WRITE setColor)
+    Q_PROPERTY(SeriesItemPreferredType preferredType READ preferredType WRITE setPreferredType)
+    Q_ENUMS(SeriesItemPreferredType)
 public:
-    SeriesItem(QObject* parent = 0):QObject(parent){}
+    enum SeriesItemPreferredType {Bar, Line};
+    SeriesItem(QObject* parent = 0) : QObject(parent), m_preferredType(Bar){}
     QString name() const;
     void setName(const QString &name);
     QString valuesColumn() const;
@@ -40,12 +44,15 @@ public:
     SeriesItemData* data(){ return &m_data;}
     QColor color() const;
     void setColor(const QColor &color);
+    SeriesItemPreferredType preferredType() const;
+    void setPreferredType(const SeriesItemPreferredType& preferredType);
 private:
     QString m_name;
     QString m_valuesColumn;
     QString m_labelsColumn;
     SeriesItemData m_data;
     QColor m_color;
+    SeriesItemPreferredType m_preferredType;
 };
 
 class ChartItem;
@@ -121,6 +128,7 @@ public:
     void paintChart(QPainter *painter, QRectF chartRect);
     void paintVerticalGrid(QPainter *painter, QRectF gridRect);
     void paintVerticalBars(QPainter *painter, QRectF barsRect);
+    void paintSerialLines(QPainter *painter, QRectF barsRect);
     void paintLabels(QPainter *painter, QRectF labelsRect);
 };
 

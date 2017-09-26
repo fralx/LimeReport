@@ -22,7 +22,6 @@ ChartItemEditor::ChartItemEditor(LimeReport::ChartItem *item, LimeReport::PageDe
     colorLayout->insertStretch(0);
     readSetting();
     init();
-
     connect(m_colorButton, SIGNAL(clicked(bool)), this, SLOT(slotChangeSeriesColor()));
 }
 
@@ -112,6 +111,13 @@ void ChartItemEditor::init()
         }
 
     }
+
+    static int enumIndex = LimeReport::SeriesItem::staticMetaObject.indexOfEnumerator("SeriesItemPreferredType");
+    QMetaEnum enumerator = LimeReport::SeriesItem::staticMetaObject.enumerator(enumIndex);
+    for (int i = 0; i<enumerator.keyCount(); ++i){
+        ui->seriesTypeComboBox->addItem(enumerator.key(i));
+    }
+
     ui->labelsFieldComboBox->setCurrentText(m_charItem->labelsField());
     if (!m_charItem->series().isEmpty()){
         enableSeriesEditor();
@@ -127,6 +133,7 @@ void ChartItemEditor::enableSeriesEditor()
 {
     ui->seriesNameLineEdit->setEnabled(true);
     ui->valuesFieldComboBox->setEnabled(true);
+    ui->seriesTypeComboBox->setEnabled(true);
     m_colorButton->setEnabled(true);
     m_colorIndicator->setEnabled(true);
 }
@@ -139,6 +146,7 @@ void ChartItemEditor::disableSeriesEditor()
     m_colorButton->setDisabled(true);
     m_colorIndicator->setDisabled(true);
     ui->valuesFieldComboBox->setCurrentText("");
+    ui->seriesTypeComboBox->setDisabled(true);
 }
 
 LimeReport::SeriesItem *ChartItemEditor::currentSeries()
@@ -214,6 +222,9 @@ void ChartItemEditor::on_tableWidget_itemSelectionChanged()
         ui->seriesNameLineEdit->setText(series->name());
         ui->valuesFieldComboBox->setCurrentText(series->valuesColumn());
         m_colorIndicator->setColor(series->color());
+        static int enumIndex = LimeReport::SeriesItem::staticMetaObject.indexOfEnumerator("SeriesItemPreferredType");
+        QMetaEnum enumerator = LimeReport::SeriesItem::staticMetaObject.enumerator(enumIndex);
+        ui->seriesTypeComboBox->setCurrentText(enumerator.valueToKey(series->preferredType()));
         enableSeriesEditor();
     }
 }
@@ -245,5 +256,14 @@ void ChartItemEditor::slotChangeSeriesColor()
     if (colorDialog.exec()){
         currentSeries()->setColor(colorDialog.selectedColor());
         m_colorIndicator->setColor(colorDialog.selectedColor());
+    }
+}
+
+void ChartItemEditor::on_seriesTypeComboBox_currentIndexChanged(const QString &arg1)
+{
+    static int enumIndex = LimeReport::SeriesItem::staticMetaObject.indexOfEnumerator("SeriesItemPreferredType");
+    QMetaEnum enumerator = LimeReport::SeriesItem::staticMetaObject.enumerator(enumIndex);
+    if (currentSeries()){
+        currentSeries()->setPreferredType(static_cast<LimeReport::SeriesItem::SeriesItemPreferredType>(enumerator.keysToValue(arg1.toLatin1())));
     }
 }
