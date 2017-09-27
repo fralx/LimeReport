@@ -27,8 +27,8 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef ATEXTITEMPROPERTYEDITOR_H
-#define ATEXTITEMPROPERTYEDITOR_H
+#ifndef LRTEXTITEMPROPERTYEDITOR_H
+#define LRTEXTITEMPROPERTYEDITOR_H
 
 #include <QDialog>
 #include <QWidget>
