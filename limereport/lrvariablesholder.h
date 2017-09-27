@@ -27,8 +27,8 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef VARIABLEHOLDER_H
-#define VARIABLEHOLDER_H
+#ifndef LRVARIABLEHOLDER_H
+#define LRVARIABLEHOLDER_H
 
 #include <QObject>
 #include <QMap>

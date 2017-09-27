@@ -1,5 +1,5 @@
-#ifndef TEAROFFBAND_H
-#define TEAROFFBAND_H
+#ifndef LRTEAROFFBAND_H
+#define LRTEAROFFBAND_H
 #include "lrbanddesignintf.h"
 
 namespace LimeReport {

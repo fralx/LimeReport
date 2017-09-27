@@ -27,8 +27,8 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef LRGLOBAL_H
+#define LRGLOBAL_H
 #include "qglobal.h"
 #include <stdexcept>
 #include <QString>
