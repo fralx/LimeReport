@@ -36,16 +36,24 @@ namespace LimeReport{
 class ImageItem : public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
+    Q_ENUMS(Format)
     Q_PROPERTY(QImage image READ image WRITE setImage)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString field READ field WRITE setField)
+    Q_PROPERTY(Format format READ format WRITE setFormat)
     Q_PROPERTY(bool autoSize READ autoSize WRITE setAutoSize)
     Q_PROPERTY(bool scale READ scale WRITE setScale)
     Q_PROPERTY(bool keepAspectRatio READ keepAspectRatio WRITE setKeepAspectRatio)
     Q_PROPERTY(bool center READ center WRITE setCenter)
     Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
 public:
+    enum Format {
+        Binary  = 0,
+        Hex     = 1,
+        Base64  = 2
+    };
+
     ImageItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setImage(QImage value);
@@ -65,6 +73,8 @@ public:
     void setKeepAspectRatio(bool keepAspectRatio);
     bool center() const;
     void setCenter(bool center);
+    Format format() const;
+    void setFormat(Format format);
 
     qreal minHeight() const;
 
@@ -82,6 +92,7 @@ private:
     bool    m_scale;
     bool    m_keepAspectRatio;
     bool    m_center;
+    Format  m_format;
 };
 
 }
