@@ -47,7 +47,7 @@ bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instanc
 namespace LimeReport{
 
 ImageItem::ImageItem(QObject* owner,QGraphicsItem* parent)
-    :ItemDesignIntf(xmlTag,owner,parent),m_autoSize(false), m_scale(true), m_keepAspectRatio(true), m_center(true){}
+    :ItemDesignIntf(xmlTag,owner,parent),m_autoSize(false), m_scale(true), m_keepAspectRatio(true), m_center(true), m_format(Binary){}
 
 BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
@@ -65,8 +65,21 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
               if (data.isValid()){
                   if (data.type()==QVariant::Image){
                     m_picture =  data.value<QImage>();
-                  } else
-                    m_picture.loadFromData(data.toByteArray());
+                  } else {
+                      switch (m_format) {
+                      default:
+                      case Binary:
+                          m_picture.loadFromData(data.toByteArray());
+                          break;
+                      case Hex:
+                          m_picture.loadFromData(QByteArray::fromHex(data.toByteArray()));
+                          break;
+                      case Base64:
+                          m_picture.loadFromData(QByteArray::fromBase64(data.toByteArray()));
+                          break;
+                      }
+                  }
+
               }
            }
        } else if (!m_resourcePath.isEmpty()){
@@ -267,6 +280,19 @@ void ImageItem::setImage(QImage value)
     }
 }
 
+ImageItem::Format ImageItem::format() const
+{
+    return m_format;
+}
 
+void ImageItem::setFormat(Format format)
+{
+    if (m_format!=format){
+        Format oldValue = m_format;
+        m_format=format;
+        update();
+        notify("format",oldValue,format);
+    }
+}
 
 }
