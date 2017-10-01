@@ -157,6 +157,9 @@ namespace Const{
     typedef QScriptValue ScriptValueType;
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+    Q_NAMESPACE
+#endif
     class Enums
     {
     public:
