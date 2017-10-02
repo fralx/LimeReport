@@ -266,6 +266,7 @@ private:
     QByteArray         m_editorsStates[ReportDesignWidget::TabTypeCount];
     QVector<QToolBar*> m_pageTools;
     QVector<QToolBar*> m_dialogTools;
+    bool m_reportItemIsLocked;
 
 };
 

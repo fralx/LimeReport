@@ -64,7 +64,7 @@ ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
 ReportDesignWindow::ReportDesignWindow(ReportEngine *report, QWidget *parent, QSettings* settings) :
     QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
-    m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page)
+    m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page), m_reportItemIsLocked(false)
 {
     initReportEditor(report);
     createActions();
@@ -123,6 +123,7 @@ void ReportDesignWindow::createActions()
     m_editModeAction->setIcon(QIcon(":/report/images/editMode"));
     m_editModeAction->setCheckable(true);
     m_editModeAction->setChecked(true);
+    m_editModeAction->setShortcut(QKeySequence(Qt::Key_Escape));
     connect(m_editModeAction,SIGNAL(triggered()),this,SLOT(slotEditMode()));
 
     m_undoAction = new QAction(tr("Undo"),this);
@@ -888,6 +889,7 @@ void ReportDesignWindow::slotNewTextItem()
 {
     if (m_newTextItemAction->isChecked()) {m_newTextItemAction->setCheckable(false);return;}
     if (m_reportDesignWidget) {
+        m_reportItemIsLocked = QApplication::keyboardModifiers() == Qt::SHIFT;
         m_reportDesignWidget->startInsertMode("TextItem");
         m_newTextItemAction->setCheckable(true);
         m_newTextItemAction->setChecked(true);
@@ -987,14 +989,19 @@ void ReportDesignWindow::slotInsertModeStarted()
 
 void ReportDesignWindow::slotItemInserted(PageDesignIntf *, QPointF, const QString &ItemType)
 {
-    m_editModeAction->setChecked(true);
-    if (m_actionMap.value(ItemType))
-        m_actionMap.value(ItemType)->setCheckable(false);
+    if (!m_reportItemIsLocked){
+        m_editModeAction->setChecked(true);
+        if (m_actionMap.value(ItemType))
+            m_actionMap.value(ItemType)->setCheckable(false);
+    } else {
+        m_reportDesignWidget->startInsertMode(ItemType);
+    }
 }
 
 void ReportDesignWindow::slotItemInsertCanceled(const QString &ItemType)
 {
     m_editModeAction->setChecked(true);
+    m_reportItemIsLocked = false;
     if (m_actionMap.value(ItemType))
         m_actionMap.value(ItemType)->setCheckable(false);
 }
@@ -1169,6 +1176,7 @@ void ReportDesignWindow::slotItemActionCliked()
     QAction* action=dynamic_cast<QAction*>(sender());
     action->setCheckable(true);
     action->setChecked(true);
+    m_reportItemIsLocked = QApplication::keyboardModifiers() == Qt::SHIFT;
     m_reportDesignWidget->startInsertMode(action->whatsThis());
 }
 
