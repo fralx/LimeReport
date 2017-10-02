@@ -829,7 +829,7 @@ bool ScriptEngineManager::createReopenDatasourceFunction()
 }
 
 ScriptEngineManager::ScriptEngineManager()
-    :m_model(0), m_dataManager(0)
+    :m_model(0), m_dataManager(0), m_context(0)
 {
     m_scriptEngine = new ScriptEngineType;
     m_functionManager = new ScriptFunctionsManager(this);
