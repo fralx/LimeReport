@@ -25,10 +25,8 @@ ScriptEditor::~ScriptEditor()
     delete ui;
 }
 
-void ScriptEditor::setReportEngine(ReportEnginePrivate* reportEngine)
+void ScriptEditor::initEditor(DataSourceManager* dm)
 {
-    m_reportEngine = reportEngine;
-    DataSourceManager* dm = m_reportEngine->dataManager();
     ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
     se.setDataManager(dm);
 
@@ -41,23 +39,24 @@ void ScriptEditor::setReportEngine(ReportEnginePrivate* reportEngine)
         ui->twScriptEngine->setModel(se.model());
     }
 
+    if (ui->twScriptEngine->selectionModel()){
+        connect(ui->twScriptEngine->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+                this, SLOT(slotOnCurrentChanged(QModelIndex,QModelIndex)));
+    }
+}
+
+void ScriptEditor::setReportEngine(ReportEnginePrivate* reportEngine)
+{
+    m_reportEngine = reportEngine;
+    DataSourceManager* dm = m_reportEngine->dataManager();
+    initEditor(dm);
 }
 
 void ScriptEditor::setReportPage(PageDesignIntf* page)
 {
     m_page = page;
     DataSourceManager* dm = page->datasourceManager();
-    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
-    se.setDataManager(dm);
-
-    initCompleter();
-
-    if (dm){
-        if (dm->isNeedUpdateDatasourceModel())
-           dm->updateDatasourceModel();
-        ui->twData->setModel(dm->datasourcesModel());
-        ui->twScriptEngine->setModel(se.model());
-    }
+    initEditor(dm);
 }
 
 void ScriptEditor::setPageBand(BandDesignIntf* band)
@@ -119,7 +118,7 @@ void ScriptEditor::initCompleter()
         }
     }
 
-    m_completer->setModel(new QStringListModel(dataWords,m_completer));
+    m_completer->setModel(new QStringListModel(dataWords,m_completer));    
 }
 
 QByteArray ScriptEditor::saveState()
@@ -194,6 +193,14 @@ void ScriptEditor::on_twScriptEngine_doubleClicked(const QModelIndex &index)
         ui->textEdit->insertPlainText(node->name()+"()");
     }
     ui->textEdit->setFocus();
+}
+
+void ScriptEditor::slotOnCurrentChanged(const QModelIndex &to, const QModelIndex &)
+{
+    LimeReport::ScriptEngineNode* node = static_cast<LimeReport::ScriptEngineNode*>(to.internalPointer());
+    if (node->type()==LimeReport::ScriptEngineNode::Function){
+       ui->lblDescription->setText(node->description());
+    }
 }
 
 } // namespace LimeReport

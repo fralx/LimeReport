@@ -13,6 +13,7 @@ class ReportEnginePrivate;
 class BaseDesignIntf;
 class PageDesignIntf;
 class BandDesignIntf;
+class DataSourceManager;
 
 namespace Ui {
 class ScriptEditor;
@@ -36,9 +37,13 @@ public:
     QString toPlainText();
 signals:
     void splitterMoved(int, int);
+protected:
+    void initEditor(DataSourceManager* dm);
+
 private slots:
     void on_twData_doubleClicked(const QModelIndex &index);
     void on_twScriptEngine_doubleClicked(const QModelIndex &index);
+    void slotOnCurrentChanged(const QModelIndex& to, const QModelIndex&);
 private:
     void addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords);
 private:
