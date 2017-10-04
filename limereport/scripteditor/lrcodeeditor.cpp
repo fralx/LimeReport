@@ -148,30 +148,32 @@ QString CodeEditor::textUnderCursor() const
 bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numLeftParentheses)
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
-    QVector<ParenthesisInfo *> infos = data->parentheses();
+    if (data){
+        QVector<ParenthesisInfo *> infos = data->parentheses();
 
-    int docPos = currentBlock.position();
-    for (; i < infos.size(); ++i) {
-        ParenthesisInfo *info = infos.at(i);
+        int docPos = currentBlock.position();
+        for (; i < infos.size(); ++i) {
+            ParenthesisInfo *info = infos.at(i);
 
-        if (info->character == parenthesisType) {
-            ++numLeftParentheses;
-            continue;
+            if (info->character == parenthesisType) {
+                ++numLeftParentheses;
+                continue;
+            }
+
+            if (info->character == getParenthesisReverceChar(parenthesisType)){
+                if (numLeftParentheses == 0) {
+                    createParenthesisSelection(docPos + info->position);
+                    return true;
+                } else
+                    --numLeftParentheses;
+            }
+
         }
 
-        if (info->character == getParenthesisReverceChar(parenthesisType)){
-            if (numLeftParentheses == 0) {
-                createParenthesisSelection(docPos + info->position);
-                return true;
-            } else
-                --numLeftParentheses;
-        }
-
+        currentBlock = currentBlock.next();
+        if (currentBlock.isValid())
+            return matchLeftParenthesis(currentBlock, parenthesisType, 0, numLeftParentheses);
     }
-
-    currentBlock = currentBlock.next();
-    if (currentBlock.isValid())
-        return matchLeftParenthesis(currentBlock, parenthesisType, 0, numLeftParentheses);
 
     return false;
 }
@@ -180,27 +182,28 @@ bool CodeEditor::matchRightParenthesis(QTextBlock currentBlock, QChar parenthesi
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     QVector<ParenthesisInfo *> parentheses = data->parentheses();
+    if (data){
+        int docPos = currentBlock.position();
+        for (; i > -1 && parentheses.size() > 0; --i) {
+            ParenthesisInfo *info = parentheses.at(i);
+            if (info->character == parenthesisType) {
+                ++numRightParentheses;
+                continue;
+            }
+            if (info->character == getParenthesisReverceChar(parenthesisType)){
+                if (numRightParentheses == 0) {
+                    createParenthesisSelection(docPos + info->position);
+                    return true;
+                } else
+                    --numRightParentheses;
+            }
+        }
 
-    int docPos = currentBlock.position();
-    for (; i > -1 && parentheses.size() > 0; --i) {
-        ParenthesisInfo *info = parentheses.at(i);
-        if (info->character == parenthesisType) {
-            ++numRightParentheses;
-            continue;
-        }
-        if (info->character == getParenthesisReverceChar(parenthesisType)){
-            if (numRightParentheses == 0) {
-                createParenthesisSelection(docPos + info->position);
-                return true;
-            } else
-                --numRightParentheses;
-        }
+        currentBlock = currentBlock.previous();
+        if (currentBlock.isValid())
+            return matchRightParenthesis(currentBlock, parenthesisType, 0, numRightParentheses);
+
     }
-
-    currentBlock = currentBlock.previous();
-    if (currentBlock.isValid())
-        return matchRightParenthesis(currentBlock, parenthesisType, 0, numRightParentheses);
-
     return false;
 }
 
