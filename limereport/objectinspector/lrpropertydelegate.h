@@ -40,8 +40,8 @@
 namespace LimeReport{
 
 class ObjectInspectorWidget;
-class PropertyDelegate : public QItemDelegate
-//class PropertyDelegate : public QStyledItemDelegate
+//class PropertyDelegate : public QItemDelegate
+class PropertyDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
