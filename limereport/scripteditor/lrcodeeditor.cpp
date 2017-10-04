@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QTextBlock>
 #include <QDebug>
+#include <QApplication>
 
 #include "lrscripthighlighter.h"
 
@@ -43,7 +44,11 @@ void CodeEditor::setCompleter(QCompleter *value)
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
     QPainter painter(lineNumberArea);
-    painter.fillRect(event->rect(), QPalette().background().color());
+    QStyleOption option;
+    option.initFrom(this);
+    //painter.fillRect(event->rect(), QPalette().background().color());
+    QColor bg = option.palette.background().color().darker(150);
+    painter.fillRect(event->rect(), bg);
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
@@ -53,7 +58,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
-            painter.setPen(QPalette().text().color());
+            painter.setPen(option.palette.text().color());
             painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignCenter, number);
         }
