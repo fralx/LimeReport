@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pageNavigator = new QSpinBox(this);
 
     m_pageNavigator->setPrefix(tr("Page :"));
-    ui->toolBar->insertWidget(ui->actionZoomIn,m_scalePercent);
+    ui->toolBar->insertWidget(ui->actionZoom_Out,m_scalePercent);
     ui->toolBar->insertWidget(ui->actionNext_Page,m_pageNavigator);
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
     connect(m_pageNavigator, SIGNAL(valueChanged(int)), this, SLOT(slotPageNavigatorChanged(int)));
