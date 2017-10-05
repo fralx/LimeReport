@@ -20,8 +20,8 @@ INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
 
 RESOURCES += \
-    demo_r2.qrc \
-    ../3rdparty/QDarkStyleSheet/qdarkstyle/style.qrc
+    demo_r2.qrc
+
 
 EXTRA_DIR     += $$PWD/demo_reports
 DEST_DIR       = $${DEST_BINS}
