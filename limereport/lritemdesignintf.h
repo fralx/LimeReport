@@ -50,6 +50,8 @@ public:
     void setStretchToMaxHeight(bool value);
     bool stretchToMaxHeight(){return m_stretchToMaxHeight;}
     BaseDesignIntf* cloneEmpty(int height, QObject *owner, QGraphicsItem *parent);
+signals:
+    void itemLocationChanged(BaseDesignIntf* item, BaseDesignIntf* parent);
 protected:
     QGraphicsItem* bandByPos();
     virtual void initFlags();

@@ -94,6 +94,11 @@ void ObjectBrowser::fillNode(QTreeWidgetItem* parentNode, BaseDesignIntf* report
             treeItem->setIcon(0,QIcon(":/items/"+extractClassName(item->metaObject()->className())));
             connect(item, SIGNAL(propertyObjectNameChanged(QString,QString)),
                     this, SLOT(slotPropertyObjectNameChanged(QString,QString)));
+            ItemDesignIntf* i = dynamic_cast<ItemDesignIntf*>(item);
+            if (i){
+                connect(i, SIGNAL(itemLocationChanged(BaseDesignIntf*,BaseDesignIntf*)),
+                        this, SLOT(slotItemParentChanged(BaseDesignIntf*,BaseDesignIntf*)));
+            }
             m_itemsMap.insert(item,treeItem);
             parentNode->addChild(treeItem);
             if (!item->childBaseItems().isEmpty())
@@ -276,6 +281,19 @@ void ObjectBrowser::slotItemDoubleClicked(QTreeWidgetItem *item, int)
 void ObjectBrowser::slotActivePageUpdated(LimeReport::PageDesignIntf *)
 {
     buildTree();
+}
+
+void ObjectBrowser::slotItemParentChanged(BaseDesignIntf* item, BaseDesignIntf* parent)
+{
+    if (m_itemsMap.contains(item) && m_itemsMap.contains(parent)){
+        m_itemsMap.value(item)->parent()->removeChild(m_itemsMap.value(item));
+        m_itemsMap.value(parent)->addChild(m_itemsMap.value(item));
+        m_changingItemSelection = true;
+        m_itemsMap.value(item)->setSelected(true);
+        item->setSelected(true);
+        m_changingItemSelection = false;
+    }
+
 }
 
 void ObjectBrowserNode::setObject(QObject *value)
