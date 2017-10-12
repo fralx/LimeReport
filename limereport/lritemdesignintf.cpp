@@ -59,6 +59,7 @@ void ItemDesignIntf::setItemLocation(LocationType location)
                     setParentItem(parentBand);
                     setParent(dynamic_cast<BandDesignIntf*>(parentBand));
                     setPos(parentPos);
+                    emit itemLocationChanged(this, dynamic_cast<BandDesignIntf*>(parentBand));
                 } else {
                     m_itemLocation=Page;
                 }
@@ -69,6 +70,7 @@ void ItemDesignIntf::setItemLocation(LocationType location)
                     setParentItem(page);
                     setParent(page);
                     setPos(parentPos);
+                    emit itemLocationChanged(this, page);
                 }
             }
             notify("locationType",oldValue,location);
@@ -95,8 +97,8 @@ BaseDesignIntf *ItemDesignIntf::cloneEmpty(int height, QObject *owner, QGraphics
 
 QGraphicsItem * ItemDesignIntf::bandByPos()
 {
-    foreach(QGraphicsItem *item,collidingItems()){
-        if (dynamic_cast<BandDesignIntf*>(item)){
+    foreach(QGraphicsItem *item, scene()->items()){
+        if (dynamic_cast<BandDesignIntf*>(item) && item->collidesWithItem(this)){
             return item;
         }
     }
