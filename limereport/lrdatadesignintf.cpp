@@ -118,9 +118,9 @@ void QueryHolder::setConnectionName(QString connectionName)
     m_connectionName=connectionName;
 }
 
-void QueryHolder::invalidate(IDataSource::DatasourceMode mode){
+void QueryHolder::invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed){
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-    if (!db.isValid()){
+    if (!db.isValid() || dbWillBeClosed){
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
         delete m_query;
         m_dataSource.clear();
@@ -562,9 +562,10 @@ IDataSource *ProxyHolder::dataSource(IDataSource::DatasourceMode mode)
     return m_datasource.data();
 }
 
-void ProxyHolder::invalidate(IDataSource::DatasourceMode mode)
+void ProxyHolder::invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed)
 {
     Q_UNUSED(mode)
+    Q_UNUSED(dbWillBeClosed);
     if (m_model && m_model->isInvalid()){
         m_invalid = true;
         m_lastError = tr("Datasource has been invalidated");

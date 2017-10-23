@@ -75,7 +75,7 @@ public:
     virtual bool isOwned() const = 0;
     virtual bool isEditable() const = 0;
     virtual bool isRemovable() const = 0;
-    virtual void invalidate(IDataSource::DatasourceMode mode) = 0;
+    virtual void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false) = 0;
     virtual void update() = 0;
     virtual void clearErrors() = 0;
     virtual ~IDataSourceHolder(){}
@@ -92,7 +92,7 @@ public:
     QString lastError() const { return m_dataSource->lastError(); }
     bool isEditable() const { return false; }
     bool isRemovable() const { return false; }
-    void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false){Q_UNUSED(mode) Q_UNUSED(dbWillBeClosed)}
     void update(){}
     void clearErrors(){}
 signals:
@@ -201,7 +201,7 @@ public:
     bool isPrepared() const {return m_prepared;}
     QString lastError() const { return m_lastError; }
     void setLastError(QString value){m_lastError=value; if (m_query) {delete m_query; m_query=0;}}
-    void invalidate(IDataSource::DatasourceMode mode);
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update();
     void clearErrors(){setLastError("");}
     DataSourceManager* dataManager() const {return m_dataManager;}
@@ -331,7 +331,7 @@ public:
     bool isEditable() const { return true; }
     bool isRemovable() const { return true; }
     QString lastError() const { return m_lastError; }
-    void invalidate(IDataSource::DatasourceMode mode);
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update(){}
     void clearErrors(){m_lastError = "";}
     DataSourceManager* dataManager() const {return m_dataManger;}
@@ -424,7 +424,7 @@ public:
     bool isOwned() const {return m_owned;}
     bool isEditable() const {return false;}
     bool isRemovable() const {return false;}
-    void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false){Q_UNUSED(mode) Q_UNUSED(dbWillBeClosed)}
     ~CallbackDatasourceHolder(){delete m_datasource;}
     void update(){}
     void clearErrors(){}
