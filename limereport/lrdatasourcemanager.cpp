@@ -930,7 +930,7 @@ void DataSourceManager::disconnectConnection(const QString& connectionName)
         if (isQuery(datasourceName) || isSubQuery(datasourceName)){
             QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
             if (qh && qh->connectionName().compare(connectionName,Qt::CaseInsensitive)==0){
-                qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+                qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE, true);
                 qh->setLastError(tr("invalid connection"));
             }
         }

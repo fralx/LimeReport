@@ -637,6 +637,9 @@ void ReportDesignWidget::slotPagePropertyObjectNameChanged(const QString &oldVal
 
 void ReportDesignWidget::slotTabMoved(int from, int to)
 {
+    Q_UNUSED(from)
+    Q_UNUSED(to)
+
     QList<PageDesignIntf*> pages;
 
     for ( int i = 0; i < m_tabWidget->tabBar()->count(); ++i){

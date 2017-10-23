@@ -364,7 +364,7 @@ bool ReportEnginePrivate::printToPDF(const QString &fileName)
 
 void ReportEnginePrivate::previewReport(PreviewHints hints)
 { 
-    QTime start = QTime::currentTime();
+//    QTime start = QTime::currentTime();
     try{
         dataManager()->setDesignTime(false);
         ReportPages pages = renderToPages();
