@@ -58,7 +58,12 @@ ReportDesignWidget::ReportDesignWidget(ReportEngine *report, QMainWindow *mainWi
 #endif
     m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false), m_dialogChanged(false)
 {
+#ifdef HAVE_QT5
     m_tabWidget = new QTabWidget(this);
+#endif
+#ifdef HAVE_QT4
+    m_tabWidget = new LimeReportTabWidget(this);
+#endif
     m_tabWidget->setTabPosition(QTabWidget::South);
     m_tabWidget->setMovable(true);
     connect(m_tabWidget->tabBar(), SIGNAL(tabMoved(int,int)), this, SLOT(slotTabMoved(int,int)));
