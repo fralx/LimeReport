@@ -51,7 +51,12 @@ namespace LimeReport {
 ReportDesignWidget::ReportDesignWidget(ReportEnginePrivate *report, QMainWindow *mainWindow, QWidget *parent) :
     QWidget(parent), m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false)
 {
+#ifdef HAVE_QT5
     m_tabWidget = new QTabWidget(this);
+#endif
+#ifdef HAVE_QT4
+    m_tabWidget = new LimeReportTabWidget(this);
+#endif
     m_tabWidget->setTabPosition(QTabWidget::South);
     m_tabWidget->setMovable(true);
     connect(m_tabWidget->tabBar(), SIGNAL(tabMoved(int,int)), this, SLOT(slotTabMoved(int,int)));
