@@ -303,8 +303,16 @@ private:
 class ScriptFunctionsManager : public QObject{
     Q_OBJECT
 public:
-    explicit ScriptFunctionsManager(QObject* parent = 0):QObject(parent){ m_wrappersFactory.insert("QComboBox",new  ComboBoxWrapperCreator());}
-    ~ScriptFunctionsManager(){ foreach(IWrapperCreator* wrapper, m_wrappersFactory.values()){ delete wrapper;} m_wrappersFactory.clear();}
+    explicit ScriptFunctionsManager(QObject* parent = 0):QObject(parent){
+#ifdef USE_QJSENGINE
+        m_wrappersFactory.insert("QComboBox",new  ComboBoxWrapperCreator());
+#endif
+    }
+    ~ScriptFunctionsManager(){
+#ifdef USE_QJSENGINE
+        foreach(IWrapperCreator* wrapper, m_wrappersFactory.values()){ delete wrapper;} m_wrappersFactory.clear();
+#endif
+    }
     Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName);
     Q_INVOKABLE QVariant line(const QString& bandName);
     Q_INVOKABLE QVariant numberFormat(QVariant value, const char &format, int precision, const QString &locale);
@@ -337,7 +345,9 @@ public:
     static QColor createQColor(const QString& color){ return QColor(color);}
 private:
     ScriptEngineManager* m_scriptEngineManager;
+#ifdef USE_QJSENGINE
     QMap<QString, IWrapperCreator*> m_wrappersFactory;
+#endif
 };
 
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager
@@ -484,7 +494,8 @@ public:
 }
 
 #ifndef USE_QJSENGINE
-Q_DECLARE_METATYPE(LimeReport::ComboBoxPrototype*);
+Q_DECLARE_METATYPE(LimeReport::ComboBoxPrototype*)
+Q_DECLARE_METATYPE(QComboBox*)
 #endif
 
 #endif // LRSCRIPTENGINEMANAGER_H

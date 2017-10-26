@@ -99,8 +99,13 @@ contains(CONFIG,build_translations){
     TRANSLATIONS = $$prependAll(LANGUAGES, \"$$TRANSLATIONS_PATH/limereport_,.ts\")
 
     qtPrepareTool(LUPDATE, lupdate)
-    ts.commands = $$LUPDATE $$shell_quote($$PWD) -ts $$TRANSLATIONS
 
+greaterThan(QT_MAJOR_VERSION, 4) {
+    ts.commands = $$LUPDATE $$shell_quote($$PWD) -ts $$TRANSLATIONS
+}
+lessThan(QT_MAJOR_VERSION, 5){
+    ts.commands = $$LUPDATE $$quote($$PWD) -ts $$TRANSLATIONS
+}
     TRANSLATIONS_FILES =
     qtPrepareTool(LRELEASE, lrelease)
     for(tsfile, TRANSLATIONS) {

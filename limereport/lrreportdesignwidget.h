@@ -45,6 +45,7 @@
 #ifdef HAVE_QT4
 QT_BEGIN_NAMESPACE
 class LimeReportTabWidget: public QTabWidget{
+    Q_OBJECT
 public:
     explicit LimeReportTabWidget(QWidget *parent = 0):QTabWidget(parent){}
     QTabBar* tabBar() const{ return QTabWidget::tabBar();}
@@ -207,11 +208,11 @@ private:
     DialogDesignerManager* m_dialogDesignerManager;
 #endif
     QMainWindow *m_mainWindow;
-#ifdef HAVE_QT5
-    QTabWidget* m_tabWidget;
-#endif
 #ifdef HAVE_QT4
     LimeReportTabWidget* m_tabWidget;
+#endif
+#ifdef HAVE_QT5
+    QTabWidget* m_tabWidget;
 #endif
     GraphicsViewZoomer* m_zoomer;
     QFont m_defaultFont;

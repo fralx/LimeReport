@@ -78,7 +78,12 @@ void LRVariableDialog::showEvent(QShowEvent *)
     QMetaEnum enumerator = LimeReport::Enums::staticMetaObject.enumerator(enumIndex);
     if (!m_variableName.isEmpty()&&m_variablesContainer&&m_variablesContainer->containsVariable(m_variableName)){        
         ui->leValue->setText(m_variablesContainer->variable(m_variableName).toString());
+#ifdef HAVE_QT5
         ui->cbbType->setCurrentText(enumerator.valueToKey(m_variablesContainer->variableDataType(m_variableName)));
+#endif
+#ifdef HAVE_QT4
+        ui->cbbType->setCurrentIndex(ui->cbbType->findText(enumerator.valueToKey(m_variablesContainer->variableDataType(m_variableName))));
+#endif
         ui->cbbMandatory->setChecked(m_variablesContainer->variableIsMandatory(m_variableName));
     }
 }

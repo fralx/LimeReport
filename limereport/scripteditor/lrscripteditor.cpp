@@ -1,6 +1,9 @@
 #include "lrscripteditor.h"
 #include "ui_lrscripteditor.h"
+
+#ifdef USE_QJSENGINE
 #include <QJSValueIterator>
+#endif
 
 #include "lrdatasourcemanager.h"
 #include "lrscriptenginemanager.h"
@@ -88,6 +91,7 @@ void ScriptEditor::initCompleter()
 
     ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
 
+#ifdef USE_QJSENGINE
     QJSValue globalObject = se.scriptEngine()->globalObject();
     QJSValueIterator it(globalObject);
     while (it.hasNext()){
@@ -96,7 +100,7 @@ void ScriptEditor::initCompleter()
             dataWords << it.name();
         }
     }
-
+#endif
     foreach(const QString &dsName,dm->dataSourceNames()){
         dataWords << dsName;
         foreach(const QString &field, dm->fieldNames(dsName)){

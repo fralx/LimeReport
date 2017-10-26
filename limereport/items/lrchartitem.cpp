@@ -461,7 +461,12 @@ void PieChart::drawPercent(QPainter *painter, QRectF chartRect, qreal startAngle
 
     QPointF center(chartRect.left()+chartRect.width()/2,chartRect.top()+chartRect.height()/2);
     qreal percent = angle/3.6;
+#ifdef HAVE_QT4
+    qreal radAngle = (angle/2+startAngle)*(M_PI/180);
+#endif
+#ifdef HAVE_QT5
     qreal radAngle = qDegreesToRadians(angle/2+startAngle);
+#endif
     qreal radius = painter->fontMetrics().width("99,9%");
     qreal border = chartRect.height()*0.02;
     qreal length = (chartRect.height())/2-(radius/2+border);

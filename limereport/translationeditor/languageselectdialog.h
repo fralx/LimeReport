@@ -20,4 +20,6 @@ private:
     Ui::LanguageSelectDialog *ui;
 };
 
+Q_DECLARE_METATYPE(QLocale::Language)
+
 #endif // LANGUAGESELECTDIALOG_H

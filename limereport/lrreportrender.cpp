@@ -1003,8 +1003,14 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         if (band->isData()) m_renderedDataBandCount++;
         band->setObjectName(band->objectName()+QString::number(++m_curentNameIndex));
         renameChildItems(band);
-        if (m_lastDataBand)
+        if (m_lastDataBand){
+#ifdef HAVE_QT4
+            m_lastDataBand->metaObject()->invokeMethod(m_lastDataBand,"bandRegistred");
+#endif
+#ifdef HAVE_QT5
             emit m_lastDataBand->bandRegistred();
+#endif
+        }
         return true;
     } else return false;
 }

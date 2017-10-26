@@ -156,7 +156,7 @@ namespace Const{
     {
     public:
         enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};
-        Q_ENUM(VariableDataType)
+        Q_ENUMS(VariableDataType)
     private:
         Enums(){}
         Q_GADGET
