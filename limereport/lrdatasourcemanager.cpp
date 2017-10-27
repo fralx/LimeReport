@@ -650,15 +650,18 @@ void DataSourceManager::removeConnection(const QString &connectionName)
 {
     QList<ConnectionDesc*>::iterator cit = m_connections.begin();
     while( cit != m_connections.end() ){
-        if ( ((*cit)->name().compare(connectionName) == 0) && (*cit)->isInternal() ){
+        if ( ((*cit)->name().compare(connectionName) == 0) ){
+            if ((*cit)->isInternal())
             {
                 QSqlDatabase db = QSqlDatabase::database(connectionName);
                 db.close();
             }
             QSqlDatabase::removeDatabase(connectionName);
+            delete (*cit);
+            cit = m_connections.erase(cit);
+        } else {
+            cit++;
         }
-        delete (*cit);
-        cit = m_connections.erase(cit);
     }
     emit datasourcesChanged();
 }
