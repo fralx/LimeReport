@@ -702,7 +702,7 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
     Q_UNUSED(previous)
     if (current&&(current->type() == DataBrowserTree::Connection)) {
         bool internalConnection = m_report->dataManager()->connectionByName(ConnectionDesc::connectionNameForReport(current->text(0)));
-        if (m_report->dataManager()->isConnectionConnected(current->text(0))){
+        if (m_report->dataManager()->isConnectionConnected(ConnectionDesc::connectionNameForReport(current->text(0)))){
             ui->pbConnect->setIcon(QIcon(":/databrowser/images/plug-connect.png"));
         } else {
             ui->pbConnect->setIcon(QIcon(":/databrowser/images/plug-disconnect.png"));
