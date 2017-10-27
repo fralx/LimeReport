@@ -57,21 +57,21 @@ IDataSource * ModelHolder::dataSource(IDataSource::DatasourceMode mode)
 }
 
 QueryHolder::QueryHolder(QString queryText, QString connectionName, DataSourceManager *dataManager)
-    : m_query(0), m_queryText(queryText), m_connectionName(connectionName),
+    : m_queryText(queryText), m_connectionName(connectionName),
       m_mode(IDataSource::RENDER_MODE), m_dataManager(dataManager), m_prepared(true)
 {
     extractParams();
 }
 
-QueryHolder::~QueryHolder()
-{
-    if (m_query) delete m_query;
-}
+QueryHolder::~QueryHolder(){}
 
 bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
 {
     m_mode = mode;
+
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+    QSqlQuery* query = new QSqlQuery(db);
+
     if (!db.isValid()) {
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
         return false;
@@ -82,16 +82,13 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         if (!m_prepared) return false;
     }
 
-    if (!m_query){
-        m_query = new QSqlQuery(db);
-        m_query->prepare(m_preparedSQL);
-    }
+    query->prepare(m_preparedSQL);
 
-    fillParams(m_query);
-    m_query->exec();
+    fillParams(query);
+    query->exec();
 
     QSqlQueryModel *model = new QSqlQueryModel;
-    model->setQuery(*m_query);
+    model->setQuery(*query);
 
     while (model->canFetchMore())
         model->fetchMore();
@@ -102,7 +99,7 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         setLastError(model->lastError().text());
         delete model;
         return false;
-    } else setLastError("");
+    } else { setLastError("");}
 
     setDatasource(IDataSource::Ptr(new ModelToDataSource(model,true)));
     return true;
@@ -122,7 +119,6 @@ void QueryHolder::invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClos
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
     if (!db.isValid() || dbWillBeClosed){
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
-        delete m_query;
         m_dataSource.clear();
     } else {
         runQuery(mode);
@@ -197,10 +193,6 @@ void QueryHolder::setQueryText(QString queryText)
 {
     m_queryText=queryText;
     m_prepared = false;
-    if (m_query) {
-        delete m_query;
-        m_query = 0;
-    }
 }
 
 IDataSource* QueryHolder::dataSource(IDataSource::DatasourceMode mode)

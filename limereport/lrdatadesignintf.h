@@ -200,7 +200,7 @@ public:
     bool isRemovable() const { return true; }
     bool isPrepared() const {return m_prepared;}
     QString lastError() const { return m_lastError; }
-    void setLastError(QString value){m_lastError=value; if (m_query) {delete m_query; m_query=0;}}
+    void setLastError(QString value){m_lastError=value;}
     void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update();
     void clearErrors(){setLastError("");}
@@ -212,7 +212,6 @@ protected:
     virtual void extractParams();
     QString replaceVariables(QString query);
     QMap<QString,QString> m_aliasesToParam;
-    QSqlQuery* m_query;
     QString m_preparedSQL;
 private:
     QString m_queryText;
