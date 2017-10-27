@@ -949,7 +949,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
 
     }
 
-    if (band->height() <= m_maxHeightByColumn[m_currentColumn]){
+    if (band->height() <= m_maxHeightByColumn[m_currentColumn] || m_patternPageItem->endlessHeight()){
 
         if (band->bandType()==BandDesignIntf::PageFooter){
            for (int i=0;i<m_maxHeightByColumn.size();++i)
@@ -1372,7 +1372,13 @@ void ReportRender::savePage(bool isLast)
     m_scriptEngineContext->setCurrentPage(m_renderPageItem);
     emit m_patternPageItem->afterRender();
     if (isLast) emit m_patternPageItem->afterLastPageRendered();
-
+    if (isLast && m_patternPageItem->endlessHeight()){
+        qreal pageHeight = 0;
+        foreach (BandDesignIntf* band, m_renderPageItem->bands()) {
+            pageHeight += band->height();
+        }
+        m_renderPageItem->setHeight(pageHeight+10+(m_patternPageItem->topMargin()+m_patternPageItem->bottomMargin())*Const::mmFACTOR);
+    }
 }
 
 QString ReportRender::toString()

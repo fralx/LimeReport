@@ -63,7 +63,8 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
+    m_endlessHeight(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -329,6 +330,16 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     for(int i=0;i<columnCount;++i){
         posByColumns.append(pos);
     }
+}
+
+bool PageItemDesignIntf::endlessHeight() const
+{
+    return m_endlessHeight;
+}
+
+void PageItemDesignIntf::setEndlessHeight(bool endlessPage)
+{
+    m_endlessHeight = endlessPage;
 }
 
 bool PageItemDesignIntf::getSetPageSizeToPrinter() const

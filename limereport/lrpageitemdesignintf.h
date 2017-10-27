@@ -57,6 +57,8 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(int  extendedHeight READ extendedHeight WRITE setExtendedHeight)
     Q_PROPERTY(bool pageIsTOC READ isTOC WRITE setIsTOC)
     Q_PROPERTY(bool setPageSizeToPrinter READ getSetPageSizeToPrinter WRITE setSetPageSizeToPrinter )
+    Q_PROPERTY(bool endlessHeight READ endlessHeight WRITE setEndlessHeight)
+
     friend class ReportRender;
 public:
     enum Orientation { Portrait, Landscape };
@@ -133,6 +135,9 @@ public:
     bool getSetPageSizeToPrinter() const;
     void setSetPageSizeToPrinter(bool setPageSizeToPrinter);
 
+    bool endlessHeight() const;
+    void setEndlessHeight(bool endlessHeight);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -169,6 +174,7 @@ private:
     int  m_extendedHeight;
     bool m_isTOC;
     bool m_setPageSizeToPrinter;
+    bool m_endlessHeight;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;
