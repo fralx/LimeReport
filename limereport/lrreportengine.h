@@ -102,6 +102,8 @@ public:
     bool resultIsEditable();
     bool isBusy();
     void setPassPharse(QString& passPharse);
+    Qt::LayoutDirection previewLayoutDirection();
+    void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
 signals:
     void renderStarted();
     void renderFinished();
