@@ -379,6 +379,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setWindowTitle(m_previewWindowTitle);
             w->setSettings(settings());
             w->setPages(pages);
+            w->setLayoutDirection(m_previewLayoutDirection);
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
@@ -715,6 +716,16 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
+Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
+{
+    return m_previewLayoutDirection;
+}
+
+void ReportEnginePrivate::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
+{
+    m_previewLayoutDirection = layoutDirection;
+}
+
 void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
 {
     m_passPhrase = passPhrase;
@@ -919,6 +930,18 @@ void ReportEngine::setPassPharse(QString &passPharse)
 {
     Q_D(ReportEngine);
     d->setPassPhrase(passPharse);
+}
+
+Qt::LayoutDirection ReportEngine::previewLayoutDirection()
+{
+    Q_D(ReportEngine);
+    return d->previewLayoutDirection();
+}
+
+void ReportEngine::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
+{
+    Q_D(ReportEngine);
+    return d->setPreviewLayoutDirection(layoutDirection);
 }
 
 void ReportEngine::setShowProgressDialog(bool value)
