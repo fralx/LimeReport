@@ -140,6 +140,8 @@ public:
     ReportTranslation* reportTranslation(QLocale::Language language);
     void reorderPages(const QList<PageDesignIntf *> &reorderedPages);
     void clearSelection();
+    Qt::LayoutDirection previewLayoutDirection();
+    void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -202,6 +204,7 @@ private:
     Translations m_translations;
     QLocale::Language m_reportLanguage;
     void activateLanguage(QLocale::Language language);
+    Qt::LayoutDirection m_previewLayoutDirection;
 };
 
 }

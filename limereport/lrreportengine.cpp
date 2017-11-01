@@ -463,6 +463,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setWindowTitle(m_previewWindowTitle);
             w->setSettings(settings());
             w->setPages(pages);
+            w->setLayoutDirection(m_previewLayoutDirection);
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
@@ -808,6 +809,16 @@ PageDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
             return page;
     }
     return 0;
+}
+
+Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
+{
+    return m_previewLayoutDirection;
+}
+
+void ReportEnginePrivate::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
+{
+    m_previewLayoutDirection = layoutDirection;
 }
 
 void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
