@@ -66,18 +66,18 @@ struct ContentItem {
     QString uniqKey;
 };
 
-class TableOfContens : public QObject{
+class TableOfContents : public QObject{
     Q_OBJECT
 public:
-    TableOfContens(QObject* parent = 0):QObject(parent){}
-    ~TableOfContens();
+    TableOfContents(QObject* parent = 0):QObject(parent){}
+    ~TableOfContents();
     void setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent = 0);
     void clear();
-    bool isEmpty(){ return m_tableOfContens.isEmpty();}
+    bool isEmpty(){ return m_tableOfContents.isEmpty();}
 private slots:
    void slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data);
 private:
-   QVector<ContentItem*> m_tableOfContens;
+   QVector<ContentItem*> m_tableOfContents;
    QHash<QString, ContentItem* > m_hash;
 };
 
@@ -169,7 +169,7 @@ public:
 #ifdef HAVE_UI_LOADER
     typedef QSharedPointer<QDialog> DialogPtr;
 #endif
-    explicit ScriptEngineContext(QObject* parent=0):QObject(parent), m_tableOfContens(new TableOfContens(this)){}
+    explicit ScriptEngineContext(QObject* parent=0):QObject(parent), m_tableOfContents(new TableOfContents(this)){}
 #ifdef HAVE_UI_LOADER
     void    addDialog(const QString& name, const QByteArray& description);
     bool    changeDialog(const QString& name, const QByteArray &description);
@@ -193,8 +193,8 @@ public:
     void setCurrentBand(BandDesignIntf* currentBand);
     PageItemDesignIntf* getCurrentPage() const;
     void setCurrentPage(PageItemDesignIntf* currentPage);
-    TableOfContens* tableOfContens() const;
-    void setTableOfContens(TableOfContens* tableOfContens);
+    TableOfContents* tableOfContents() const;
+    void setTableOfContents(TableOfContents* tableOfContents);
 
 #ifdef HAVE_UI_LOADER    
 signals:
@@ -221,7 +221,7 @@ private:
     QString m_initScript;
     BandDesignIntf* m_currentBand;
     PageItemDesignIntf* m_currentPage;
-    TableOfContens* m_tableOfContens;
+    TableOfContents* m_tableOfContents;
 };
 
 class JSFunctionDesc{
@@ -329,8 +329,8 @@ public:
     Q_INVOKABLE QVariant getFieldByKeyField(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue);
     Q_INVOKABLE void     reopenDatasource(const QString& datasourceName);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
-    Q_INVOKABLE void     addTableOfContensItem(const QString& uniqKey, const QString& content, int indent = 0);
-    Q_INVOKABLE void     clearTableOfContens();
+    Q_INVOKABLE void     addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent = 0);
+    Q_INVOKABLE void     clearTableOfContents();
 
 #ifdef USE_QJSENGINE
     Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
@@ -378,8 +378,8 @@ public:
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
     QVariant evaluateScript(const QString &script);
-    void    addTableOfContensItem(const QString& uniqKey, const QString& content, int indent);
-    void    clearTableOfContens();
+    void    addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent);
+    void    clearTableOfContents();
 
 protected:
     void updateModel();
@@ -399,8 +399,8 @@ private:
     bool createGetVariableFunction();
     bool createGetFieldFunction();
     bool createGetFieldByKeyFunction();
-    bool createAddTableOfContensItemFunction();
-    bool createClearTableOfContensFunction();
+    bool createAddTableOfContentsItemFunction();
+    bool createClearTableOfContentsFunction();
     bool createReopenDatasourceFunction();
 private:
     ScriptEngineManager();
