@@ -347,9 +347,9 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
 
 //            qDebug()<<"is script context exists before set datamanager is called"<< (m_context == 0);
 
-//            ICallbackDatasource* tableOfContens = m_dataManager->createCallbackDatasource("tableofcontens");
-//            connect(tableOfContens, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
-//                    m_tableOfContens, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
+//            ICallbackDatasource* tableOfContents = m_dataManager->createCallbackDatasource("tableofcontents");
+//            connect(tableOfContents, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+//                    m_tableOfContents, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
         }
     }
 }
@@ -540,21 +540,21 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     return QVariant();
 }
 
-void ScriptEngineManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int indent)
+void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
 {
     Q_ASSERT(m_context != 0);
     if (m_context){
         BandDesignIntf* currentBand = m_context->getCurrentBand();
-        m_context->tableOfContens()->setItem(uniqKey, content, 0, indent);
+        m_context->tableOfContents()->setItem(uniqKey, content, 0, indent);
         if (currentBand)
             currentBand->addBookmark(uniqKey, content);
     }
 }
 
-void ScriptEngineManager::clearTableOfContens(){
+void ScriptEngineManager::clearTableOfContents(){
     if (m_context) {
-        if (m_context->tableOfContens())
-            m_context->tableOfContens()->clear();
+        if (m_context->tableOfContents())
+            m_context->tableOfContents()->clear();
     }
 }
 
@@ -783,31 +783,31 @@ bool ScriptEngineManager::createGetFieldByKeyFunction()
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createAddTableOfContensItemFunction()
+bool ScriptEngineManager::createAddTableOfContentsItemFunction()
 {
     JSFunctionDesc fd;
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
-    fd.setName("addTableOfContensItem");
-    fd.setDescription("addTableOfContensItem(\""+tr("Unique identifier")+" \""+tr("Content")+"\", \""+tr("Indent")+"\")");
-    fd.setScriptWrapper(QString("function addTableOfContensItem(uniqKey, content, indent){"
-                                "return %1.addTableOfContensItem(uniqKey, content, indent);}"
+    fd.setName("addTableOfContentsItem");
+    fd.setDescription("addTableOfContentsItem(\""+tr("Unique identifier")+" \""+tr("Content")+"\", \""+tr("Indent")+"\")");
+    fd.setScriptWrapper(QString("function addTableOfContentsItem(uniqKey, content, indent){"
+                                "return %1.addTableOfContentsItem(uniqKey, content, indent);}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createClearTableOfContensFunction()
+bool ScriptEngineManager::createClearTableOfContentsFunction()
 {
     JSFunctionDesc fd;
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
-    fd.setName("clearTableOfContens");
-    fd.setDescription("clearTableOfContens()");
-    fd.setScriptWrapper(QString("function clearTableOfContens(){"
-                                "return %1.clearTableOfContens();}"
+    fd.setName("clearTableOfContents");
+    fd.setDescription("clearTableOfContents()");
+    fd.setScriptWrapper(QString("function clearTableOfContents(){"
+                                "return %1.clearTableOfContents();}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
@@ -863,8 +863,8 @@ ScriptEngineManager::ScriptEngineManager()
     QScriptValue fontConstructor = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
     m_scriptEngine->globalObject().setProperty("QFont", fontConstructor);
 #endif
-    createAddTableOfContensItemFunction();
-    createClearTableOfContensFunction();
+    createAddTableOfContentsItemFunction();
+    createClearTableOfContentsFunction();
     createReopenDatasourceFunction();
 
     m_model = new ScriptEngineModel(this);
@@ -1103,7 +1103,7 @@ void ScriptEngineContext::clear()
     m_createdDialogs.clear();
 #endif
     m_initScript.clear();
-    m_tableOfContens->clear();
+    m_tableOfContents->clear();
     m_lastError="";
 }
 
@@ -1186,14 +1186,14 @@ DialogDescriber* ScriptEngineContext::findDialogContainer(const QString& dialogN
     return 0;
 }
 
-TableOfContens* ScriptEngineContext::tableOfContens() const
+TableOfContents* ScriptEngineContext::tableOfContents() const
 {
-    return m_tableOfContens;
+    return m_tableOfContents;
 }
 
-void ScriptEngineContext::setTableOfContens(TableOfContens* tableOfContens)
+void ScriptEngineContext::setTableOfContents(TableOfContents* tableOfContents)
 {
-    m_tableOfContens = tableOfContens;
+    m_tableOfContents = tableOfContents;
 }
 
 PageItemDesignIntf* ScriptEngineContext::getCurrentPage() const
@@ -1321,9 +1321,9 @@ void ScriptEngineContext::initDialogs(){
 bool ScriptEngineContext::runInitScript(){
 
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
-    ScriptEngineManager::instance().clearTableOfContens();
+    ScriptEngineManager::instance().clearTableOfContents();
     ScriptEngineManager::instance().setContext(this);
-    m_tableOfContens->clear();
+    m_tableOfContents->clear();
 
 #ifndef USE_QJSENGINE
     engine->pushContext();
@@ -1538,14 +1538,14 @@ void ScriptFunctionsManager::reopenDatasource(const QString& datasourceName)
     return dm->reopenDatasource(datasourceName);
 }
 
-void ScriptFunctionsManager::addTableOfContensItem(const QString& uniqKey, const QString& content, int indent)
+void ScriptFunctionsManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
 {
-    scriptEngineManager()->addTableOfContensItem(uniqKey, content, indent);
+    scriptEngineManager()->addTableOfContentsItem(uniqKey, content, indent);
 }
 
-void ScriptFunctionsManager::clearTableOfContens()
+void ScriptFunctionsManager::clearTableOfContents()
 {
-    scriptEngineManager()->clearTableOfContens();
+    scriptEngineManager()->clearTableOfContents();
 }
 
 
@@ -1627,12 +1627,12 @@ void ScriptFunctionsManager::setScriptEngineManager(ScriptEngineManager *scriptE
     m_scriptEngineManager = scriptEngineManager;
 }
 
-TableOfContens::~TableOfContens()
+TableOfContents::~TableOfContents()
 {
     clear();
 }
 
-void TableOfContens::setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
+void TableOfContents::setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
 {
     ContentItem * item = 0;
     if (m_hash.contains(uniqKey)){
@@ -1647,20 +1647,20 @@ void TableOfContens::setItem(const QString& uniqKey, const QString& content, int
         item->pageNumber = pageNumber;
         item->indent = indent;
         item->uniqKey = uniqKey;
-        m_tableOfContens.append(item);
+        m_tableOfContents.append(item);
         m_hash.insert(uniqKey, item);
     }
 
 }
 
-void TableOfContens::slotOneSlotDS(CallbackInfo info, QVariant& data)
+void TableOfContents::slotOneSlotDS(CallbackInfo info, QVariant& data)
 {
     QStringList columns;
     columns << "Content" << "Page number" << "Content Key";
 
     switch (info.dataType) {
         case LimeReport::CallbackInfo::RowCount:
-            data = m_tableOfContens.count();
+            data = m_tableOfContents.count();
             break;
         case LimeReport::CallbackInfo::ColumnCount:
             data = columns.size();
@@ -1670,8 +1670,8 @@ void TableOfContens::slotOneSlotDS(CallbackInfo info, QVariant& data)
             break;
         }
         case LimeReport::CallbackInfo::ColumnData:
-            if (info.index < m_tableOfContens.count()){
-                ContentItem* item = m_tableOfContens.at(info.index);
+            if (info.index < m_tableOfContents.count()){
+                ContentItem* item = m_tableOfContents.at(info.index);
                 if (info.columnName.compare("Content",Qt::CaseInsensitive) == 0)
                     data = item->content.rightJustified(item->indent+item->content.size());
                 if (info.columnName.compare("Content Key",Qt::CaseInsensitive) == 0)
@@ -1684,13 +1684,13 @@ void TableOfContens::slotOneSlotDS(CallbackInfo info, QVariant& data)
     }
 }
 
-void LimeReport::TableOfContens::clear(){
+void LimeReport::TableOfContents::clear(){
 
     m_hash.clear();
-    foreach(ContentItem* item, m_tableOfContens){
+    foreach(ContentItem* item, m_tableOfContents){
         delete item;
     }
-    m_tableOfContens.clear();
+    m_tableOfContents.clear();
 
 }
 

@@ -1055,7 +1055,7 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
 void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
     if (band){
-        TableOfContens* toc = m_scriptEngineContext->tableOfContens();
+        TableOfContents* toc = m_scriptEngineContext->tableOfContents();
         foreach (QString key, band->bookmarks()){
             toc->setItem(key, band->getBookMark(key).toString(), pageNumber);
         }
@@ -1065,7 +1065,7 @@ void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
 void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
 
-    if (!m_scriptEngineContext->tableOfContens()->isEmpty()){
+    if (!m_scriptEngineContext->tableOfContents()->isEmpty()){
         for(int i=0; i<renderedPages.count(); ++i){
             PageItemDesignIntf::Ptr page = renderedPages.at(i);
             foreach(BaseDesignIntf* item, page->childBaseItems()){
