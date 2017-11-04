@@ -43,7 +43,12 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
 {
     if (!index.isValid()) return;
 
+#if QT_VERSION >= 0x050000
+    QStyleOptionViewItem opt = option;
+#else
     QStyleOptionViewItemV4 opt = option;
+#endif
+
     QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
 
     LimeReport::ObjectPropItem *node = static_cast<LimeReport::ObjectPropItem*>(index.internalPointer());
