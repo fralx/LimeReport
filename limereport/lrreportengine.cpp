@@ -292,10 +292,10 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
                     QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
                                 QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
                                 renderPage.pageItem()->sizeMM();
-                    if (page->getSetPageSizeToPrinter())
+                    if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
                       printer.setPaperSize(pageSize,QPrinter::Millimeter);
                 } else {
-                    if (page->getSetPageSizeToPrinter())
+                    if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
                       printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
                 }
             }
