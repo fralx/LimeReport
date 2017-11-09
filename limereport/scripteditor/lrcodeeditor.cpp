@@ -186,8 +186,8 @@ bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesis
 bool CodeEditor::matchRightParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numRightParentheses)
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
-    QVector<ParenthesisInfo *> parentheses = data->parentheses();
     if (data){
+        QVector<ParenthesisInfo *> parentheses = data->parentheses();
         int docPos = currentBlock.position();
         for (; i > -1 && parentheses.size() > 0; --i) {
             ParenthesisInfo *info = parentheses.at(i);
