@@ -15,7 +15,7 @@ SUBDIRS += \
 
 CONFIG   += ordered
 
-SUBDIRS += demo_r1 demo_r2 designer
+SUBDIRS += demo_r1 demo_r2 designer designer_plugin
 
 
 

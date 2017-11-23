@@ -48,7 +48,7 @@ void ScriptEditor::initEditor(DataSourceManager* dm)
     }
 }
 
-void ScriptEditor::setReportEngine(ReportEnginePrivate* reportEngine)
+void ScriptEditor::setReportEngine(ReportEnginePrivateInterface* reportEngine)
 {
     m_reportEngine = reportEngine;
     DataSourceManager* dm = m_reportEngine->dataManager();

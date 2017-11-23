@@ -59,7 +59,7 @@ class ReportDesignWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit ReportDesignWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0);
+    explicit ReportDesignWindow(ReportEnginePrivateInterface *report, QWidget *parent = 0, QSettings* settings=0);
     ~ReportDesignWindow();
     static ReportDesignWindow* instance(){return m_instance;}
 
@@ -140,7 +140,7 @@ private:
     void createItemsActions();
     void createObjectInspector();
     void createObjectsBrowser();
-    void initReportEditor(ReportEngine *report);
+    void initReportEditor(ReportEnginePrivateInterface* report);
     void createDataWindow();
     void createScriptWindow();
 #ifdef HAVE_QTDESIGNER_INTEGRATION

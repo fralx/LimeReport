@@ -30,30 +30,36 @@
 #include "lrtextalignmenteditorwidget.h"
 
 namespace LimeReport{
-
-TextAlignmentEditorWidget::TextAlignmentEditorWidget(ReportDesignWidget *reportEditor, const QString &title, QWidget *parent)
-    :ItemEditorWidget(reportEditor,title,parent), m_textAttibutesIsChanging(false)
+TextAlignmentEditorWidget::TextAlignmentEditorWidget(const QString& title, QWidget* parent)
+    :ItemEditorWidget(title, parent), m_textAttibutesIsChanging(false), m_flag(0)
 {
     initEditor();
 }
 
-TextAlignmentEditorWidget::TextAlignmentEditorWidget(ReportDesignWidget *reportEditor, QWidget *parent)
-    :ItemEditorWidget(reportEditor,parent), m_textAttibutesIsChanging(false)
-{
-    initEditor();
-}
+//#ifdef IS_REPORT_DESIGNER
+//TextAlignmentEditorWidget::TextAlignmentEditorWidget(ReportDesignWidget *reportEditor, const QString &title, QWidget *parent)
+//    :ItemEditorWidget(reportEditor,title,parent), m_textAttibutesIsChanging(false)
+//{
+//    initEditor();
+//}
 
-TextAlignmentEditorWidget::TextAlignmentEditorWidget(PageDesignIntf* page, const QString& title, QWidget* parent)
-    :ItemEditorWidget(page,title,parent), m_textAttibutesIsChanging(false)
-{
-    initEditor();
-}
+//TextAlignmentEditorWidget::TextAlignmentEditorWidget(ReportDesignWidget *reportEditor, QWidget *parent)
+//    :ItemEditorWidget(reportEditor,parent), m_textAttibutesIsChanging(false)
+//{
+//    initEditor();
+//}
+//#endif
+//TextAlignmentEditorWidget::TextAlignmentEditorWidget(PageDesignIntf* page, const QString& title, QWidget* parent)
+//    :ItemEditorWidget(page,title,parent), m_textAttibutesIsChanging(false)
+//{
+//    initEditor();
+//}
 
-TextAlignmentEditorWidget::TextAlignmentEditorWidget(PageDesignIntf* page, QWidget* parent)
-    :ItemEditorWidget(page,parent), m_textAttibutesIsChanging(false)
-{
-    initEditor();
-}
+//TextAlignmentEditorWidget::TextAlignmentEditorWidget(PageDesignIntf* page, QWidget* parent)
+//    :ItemEditorWidget(page,parent), m_textAttibutesIsChanging(false)
+//{
+//    initEditor();
+//}
 
 void TextAlignmentEditorWidget::setItemEvent(BaseDesignIntf *item)
 {
@@ -109,21 +115,22 @@ void TextAlignmentEditorWidget::initEditor()
     m_textAliginBottom->setCheckable(true);
     connect(m_textAliginBottom,SIGNAL(toggled(bool)),this,SLOT(slotTextVAttribsChanged(bool)));
     addAction(m_textAliginBottom);
-
-    if (reportEditor()){
-        connect(reportEditor(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
-                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
-    }
-    if (page()){
-        connect(page(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
-                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
-    }
+//#ifdef IS_REPORT_DESIGNER
+//    if (reportEditor()){
+//        connect(reportEditor(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
+//                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
+//    }
+//#endif
+//    if (page()){
+//        connect(page(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
+//                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
+//    }
     setEnabled(false);
 }
 
 void TextAlignmentEditorWidget::updateValues(const Qt::Alignment &align)
 {
-    m_textAttibutesIsChanging=true;
+     m_textAttibutesIsChanging=true;
     m_textAliginLeft->setChecked((align & Qt::AlignLeft)==Qt::AlignLeft);
     m_textAliginRight->setChecked((align & Qt::AlignRight)==Qt::AlignRight);
     m_textAliginHCenter->setChecked((align & Qt::AlignHCenter)==Qt::AlignHCenter);
@@ -157,17 +164,18 @@ void TextAlignmentEditorWidget::slotTextHAttribsChanged(bool)
     m_textAliginRight->setChecked(sender()==m_textAliginRight);
     m_textAliginJustify->setChecked(sender()==m_textAliginJustify);
 
-    int flag = 0;
-    if (sender()==m_textAliginLeft) flag |= Qt::AlignLeft;
-    if (sender()==m_textAliginHCenter) flag |= Qt::AlignHCenter;
-    if (sender()==m_textAliginRight) flag |= Qt::AlignRight;
-    if (sender()==m_textAliginJustify) flag |= Qt::AlignJustify;
-
-    if (reportEditor()) reportEditor()->setTextAlign(true,Qt::AlignmentFlag(flag));
-    if (page()) {
-        //page()->setTextAlign(createAlignment());
-        page()->changeSelectedGrpoupTextAlignPropperty(true,Qt::AlignmentFlag(flag));
-    }
+    m_flag = 0;
+    if (sender()==m_textAliginLeft) m_flag |= Qt::AlignLeft;
+    if (sender()==m_textAliginHCenter) m_flag |= Qt::AlignHCenter;
+    if (sender()==m_textAliginRight) m_flag |= Qt::AlignRight;
+    if (sender()==m_textAliginJustify) m_flag |= Qt::AlignJustify;
+//#ifdef IS_REPORT_DESIGNER
+//    if (reportEditor()) reportEditor()->setTextAlign(true,Qt::AlignmentFlag(flag));
+//#endif
+//    if (page()) {
+//        //page()->setTextAlign(createAlignment());
+//        page()->changeSelectedGrpoupTextAlignPropperty(true,Qt::AlignmentFlag(flag));
+//    }
     m_textAttibutesIsChanging = false;
 }
 
@@ -180,13 +188,14 @@ void TextAlignmentEditorWidget::slotTextVAttribsChanged(bool)
     m_textAliginVCenter->setChecked(sender()==m_textAliginVCenter);
     m_textAliginBottom->setChecked(sender()==m_textAliginBottom);
 
-    int flag = 0;
-    if (sender()==m_textAliginTop) flag |= Qt::AlignTop;
-    if (sender()==m_textAliginVCenter) flag |= Qt::AlignVCenter;
-    if (sender()==m_textAliginBottom) flag |= Qt::AlignBottom;
-
-    if (reportEditor()) reportEditor()->setTextAlign(false,Qt::AlignmentFlag(flag));
-    if (page()) page()->changeSelectedGrpoupTextAlignPropperty(false,Qt::AlignmentFlag(flag) );
+    m_flag = 0;
+    if (sender()==m_textAliginTop) m_flag |= Qt::AlignTop;
+    if (sender()==m_textAliginVCenter) m_flag |= Qt::AlignVCenter;
+    if (sender()==m_textAliginBottom) m_flag |= Qt::AlignBottom;
+//#ifdef IS_REPORT_DESIGNER
+//    if (reportEditor()) reportEditor()->setTextAlign(false,Qt::AlignmentFlag(flag));
+//#endif
+//    if (page()) page()->changeSelectedGrpoupTextAlignPropperty(false,Qt::AlignmentFlag(flag) );
     m_textAttibutesIsChanging = false;
 }
 
@@ -200,5 +209,63 @@ void TextAlignmentEditorWidget::slotPropertyChanged(const QString &objectName, c
     }
 }
 
+int TextAlignmentEditorWidget::flag() const
+{
+    return m_flag;
+}
+
+void TextAlignmentEditorWidgetForPage::initEditor()
+{
+    TextAlignmentEditorWidget::initEditor();
+    connect(m_page,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
+            this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
+}
+
+void TextAlignmentEditorWidgetForPage::slotTextHAttribsChanged(bool value)
+{
+
+    TextAlignmentEditorWidget::slotTextHAttribsChanged(value);
+    if (m_textAttibutesIsChanging) return;
+    m_textAttibutesIsChanging = true;
+    m_page->changeSelectedGrpoupTextAlignPropperty(true,Qt::AlignmentFlag(flag()));
+    m_textAttibutesIsChanging = false;
+}
+
+void TextAlignmentEditorWidgetForPage::slotTextVAttribsChanged(bool value)
+{
+    TextAlignmentEditorWidget::slotTextVAttribsChanged(value);
+    if (m_textAttibutesIsChanging) return;
+    m_textAttibutesIsChanging = true;
+    m_page->changeSelectedGrpoupTextAlignPropperty(false,Qt::AlignmentFlag(flag()) );
+    m_textAttibutesIsChanging = false;
+}
+
+#ifdef IS_REPORT_DESIGNER
+void TextAlignmentEditorWidgetForDesigner::initEditor()
+{
+    TextAlignmentEditorWidget::initEditor();
+    connect(m_reportEditor,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
+            this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
+
+}
+
+void TextAlignmentEditorWidgetForDesigner::slotTextHAttribsChanged(bool value)
+{
+    TextAlignmentEditorWidget::slotTextHAttribsChanged(value);
+    if (m_textAttibutesIsChanging) return;
+    m_textAttibutesIsChanging = true;
+    m_reportEditor->setTextAlign(true,Qt::AlignmentFlag(flag()));
+    m_textAttibutesIsChanging = false;
+}
+
+void TextAlignmentEditorWidgetForDesigner::slotTextVAttribsChanged(bool value)
+{
+    TextAlignmentEditorWidget::slotTextVAttribsChanged(value);
+    if (m_textAttibutesIsChanging) return;
+    m_textAttibutesIsChanging = true;
+    m_reportEditor->setTextAlign(false,Qt::AlignmentFlag(flag()));
+    m_textAttibutesIsChanging = false;
+}
+#endif
 
 } //namespace LimeReport

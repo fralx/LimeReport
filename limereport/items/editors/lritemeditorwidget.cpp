@@ -31,25 +31,35 @@
 
 namespace LimeReport{
 
-ItemEditorWidget::ItemEditorWidget(ReportDesignWidget* reportEditor, const QString& title, QWidget* parent)
-    :QToolBar(title,parent), m_reportEditor(reportEditor), m_item(0), m_page(0)
-{
-}
+//#ifdef IS_REPORT_DESIGNER
+//ItemEditorWidget::ItemEditorWidget(ReportDesignWidget* reportEditor, const QString& title, QWidget* parent)
+//    :QToolBar(title,parent), m_reportEditor(reportEditor), m_item(0), m_page(0)
+//{
+//}
 
-ItemEditorWidget::ItemEditorWidget(ReportDesignWidget* reportEditor, QWidget* parent)
-    :QToolBar(parent), m_reportEditor(reportEditor), m_item(0), m_page(0)
-{
-}
+//ItemEditorWidget::ItemEditorWidget(ReportDesignWidget* reportEditor, QWidget* parent)
+//    :QToolBar(parent), m_reportEditor(reportEditor), m_item(0), m_page(0)
+//{
+//}
+//#endif
 
-ItemEditorWidget::ItemEditorWidget(PageDesignIntf* page, const QString& title, QWidget* parent)
-    :QToolBar(title,parent), m_reportEditor(0), m_item(0), m_page(page)
-{
-}
+//ItemEditorWidget::ItemEditorWidget(PageDesignIntf* page, const QString& title, QWidget* parent)
+//    :QToolBar(title,parent),
+//#ifdef IS_REPORT_DESIGNER
+//      m_reportEditor(0),
+//#endif
+//      m_item(0), m_page(page)
+//{
+//}
 
-ItemEditorWidget::ItemEditorWidget(PageDesignIntf* page, QWidget* parent)
-    :QToolBar(parent), m_reportEditor(0), m_item(0), m_page(page)
-{
-}
+//ItemEditorWidget::ItemEditorWidget(PageDesignIntf* page, QWidget* parent)
+//    :QToolBar(parent),
+//#ifdef IS_REPORT_DESIGNER
+//      m_reportEditor(0),
+//#endif
+//      m_item(0), m_page(page)
+//{
+//}
 
 void ItemEditorWidget::setItem(BaseDesignIntf* item)
 {

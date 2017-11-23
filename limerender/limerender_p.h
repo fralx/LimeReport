@@ -27,22 +27,21 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef LRREPORTDESIGNINTF_P_H
-#define LRREPORTDESIGNINTF_P_H
+#ifndef LRLIMERENDER_P_H
+#define LRLIMERENDER_P_H
 
 #include <QObject>
 #include <QSharedPointer>
 #include <QMainWindow>
-#include "lrreportengine.h"
+
+#include "limerender.h"
 #include "lrcollection.h"
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
 #include "lrbanddesignintf.h"
-#include "lrreportrender.h"
 #include "serializators/lrstorageintf.h"
 #include "lrscriptenginemanager.h"
 #include "lrreporttranslation.h"
-#include "lrdesignerplugininterface.h"
 
 class QFileSystemWatcher;
 
@@ -54,40 +53,7 @@ class ReportDesignWindow;
 
 //TODO: Add on render callback
 
-class ReportEnginePrivateInterface {
-public:
-    virtual PageDesignIntf*         appendPage(const QString& pageName="") = 0;
-    virtual bool                    deletePage(PageDesignIntf *page) = 0;
-    virtual void                    reorderPages(const QList<PageDesignIntf *> &reorderedPages) = 0;
-    virtual int                     pageCount() = 0;
-    virtual PageDesignIntf*         pageAt(int index) = 0;
-    virtual void                    clearReport() = 0;
-    virtual ScriptEngineContext*    scriptContext() = 0;
-    virtual ScriptEngineManager*    scriptManager() = 0;
-    virtual DataSourceManager*      dataManager() = 0;
-    virtual QString                 reportFileName() = 0;
-    virtual void                    setReportFileName(const QString& reportFileName) = 0;
-    virtual void                    emitSaveFinished() = 0;
-    virtual bool                    isNeedToSave() = 0;
-    virtual void                    emitSaveReport() = 0;
-    virtual bool                    saveToFile() = 0;
-    virtual bool                    saveToFile(const QString& fileName) = 0;
-    virtual bool                    isSaved() = 0;
-    virtual QString                 reportName() = 0;
-    virtual bool                    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange) = 0;
-    virtual bool                    emitLoadReport() = 0;
-    virtual void                    clearSelection() = 0;
-    virtual bool                    printReport(QPrinter *printer=0) = 0;
-    virtual void                    previewReport(PreviewHints hints = PreviewBarsUserSetting) = 0;
-    virtual void                    setCurrentReportsDir(const QString& dirName) = 0;
-    virtual QString                 currentReportsDir() = 0;
-    virtual bool                    suppressFieldAndVarError() const = 0;
-    virtual void                    setSuppressFieldAndVarError(bool suppressFieldAndVarError) = 0;
-
-};
-
-class ReportEnginePrivate : public QObject, public ICollectionContainer, public ITranslationContainer,
-        public ReportEnginePrivateInterface
+class LimeRenderPrivate : public QObject, public ICollectionContainer, public ITranslationContainer
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(ReportEngine)
@@ -96,7 +62,6 @@ class ReportEnginePrivate : public QObject, public ICollectionContainer, public 
     Q_PROPERTY(QObject* scriptContext READ scriptContext)
     Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)
     Q_PROPERTY(ATranslationProperty translation READ fakeTranslationReader)
-
     friend class PreviewReportWidget;
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
@@ -104,8 +69,8 @@ public:
     Q_INVOKABLE QStringList aviableReportTranslations();
     Q_INVOKABLE void setReportTranslation(const QString& languageName);
 public:
-    explicit ReportEnginePrivate(QObject *parent = 0);
-    virtual ~ReportEnginePrivate();
+    explicit LimeRenderPrivate(QObject *parent = 0);
+    virtual ~LimeRenderPrivate();
 
     PageDesignIntf*      appendPage(const QString& pageName="");
     bool deletePage(PageDesignIntf *page);
@@ -128,30 +93,14 @@ public:
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
-    void    designReport();
     void    setSettings(QSettings* value);
-    void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
     QSettings*  settings();
     bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange);
     bool    loadFromByteArray(QByteArray *data, const QString& name = "");
     bool    loadFromString(const QString& report, const QString& name = "");
-    QString reportFileName(){return m_fileName;}
-    void    setReportFileName(const QString& reportFileName){ m_fileName = reportFileName;}
-    bool    saveToFile();
-    bool    saveToFile(const QString& fileName);
-    QByteArray  saveToByteArray();
-    QString saveToString();
-    bool    isNeedToSave();
     QString lastError();
     ReportEngine * q_ptr;
-    void emitSaveReport();
     bool emitLoadReport();
-    void emitSaveFinished();
-    bool isSaved();
-    void setCurrentReportsDir(const QString& dirName);
-    QString currentReportsDir(){ return m_reportsDir;}
-    void setReportName(const QString& reportName){ m_reportName=reportName;}
-    QString reportName(){ return m_reportName;}
     bool hasActivePreview(){return m_activePreview;}
     PageDesignIntf *createPreviewScene(QObject *parent);
     PreviewReportWidget *createPreviewWidget(QWidget *parent);
@@ -184,8 +133,6 @@ signals:
     void    renderFinished();
     void    renderPageFinished(int renderedPageCount);
     void    onLoad(bool& loaded);
-    void    onSave();
-    void    saveFinished();
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
@@ -229,9 +176,9 @@ private:
     QMainWindow* m_activePreview;
     QIcon m_previewWindowIcon;
     QString m_previewWindowTitle;
-    QPointer<QMainWindow> m_designerWindow;
+    QPointer<ReportDesignWindow> m_designerWindow;
     ReportSettings m_reportSettings;
-    bool m_reportRendering;
+    bool m_LimeRendering;
     bool m_resultIsEditable;
     QString m_passPhrase;
     QFileSystemWatcher  *m_fileWatcher;
@@ -239,8 +186,7 @@ private:
     QLocale::Language m_reportLanguage;
     void activateLanguage(QLocale::Language language);
     Qt::LayoutDirection m_previewLayoutDirection;
-    LimeReportPluginInterface* m_designerFactory;
 };
 
 }
-#endif // LRREPORTDESIGNINTF_P_H
+#endif // LRLIMERENDER_P_H

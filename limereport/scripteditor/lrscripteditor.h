@@ -9,7 +9,7 @@
 
 namespace LimeReport{
 
-class ReportEnginePrivate;
+class ReportEnginePrivateInterface;
 class BaseDesignIntf;
 class PageDesignIntf;
 class BandDesignIntf;
@@ -25,7 +25,7 @@ class ScriptEditor : public QWidget
 public:
     explicit ScriptEditor(QWidget *parent = 0);
     ~ScriptEditor();
-    void setReportEngine(ReportEnginePrivate* reportEngine);
+    void setReportEngine(LimeReport::ReportEnginePrivateInterface* reportEngine);
     void setReportPage(PageDesignIntf* page);
     void setPageBand(BandDesignIntf* band);
     void initCompleter();
@@ -48,7 +48,7 @@ private:
     void addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords);
 private:
     Ui::ScriptEditor *ui;
-    ReportEnginePrivate* m_reportEngine;
+    ReportEnginePrivateInterface* m_reportEngine;
     PageDesignIntf* m_page;
     QCompleter* m_completer;
 
