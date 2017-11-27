@@ -35,7 +35,7 @@
 #include <QStringListModel>
 #include <QAction>
 
-#ifdef IS_REPORT_DESIGNER
+#ifdef HAVE_REPORT_DESIGNER
 #include "lrreportdesignwidget.h"
 #endif
 
@@ -47,19 +47,13 @@ class FontEditorWidget :public ItemEditorWidget{
     Q_OBJECT
 public:
     explicit FontEditorWidget(const QString &title, QWidget *parent = 0);
-//#ifdef IS_REPORT_DESIGNER
-//    explicit FontEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
-//    explicit FontEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
-//#endif
-//    explicit FontEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
-//    explicit FontEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
     bool ignoreSlots() const;
 protected:
     void setItemEvent(BaseDesignIntf *item);
     QFontComboBox* fontNameEditor(){return m_fontNameEditor;}
     virtual void initEditor();
 protected slots:
-    virtual void slotFontChanged(const QFont& font);
+    virtual void slotFontChanged(const QFont);
     virtual void slotFontSizeChanged(const QString& value);
     virtual void slotFontAttribsChanged(bool);
     void slotPropertyChanged(const QString& objectName, const QString& property, const QVariant &oldValue, const QVariant &newValue);
@@ -95,7 +89,7 @@ private:
     PageDesignIntf* m_page;
 };
 
-#ifdef IS_REPORT_DESIGNER
+#ifdef HAVE_REPORT_DESIGNER
 class FontEditorWidgetForDesigner : public FontEditorWidget{
     Q_OBJECT
 public:

@@ -2,6 +2,7 @@ DEFINES += NO_PNG
 TEMPLATE = lib
 
 contains(CONFIG, static_build){
+    message(Static Build)
     CONFIG += staticlib
     DEFINES += HAVE_STATIC_BUILD
 }

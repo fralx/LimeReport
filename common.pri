@@ -12,6 +12,11 @@ CONFIG *= build_translations
     CONFIG *= dialogdesigner
 }
 
+!contains(CONFIG, no_embedded_designer){
+    CONFIG *= embedded_designer
+    DEFINES += HAVE_REPORT_DESIGNER
+}
+
 ZINT_PATH = $$PWD/3rdparty/zint-2.6.1
 contains(CONFIG,zint){
     DEFINES *= HAVE_ZINT

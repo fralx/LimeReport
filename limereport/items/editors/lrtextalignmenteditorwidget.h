@@ -42,12 +42,6 @@ class TextAlignmentEditorWidget:public ItemEditorWidget
     Q_OBJECT
 public:
     explicit TextAlignmentEditorWidget(const QString &title, QWidget *parent = 0);
-//#ifdef IS_REPORT_DESIGNER
-//    explicit TextAlignmentEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
-//    explicit TextAlignmentEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
-//#endif
-//    explicit TextAlignmentEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
-//    explicit TextAlignmentEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
     int flag() const;
 protected:
     void setItemEvent(BaseDesignIntf *item);
@@ -68,9 +62,7 @@ private:
     QAction* m_textAliginTop;
     QAction* m_textAliginBottom;
     QAction* m_textAliginVCenter;
-
     int m_flag;
-
 };
 
 class TextAlignmentEditorWidgetForPage: public TextAlignmentEditorWidget{
@@ -87,7 +79,7 @@ private:
     PageDesignIntf* m_page;
 };
 
-#ifdef IS_REPORT_DESIGNER
+#ifdef HAVE_REPORT_DESIGNER
 class TextAlignmentEditorWidgetForDesigner: public TextAlignmentEditorWidget{
     Q_OBJECT
 public:

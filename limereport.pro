@@ -10,12 +10,18 @@ contains(CONFIG, zint){
 }
 
 export($$CONFIG)
-SUBDIRS += \
-        limereport
+
+SUBDIRS += limereport
 
 CONFIG   += ordered
 
-SUBDIRS += demo_r1 demo_r2 designer designer_plugin
+SUBDIRS += demo_r1 demo_r2 designer
+
+!contains(CONFIG, embedded_designer){
+!contains(CONFIG, static_build){
+SUBDIRS += designer_plugin
+}
+}
 
 
 

@@ -28,7 +28,7 @@ DEFINES += LIMEREPORT_EXPORTS
 
 contains(CONFIG, staticlib){
     DEFINES += HAVE_STATIC_BUILD
-    message(STATIC_BUILD)
+    message(Static Build)
     DEFINES -= LIMEREPORT_EXPORTS
 }
 
@@ -39,7 +39,8 @@ EXTRA_FILES += \
     $$PWD/lrreportengine.h \
     $$PWD/lrscriptenginemanagerintf.h \
     $$PWD/lrcallbackdatasourceintf.h \
-    $$PWD/lrpreviewreportwidget.h
+    $$PWD/lrpreviewreportwidget.h \
+    $$PWD/lrreportdesignwindowintrerface.h
 
 include(limereport.pri)
 

@@ -5,6 +5,7 @@
 #include <QVariant>
 
 #include <QtPlugin>
+#include "lrreportdesignwindowintrerface.h"
 
 QT_BEGIN_NAMESPACE
 class QSettings;
@@ -19,10 +20,7 @@ namespace LimeReport {
 class LimeReportPluginInterface {
 public:
     virtual ~LimeReportPluginInterface() { }
-
-    virtual QString getString() const = 0;
-    virtual QVariant getVar() const = 0;
-    virtual QMainWindow* getDesignerWindow(LimeReport::ReportEnginePrivateInterface* report, QWidget *parent = 0, QSettings* settings=0) = 0;
+    virtual LimeReport::ReportDesignWindowInterface* getDesignerWindow(LimeReport::ReportEnginePrivateInterface* report, QWidget *parent = 0, QSettings* settings=0) = 0;
 };
 
 Q_DECLARE_INTERFACE( LimeReportPluginInterface, "ru.limereport.LimeReport.DesignerPluginInterface/1.0" )

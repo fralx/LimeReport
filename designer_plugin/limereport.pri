@@ -1,6 +1,6 @@
 include(../common.pri)
 
-DEFINES += IS_REPORT_DESIGNER
+DEFINES += HAVE_REPORT_DESIGNER
 
 contains(CONFIG,dialogdesigner){
     include($$REPORT_PATH/dialogdesigner/dialogdesigner.pri)
@@ -19,23 +19,11 @@ INCLUDEPATH += \
     $$REPORT_PATH/../designer_plugin
 
 SOURCES += \
-    $$REPORT_PATH/bands/lrpageheader.cpp \
-    $$REPORT_PATH/bands/lrpagefooter.cpp \
-    $$REPORT_PATH/bands/lrreportheader.cpp \
-    $$REPORT_PATH/bands/lrreportfooter.cpp \
-    $$REPORT_PATH/bands/lrdataband.cpp \
-    $$REPORT_PATH/bands/lrgroupbands.cpp \
-    $$REPORT_PATH/bands/lrsubdetailband.cpp \
-    $$REPORT_PATH/bands/lrtearoffband.cpp \
     $$REPORT_PATH/databrowser/lrdatabrowser.cpp \
     $$REPORT_PATH/databrowser/lrsqleditdialog.cpp \
     $$REPORT_PATH/databrowser/lrconnectiondialog.cpp \
     $$REPORT_PATH/databrowser/lrvariabledialog.cpp \
     $$REPORT_PATH/databrowser/lrdatabrowsertree.cpp \
-    $$REPORT_PATH/serializators/lrxmlqrectserializator.cpp \
-    $$REPORT_PATH/serializators/lrxmlbasetypesserializators.cpp \
-    $$REPORT_PATH/serializators/lrxmlreader.cpp \
-    $$REPORT_PATH/serializators/lrxmlwriter.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrstringpropitem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrrectproptem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrintpropitem.cpp \
@@ -74,11 +62,6 @@ SOURCES += \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.cpp \
     $$REPORT_PATH/items/editors/lritemsaligneditorwidget.cpp \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.cpp \
-    $$REPORT_PATH/items/lrsimpletagparser.cpp \
-    $$REPORT_PATH/items/lrimageitem.cpp \
-    $$REPORT_PATH/items/lrtextitemeditor.cpp \
-    $$REPORT_PATH/items/lrshapeitem.cpp \
-    $$REPORT_PATH/items/lrtextitem.cpp \
     $$REPORT_PATH/translationeditor/translationeditor.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
@@ -89,58 +72,25 @@ SOURCES += \
     $$REPORT_PATH/lrdatadesignintf.cpp \
     $$REPORT_PATH/lrreportdesignwidget.cpp \
     $$REPORT_PATH/lrbasedesignintf.cpp \
-    $$REPORT_PATH/lrreportengine.cpp \
     $$REPORT_PATH/lrdatasourcemanager.cpp \
     $$REPORT_PATH/lrreportdesignwindow.cpp \
-#    $$REPORT_PATH/lrreportrender.cpp \
     $$REPORT_PATH/lrscriptenginemanager.cpp \
-    $$REPORT_PATH/lrpreviewreportwindow.cpp \
-    $$REPORT_PATH/lrpreviewreportwidget.cpp \
-    $$REPORT_PATH/lrgraphicsviewzoom.cpp \
-    $$REPORT_PATH/lrvariablesholder.cpp \
-    $$REPORT_PATH/lrgroupfunctions.cpp \
-    $$REPORT_PATH/lrsimplecrypt.cpp \    
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp \
     $$REPORT_PATH/lrcolorindicator.cpp \
-    $$REPORT_PATH/items/lrchartitem.cpp \
-    $$REPORT_PATH/items/lrchartitemeditor.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp \
     $$REPORT_PATH/translationeditor/languageselectdialog.cpp
-    
-contains(CONFIG, staticlib){
-    SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
-}
-    
-contains(CONFIG, zint){
-    SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
-}
-
+        
 HEADERS += \
     $$REPORT_PATH/base/lrsingleton.h \
     $$REPORT_PATH/base/lrsimpleabstractfactory.h \
     $$REPORT_PATH/base/lrattribsabstractfactory.h \
-    $$REPORT_PATH/bands/lrpageheader.h \
-    $$REPORT_PATH/bands/lrpagefooter.h \
-    $$REPORT_PATH/bands/lrreportheader.h \
-    $$REPORT_PATH/bands/lrreportfooter.h \
-    $$REPORT_PATH/bands/lrdataband.h \
-    $$REPORT_PATH/bands/lrtearoffband.h \
-    $$REPORT_PATH/bands/lrsubdetailband.h \
-    $$REPORT_PATH/bands/lrgroupbands.h \
     $$REPORT_PATH/databrowser/lrdatabrowser.h \
     $$REPORT_PATH/databrowser/lrsqleditdialog.h \
     $$REPORT_PATH/databrowser/lrconnectiondialog.h \
     $$REPORT_PATH/databrowser/lrvariabledialog.h \
     $$REPORT_PATH/databrowser/lrdatabrowsertree.h \
-    $$REPORT_PATH/serializators/lrserializatorintf.h \
-    $$REPORT_PATH/serializators/lrstorageintf.h \
-    $$REPORT_PATH/serializators/lrxmlqrectserializator.h \
-    $$REPORT_PATH/serializators/lrxmlserializatorsfactory.h \
-    $$REPORT_PATH/serializators/lrxmlbasetypesserializators.h \
-    $$REPORT_PATH/serializators/lrxmlreader.h \
-    $$REPORT_PATH/serializators/lrxmlwriter.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrstringpropitem.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrrectproptem.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrdatasourcepropitem.h \
@@ -181,69 +131,40 @@ HEADERS += \
     $$REPORT_PATH/items/lralignpropitem.h \
     $$REPORT_PATH/items/lrhorizontallayout.h \
     $$REPORT_PATH/items/lrtextitemeditor.h \
-    $$REPORT_PATH/items/lrshapeitem.h \
-    $$REPORT_PATH/items/lrimageitem.h \
-    $$REPORT_PATH/items/lrsimpletagparser.h \
     $$REPORT_PATH/translationeditor/translationeditor.h \
-    $$REPORT_PATH/lrfactoryinitializer.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
     $$REPORT_PATH/lrbandsmanager.h \
     $$REPORT_PATH/lrglobal.h \
     $$REPORT_PATH/lrdatadesignintf.h \
-    $$REPORT_PATH/lrcollection.h \
     $$REPORT_PATH/lrpagedesignintf.h \
     $$REPORT_PATH/lrreportdesignwidget.h \
-    $$REPORT_PATH/lrreportengine_p.h \
     $$REPORT_PATH/lrdatasourcemanager.h \
     $$REPORT_PATH/lrreportdesignwindow.h \
-#    $$REPORT_PATH/lrreportrender.h \
-    $$REPORT_PATH/lrpreviewreportwindow.h \
-    $$REPORT_PATH/lrpreviewreportwidget.h \
-    $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lrgraphicsviewzoom.h \
     $$REPORT_PATH/lrbasedesignintf.h \
     $$REPORT_PATH/lritemdesignintf.h \
-    $$REPORT_PATH/lrdesignelementsfactory.h \
     $$REPORT_PATH/lrscriptenginemanager.h \
-    $$REPORT_PATH/lrvariablesholder.h \
     $$REPORT_PATH/lrgroupfunctions.h \
-    $$REPORT_PATH/lrreportengine.h \
     $$REPORT_PATH/lrdatasourcemanagerintf.h \
     $$REPORT_PATH/lrscriptenginemanagerintf.h \
-    $$REPORT_PATH/lrsimplecrypt.h \    
     $$REPORT_PATH/lraboutdialog.h \
     $$REPORT_PATH/lrcallbackdatasourceintf.h \
     $$REPORT_PATH/lrsettingdialog.h \
-    $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lritemscontainerdesignitf.h \
     $$REPORT_PATH/lrcolorindicator.h \
-    $$REPORT_PATH/items/lrchartitem.h \
-    $$REPORT_PATH/items/lrchartitemeditor.h \
     $$REPORT_PATH/lrreporttranslation.h \
     $$REPORT_PATH/translationeditor/languageselectdialog.h
     
-contains(CONFIG, staticlib){
-    HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
-}
-
-contains(CONFIG,zint){
-    HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
-}
-
 FORMS += \
     $$REPORT_PATH/databrowser/lrsqleditdialog.ui \
     $$REPORT_PATH/databrowser/lrconnectiondialog.ui \
     $$REPORT_PATH/databrowser/lrdatabrowser.ui \
     $$REPORT_PATH/databrowser/lrvariabledialog.ui \
     $$REPORT_PATH/objectinspector/editors/ltextitempropertyeditor.ui \
-    $$REPORT_PATH/lrpreviewreportwindow.ui \
-    $$REPORT_PATH/lrpreviewreportwidget.ui \
-    $$REPORT_PATH/items/lrtextitemeditor.ui \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
-    $$REPORT_PATH/items/lrchartitemeditor.ui \
     $$REPORT_PATH/translationeditor/translationeditor.ui \
     $$REPORT_PATH/translationeditor/languageselectdialog.ui \
     $$REPORT_PATH/scripteditor/lrscripteditor.ui

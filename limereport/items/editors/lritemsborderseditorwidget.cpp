@@ -31,19 +31,7 @@
 #include <QAction>
 
 namespace LimeReport{
-//#ifdef IS_REPORT_DESIGNER
-//ItemsBordersEditorWidget::ItemsBordersEditorWidget(ReportDesignWidget* reportEditor, const QString& title, QWidget* parent)
-//    : ItemEditorWidget(reportEditor,title,parent), m_changing(false)
-//{
-//    initEditor();
-//}
 
-//ItemsBordersEditorWidget::ItemsBordersEditorWidget(ReportDesignWidget* reportEditor, QWidget* parent)
-//    : ItemEditorWidget(reportEditor,parent), m_changing(false)
-//{
-//    initEditor();
-//}
-//#endif
 void ItemsBordersEditorWidget::setItemEvent(BaseDesignIntf* item)
 {
     QVariant borders=item->property("borders");
@@ -65,10 +53,6 @@ void ItemsBordersEditorWidget::properyChangedEvent(const QString& property, cons
 
 void ItemsBordersEditorWidget::noBordesClicked()
 {
-//#ifdef IS_REPORT_DESIGNER
-//    if (reportEditor())
-//        reportEditor()->setBorders(0);
-//#endif
     updateValues(0);
 }
 
@@ -80,10 +64,6 @@ void ItemsBordersEditorWidget::allBordesClicked()
             BaseDesignIntf::BottomLine;
 
     updateValues((BaseDesignIntf::BorderLines)borders);
-//#ifdef IS_REPORT_DESIGNER
-//    if (reportEditor())
-//        reportEditor()->setBorders((BaseDesignIntf::BorderLines)borders);
-//#endif
 }
 
 void ItemsBordersEditorWidget::buttonClicked(bool)
@@ -159,7 +139,7 @@ bool ItemsBordersEditorWidget::changing() const
     return m_changing;
 }
 
-#ifdef IS_REPORT_DESIGNER
+#ifdef HAVE_REPORT_DESIGNER
 void ItemsBordersEditorWidgetForDesigner::buttonClicked(bool)
 {
     if (!changing())

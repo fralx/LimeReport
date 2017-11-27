@@ -43,6 +43,7 @@
 #include "lrscriptenginemanager.h"
 #include "lrreporttranslation.h"
 #include "lrdesignerplugininterface.h"
+#include "lrreportdesignwindowintrerface.h"
 
 class QFileSystemWatcher;
 
@@ -128,6 +129,8 @@ public:
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
+
+    ReportDesignWindowInterface* getDesignerWindow();
     void    designReport();
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
@@ -229,7 +232,7 @@ private:
     QMainWindow* m_activePreview;
     QIcon m_previewWindowIcon;
     QString m_previewWindowTitle;
-    QPointer<QMainWindow> m_designerWindow;
+    QPointer<ReportDesignWindowInterface> m_designerWindow;
     ReportSettings m_reportSettings;
     bool m_reportRendering;
     bool m_resultIsEditable;

@@ -4,17 +4,14 @@
 #include <QMainWindow>
 #include <lrdesignerplugininterface.h>
 
-class DesignerFactoryPlugin : public QObject, public LimeReportPluginInterface {
+class ReportDesignerFactoryPlugin : public QObject, public LimeReportPluginInterface {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "ru.limereport.DersignerFactoryInterface")
     Q_INTERFACES( LimeReportPluginInterface )
 
 public:
-    ~DesignerFactoryPlugin();
-
-    QString getString() const;
-    QVariant getVar() const;
-    QMainWindow* getDesignerWindow(LimeReport::ReportEnginePrivateInterface* report, QWidget* parent, QSettings* settings);
+    ~ReportDesignerFactoryPlugin();
+    LimeReport::ReportDesignWindowInterface* getDesignerWindow(LimeReport::ReportEnginePrivateInterface* report, QWidget* parent, QSettings* settings);
 };
 
 #endif

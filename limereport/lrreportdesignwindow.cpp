@@ -63,7 +63,7 @@ namespace LimeReport{
 ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
 ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWidget *parent, QSettings* settings) :
-    QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
+    ReportDesignWindowInterface(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
     m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page), m_reportItemIsLocked(false)
 {
     initReportEditor(report);

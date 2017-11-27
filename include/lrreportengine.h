@@ -39,6 +39,7 @@
 #include "lrdatasourcemanagerintf.h"
 #include "lrscriptenginemanagerintf.h"
 #include "lrpreviewreportwidget.h"
+#include "lrreportdesignwindowintrerface.h"
 
 class QPrinter;
 
@@ -85,6 +86,7 @@ public:
     bool    printToPDF(const QString& fileName);
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
     void    designReport();
+    ReportDesignWindowInterface* getDesignerWindow();
     void    setShowProgressDialog(bool value);
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();

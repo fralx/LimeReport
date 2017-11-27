@@ -43,6 +43,7 @@
 #include "items/editors/lritemsaligneditorwidget.h"
 #include "items/editors/lritemsborderseditorwidget.h"
 #include "lrobjectitemmodel.h"
+#include "lrreportdesignwindowintrerface.h"
 
 namespace LimeReport{
 
@@ -55,7 +56,7 @@ class BaseDesignIntf;
 class PageDesignIntf;
 class ObjectBrowser;
 
-class ReportDesignWindow : public QMainWindow
+class ReportDesignWindow : public ReportDesignWindowInterface
 {
     Q_OBJECT
 public:

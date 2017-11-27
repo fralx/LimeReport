@@ -15,9 +15,10 @@
 #include "items/lrhorizontallayout.h"
 #include "items/lrimageitem.h"
 #include "items/lrshapeitem.h"
+#include "items/lrchartitem.h"
 #include "lrdesignelementsfactory.h"
 
-
+#ifdef HAVE_REPORT_DESIGNER
 #include "objectinspector/lrobjectpropitem.h"
 #include "objectinspector/propertyItems/lrboolpropitem.h"
 #include "objectinspector/propertyItems/lrcolorpropitem.h"
@@ -34,6 +35,7 @@
 #include "objectinspector/propertyItems/lrstringpropitem.h"
 #include "items/lralignpropitem.h"
 #include "items/lrsubitemparentpropitem.h"
+#endif
 
 #include "serializators/lrxmlbasetypesserializators.h"
 #include "serializators/lrxmlqrectserializator.h"
@@ -41,10 +43,13 @@
 
 void initResources(){
     Q_INIT_RESOURCE(report);
+#ifdef HAVE_REPORT_DESIGNER
     Q_INIT_RESOURCE(lobjectinspector);
     Q_INIT_RESOURCE(lrdatabrowser);
     Q_INIT_RESOURCE(items);
     Q_INIT_RESOURCE(lrscriptbrowser);
+    Q_INIT_RESOURCE(translationeditor);
+#endif
 }
 
 namespace LimeReport{
@@ -106,12 +111,16 @@ BaseDesignIntf* createHLayout(QObject *owner, LimeReport::BaseDesignIntf  *paren
     return new HorizontalLayout(owner, parent);
 }
 
-BaseDesignIntf * createImageItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
+BaseDesignIntf* createImageItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new ImageItem(owner,parent);
 }
 
-BaseDesignIntf * createShapeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
+BaseDesignIntf* createShapeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
     return new ShapeItem(owner,parent);
+}
+
+BaseDesignIntf* createChartItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
+    return new ChartItem(owner,parent);
 }
 
 void initReportItems(){
@@ -138,6 +147,9 @@ void initReportItems(){
     );
     DesignElementsFactory::instance().registerCreator(
                          "ShapeItem", LimeReport::ItemAttribs(QObject::tr("Shape Item"),"Item"), createShapeItem
+    );
+    DesignElementsFactory::instance().registerCreator(
+                         "ChartItem", LimeReport::ItemAttribs(QObject::tr("Chart Item"),"Item"), createChartItem
     );
     DesignElementsFactory::instance().registerCreator(
             "Data",
@@ -197,6 +209,8 @@ void initReportItems(){
     );
 
 }
+
+#ifdef HAVE_REPORT_DESIGNER
 
 ObjectPropItem * createBoolPropItem(
     QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
@@ -360,7 +374,7 @@ void initObjectInspectorProperties()
     );
 
 }
-
+#endif
 SerializatorIntf * createIntSerializator(QDomDocument *doc, QDomElement *node){
     return new LimeReport::XmlIntSerializator(doc,node);
 }

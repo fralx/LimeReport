@@ -43,9 +43,11 @@
 
 #include "lrpagedesignintf.h"
 #include "lrdatasourcemanager.h"
-//#include "lrdatabrowser.h"
-//#include "lrreportdesignwindow.h"
 
+#ifdef HAVE_REPORT_DESIGNER
+#include "lrdatabrowser.h"
+#include "lrreportdesignwindow.h"
+#endif
 
 #include "serializators/lrxmlwriter.h"
 #include "serializators/lrxmlreader.h"
@@ -73,7 +75,9 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 #ifdef HAVE_STATIC_BUILD
     initResources();
     initReportItems();
+#ifdef HAVE_REPORT_DESIGNER
     initObjectInspectorProperties();
+#endif
     initSerializators();
 #endif
     m_datasources = new DataSourceManager(this);
@@ -88,26 +92,19 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
 
-    QDir pluginsDir( "../lib" );
-    foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
-        qDebug() << "===============================================================================";
-        qDebug() << "Found:" << pluginName;
+    QDir pluginsDir( "./lib" );
+    if (!pluginsDir.exists()){
+        pluginsDir.setPath("../lib");
+    }
 
+    foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
         QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
         if( loader.load() ) {
             if( LimeReportPluginInterface* myPlugin = qobject_cast< LimeReportPluginInterface* >( loader.instance() ) ) {
-                qDebug() << "Testing: \n" <<
-                            "(1)" << myPlugin->getString() << "\n" <<
-                            "(2)" << myPlugin->getVar();
                 m_designerFactory = myPlugin;
+                break;
             }
-            //loader.unload();
-        } else {
-            qDebug() << "Failed to load :(";
-            qDebug() << loader.errorString();
         }
-
-        qDebug() << "";
     }
 
 }
@@ -513,6 +510,29 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
     }
 }
 
+ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
+{
+    if (!m_designerWindow) {
+        if (m_designerFactory){
+            m_designerWindow = m_designerFactory->getDesignerWindow(this,QApplication::activeWindow(),settings());
+            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
+            m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
+            m_designerWindow->setShowProgressDialog(m_showProgressDialog);
+        } else {
+#ifdef HAVE_REPORT_DESIGNER
+            m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
+            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
+            m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
+            m_designerWindow->setShowProgressDialog(m_showProgressDialog);
+#endif
+        }
+     }
+    if (m_designerWindow){
+        m_datasources->updateDatasourceModel();
+    }
+    return m_designerWindow;
+}
+
 PreviewReportWidget* ReportEnginePrivate::createPreviewWidget(QWidget* parent){
 
     Q_Q(ReportEngine);
@@ -645,33 +665,19 @@ PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
 
 void ReportEnginePrivate::designReport()
 {
-    if (!m_designerWindow) {
-//            Q_Q(ReportEngine);
-        if (m_designerFactory){
-            settings()->beginGroup("DesignerWindow");
-            settings()->setValue("showProgressDialog",m_showProgressDialog);
-            settings()->endGroup();
-            m_designerWindow = m_designerFactory->getDesignerWindow(this,QApplication::activeWindow(),settings());
-            //m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
-            //m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
-            //m_designerWindow->setShowProgressDialog(m_showProgressDialog);
-        } else {
-            //m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
-            //m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
-            //m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
-            //m_designerWindow->setShowProgressDialog(m_showProgressDialog);
-        }
-     }
-     m_datasources->updateDatasourceModel();
+    ReportDesignWindowInterface* designerWindow = getDesignerWindow();
+    if (designerWindow){
 #ifdef Q_OS_WIN    
-    m_designerWindow->setWindowModality(Qt::ApplicationModal);
+        designerWindow->setWindowModality(Qt::ApplicationModal);
 #endif
-//    if (QApplication::activeWindow()==0){
-//        m_designerWindow->show();;
-//    } else {
-//        m_designerWindow->showModal();
-//    }
-    m_designerWindow->show();
+        if (QApplication::activeWindow()==0){
+            designerWindow->show();;
+        } else {
+            designerWindow->showModal();
+        }
+    } else {
+        qDebug()<<(tr("Designer not found!"));
+    }
 }
 
 void ReportEnginePrivate::setSettings(QSettings* value)
@@ -1125,6 +1131,12 @@ void ReportEngine::designReport()
     if (m_settings)
         d->setSettings(m_settings);
     d->designReport();
+}
+
+ReportDesignWindowInterface*ReportEngine::getDesignerWindow()
+{
+    Q_D(ReportEngine);
+    return d->getDesignerWindow();
 }
 
 PreviewReportWidget* ReportEngine::createPreviewWidget(QWidget *parent)

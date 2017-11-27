@@ -36,31 +36,6 @@ TextAlignmentEditorWidget::TextAlignmentEditorWidget(const QString& title, QWidg
     initEditor();
 }
 
-//#ifdef IS_REPORT_DESIGNER
-//TextAlignmentEditorWidget::TextAlignmentEditorWidget(ReportDesignWidget *reportEditor, const QString &title, QWidget *parent)
-//    :ItemEditorWidget(reportEditor,title,parent), m_textAttibutesIsChanging(false)
-//{
-//    initEditor();
-//}
-
-//TextAlignmentEditorWidget::TextAlignmentEditorWidget(ReportDesignWidget *reportEditor, QWidget *parent)
-//    :ItemEditorWidget(reportEditor,parent), m_textAttibutesIsChanging(false)
-//{
-//    initEditor();
-//}
-//#endif
-//TextAlignmentEditorWidget::TextAlignmentEditorWidget(PageDesignIntf* page, const QString& title, QWidget* parent)
-//    :ItemEditorWidget(page,title,parent), m_textAttibutesIsChanging(false)
-//{
-//    initEditor();
-//}
-
-//TextAlignmentEditorWidget::TextAlignmentEditorWidget(PageDesignIntf* page, QWidget* parent)
-//    :ItemEditorWidget(page,parent), m_textAttibutesIsChanging(false)
-//{
-//    initEditor();
-//}
-
 void TextAlignmentEditorWidget::setItemEvent(BaseDesignIntf *item)
 {
     QVariant align=item->property("alignment");
@@ -115,16 +90,6 @@ void TextAlignmentEditorWidget::initEditor()
     m_textAliginBottom->setCheckable(true);
     connect(m_textAliginBottom,SIGNAL(toggled(bool)),this,SLOT(slotTextVAttribsChanged(bool)));
     addAction(m_textAliginBottom);
-//#ifdef IS_REPORT_DESIGNER
-//    if (reportEditor()){
-//        connect(reportEditor(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
-//                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
-//    }
-//#endif
-//    if (page()){
-//        connect(page(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
-//                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
-//    }
     setEnabled(false);
 }
 
@@ -169,13 +134,6 @@ void TextAlignmentEditorWidget::slotTextHAttribsChanged(bool)
     if (sender()==m_textAliginHCenter) m_flag |= Qt::AlignHCenter;
     if (sender()==m_textAliginRight) m_flag |= Qt::AlignRight;
     if (sender()==m_textAliginJustify) m_flag |= Qt::AlignJustify;
-//#ifdef IS_REPORT_DESIGNER
-//    if (reportEditor()) reportEditor()->setTextAlign(true,Qt::AlignmentFlag(flag));
-//#endif
-//    if (page()) {
-//        //page()->setTextAlign(createAlignment());
-//        page()->changeSelectedGrpoupTextAlignPropperty(true,Qt::AlignmentFlag(flag));
-//    }
     m_textAttibutesIsChanging = false;
 }
 
@@ -192,10 +150,6 @@ void TextAlignmentEditorWidget::slotTextVAttribsChanged(bool)
     if (sender()==m_textAliginTop) m_flag |= Qt::AlignTop;
     if (sender()==m_textAliginVCenter) m_flag |= Qt::AlignVCenter;
     if (sender()==m_textAliginBottom) m_flag |= Qt::AlignBottom;
-//#ifdef IS_REPORT_DESIGNER
-//    if (reportEditor()) reportEditor()->setTextAlign(false,Qt::AlignmentFlag(flag));
-//#endif
-//    if (page()) page()->changeSelectedGrpoupTextAlignPropperty(false,Qt::AlignmentFlag(flag) );
     m_textAttibutesIsChanging = false;
 }
 
@@ -240,7 +194,7 @@ void TextAlignmentEditorWidgetForPage::slotTextVAttribsChanged(bool value)
     m_textAttibutesIsChanging = false;
 }
 
-#ifdef IS_REPORT_DESIGNER
+#ifdef HAVE_REPORT_DESIGNER
 void TextAlignmentEditorWidgetForDesigner::initEditor()
 {
     TextAlignmentEditorWidget::initEditor();

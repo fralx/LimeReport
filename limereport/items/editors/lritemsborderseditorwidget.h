@@ -36,8 +36,6 @@
 
 namespace LimeReport{
 
-
-
 class ItemsBordersEditorWidget : public ItemEditorWidget
 {
     Q_OBJECT
@@ -46,10 +44,6 @@ public:
         : ItemEditorWidget(title, parent), m_changing(false), m_borders(0){
         initEditor();
     }
-//#ifdef IS_REPORT_DESIGNER
-//    explicit ItemsBordersEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
-//    explicit ItemsBordersEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
-//#endif
     bool changing() const;
 protected slots:
     virtual void noBordesClicked();
@@ -72,8 +66,7 @@ private:
     int m_borders;
 };
 
-
-#ifdef IS_REPORT_DESIGNER
+#ifdef HAVE_REPORT_DESIGNER
 class ItemsBordersEditorWidgetForDesigner : public ItemsBordersEditorWidget{
     Q_OBJECT
 public:
