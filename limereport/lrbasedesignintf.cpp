@@ -365,11 +365,9 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         m_resizeDirectionFlags = resizeDirectionFlags(event->pos());
-        //m_startScenePos = event->scenePos();
         m_startPos = pos();
         m_oldGeometry = geometry();
         QGraphicsItem::mousePressEvent(event);
-        //QApplication::processEvents();
         emit(itemSelected(this));
     }
     else QGraphicsItem::mousePressEvent(event);

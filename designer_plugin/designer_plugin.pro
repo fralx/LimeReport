@@ -3,9 +3,9 @@ include(limereport.pri)
 QT += core gui
 
 contains(CONFIG,release) {
-        TARGET = LRDesigner_plugin
+        TARGET = designer_plugin
 } else {
-        TARGET = LRDesigner_plugind
+        TARGET = designer_plugind
 }
 
 TEMPLATE = lib

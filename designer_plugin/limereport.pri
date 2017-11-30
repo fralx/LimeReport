@@ -80,7 +80,30 @@ SOURCES += \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp \
     $$REPORT_PATH/lrcolorindicator.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp \
-    $$REPORT_PATH/translationeditor/languageselectdialog.cpp
+    $$REPORT_PATH/translationeditor/languageselectdialog.cpp \
+    $$REPORT_PATH/serializators/lrxmlqrectserializator.cpp \
+    $$REPORT_PATH/serializators/lrxmlbasetypesserializators.cpp \
+    $$REPORT_PATH/serializators/lrxmlreader.cpp \
+    $$REPORT_PATH/serializators/lrxmlwriter.cpp \
+    $$REPORT_PATH/bands/lrpageheader.cpp \
+    $$REPORT_PATH/bands/lrpagefooter.cpp \
+    $$REPORT_PATH/bands/lrreportheader.cpp \
+    $$REPORT_PATH/bands/lrreportfooter.cpp \
+    $$REPORT_PATH/bands/lrdataband.cpp \
+    $$REPORT_PATH/bands/lrgroupbands.cpp \
+    $$REPORT_PATH/bands/lrsubdetailband.cpp \
+    $$REPORT_PATH/bands/lrtearoffband.cpp \
+    $$REPORT_PATH/lrgraphicsviewzoom.cpp \
+    $$REPORT_PATH/lrvariablesholder.cpp \
+    $$REPORT_PATH/lrgroupfunctions.cpp \
+    $$REPORT_PATH/lrsimplecrypt.cpp \
+    $$REPORT_PATH/items/lrsimpletagparser.cpp \
+    $$REPORT_PATH/items/lrtextitem.cpp \
+    $$REPORT_PATH/items/lrtextitemeditor.cpp \
+    $$REPORT_PATH/lrreportengine.cpp \
+    $$REPORT_PATH/lrpreviewreportwindow.cpp \
+    $$REPORT_PATH/lrpreviewreportwidget.cpp \
+    $$REPORT_PATH/lrreportrender.cpp
         
 HEADERS += \
     $$REPORT_PATH/base/lrsingleton.h \
@@ -127,6 +150,7 @@ HEADERS += \
     $$REPORT_PATH/items/editors/lritemsaligneditorwidget.h \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.h \
     $$REPORT_PATH/items/lrtextitem.h \
+    $$REPORT_PATH/items/lrtextitemeditor.h \
     $$REPORT_PATH/items/lrsubitemparentpropitem.h \
     $$REPORT_PATH/items/lralignpropitem.h \
     $$REPORT_PATH/items/lrhorizontallayout.h \
@@ -154,9 +178,37 @@ HEADERS += \
     $$REPORT_PATH/lritemscontainerdesignitf.h \
     $$REPORT_PATH/lrcolorindicator.h \
     $$REPORT_PATH/lrreporttranslation.h \
-    $$REPORT_PATH/translationeditor/languageselectdialog.h
+    $$REPORT_PATH/translationeditor/languageselectdialog.h \
+    $$REPORT_PATH/serializators/lrserializatorintf.h \
+    $$REPORT_PATH/serializators/lrstorageintf.h \
+    $$REPORT_PATH/serializators/lrxmlqrectserializator.h \
+    $$REPORT_PATH/serializators/lrxmlserializatorsfactory.h \
+    $$REPORT_PATH/serializators/lrxmlbasetypesserializators.h \
+    $$REPORT_PATH/serializators/lrxmlreader.h \
+    $$REPORT_PATH/serializators/lrxmlwriter.h \
+    $$REPORT_PATH/bands/lrpageheader.h \
+    $$REPORT_PATH/bands/lrpagefooter.h \
+    $$REPORT_PATH/bands/lrreportheader.h \
+    $$REPORT_PATH/bands/lrreportfooter.h \
+    $$REPORT_PATH/bands/lrdataband.h \
+    $$REPORT_PATH/bands/lrtearoffband.h \
+    $$REPORT_PATH/bands/lrsubdetailband.h \
+    $$REPORT_PATH/bands/lrgroupbands.h \
+    $$REPORT_PATH/lrvariablesholder.h \
+    $$REPORT_PATH/lrgroupfunctions.h \
+    $$REPORT_PATH/lrgraphicsviewzoom.h \
+    $$REPORT_PATH/lrsimplecrypt.h \
+    $$REPORT_PATH/items/lrsimpletagparser.h \
+    $$REPORT_PATH/items/lrtextitem.h \
+    $$REPORT_PATH/lrreportengine_p.h \
+    $$REPORT_PATH/lrreportengine.h \
+    $$REPORT_PATH/lrpreviewreportwindow.h \
+    $$REPORT_PATH/lrpreviewreportwidget.h \
+    $$REPORT_PATH/lrreportrender.h
     
 FORMS += \
+    $$REPORT_PATH/items/lrtextitemeditor.ui \
+    $$REPORT_PATH/items/lrchartitemeditor.ui \
     $$REPORT_PATH/databrowser/lrsqleditdialog.ui \
     $$REPORT_PATH/databrowser/lrconnectiondialog.ui \
     $$REPORT_PATH/databrowser/lrdatabrowser.ui \
@@ -167,8 +219,9 @@ FORMS += \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
     $$REPORT_PATH/translationeditor/translationeditor.ui \
     $$REPORT_PATH/translationeditor/languageselectdialog.ui \
-    $$REPORT_PATH/scripteditor/lrscripteditor.ui
-
+    $$REPORT_PATH/scripteditor/lrscripteditor.ui \
+    $$REPORT_PATH/lrpreviewreportwindow.ui \
+    $$REPORT_PATH/lrpreviewreportwidget.ui
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \
     $$REPORT_PATH/databrowser/lrdatabrowser.qrc \
