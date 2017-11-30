@@ -277,7 +277,7 @@ QSettings *DataBrowser::settings()
     if (m_settings){
         return m_settings;
     } else {
-        m_settings = new QSettings("LimeReport",QApplication::applicationName());
+        m_settings = new QSettings("LimeReport",QCoreApplication::applicationName());
         m_ownedSettings = true;
         return m_settings;
     }

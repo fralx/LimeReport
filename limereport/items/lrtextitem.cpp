@@ -483,7 +483,6 @@ TextItem::TextPtr TextItem::textDocument() const
     QTextOption to;
     to.setAlignment(m_alignment);
     to.setTextDirection(m_textLayoutDirection);
-    //to.setTextDirection(QApplication::layoutDirection());
 
     if (m_autoWidth!=MaxStringLength)
         if (m_adaptFontToSize && (!(m_autoHeight || m_autoWidth)))
