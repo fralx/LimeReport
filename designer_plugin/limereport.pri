@@ -154,7 +154,6 @@ HEADERS += \
     $$REPORT_PATH/items/lrsubitemparentpropitem.h \
     $$REPORT_PATH/items/lralignpropitem.h \
     $$REPORT_PATH/items/lrhorizontallayout.h \
-    $$REPORT_PATH/items/lrtextitemeditor.h \
     $$REPORT_PATH/translationeditor/translationeditor.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
@@ -195,11 +194,8 @@ HEADERS += \
     $$REPORT_PATH/bands/lrsubdetailband.h \
     $$REPORT_PATH/bands/lrgroupbands.h \
     $$REPORT_PATH/lrvariablesholder.h \
-    $$REPORT_PATH/lrgroupfunctions.h \
-    $$REPORT_PATH/lrgraphicsviewzoom.h \
     $$REPORT_PATH/lrsimplecrypt.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
-    $$REPORT_PATH/items/lrtextitem.h \
     $$REPORT_PATH/lrreportengine_p.h \
     $$REPORT_PATH/lrreportengine.h \
     $$REPORT_PATH/lrpreviewreportwindow.h \
