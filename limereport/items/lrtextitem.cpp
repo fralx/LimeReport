@@ -807,43 +807,59 @@ bool TextItem::canBeSplitted(int height) const
 QString TextItem::getTextPart(int height, int skipHeight){
     int linesHeight = 0;
     int curLine = 0;
-    int textPos = 0;
+//    int textPos = 0;
 
     TextPtr text = textDocument();
-    text->documentLayout();
+    text->size().height();
+    QTextCursor cursor(text.data());
+    cursor.movePosition(QTextCursor::Start);
     QTextBlock curBlock = text->begin();
     QString resultText = "";
 
     if (skipHeight > 0){
-        for (;curBlock != text->end(); curBlock=curBlock.next()){
-            for (curLine = 0; curLine < curBlock.layout()->lineCount(); curLine++){
-                linesHeight += curBlock.layout()->lineAt(curLine).height() + lineSpacing();
+        for (;curBlock != text->end() || curLine<=curBlock.lineCount(); curBlock = curBlock.next(), curLine = 0){
+            linesHeight+=curBlock.blockFormat().topMargin();
+            for (;curLine < curBlock.layout()->lineCount(); curLine++){
+                linesHeight += curBlock.layout()->lineAt(curLine).rect().height() + lineSpacing();
                 if (linesHeight > (skipHeight-(/*fakeMarginSize()*2+*/borderLineSize() * 2))) {goto loop_exit;}
+                cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, curBlock.layout()->lineAt(curLine).textLength());
             }
         }
-        loop_exit:;
+        loop_exit: cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);
     }
 
     linesHeight = 0;
 
-    for (;curBlock != text->end() || curLine<curBlock.lineCount(); curBlock = curBlock.next(), curLine = 0, resultText += '\n'){
-        for (; curLine<curBlock.layout()->lineCount(); curLine++){
-          if (resultText == "") textPos= curBlock.layout()->lineAt(curLine).textStart();
+    for (;curBlock != text->end() || curLine<curBlock.lineCount(); curBlock = curBlock.next(), curLine = 0, resultText += '\n')
+    {
+        linesHeight+=curBlock.blockFormat().topMargin();
+        for (; curLine < curBlock.layout()->lineCount(); curLine++){
+//          if (resultText == "") textPos = curBlock.layout()->lineAt(curLine).textStart();
           linesHeight += curBlock.layout()->lineAt(curLine).height() + lineSpacing();
           if ( (height>0) && (linesHeight>(height-(/*fakeMarginSize()*2+*/borderLineSize()*2))) ) {
               linesHeight-=curBlock.layout()->lineAt(curLine).height();
               goto loop_exit1;
           }
-          resultText+=curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
-            curBlock.layout()->lineAt(curLine).textLength());
+//          QString fragment = curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
+//                                                 curBlock.layout()->lineAt(curLine).textLength());
+//          resultText+=fragment;
+          cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, curBlock.layout()->lineAt(curLine).textLength());
         }
     }
     loop_exit1:;
+    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+    if (allowHTML()){
+        resultText = cursor.selection().toHtml();
+        resultText.remove("<!--StartFragment-->");
+        resultText.remove("<!--EndFragment-->");
+    } else {
+        resultText = cursor.selection().toPlainText();
+    }
 
-    resultText.chop(1);
+//    resultText.chop(1);
 
-    QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
-    return context->extendTextByTags(resultText,textPos);
+//    QScopedPointer<HtmlContext> context(new HtmlContext(m_strText));
+    return resultText;//context->extendTextByTags(resultText,textPos);
 }
 
 void TextItem::restoreLinksEvent()
