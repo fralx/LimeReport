@@ -181,7 +181,7 @@ private:
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
-
+    QString extractText(QTextBlock& curBlock, int height);
     TextPtr textDocument() const;
 private:
     QString m_strText;
@@ -208,6 +208,7 @@ private:
     TextItem* m_follower;
     qreal m_textIndent;
     Qt::LayoutDirection m_textLayoutDirection;
+
 };
 
 }
