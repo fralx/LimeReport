@@ -365,7 +365,7 @@ void ReportDesignWidget::startEditMode()
 PageDesignIntf * ReportDesignWidget::activePage()
 {
     if (activeView())
-        return qobject_cast<PageDesignIntf*>(activeView()->scene());
+        return dynamic_cast<PageDesignIntf*>(activeView()->scene());
     return 0;
 }
 

@@ -62,6 +62,10 @@ SOURCES += \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.cpp \
     $$REPORT_PATH/items/editors/lritemsaligneditorwidget.cpp \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.cpp \
+    $$REPORT_PATH/items/lrchartitem.cpp \
+    $$REPORT_PATH/items/lrchartitemeditor.cpp \
+    $$REPORT_PATH/items/lrshapeitem.cpp \
+    $$REPORT_PATH/items/lrimageitem.cpp \
     $$REPORT_PATH/translationeditor/translationeditor.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
@@ -154,6 +158,10 @@ HEADERS += \
     $$REPORT_PATH/items/lrsubitemparentpropitem.h \
     $$REPORT_PATH/items/lralignpropitem.h \
     $$REPORT_PATH/items/lrhorizontallayout.h \
+    $$REPORT_PATH/items/lrchartitem.h \
+    $$REPORT_PATH/items/lrchartitemeditor.h \
+    $$REPORT_PATH/items/lrshapeitem.h \
+    $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/translationeditor/translationeditor.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
