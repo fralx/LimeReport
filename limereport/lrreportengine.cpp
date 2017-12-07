@@ -92,14 +92,13 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
 
+#ifndef HAVE_REPORT_DESIGNER
     QDir pluginsDir = QCoreApplication::applicationDirPath();
     pluginsDir.cd("../lib" );
     if (!pluginsDir.exists()){
         pluginsDir.cd("./lib");
         if (!pluginsDir.exists()) pluginsDir.setPath(QCoreApplication::applicationDirPath());
     }
-
-    qDebug()<<pluginsDir.path();
 
     foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
         QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
@@ -110,7 +109,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
             }
         }
     }
-
+#endif
 }
 
 ReportEnginePrivate::~ReportEnginePrivate()
