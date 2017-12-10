@@ -265,6 +265,70 @@ p, li { white-space: pre-wrap; }
         <source>Splittable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>DataBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DataHeaderBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DataFooterBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ReportHeader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ReportFooter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PageHeader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PageFooter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SubDetailBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SubDetailHeaderBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SubDetailFooterBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GroupBandHeader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GroupBandFooter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TearOffBand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep bottom space</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start from new page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start new page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -372,7 +436,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> already exists </source>
-        <translation>ya existe</translation>
+        <translation type="vanished">ya existe</translation>
     </message>
     <message>
         <source>Use default application connection</source>
@@ -384,6 +448,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>defaultConnection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> already exists! </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -457,7 +525,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Do you really want to delete &quot;%1&quot; connection ?</source>
-        <translation>Realmente quieres borrar  la conexion &quot;%1&quot;?</translation>
+        <translation type="vanished">Realmente quieres borrar  la conexion &quot;%1&quot;?</translation>
     </message>
     <message>
         <source>User variables</source>
@@ -466,14 +534,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>System variables</source>
         <translation>Variables del sistema</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete &quot;%1&quot; datasource ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Do you really want to delete variable &quot;%1&quot; ?</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error</source>
@@ -489,6 +549,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>External variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &quot;%1&quot; connection?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &quot;%1&quot; datasource?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to delete variable &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -517,23 +589,23 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Datasource &quot;%1&quot; not found !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>connection with name &quot;%1&quot; already exists !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>datasource with name &quot;%1&quot; already exists !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>invalid connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Database &quot;%1&quot; not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource &quot;%1&quot; not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection with name &quot;%1&quot; already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -549,6 +621,220 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>External variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::EnumPropItem</name>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NoneAutoWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MaxWordLength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MaxStringLength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TransparentMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OpaqueMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle90</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle180</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle270</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle45</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle315</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DateTime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NoBrush</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SolidPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense1Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense2Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense3Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense4Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense5Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense6Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense7Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CrossPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BDiagPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FDiagPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LeftToRight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RightToLeft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LayoutDirectionAuto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LeftItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RightItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CenterItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ParentWidthItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DesignedItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorizontalLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalUniform</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::FlagsPropItem</name>
+    <message>
+        <source>NoLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TopLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BottomLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LeftLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RightLine</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -608,7 +894,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Datasource &quot;%1&quot; not found !!!</source>
+        <source>Datasource &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -635,6 +921,17 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::ImageItem</name>
     <message>
         <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ItemLocationPropItem</name>
+    <message>
+        <source>Band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1089,6 +1386,202 @@ p, li { white-space: pre-wrap; }
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>gridStep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fullPage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>oldPrintMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>borderColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>resetPageNumber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>alternateBackgroundColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>backgroundBrushStyle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>startFromNewPage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>startNewPage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>adaptFontToSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>allowHTML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>allowHTMLInFields</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>followTo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>lineSpacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>textIndent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>textLayoutDirection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>underlineLineSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>underlines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>valueType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>securityLevel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>testValue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>whitespace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>resourcePath</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>cornerRadius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>shapeColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>layoutType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>barcodeType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>barcodeWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>foregroundColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>inputMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pdf417CodeWords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>autoSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>keepAspectRatio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>columnsCount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>useAlternateBackgroundColor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printBeforePageHeader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>maxScalePercent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printOnFirstPage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printOnLastPage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printAlways</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>repeatOnEachRow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>groupFieldName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>keepGroupTogether</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1116,10 +1609,6 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::ReportDesignWidget</name>
     <message>
         <source>Report file name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1334,10 +1823,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Report has been modified ! Do you want save the report ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Report file name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1377,6 +1862,10 @@ p, li { white-space: pre-wrap; }
         <source>Tear-off Band</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Report has been modified! Do you want save the report?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
@@ -1386,6 +1875,16 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report File Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The report file &quot;%1&quot; has changed names or been deleted.
+
+This preview is no longer valid.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1497,18 +1996,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Datasource Name is empty !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Datasource with name %1 already exist</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1522,6 +2009,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>defaultConnection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource Name is empty!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SQL is empty!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource with name: &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1612,6 +2111,26 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Name</source>
         <translation type="unfinished">Nombre</translation>
+    </message>
+    <message>
+        <source>GROUP FUNCTIONS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SYSTEM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NUMBER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DATE&amp;TIME</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GENERAL</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1728,7 +2247,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>TextItem &quot; %1 &quot; not found !</source>
+        <source>TextItem &quot; %1 &quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1787,11 +2306,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> already exists !!</source>
-        <translation type="unfinished">ya existe !!</translation>
+        <translation type="obsolete">ya existe !!</translation>
     </message>
     <message>
         <source> does not exists !!</source>
-        <translation type="unfinished">no existe !!</translation>
+        <translation type="obsolete">no existe !!</translation>
+    </message>
+    <message>
+        <source> already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> does not exists!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1877,10 +2404,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Master datasource &quot;%1&quot; not found!!!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Master datasouce &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1902,10 +2425,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Selected elements have different parent containers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object with name %1 already exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1994,6 +2513,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Tear-off Band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Master datasource &quot;%1&quot; not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object with name %1 already exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

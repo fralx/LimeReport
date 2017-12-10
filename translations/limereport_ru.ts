@@ -195,7 +195,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; font-style:italic;&quot;&gt;signature of Ty Coon&lt;/span&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;, 1 April 1990&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;Ty Coon, President of Vice&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;That&apos;s all there is to it!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -322,6 +322,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>SubDetailFooterBand</source>
         <translation>Завершение подчиненных данных</translation>
+    </message>
+    <message>
+        <source>Keep bottom space</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start from new page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start new page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -654,6 +666,220 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::EnumPropItem</name>
+    <message>
+        <source>Default</source>
+        <translation>По умолчанию</translation>
+    </message>
+    <message>
+        <source>Portrait</source>
+        <translation>Портретная</translation>
+    </message>
+    <message>
+        <source>Landscape</source>
+        <translation>Альбомная</translation>
+    </message>
+    <message>
+        <source>NoneAutoWidth</source>
+        <translation type="unfinished">Нет</translation>
+    </message>
+    <message>
+        <source>MaxWordLength</source>
+        <translation type="unfinished">По ширине слова</translation>
+    </message>
+    <message>
+        <source>MaxStringLength</source>
+        <translation type="unfinished">По ширине строки</translation>
+    </message>
+    <message>
+        <source>TransparentMode</source>
+        <translation>Прозрачный</translation>
+    </message>
+    <message>
+        <source>OpaqueMode</source>
+        <translation>Заливка</translation>
+    </message>
+    <message>
+        <source>Angle0</source>
+        <translation>0</translation>
+    </message>
+    <message>
+        <source>Angle90</source>
+        <translation>90</translation>
+    </message>
+    <message>
+        <source>Angle180</source>
+        <translation>180</translation>
+    </message>
+    <message>
+        <source>Angle270</source>
+        <translation>270</translation>
+    </message>
+    <message>
+        <source>Angle45</source>
+        <translation>45</translation>
+    </message>
+    <message>
+        <source>Angle315</source>
+        <translation>315</translation>
+    </message>
+    <message>
+        <source>DateTime</source>
+        <translation>Дата и время</translation>
+    </message>
+    <message>
+        <source>Double</source>
+        <translation>Число</translation>
+    </message>
+    <message>
+        <source>NoBrush</source>
+        <translation>Нет заливки</translation>
+    </message>
+    <message>
+        <source>SolidPattern</source>
+        <translation>Сплошная заливка</translation>
+    </message>
+    <message>
+        <source>Dense1Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense2Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense3Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense4Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense5Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense6Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense7Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CrossPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BDiagPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FDiagPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LeftToRight</source>
+        <translation>С лева на право</translation>
+    </message>
+    <message>
+        <source>RightToLeft</source>
+        <translation>С права на лево</translation>
+    </message>
+    <message>
+        <source>LayoutDirectionAuto</source>
+        <translation>Авто</translation>
+    </message>
+    <message>
+        <source>LeftItemAlign</source>
+        <translation>С лева</translation>
+    </message>
+    <message>
+        <source>RightItemAlign</source>
+        <translation>С права</translation>
+    </message>
+    <message>
+        <source>CenterItemAlign</source>
+        <translation>По центру</translation>
+    </message>
+    <message>
+        <source>ParentWidthItemAlign</source>
+        <translation>По ширине родителя</translation>
+    </message>
+    <message>
+        <source>DesignedItemAlign</source>
+        <translation>Заданный положение</translation>
+    </message>
+    <message>
+        <source>HorizontalLine</source>
+        <translation>Горизонтальная линия</translation>
+    </message>
+    <message>
+        <source>VerticalLine</source>
+        <translation>Вертикальная линия</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>Элипс</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>Прямоугольник</translation>
+    </message>
+    <message>
+        <source>Page</source>
+        <translation>Страница</translation>
+    </message>
+    <message>
+        <source>Band</source>
+        <translation>Раздел</translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation>Горизонтально</translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation>Вертикально</translation>
+    </message>
+    <message>
+        <source>VerticalUniform</source>
+        <translation>Вертикально равномерно</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::FlagsPropItem</name>
+    <message>
+        <source>NoLine</source>
+        <translation>Нет границ</translation>
+    </message>
+    <message>
+        <source>TopLine</source>
+        <translation>Верхняя граница</translation>
+    </message>
+    <message>
+        <source>BottomLine</source>
+        <translation>Нижняя граница</translation>
+    </message>
+    <message>
+        <source>LeftLine</source>
+        <translation>Левая граница</translation>
+    </message>
+    <message>
+        <source>RightLine</source>
+        <translation>Правая граница</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::FontEditorWidget</name>
     <message>
         <source>Font bold</source>
@@ -737,6 +963,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Image</source>
         <translation>Изображение</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ItemLocationPropItem</name>
+    <message>
+        <source>Band</source>
+        <translation>Раздел</translation>
+    </message>
+    <message>
+        <source>Page</source>
+        <translation>Страница</translation>
     </message>
 </context>
 <context>
@@ -1328,7 +1565,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>securityLevel</source>
-        <translation type="unfinished">Уровень безопасности</translation>
+        <translation>Уровень безопасности</translation>
     </message>
     <message>
         <source>testValue</source>
@@ -1336,11 +1573,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>whitespace</source>
-        <translation type="unfinished">Отступ</translation>
+        <translation>Отступ</translation>
     </message>
     <message>
         <source>cornerRadius</source>
-        <translation type="unfinished">Радиус закругления</translation>
+        <translation>Радиус закругления</translation>
     </message>
     <message>
         <source>shapeColor</source>
@@ -1425,7 +1662,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Page</source>
-        <translation>Страница</translation>
+        <translation type="vanished">Страница</translation>
     </message>
     <message>
         <source>Script</source>
