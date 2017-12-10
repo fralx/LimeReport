@@ -48,8 +48,8 @@ namespace{
 
 LimeReport::ItemLocationPropItem::ItemLocationPropItem(QObject* object, ObjectsList* objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem* parent, bool readonly)
   :LimeReport::ObjectPropItem(object, objects, name, displayName, value, parent, readonly){
-    m_locationMap.insert("Band",LimeReport::ItemDesignIntf::Band);
-    m_locationMap.insert("Page",LimeReport::ItemDesignIntf::Page);
+    m_locationMap.insert(tr("Band"),LimeReport::ItemDesignIntf::Band);
+    m_locationMap.insert(tr("Page"),LimeReport::ItemDesignIntf::Page);
 }
 
 

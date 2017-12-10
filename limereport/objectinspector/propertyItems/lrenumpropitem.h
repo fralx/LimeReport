@@ -31,17 +31,18 @@
 #define LRENUMPROPITEM_H
 
 #include "lrobjectpropitem.h"
+#include <QMap>
 
 namespace LimeReport{
 class EnumPropItem : public ObjectPropItem
 {
     Q_OBJECT
 public:
-    EnumPropItem():ObjectPropItem(), m_settingValue(false){}
+    EnumPropItem():ObjectPropItem(), m_settingValue(false){initTranslation();}
     EnumPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_settingValue(false){}
+        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_settingValue(false){initTranslation();}
     EnumPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly, QVector<int> acceptableValues)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_acceptableValues(acceptableValues),m_settingValue(false){}
+        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_acceptableValues(acceptableValues),m_settingValue(false){initTranslation();}
     QWidget*    createProperyEditor(QWidget *parent) const;
     QString     displayValue() const;
     void        setPropertyEditorData(QWidget * propertyEditor, const QModelIndex &) const;
@@ -53,8 +54,12 @@ protected:
 private slots:
     void slotEnumChanged(const QString& text);
 private:
+    void initTranslation();
+    void translateEnumItemName();
+private:
     QVector<int> m_acceptableValues;
     bool m_settingValue;
+    QMap<QString, QString> m_translation;
 };
 }
 #endif // LRENUMPROPITEM_H
