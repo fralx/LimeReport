@@ -789,7 +789,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>LeftToRight</source>
-        <translation>С лева на право</translation>
+        <translation>Слева на право</translation>
     </message>
     <message>
         <source>RightToLeft</source>
@@ -801,11 +801,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>LeftItemAlign</source>
-        <translation>С лева</translation>
+        <translation>Слева</translation>
     </message>
     <message>
         <source>RightItemAlign</source>
-        <translation>С права</translation>
+        <translation>Справа</translation>
     </message>
     <message>
         <source>CenterItemAlign</source>
@@ -817,7 +817,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>DesignedItemAlign</source>
-        <translation>Заданный положение</translation>
+        <translation>Заданное положение</translation>
     </message>
     <message>
         <source>HorizontalLine</source>
