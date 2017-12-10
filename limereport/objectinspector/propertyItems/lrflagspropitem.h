@@ -47,6 +47,8 @@ public:
 private slots:
     void slotEnumChanged(QString);
 private:
+    void translateFlagsItem();
+private:
     QSet<int> m_acceptableValues;
     QString nameByType(int propertyValue) const;
     int     typeByName(QString propertyValue) const;
