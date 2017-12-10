@@ -12,43 +12,51 @@
     <name>ChartItemEditor</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Форма</translation>
+        <translation type="obsolete">Форма</translation>
     </message>
     <message>
         <source>Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Серии</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Имя переменной</translation>
+        <translation>Наименование</translation>
     </message>
     <message>
         <source>Values field</source>
-        <translation type="unfinished"></translation>
+        <translation>Значения</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <source>Labels field</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписи</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished">Ок</translation>
+        <translation>Ок</translation>
+    </message>
+    <message>
+        <source>Series name</source>
+        <translation>Серии</translation>
+    </message>
+    <message>
+        <source>Series editor</source>
+        <translation>Редактор серий</translation>
     </message>
 </context>
 <context>
@@ -75,18 +83,18 @@
     </message>
     <message>
         <source>Mandatory</source>
-        <translation type="unfinished"></translation>
+        <translation>Обязательная</translation>
     </message>
 </context>
 <context>
     <name>LanguageSelectDialog</name>
     <message>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
 </context>
 <context>
@@ -143,7 +151,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright 2015 Arin Alexander. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -390,15 +398,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Keep bottom space</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранять отступ снизу</translation>
     </message>
     <message>
         <source>Start from new page</source>
-        <translation type="unfinished"></translation>
+        <translation>Начинать с новой страницы</translation>
     </message>
     <message>
         <source>Start new page</source>
-        <translation type="unfinished"></translation>
+        <translation>Начинать новую страницу</translation>
     </message>
 </context>
 <context>
@@ -746,15 +754,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>NoneAutoWidth</source>
-        <translation type="unfinished">Нет</translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <source>MaxWordLength</source>
-        <translation type="unfinished">По ширине слова</translation>
+        <translation>По ширине слова</translation>
     </message>
     <message>
         <source>MaxStringLength</source>
-        <translation type="unfinished">По ширине строки</translation>
+        <translation>По ширине строки</translation>
     </message>
     <message>
         <source>TransparentMode</source>
@@ -919,6 +927,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>VerticalUniform</source>
         <translation>Вертикально равномерно</translation>
+    </message>
+    <message>
+        <source>Pie</source>
+        <translation>Круговая</translation>
+    </message>
+    <message>
+        <source>VerticalBar</source>
+        <translation>Вертикальные столбцы</translation>
+    </message>
+    <message>
+        <source>HorizontalBar</source>
+        <translation>Горизонтальные столбцы</translation>
+    </message>
+    <message>
+        <source>LegendAlignTop</source>
+        <translation>Сверху</translation>
+    </message>
+    <message>
+        <source>LegendAlignCenter</source>
+        <translation>По центру</translation>
+    </message>
+    <message>
+        <source>LegendAlignBottom</source>
+        <translation>Снизу</translation>
+    </message>
+    <message>
+        <source>TitleAlignLeft</source>
+        <translation>Слева</translation>
+    </message>
+    <message>
+        <source>TitleAlignRight</source>
+        <translation>Справа</translation>
+    </message>
+    <message>
+        <source>TitleAlignCenter</source>
+        <translation>По цетру</translation>
     </message>
 </context>
 <context>
@@ -1712,6 +1756,58 @@ p, li { white-space: pre-wrap; }
         <source>repeatOnEachRow</source>
         <translation>Печатать на каждой странице</translation>
     </message>
+    <message>
+        <source>endlessHeight</source>
+        <translation>Бесконечная страница</translation>
+    </message>
+    <message>
+        <source>extendedHeight</source>
+        <translation>Дополнителная высота</translation>
+    </message>
+    <message>
+        <source>isExtendedInDesignMode</source>
+        <translation>Увеличенный размер в дизайнере</translation>
+    </message>
+    <message>
+        <source>pageIsTOC</source>
+        <translation>Оглавление</translation>
+    </message>
+    <message>
+        <source>setPageSizeToPrinter</source>
+        <translation>Отправлять размер страницы принтеру</translation>
+    </message>
+    <message>
+        <source>fillInSecondPass</source>
+        <translation>Заполнять на втором проходе</translation>
+    </message>
+    <message>
+        <source>chartTitle</source>
+        <translation>Заголовок диаграммы</translation>
+    </message>
+    <message>
+        <source>chartType</source>
+        <translation>Тип диаграммы</translation>
+    </message>
+    <message>
+        <source>drawLegendBorder</source>
+        <translation>Границы вокруг легенды</translation>
+    </message>
+    <message>
+        <source>labelsField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>legendAlign</source>
+        <translation>Расположение легенды</translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation>Серии</translation>
+    </message>
+    <message>
+        <source>titleAlign</source>
+        <translation>Расположение заголовка</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1759,7 +1855,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Переводы</translation>
     </message>
 </context>
 <context>
@@ -2059,7 +2155,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Language %1 already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевод %1 уже существует!</translation>
     </message>
 </context>
 <context>
@@ -2249,15 +2345,15 @@ This preview is no longer valid.</source>
     <name>LimeReport::ScriptEditor</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Форма</translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Data</source>
-        <translation type="unfinished">Данные</translation>
+        <translation>Данные</translation>
     </message>
     <message>
         <source>Functions</source>
-        <translation type="unfinished">Функции</translation>
+        <translation>Функции</translation>
     </message>
 </context>
 <context>
@@ -2347,35 +2443,35 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Datasource</source>
-        <translation type="unfinished">Источник данных</translation>
+        <translation>Источник данных</translation>
     </message>
     <message>
         <source>ValueField</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле значения</translation>
     </message>
     <message>
         <source>KeyField</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле ключа</translation>
     </message>
     <message>
         <source>KeyFieldValue</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля ключа</translation>
     </message>
     <message>
         <source>Unique identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Уникальный идентификатор</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished">Содержимое</translation>
+        <translation>Содержимое</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation type="unfinished"></translation>
+        <translation>Отступ</translation>
     </message>
     <message>
         <source>datasourceName</source>
-        <translation type="unfinished"></translation>
+        <translation>Источника данных</translation>
     </message>
 </context>
 <context>
@@ -2551,47 +2647,47 @@ This preview is no longer valid.</source>
     <name>LimeReport::TranslationEditor</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Форма</translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Языки</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Страницы</translation>
     </message>
     <message>
         <source>Strings</source>
-        <translation type="unfinished"></translation>
+        <translation>Строки</translation>
     </message>
     <message>
         <source>Source Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Исходный текст</translation>
     </message>
     <message>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Превод</translation>
     </message>
     <message>
         <source>Checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверено</translation>
     </message>
     <message>
         <source>Report Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Элемент отчета</translation>
     </message>
     <message>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойство</translation>
     </message>
     <message>
         <source>Source text</source>
-        <translation type="unfinished"></translation>
+        <translation>Исходный текст</translation>
     </message>
 </context>
 <context>
@@ -2825,19 +2921,19 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Chart Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Диаграмма</translation>
     </message>
     <message>
         <source>First</source>
-        <translation type="unfinished"></translation>
+        <translation>Первая</translation>
     </message>
     <message>
         <source>Second</source>
-        <translation type="unfinished"></translation>
+        <translation>Вторая</translation>
     </message>
     <message>
         <source>Thrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Третья</translation>
     </message>
 </context>
 </TS>

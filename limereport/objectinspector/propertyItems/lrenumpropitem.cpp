@@ -132,6 +132,15 @@ void EnumPropItem::translateEnumItemName()
     tr("Horizontal");
     tr("Vertical");
     tr("VerticalUniform");
+    tr("Pie");
+    tr("VerticalBar");
+    tr("HorizontalBar");
+    tr("LegendAlignTop");
+    tr("LegendAlignCenter");
+    tr("LegendAlignBottom");
+    tr("TitleAlignLeft");
+    tr("TitleAlignRight");
+    tr("TitleAlignCenter");
 }
 
 void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const

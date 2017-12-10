@@ -134,6 +134,19 @@ void QObjectPropertyModel::translatePropertyName()
     tr("condition");
     tr("groupFieldName");
     tr("keepGroupTogether");
+    tr("endlessHeight");
+    tr("extendedHeight");
+    tr("isExtendedInDesignMode");
+    tr("pageIsTOC");
+    tr("setPageSizeToPrinter");
+    tr("fillInSecondPass");
+    tr("chartTitle");
+    tr("chartType");
+    tr("drawLegendBorder");
+    tr("labelsField");
+    tr("legendAlign");
+    tr("series");
+    tr("titleAlign");
 }
 
 void QObjectPropertyModel::clearObjectsList()
