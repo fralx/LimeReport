@@ -95,7 +95,7 @@ void ChartItemEditor::init()
     ui->tableWidget->setColumnCount(1);
     ui->tableWidget->setRowCount(m_charItem->series().count());
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-    ui->tableWidget->setHorizontalHeaderItem(0,new QTableWidgetItem("Series name"));
+    ui->tableWidget->setHorizontalHeaderItem(0,new QTableWidgetItem(tr("Series name")));
 
     rebuildTable();
 

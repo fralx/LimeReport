@@ -54,10 +54,10 @@ QWidget *EnumPropItem::createProperyEditor(QWidget *parent) const
     QStringList enumValues;
     QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
     for (int i=0;i<propEnum.keyCount();i++){
-        if (m_acceptableValues.isEmpty()) enumValues.append(propEnum.key(i));
+        if (m_acceptableValues.isEmpty()) enumValues.append(tr(propEnum.key(i)));
         else {
             if (m_acceptableValues.contains(propEnum.value(i))){
-                enumValues.append(propEnum.key(i));
+                enumValues.append(tr(propEnum.key(i)));
             }
         }
     }
@@ -75,6 +75,74 @@ void EnumPropItem::slotEnumChanged(const QString &text)
     }
 }
 
+void EnumPropItem::initTranslation()
+{
+    QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
+    for (int i=0;i<propEnum.keyCount();i++){
+        m_translation.insert(QString(tr(propEnum.key(i))), QString(propEnum.key(i)));
+    }
+}
+
+void EnumPropItem::translateEnumItemName()
+{
+    tr("Default");
+    tr("Portrait");
+    tr("Landscape");
+    tr("NoneAutoWidth");
+    tr("MaxWordLength");
+    tr("MaxStringLength");
+    tr("TransparentMode");
+    tr("OpaqueMode");
+    tr("Angle0");
+    tr("Angle90");
+    tr("Angle180");
+    tr("Angle270");
+    tr("Angle45");
+    tr("Angle315");
+    tr("DateTime");
+    tr("Double");
+    tr("NoBrush");
+    tr("SolidPattern");
+    tr("Dense1Pattern");
+    tr("Dense2Pattern");
+    tr("Dense3Pattern");
+    tr("Dense4Pattern");
+    tr("Dense5Pattern");
+    tr("Dense6Pattern");
+    tr("Dense7Pattern");
+    tr("HorPattern");
+    tr("VerPattern");
+    tr("CrossPattern");
+    tr("BDiagPattern");
+    tr("FDiagPattern");
+    tr("LeftToRight");
+    tr("RightToLeft");
+    tr("LayoutDirectionAuto");
+    tr("LeftItemAlign");
+    tr("RightItemAlign");
+    tr("CenterItemAlign");
+    tr("ParentWidthItemAlign");
+    tr("DesignedItemAlign");
+    tr("HorizontalLine");
+    tr("VerticalLine");
+    tr("Ellipse");
+    tr("Rectangle");
+    tr("Page");
+    tr("Band");
+    tr("Horizontal");
+    tr("Vertical");
+    tr("VerticalUniform");
+    tr("Pie");
+    tr("VerticalBar");
+    tr("HorizontalBar");
+    tr("LegendAlignTop");
+    tr("LegendAlignCenter");
+    tr("LegendAlignBottom");
+    tr("TitleAlignLeft");
+    tr("TitleAlignRight");
+    tr("TitleAlignCenter");
+}
+
 void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
 {
     ComboBoxEditor *editor=qobject_cast<ComboBoxEditor *>(propertyEditor);
@@ -90,13 +158,13 @@ void EnumPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mod
 QString EnumPropItem::nameByType(int value) const
 {
     QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
-    return propEnum.valueToKey(value);
+    return tr(propEnum.valueToKey(value));
 }
 
 int EnumPropItem::typeByName(const QString &value) const
 {
     QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
-    return propEnum.keyToValue(value.toLatin1());
+    return propEnum.keyToValue(m_translation.value(value).toLatin1());
 }
 
 QString EnumPropItem::displayValue() const

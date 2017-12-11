@@ -58,12 +58,14 @@ void FlagsPropItem::createChildren()
     QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
     for (int i=0;i<propEnum.keyCount();i++)
     {
-        this->appendItem(new LimeReport::FlagPropItem(
-                             object(), objects(), QString(propEnum.key(i)), QString(propEnum.key(i)),
-                             bool((propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))==propEnum.keyToValue(propEnum.key(i))),
-                             this, false
-                             )
-                         );
+        if ( propEnum.keyToValue(propEnum.key(i)) !=0 ) {
+            this->appendItem(new LimeReport::FlagPropItem(
+                                 object(), objects(), QString(propEnum.key(i)), tr(propEnum.key(i)),
+                                 bool((propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))==propEnum.keyToValue(propEnum.key(i))),
+                                 this, false
+                                 )
+                             );
+        }
     }
 }
 
@@ -93,10 +95,10 @@ QString FlagsPropItem::displayValue() const
     QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
     for (int i=0;i<propEnum.keyCount();i++)
     {
-        if ( (propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))==propEnum.keyToValue(propEnum.key(i) ))
+        if ((propEnum.keyToValue(propEnum.key(i)) == 0) ? propertyValue().toInt() == 0 : (propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i))) == propEnum.keyToValue(propEnum.key(i)))
         {
-            if (result.isEmpty()) result+=propEnum.key(i);
-            else result=result+" | "+propEnum.key(i);
+            if (result.isEmpty()) result+= tr(propEnum.key(i));
+            else result=result+" | "+tr(propEnum.key(i));
         }
 
     }
@@ -111,6 +113,15 @@ void FlagsPropItem::setPropertyValue(QVariant value)
 
 void FlagsPropItem::slotEnumChanged(QString /*text*/)
 {
+}
+
+void FlagsPropItem::translateFlagsItem()
+{
+    tr("NoLine");
+    tr("TopLine");
+    tr("BottomLine");
+    tr("LeftLine");
+    tr("RightLine");
 }
 
 FlagPropItem::FlagPropItem(QObject* object, ObjectsList* objects, const QString &propName, const QString &displayName, const QVariant &value, ObjectPropItem* parent, bool readonly)
@@ -129,8 +140,8 @@ void FlagPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mod
     bool value = qobject_cast<CheckBoxEditor*>(propertyEditor)->isChecked();
     model->setData(index,value);
     int flags = object()->property(parent()->propertyName().toLatin1()).toInt();
-    if (value) flags=flags | valueByName(displayName());
-    else if (flags&valueByName(displayName())) flags=flags ^ valueByName(displayName());
+    if (value) flags = flags | valueByName(propertyName());
+    else if (flags & valueByName(propertyName())) flags = flags ^ valueByName(propertyName());
     setValueToObject(parent()->propertyName(),flags);
     parent()->setPropertyValue(flags);
 }

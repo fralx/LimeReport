@@ -628,10 +628,10 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
             result.setX(leftBorder);
             break;
         case RightItemAlign:
-            result.setX(parent->width()-rightBorder);
+            result.setX(parent->width() - (rightBorder + width()));
             break;
         case CenterItemAlign:
-            result.setX((avaibleSpace-width())/2);
+            result.setX((avaibleSpace-width()) / 2 + leftBorder);
             break;
         case ParentWidthItemAlign:
             result.setX(leftBorder);
