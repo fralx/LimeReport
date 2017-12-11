@@ -34,89 +34,57 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFileSystemWatcher>
-#include <QPluginLoader>
 
 #include "time.h"
 
-#include "lrreportengine_p.h"
-#include "lrreportengine.h"
+#include "limerender_p.h"
+#include "limerender.h"
 
 #include "lrpagedesignintf.h"
 #include "lrdatasourcemanager.h"
-
-#ifdef HAVE_REPORT_DESIGNER
-#include "lrdatabrowser.h"
-#include "lrreportdesignwindow.h"
-#endif
-
+#include "lrreportrender.h"
 #include "serializators/lrxmlwriter.h"
 #include "serializators/lrxmlreader.h"
-#include "lrreportrender.h"
 #include "lrpreviewreportwindow.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
-
 
 #ifdef HAVE_STATIC_BUILD
 #include "lrfactoryinitializer.h"
 #endif
 namespace LimeReport{
 
-QSettings* ReportEngine::m_settings = 0;
+QSettings* LimeRender::m_settings = 0;
 
-ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
+LimeRenderPrivate::LimeRenderPrivate(QObject *parent) :
     QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
-    m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
-    m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage), m_designerFactory(0)
+    m_LimeRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
+    m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
     initReportItems();
-#ifdef HAVE_REPORT_DESIGNER
     initObjectInspectorProperties();
-#endif
     initSerializators();
 #endif
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
     m_scriptEngineContext = new ScriptEngineContext(this);
 
-    ICallbackDatasource* tableOfContents = m_datasources->createCallbackDatasource("tableofcontents");
-    connect(tableOfContents, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
-            m_scriptEngineContext->tableOfContents(), SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
+    ICallbackDatasource* tableOfContens = m_datasources->createCallbackDatasource("tableofcontens");
+    connect(tableOfContens, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
+            m_scriptEngineContext->tableOfContens(), SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
 
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
-
-#ifndef HAVE_REPORT_DESIGNER
-    QDir pluginsDir = QCoreApplication::applicationDirPath();
-    pluginsDir.cd("../lib" );
-    if (!pluginsDir.exists()){
-        pluginsDir.cd("./lib");
-        if (!pluginsDir.exists()) pluginsDir.setPath(QCoreApplication::applicationDirPath());
-    }
-
-    foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
-        QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
-        if( loader.load() ) {
-            if( LimeReportPluginInterface* myPlugin = qobject_cast< LimeReportPluginInterface* >( loader.instance() ) ) {
-                m_designerFactory = myPlugin;
-                break;
-            }
-        }
-    }
-#endif
 }
 
-ReportEnginePrivate::~ReportEnginePrivate()
+LimeRenderPrivate::~LimeRenderPrivate()
 {
-    if (m_designerWindow) {
-        m_designerWindow->close();
-    }
     if (m_activePreview){
         m_activePreview->close();
     }
@@ -130,34 +98,34 @@ ReportEnginePrivate::~ReportEnginePrivate()
     if (m_ownedSettings&&m_settings) delete m_settings;
 }
 
-QObject* ReportEnginePrivate::createElement(const QString &, const QString &)
+QObject* LimeRenderPrivate::createElement(const QString &, const QString &)
 {
     return appendPage();
 }
 
-QObject *ReportEnginePrivate::elementAt(const QString &, int index)
+QObject *LimeRenderPrivate::elementAt(const QString &, int index)
 {
     return pageAt(index);
 }
 
-PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
+PageDesignIntf *LimeRenderPrivate::createPage(const QString &pageName)
 {
     PageDesignIntf* page =new PageDesignIntf();
     page->setObjectName(pageName);
     page->pageItem()->setObjectName("Report"+pageName);
-    page->setReportEditor(this);
+    page->setReportRender(this);
     page->setReportSettings(&m_reportSettings);
     return page;
 }
 
-PageDesignIntf *ReportEnginePrivate::appendPage(const QString &pageName)
+PageDesignIntf *LimeRenderPrivate::appendPage(const QString &pageName)
 {
     PageDesignIntf* page = createPage(pageName);
     m_pages.append(page);
     return page;
 }
 
-bool ReportEnginePrivate::deletePage(PageDesignIntf *page){
+bool LimeRenderPrivate::deletePage(PageDesignIntf *page){
     QList<PageDesignIntf*>::iterator it = m_pages.begin();
     while (it != m_pages.end()){
         if (*it == page) {
@@ -168,20 +136,20 @@ bool ReportEnginePrivate::deletePage(PageDesignIntf *page){
     return false;
 }
 
-PageDesignIntf *ReportEnginePrivate::createPreviewPage()
+PageDesignIntf *LimeRenderPrivate::createPreviewPage()
 {
     return createPage();
 }
 
-int ReportEnginePrivate::elementsCount(const QString &)
+int LimeRenderPrivate::elementsCount(const QString &)
 {
     return m_pages.count();
 }
 
-void ReportEnginePrivate::collectionLoadFinished(const QString &)
+void LimeRenderPrivate::collectionLoadFinished(const QString &)
 {
     foreach (PageDesignIntf* page, m_pages) {
-        page->setReportEditor(this);
+        page->setReportRender(this);
         page->setReportSettings(&m_reportSettings);
         page->setSceneRect(-Const::SCENE_MARGIN,-Const::SCENE_MARGIN,
                            page->pageItem()->width()+Const::SCENE_MARGIN*2,
@@ -190,17 +158,17 @@ void ReportEnginePrivate::collectionLoadFinished(const QString &)
     emit pagesLoadFinished();
 }
 
-void ReportEnginePrivate::saveError(QString message)
+void LimeRenderPrivate::saveError(QString message)
 {
     m_lastError = message;
 }
 
-void ReportEnginePrivate::showError(QString message)
+void LimeRenderPrivate::showError(QString message)
 {
     QMessageBox::critical(0,tr("Error"),message);
 }
 
-void ReportEnginePrivate::updateTranslations()
+void LimeRenderPrivate::updateTranslations()
 {
     foreach(ReportTranslation* translation, m_translations.values()){
         foreach(PageDesignIntf* page, m_pages){
@@ -209,19 +177,19 @@ void ReportEnginePrivate::updateTranslations()
     }
 }
 
-void ReportEnginePrivate::slotDataSourceCollectionLoaded(const QString &collectionName)
+void LimeRenderPrivate::slotDataSourceCollectionLoaded(const QString &collectionName)
 {
     emit datasourceCollectionLoadFinished(collectionName);
 }
 
-void ReportEnginePrivate::slotPreviewWindowDestroyed(QObject* window)
+void LimeRenderPrivate::slotPreviewWindowDestroyed(QObject* window)
 {
     if (m_activePreview == window){
         m_activePreview = 0;
     }
 }
 
-void ReportEnginePrivate::clearReport()
+void LimeRenderPrivate::clearReport()
 {
     foreach(PageDesignIntf* page,m_pages) delete page;
     m_pages.clear();
@@ -236,7 +204,7 @@ void ReportEnginePrivate::clearReport()
     emit cleared();
 }
 
-void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& printer)
+void LimeRenderPrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& printer)
 {
     LimeReport::PageDesignIntf renderPage;
     renderPage.setItemMode(PrintMode);
@@ -268,7 +236,7 @@ void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& pri
     }
 }
 
-void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
+void LimeRenderPrivate::printReport(ReportPages pages, QPrinter &printer)
 {
     LimeReport::PageDesignIntf renderPage;
     renderPage.setItemMode(PrintMode);
@@ -319,10 +287,10 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
                     QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
                                 QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
                                 renderPage.pageItem()->sizeMM();
-                    if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
+                    if (page->getSetPageSizeToPrinter())
                       printer.setPaperSize(pageSize,QPrinter::Millimeter);
                 } else {
-                    if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
+                    if (page->getSetPageSizeToPrinter())
                       printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
                 }
             }
@@ -357,7 +325,7 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
     delete painter;
 }
 
-QStringList ReportEnginePrivate::aviableReportTranslations()
+QStringList LimeRenderPrivate::aviableReportTranslations()
 {
     QStringList result;
     foreach (QLocale::Language language, aviableLanguages()){
@@ -366,7 +334,7 @@ QStringList ReportEnginePrivate::aviableReportTranslations()
     return result;
 }
 
-void ReportEnginePrivate::setReportTranslation(const QString &languageName)
+void LimeRenderPrivate::setReportTranslation(const QString &languageName)
 {
     foreach(QLocale::Language language, aviableLanguages()){
        if (QLocale::languageToString(language).compare(languageName) == 0){
@@ -375,7 +343,7 @@ void ReportEnginePrivate::setReportTranslation(const QString &languageName)
     }
 };
 
-bool ReportEnginePrivate::printReport(QPrinter* printer)
+bool LimeRenderPrivate::printReport(QPrinter* printer)
 {
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
@@ -407,7 +375,7 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     } else return false;
 }
 
-bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
+bool LimeRenderPrivate::printPages(ReportPages pages, QPrinter *printer)
 {
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
@@ -439,7 +407,7 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
     } else return false;
 }
 
-void ReportEnginePrivate::printToFile(const QString &fileName)
+void LimeRenderPrivate::printToFile(const QString &fileName)
 {
     if (!fileName.isEmpty()){
         QFile file(fileName);
@@ -457,7 +425,7 @@ void ReportEnginePrivate::printToFile(const QString &fileName)
     }
 }
 
-bool ReportEnginePrivate::printToPDF(const QString &fileName)
+bool LimeRenderPrivate::printToPDF(const QString &fileName)
 {
     if (!fileName.isEmpty()){
         QFileInfo fi(fileName);
@@ -472,7 +440,7 @@ bool ReportEnginePrivate::printToPDF(const QString &fileName)
     return false;
 }
 
-void ReportEnginePrivate::previewReport(PreviewHints hints)
+void LimeRenderPrivate::previewReport(PreviewHints hints)
 { 
 //    QTime start = QTime::currentTime();
     try{
@@ -480,7 +448,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
         ReportPages pages = renderToPages();
         dataManager()->setDesignTime(true);
         if (pages.count()>0){
-            Q_Q(ReportEngine);
+            Q_Q(LimeRender);
             PreviewReportWindow* w = new PreviewReportWindow(q,0,settings());
             w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
             w->setAttribute(Qt::WA_DeleteOnClose,true);
@@ -502,7 +470,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             }
 
             w->setHideResultEditButton(resultIsEditable());
-            w->setStyleSheet(m_styleSheet);
+
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
             w->exec();
@@ -513,32 +481,9 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
     }
 }
 
-ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
-{
-    if (!m_designerWindow) {
-        if (m_designerFactory){
-            m_designerWindow = m_designerFactory->getDesignerWindow(this,QApplication::activeWindow(),settings());
-            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
-            m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
-            m_designerWindow->setShowProgressDialog(m_showProgressDialog);
-        } else {
-#ifdef HAVE_REPORT_DESIGNER
-            m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
-            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
-            m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
-            m_designerWindow->setShowProgressDialog(m_showProgressDialog);
-#endif
-        }
-     }
-    if (m_designerWindow){
-        m_datasources->updateDatasourceModel();
-    }
-    return m_designerWindow;
-}
+PreviewReportWidget* LimeRenderPrivate::createPreviewWidget(QWidget* parent){
 
-PreviewReportWidget* ReportEnginePrivate::createPreviewWidget(QWidget* parent){
-
-    Q_Q(ReportEngine);
+    Q_Q(LimeRender);
     PreviewReportWidget* widget = new PreviewReportWidget(q, parent);
     try{
         dataManager()->setDesignTime(false);
@@ -553,7 +498,7 @@ PreviewReportWidget* ReportEnginePrivate::createPreviewWidget(QWidget* parent){
     return widget;
 }
 
-PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
+PageDesignIntf* LimeRenderPrivate::createPreviewScene(QObject* parent){
     PageDesignIntf* result = 0;
     try {
         ReportPages pages = renderToPages();
@@ -566,38 +511,14 @@ PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
     return result;
 }
 
-void ReportEnginePrivate::emitSaveReport()
-{
-    emit onSave();
-}
-
-bool ReportEnginePrivate::emitLoadReport()
+bool LimeRenderPrivate::emitLoadReport()
 {
     bool result = false;
     emit onLoad(result);
     return result;
 }
 
-void ReportEnginePrivate::emitSaveFinished()
-{
-    emit saveFinished();
-}
-
-bool ReportEnginePrivate::isSaved()
-{
-    foreach (PageDesignIntf* page, m_pages) {
-        if (!page->isSaved()) return false;
-    }
-    return true;
-}
-
-void ReportEnginePrivate::setCurrentReportsDir(const QString &dirName)
-{
-    if (QDir(dirName).exists())
-        m_reportsDir = dirName;
-}
-
-bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
+bool LimeRenderPrivate::slotLoadFromFile(const QString &fileName)
 {
     PreviewReportWindow  *currentPreview = qobject_cast<PreviewReportWindow *>(m_activePreview);
    
@@ -654,36 +575,19 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
     return false;
 }
 
-void ReportEnginePrivate::cancelRender()
+void LimeRenderPrivate::cancelRender()
 {
-    if (m_reportRender)
-        m_reportRender->cancelRender();
-    m_reportRendering = false;
+    if (m_LimeRender)
+        m_LimeRender->cancelRender();
+    m_LimeRendering = false;
 }
 
-PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
-    Q_D(ReportEngine);
+PageDesignIntf* LimeRender::createPreviewScene(QObject* parent){
+    Q_D(LimeRender);
     return d->createPreviewScene(parent);
 }
 
-void ReportEnginePrivate::designReport()
-{
-    ReportDesignWindowInterface* designerWindow = getDesignerWindow();
-    if (designerWindow){
-#ifdef Q_OS_WIN    
-        designerWindow->setWindowModality(Qt::ApplicationModal);
-#endif
-        if (QApplication::activeWindow()==0){
-            designerWindow->show();;
-        } else {
-            designerWindow->showModal();
-        }
-    } else {
-        qDebug()<<(tr("Designer not found!"));
-    }
-}
-
-void ReportEnginePrivate::setSettings(QSettings* value)
+void LimeRenderPrivate::setSettings(QSettings* value)
 {
     if (value){
         if (m_ownedSettings&&m_settings)
@@ -693,7 +597,7 @@ void ReportEnginePrivate::setSettings(QSettings* value)
     }
 }
 
-QSettings*ReportEnginePrivate::settings()
+QSettings*LimeRenderPrivate::settings()
 {
     if (m_settings){
         return m_settings;
@@ -704,7 +608,7 @@ QSettings*ReportEnginePrivate::settings()
     }
 }
 
-bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
+bool LimeRenderPrivate::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
 {
    // only watch one file at a time
    if ( !m_fileWatcher->files().isEmpty() )
@@ -720,7 +624,7 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPre
    return slotLoadFromFile( fileName );
 }
 
-bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &name){
+bool LimeRenderPrivate::loadFromByteArray(QByteArray* data, const QString &name){
     clearReport();
 
     ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
@@ -735,7 +639,7 @@ bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &nam
     return false;
 }
 
-bool ReportEnginePrivate::loadFromString(const QString &report, const QString &name)
+bool LimeRenderPrivate::loadFromString(const QString &report, const QString &name)
 {
     clearReport();
 
@@ -751,95 +655,9 @@ bool ReportEnginePrivate::loadFromString(const QString &report, const QString &n
     return false;
 }
 
-bool ReportEnginePrivate::saveToFile(const QString &fileName)
+QString LimeRenderPrivate::renderToString()
 {
-    if (fileName.isEmpty()) return false;
-    QFileInfo fi(fileName);
-    QString fn = fileName;
-    if (fi.suffix().isEmpty())
-        fn+=".lrxml";
-
-    QString dbSettingFileName = fi.absolutePath()+"/"+fi.baseName()+".db";
-    QSettings dbcredentals(dbSettingFileName, QSettings::IniFormat);
-
-    foreach (ConnectionDesc* connection, dataManager()->conections()) {
-        if (!connection->keepDBCredentials()){
-            dbcredentals.beginGroup(connection->name());
-            dbcredentals.setValue("user",connection->userName());
-            dbcredentals.setValue("password",connection->password());
-            dbcredentals.endGroup();
-            connection->setPassword("");
-            connection->setUserName("");
-        }
-    }
-
-    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-    writer->setPassPhrase(m_passPhrase);
-    writer->putItem(this);
-    m_fileName=fn;   
-    bool saved = writer->saveToFile(fn);
-
-    foreach (ConnectionDesc* connection, dataManager()->conections()) {
-        if (!connection->keepDBCredentials()){
-            dbcredentals.beginGroup(connection->name());
-            connection->setUserName(dbcredentals.value("user").toString());
-            connection->setPassword(dbcredentals.value("password").toString());
-            dbcredentals.endGroup();
-        }
-    }
-
-    if (saved){
-        foreach(PageDesignIntf* page, m_pages){
-            page->setToSaved();
-        }
-    }
-    return saved;
-}
-
-QByteArray ReportEnginePrivate::saveToByteArray()
-{
-    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-    writer->setPassPhrase(m_passPhrase);
-    writer->putItem(this);
-    QByteArray result = writer->saveToByteArray();
-    if (!result.isEmpty()){
-        foreach(PageDesignIntf* page, m_pages){
-            page->setToSaved();
-        }
-    }
-    return result;
-}
-
-QString ReportEnginePrivate::saveToString(){
-    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-    writer->setPassPhrase(m_passPhrase);
-    writer->putItem(this);
-    QString result = writer->saveToString();
-    if (!result.isEmpty()){
-        foreach(PageDesignIntf* page, m_pages){
-            page->setToSaved();
-        }
-    }
-    return result;
-}
-
-bool ReportEnginePrivate::isNeedToSave()
-{
-    foreach(PageDesignIntf* page, m_pages){
-        if (page->isHasChanges()) return true;
-    }
-    return false;
-}
-
-bool ReportEnginePrivate::saveToFile()
-{
-    if (m_fileName.isEmpty()) return false;
-    return saveToFile(m_fileName);
-}
-
-QString ReportEnginePrivate::renderToString()
-{
-    LimeReport::ReportRender render;
+    LimeReport::LimeRender render;
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
     if (m_pages.count()){
@@ -849,7 +667,7 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
-PageDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
+PageDesignIntf* LimeRenderPrivate::getPageByName(const QString& pageName)
 {
     foreach(PageDesignIntf* page, m_pages){
         if ( page->objectName().compare(pageName, Qt::CaseInsensitive) == 0)
@@ -858,22 +676,22 @@ PageDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
     return 0;
 }
 
-Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
+Qt::LayoutDirection LimeRenderPrivate::previewLayoutDirection()
 {
     return m_previewLayoutDirection;
 }
 
-void ReportEnginePrivate::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
+void LimeRenderPrivate::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
 {
     m_previewLayoutDirection = layoutDirection;
 }
 
-void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
+void LimeRenderPrivate::setPassPhrase(const QString &passPhrase)
 {
     m_passPhrase = passPhrase;
 }
 
-void ReportEnginePrivate::reorderPages(const QList<PageDesignIntf *>& reorderedPages)
+void LimeRenderPrivate::reorderPages(const QList<PageDesignIntf *>& reorderedPages)
 {
     m_pages.clear();
     foreach(PageDesignIntf* page, reorderedPages){
@@ -881,7 +699,7 @@ void ReportEnginePrivate::reorderPages(const QList<PageDesignIntf *>& reorderedP
     }
 }
 
-void ReportEnginePrivate::clearSelection()
+void LimeRenderPrivate::clearSelection()
 {
     foreach (PageDesignIntf* page, m_pages) {
         foreach(QGraphicsItem* item, page->selectedItems()){
@@ -890,7 +708,7 @@ void ReportEnginePrivate::clearSelection()
     }
 }
 
-bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
+bool LimeRenderPrivate::addTranslationLanguage(QLocale::Language language)
 {
     if (!m_translations.keys().contains(language)){
         ReportTranslation* translation = 0;
@@ -907,12 +725,12 @@ bool ReportEnginePrivate::addTranslationLanguage(QLocale::Language language)
     }
 }
 
-bool ReportEnginePrivate::removeTranslationLanguage(QLocale::Language language)
+bool LimeRenderPrivate::removeTranslationLanguage(QLocale::Language language)
 {
     return m_translations.remove(language) != 0;
 }
 
-void ReportEnginePrivate::activateLanguage(QLocale::Language language)
+void LimeRenderPrivate::activateLanguage(QLocale::Language language)
 {
     if (!m_translations.keys().contains(language)) return;
     ReportTranslation* translation = m_translations.value(language);
@@ -932,89 +750,79 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
     }
 }
 
-QString ReportEnginePrivate::styleSheet() const
-{
-    return m_styleSheet;
-}
-
-void ReportEnginePrivate::setStyleSheet(const QString &styleSheet)
-{
-    m_styleSheet = styleSheet;
-}
-
-bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
+bool LimeRenderPrivate::setReportLanguage(QLocale::Language language){
     m_reportLanguage = language;
     if (!m_translations.keys().contains(language)) return false;
-    //    activateLanguage(language);
+//    activateLanguage(language);
     return true;
 }
 
-QList<QLocale::Language> ReportEnginePrivate::aviableLanguages()
+QList<QLocale::Language> LimeRenderPrivate::aviableLanguages()
 {
     return  m_translations.keys();
 }
 
-ReportTranslation*ReportEnginePrivate::reportTranslation(QLocale::Language language)
+ReportTranslation*LimeRenderPrivate::reportTranslation(QLocale::Language language)
 {
     return m_translations.value(language);
 }
 
-bool ReportEnginePrivate::resultIsEditable() const
+bool LimeRenderPrivate::resultIsEditable() const
 {
     return m_resultIsEditable;
 }
 
-void ReportEnginePrivate::setResultEditable(bool value)
+void LimeRenderPrivate::setResultEditable(bool value)
 {
     m_resultIsEditable = value;
 }
 
-bool ReportEnginePrivate::suppressFieldAndVarError() const
+bool LimeRenderPrivate::suppressFieldAndVarError() const
 {
     return m_reportSettings.suppressAbsentFieldsAndVarsWarnings();
 }
 
-void ReportEnginePrivate::setSuppressFieldAndVarError(bool suppressFieldAndVarError)
+void LimeRenderPrivate::setSuppressFieldAndVarError(bool suppressFieldAndVarError)
 {
     m_reportSettings.setSuppressAbsentFieldsAndVarsWarnings(suppressFieldAndVarError);
 }
 
-bool ReportEnginePrivate::isBusy()
+bool LimeRenderPrivate::isBusy()
 {
-    return m_reportRendering;
+    return m_LimeRendering;
 }
 
-QString ReportEnginePrivate::previewWindowTitle() const
+QString LimeRenderPrivate::previewWindowTitle() const
 {
     return m_previewWindowTitle;
 }
 
-void ReportEnginePrivate::setPreviewWindowTitle(const QString &previewWindowTitle)
+void LimeRenderPrivate::setPreviewWindowTitle(const QString &previewWindowTitle)
 {
     m_previewWindowTitle = previewWindowTitle;
 }
 
-QIcon ReportEnginePrivate::previewWindowIcon() const
+QIcon LimeRenderPrivate::previewWindowIcon() const
 {
     return m_previewWindowIcon;
 }
 
-void ReportEnginePrivate::setPreviewWindowIcon(const QIcon &previewWindowIcon)
+void LimeRenderPrivate::setPreviewWindowIcon(const QIcon &previewWindowIcon)
 {
     m_previewWindowIcon = previewWindowIcon;
 }
 
-ReportPages ReportEnginePrivate::renderToPages()
+ReportPages LimeRenderPrivate::renderToPages()
 {
-    if (m_reportRendering) return ReportPages();
-    m_reportRender = ReportRender::Ptr(new ReportRender);
+    if (m_LimeRendering) return ReportPages();
+    m_LimeRender = LimeRender::Ptr(new LimeRender);
 
     dataManager()->clearErrors();
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
     dataManager()->updateDatasourceModel();
 
-    connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
+    connect(m_LimeRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
 
     if (m_pages.count()){
@@ -1022,10 +830,10 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_scriptEngineContext->initDialogs();
 #endif
         ReportPages result;
-        m_reportRendering = true;
+        m_LimeRendering = true;
 
-        m_reportRender->setDatasources(dataManager());
-        m_reportRender->setScriptContext(scriptContext());
+        m_LimeRender->setDatasources(dataManager());
+        m_LimeRender->setScriptContext(scriptContext());
 
         foreach (PageDesignIntf* page, m_pages) {
             scriptContext()->baseDesignIntfToScript(page->pageItem()->objectName(), page->pageItem());
@@ -1041,12 +849,12 @@ ReportPages ReportEnginePrivate::renderToPages()
             foreach(PageDesignIntf* page , m_pages){
                 if (!page->pageItem()->isTOC()){
                     page->setReportSettings(&m_reportSettings);
-                    result.append(m_reportRender->renderPageToPages(page));
+                    result.append(m_LimeRender->renderPageToPages(page));
                 }
             }
 
 
-//            m_reportRender->secondRenderPass(result);
+//            m_LimeRender->secondRenderPass(result);
 
             for (int i=0; i<m_pages.count(); ++i){
                  PageDesignIntf* page = m_pages.at(i);
@@ -1055,7 +863,7 @@ ReportPages ReportEnginePrivate::renderToPages()
                     if (i==0){
                         PageDesignIntf* secondPage = 0;
                         if (m_pages.count()>1) secondPage = m_pages.at(1);
-                        ReportPages pages = m_reportRender->renderTOC(
+                        ReportPages pages = m_LimeRender->renderTOC(
                                     page,
                                     true,
                                     secondPage && secondPage->pageItem()->resetPageNumber()
@@ -1065,17 +873,17 @@ ReportPages ReportEnginePrivate::renderToPages()
                         }
 
                     } else {
-                        result.append(m_reportRender->renderPageToPages(page));
+                        result.append(m_LimeRender->renderPageToPages(page));
                     }
                 }
             }
 
-            m_reportRender->secondRenderPass(result);
+            m_LimeRender->secondRenderPass(result);
 
             emit renderFinished();
-            m_reportRender.clear();
+            m_LimeRender.clear();
         }
-        m_reportRendering = false;
+        m_LimeRendering = false;
         activateLanguage(QLocale::AnyLanguage);
         return result;
     } else {
@@ -1083,234 +891,202 @@ ReportPages ReportEnginePrivate::renderToPages()
     }
 }
 
-QString ReportEnginePrivate::lastError()
+QString LimeRenderPrivate::lastError()
 {
     return m_lastError;
 }
 
-ReportEngine::ReportEngine(QObject *parent)
-    : QObject(parent), d_ptr(new ReportEnginePrivate())
+LimeRender::LimeRender(QObject *parent)
+    : QObject(parent), d_ptr(new LimeRenderPrivate())
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->q_ptr=this;
     connect(d, SIGNAL(renderStarted()), this, SIGNAL(renderStarted()));
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
-    connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
-    connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
 }
 
-ReportEngine::~ReportEngine()
+LimeRender::~LimeRender()
 {
     delete d_ptr;
 }
 
-bool ReportEngine::printReport(QPrinter *printer)
+bool LimeRender::printReport(QPrinter *printer)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->printReport(printer);
 }
 
-bool ReportEngine::printPages(ReportPages pages, QPrinter *printer){
-    Q_D(ReportEngine);
+bool LimeRender::printPages(ReportPages pages, QPrinter *printer){
+    Q_D(LimeRender);
     return d->printPages(pages,printer);
 }
 
-void ReportEngine::printToFile(const QString &fileName)
+void LimeRender::printToFile(const QString &fileName)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->printToFile(fileName);
 }
 
-bool ReportEngine::printToPDF(const QString &fileName)
+bool LimeRender::printToPDF(const QString &fileName)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->printToPDF(fileName);
 }
 
-void ReportEngine::previewReport(PreviewHints hints)
+void LimeRender::previewReport(PreviewHints hints)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     if (m_settings)
         d->setSettings(m_settings);
     d->previewReport(hints);
 }
 
-void ReportEngine::designReport()
+void LimeRender::designReport()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     if (m_settings)
         d->setSettings(m_settings);
     d->designReport();
 }
 
-ReportDesignWindowInterface*ReportEngine::getDesignerWindow()
+PreviewReportWidget* LimeRender::createPreviewWidget(QWidget *parent)
 {
-    Q_D(ReportEngine);
-    return d->getDesignerWindow();
-}
-
-PreviewReportWidget* ReportEngine::createPreviewWidget(QWidget *parent)
-{
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->createPreviewWidget(parent);
 }
 
-void ReportEngine::setPreviewWindowTitle(const QString &title)
+void LimeRender::setPreviewWindowTitle(const QString &title)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->setPreviewWindowTitle(title);
 }
 
-void ReportEngine::setPreviewWindowIcon(const QIcon &icon)
+void LimeRender::setPreviewWindowIcon(const QIcon &icon)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->setPreviewWindowIcon(icon);
 }
 
-void ReportEngine::setResultEditable(bool value)
+void LimeRender::setResultEditable(bool value)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->setResultEditable(value);
 }
 
-bool ReportEngine::resultIsEditable()
+bool LimeRender::resultIsEditable()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->resultIsEditable();
 }
 
-bool ReportEngine::isBusy()
+bool LimeRender::isBusy()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->isBusy();
 }
 
-void ReportEngine::setPassPharse(QString &passPharse)
+void LimeRender::setPassPharse(QString &passPharse)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->setPassPhrase(passPharse);
 }
 
-QList<QLocale::Language> ReportEngine::aviableLanguages()
+QList<QLocale::Language> LimeRender::aviableLanguages()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->aviableLanguages();
 }
 
-bool ReportEngine::setReportLanguage(QLocale::Language language)
+bool LimeRender::setReportLanguage(QLocale::Language language)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->setReportLanguage(language);
 }
 
-void ReportEngine::setShowProgressDialog(bool value)
+void LimeRender::setShowProgressDialog(bool value)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->setShowProgressDialog(value);
 }
 
-IDataSourceManager *ReportEngine::dataManager()
+IDataSourceManager *LimeRender::dataManager()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->dataManagerIntf();
 }
 
-IScriptEngineManager *ReportEngine::scriptManager()
+IScriptEngineManager *LimeRender::scriptManager()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->scriptManagerIntf();
 }
 
-bool ReportEngine::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
+bool LimeRender::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->loadFromFile(fileName, autoLoadPreviewOnChange);
 }
 
-bool ReportEngine::loadFromByteArray(QByteArray* data){
-    Q_D(ReportEngine);
+bool LimeRender::loadFromByteArray(QByteArray* data){
+    Q_D(LimeRender);
     return d->loadFromByteArray(data);
 }
 
-bool ReportEngine::loadFromString(const QString &data)
+bool LimeRender::loadFromString(const QString &data)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->loadFromString(data);
 }
 
-QString ReportEngine::reportFileName()
+QString LimeRender::reportFileName()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->reportFileName();
 }
 
-void ReportEngine::setReportFileName(const QString &fileName)
+void LimeRender::setReportFileName(const QString &fileName)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->setReportFileName(fileName);
 }
 
-bool ReportEngine::saveToFile()
+QString LimeRender::lastError()
 {
-    Q_D(ReportEngine);
-    return d->saveToFile();
-}
-
-bool ReportEngine::saveToFile(const QString &fileName)
-{
-    Q_D(ReportEngine);
-    return d->saveToFile(fileName);
-}
-
-QByteArray ReportEngine::saveToByteArray()
-{
-    Q_D(ReportEngine);
-    return d->saveToByteArray();
-}
-
-QString ReportEngine::saveToString()
-{
-    Q_D(ReportEngine);
-    return d->saveToString();
-}
-
-QString ReportEngine::lastError()
-{
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->lastError();
 }
 
-void ReportEngine::setCurrentReportsDir(const QString &dirName)
+void LimeRender::setCurrentReportsDir(const QString &dirName)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->setCurrentReportsDir(dirName);
 }
 
-void ReportEngine::setReportName(const QString &name)
+void LimeRender::setReportName(const QString &name)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->setReportName(name);
 }
 
-QString ReportEngine::reportName()
+QString LimeRender::reportName()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     return d->reportName();
 }
 
-void ReportEngine::cancelRender()
+void LimeRender::cancelRender()
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->cancelRender();
 }
 
-ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
+LimeRender::LimeRender(LimeRenderPrivate &dd, QObject *parent)
     :QObject(parent),d_ptr(&dd)
 {
-    Q_D(ReportEngine);
+    Q_D(LimeRender);
     d->q_ptr=this;
     connect(d, SIGNAL(renderStarted()), this, SIGNAL(renderStarted()));
     connect(d, SIGNAL(renderPageFinished(int)),
@@ -1318,7 +1094,7 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
 }
 
-ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
+ScriptEngineManager*LimeReport::LimeRenderPrivate::scriptManager(){
     ScriptEngineManager::instance().setContext(scriptContext());
     ScriptEngineManager::instance().setDataManager(dataManager());
     return &ScriptEngineManager::instance();

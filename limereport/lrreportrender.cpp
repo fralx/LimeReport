@@ -29,7 +29,6 @@
  ****************************************************************************/
 #include <stdexcept>
 #include <QMessageBox>
-#include <QApplication>
 
 #include "lrglobal.h"
 #include "lrreportrender.h"
@@ -411,7 +410,7 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
 
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
-    QApplication::processEvents();
+    QCoreApplication::processEvents();
     if (patternBand){
 
         BandDesignIntf* bandClone = 0;

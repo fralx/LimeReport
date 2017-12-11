@@ -66,10 +66,10 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     connect(m_previewReportWidget->d_ptr->m_previewPage,SIGNAL(selectionChanged()),this,SLOT(slotSelectionChanged()));
     connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
 
-    m_fontEditor = new FontEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
+    m_fontEditor = new FontEditorWidgetForPage(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
     m_fontEditor->setObjectName("fontTools");
     m_fontEditor->setIconSize(ui->toolBar->iconSize());
-    m_textAlignmentEditor = new TextAlignmentEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Text align"),this);
+    m_textAlignmentEditor = new TextAlignmentEditorWidgetForPage(m_previewReportWidget->d_ptr->m_previewPage,tr("Text align"),this);
     m_textAlignmentEditor->setObjectName("textAlignmentTools");
     m_textAlignmentEditor->setIconSize(ui->toolBar->iconSize());
     addToolBar(Qt::TopToolBarArea,m_fontEditor);
@@ -183,7 +183,7 @@ QSettings*PreviewReportWindow::settings()
     if (m_settings){
         return m_settings;
     } else {
-        m_settings = new QSettings("LimeReport",QApplication::applicationName());
+        m_settings = new QSettings("LimeReport",QCoreApplication::applicationName());
         m_ownedSettings = true;
         return m_settings;
     }

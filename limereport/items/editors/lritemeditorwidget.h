@@ -31,7 +31,11 @@
 #define LRITEMEDITORWIDGET_H
 
 #include <QToolBar>
+
+#ifdef HAVE_REPORT_DESIGNER
 #include "lrreportdesignwidget.h"
+#endif
+#include "lrpagedesignintf.h"
 
 namespace LimeReport {
 
@@ -39,26 +43,18 @@ class ItemEditorWidget : public QToolBar
 {
     Q_OBJECT
 public:
-    explicit ItemEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
-    explicit ItemEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
-    explicit ItemEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
-    explicit ItemEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
-
+    explicit ItemEditorWidget(const QString &title, QWidget *parent = 0)
+        : QToolBar(title, parent), m_item(0){}
     void setItem(BaseDesignIntf *item);
-    void setReportEditor(ReportDesignWidget* editor){m_reportEditor = editor;}
 protected:
     virtual void setItemEvent(BaseDesignIntf*){}
     virtual void properyChangedEvent(const QString& propertName, const QVariant& oldValue, const QVariant& newValue);
     BaseDesignIntf* item(){return m_item;}
-    ReportDesignWidget* reportEditor(){return m_reportEditor;}
-    PageDesignIntf* page(){return m_page;}
 private slots:
     void slotItemDestroyed(QObject* item);
     void slotPropertyChanged(const QString& propertName, const QVariant& oldValue, const QVariant& newValue);
 private:
-    ReportDesignWidget* m_reportEditor;
     BaseDesignIntf* m_item;
-    PageDesignIntf* m_page;
 };
 
 } // namespace LimeReport

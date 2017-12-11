@@ -24,10 +24,10 @@
 QToolTip
 {
     border: 1px solid #2b2b2b;
-    background-color: rgb(90, 102, 117);;
+    background-color: #383838;
     color: white;
     padding: 5px;
-    opacity: 200;
+\\    opacity: 200;
 }
 
 QWidget
@@ -82,63 +82,6 @@ QGroupBox::indicator
     margin-left: 2px;
 }
 
-\\QCheckBox::indicator:unchecked
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_unchecked.png);
-\\}
-
-\\QCheckBox::indicator:unchecked:hover,
-\\QCheckBox::indicator:unchecked:focus,
-\\QCheckBox::indicator:unchecked:pressed,
-\\QGroupBox::indicator:unchecked:hover,
-\\QGroupBox::indicator:unchecked:focus,
-\\QGroupBox::indicator:unchecked:pressed
-\\{
-\\  border: none;
-\\    image: url(:/qss_icons/rc/checkbox_unchecked_focus.png);
-\\}
-
-\\QCheckBox::indicator:checked
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_checked.png);
-\\}
-
-\\QCheckBox::indicator:checked:hover,
-\\QCheckBox::indicator:checked:focus,
-\\QCheckBox::indicator:checked:pressed,
-\\QGroupBox::indicator:checked:hover,
-\\QGroupBox::indicator:checked:focus,
-\\QGroupBox::indicator:checked:pressed
-\\{
-\\  border: none;
-\\    image: url(:/qss_icons/rc/checkbox_checked_focus.png);
-\\}
-
-
-\\QCheckBox::indicator:indeterminate
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_indeterminate.png);
-\\}
-
-\\QCheckBox::indicator:indeterminate:focus,
-\\QCheckBox::indicator:indeterminate:hover,
-\\QCheckBox::indicator:indeterminate:pressed
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_indeterminate_focus.png);
-\\}
-
-\\QCheckBox::indicator:checked:disabled,
-\\QGroupBox::indicator:checked:disabled
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_checked_disabled.png);
-\\}
-
-\\QCheckBox::indicator:unchecked:disabled,
-\\QGroupBox::indicator:unchecked:disabled
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_unchecked_disabled.png);
-\\}
-
 QRadioButton
 {
     spacing: 5px;
@@ -157,52 +100,11 @@ QRadioButton::indicator
     height: 16px;
 }
 
-\\QRadioButton::indicator:unchecked
-\\{
-\\    image: url(:/qss_icons/rc/radio_unchecked.png);
-\\}
-
-
-\\QRadioButton::indicator:unchecked:hover,
-\\QRadioButton::indicator:unchecked:focus,
-\\QRadioButton::indicator:unchecked:pressed
-\\{
-\\    border: none;
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_unchecked_focus.png);
-\\}
-
-\\QRadioButton::indicator:checked
-\\{
-\\    border: none;
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_checked.png);
-\\}
-
-\\QRadioButton::indicator:checked:hover,
-\\QRadioButton::indicator:checked:focus,
-\\QRadioButton::indicator:checked:pressed
-\\{
-\\    border: none;
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_checked_focus.png);
-\\}
-
-\\QRadioButton::indicator:checked:disabled
-\\{
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_checked_disabled.png);
-\\}
-
-\\QRadioButton::indicator:unchecked:disabled
-\\{
-\\    image: url(:/qss_icons/rc/radio_unchecked_disabled.png);
-\\}
-
 QMenuBar
 {
-    background-color: #383838;
+    background-color: #2f2f2f;
     color: #eff0f1;
+    border-bottom: 1px solid #2b2b2b;
 }
 
 QMenuBar::item
@@ -213,13 +115,15 @@ QMenuBar::item
 QMenuBar::item:selected
 {
     background: transparent;
+    background-color: #8fa876;
     border: 1px solid #2b2b2b;
 }
 
 QMenuBar::item:pressed
 {
     border: 1px solid #2b2b2b;
-    background-color: #2e2e2e;
+\\    background-color: #2e2e2e;
+    background-color: #8fa876;
     color: #eff0f1;
     margin-bottom:-1px;
     padding-bottom:1px;
@@ -328,7 +232,11 @@ QTabWidget:focus, QCheckBox:focus, QRadioButton:focus, QSlider:focus
 QLineEdit
 {
     background-color: #232629;
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 1px;
     border-style: solid;
     border: 1px solid #2b2b2b;
     border-radius: 2px;
@@ -490,7 +398,6 @@ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical
     background: none;
 }
 
-
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
 {
     background: none;
@@ -579,8 +486,9 @@ QStackedWidget
 
 QToolBar {
     border: 1px transparent #2b2b2b;
-    background: 1px solid #383838;
+\\    background: 1px solid #383838;
     font-weight: bold;
+    border-bottom: 1px solid #2b2b2b;
 }
 
 QToolBar::handle:horizontal {
@@ -648,7 +556,11 @@ QComboBox
     border-style: solid;
     border: 1px solid #2b2b2b;
     border-radius: 2px;
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 1px;
     min-width: 75px;
 }
 
@@ -703,7 +615,11 @@ QComboBox::down-arrow:focus
 }
 
 QAbstractSpinBox {
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 1px;
     border: 1px solid #2b2b2b;
     background-color: #232629;
     color: #eff0f1;
@@ -964,7 +880,8 @@ QTreeView::branch:selected{
 }
 
 QTreeView::branch:!selected:hover, QTreeView::item:!selected:hover{
-    background-color: #287399;
+\\    background-color: #287399;
+    background-color: #819a67;
 }
 
 QTreeView::branch:has-siblings:!adjoins-item {
@@ -1036,7 +953,7 @@ QSlider::handle:vertical {
 QToolButton {
     background-color: #383838;
     color : white;
-    border: 1px transparent #2b2b2b;
+    border: 1px solid #383838;
     border-radius: 2px;
     margin: 2px;
     padding: 2px;
@@ -1059,42 +976,43 @@ QToolButton:text{
 
 QToolButton:disabled{
     background-color: transparent;
-}
-
-QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
- padding-right: 20px; /* make way for the popup button */
- border: 1px #2b2b2b;
- border-radius: 5px;
-}
-
-QToolButton[popupMode="2"] { /* only for InstantPopup */
- padding-right: 10px; /* make way for the popup button */
- border: 1px #2b2b2b;
-}
-
-/* the subcontrol below is used only in the InstantPopup or DelayedPopup mode */
-QToolButton::menu-indicator {
-    image: url(:/qss_icons/rc/down_arrow.png);
-    top: -7px; left: -2px; /* shift it a bit */
-}
-
-/* the subcontrols below are used only in the MenuButtonPopup mode */
-QToolButton::menu-button {
     border: 1px transparent #2b2b2b;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    /* 16px width + 4px for border = 20px allocated above */
-    width: 16px;
-    outline: none;
 }
-
-QToolButton::menu-arrow {
-    image: url(:/qss_icons/rc/down_arrow.png);
-}
-
-QToolButton::menu-arrow:open {
-    border: 1px solid #2b2b2b;
-}
+\\
+\\QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
+\\ padding-right: 20px; /* make way for the popup button */
+\\ border: 1px #2b2b2b;
+\\ border-radius: 5px;
+\\}
+\\
+\\QToolButton[popupMode="2"] { /* only for InstantPopup */
+\\ padding-right: 10px; /* make way for the popup button */
+\\ border: 1px #2b2b2b;
+\\}
+\\
+\\/* the subcontrol below is used only in the InstantPopup or DelayedPopup mode */
+\\QToolButton::menu-indicator {
+\\    image: url(:/qss_icons/rc/down_arrow.png);
+\\    top: -7px; left: -2px; /* shift it a bit */
+\\}
+\\
+\\/* the subcontrols below are used only in the MenuButtonPopup mode */
+\\QToolButton::menu-button {
+\\    border: 1px transparent #2b2b2b;
+\\    border-top-right-radius: 6px;
+\\    border-bottom-right-radius: 6px;
+\\    /* 16px width + 4px for border = 20px allocated above */
+\\    width: 16px;
+\\    outline: none;
+\\}
+\\
+\\QToolButton::menu-arrow {
+\\    image: url(:/qss_icons/rc/down_arrow.png);
+\\}
+\\
+\\QToolButton::menu-arrow:open {
+\\    border: 1px solid #2b2b2b;
+\\}
 
 QPushButton::menu-indicator  {
     subcontrol-origin: padding;

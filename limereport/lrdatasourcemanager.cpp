@@ -1503,7 +1503,7 @@ VariableDataType DataSourceManager::variableDataType(const QString& name)
 {
     if (m_reportVariables.containsVariable(name))
         return m_reportVariables.variableByName(name)->dataType();
-    return VariableDataType::Undefined;
+    return Enums::Undefined;
 }
 
 void DataSourceManager::setVariableDataType(const QString& name, VariableDataType value)

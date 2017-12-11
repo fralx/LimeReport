@@ -365,11 +365,9 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         m_resizeDirectionFlags = resizeDirectionFlags(event->pos());
-        //m_startScenePos = event->scenePos();
         m_startPos = pos();
         m_oldGeometry = geometry();
         QGraphicsItem::mousePressEvent(event);
-        //QApplication::processEvents();
         emit(itemSelected(this));
     }
     else QGraphicsItem::mousePressEvent(event);
@@ -1141,8 +1139,16 @@ void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+QWidget* findRootWidget(QWidget* widget){
+    while (widget->parentWidget()) {
+        widget = widget->parentWidget();
+    }
+    return widget;
+}
+
 void BaseDesignIntf::showEditorDialog(){
-    QWidget *editor = defaultEditor();
+    QWidget *editor = defaultEditor(); 
+    editor->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
     if (editor) {
 
 #ifdef Q_OS_WIN

@@ -62,8 +62,8 @@ namespace LimeReport{
 
 ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
-ReportDesignWindow::ReportDesignWindow(ReportEngine *report, QWidget *parent, QSettings* settings) :
-    QMainWindow(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
+ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWidget *parent, QSettings* settings) :
+    ReportDesignWindowInterface(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
     m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page), m_reportItemIsLocked(false)
 {
     initReportEditor(report);
@@ -309,11 +309,11 @@ void ReportDesignWindow::createToolBars()
 
     //m_mainToolBar->addAction(m_printReportAction);
 
-    m_fontEditorBar = new FontEditorWidget(m_reportDesignWidget,tr("Font"),this);
+    m_fontEditorBar = new FontEditorWidgetForDesigner(m_reportDesignWidget,tr("Font"),this);
     m_fontEditorBar->setIconSize(m_mainToolBar->iconSize());
     m_fontEditorBar->setObjectName("fontTools");
     addToolBar(m_fontEditorBar);
-    m_textAlignmentEditorBar = new TextAlignmentEditorWidget(m_reportDesignWidget,tr("Text alignment"),this);
+    m_textAlignmentEditorBar = new TextAlignmentEditorWidgetForDesigner(m_reportDesignWidget,tr("Text alignment"),this);
     m_textAlignmentEditorBar->setIconSize(m_mainToolBar->iconSize());
     m_textAlignmentEditorBar->setObjectName("textAlignmentTools");
     addToolBar(m_textAlignmentEditorBar);
@@ -324,7 +324,7 @@ void ReportDesignWindow::createToolBars()
     m_itemsAlignmentEditorBar->insertAction(m_itemsAlignmentEditorBar->actions().at(1),m_useMagnetAction);
     m_itemsAlignmentEditorBar->insertSeparator(m_itemsAlignmentEditorBar->actions().at(2));
     addToolBar(m_itemsAlignmentEditorBar);
-    m_itemsBordersEditorBar = new ItemsBordersEditorWidget(m_reportDesignWidget,tr("Borders"),this);
+    m_itemsBordersEditorBar = new ItemsBordersEditorWidgetForDesigner(m_reportDesignWidget,tr("Borders"),this);
     m_itemsBordersEditorBar->setIconSize(m_mainToolBar->iconSize());
     m_itemsBordersEditorBar->setObjectName("itemsBorderTools");
     addToolBar(m_itemsBordersEditorBar);
@@ -459,7 +459,7 @@ void ReportDesignWindow::createMainMenu()
     m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
-void ReportDesignWindow::initReportEditor(ReportEngine* report)
+void ReportDesignWindow::initReportEditor(ReportEnginePrivateInterface* report)
 {
     m_reportDesignWidget=new ReportDesignWidget(report,this,this);
     setCentralWidget(m_reportDesignWidget);
@@ -472,16 +472,16 @@ void ReportDesignWindow::initReportEditor(ReportEngine* report)
     connect(m_reportDesignWidget,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)),
             this,SLOT(slotItemInserted(LimeReport::PageDesignIntf*,QPointF,QString)));
     connect(m_reportDesignWidget,SIGNAL(itemInsertCanceled(QString)),this,SLOT(slotItemInsertCanceled(QString)));
-    connect(m_reportDesignWidget->report(),SIGNAL(datasourceCollectionLoadFinished(QString)),this,SLOT(slotUpdateDataBrowser(QString)));
+    connect(dynamic_cast<QObject*>(report), SIGNAL(datasourceCollectionLoadFinished(QString)),this,SLOT(slotUpdateDataBrowser(QString)));
     connect(m_reportDesignWidget,SIGNAL(commandHistoryChanged()),this,SLOT(slotCommandHistoryChanged()));
     connect(m_reportDesignWidget,SIGNAL(activePageChanged()),this,SLOT(slotActivePageChanged()));
     connect(m_reportDesignWidget, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(m_reportDesignWidget, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
-    connect(m_reportDesignWidget->report(), SIGNAL(renderStarted()), this, SLOT(renderStarted()));
-    connect(m_reportDesignWidget->report(), SIGNAL(renderPageFinished(int)), this, SLOT(renderPageFinished(int)));
-    connect(m_reportDesignWidget->report(), SIGNAL(renderFinished()), this, SLOT(renderFinished()));
+    connect(dynamic_cast<QObject*>(report), SIGNAL(renderStarted()), this, SLOT(renderStarted()));
+    connect(dynamic_cast<QObject*>(report), SIGNAL(renderPageFinished(int)), this, SLOT(renderPageFinished(int)));
+    connect(dynamic_cast<QObject*>(report), SIGNAL(renderFinished()), this, SLOT(renderFinished()));
     connect(m_reportDesignWidget, SIGNAL(pageAdded(PageDesignIntf*)), this, SLOT(slotPageAdded(PageDesignIntf*)));
     connect(m_reportDesignWidget, SIGNAL(pageDeleted()), this, SLOT(slotPageDeleted()));
 }
@@ -1311,7 +1311,7 @@ void ReportDesignWindow::renderStarted()
 {
     if (m_showProgressDialog){
         m_progressDialog = new QProgressDialog(tr("Rendering report"),tr("Abort"),0,0,this);
-        m_progressDialog->open(m_reportDesignWidget->report(),SLOT(cancelRender()));
+        m_progressDialog->open(dynamic_cast<QObject*>(m_reportDesignWidget->report()), SLOT(cancelRender()));
         QApplication::processEvents();
     }
 }

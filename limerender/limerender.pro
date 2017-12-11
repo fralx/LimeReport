@@ -1,7 +1,7 @@
 contains(CONFIG,release) {
-	TARGET = limereport
+	TARGET = limerender
 } else {
-	TARGET = limereportd
+	TARGET = limerenderd
 }
 
 TEMPLATE = lib
@@ -28,21 +28,20 @@ DEFINES += LIMEREPORT_EXPORTS
 
 contains(CONFIG, staticlib){
     DEFINES += HAVE_STATIC_BUILD
-    message(Static Build)
+    message(STATIC_BUILD)
     DEFINES -= LIMEREPORT_EXPORTS
 }
 
 EXTRA_FILES += \
-    $$PWD/lrglobal.cpp \
-    $$PWD/lrglobal.h \
-    $$PWD/lrdatasourcemanagerintf.h \
-    $$PWD/lrreportengine.h \
-    $$PWD/lrscriptenginemanagerintf.h \
-    $$PWD/lrcallbackdatasourceintf.h \
-    $$PWD/lrpreviewreportwidget.h \
-    $$PWD/lrreportdesignwindowintrerface.h
+    $$PWD/../limereport/lrglobal.cpp \
+    $$PWD/../limereport/lrglobal.h \
+    $$PWD/../limereport/lrdatasourcemanagerintf.h \
+    $$PWD/../limereport/lrreportengine.h \
+    $$PWD/../limereport/lrscriptenginemanagerintf.h \
+    $$PWD/../limereport/lrcallbackdatasourceintf.h \
+    $$PWD/../limereport/lrpreviewreportwidget.h
 
-include(limereport.pri)
+include(limerender.pri)
 
 unix:{
     DESTDIR  = $${DEST_LIBS}
@@ -90,7 +89,7 @@ contains(CONFIG,zint){
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es_ES ar fr
+    LANGUAGES = ru es_ES ar
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3
@@ -123,5 +122,3 @@ lessThan(QT_MAJOR_VERSION, 5){
 }
 
 #### EN AUTOMATIC TRANSLATIONS
-
-

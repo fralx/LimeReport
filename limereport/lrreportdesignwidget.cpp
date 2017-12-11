@@ -51,12 +51,12 @@ namespace LimeReport {
 
 // ReportDesignIntf
 
-ReportDesignWidget::ReportDesignWidget(ReportEngine *report, QMainWindow *mainWindow, QWidget *parent) :
+ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QMainWindow *mainWindow, QWidget *parent) :
     QWidget(parent),
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     m_dialogDesignerManager(new DialogDesignerManager(this)),
 #endif
-    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false), m_dialogChanged(false)
+    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false), m_dialogChanged(false), m_useDarkTheme(false)
 {
 #ifdef HAVE_QT4
     m_tabWidget = new LimeReportTabWidget(this);
@@ -72,20 +72,20 @@ ReportDesignWidget::ReportDesignWidget(ReportEngine *report, QMainWindow *mainWi
     mainLayout->addWidget(m_tabWidget);
     setLayout(mainLayout);
 
-    if (!report) {
-        m_report=new ReportEnginePrivate(this);
-        m_report->setObjectName("report");
-        m_report->appendPage("page1");
-    }
-    else {
-        m_report=report->d_ptr;
+//    if (!report) {
+//        m_report=new ReportEnginePrivate(this);
+//        m_report->setObjectName("report");
+//        m_report->appendPage("page1");
+//    }
+//    else {
+        m_report=report;//report->d_ptr;
         if (!m_report->pageCount()) m_report->appendPage("page1");
-    }
+//    }
 
     createTabs();
 
-    connect(m_report,SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
-    connect(m_report,SIGNAL(cleared()),this,SIGNAL(cleared()));
+    connect(dynamic_cast<QObject*>(m_report), SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
+    connect(dynamic_cast<QObject*>(m_report), SIGNAL(cleared()),this,SIGNAL(cleared()));
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
 #ifdef HAVE_UI_LOADER
     connect(m_report->scriptContext(), SIGNAL(dialogDeleted(QString)), this, SLOT(slotDialogDeleted(QString)));
@@ -189,6 +189,7 @@ void ReportDesignWidget::saveState(QSettings* settings)
     settings->setValue("vGridStep",m_verticalGridStep);
     settings->setValue("defaultFont",m_defaultFont);
     settings->setValue("useGrid",m_useGrid);
+    settings->setValue("useDarkTheme",m_useDarkTheme);
     settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
     settings->endGroup();
 }
@@ -199,6 +200,13 @@ void ReportDesignWidget::applySettings()
         m_report->pageAt(i)->pageItem()->setFont(m_defaultFont);
     }
     applyUseGrid();
+    if (m_useDarkTheme) {
+        QFile theme(":/qdarkstyle/style.qss");
+        theme.open(QIODevice::ReadOnly);
+        QString styleSheet = theme.readAll();
+        parentWidget()->setStyleSheet(styleSheet);
+        m_report->setStyleSheet(styleSheet);
+    } else parentWidget()->setStyleSheet("");
 }
 
 void ReportDesignWidget::loadState(QSettings* settings)
@@ -223,6 +231,11 @@ void ReportDesignWidget::loadState(QSettings* settings)
         m_useGrid = v.toBool();
     }
 
+    v = settings->value("useDarkTheme");
+    if (v.isValid()){
+        m_useDarkTheme = v.toBool();
+    }
+
     v = settings->value("ScriptEditorState");
     if (v.isValid()){
         m_scriptEditor->restoreState(v.toByteArray());
@@ -241,9 +254,11 @@ void ReportDesignWidget::createTabs(){
         view->setFrameShape(QFrame::NoFrame);
         view->setScene(m_report->pageAt(i));
 
-        foreach(QGraphicsItem* item, m_report->pageAt(i)->selectedItems()){
-            item->setSelected(false);
-        }
+//        foreach(QGraphicsItem* item, m_report->pageAt(i)->selectedItems()){
+//            item->setSelected(false);
+//        }
+
+        m_report->pageAt(i)->clearSelection();
 
         view->centerOn(0,0);
         view->scale(0.5,0.5);
@@ -363,11 +378,9 @@ void ReportDesignWidget::startEditMode()
 PageDesignIntf * ReportDesignWidget::activePage()
 {
     if (activeView())
-        return qobject_cast<PageDesignIntf*>(activeView()->scene());
+        return dynamic_cast<PageDesignIntf*>(activeView()->scene());
     return 0;
 }
-
-
 
 QList<QGraphicsItem *> ReportDesignWidget::selectedItems(){
     return activePage()->selectedItems();
@@ -695,11 +708,13 @@ void ReportDesignWidget::editSetting()
     setting.setHorizontalGridStep(m_horizontalGridStep);
     setting.setDefaultFont(m_defaultFont);
     setting.setSuppressAbsentFieldsAndVarsWarnings(m_report->suppressFieldAndVarError());
+    setting.setUseDarkTheme(m_useDarkTheme);
 
     if (setting.exec()){
         m_horizontalGridStep = setting.horizontalGridStep();
         m_verticalGridStep = setting.verticalGridStep();
         m_defaultFont = setting.defaultFont();
+        m_useDarkTheme = setting.userDarkTheme();
         m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
         applySettings();
     }
@@ -796,7 +811,8 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->widget(index));
     if (view) {
         if (view->scene()){
-            foreach (QGraphicsItem* item, view->scene()->selectedItems()) item->setSelected(false);
+            //foreach (QGraphicsItem* item, view->scene()->selectedItems()) item->setSelected(false);
+            view->scene()->clearSelection();
         }
         m_zoomer->setView(view);
     }
@@ -807,7 +823,7 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     updateDialogs();
 #endif
     if (activeTabType() == Translations){
-        m_traslationEditor->setReportEngine(report());
+        m_traslationEditor->setReportEngine(dynamic_cast<ITranslationContainer*>(report()));
     }
 
     if (activeTabType() == Script){
@@ -816,6 +832,8 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     }
 
     emit activePageChanged();
+
+    if (view) view->centerOn(0,0);
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION

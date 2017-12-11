@@ -108,6 +108,13 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="cbbUseDarkTheme">
+        <property name="text">
+         <string>Use dark theme</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

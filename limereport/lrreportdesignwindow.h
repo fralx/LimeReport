@@ -43,6 +43,7 @@
 #include "items/editors/lritemsaligneditorwidget.h"
 #include "items/editors/lritemsborderseditorwidget.h"
 #include "lrobjectitemmodel.h"
+#include "lrreportdesignwindowintrerface.h"
 
 namespace LimeReport{
 
@@ -55,11 +56,11 @@ class BaseDesignIntf;
 class PageDesignIntf;
 class ObjectBrowser;
 
-class ReportDesignWindow : public QMainWindow
+class ReportDesignWindow : public ReportDesignWindowInterface
 {
     Q_OBJECT
 public:
-    explicit ReportDesignWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0);
+    explicit ReportDesignWindow(ReportEnginePrivateInterface *report, QWidget *parent = 0, QSettings* settings=0);
     ~ReportDesignWindow();
     static ReportDesignWindow* instance(){return m_instance;}
 
@@ -140,7 +141,7 @@ private:
     void createItemsActions();
     void createObjectInspector();
     void createObjectsBrowser();
-    void initReportEditor(ReportEngine *report);
+    void initReportEditor(ReportEnginePrivateInterface* report);
     void createDataWindow();
     void createScriptWindow();
 #ifdef HAVE_QTDESIGNER_INTEGRATION

@@ -13,6 +13,8 @@ SOURCES += main.cpp
 INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
 
+RESOURCES += $$PWD/../3rdparty/dark_style_sheet/qdarkstyle/style.qrc
+
 DEST_DIR       = $${DEST_BINS}
 REPORTS_DIR    = $${DEST_DIR}
 

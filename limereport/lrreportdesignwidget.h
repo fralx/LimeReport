@@ -84,7 +84,7 @@ public:
         Translations,
         TabTypeCount
     };
-    ReportDesignWidget(ReportEngine* report, QMainWindow *mainWindow, QWidget *parent = 0);
+    ReportDesignWidget(ReportEnginePrivateInterface* report, QMainWindow *mainWindow, QWidget *parent = 0);
     ~ReportDesignWidget();
     void createStartPage();
     void clear();
@@ -105,7 +105,7 @@ public:
     QList<QGraphicsItem *> selectedItems();
     QStringList datasourcesNames();
     void scale( qreal sx, qreal sy);
-    ReportEnginePrivate* report(){return m_report;}
+    ReportEnginePrivateInterface* report(){return m_report;}
     QString reportFileName();
     bool isNeedToSave();
     bool emitLoadReport();
@@ -199,8 +199,9 @@ protected:
 #endif
 private:
     bool eventFilter(QObject *target, QEvent *event);
+    void prepareReport();
 private:
-    ReportEnginePrivate* m_report;
+    ReportEnginePrivateInterface* m_report;
     QGraphicsView *m_view;
     ScriptEditor* m_scriptEditor;
     TranslationEditor* m_traslationEditor;
@@ -221,7 +222,7 @@ private:
     bool m_useGrid;
     bool m_useMagnet;
     bool m_dialogChanged;
-    void prepareReport();
+    bool m_useDarkTheme;
 };
 
 } // namespace LimeReport

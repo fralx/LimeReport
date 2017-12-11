@@ -35,7 +35,6 @@
 #include <QIcon>
 #include <QImage>
 #include <QPainter>
-#include <QApplication>
 #include <QStyle>
 #include <QStylePainter>
 

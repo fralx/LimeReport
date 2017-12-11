@@ -32,18 +32,6 @@
 
 namespace LimeReport{
 
-ItemsBordersEditorWidget::ItemsBordersEditorWidget(ReportDesignWidget* reportEditor, const QString& title, QWidget* parent)
-    : ItemEditorWidget(reportEditor,title,parent), m_changing(false)
-{
-    initEditor();
-}
-
-ItemsBordersEditorWidget::ItemsBordersEditorWidget(ReportDesignWidget* reportEditor, QWidget* parent)
-    : ItemEditorWidget(reportEditor,parent), m_changing(false)
-{
-    initEditor();
-}
-
 void ItemsBordersEditorWidget::setItemEvent(BaseDesignIntf* item)
 {
     QVariant borders=item->property("borders");
@@ -65,8 +53,6 @@ void ItemsBordersEditorWidget::properyChangedEvent(const QString& property, cons
 
 void ItemsBordersEditorWidget::noBordesClicked()
 {
-    if (reportEditor())
-        reportEditor()->setBorders(0);
     updateValues(0);
 }
 
@@ -78,14 +64,11 @@ void ItemsBordersEditorWidget::allBordesClicked()
             BaseDesignIntf::BottomLine;
 
     updateValues((BaseDesignIntf::BorderLines)borders);
-    if (reportEditor())
-        reportEditor()->setBorders((BaseDesignIntf::BorderLines)borders);
 }
 
 void ItemsBordersEditorWidget::buttonClicked(bool)
 {
-    if (!m_changing&&reportEditor())
-        reportEditor()->setBorders(createBorders());
+
 }
 
 void ItemsBordersEditorWidget::initEditor()
@@ -150,5 +133,30 @@ BaseDesignIntf::BorderLines ItemsBordersEditorWidget::createBorders()
     borders += (m_rightLine->isChecked())?BaseDesignIntf::RightLine:0;
     return (BaseDesignIntf::BorderLines)borders;
 }
+
+bool ItemsBordersEditorWidget::changing() const
+{
+    return m_changing;
+}
+
+#ifdef HAVE_REPORT_DESIGNER
+void ItemsBordersEditorWidgetForDesigner::buttonClicked(bool)
+{
+    if (!changing())
+        m_reportEditor->setBorders(createBorders());
+}
+
+void ItemsBordersEditorWidgetForDesigner::noBordesClicked()
+{
+    m_reportEditor->setBorders(0);
+    ItemsBordersEditorWidget::noBordesClicked();
+}
+
+void ItemsBordersEditorWidgetForDesigner::allBordesClicked()
+{
+    ItemsBordersEditorWidget::allBordesClicked();
+    m_reportEditor->setBorders(createBorders());
+}
+#endif
 
 } //namespace LimeReport

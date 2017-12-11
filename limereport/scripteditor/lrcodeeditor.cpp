@@ -8,7 +8,6 @@
 #include <QPainter>
 #include <QTextBlock>
 #include <QDebug>
-#include <QApplication>
 
 #include "lrscripthighlighter.h"
 

@@ -45,7 +45,7 @@ class VarDesc : public QObject{
     Q_PROPERTY(bool isMandatory READ isMandatory WRITE setMandatory)
     Q_PROPERTY(int dataType READ readDataTypeProperty WRITE setDataTypeProperty)
 public:
-    VarDesc() : m_dataType(VariableDataType::Undefined), m_mandatory(false){}
+    VarDesc() : m_dataType(Enums::Undefined), m_mandatory(false){}
     enum VarType {System, User, Report};
     void setVarType(VarType value){m_varType=value;}
     VarType varType(){return m_varType;}

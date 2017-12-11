@@ -1,5 +1,6 @@
 #include "lrsettingdialog.h"
 #include "ui_lrsettingdialog.h"
+#include <QFile>
 
 namespace LimeReport{
 
@@ -8,6 +9,10 @@ SettingDialog::SettingDialog(QWidget *parent) :
     ui(new Ui::SettingDialog)
 {
     ui->setupUi(this);
+    QFile theme(":/qdarkstyle/style.qss");
+    if (!theme.exists()){
+        ui->cbbUseDarkTheme->setVisible(false);
+    }
 }
 
 SettingDialog::~SettingDialog()
@@ -30,6 +35,11 @@ QFont SettingDialog::defaultFont()
     QFont result = ui->defaultFont->currentFont();
     result.setPointSize(ui->defaultFontSize->value());
     return result;
+}
+
+bool SettingDialog::userDarkTheme()
+{
+    return ui->cbbUseDarkTheme->isChecked();
 }
 
 bool SettingDialog::suppressAbsentFieldsAndVarsWarnings()
@@ -55,6 +65,11 @@ void SettingDialog::setDefaultFont(const QFont &value)
 {
     ui->defaultFont->setCurrentFont(value);
     ui->defaultFontSize->setValue(value.pointSize());
+}
+
+void SettingDialog::setUseDarkTheme(bool value)
+{
+    ui->cbbUseDarkTheme->setChecked(value);
 }
 
 } // namespace LimeReport
