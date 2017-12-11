@@ -502,7 +502,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             }
 
             w->setHideResultEditButton(resultIsEditable());
-
+            w->setStyleSheet(m_styleSheet);
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
             w->exec();
@@ -932,10 +932,20 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
     }
 }
 
+QString ReportEnginePrivate::styleSheet() const
+{
+    return m_styleSheet;
+}
+
+void ReportEnginePrivate::setStyleSheet(const QString &styleSheet)
+{
+    m_styleSheet = styleSheet;
+}
+
 bool ReportEnginePrivate::setReportLanguage(QLocale::Language language){
     m_reportLanguage = language;
     if (!m_translations.keys().contains(language)) return false;
-//    activateLanguage(language);
+    //    activateLanguage(language);
     return true;
 }
 

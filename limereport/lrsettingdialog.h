@@ -19,11 +19,13 @@ public:
     int verticalGridStep();
     int horizontalGridStep();
     QFont defaultFont();
+    bool userDarkTheme();
     bool suppressAbsentFieldsAndVarsWarnings();
     void setSuppressAbsentFieldsAndVarsWarnings(bool value);
     void setHorizontalGridStep(int value);
     void setVerticalGridStep(int value);
     void setDefaultFont(const QFont& value);
+    void setUseDarkTheme(bool value);
 private:
     Ui::SettingDialog *ui;
 };

@@ -161,6 +161,7 @@ namespace Const{
         Enums(){}
         Q_GADGET
     };
+
     typedef Enums::VariableDataType VariableDataType;
 
 } // namespace LimeReport

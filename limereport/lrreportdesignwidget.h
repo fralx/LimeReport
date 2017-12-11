@@ -199,6 +199,7 @@ protected:
 #endif
 private:
     bool eventFilter(QObject *target, QEvent *event);
+    void prepareReport();
 private:
     ReportEnginePrivateInterface* m_report;
     QGraphicsView *m_view;
@@ -221,7 +222,7 @@ private:
     bool m_useGrid;
     bool m_useMagnet;
     bool m_dialogChanged;
-    void prepareReport();
+    bool m_useDarkTheme;
 };
 
 } // namespace LimeReport

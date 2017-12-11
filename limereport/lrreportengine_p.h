@@ -53,8 +53,6 @@ class PageDesignIntf;
 class PrintRange;
 class ReportDesignWindow;
 
-//TODO: Add on render callback
-
 class ReportEnginePrivateInterface {
 public:
     virtual PageDesignIntf*         appendPage(const QString& pageName="") = 0;
@@ -84,7 +82,8 @@ public:
     virtual QString                 currentReportsDir() = 0;
     virtual bool                    suppressFieldAndVarError() const = 0;
     virtual void                    setSuppressFieldAndVarError(bool suppressFieldAndVarError) = 0;
-
+    virtual void                    setStyleSheet(const QString& styleSheet) = 0;
+    virtual QString                 styleSheet() const = 0;
 };
 
 class ReportEnginePrivate : public QObject, public ICollectionContainer, public ITranslationContainer,
@@ -179,6 +178,9 @@ public:
     void clearSelection();
     Qt::LayoutDirection previewLayoutDirection();
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
+    QString styleSheet() const;
+    void setStyleSheet(const QString &styleSheet);
+
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -243,6 +245,7 @@ private:
     void activateLanguage(QLocale::Language language);
     Qt::LayoutDirection m_previewLayoutDirection;
     LimeReportPluginInterface* m_designerFactory;
+    QString m_styleSheet;
 };
 
 }

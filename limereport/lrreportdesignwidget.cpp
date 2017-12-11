@@ -56,7 +56,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QMa
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     m_dialogDesignerManager(new DialogDesignerManager(this)),
 #endif
-    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false), m_dialogChanged(false)
+    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false), m_dialogChanged(false), m_useDarkTheme(false)
 {
 #ifdef HAVE_QT4
     m_tabWidget = new LimeReportTabWidget(this);
@@ -189,6 +189,7 @@ void ReportDesignWidget::saveState(QSettings* settings)
     settings->setValue("vGridStep",m_verticalGridStep);
     settings->setValue("defaultFont",m_defaultFont);
     settings->setValue("useGrid",m_useGrid);
+    settings->setValue("useDarkTheme",m_useDarkTheme);
     settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
     settings->endGroup();
 }
@@ -199,6 +200,13 @@ void ReportDesignWidget::applySettings()
         m_report->pageAt(i)->pageItem()->setFont(m_defaultFont);
     }
     applyUseGrid();
+    if (m_useDarkTheme) {
+        QFile theme(":/qdarkstyle/style.qss");
+        theme.open(QIODevice::ReadOnly);
+        QString styleSheet = theme.readAll();
+        parentWidget()->setStyleSheet(styleSheet);
+        m_report->setStyleSheet(styleSheet);
+    } else parentWidget()->setStyleSheet("");
 }
 
 void ReportDesignWidget::loadState(QSettings* settings)
@@ -221,6 +229,11 @@ void ReportDesignWidget::loadState(QSettings* settings)
     v = settings->value("useGrid");
     if (v.isValid()){
         m_useGrid = v.toBool();
+    }
+
+    v = settings->value("useDarkTheme");
+    if (v.isValid()){
+        m_useDarkTheme = v.toBool();
     }
 
     v = settings->value("ScriptEditorState");
@@ -368,8 +381,6 @@ PageDesignIntf * ReportDesignWidget::activePage()
         return dynamic_cast<PageDesignIntf*>(activeView()->scene());
     return 0;
 }
-
-
 
 QList<QGraphicsItem *> ReportDesignWidget::selectedItems(){
     return activePage()->selectedItems();
@@ -697,11 +708,13 @@ void ReportDesignWidget::editSetting()
     setting.setHorizontalGridStep(m_horizontalGridStep);
     setting.setDefaultFont(m_defaultFont);
     setting.setSuppressAbsentFieldsAndVarsWarnings(m_report->suppressFieldAndVarError());
+    setting.setUseDarkTheme(m_useDarkTheme);
 
     if (setting.exec()){
         m_horizontalGridStep = setting.horizontalGridStep();
         m_verticalGridStep = setting.verticalGridStep();
         m_defaultFont = setting.defaultFont();
+        m_useDarkTheme = setting.userDarkTheme();
         m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
         applySettings();
     }

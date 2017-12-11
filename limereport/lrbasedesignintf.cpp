@@ -1139,8 +1139,16 @@ void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+QWidget* findRootWidget(QWidget* widget){
+    while (widget->parentWidget()) {
+        widget = widget->parentWidget();
+    }
+    return widget;
+}
+
 void BaseDesignIntf::showEditorDialog(){
-    QWidget *editor = defaultEditor();
+    QWidget *editor = defaultEditor(); 
+    editor->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
     if (editor) {
 
 #ifdef Q_OS_WIN
