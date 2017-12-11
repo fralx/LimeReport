@@ -82,63 +82,6 @@ QGroupBox::indicator
     margin-left: 2px;
 }
 
-\\QCheckBox::indicator:unchecked
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_unchecked.png);
-\\}
-
-\\QCheckBox::indicator:unchecked:hover,
-\\QCheckBox::indicator:unchecked:focus,
-\\QCheckBox::indicator:unchecked:pressed,
-\\QGroupBox::indicator:unchecked:hover,
-\\QGroupBox::indicator:unchecked:focus,
-\\QGroupBox::indicator:unchecked:pressed
-\\{
-\\  border: none;
-\\    image: url(:/qss_icons/rc/checkbox_unchecked_focus.png);
-\\}
-
-\\QCheckBox::indicator:checked
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_checked.png);
-\\}
-
-\\QCheckBox::indicator:checked:hover,
-\\QCheckBox::indicator:checked:focus,
-\\QCheckBox::indicator:checked:pressed,
-\\QGroupBox::indicator:checked:hover,
-\\QGroupBox::indicator:checked:focus,
-\\QGroupBox::indicator:checked:pressed
-\\{
-\\  border: none;
-\\    image: url(:/qss_icons/rc/checkbox_checked_focus.png);
-\\}
-
-
-\\QCheckBox::indicator:indeterminate
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_indeterminate.png);
-\\}
-
-\\QCheckBox::indicator:indeterminate:focus,
-\\QCheckBox::indicator:indeterminate:hover,
-\\QCheckBox::indicator:indeterminate:pressed
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_indeterminate_focus.png);
-\\}
-
-\\QCheckBox::indicator:checked:disabled,
-\\QGroupBox::indicator:checked:disabled
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_checked_disabled.png);
-\\}
-
-\\QCheckBox::indicator:unchecked:disabled,
-\\QGroupBox::indicator:unchecked:disabled
-\\{
-\\    image: url(:/qss_icons/rc/checkbox_unchecked_disabled.png);
-\\}
-
 QRadioButton
 {
     spacing: 5px;
@@ -157,52 +100,11 @@ QRadioButton::indicator
     height: 16px;
 }
 
-\\QRadioButton::indicator:unchecked
-\\{
-\\    image: url(:/qss_icons/rc/radio_unchecked.png);
-\\}
-
-
-\\QRadioButton::indicator:unchecked:hover,
-\\QRadioButton::indicator:unchecked:focus,
-\\QRadioButton::indicator:unchecked:pressed
-\\{
-\\    border: none;
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_unchecked_focus.png);
-\\}
-
-\\QRadioButton::indicator:checked
-\\{
-\\    border: none;
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_checked.png);
-\\}
-
-\\QRadioButton::indicator:checked:hover,
-\\QRadioButton::indicator:checked:focus,
-\\QRadioButton::indicator:checked:pressed
-\\{
-\\    border: none;
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_checked_focus.png);
-\\}
-
-\\QRadioButton::indicator:checked:disabled
-\\{
-\\    outline: none;
-\\    image: url(:/qss_icons/rc/radio_checked_disabled.png);
-\\}
-
-\\QRadioButton::indicator:unchecked:disabled
-\\{
-\\    image: url(:/qss_icons/rc/radio_unchecked_disabled.png);
-\\}
-
 QMenuBar
 {
-    background-color: #383838;
+    background-color: #2f2f2f;
     color: #eff0f1;
+    border-bottom: 1px solid #2b2b2b;
 }
 
 QMenuBar::item
@@ -213,13 +115,15 @@ QMenuBar::item
 QMenuBar::item:selected
 {
     background: transparent;
+    background-color: #8fa876;
     border: 1px solid #2b2b2b;
 }
 
 QMenuBar::item:pressed
 {
     border: 1px solid #2b2b2b;
-    background-color: #2e2e2e;
+\\    background-color: #2e2e2e;
+    background-color: #8fa876;
     color: #eff0f1;
     margin-bottom:-1px;
     padding-bottom:1px;
@@ -328,7 +232,11 @@ QTabWidget:focus, QCheckBox:focus, QRadioButton:focus, QSlider:focus
 QLineEdit
 {
     background-color: #232629;
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 1px;
     border-style: solid;
     border: 1px solid #2b2b2b;
     border-radius: 2px;
@@ -490,7 +398,6 @@ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical
     background: none;
 }
 
-
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
 {
     background: none;
@@ -581,6 +488,7 @@ QToolBar {
     border: 1px transparent #2b2b2b;
 \\    background: 1px solid #383838;
     font-weight: bold;
+    border-bottom: 1px solid #2b2b2b;
 }
 
 QToolBar::handle:horizontal {
@@ -648,7 +556,11 @@ QComboBox
     border-style: solid;
     border: 1px solid #2b2b2b;
     border-radius: 2px;
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 1px;
     min-width: 75px;
 }
 
@@ -703,7 +615,11 @@ QComboBox::down-arrow:focus
 }
 
 QAbstractSpinBox {
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 1px;
     border: 1px solid #2b2b2b;
     background-color: #232629;
     color: #eff0f1;
