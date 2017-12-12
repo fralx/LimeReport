@@ -35,7 +35,7 @@
     <name>ChartItemEditor</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">نموذج</translation>
+        <translation type="obsolete">نموذج</translation>
     </message>
     <message>
         <source>Series</source>
@@ -72,6 +72,14 @@
     <message>
         <source>Ok</source>
         <translation type="unfinished">موافق</translation>
+    </message>
+    <message>
+        <source>Series editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Series name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -885,6 +893,256 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::EnumPropItem</name>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NoneAutoWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MaxWordLength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MaxStringLength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TransparentMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OpaqueMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle90</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle180</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle270</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle45</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle315</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DateTime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NoBrush</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SolidPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense1Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense2Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense3Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense4Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense5Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense6Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dense7Pattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CrossPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BDiagPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FDiagPattern</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LeftToRight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RightToLeft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LayoutDirectionAuto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LeftItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RightItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CenterItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ParentWidthItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DesignedItemAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorizontalLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalUniform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorizontalBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignTop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignBottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignLeft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignRight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::FlagsPropItem</name>
+    <message>
+        <source>NoLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TopLine</source>
+        <translation type="unfinished">خط علوي</translation>
+    </message>
+    <message>
+        <source>BottomLine</source>
+        <translation type="unfinished">خط سفلي</translation>
+    </message>
+    <message>
+        <source>LeftLine</source>
+        <translation type="unfinished">خط أيسر</translation>
+    </message>
+    <message>
+        <source>RightLine</source>
+        <translation type="unfinished">خط أيمن</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::FontEditorWidget</name>
     <message>
         <source>Font bold</source>
@@ -968,6 +1226,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Image</source>
         <translation>صورة</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ItemLocationPropItem</name>
+    <message>
+        <source>Band</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1656,6 +1925,58 @@ p, li { white-space: pre-wrap; }
         <source>keepGroupTogether</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>endlessHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>extendedHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>isExtendedInDesignMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pageIsTOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>setPageSizeToPrinter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fillInSecondPass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chartTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chartType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>drawLegendBorder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>labelsField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>legendAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>titleAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -2017,6 +2338,10 @@ This preview is no longer valid.</source>
         <source>Language %1 already exists</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Designer not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportFooter</name>
@@ -2370,6 +2695,10 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Suppress absent fields and variables warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use dark theme</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

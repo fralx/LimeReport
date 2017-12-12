@@ -2157,6 +2157,10 @@ This preview is no longer valid.</source>
         <source>Language %1 already exists</source>
         <translation>Перевод %1 уже существует!</translation>
     </message>
+    <message>
+        <source>Designer not found!</source>
+        <translation>Дезайнер не найден</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportFooter</name>
@@ -2507,6 +2511,10 @@ This preview is no longer valid.</source>
     <message>
         <source>Suppress absent fields and variables warning</source>
         <translation>Скрывать предупреждения об отсутсвующих полях и переменных</translation>
+    </message>
+    <message>
+        <source>Use dark theme</source>
+        <translation>Темная схема оформления</translation>
     </message>
 </context>
 <context>
