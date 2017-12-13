@@ -6,7 +6,7 @@
     <message>
         <location filename="../limereport/dialogdesigner/templates/Dialog.ui" line="13"/>
         <source>$ClassName$</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -14,57 +14,57 @@
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="14"/>
         <source>Series editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de séries</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="26"/>
         <source>Series</source>
-        <translation type="unfinished"></translation>
+        <translation>Séries</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="47"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="54"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="82"/>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="92"/>
         <source>Values field</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="106"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="116"/>
         <source>Type</source>
-        <translation type="unfinished">Type</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="151"/>
         <source>Labels field</source>
-        <translation type="unfinished"></translation>
+        <translation>Libellés</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="184"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.cpp" line="98"/>
         <source>Series name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom des séries</translation>
     </message>
 </context>
 <context>
@@ -92,7 +92,7 @@
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.ui" line="58"/>
         <source>Mandatory</source>
-        <translation type="unfinished"></translation>
+        <translation>Obligatoire</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.cpp" line="117"/>
@@ -105,12 +105,12 @@
     <message>
         <location filename="../limereport/translationeditor/languageselectdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/languageselectdialog.ui" line="28"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
@@ -611,7 +611,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/bands/lrdataband.cpp" line="86"/>
         <location filename="../limereport/bands/lrdataband.cpp" line="94"/>
         <source>useAlternateBackgroundColor</source>
-        <translation type="unfinished">Utiliser les couleurs de fond alternative</translation>
+        <translation>Utiliser les couleurs de fond alternative</translation>
     </message>
 </context>
 <context>
@@ -820,37 +820,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="40"/>
         <source>Edit Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de Widgets</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="64"/>
         <source>Widget Box</source>
-        <translation type="unfinished"></translation>
+        <translation>Boite de Widget</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="72"/>
         <source>Object Inspector</source>
-        <translation type="unfinished">Inspecteur d&apos;objets</translation>
+        <translation>Inspecteur d&apos;objet</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="79"/>
         <source>Property Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de propriété</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="86"/>
         <source>Signals &amp;&amp; Slots Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de Signaux &amp; Slots</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="93"/>
         <source>Resource Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de ressource</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="99"/>
         <source>Action Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur d&apos;action</translation>
     </message>
 </context>
 <context>
@@ -858,282 +858,282 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="88"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Défaut</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="89"/>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="90"/>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Paysage</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="91"/>
         <source>NoneAutoWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune largeur automatique</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="92"/>
         <source>MaxWordLength</source>
-        <translation type="unfinished"></translation>
+        <translation>Longueur de mot maximale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="93"/>
         <source>MaxStringLength</source>
-        <translation type="unfinished"></translation>
+        <translation>Longueur de chaîne maximale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="94"/>
         <source>TransparentMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode transparence</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="95"/>
         <source>OpaqueMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode opaque</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="96"/>
         <source>Angle0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="97"/>
         <source>Angle90</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="98"/>
         <source>Angle180</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="99"/>
         <source>Angle270</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="100"/>
         <source>Angle45</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="101"/>
         <source>Angle315</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="102"/>
         <source>DateTime</source>
-        <translation type="unfinished"></translation>
+        <translation>Date &amp; Heure</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="103"/>
         <source>Double</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="104"/>
         <source>NoBrush</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun motif</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="105"/>
         <source>SolidPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif solide</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="106"/>
         <source>Dense1Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 1</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="107"/>
         <source>Dense2Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 2</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="108"/>
         <source>Dense3Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 3</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="109"/>
         <source>Dense4Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 4</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="110"/>
         <source>Dense5Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 5</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="111"/>
         <source>Dense6Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 6</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="112"/>
         <source>Dense7Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif dense 7</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="113"/>
         <source>HorPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif horizontal</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="114"/>
         <source>VerPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif vertical</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="115"/>
         <source>CrossPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Motif croisé</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="116"/>
         <source>BDiagPattern</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="117"/>
         <source>FDiagPattern</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="118"/>
         <source>LeftToRight</source>
-        <translation type="unfinished"></translation>
+        <translation>De gauche  droite</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="119"/>
         <source>RightToLeft</source>
-        <translation type="unfinished"></translation>
+        <translation>De droite à gauche</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="120"/>
         <source>LayoutDirectionAuto</source>
-        <translation type="unfinished"></translation>
+        <translation>Orientation de mise en page auto</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="121"/>
         <source>LeftItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner l&apos;élement à gauche</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="122"/>
         <source>RightItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner l&apos;élement à droite</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="123"/>
         <source>CenterItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner l&apos;élement au centre</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="124"/>
         <source>ParentWidthItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner la largeur du parent</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="125"/>
         <source>DesignedItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner un objet stylé</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="126"/>
         <source>HorizontalLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Ligne horizontale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="127"/>
         <source>VerticalLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Ligne verticale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="128"/>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Ellipse</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="129"/>
         <source>Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="130"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="131"/>
         <source>Band</source>
-        <translation type="unfinished"></translation>
+        <translation>Bande</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="132"/>
         <source>Horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation>Horizontal</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="133"/>
         <source>Vertical</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertical</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="134"/>
         <source>VerticalUniform</source>
-        <translation type="unfinished"></translation>
+        <translation>Uniforme verticale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="135"/>
         <source>Pie</source>
-        <translation type="unfinished"></translation>
+        <translation>Graphe</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="136"/>
         <source>VerticalBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Barre verticale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="137"/>
         <source>HorizontalBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Barre horizontale</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="138"/>
         <source>LegendAlignTop</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner la légende en haut</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="139"/>
         <source>LegendAlignCenter</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner la légende au centre</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="140"/>
         <source>LegendAlignBottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner la légende en bas</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="141"/>
         <source>TitleAlignLeft</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner le titre à gauche</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="142"/>
         <source>TitleAlignRight</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner le titre à droite</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="143"/>
         <source>TitleAlignCenter</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligner le titre au centre</translation>
     </message>
 </context>
 <context>
@@ -1141,27 +1141,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="120"/>
         <source>NoLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune ligne</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="121"/>
         <source>TopLine</source>
-        <translation type="unfinished">Ligne supérieur</translation>
+        <translation>Ligne supérieur</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="122"/>
         <source>BottomLine</source>
-        <translation type="unfinished">Ligne inférieur</translation>
+        <translation>Ligne inférieur</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="123"/>
         <source>LeftLine</source>
-        <translation type="unfinished">Ligne gauche</translation>
+        <translation>Ligne gauche</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="124"/>
         <source>RightLine</source>
-        <translation type="unfinished">Ligne droite</translation>
+        <translation>Ligne droite</translation>
     </message>
 </context>
 <context>
@@ -1272,12 +1272,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="51"/>
         <source>Band</source>
-        <translation type="unfinished"></translation>
+        <translation>Bande</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="52"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page</translation>
     </message>
 </context>
 <context>
@@ -1422,25 +1422,25 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="632"/>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="656"/>
         <source>Page is TOC</source>
-        <translation type="unfinished"></translation>
+        <translation>Table des contenus</translation>
     </message>
     <message>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="636"/>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="659"/>
         <source>Reset page number</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser le numéro de page</translation>
     </message>
     <message>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="640"/>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="662"/>
         <source>Full page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page entière</translation>
     </message>
     <message>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="644"/>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="665"/>
         <source>Set page size to printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir la taille de la page à l&apos;imprimante</translation>
     </message>
 </context>
 <context>
@@ -1759,7 +1759,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="67"/>
         <source>alignment</source>
-        <translation type="unfinished">Alignement</translation>
+        <translation>Alignement</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="68"/>
@@ -2100,67 +2100,67 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="137"/>
         <source>endlessHeight</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauteur illimitée</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="138"/>
         <source>extendedHeight</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauteur étendue</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="139"/>
         <source>isExtendedInDesignMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode de style étendu</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="140"/>
         <source>pageIsTOC</source>
-        <translation type="unfinished"></translation>
+        <translation>Table des contenus</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="141"/>
         <source>setPageSizeToPrinter</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir la taille de la page à l&apos;imprimante</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="142"/>
         <source>fillInSecondPass</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplir le deuxieme passage</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="143"/>
         <source>chartTitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre du graphe</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="144"/>
         <source>chartType</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de graphe</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="145"/>
         <source>drawLegendBorder</source>
-        <translation type="unfinished"></translation>
+        <translation>Dessiner les bordures de la légende</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="146"/>
         <source>labelsField</source>
-        <translation type="unfinished"></translation>
+        <translation>Libellé</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="147"/>
         <source>legendAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Alignement de la légende</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="148"/>
         <source>series</source>
-        <translation type="unfinished"></translation>
+        <translation>Séries</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="149"/>
         <source>titleAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Alignement du titre</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="243"/>
@@ -2218,7 +2218,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrreportdesignwidget.cpp" line="288"/>
         <source>Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Traductions</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwidget.cpp" line="448"/>
@@ -2366,12 +2366,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="238"/>
         <source>Delete dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer la boite du dialogue</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="242"/>
         <source>Add new dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une boite de dialogue</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="250"/>
@@ -2507,32 +2507,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="531"/>
         <source>Widget Box</source>
-        <translation type="unfinished"></translation>
+        <translation>Boite de Widget</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="541"/>
         <source>Property Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de propriété</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="561"/>
         <source>Action Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur d&apos;action</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="572"/>
         <source>Resource Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de ressource</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="583"/>
         <source>SignalSlot Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de Signaux &amp; Slots</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="593"/>
         <source>Dialog Designer Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Boite à outils du Designer</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="608"/>
@@ -2610,12 +2610,12 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrreportengine.cpp" line="682"/>
         <source>Designer not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Designer introuvable!</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportengine.cpp" line="905"/>
         <source>Language %1 already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>La langue %1 existe déja</translation>
     </message>
 </context>
 <context>
@@ -2860,17 +2860,17 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/scripteditor/lrscripteditor.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulaire</translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../limereport/scripteditor/lrscripteditor.ui" line="50"/>
         <source>Data</source>
-        <translation type="unfinished">Données</translation>
+        <translation>Données</translation>
     </message>
     <message>
         <location filename="../limereport/scripteditor/lrscripteditor.ui" line="79"/>
         <source>Functions</source>
-        <translation type="unfinished">Fonctions</translation>
+        <translation>Fonctions</translation>
     </message>
 </context>
 <context>
@@ -2884,7 +2884,7 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1335"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1343"/>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
 </context>
 <context>
@@ -2914,12 +2914,12 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="260"/>
         <source>Function manger with name &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>La fonction &quot;%1&quot; existe déja!</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="337"/>
         <source>FieldName</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du champ</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="391"/>
@@ -2929,7 +2929,7 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="442"/>
         <source>Field %1 not found in %2!</source>
-        <translation type="unfinished"></translation>
+        <translation>Champ &quot;%1 introuvable dans %2!</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="572"/>
@@ -2997,42 +2997,42 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="774"/>
         <source>Datasource</source>
-        <translation type="unfinished">Source de donnée</translation>
+        <translation>Source de donnée</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="775"/>
         <source>ValueField</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="776"/>
         <source>KeyField</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="777"/>
         <source>KeyFieldValue</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur de la clé</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="793"/>
         <source>Unique identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiant unique</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="793"/>
         <source>Content</source>
-        <translation type="unfinished">Contenu</translation>
+        <translation>Contenu</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="793"/>
         <source>Indent</source>
-        <translation type="unfinished"></translation>
+        <translation>Indenter</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="823"/>
         <source>datasourceName</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de source de donnée</translation>
     </message>
 </context>
 <context>
@@ -3070,7 +3070,7 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="114"/>
         <source>Use dark theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser le thème sombre</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="124"/>
@@ -3177,7 +3177,7 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/items/lrtextitem.cpp" line="108"/>
         <location filename="../limereport/items/lrtextitem.cpp" line="131"/>
         <source>Transparent</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparent</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitem.cpp" line="578"/>
@@ -3257,58 +3257,58 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulaire</translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="37"/>
         <source>Languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Langues</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="61"/>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="75"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="95"/>
         <source>Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pages</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="137"/>
         <source>Strings</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaînes de caractère</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="164"/>
         <source>Source Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte source</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="173"/>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduction</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="200"/>
         <source>Checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifié</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.cpp" line="28"/>
         <source>Report Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element du rapport</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.cpp" line="29"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriété</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.cpp" line="30"/>
         <source>Source text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte source</translation>
     </message>
 </context>
 <context>
@@ -3422,7 +3422,7 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/items/lralignpropitem.cpp" line="44"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="370"/>
         <source>alignment</source>
-        <translation type="unfinished">Alignement</translation>
+        <translation>Alignement</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbarcodeitem.cpp" line="42"/>
@@ -3611,7 +3611,7 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1446"/>
         <source>Datasource manager not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestionnaire de source de donnée introuvable</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="167"/>
@@ -3642,22 +3642,22 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/items/lrchartitem.cpp" line="20"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="152"/>
         <source>Chart Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Elément du graphe</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitem.cpp" line="402"/>
         <source>First</source>
-        <translation type="unfinished"></translation>
+        <translation>Prémier</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitem.cpp" line="402"/>
         <source>Second</source>
-        <translation type="unfinished"></translation>
+        <translation>Second</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitem.cpp" line="402"/>
         <source>Thrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Troisième</translation>
     </message>
 </context>
 </TS>
