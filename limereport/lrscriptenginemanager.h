@@ -263,7 +263,6 @@ private:
     QString  m_scriptWrapper;
 };
 
-
 #ifndef USE_QJSENGINE
 class ComboBoxPrototype : public QObject, public QScriptable{
     Q_OBJECT
@@ -274,8 +273,6 @@ public slots:
     void addItems(const QStringList& texts);
 };
 #endif
-
-#ifdef USE_QJSENGINE
 
 class IWrapperCreator{
 public:
@@ -298,20 +295,15 @@ private:
     QObject* createWrapper(QObject* item);
 };
 
-#endif
-
 class ScriptFunctionsManager : public QObject{
     Q_OBJECT
 public:
     explicit ScriptFunctionsManager(QObject* parent = 0):QObject(parent){
-#ifdef USE_QJSENGINE
         m_wrappersFactory.insert("QComboBox",new  ComboBoxWrapperCreator());
-#endif
+
     }
     ~ScriptFunctionsManager(){
-#ifdef USE_QJSENGINE
         foreach(IWrapperCreator* wrapper, m_wrappersFactory.values()){ delete wrapper;} m_wrappersFactory.clear();
-#endif
     }
     Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName);
     Q_INVOKABLE QVariant line(const QString& bandName);
@@ -331,13 +323,17 @@ public:
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
     Q_INVOKABLE void     addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent = 0);
     Q_INVOKABLE void     clearTableOfContents();
-
+    Q_INVOKABLE QFont    font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
 #ifdef USE_QJSENGINE
-    Q_INVOKABLE QFont font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
     Q_INVOKABLE void addItemsToComboBox(QJSValue object, const QStringList& values);
     Q_INVOKABLE void addItemToComboBox(QJSValue object, const QString& value);
     Q_INVOKABLE QJSValue createComboBoxWrapper(QJSValue comboBox);
     Q_INVOKABLE QJSValue createWrapper(QJSValue item);
+#else
+    Q_INVOKABLE void addItemsToComboBox(QScriptValue object, const QStringList& values);
+    Q_INVOKABLE void addItemToComboBox(QScriptValue object, const QString& value);
+    Q_INVOKABLE QScriptValue createComboBoxWrapper(QScriptValue comboBox);
+    Q_INVOKABLE QScriptValue createWrapper(QScriptValue item);
 #endif
     Q_INVOKABLE QFont font(QVariantMap params);
     ScriptEngineManager *scriptEngineManager() const;
@@ -345,9 +341,7 @@ public:
     static QColor createQColor(const QString& color){ return QColor(color);}
 private:
     ScriptEngineManager* m_scriptEngineManager;
-#ifdef USE_QJSENGINE
     QMap<QString, IWrapperCreator*> m_wrappersFactory;
-#endif
 };
 
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager

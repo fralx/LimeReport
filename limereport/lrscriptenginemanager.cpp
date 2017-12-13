@@ -273,7 +273,10 @@ bool ScriptEngineManager::containsFunction(const QString& functionName){
 }
 
 #ifndef USE_QJSENGINE
-Q_DECL_DEPRECATED bool ScriptEngineManager::addFunction(const QString& name,
+#if QT_VERSION > 0x050600
+Q_DECL_DEPRECATED
+#endif
+bool ScriptEngineManager::addFunction(const QString& name,
                                               QScriptEngine::FunctionSignature function,
                                               const QString& category,
                                               const QString& description)
@@ -345,11 +348,6 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                 addFunction(describer);
             }
 
-//            qDebug()<<"is script context exists before set datamanager is called"<< (m_context == 0);
-
-//            ICallbackDatasource* tableOfContents = m_dataManager->createCallbackDatasource("tableofcontents");
-//            connect(tableOfContents, SIGNAL(getCallbackData(LimeReport::CallbackInfo,QVariant&)),
-//                    m_tableOfContents, SLOT(slotOneSlotDS(LimeReport::CallbackInfo,QVariant&)));
         }
     }
 }
@@ -1548,11 +1546,7 @@ void ScriptFunctionsManager::clearTableOfContents()
     scriptEngineManager()->clearTableOfContents();
 }
 
-
-
-#ifdef USE_QJSENGINE
-
-QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool bold, bool italic, bool underLine)
+QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool italic, bool bold, bool underLine)
 {
     QFont result (family, pointSize);
     result.setBold(bold);
@@ -1560,6 +1554,8 @@ QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool bo
     result.setUnderline(underLine);
     return result;
 }
+
+#ifdef USE_QJSENGINE
 
 void ScriptFunctionsManager::addItemsToComboBox(QJSValue object, const QStringList &values)
 {
@@ -1599,7 +1595,48 @@ QJSValue ScriptFunctionsManager::createWrapper(QJSValue item)
     return QJSValue();
 }
 
+#else
+
+void ScriptFunctionsManager::addItemsToComboBox(QScriptValue object, const QStringList &values)
+{
+    QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
+    if (comboBox){
+        comboBox->addItems(values);
+    }
+}
+
+void ScriptFunctionsManager::addItemToComboBox(QScriptValue object, const QString &value)
+{
+    QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
+    if (comboBox){
+        comboBox->addItem(value);
+    }
+}
+
+QScriptValue ScriptFunctionsManager::createComboBoxWrapper(QScriptValue comboBox)
+{
+    QComboBox* item = dynamic_cast<QComboBox*>(comboBox.toQObject());
+    if (item){
+        ComboBoxWrapper* wrapper = new ComboBoxWrapper(item);
+        return m_scriptEngineManager->scriptEngine()->newQObject(wrapper);
+    }
+    return QScriptValue();
+}
+
+QScriptValue ScriptFunctionsManager::createWrapper(QScriptValue item)
+{
+    QObject* object = item.toQObject();
+    if (object){
+        IWrapperCreator* wrapper = m_wrappersFactory.value(object->metaObject()->className());
+        if (wrapper){
+            return m_scriptEngineManager->scriptEngine()->newQObject(wrapper->createWrapper(item.toQObject()));
+        }
+    }
+    return QScriptValue();
+}
+
 #endif
+
 QFont ScriptFunctionsManager::font(QVariantMap params){
     if (!params.contains("family")){
         return QFont();
@@ -1694,7 +1731,7 @@ void LimeReport::TableOfContents::clear(){
 
 }
 
-#ifdef USE_QJSENGINE
+//#ifdef USE_QJSENGINE
 
 QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
 {
@@ -1705,7 +1742,7 @@ QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
     return 0;
 }
 
-#endif
+//#endif
 
 #ifndef USE_QJSENGINE
 void ComboBoxPrototype::addItem(const QString &text)

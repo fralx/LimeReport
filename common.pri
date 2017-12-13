@@ -4,9 +4,12 @@ CONFIG *= build_translations
     CONFIG *= zint
 }
 
-!contains(CONFIG, qtscriptengine){
+!contains(CONFIG, qtscriptengine):
+greaterThan(QT_MAJOR_VERSION, 4):
+greaterThan(QT_MINOR_VERSION, 5){
     CONFIG *= qjsengine
 }
+
 
 !contains(CONFIG, no_formdesigner){
     CONFIG *= dialogdesigner

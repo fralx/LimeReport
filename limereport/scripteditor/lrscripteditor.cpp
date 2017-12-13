@@ -89,9 +89,8 @@ void ScriptEditor::initCompleter()
     if (m_page)
         dm = m_page->datasourceManager();
 
-    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
-
 #ifdef USE_QJSENGINE
+    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
     QJSValue globalObject = se.scriptEngine()->globalObject();
     QJSValueIterator it(globalObject);
     while (it.hasNext()){
