@@ -110,7 +110,11 @@ void ScriptHighlighter::highlightBlock(const QString& text)
                     }
                     buffer.clear();
                     buffer += currentChar;
-
+                    break;
+                case String:
+                case String2:
+                    buffer.clear();
+                    buffer += currentChar;
                     break;
                 case MayBeKeyWord:
                 case MayBeNumber:
@@ -160,17 +164,10 @@ void ScriptHighlighter::highlightBlock(const QString& text)
 
     TextBlockData *data = new TextBlockData;
 
-
     for (int i = 0; i < PARENHEIS_COUNT; ++i){
         createParentheisisInfo(parenthesisCharacters[LeftParenthesis][i].toLatin1(), data, text);
         createParentheisisInfo(parenthesisCharacters[RightParenthesis][i].toLatin1(), data, text);
     }
-//    createParentheisisInfo('(', data, text);
-//    createParentheisisInfo(')', data, text);
-//    createParentheisisInfo('{', data, text);
-//    createParentheisisInfo('}', data, text);
-//    createParentheisisInfo('[', data, text);
-//    createParentheisisInfo(']', data, text);
 
     setCurrentBlockUserData(data);
 }
