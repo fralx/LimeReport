@@ -64,7 +64,7 @@
     <message>
         <location filename="../limereport/items/lrchartitemeditor.cpp" line="98"/>
         <source>Series name</source>
-        <translation>Nom des séries</translation>
+        <translation>Séries</translation>
     </message>
 </context>
 <context>
@@ -350,7 +350,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="234"/>
         <source>DataFooterBand</source>
-        <translation>Bande de pied de données</translation>
+        <translation>Pied de données</translation>
     </message>
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="235"/>
@@ -375,7 +375,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="239"/>
         <source>SubDetailBand</source>
-        <translation>Bande de sous-détails</translation>
+        <translation>Sous-détails</translation>
     </message>
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="240"/>
@@ -390,12 +390,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="242"/>
         <source>GroupBandHeader</source>
-        <translation>Bande de groupe d&apos;en-tête</translation>
+        <translation>Groupe d&apos;en-tête</translation>
     </message>
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="243"/>
         <source>GroupBandFooter</source>
-        <translation>Bande de groupe de pieds</translation>
+        <translation>Groupe de pieds</translation>
     </message>
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="244"/>
@@ -433,7 +433,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrbanddesignintf.cpp" line="493"/>
         <location filename="../limereport/lrbanddesignintf.cpp" line="514"/>
         <source>Keep bottom space</source>
-        <translation>Garder l&apos;espace inférieur</translation>
+        <translation>Conserver l&apos;espace inférieur</translation>
     </message>
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="497"/>
@@ -611,7 +611,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/bands/lrdataband.cpp" line="86"/>
         <location filename="../limereport/bands/lrdataband.cpp" line="94"/>
         <source>useAlternateBackgroundColor</source>
-        <translation>Utiliser les couleurs de fond alternative</translation>
+        <translation>Couleurs de fond alternative</translation>
     </message>
 </context>
 <context>
@@ -648,7 +648,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="170"/>
         <source>Add new datasource</source>
-        <translation>Ajouter une nouvelle source de données</translation>
+        <translation>Ajouter une source de données</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="196"/>
@@ -706,7 +706,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="134"/>
         <source>Do you really want to delete &quot;%1&quot; connection?</source>
-        <translation>Voulez-vous vraiment supprimer la connexion &quot;%1&quot;?</translation>
+        <translation>Voulez-vous vraiment supprimer la connexion %1?</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="214"/>
@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="64"/>
         <source>Widget Box</source>
-        <translation>Boite de Widget</translation>
+        <translation>Widgets</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="72"/>
@@ -1008,7 +1008,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="118"/>
         <source>LeftToRight</source>
-        <translation>De gauche  droite</translation>
+        <translation>De gauche à droite</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="119"/>
@@ -1038,12 +1038,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="124"/>
         <source>ParentWidthItemAlign</source>
-        <translation>Aligner la largeur du parent</translation>
+        <translation>Aligner à la largeur du parent</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="125"/>
         <source>DesignedItemAlign</source>
-        <translation>Aligner un objet stylé</translation>
+        <translation>Alignement par défaut</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="126"/>
@@ -1093,7 +1093,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="135"/>
         <source>Pie</source>
-        <translation>Graphe</translation>
+        <translation>Sphère</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="136"/>
@@ -1169,17 +1169,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="72"/>
         <source>Font bold</source>
-        <translation>Caractères en gras</translation>
+        <translation>Gras</translation>
     </message>
     <message>
         <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="78"/>
         <source>Font Italic</source>
-        <translation>Caractères en italique</translation>
+        <translation>Italique</translation>
     </message>
     <message>
         <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="84"/>
         <source>Font Underline</source>
-        <translation>Caractères Soulignées</translation>
+        <translation>Souligné</translation>
     </message>
 </context>
 <context>
@@ -1241,12 +1241,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrgroupfunctions.cpp" line="54"/>
         <source>Field &quot;%1&quot; not found</source>
-        <translation>Champ &quot;%1 introuvable</translation>
+        <translation>Champ %1 introuvable</translation>
     </message>
     <message>
         <location filename="../limereport/lrgroupfunctions.cpp" line="64"/>
         <source>Variable &quot;%1&quot; not found</source>
-        <translation>Variable &quot;%1&quot; introuvable</translation>
+        <translation>Variable %1 introuvable</translation>
     </message>
     <message>
         <location filename="../limereport/lrgroupfunctions.cpp" line="74"/>
@@ -1338,12 +1338,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="77"/>
         <source>Top line</source>
-        <translation>ligne plus haut</translation>
+        <translation>ligne haute</translation>
     </message>
     <message>
         <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="83"/>
         <source>Bottom line</source>
-        <translation>Ligne plus bas</translation>
+        <translation>Ligne basse</translation>
     </message>
     <message>
         <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="89"/>
@@ -1440,7 +1440,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="644"/>
         <location filename="../limereport/lrpageitemdesignintf.cpp" line="665"/>
         <source>Set page size to printer</source>
-        <translation>Définir la taille de la page à l&apos;imprimante</translation>
+        <translation>Adapterr la taille de la page à l&apos;imprimante</translation>
     </message>
 </context>
 <context>
@@ -1481,7 +1481,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="63"/>
         <source>toolBar</source>
-        <translation>Barre d&apos;outil</translation>
+        <translation>Barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="102"/>
@@ -1557,7 +1557,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrpreviewreportwindow.ui" line="222"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="225"/>
         <source>Last Page</source>
-        <translation>Dernièr page</translation>
+        <translation>Dernière page</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="234"/>
@@ -1582,12 +1582,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="276"/>
         <source>Show Toolbar</source>
-        <translation>Afficher la barre d&apos;outil</translation>
+        <translation>Afficher la barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="279"/>
         <source>Show toolbar</source>
-        <translation>Afficher la barre d&apos;outil</translation>
+        <translation>Afficher la barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.cpp" line="56"/>
@@ -1698,7 +1698,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="55"/>
         <source>borderLineSize</source>
-        <translation>Taille de la lignes de bordure</translation>
+        <translation>Taille de la ligne de bordure</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="56"/>
@@ -1719,7 +1719,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="59"/>
         <source>columnsFillDirection</source>
-        <translation>Direction de remplissage des colonnes</translation>
+        <translation>Orientation de remplissage des colonnes</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="60"/>
@@ -1844,12 +1844,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="84"/>
         <source>shapeBrush</source>
-        <translation>Brosse de forme</translation>
+        <translation>Forme du pinceau</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="85"/>
         <source>shapeBrushColor</source>
-        <translation>Couleur de brosse de forme</translation>
+        <translation>Couleur du pinceau</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="86"/>
@@ -1885,7 +1885,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="92"/>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="99"/>
         <source>backgroundBrushStyle</source>
-        <translation>Style de brosse de fond</translation>
+        <translation>Remplissage de la forme</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="94"/>
@@ -1900,7 +1900,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="96"/>
         <source>adaptFontToSize</source>
-        <translation>Adapter la police à lataille</translation>
+        <translation>Adapter la police à la taille</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="97"/>
@@ -1935,7 +1935,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="104"/>
         <source>textLayoutDirection</source>
-        <translation>Disposition du texte</translation>
+        <translation>Orientation du texte</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="105"/>
@@ -2050,7 +2050,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="127"/>
         <source>useAlternateBackgroundColor</source>
-        <translation>Utiliser les couleurs de fond alternative</translation>
+        <translation>Couleurs de fond alternative</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="128"/>
@@ -2120,7 +2120,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="141"/>
         <source>setPageSizeToPrinter</source>
-        <translation>Définir la taille de la page à l&apos;imprimante</translation>
+        <translation>Adapterr la taille de la page à l&apos;imprimante</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="142"/>
