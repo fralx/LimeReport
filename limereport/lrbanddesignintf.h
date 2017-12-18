@@ -100,6 +100,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight )
     Q_PROPERTY(int bandIndex READ bandIndex WRITE setBandIndex DESIGNABLE false )
     Q_PROPERTY(bool keepBottomSpace READ keepBottomSpaceOption WRITE setKeepBottomSpaceOption )
+    Q_PROPERTY(bool keepTopSpace READ keepTopSpace WRITE setKeepTopSpace)
     Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
@@ -154,6 +155,9 @@ public:
 
     void setKeepBottomSpaceOption(bool value);
     bool keepBottomSpaceOption() const {return m_keepBottomSpace;}
+
+    bool keepTopSpace() const;
+    void setKeepTopSpace(bool value);
 
     void addChildBand(BandDesignIntf* band);
     bool hasChildren(){return !m_childBands.isEmpty();}
@@ -245,7 +249,7 @@ public:
     void copyBookmarks(BandDesignIntf* sourceBand);
 
 signals:
-    void bandRendered(BandDesignIntf* band);        
+    void bandRendered(BandDesignIntf* band);
     void bandRegistred();
 protected:
     void  trimToMaxHeight(int maxHeight);
@@ -279,6 +283,7 @@ private:
     QString                     m_dataSourceName;
     bool                        m_autoHeight;
     bool                        m_keepBottomSpace;
+    bool                        m_keepTopSpace;
     BandDesignIntf*             m_parentBand;
     QString                     m_parentBandName;
     QList<BandDesignIntf*>      m_childBands;

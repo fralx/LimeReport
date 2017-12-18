@@ -106,6 +106,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_dataSourceName(""),
     m_autoHeight(true),
     m_keepBottomSpace(false),
+    m_keepTopSpace(true),
     m_parentBand(0),
     m_parentBandName(""),
     m_bandMarker(0),
@@ -821,6 +822,20 @@ void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QStrin
         m_bandNameLabel->updateLabel(newName);
 }
 
+bool BandDesignIntf::keepTopSpace() const
+{
+    return m_keepTopSpace;
+}
+
+void BandDesignIntf::setKeepTopSpace(bool value)
+{
+    if (m_keepTopSpace != value){
+        m_keepTopSpace = value;
+        if (!isLoading())
+            notify("keepTopSpace",!value,value);
+    }
+}
+
 bool BandDesignIntf::repeatOnEachRow() const
 {
     return m_repeatOnEachRow;
@@ -969,9 +984,14 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     }
     restoreLinks();
     snapshotItemsLayout();
-    arrangeSubItems(pass, dataManager);
+    arrangeSubItems(pass, dataManager); 
     if (autoHeight()){
-        //if keepBottomSpace()&& height()<findMaxBottom()
+        if (!keepTopSpace()) {
+            qreal minTop = findMinTop();
+            foreach (BaseDesignIntf* item, childBaseItems()) {
+                item->setY(item->y() - minTop);
+            }
+        }
         setHeight(findMaxBottom()+spaceBorder);
     }
     if ((maxHeight>0)&&(height()>maxHeight)){

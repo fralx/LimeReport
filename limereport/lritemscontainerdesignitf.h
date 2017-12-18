@@ -46,6 +46,7 @@ protected:
   void  arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type = AsNeeded);
   qreal findMaxBottom() const;
   qreal findMaxHeight() const;
+  qreal findMinTop() const;
 private:
   QVector<PItemSortContainer> m_containerItems;
 
