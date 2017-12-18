@@ -1194,11 +1194,12 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QMenu menu;
     QAction* copyAction = menu.addAction(QIcon(":/report/images/copy.png"), tr("Copy"));
     copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
-    QAction* cutAction = menu.addAction(QIcon(":/report//images/cut"), tr("Cut"));
+    QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));
     cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
     QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste.png"), tr("Paste"));
     pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
     pasteAction->setEnabled(false);
+
     QClipboard *clipboard = QApplication::clipboard();
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
     if (reader->first() && reader->itemType() == "Object"){
@@ -1207,6 +1208,10 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     menu.addSeparator();
     QAction* brinToTopAction = menu.addAction(QIcon(":/report//images/bringToTop"), tr("Bring to top"));
     QAction* sendToBackAction = menu.addAction(QIcon(":/report//images/sendToBack"), tr("Send to back"));
+    QAction* createHLayout = 0;
+    if( page->selectedItems().count()>1){
+        createHLayout =  menu.addAction(QIcon(":/report/images/hlayout"), tr("Create Horizontal Layout"));
+    }
     menu.addSeparator();
     QAction* noBordersAction = menu.addAction(QIcon(":/report//images/noLines"), tr("No borders"));
     QAction* allBordersAction = menu.addAction(QIcon(":/report//images/allLines"), tr("All borders"));
@@ -1230,6 +1235,8 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             page->setBorders(BaseDesignIntf::NoLine);
         if (a == allBordersAction)
             page->setBorders(BaseDesignIntf::AllLines);
+        if (a == createHLayout)
+            page->addHLayout();
         processPopUpAction(a);
     }
 }
