@@ -495,6 +495,10 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     currAction->setCheckable(true);
     currAction->setChecked(keepBottomSpaceOption());
 
+    currAction = menu.addAction(tr("Keep top space"));
+    currAction->setCheckable(true);
+    currAction->setChecked(keepTopSpace());
+
     currAction = menu.addAction(tr("Start from new page"));
     currAction->setCheckable(true);
     currAction->setChecked(startFromNewPage());
@@ -514,6 +518,9 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     }
     if (action->text().compare(tr("Keep bottom space")) == 0){
         setProperty("keepBottomSpace",action->isChecked());
+    }
+    if (action->text().compare(tr("Keep top space")) == 0){
+        setProperty("keepTopSpace",action->isChecked());
     }
     if (action->text().compare(tr("Start new page")) == 0){
         setProperty("startNewPage",action->isChecked());
