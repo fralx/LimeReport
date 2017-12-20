@@ -1148,8 +1148,8 @@ QWidget* findRootWidget(QWidget* widget){
 
 void BaseDesignIntf::showEditorDialog(){
     QWidget *editor = defaultEditor(); 
-    editor->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
     if (editor) {
+        editor->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
 
 #ifdef Q_OS_WIN
         editor->setAttribute(Qt::WA_DeleteOnClose);
