@@ -272,6 +272,35 @@ QScriptValue currencyUSBasedFormat(QScriptContext* pcontext, QScriptEngine* peng
     return pengine->newVariant(vTempStr);
 }
 #endif
+/*
+ * sectotimeFormat(int seconds, string format)
+ *  - convert seconds to time format without day border!
+ *
+ *  examples (base: 60 days 7 Minutes 2 Seconds = 5184422 seconds):
+ *  	(3600 * 24 * 60) + (7 * 60) + 2 seconds with format hh:mm:ss = 1440:07:02
+ *  	(3600 * 24 * 60) + (7 * 60) + 2 seconds with format    mm:s  = 86407:2
+ *  	(3600 * 24 * 60) + (7 * 60) + 2 seconds with format       ss = 5184422
+ */
+QScriptValue sectotimeFormat(QScriptContext* pcontext, QScriptEngine* pengine){
+	// simplify values
+    QVariant value = pcontext->argument(0).toVariant();
+	QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"hh:mm:ss";
+	
+	// algorithm adapted from: https://stackoverflow.com/a/25697134/4954370
+	int seconds = value.toInt();
+	int minutes = seconds / 60;
+	int hours = minutes / 60;
+	
+	// replace the following formats: hh, mm, ss, h, m, s
+	bool hasHour = format.contains("h");
+	bool hasMinute = format.contains("m");
+	for(int len = 2; len; len--) {
+		if(hasHour)   format.replace(QString('h').repeated(len), QString::number(hours).rightJustified(len, '0'));
+		if(hasMinute) format.replace(QString('m').repeated(len), QString::number(hasHour ? minutes % 60 : minutes).rightJustified(len, '0'));
+		format.replace(QString('s').repeated(len), QString::number(hasMinute ? seconds % 60 : seconds).rightJustified(len, '0'));
+	}
+    return QScriptValue(format);
+}
 QScriptValue dateFormat(QScriptContext* pcontext, QScriptEngine* pengine){
     QVariant value = pcontext->argument(0).toVariant();
     QString format = (pcontext->argumentCount()>1)?pcontext->argument(1).toString().toLatin1():"dd.MM.yyyy";
@@ -620,6 +649,7 @@ ScriptEngineManager::ScriptEngineManager()
     addFunction("numberFormat",numberFormat,tr("NUMBER"), "numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
                 tr("Precision")+"\",\""+
                 tr("Locale")+"\")");
+	addFunction("sectotimeFormat",sectotimeFormat,tr("DATE&TIME"), "sectotimeFormat(\""+tr("Seconds")+"\",\""+tr("Format")+"\")");
     addFunction("dateFormat",dateFormat,tr("DATE&TIME"), "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("timeFormat",timeFormat,tr("DATE&TIME"), "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     addFunction("dateTimeFormat", dateTimeFormat, tr("DATE&TIME"), "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
