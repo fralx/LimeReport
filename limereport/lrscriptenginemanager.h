@@ -311,6 +311,7 @@ public:
     Q_INVOKABLE QVariant dateFormat(QVariant value, const QString& format);
     Q_INVOKABLE QVariant timeFormat(QVariant value, const QString& format);
     Q_INVOKABLE QVariant dateTimeFormat(QVariant value, const QString& format);
+    Q_INVOKABLE QVariant sectotimeFormat(QVariant value, const QString& format);
     Q_INVOKABLE QVariant date();
     Q_INVOKABLE QVariant now();
     Q_INVOKABLE QVariant currencyFormat(QVariant value, const QString& locale);
@@ -385,6 +386,7 @@ private:
     bool createDateFormatFunction();
     bool createTimeFormatFunction();
     bool createDateTimeFormatFunction();
+    bool createSectotimeFormatFunction();
     bool createDateFunction();
     bool createNowFunction();
     bool createCurrencyFormatFunction();

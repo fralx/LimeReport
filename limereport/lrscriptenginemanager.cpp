@@ -649,6 +649,23 @@ bool ScriptEngineManager::createDateTimeFormatFunction(){
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createSectotimeFormatFunction()
+{
+    JSFunctionDesc fd;
+
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("DATE&TIME"));
+    fd.setName("sectotimeFormat");
+    fd.setDescription("sectotimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    fd.setScriptWrapper(QString("function sectotimeFormat(value, format){"
+                                " if(typeof(format)==='undefined') format = \"hh:mm:ss\"; "
+                                "return %1.sectotimeFormat(value,format);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 bool ScriptEngineManager::createDateFunction(){
 //    addFunction("date",date,"DATE&TIME","date()");
     JSFunctionDesc fd;
@@ -842,6 +859,7 @@ ScriptEngineManager::ScriptEngineManager()
     createDateFormatFunction();
     createTimeFormatFunction();
     createDateTimeFormatFunction();
+    createSectotimeFormatFunction();
     createDateFunction();
     createNowFunction();
 #if QT_VERSION>0x040800
@@ -1474,6 +1492,23 @@ QVariant ScriptFunctionsManager::timeFormat(QVariant value, const QString &forma
 QVariant ScriptFunctionsManager::dateTimeFormat(QVariant value, const QString &format)
 {
     return QLocale().toString(value.toDateTime(),format);
+}
+
+QVariant ScriptFunctionsManager::sectotimeFormat(QVariant value, const QString &format)
+{
+    int seconds = value.toInt();
+    int minutes = seconds / 60;
+    int hours = minutes / 60;
+
+    QString result = format;
+    bool hasHour = format.contains("h");
+    bool hasMinute = format.contains("m");
+    for(int len = 2; len; len--) {
+        if(hasHour)   result.replace(QString('h').repeated(len), QString::number(hours).rightJustified(len, '0'));
+        if(hasMinute) result.replace(QString('m').repeated(len), QString::number(hasHour ? minutes % 60 : minutes).rightJustified(len, '0'));
+        result.replace(QString('s').repeated(len), QString::number(hasMinute ? seconds % 60 : seconds).rightJustified(len, '0'));
+    }
+    return result;
 }
 
 QVariant ScriptFunctionsManager::date()
