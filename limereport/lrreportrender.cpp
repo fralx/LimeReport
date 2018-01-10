@@ -449,6 +449,8 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
 
         if (!bandClone->isEmpty() || patternBand->printIfEmpty()){
             if (!registerBand(bandClone)){
+                if (patternBand && patternBand->isHeader() && patternBand->reprintOnEachPage())
+                    m_reprintableBands.removeOne(patternBand);
                 if (bandClone->canBeSplitted(m_maxHeightByColumn[m_currentColumn])){
                     bandClone = sliceBand(bandClone,patternBand,isLast);
                 } else {
