@@ -169,14 +169,18 @@ void FontEditorWidgetForDesigner::slotFontChanged(const QFont& font)
 
 void FontEditorWidgetForDesigner::slotFontSizeChanged(const QString& value)
 {
-    FontEditorWidget::slotFontSizeChanged(value);
-    m_reportEditor->setFont(resFont());
+    if (!ignoreSlots()){
+        FontEditorWidget::slotFontSizeChanged(value);
+        m_reportEditor->setFont(resFont());
+    }
 }
 
 void FontEditorWidgetForDesigner::slotFontAttribsChanged(bool value)
 {
-    FontEditorWidget::slotFontAttribsChanged(value);
-    m_reportEditor->setFont(resFont());
+    if (!ignoreSlots()){
+        FontEditorWidget::slotFontAttribsChanged(value);
+        m_reportEditor->setFont(resFont());
+    }
 }
 
 #endif
