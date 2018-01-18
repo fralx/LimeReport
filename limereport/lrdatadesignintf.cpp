@@ -342,13 +342,13 @@ void ModelToDataSource::slotModelDestroed()
 
 ConnectionDesc::ConnectionDesc(QSqlDatabase db, QObject *parent)
     : QObject(parent), m_connectionName(db.connectionName()), m_connectionHost(db.hostName()), m_connectionDriver(db.driverName()),
-      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false),
+      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_port(-1), m_autoconnect(false),
       m_internal(false), m_keepDBCredentials(true)
 {}
 
 ConnectionDesc::ConnectionDesc(QObject *parent)
-    :QObject(parent),m_connectionName(""),m_connectionHost(""),m_connectionDriver(""),
-      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false),
+    :QObject(parent),m_connectionName(""),m_connectionHost(""), m_connectionDriver(""),
+      m_databaseName(""), m_user(""), m_password(""), m_port(-1), m_autoconnect(false),
       m_internal(false), m_keepDBCredentials(true)
 {}
 
@@ -381,6 +381,16 @@ QString ConnectionDesc::connectionNameForUser(const QString &connectionName)
 QString ConnectionDesc::connectionNameForReport(const QString &connectionName)
 {
     return connectionName.compare(tr("defaultConnection")) == 0 ? QSqlDatabase::defaultConnection : connectionName;
+}
+
+int ConnectionDesc::port() const
+{
+    return m_port;
+}
+
+void ConnectionDesc::setPort(int port)
+{
+    m_port = port;
 }
 
 bool ConnectionDesc::keepDBCredentials() const
