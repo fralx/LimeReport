@@ -191,6 +191,7 @@ private:
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_curentNameIndex;
+    bool m_newPageStarted;
     bool            m_renderingFirstTOC;
 };
 } // namespace LimeReport

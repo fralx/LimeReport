@@ -147,7 +147,7 @@ void ReportRender::renameChildItems(BaseDesignIntf *item){
 
 ReportRender::ReportRender(QObject *parent)
     :QObject(parent), m_renderPageItem(0), m_pageCount(0),
-     m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0), m_renderingFirstTOC(false)
+     m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0), m_newPageStarted(false), m_renderingFirstTOC(false)
 {
     initColumns();
 }
@@ -557,6 +557,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
                     renderBand(header, 0, StartNewPageAsNeeded);
 
                 renderBand(dataBand, rawData, StartNewPageAsNeeded, !bandDatasource->hasNext());
+                m_newPageStarted = false;
                 renderChildBands(dataBand);
 
             }
@@ -770,7 +771,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
             gb->startGroup(m_datasources);
             openDataGroup(band);
             BandDesignIntf* renderedHeader = 0;
-            if (!firstTime && gb->startNewPage()){
+            if (!firstTime && gb->startNewPage() && !m_newPageStarted){
                 if (gb->resetPageNumber()) resetPageNumber(BandReset);
                 if (band->reprintOnEachPage()){
                     savePage();
@@ -1164,8 +1165,9 @@ void ReportRender::startNewColumn(){
 
 void ReportRender::startNewPage(bool isFirst)
 {
-    m_renderPageItem=0;
-    m_currentColumn=0;
+    m_renderPageItem = 0;
+    m_currentColumn = 0;
+    m_newPageStarted = true;
 
     initColumns();
     initRenderPage();
