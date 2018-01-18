@@ -724,13 +724,19 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
         }
 
         if (gb && !gb->isStarted()){
-            if (band->reprintOnEachPage())
+            if (band->reprintOnEachPage()){
                 m_reprintableBands.append(band);
+            }
             gb->startGroup(m_datasources);
             openDataGroup(band);
             if (!firstTime && gb->startNewPage()){
                 if (gb->resetPageNumber()) resetPageNumber(BandReset);
-                renderBand(band, 0, ForcedStartPage);
+                if (band->reprintOnEachPage()){
+                    savePage();
+                    startNewPage();
+                } else {
+                    renderBand(band, 0, ForcedStartPage);
+                }
             } else {
                 renderBand(band, 0, StartNewPageAsNeeded);
             }
@@ -845,6 +851,14 @@ void ReportRender::closeDataGroup(BandDesignIntf *band)
     if (groupBand){
         groupBand->closeGroup();
         if (band->reprintOnEachPage()) m_reprintableBands.removeOne(band);
+
+        QList<BandDesignIntf*>::Iterator it = m_reprintableBands.begin();
+        while (it != m_reprintableBands.end()){
+            if ((*it)->bandIndex()>band->bandIndex())
+                it = m_reprintableBands.erase(it);
+            else
+                it++;
+        }
     }
     closeGroup(band);
 }
@@ -1093,7 +1107,6 @@ void ReportRender::startNewPage()
     m_currentIndex=10;
     m_dataAreaSize = m_maxHeightByColumn[m_currentColumn];
     m_renderedDataBandCount = 0;
-
 
     foreach (BandDesignIntf* band, m_reprintableBands) {
         renderBand(band, 0);

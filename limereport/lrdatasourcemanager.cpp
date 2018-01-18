@@ -740,6 +740,8 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     db.setHostName(replaceVariables(connectionDesc.host()));
     db.setUserName(replaceVariables(connectionDesc.userName()));
     db.setPassword(replaceVariables(connectionDesc.password()));
+    if (connectionDesc.port()!=-1)
+        db.setPort(connectionDesc.port());
 
     if (!connectionDesc.keepDBCredentials() && m_dbCredentialsProvider){
         if (!m_dbCredentialsProvider->getUserName(connectionDesc.name()).isEmpty())

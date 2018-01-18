@@ -111,6 +111,7 @@ class ConnectionDesc : public QObject{
     Q_PROPERTY(QString host READ host WRITE setHost)
     Q_PROPERTY(bool autoconnect READ autoconnect WRITE setAutoconnect)
     Q_PROPERTY(bool keepDBCredentials READ keepDBCredentials WRITE setKeepDBCredentials)
+    Q_PROPERTY(int port READ port WRITE setPort)
 public:
     typedef QSharedPointer<ConnectionDesc> Ptr;
     ConnectionDesc(QSqlDatabase db, QObject* parent=0);
@@ -135,6 +136,8 @@ public:
     void    setInternal(bool value) {m_internal = value;}
     bool    keepDBCredentials() const;
     void    setKeepDBCredentials(bool keepDBCredentials);
+    int     port() const;
+    void    setPort(int port);
 public:
     static QString connectionNameForUser(const QString& connectionName);
     static QString connectionNameForReport(const QString& connectionName);    
@@ -147,6 +150,7 @@ private:
     QString m_databaseName;
     QString m_user;
     QString m_password;
+    int     m_port;
     bool    m_autoconnect;
     bool    m_internal;
     bool    m_keepDBCredentials;
