@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>294</height>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset resource="lrdatabrowser.qrc">
     <normaloff>:/databrowser/images/database_disconnected</normaloff>:/databrowser/images/database_disconnected</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -44,87 +44,105 @@
     </widget>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="lbDriver">
-       <property name="text">
-        <string>Driver</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="cbbDrivers"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="lbServer">
-       <property name="text">
-        <string>Server </string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="leServerName">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lbUser">
-       <property name="text">
-        <string>User</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="leUserName">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="lbPassword">
-       <property name="text">
-        <string>Password</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lePassword">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="lbDatabase">
-       <property name="text">
-        <string>Database</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <property name="spacing">
-        <number>2</number>
-       </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLineEdit" name="leDataBase">
+        <widget class="QLabel" name="lbDriver">
+         <property name="text">
+          <string>Driver</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbServer">
+         <property name="text">
+          <string>Server </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Port</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbUser">
+         <property name="text">
+          <string>User</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbPassword">
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbDatabase">
+         <property name="text">
+          <string>Database</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QComboBox" name="cbbDrivers"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leServerName">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="toolButton">
+        <widget class="QLineEdit" name="lePort"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leUserName">
          <property name="text">
-          <string>...</string>
+          <string/>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lePassword">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="leDataBase">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
