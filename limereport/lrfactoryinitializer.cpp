@@ -49,6 +49,7 @@ void initResources(){
     Q_INIT_RESOURCE(items);
     Q_INIT_RESOURCE(lrscriptbrowser);
     Q_INIT_RESOURCE(translationeditor);
+    Q_INIT_RESOURCE(dialogdesigner);
 #endif
 }
 
