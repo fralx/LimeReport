@@ -649,7 +649,7 @@ void ReportDesignWindow::startNewReport()
     m_newReportHeader->setEnabled(true);
     m_newReportFooter->setEnabled(true);
     m_editorTabType = ReportDesignWidget::Page;
-    showDefaultEditors();
+    //showDefaultEditors();
     showDefaultToolBars();
 }
 
@@ -1089,7 +1089,7 @@ void ReportDesignWindow::slotLoadReport()
                 addRecentFile(fileName);
                 m_editorTabType = ReportDesignWidget::Page;
                 //showDefaultToolBars();
-                showDefaultEditors();
+                //showDefaultEditors();
             }
         }
 
