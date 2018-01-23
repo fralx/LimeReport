@@ -63,6 +63,7 @@ public:
     qreal height(){return m_rect.height();}
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 private:
     QRectF m_rect;
     QColor m_color;

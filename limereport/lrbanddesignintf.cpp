@@ -99,6 +99,11 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+void BandMarker::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    m_band->contextMenuEvent(event);
+}
+
 BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, QObject* owner, QGraphicsItem *parent) :
     ItemsContainerDesignInft(xmlTypeName, owner,parent),
     m_bandType(bandType),
