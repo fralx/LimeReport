@@ -225,14 +225,16 @@ void ReportDesignWindow::createActions()
     m_aboutAction->setIcon(QIcon(":/report/images/copyright"));
     connect(m_aboutAction,SIGNAL(triggered()),this,SLOT(slotShowAbout()));
 
-    m_hideLeftPanel = new QAction(tr("Hide left panel"),this);
+    m_hideLeftPanel = new QAction(tr("Hide left panel | Alt+L"),this);
     m_hideLeftPanel->setCheckable(true);
     m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
+    m_hideLeftPanel->setShortcut(QKeySequence(Qt::ALT + Qt::Key_L));
     connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
 
-    m_hideRightPanel = new QAction(tr("Hide right panel"),this);
+    m_hideRightPanel = new QAction(tr("Hide right panel | Alt+R"),this);
     m_hideRightPanel->setCheckable(true);
     m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
+    m_hideRightPanel->setShortcut(QKeySequence(Qt::ALT + Qt::Key_R));
     connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     m_deleteDialogAction = new QAction(tr("Delete dialog"), this);
