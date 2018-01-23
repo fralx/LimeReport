@@ -985,6 +985,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
 {
     qreal spaceBorder=0;
     if (keepBottomSpaceOption()) spaceBorder = bottomSpace();
+    spaceBorder = spaceBorder>0 ? spaceBorder : 0;
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
