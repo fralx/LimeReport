@@ -131,6 +131,8 @@ protected:
     void moveEvent(QMoveEvent *);
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
+    void setDocWidgetsVisibility(bool visible);
+
 private:
     void initReportEditor(ReportEnginePrivate* report);
     void createActions();
@@ -268,6 +270,8 @@ private:
     QVector<QToolBar*> m_pageTools;
     QVector<QToolBar*> m_dialogTools;
     bool m_reportItemIsLocked;
+    QMap<QDockWidget*, bool> m_leftDocVisibleState;
+    QMap<QDockWidget*, bool> m_rightDocVisibleState;
 
 };
 

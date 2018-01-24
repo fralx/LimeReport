@@ -659,13 +659,23 @@ void ReportDesignWindow::writePosition()
 {
     settings()->beginGroup("DesignerWindow");
     settings()->setValue("Geometry",saveGeometry());
-    settings()->setValue("State",saveState());
+//    settings()->setValue("State",saveState());
     settings()->endGroup();
+}
+
+void ReportDesignWindow::setDocWidgetsVisibility(bool visible)
+{
+    if (!m_hideLeftPanel->isChecked())
+        hideDockWidgets(Qt::LeftDockWidgetArea,!visible);
+    if (!m_hideRightPanel->isChecked())
+        hideDockWidgets(Qt::RightDockWidgetArea,!visible);
 }
 
 void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
+
+    setDocWidgetsVisibility(true);
 
     m_editorsStates[m_editorTabType] = saveState();
     settings()->setValue("PageEditorsState",        m_editorsStates[ReportDesignWidget::Page]);
@@ -1297,6 +1307,8 @@ void ReportDesignWindow::slotActivePageChanged()
 #endif
     }
 
+    setDocWidgetsVisibility(true);
+
     m_editorsStates[m_editorTabType] = saveState();
     m_editorTabType = m_reportDesignWidget->activeTabType();
 
@@ -1307,6 +1319,7 @@ void ReportDesignWindow::slotActivePageChanged()
         showDefaultToolBars();
     }
 
+    setDocWidgetsVisibility(false);
 }
 
 void ReportDesignWindow::renderStarted()
@@ -1350,20 +1363,42 @@ bool ReportDesignWindow::isDockAreaVisible(Qt::DockWidgetArea area){
 
 void ReportDesignWindow::hideDockWidgets(Qt::DockWidgetArea area, bool value){
     QList<QDockWidget *> dockWidgets = findChildren<QDockWidget *>();
+    QMap<QDockWidget*, bool>* currentDocState = 0;
+
+    switch (area) {
+    case Qt::LeftDockWidgetArea:
+        if (value)
+            m_leftDocVisibleState.clear();
+        currentDocState = &m_leftDocVisibleState;
+        break;
+    case Qt::RightDockWidgetArea:
+        if (value)
+            m_rightDocVisibleState.clear();
+        currentDocState = &m_rightDocVisibleState;
+    default:
+        break;
+    }
+
     foreach (QDockWidget* dw, dockWidgets) {
-        if (dockWidgetArea(dw) == area)
-            value ? dw->show(): dw->hide();
+        if (dockWidgetArea(dw) == area){
+            if (!value){
+                if (currentDocState->value(dw)) dw->show();
+            } else {
+                currentDocState->insert(dw, dw->isVisible());
+                dw->hide();
+            }
+        }
     }
 }
 
 void ReportDesignWindow::slotHideLeftPanel(bool value)
 {
-    hideDockWidgets(Qt::LeftDockWidgetArea,value);
+    hideDockWidgets(Qt::LeftDockWidgetArea,!value);
 }
 
 void ReportDesignWindow::slotHideRightPanel(bool value)
 {
-    hideDockWidgets(Qt::RightDockWidgetArea,value);
+    hideDockWidgets(Qt::RightDockWidgetArea,!value);
 }
 
 void ReportDesignWindow::slotEditSettings()
