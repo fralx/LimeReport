@@ -1337,7 +1337,6 @@ void ScriptEngineContext::initDialogs(){
 bool ScriptEngineContext::runInitScript(){
 
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
-    ScriptEngineManager::instance().clearTableOfContents();
     ScriptEngineManager::instance().setContext(this);
     m_tableOfContents->clear();
 
