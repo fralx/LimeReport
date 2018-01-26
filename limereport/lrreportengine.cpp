@@ -83,6 +83,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 #endif
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
+    scriptManager()->setDataManager(m_datasources);
     m_scriptEngineContext = new ScriptEngineContext(this);
 
     ICallbackDatasource* tableOfContents = m_datasources->createCallbackDatasource("tableofcontents");
