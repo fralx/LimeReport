@@ -73,6 +73,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 #endif
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
+    scriptManager()->setDataManager(m_datasources);
     m_scriptEngineContext = new ScriptEngineContext(this);
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
