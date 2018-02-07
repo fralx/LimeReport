@@ -69,8 +69,7 @@ public:
     virtual void                    emitSaveFinished() = 0;
     virtual bool                    isNeedToSave() = 0;
     virtual void                    emitSaveReport() = 0;
-    virtual bool                    saveToFile() = 0;
-    virtual bool                    saveToFile(const QString& fileName) = 0;
+    virtual bool                    saveToFile(const QString& fileName = "") = 0;
     virtual bool                    isSaved() = 0;
     virtual QString                 reportName() = 0;
     virtual bool                    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange) = 0;
@@ -139,8 +138,7 @@ public:
     bool    loadFromString(const QString& report, const QString& name = "");
     QString reportFileName(){return m_fileName;}
     void    setReportFileName(const QString& reportFileName){ m_fileName = reportFileName;}
-    bool    saveToFile();
-    bool    saveToFile(const QString& fileName);
+    bool    saveToFile(const QString& fileName = "");
     QByteArray  saveToByteArray();
     QString saveToString();
     bool    isNeedToSave();

@@ -95,7 +95,6 @@ public:
     bool    loadFromString(const QString& data);
     QString reportFileName();
     void    setReportFileName(const QString& fileName);
-    bool    saveToFile();
     bool    saveToFile(const QString& fileName);
     QByteArray  saveToByteArray();
     QString saveToString();

@@ -755,9 +755,10 @@ bool ReportEnginePrivate::loadFromString(const QString &report, const QString &n
 
 bool ReportEnginePrivate::saveToFile(const QString &fileName)
 {
-    if (fileName.isEmpty()) return false;
-    QFileInfo fi(fileName);
-    QString fn = fileName;
+    if (fileName.isEmpty() & m_fileName.isEmpty()) return false;
+    QString fn = fileName.isEmpty() ? m_fileName : fileName;
+    QFileInfo fi(fn);
+
     if (fi.suffix().isEmpty())
         fn+=".lrxml";
 
@@ -831,12 +832,6 @@ bool ReportEnginePrivate::isNeedToSave()
         if (page->isHasChanges()) return true;
     }
     return false;
-}
-
-bool ReportEnginePrivate::saveToFile()
-{
-    if (m_fileName.isEmpty()) return false;
-    return saveToFile(m_fileName);
 }
 
 QString ReportEnginePrivate::renderToString()
@@ -1253,12 +1248,6 @@ void ReportEngine::setReportFileName(const QString &fileName)
 {
     Q_D(ReportEngine);
     return d->setReportFileName(fileName);
-}
-
-bool ReportEngine::saveToFile()
-{
-    Q_D(ReportEngine);
-    return d->saveToFile();
 }
 
 bool ReportEngine::saveToFile(const QString &fileName)
