@@ -71,7 +71,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
     m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage),
-    m_designerFactory(0), m_previewLayoutDirection(Qt::LeftToRight)
+    m_previewLayoutDirection(Qt::LeftToRight), m_designerFactory(0)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();

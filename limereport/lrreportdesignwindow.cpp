@@ -1100,8 +1100,6 @@ void ReportDesignWindow::slotLoadReport()
             	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
                 addRecentFile(fileName);
                 m_editorTabType = ReportDesignWidget::Page;
-                //showDefaultToolBars();
-                //showDefaultEditors();
             }
         }
 

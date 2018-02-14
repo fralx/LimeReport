@@ -10,6 +10,7 @@
 #include <QDebug>
 
 #include "lrscripthighlighter.h"
+#include "lrglobal.h"
 
 namespace LimeReport{
 
@@ -92,6 +93,10 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Escape:
         case Qt::Key_Tab:
         case Qt::Key_Backtab:
+        case Qt::Key_Right:
+        case Qt::Key_Left:
+        case Qt::Key_Up:
+        case Qt::Key_Down:
             e->ignore();
             return;
         default:
@@ -106,13 +111,14 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
     if (!m_compleater || (ctrlOrShift && e->text().isEmpty()))
         return;
 
-    static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
     bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
 
     QString completionPrefix = textUnderCursor();
 
     if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3
-                        || eow.contains(e->text().right(1)))) {
+            || Const::EOW.contains(e->text().right(1)))
+       )
+    {
         m_compleater->popup()->hide();
         return;
     }
@@ -122,11 +128,22 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
         m_compleater->popup()->setCurrentIndex(m_compleater->completionModel()->index(0, 0));
     }
 
+    QModelIndex ci = m_compleater->completionModel()->index(0,0);
+    if (ci.isValid() && m_compleater->completionModel()->data(ci).toString().compare(completionPrefix) == 0){
+        m_compleater->popup()->hide();
+        return;
+    }
+
     QRect cr = cursorRect();
     cr.setWidth(m_compleater->popup()->sizeHintForColumn(0)
                 + m_compleater->popup()->verticalScrollBar()->sizeHint().width());
     m_compleater->complete(cr);
 
+    if (!completionPrefix.isEmpty() &&
+            completionPrefix.at(completionPrefix.length()-1) == '.')
+    {
+        m_compleater->popup();
+    }
 }
 
 void CodeEditor::focusInEvent(QFocusEvent *e)
@@ -145,8 +162,15 @@ void CodeEditor::resizeEvent(QResizeEvent* event)
 QString CodeEditor::textUnderCursor() const
 {
     QTextCursor tc = textCursor();
-    tc.select(QTextCursor::WordUnderCursor);
-    return tc.selectedText();
+    QString currentText;
+    tc.movePosition(QTextCursor::StartOfBlock,QTextCursor::KeepAnchor);
+    QString blockText = tc.selectedText();
+    for(int i = blockText.length(); i>0; --i){
+        if (!Const::EOW.contains(blockText.at(i-1)))
+            currentText = blockText.at(i-1) + currentText;
+        else break;
+    }
+    return currentText;
 }
 
 bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numLeftParentheses)

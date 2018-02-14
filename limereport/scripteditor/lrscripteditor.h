@@ -6,6 +6,7 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QScrollBar>
+#include <QStandardItemModel>
 
 namespace LimeReport{
 
@@ -18,6 +19,26 @@ class DataSourceManager;
 namespace Ui {
 class ScriptEditor;
 }
+
+class ReportStructureCompleater : public QCompleter{
+    Q_OBJECT
+public:
+    explicit ReportStructureCompleater(QObject* parent = 0): QCompleter(parent){ setModel(&m_model);}
+    explicit ReportStructureCompleater(QAbstractItemModel* model, QObject* parent = 0)
+        :QCompleter(model, parent){ setModel(&m_model);}
+public:
+    // QCompleter interface
+    QString pathFromIndex(const QModelIndex& index) const;
+    QStringList splitPath(const QString& path) const;
+    void updateCompleaterModel(ReportEnginePrivateInterface* report);
+    void updateCompleaterModel(DataSourceManager* dataManager);
+protected:
+    QStringList extractSlotNames(BaseDesignIntf* item);
+    void addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent);
+    void addAdditionalDatawords(DataSourceManager *dataManager);
+private:
+    QStandardItemModel m_model;
+};
 
 class ScriptEditor : public QWidget
 {
@@ -50,8 +71,7 @@ private:
     Ui::ScriptEditor *ui;
     ReportEnginePrivateInterface* m_reportEngine;
     PageDesignIntf* m_page;
-    QCompleter* m_completer;
-
+    ReportStructureCompleater* m_completer;
 };
 
 } // namespace LimeReport

@@ -1275,9 +1275,11 @@ void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDe
 
 #ifdef USE_QJSENGINE
         ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
-        engine->globalObject().setProperty(pageName+"_"+item->patternName(), sItem);
+        QString on = item->patternName().compare(pageName) == 0 ? pageName : pageName+"_"+item->patternName();
+        engine->globalObject().setProperty(on, sItem);
 #else
-        ScriptValueType sItem = engine->globalObject().property(pageName+"_"+item->patternName());
+        QString on = item->patternName().compare(pageName) == 0 ? pageName : pageName+"_"+item->patternName();
+        ScriptValueType sItem = engine->globalObject().property(on);
         if (sItem.isValid()){
             engine->newQObject(sItem, item);
         } else {

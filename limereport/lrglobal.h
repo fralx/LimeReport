@@ -86,14 +86,16 @@ namespace Const{
     const QString NAMED_VARIABLE_RX = "\\$V\\s*\\{\\s*(%1)\\s*\\}";
     const QString SCRIPT_RX = "\\$S\\s*\\{(.*)\\}";    
     const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*((?:(?:\\\")|(?:))(?:(?:\\$(?:(?:D\\{\\s*\\w*.\\w*\\s*\\})|(?:V\\{\\s*\\w*\\s*\\})|(?:S\\{.+\\})))|(?:\\w*))(?:(?:\\\")|(?:)))(?:(?:\\s*,\\s*(?:\\\"(\\w*)\\\"))|(?:))\\)";
-    const int DATASOURCE_INDEX = 3;//4;
-    const int VALUE_INDEX = 2; //2;
-    const int EXPRESSION_ARGUMENT_INDEX = 1;//3;
+    const int DATASOURCE_INDEX = 3;
+    const int VALUE_INDEX = 2;
+    const int EXPRESSION_ARGUMENT_INDEX = 1;
 
     const QString GROUP_FUNCTION_RX = "(%1\\s*"+GROUP_FUNCTION_PARAM_RX+")";
     const QString GROUP_FUNCTION_NAME_RX = "%1\\s*\\((.*[^\\)])\\)";
     const int SCENE_MARGIN = 50;
     const QString FUNCTION_MANAGER_NAME = "LimeReport";
+    const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
+
 }
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);

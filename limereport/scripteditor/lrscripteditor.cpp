@@ -18,7 +18,7 @@ ScriptEditor::ScriptEditor(QWidget *parent) :
 {
     ui->setupUi(this);
     setFocusProxy(ui->textEdit);
-    m_completer = new QCompleter(this);
+    m_completer = new ReportStructureCompleater(this);
     ui->textEdit->setCompleter(m_completer);
     connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SIGNAL(splitterMoved(int,int)));
 }
@@ -81,47 +81,60 @@ void ScriptEditor::setPageBand(BandDesignIntf* band)
 
 void ScriptEditor::initCompleter()
 {
-    QStringList dataWords;
+//    QStringList dataWords;
 
-    DataSourceManager* dm = 0;
+//    DataSourceManager* dm = 0;
+//    if (m_reportEngine)
+//        dm = m_reportEngine->dataManager();
+//    if (m_page)
+//        dm = m_page->datasourceManager();
+
+//#ifdef USE_QJSENGINE
+//    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
+//    QJSValue globalObject = se.scriptEngine()->globalObject();
+//    QJSValueIterator it(globalObject);
+//    while (it.hasNext()){
+//        it.next();
+//        if (it.value().isCallable() ){
+//            dataWords << it.name();
+//        }
+//    }
+//#endif
+//    foreach(const QString &dsName,dm->dataSourceNames()){
+//        dataWords << dsName;
+//        foreach(const QString &field, dm->fieldNames(dsName)){
+//            dataWords<<dsName+"."+field;
+//        }
+//    }
+
+//    foreach (QString varName, dm->variableNames()) {
+//        dataWords << varName.remove("#");
+//    }
+
+//    if (m_reportEngine){
+//        for ( int i = 0; i < m_reportEngine->pageCount(); ++i){
+//            PageDesignIntf* page = m_reportEngine->pageAt(i);
+//            dataWords << page->pageItem()->objectName();
+//            QMetaObject const * mo = page->pageItem()->metaObject();
+//            for(int i = mo->methodOffset(); i < mo->methodCount(); ++i)
+//            {
+//                if (mo->method(i).methodType() == QMetaMethod::Signal) {
+//                    dataWords << page->pageItem()->objectName() +"."+QString::fromLatin1(mo->method(i).name());
+//                }
+//            }
+//            dataWords << page->pageItem()->objectName()+".beforeRender";
+//            dataWords << page->pageItem()->objectName()+".afterRender";
+//            foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
+//                addItemToCompleater(page->pageItem()->objectName(), item, dataWords);
+//            }
+//        }
+//    }
+
+//    dataWords.sort();
     if (m_reportEngine)
-        dm = m_reportEngine->dataManager();
-    if (m_page)
-        dm = m_page->datasourceManager();
-
-#ifdef USE_QJSENGINE
-    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
-    QJSValue globalObject = se.scriptEngine()->globalObject();
-    QJSValueIterator it(globalObject);
-    while (it.hasNext()){
-        it.next();
-        if (it.value().isCallable() ){
-            dataWords << it.name();
-        }
-    }
-#endif
-    foreach(const QString &dsName,dm->dataSourceNames()){
-        dataWords << dsName;
-        foreach(const QString &field, dm->fieldNames(dsName)){
-            dataWords<<dsName+"."+field;
-        }
-    }
-
-    foreach (QString varName, dm->variableNames()) {
-        dataWords << varName.remove("#");
-    }
-
-    if (m_reportEngine){
-        for ( int i = 0; i < m_reportEngine->pageCount(); ++i){
-            PageDesignIntf* page = m_reportEngine->pageAt(i);
-            dataWords << page->pageItem()->objectName();
-            foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
-                addItemToCompleater(page->pageItem()->objectName(), item, dataWords);
-            }
-        }
-    }
-
-    m_completer->setModel(new QStringListModel(dataWords,m_completer));    
+        m_completer->updateCompleaterModel(m_reportEngine);
+    else
+        m_completer->updateCompleaterModel(m_page->datasourceManager());
 }
 
 QByteArray ScriptEditor::saveState()
@@ -204,6 +217,129 @@ void ScriptEditor::slotOnCurrentChanged(const QModelIndex &to, const QModelIndex
     if (node->type()==LimeReport::ScriptEngineNode::Function){
        ui->lblDescription->setText(node->description());
     }
+}
+
+
+
+QString ReportStructureCompleater::pathFromIndex(const QModelIndex &index) const
+{
+    QStringList dataList;
+    for (QModelIndex i = index; i.isValid(); i = i.parent()) {
+        dataList.prepend(model()->data(i, Qt::DisplayRole).toString());
+    }
+    return dataList.join(".");
+}
+
+QStringList ReportStructureCompleater::splitPath(const QString &path) const
+{
+    return path.split(".");
+}
+
+void ReportStructureCompleater::addAdditionalDatawords(DataSourceManager* dataManager){
+
+    foreach(const QString &dsName,dataManager->dataSourceNames()){
+        QStandardItem* dsNode = new QStandardItem;
+        dsNode->setText(dsName);
+        foreach(const QString &field, dataManager->fieldNames(dsName)){
+            QStandardItem* fieldNode = new QStandardItem;
+            fieldNode->setText(field);
+            dsNode->appendRow(fieldNode);
+        }
+        m_model.invisibleRootItem()->appendRow(dsNode);
+    }
+
+    foreach (QString varName, dataManager->variableNames()) {
+        QStandardItem* varNode = new QStandardItem;
+        varNode->setText(varName.remove("#"));
+        m_model.invisibleRootItem()->appendRow(varNode);
+    }
+
+#ifdef USE_QJSENGINE
+    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
+    QJSValue globalObject = se.scriptEngine()->globalObject();
+    QJSValueIterator it(globalObject);
+    while (it.hasNext()){
+        it.next();
+        if (it.value().isCallable() ){
+            QStandardItem* itemNode = new QStandardItem;
+            itemNode->setText(it.name());
+            m_model.invisibleRootItem()->appendRow(itemNode);
+        }
+    }
+#endif
+
+}
+
+void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterface* report)
+{
+    if (report){
+        m_model.clear();
+
+        addAdditionalDatawords(report->dataManager());
+
+        for ( int i = 0; i < report->pageCount(); ++i){
+            PageDesignIntf* page = report->pageAt(i);
+
+            QStandardItem* itemNode = new QStandardItem;
+            itemNode->setText(page->pageItem()->objectName());
+            m_model.invisibleRootItem()->appendRow(itemNode);
+
+            QStringList slotsNames = extractSlotNames(page->pageItem());
+            foreach(QString slotName, slotsNames){
+                QStandardItem* slotItem = new QStandardItem;
+                slotItem->setText(slotName);
+                itemNode->appendRow(slotItem);
+            }
+            foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
+                addChildItem(item, itemNode->text(), m_model.invisibleRootItem());
+            }
+        }
+    }
+}
+
+void ReportStructureCompleater::updateCompleaterModel(DataSourceManager *dataManager)
+{
+    m_model.clear();
+    addAdditionalDatawords(dataManager);
+}
+
+QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
+{
+    QStringList result;
+    if (!item) return result;
+    QMetaObject const * mo = item->metaObject();
+    while (mo){
+        for(int i = mo->methodOffset(); i < mo->methodCount(); ++i)
+        {
+            if (mo->method(i).methodType() == QMetaMethod::Signal) {
+                result.append(QString::fromLatin1(mo->method(i).name()));
+            }
+        }
+        mo = mo->superClass();
+    }
+    result.sort();
+    return result;
+}
+
+void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent)
+{
+    if (!item) return;
+
+    QStandardItem* itemNode = new QStandardItem;
+    itemNode->setText(pageName+"_"+item->objectName());
+    parent->appendRow(itemNode);
+    QStringList slotNames = extractSlotNames(item);
+    foreach(QString slotName, slotNames){
+        QStandardItem* slotItem = new QStandardItem;
+        slotItem->setText(slotName);
+        itemNode->appendRow(slotItem);
+    }
+    //BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+    //if (band){
+    foreach (BaseDesignIntf* child, item->childBaseItems()){
+        addChildItem(child, pageName, parent);
+    }
+    //}
 }
 
 } // namespace LimeReport
