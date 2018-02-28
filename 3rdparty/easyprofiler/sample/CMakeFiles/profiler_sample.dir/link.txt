@@ -1,0 +1,1 @@
+/usr/bin/c++   -O3 -DNDEBUG   CMakeFiles/profiler_sample.dir/main.cpp.o  -o ../bin/profiler_sample  -L/home/alex/Work/C++Projects/easyprofiler/../bin -rdynamic ../bin/libeasy_profiler.so -lpthread -Wl,-rpath,/home/alex/Work/C++Projects/easyprofiler/../bin:/home/alex/Work/C++Projects/easyprofiler/bin 

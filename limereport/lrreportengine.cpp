@@ -56,6 +56,8 @@
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
 
+#include "easy/profiler.h"
+
 
 #ifdef HAVE_STATIC_BUILD
 #include "lrfactoryinitializer.h"
@@ -223,6 +225,12 @@ void ReportEnginePrivate::slotPreviewWindowDestroyed(QObject* window)
     }
 }
 
+void ReportEnginePrivate::slotDesignerWindowDestroyed(QObject *window)
+{
+    Q_UNUSED(window)
+    dataManager()->setDesignTime(false);
+}
+
 void ReportEnginePrivate::clearReport()
 {
     foreach(PageDesignIntf* page,m_pages) delete page;
@@ -375,7 +383,7 @@ void ReportEnginePrivate::setReportTranslation(const QString &languageName)
            setReportLanguage(language);
        }
     }
-};
+}
 
 bool ReportEnginePrivate::printReport(QPrinter* printer)
 {
@@ -396,9 +404,10 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     printer =(printer)?printer:m_printer.data();
     if (printer&&printer->isValid()){
         try{
+            bool designTime = dataManager()->designTime();
 			dataManager()->setDesignTime(false);
             ReportPages pages = renderToPages();
-            dataManager()->setDesignTime(true);
+            dataManager()->setDesignTime(designTime);
             if (pages.count()>0){
                 printReport(pages,*printer);
             }
@@ -601,6 +610,7 @@ void ReportEnginePrivate::setCurrentReportsDir(const QString &dirName)
 
 bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
 {
+    EASY_BLOCK("ReportEnginePrivate::slotLoadFromFile")
     PreviewReportWindow  *currentPreview = qobject_cast<PreviewReportWindow *>(m_activePreview);
    
     if (!QFile::exists(fileName))
@@ -642,17 +652,20 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
                     }
                 }
             }
-
+            EASY_BLOCK("Connect auto connections")
             dataManager()->connectAutoConnections();
+            EASY_END_BLOCK;
 
             if ( hasActivePreview() )
             {
                currentPreview->reloadPreview();
             }
+            EASY_END_BLOCK;
             return true;
         };
     }
     m_lastError = reader->lastError();
+    EASY_END_BLOCK;
     return false;
 }
 
@@ -672,6 +685,8 @@ void ReportEnginePrivate::designReport()
 {
     ReportDesignWindowInterface* designerWindow = getDesignerWindow();
     if (designerWindow){
+        dataManager()->setDesignTime(true);
+        connect(designerWindow, SIGNAL(destroyed(QObject*)), this, SLOT(slotDesignerWindowDestroyed(QObject*)));
 #ifdef Q_OS_WIN    
         designerWindow->setWindowModality(Qt::ApplicationModal);
 #endif
@@ -709,6 +724,7 @@ QSettings*ReportEnginePrivate::settings()
 bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
 {
    // only watch one file at a time
+
    if ( !m_fileWatcher->files().isEmpty() )
    {
       m_fileWatcher->removePaths( m_fileWatcher->files() );

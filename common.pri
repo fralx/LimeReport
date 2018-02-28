@@ -1,7 +1,17 @@
 CONFIG *= build_translations
+#CONFIG *= easy_profiler
 
 !contains(CONFIG, no_zint){
     CONFIG *= zint
+}
+
+INCLUDEPATH += $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
+DEPENDPATH += $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
+
+contains(CONFIG, easy_profiler){
+    message(EasyProfiler)
+    unix|win32: LIBS += -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler
+    DEFINES += BUILD_WITH_EASY_PROFILER
 }
 
 !contains(CONFIG, qtscriptengine):
@@ -9,7 +19,6 @@ greaterThan(QT_MAJOR_VERSION, 4):
 greaterThan(QT_MINOR_VERSION, 5){
     CONFIG *= qjsengine
 }
-
 
 !contains(CONFIG, no_formdesigner){
     CONFIG *= dialogdesigner
@@ -28,6 +37,7 @@ contains(CONFIG,zint){
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT *= uitools
 }
+
 lessThan(QT_MAJOR_VERSION, 5){
     CONFIG *= uitools
 }
@@ -107,5 +117,3 @@ lessThan(QT_MAJOR_VERSION, 5){
         DEFINES *= HAVE_UI_LOADER
     }
 }
-
-

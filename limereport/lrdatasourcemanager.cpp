@@ -37,6 +37,8 @@
 #include <QFileInfo>
 #include <stdexcept>
 
+#include "easy/profiler.h"
+
 namespace LimeReport{
 
 DataNode::~DataNode()
@@ -217,7 +219,7 @@ void DataSourceModel::updateModel()
 }
 
 DataSourceManager::DataSourceManager(QObject *parent) :
-    QObject(parent), m_lastError(""), m_designTime(true), m_needUpdate(false), m_dbCredentialsProvider(0)
+    QObject(parent), m_lastError(""), m_designTime(false), m_needUpdate(false), m_dbCredentialsProvider(0)
 {
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("COUNT"),new ConstructorGroupFunctionCreator<CountGroupFunction>);
     m_groupFunctionFactory.registerFunctionCreator(QLatin1String("SUM"),new ConstructorGroupFunctionCreator<SumGroupFunction>);
@@ -1104,11 +1106,11 @@ QObject* DataSourceManager::elementAt(const QString &collectionName, int index)
 
 void DataSourceManager::collectionLoadFinished(const QString &collectionName)
 {
-
+    EASY_BLOCK("DataSourceManager::collectionLoadFinished");
     if (collectionName.compare("connections",Qt::CaseInsensitive) == 0){
 
     }
-
+    EASY_BLOCK("queryes");
     if (collectionName.compare("queries",Qt::CaseInsensitive) == 0){
 
         QMutableListIterator<QueryDesc*> it(m_queries);
@@ -1125,7 +1127,8 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
         }
 
     }
-
+    EASY_END_BLOCK;
+    EASY_BLOCK("subqueries")
     if (collectionName.compare("subqueries",Qt::CaseInsensitive) == 0){
 
         QMutableListIterator<SubQueryDesc*> it(m_subqueries);
@@ -1147,7 +1150,8 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
         }
 
     }
-
+    EASY_END_BLOCK;
+    EASY_BLOCK("subproxies");
     if (collectionName.compare("subproxies",Qt::CaseInsensitive) == 0){
         QMutableListIterator<ProxyDesc*> it(m_proxies);
         while (it.hasNext()){
@@ -1160,7 +1164,8 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
             }
         }
     }
-
+    EASY_END_BLOCK;
+    EASY_BLOCK("variables");
     if (collectionName.compare("variables",Qt::CaseInsensitive) == 0){
         foreach (VarDesc* item, m_tempVars) {
             if (!m_reportVariables.containsVariable(item->name())){
@@ -1172,9 +1177,16 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
         }
         m_tempVars.clear();
     }
-
-    emit datasourcesChanged();
+    EASY_END_BLOCK;
+    if (designTime()){
+        EASY_BLOCK("emit datasourcesChanged()");
+        emit datasourcesChanged();
+        EASY_END_BLOCK;
+    }
+    EASY_BLOCK("emit loadCollectionFinished(collectionName)");
     emit loadCollectionFinished(collectionName);
+    EASY_END_BLOCK;
+    EASY_END_BLOCK;
 }
 
 void DataSourceManager::addVariable(const QString &name, const QVariant &value, VarDesc::VarType type, RenderPass pass)
@@ -1184,8 +1196,11 @@ void DataSourceManager::addVariable(const QString &name, const QVariant &value, 
     } else {
         m_reportVariables.addVariable(name,value,type,pass);
     }
-    if (designTime())
-      emit datasourcesChanged();
+    if (designTime()){
+        EASY_BLOCK("DataSourceManager::addVariable emit ds changed");
+        emit datasourcesChanged();
+        EASY_END_BLOCK;
+    }
 }
 
 void DataSourceManager::deleteVariable(const QString& name)
