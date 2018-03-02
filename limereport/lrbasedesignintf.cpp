@@ -1153,6 +1153,7 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    if (!(flags() & QGraphicsItem::ItemIsSelectable)) return;
     PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
     if (!page->selectedItems().contains(this)){
         page->clearSelection();
