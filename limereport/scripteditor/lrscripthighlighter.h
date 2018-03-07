@@ -23,6 +23,7 @@ class TextBlockData : public QTextBlockUserData
 {
 public:
     TextBlockData(){}
+    ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses();
     void insert(ParenthesisInfo *info);
 

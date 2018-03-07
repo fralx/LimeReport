@@ -205,6 +205,13 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
     }
 }
 
+TextBlockData::~TextBlockData()
+{
+    foreach(ParenthesisInfo* info, m_parentheses){
+        delete info;
+    }
+}
+
 QVector<ParenthesisInfo*> TextBlockData::parentheses()
 {
     return m_parentheses;
