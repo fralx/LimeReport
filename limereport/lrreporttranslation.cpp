@@ -32,7 +32,7 @@ ReportTranslation::~ReportTranslation()
 PageTranslation* ReportTranslation::createPageTranslation(PageDesignIntf* page)
 {
     PageTranslation* pageTranslation = new PageTranslation;
-    pageTranslation->pageName = page->objectName();
+    pageTranslation->pageName = page->pageItem()->objectName();
     foreach(BaseDesignIntf* item, page->pageItem()->allChildBaseItems()){
         createItemTranslation(item, pageTranslation);
     }

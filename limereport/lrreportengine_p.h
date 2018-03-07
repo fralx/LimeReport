@@ -214,10 +214,12 @@ private:
     //ITranslationContainer
     ReportPages renderToPages();
     QString renderToString();
-    PageDesignIntf* getPageByName(const QString& pageName);
+    PageItemDesignIntf *getPageByName(const QString& pageName);
     ATranslationProperty fakeTranslationReader(){ return ATranslationProperty();}
+    PageItemDesignIntf *createRenderingPage(PageItemDesignIntf *page);
 private:
     QList<PageDesignIntf*> m_pages;
+    QList<PageItemDesignIntf*> m_renderingPages;
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
     ReportRender::Ptr m_reportRender;

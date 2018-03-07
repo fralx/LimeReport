@@ -858,13 +858,13 @@ QString ReportEnginePrivate::renderToString()
     if (m_pages.count()){
         render.setDatasources(dataManager());
         render.setScriptContext(scriptContext());
-        return render.renderPageToString(m_pages.at(0));
+        return render.renderPageToString(m_pages.at(0)->pageItem());
     }else return QString();
 }
 
-PageDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
+PageItemDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
 {
-    foreach(PageDesignIntf* page, m_pages){
+    foreach(PageItemDesignIntf* page, m_renderingPages){
         if ( page->objectName().compare(pageName, Qt::CaseInsensitive) == 0)
             return page;
     }
@@ -931,10 +931,10 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
     ReportTranslation* translation = m_translations.value(language);
 
     foreach(PageTranslation* pageTranslation, translation->pagesTranslation()){
-        PageDesignIntf* page = getPageByName(pageTranslation->pageName);
+        PageItemDesignIntf* page = getPageByName(pageTranslation->pageName);
         if (page){
             foreach(ItemTranslation* itemTranslation, pageTranslation->itemsTranslation){
-                BaseDesignIntf* item = page->pageItem()->childByName(itemTranslation->itemName);
+                BaseDesignIntf* item = page->childByName(itemTranslation->itemName);
                 if (item) {
                     foreach(PropertyTranslation* propertyTranslation, itemTranslation->propertyesTranslation){
                         item->setProperty(propertyTranslation->propertyName.toLatin1(), propertyTranslation->value);
@@ -1017,6 +1017,13 @@ void ReportEnginePrivate::setPreviewWindowIcon(const QIcon &previewWindowIcon)
     m_previewWindowIcon = previewWindowIcon;
 }
 
+PageItemDesignIntf* ReportEnginePrivate::createRenderingPage(PageItemDesignIntf* page){
+    PageItemDesignIntf* result = dynamic_cast<PageItemDesignIntf*>(page->cloneItem(page->itemMode()));
+    ICollectionContainer* co = dynamic_cast<ICollectionContainer*>(result);
+    if (co) co->collectionLoadFinished("children");
+    return result;
+}
+
 ReportPages ReportEnginePrivate::renderToPages()
 {
     if (m_reportRendering) return ReportPages();
@@ -1031,6 +1038,7 @@ ReportPages ReportEnginePrivate::renderToPages()
             this, SIGNAL(renderPageFinished(int)));
 
     if (m_pages.count()){
+
 #ifdef HAVE_UI_LOADER
         m_scriptEngineContext->initDialogs();
 #endif
@@ -1041,7 +1049,9 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRender->setScriptContext(scriptContext());
 
         foreach (PageDesignIntf* page, m_pages) {
-            scriptContext()->baseDesignIntfToScript(page->pageItem()->objectName(), page->pageItem());
+            PageItemDesignIntf* rp = createRenderingPage(page->pageItem());
+            m_renderingPages.append(rp);
+            scriptContext()->baseDesignIntfToScript(rp->objectName(), rp);
         }
 
         scriptContext()->qobjectToScript("engine",this);
@@ -1051,27 +1061,25 @@ ReportPages ReportEnginePrivate::renderToPages()
             activateLanguage(m_reportLanguage);
             emit renderStarted();
 
-            foreach(PageDesignIntf* page , m_pages){
-                if (!page->pageItem()->isTOC()){
+            foreach(PageItemDesignIntf* page , m_renderingPages){
+                if (!page->isTOC() && page->isPrintable()){
                     page->setReportSettings(&m_reportSettings);
                     result.append(m_reportRender->renderPageToPages(page));
                 }
             }
 
 
-//            m_reportRender->secondRenderPass(result);
-
-            for (int i=0; i<m_pages.count(); ++i){
-                 PageDesignIntf* page = m_pages.at(i);
-                if (page->pageItem()->isTOC()){
+            for (int i=0; i<m_renderingPages.count(); ++i){
+                PageItemDesignIntf* page = m_renderingPages.at(i);
+                if (page->isTOC()){
                     page->setReportSettings(&m_reportSettings);
                     if (i==0){
-                        PageDesignIntf* secondPage = 0;
-                        if (m_pages.count()>1) secondPage = m_pages.at(1);
+                        PageItemDesignIntf* secondPage = 0;
+                        if (m_pages.count()>1) secondPage = m_renderingPages.at(1);
                         ReportPages pages = m_reportRender->renderTOC(
                                     page,
                                     true,
-                                    secondPage && secondPage->pageItem()->resetPageNumber()
+                                    secondPage && secondPage->resetPageNumber()
                         );
                         for (int j=0; j<pages.count(); ++j){
                             result.insert(j,pages.at(j));
@@ -1087,9 +1095,14 @@ ReportPages ReportEnginePrivate::renderToPages()
 
             emit renderFinished();
             m_reportRender.clear();
+
+            foreach(PageItemDesignIntf* page, m_renderingPages){
+                delete page;
+            }
+            m_renderingPages.clear();
         }
         m_reportRendering = false;
-        activateLanguage(QLocale::AnyLanguage);
+        //activateLanguage(QLocale::AnyLanguage);
         return result;
     } else {
         return ReportPages();

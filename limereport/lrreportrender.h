@@ -80,9 +80,9 @@ public:
     DataSourceManager*  datasources(){return m_datasources;}
     int     pageCount();
     PageItemDesignIntf::Ptr pageAt(int index);
-    QString renderPageToString(PageDesignIntf *patternPage);
-    ReportPages renderPageToPages(PageDesignIntf *patternPage);
-    ReportPages renderTOC(PageDesignIntf* patternPage, bool first, bool resetPages);
+    QString renderPageToString(PageItemDesignIntf *patternPage);
+    ReportPages renderPageToPages(PageItemDesignIntf *patternPage);
+    ReportPages renderTOC(PageItemDesignIntf *patternPage, bool first, bool resetPages);
     void    secondRenderPass(ReportPages renderedPages);
 signals:
     void    pageRendered(int renderedPageCount);
@@ -96,7 +96,7 @@ private:
     void    initGroups();
     void    clearPageMap();
 
-    void    renderPage(PageDesignIntf *patternPage, bool isTOC = false, bool isFirst = false, bool resetPageNumbers = false);
+    void    renderPage(PageItemDesignIntf *patternPage, bool isTOC = false, bool isFirst = false, bool resetPageNumbers = false);
     BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);

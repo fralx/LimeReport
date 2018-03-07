@@ -187,10 +187,10 @@ void ReportRender::initDatasource(const QString& name){
     }
 }
 
-void ReportRender::renderPage(PageDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
+void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
 {
     m_curentNameIndex = 0;
-    m_patternPageItem = patternPage->pageItem();
+    m_patternPageItem = patternPage;
     m_renderingFirstTOC = isTOC && isFirst;
 
     if (m_patternPageItem->resetPageNumber() && m_pageCount>0 && !isTOC) {
@@ -269,19 +269,19 @@ PageItemDesignIntf::Ptr ReportRender::pageAt(int index)
     else return m_renderedPages.at(index);
 }
 
-QString ReportRender::renderPageToString(PageDesignIntf *patternPage)
+QString ReportRender::renderPageToString(PageItemDesignIntf *patternPage)
 {
     renderPage(patternPage);
     return toString();
 }
 
-ReportPages ReportRender::renderPageToPages(PageDesignIntf *patternPage)
+ReportPages ReportRender::renderPageToPages(PageItemDesignIntf *patternPage)
 {
     renderPage(patternPage);
     return m_renderedPages;
 }
 
-ReportPages ReportRender::renderTOC(PageDesignIntf* patternPage, bool first, bool resetPages){
+ReportPages ReportRender::renderTOC(PageItemDesignIntf* patternPage, bool first, bool resetPages){
     renderPage(patternPage, true, first, resetPages);
     return m_renderedPages;
 }
@@ -1134,7 +1134,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
 {
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
 
-    m_scriptEngineContext->baseDesignIntfToScript(patternBand->page()->pageItem()->objectName(), bandClone);
+    m_scriptEngineContext->baseDesignIntfToScript(patternBand->parent()->objectName(), bandClone);
     m_scriptEngineContext->setCurrentBand(bandClone);
     emit(patternBand->beforeRender());
 
