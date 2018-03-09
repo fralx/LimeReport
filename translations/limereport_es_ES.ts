@@ -1388,6 +1388,16 @@ p, li { white-space: pre-wrap; }
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Report File Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The report file &quot;%1&quot; has changed names or been deleted.
+
+This preview is no longer valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportFooter</name>

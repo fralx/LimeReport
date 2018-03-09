@@ -17,9 +17,19 @@ macx{
 }
 
 unix:{
-    LIBS += -L$${DEST_LIBS} -llimereport
+    LIBS += -L$${DEST_LIBS}
+    CONFIG(debug, debug|release) {
+        LIBS += -llimereportd
+    } else {
+        LIBS += -llimereport
+    }
     contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS} -lQtZint
+        LIBS += -L$${DEST_LIBS}
+        CONFIG(debug, debug|release) {
+            LIBS += -lQtZintd
+        } else {
+            LIBS += -lQtZint
+        }
     }
     DESTDIR = $$DEST_DIR
 linux{
@@ -42,8 +52,18 @@ win32 {
     RC_FILE += mainicon.rc
 
     contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS} -lQtZint
+        LIBS += -L$${DEST_LIBS}
+        CONFIG(debug, debug|release) {
+            LIBS += -lQtZintd
+        } else {
+            LIBS += -lQtZint
+        }
     }
-    LIBS += -L$${DEST_LIBS} -llimereport
+    LIBS += -L$${DEST_LIBS}
+    CONFIG(debug, debug|release) {
+        LIBS += -llimereportd
+    } else {
+        LIBS += -llimereport
+    }
 }
 
