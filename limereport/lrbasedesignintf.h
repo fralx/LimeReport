@@ -341,7 +341,6 @@ protected:
 
     virtual void preparePopUpMenu(QMenu& menu){Q_UNUSED(menu)}
     virtual void processPopUpAction(QAction* action){Q_UNUSED(action)}
-
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -401,6 +400,7 @@ signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
     void itemSelected(LimeReport::BaseDesignIntf *item);
+    void itemSelectedHasBeenChanged(BaseDesignIntf *item, bool value);
     void loadCollectionFinished(const QString& collectionName);
     void objectLoaded(QObject* object);
     void objectChanged(QObject* object);

@@ -50,7 +50,9 @@
 #include "lrpreviewreportwindow.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
-
+#ifdef HAVE_STATIC_BUILD
+#include "lrfactoryinitializer.h"
+#endif
 namespace LimeReport{
 
 QSettings* ReportEngine::m_settings = 0;
@@ -63,8 +65,15 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
     m_fileWatcher( new QFileSystemWatcher( this ) )
 {
+#ifdef HAVE_STATIC_BUILD
+    initResources();
+    initReportItems();
+    initObjectInspectorProperties();
+    initSerializators();
+#endif
     m_datasources = new DataSourceManager(this);
     m_datasources->setReportSettings(&m_reportSettings);
+    scriptManager()->setDataManager(m_datasources);
     m_scriptEngineContext = new ScriptEngineContext(this);
     m_datasources->setObjectName("datasources");
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
@@ -98,6 +107,7 @@ PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
 {
     PageDesignIntf* page =new PageDesignIntf();
     page->setObjectName(pageName);
+    page->pageItem()->setObjectName("Report"+pageName);
     page->setReportEditor(this);
     page->setReportSettings(&m_reportSettings);
     return page;
@@ -355,7 +365,7 @@ bool ReportEnginePrivate::printToPDF(const QString &fileName)
 
 void ReportEnginePrivate::previewReport(PreviewHints hints)
 { 
-    QTime start = QTime::currentTime();
+//    QTime start = QTime::currentTime();
     try{
         dataManager()->setDesignTime(false);
         ReportPages pages = renderToPages();
@@ -370,6 +380,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setWindowTitle(m_previewWindowTitle);
             w->setSettings(settings());
             w->setPages(pages);
+            w->setLayoutDirection(m_previewLayoutDirection);
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
@@ -384,7 +395,6 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
 
             m_activePreview = w;
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
-            qDebug()<<"render time ="<<start.msecsTo(QTime::currentTime());
             w->exec();
         }
     } catch (ReportError &exception){
@@ -707,9 +717,36 @@ QString ReportEnginePrivate::renderToString()
     }else return QString();
 }
 
+Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
+{
+    return m_previewLayoutDirection;
+}
+
+void ReportEnginePrivate::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
+{
+    m_previewLayoutDirection = layoutDirection;
+}
+
 void ReportEnginePrivate::setPassPhrase(const QString &passPhrase)
 {
     m_passPhrase = passPhrase;
+}
+
+void ReportEnginePrivate::reorderPages(const QList<PageDesignIntf *>& reorderedPages)
+{
+    m_pages.clear();
+    foreach(PageDesignIntf* page, reorderedPages){
+        m_pages.append(page);
+    }
+}
+
+void ReportEnginePrivate::clearSelection()
+{
+    foreach (PageDesignIntf* page, m_pages) {
+        foreach(QGraphicsItem* item, page->selectedItems()){
+            item->setSelected(false);
+        }
+    }
 }
 
 bool ReportEnginePrivate::resultIsEditable() const
@@ -894,6 +931,18 @@ void ReportEngine::setPassPharse(QString &passPharse)
 {
     Q_D(ReportEngine);
     d->setPassPhrase(passPharse);
+}
+
+Qt::LayoutDirection ReportEngine::previewLayoutDirection()
+{
+    Q_D(ReportEngine);
+    return d->previewLayoutDirection();
+}
+
+void ReportEngine::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDirection)
+{
+    Q_D(ReportEngine);
+    return d->setPreviewLayoutDirection(layoutDirection);
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

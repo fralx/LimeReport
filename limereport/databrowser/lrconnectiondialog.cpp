@@ -95,7 +95,7 @@ void ConnectionDialog::checkFieldsFill()
 {
     if (ui->leConnectionName->text().isEmpty()){throw LimeReport::ReportError(tr("Connection Name is empty"));}
     if (!m_changeMode&&QSqlDatabase::connectionNames().contains(ui->leConnectionName->text())) {
-        throw LimeReport::ReportError(tr("Connection with name ")+ui->leConnectionName->text()+tr(" already exists "));
+        throw LimeReport::ReportError(tr("Connection with name ")+ui->leConnectionName->text()+tr(" already exists! "));
     }
 }
 
@@ -117,6 +117,8 @@ ConnectionDesc *ConnectionDialog::uiToConnection(LimeReport::ConnectionDesc* con
         result = new LimeReport::ConnectionDesc();
     result ->setName(ConnectionDesc::connectionNameForReport(ui->leConnectionName->text()));
     result ->setHost(ui->leServerName->text());
+    if (!ui->lePort->text().isEmpty())
+        result->setPort(ui->lePort->text().toInt());
     result ->setDriver(ui->cbbDrivers->currentText());
     result ->setUserName(ui->leUserName->text());
     result ->setPassword(ui->lePassword->text());
@@ -139,6 +141,7 @@ void ConnectionDialog::connectionToUI()
     ui->cbbDrivers->setCurrentIndex(ui->cbbDrivers->findText(m_connection->driver()));
     ui->cbAutoConnect->setChecked(m_connection->autoconnect());
     ui->cbbKeepCredentials->setChecked(!m_connection->keepDBCredentials());
+    ui->lePort->setText(m_connection->port()!=-1?QString::number(m_connection->port()):"");
 }
 
 void ConnectionDialog::on_toolButton_clicked()

@@ -74,7 +74,7 @@ public:
     virtual bool isOwned() const = 0;
     virtual bool isEditable() const = 0;
     virtual bool isRemovable() const = 0;
-    virtual void invalidate(IDataSource::DatasourceMode mode) = 0;
+    virtual void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false) = 0;
     virtual void update() = 0;
     virtual void clearErrors() = 0;
     virtual ~IDataSourceHolder(){}
@@ -91,7 +91,7 @@ public:
     QString lastError() const { return m_dataSource->lastError(); }
     bool isEditable() const { return false; }
     bool isRemovable() const { return false; }
-    void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false){Q_UNUSED(mode) Q_UNUSED(dbWillBeClosed)}
     void update(){}
     void clearErrors(){}
 signals:
@@ -111,6 +111,7 @@ class ConnectionDesc : public QObject{
     Q_PROPERTY(QString host READ host WRITE setHost)
     Q_PROPERTY(bool autoconnect READ autoconnect WRITE setAutoconnect)
     Q_PROPERTY(bool keepDBCredentials READ keepDBCredentials WRITE setKeepDBCredentials)
+    Q_PROPERTY(int port READ port WRITE setPort)
 public:
     typedef QSharedPointer<ConnectionDesc> Ptr;
     ConnectionDesc(QSqlDatabase db, QObject* parent=0);
@@ -135,6 +136,8 @@ public:
     void    setInternal(bool value) {m_internal = value;}
     bool    keepDBCredentials() const;
     void    setKeepDBCredentials(bool keepDBCredentials);
+    int     port() const;
+    void    setPort(int port);
 public:
     static QString connectionNameForUser(const QString& connectionName);
     static QString connectionNameForReport(const QString& connectionName);    
@@ -147,6 +150,7 @@ private:
     QString m_databaseName;
     QString m_user;
     QString m_password;
+    int     m_port;
     bool    m_autoconnect;
     bool    m_internal;
     bool    m_keepDBCredentials;
@@ -199,8 +203,8 @@ public:
     bool isRemovable() const { return true; }
     bool isPrepared() const {return m_prepared;}
     QString lastError() const { return m_lastError; }
-    void setLastError(QString value){m_lastError=value; if (m_query) {delete m_query; m_query=0;}}
-    void invalidate(IDataSource::DatasourceMode mode);
+    void setLastError(QString value){m_lastError=value;}
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update();
     void clearErrors(){setLastError("");}
     DataSourceManager* dataManager() const {return m_dataManager;}
@@ -211,7 +215,6 @@ protected:
     virtual void extractParams();
     QString replaceVariables(QString query);
     QMap<QString,QString> m_aliasesToParam;
-    QSqlQuery* m_query;
     QString m_preparedSQL;
 private:
     QString m_queryText;
@@ -330,7 +333,7 @@ public:
     bool isEditable() const { return true; }
     bool isRemovable() const { return true; }
     QString lastError() const { return m_lastError; }
-    void invalidate(IDataSource::DatasourceMode mode);
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update(){}
     void clearErrors(){m_lastError = "";}
     DataSourceManager* dataManager() const {return m_dataManger;}
@@ -380,10 +383,11 @@ private:
 class CallbackDatasource :public ICallbackDatasource, public IDataSource {
     Q_OBJECT
 public:
-    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1), m_rowCount(-1){}
+    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1),
+        m_rowCount(-1), m_getDataFromCache(false){}
     bool next();
     bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow); else return false;}
-    bool prior(){ if (m_currentRow !=-1) {m_currentRow--; return true;} else return false;}
+    bool prior();
     void first();
     void last(){}
     bool bof(){return m_currentRow == -1;}
@@ -404,6 +408,8 @@ private:
     bool m_eof;
     int m_columnCount;
     int m_rowCount;
+    QHash<QString, QVariant> m_valuesCache;
+    bool m_getDataFromCache;
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{
@@ -417,7 +423,7 @@ public:
     bool isOwned() const {return m_owned;}
     bool isEditable() const {return false;}
     bool isRemovable() const {return false;}
-    void invalidate(IDataSource::DatasourceMode mode){Q_UNUSED(mode)}
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false){Q_UNUSED(mode) Q_UNUSED(dbWillBeClosed)}
     ~CallbackDatasourceHolder(){delete m_datasource;}
     void update(){}
     void clearErrors(){}

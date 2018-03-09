@@ -128,7 +128,10 @@ public:
     void setResultEditable(bool value);
 
     void setPassPhrase(const QString &passPhrase);
-
+    void reorderPages(const QList<PageDesignIntf *> &reorderedPages);
+    void clearSelection();
+    Qt::LayoutDirection previewLayoutDirection();
+    void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -181,8 +184,8 @@ private:
     bool m_reportRendering;
     bool m_resultIsEditable;
     QString m_passPhrase;
-
     QFileSystemWatcher  *m_fileWatcher;
+    Qt::LayoutDirection m_previewLayoutDirection;
 };
 
 }

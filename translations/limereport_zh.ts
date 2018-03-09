@@ -1,211 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ar">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>About</source>
-        <translation type="vanished">حول البرنامج</translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation type="vanished">المؤلف</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation type="vanished">إتفاقية الترخيص</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="vanished">إغلاق</translation>
-    </message>
-    <message>
-        <source>Version 1.1.1</source>
-        <translation type="vanished">الإصدار 1.1.1</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectionDialog</name>
-    <message>
-        <source>Connection</source>
-        <translation type="vanished">إتصال بقاعدة بيانات</translation>
-    </message>
-    <message>
-        <source>Connection Name</source>
-        <translation type="vanished">أسم الإتصال</translation>
-    </message>
-    <message>
-        <source>Driver</source>
-        <translation type="vanished">المشغل</translation>
-    </message>
-    <message>
-        <source>Server </source>
-        <translation type="vanished">الخادم</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation type="vanished">المستخدم</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="vanished">كلمة المرور</translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <translation type="vanished">قاعدة البيانات</translation>
-    </message>
-    <message>
-        <source>Auto connect</source>
-        <translation type="vanished">إتصال تلقائي</translation>
-    </message>
-    <message>
-        <source>Check connection</source>
-        <translation type="vanished">فحص الإتصال</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="vanished">خطأ</translation>
-    </message>
-    <message>
-        <source>Connection succsesfully established!</source>
-        <translation type="vanished">تم الإتصال بنجاح!!</translation>
-    </message>
-    <message>
-        <source>Connection Name is empty</source>
-        <translation type="vanished">أسم الإتصال فارغ</translation>
-    </message>
-    <message>
-        <source>Connection with name </source>
-        <translation type="vanished">إتصال بأسم</translation>
-    </message>
-    <message>
-        <source> already exists </source>
-        <translation type="vanished">موجود مسبقاً</translation>
-    </message>
-</context>
-<context>
-    <name>DataBrowser</name>
-    <message>
-        <source>Datasources</source>
-        <translation type="vanished">مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Add database connection</source>
-        <translation type="vanished">إضافة إتصال قاعدة بيانات</translation>
-    </message>
-    <message>
-        <source>Add new datasource</source>
-        <translation type="vanished">إضافة مصدر بيانات جديد</translation>
-    </message>
-    <message>
-        <source>View data</source>
-        <translation type="vanished">عرض البيانات</translation>
-    </message>
-    <message>
-        <source>Change datasource</source>
-        <translation type="vanished">تغيير مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Delete datasource</source>
-        <translation type="vanished">حذف مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Show error</source>
-        <translation type="vanished">عرض الأخطاء</translation>
-    </message>
-    <message>
-        <source>Variables</source>
-        <translation type="vanished">المتغيرات</translation>
-    </message>
-    <message>
-        <source>Add new variable</source>
-        <translation type="vanished">إضافة متغير</translation>
-    </message>
-    <message>
-        <source>Edit variable</source>
-        <translation type="vanished">تعديل متغير</translation>
-    </message>
-    <message>
-        <source>Delete variable</source>
-        <translation type="vanished">حذف متغير</translation>
-    </message>
-</context>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
-        <translation>متغير</translation>
+        <translation>变量</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>الأسم</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>القيمة</translation>
+        <translation>值</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>النوع</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <source>Attention</source>
-        <translation>Attention</translation>
-    </message>
-</context>
-<context>
-    <name>LimeReport::AVariablesHolder</name>
-    <message>
-        <source>variable with name </source>
-        <translation type="vanished">متغير بأسم</translation>
-    </message>
-    <message>
-        <source> already exists !!</source>
-        <translation type="vanished">موجود مسبقاً !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="vanished">غير موجود !!</translation>
+        <translation>注意</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::AboutDialog</name>
     <message>
         <source>About</source>
-        <translation type="unfinished">حول البرنامج</translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation type="unfinished">المؤلف</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation type="unfinished">إتفاقية الترخيص</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="unfinished">إغلاق</translation>
-    </message>
-    <message>
-        <source>Version 1.1.1</source>
-        <translation type="unfinished">الإصدار 1.1.1</translation>
+        <translation>关于</translation>
     </message>
     <message>
         <source>Lime Report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -221,7 +48,36 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright 2015 Arin Alexander. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/report/images/logo_100.png&quot; height=&quot;100&quot; style=&quot;float: left;&quot; /&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#7faa18;&quot;&gt;Qt&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;报表引擎&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;LimeReport - QT框架多平台C++库，帮助开发者给应用增加基于模板生成报表及打印报表功能。&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;官方网站: &lt;/span&gt;&lt;a href=&quot;www.limereport.ru&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;www.limereport.ru&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;该库基于提供帮助目的发布，但不提供任何担保，不以任何形式提供其适销性或适用于某一特定用途的默示保证。&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;版权 2015 Arin Alexander.所有权利保留.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>作者</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation>许可</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -338,2412 +194,2238 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; font-style:italic;&quot;&gt;signature of Ty Coon&lt;/span&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;, 1 April 1990&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;Ty Coon, President of Vice&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;That&apos;s all there is to it!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <source>Version 1.1.1</source>
+        <translation>版本 1.1.1</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::AlignmentPropItem</name>
     <message>
         <source>Left</source>
-        <translation>محاذاة يسار</translation>
+        <translation>左</translation>
     </message>
     <message>
         <source>Right</source>
-        <translation>محاذاة يمين</translation>
+        <translation>右</translation>
     </message>
     <message>
         <source>Center</source>
-        <translation>محاذاة وسط</translation>
+        <translation>居中</translation>
     </message>
     <message>
         <source>Justify</source>
-        <translation>ملأ السطر</translation>
+        <translation>对齐</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation>محاذاة لأعلى</translation>
+        <translation>顶</translation>
     </message>
     <message>
         <source>Botom</source>
-        <translation>محاذاة لأسفل</translation>
+        <translation>底</translation>
     </message>
     <message>
         <source>horizontal</source>
-        <translation>أفقي</translation>
+        <translation>水平</translation>
     </message>
     <message>
         <source>vertical</source>
-        <translation>عمودي</translation>
+        <translation>垂直</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::BandDesignIntf</name>
     <message>
-        <source> connected to </source>
-        <translation> إتصال ب</translation>
-    </message>
-    <message>
-        <source>Bring to top</source>
-        <translation type="unfinished">إحضار للأمام</translation>
-    </message>
-    <message>
-        <source>Send to back</source>
-        <translation type="unfinished">إرسال للخلف</translation>
-    </message>
-    <message>
-        <source>Auto height</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Splittable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>DataBand</source>
-        <translation type="unfinished"></translation>
+        <translation>数据带</translation>
     </message>
     <message>
         <source>DataHeaderBand</source>
-        <translation type="unfinished"></translation>
+        <translation>数据带头</translation>
     </message>
     <message>
         <source>DataFooterBand</source>
-        <translation type="unfinished"></translation>
+        <translation>数据带脚</translation>
     </message>
     <message>
         <source>ReportHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>表头</translation>
     </message>
     <message>
         <source>ReportFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>表脚</translation>
     </message>
     <message>
         <source>PageHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>页眉</translation>
     </message>
     <message>
         <source>PageFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>页脚</translation>
     </message>
     <message>
         <source>SubDetailBand</source>
-        <translation type="unfinished"></translation>
+        <translation>子细节带</translation>
     </message>
     <message>
         <source>SubDetailHeaderBand</source>
-        <translation type="unfinished"></translation>
+        <translation>子细节带头</translation>
     </message>
     <message>
         <source>SubDetailFooterBand</source>
-        <translation type="unfinished"></translation>
+        <translation>子细节带脚</translation>
     </message>
     <message>
         <source>GroupBandHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>组带头</translation>
     </message>
     <message>
         <source>GroupBandFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>组带脚</translation>
     </message>
     <message>
         <source>TearOffBand</source>
-        <translation type="unfinished"></translation>
+        <translation>分离带</translation>
+    </message>
+    <message>
+        <source> connected to </source>
+        <translation>连接到</translation>
+    </message>
+    <message>
+        <source>Bring to top</source>
+        <translation>置顶</translation>
+    </message>
+    <message>
+        <source>Send to back</source>
+        <translation>置底</translation>
+    </message>
+    <message>
+        <source>Auto height</source>
+        <translation>自动高度</translation>
+    </message>
+    <message>
+        <source>Splittable</source>
+        <translation>可拆分</translation>
     </message>
     <message>
         <source>Keep bottom space</source>
-        <translation type="unfinished"></translation>
+        <translation>保持底部距离</translation>
     </message>
     <message>
         <source>Start from new page</source>
-        <translation type="unfinished"></translation>
+        <translation>从新页开始</translation>
     </message>
     <message>
         <source>Start new page</source>
-        <translation type="unfinished"></translation>
+        <translation>开始新页</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">نسخ</translation>
+        <translation>复制</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished">قص</translation>
+        <translation>剪切</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished">لصق</translation>
+        <translation>粘贴</translation>
     </message>
     <message>
         <source>Bring to top</source>
-        <translation type="unfinished">إحضار للأمام</translation>
+        <translation>置顶</translation>
     </message>
     <message>
         <source>Send to back</source>
-        <translation type="unfinished">إرسال للخلف</translation>
+        <translation>置底</translation>
     </message>
     <message>
         <source>No borders</source>
-        <translation type="unfinished">بدون إطار</translation>
+        <translation>无边框</translation>
     </message>
     <message>
         <source>All borders</source>
-        <translation type="unfinished">محاط بإطار</translation>
+        <translation>所有边框</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
         <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <translation>默认连接</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDialog</name>
     <message>
         <source>Connection</source>
-        <translation type="unfinished">إتصال بقاعدة بيانات</translation>
+        <translation>数据连接</translation>
     </message>
     <message>
         <source>Connection Name</source>
-        <translation type="unfinished">أسم الإتصال</translation>
-    </message>
-    <message>
-        <source>Driver</source>
-        <translation type="unfinished">المشغل</translation>
-    </message>
-    <message>
-        <source>Server </source>
-        <translation type="unfinished">الخادم</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation type="unfinished">المستخدم</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="unfinished">كلمة المرور</translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <translation type="unfinished">قاعدة البيانات</translation>
-    </message>
-    <message>
-        <source>Auto connect</source>
-        <translation type="unfinished">إتصال تلقائي</translation>
-    </message>
-    <message>
-        <source>Check connection</source>
-        <translation type="unfinished">فحص الإتصال</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished">خطأ</translation>
-    </message>
-    <message>
-        <source>Connection succsesfully established!</source>
-        <translation type="unfinished">تم الإتصال بنجاح!</translation>
-    </message>
-    <message>
-        <source>Connection Name is empty</source>
-        <translation type="unfinished">أسم الإتصال فارغ</translation>
-    </message>
-    <message>
-        <source>Connection with name </source>
-        <translation type="unfinished">إتصال بأسم</translation>
-    </message>
-    <message>
-        <source> already exists </source>
-        <translation type="obsolete">موجود مسبقاً</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="unfinished">موافق</translation>
+        <translation>连接名称</translation>
     </message>
     <message>
         <source>Use default application connection</source>
-        <translation type="unfinished"></translation>
+        <translation>使用默认应用连接</translation>
+    </message>
+    <message>
+        <source>Driver</source>
+        <translation>驱动</translation>
+    </message>
+    <message>
+        <source>Server </source>
+        <translation>服务器</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>端口</translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation>用户名</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>密码</translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <translation>数据库</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Auto connect</source>
+        <translation>自动连接</translation>
     </message>
     <message>
         <source>Dont keep credentals in lrxml</source>
-        <translation type="unfinished"></translation>
+        <translation>不在lrxml文件中保存凭证</translation>
     </message>
     <message>
-        <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <source>Check connection</source>
+        <translation>检查连接</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>错误</translation>
+    </message>
+    <message>
+        <source>Connection succsesfully established!</source>
+        <translation>连接成功建立!</translation>
+    </message>
+    <message>
+        <source>Connection Name is empty</source>
+        <translation>连接名为空</translation>
+    </message>
+    <message>
+        <source>Connection with name </source>
+        <translation>连接</translation>
     </message>
     <message>
         <source> already exists! </source>
-        <translation type="unfinished"></translation>
+        <translation>已经存在!</translation>
     </message>
-</context>
-<context>
-    <name>LimeReport::ContentItemDesignIntf</name>
     <message>
-        <source>Variable %1 not found</source>
-        <translation type="vanished">المتغير %1 غير موجود</translation>
+        <source>defaultConnection</source>
+        <translation>默认连接</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataBand</name>
     <message>
         <source>Data</source>
-        <translation>بيانات</translation>
+        <translation>数据带</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataBrowser</name>
     <message>
         <source>Datasources</source>
-        <translation>مصدر البيانات</translation>
+        <translation>数据源</translation>
     </message>
     <message>
         <source>Add database connection</source>
-        <translation type="unfinished">إضافة إتصال قاعدة بيانات</translation>
-    </message>
-    <message>
-        <source>Add new datasource</source>
-        <translation type="unfinished">إضافة مصدر بيانات جديد</translation>
-    </message>
-    <message>
-        <source>View data</source>
-        <translation type="unfinished">عرض البيانات</translation>
-    </message>
-    <message>
-        <source>Change datasource</source>
-        <translation type="unfinished">تغيير مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Delete datasource</source>
-        <translation type="unfinished">حذف مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Show error</source>
-        <translation type="unfinished">عرض الأخطاء</translation>
-    </message>
-    <message>
-        <source>Variables</source>
-        <translation type="unfinished">المتغيرات</translation>
-    </message>
-    <message>
-        <source>Add new variable</source>
-        <translation type="unfinished">إضافة متغير جديد</translation>
-    </message>
-    <message>
-        <source>Edit variable</source>
-        <translation type="unfinished">تعديل متغير</translation>
-    </message>
-    <message>
-        <source>Delete variable</source>
-        <translation type="unfinished">حذف متغير</translation>
-    </message>
-    <message>
-        <source>Attention</source>
-        <translation>Attention</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete &quot;%1&quot; connection ?</source>
-        <oldsource>Do you really want delete &quot;%1&quot; connection ?</oldsource>
-        <translation type="vanished">هل ترغب في حذف الإتصال &quot;%1&quot; ?</translation>
-    </message>
-    <message>
-        <source>User variables</source>
-        <translation type="vanished">متغيرات المستخدم</translation>
-    </message>
-    <message>
-        <source>System variables</source>
-        <translation>متغيرات النظام</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete &quot;%1&quot; datasource ?</source>
-        <oldsource>Do you really want delete &quot;%1&quot; datasource ?</oldsource>
-        <translation type="vanished">هل ترغب في حذف مصدر البيانات &quot;%1&quot; ?</translation>
-    </message>
-    <message>
-        <source>Do you really want delete variable &quot;%1&quot; ?</source>
-        <translation type="vanished">هل ترغب في حذف المتغير &quot;%1&quot; ?</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>خطأ</translation>
+        <translation>新建数据库连接</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <source>Do you really want to delete variable &quot;%1&quot; ?</source>
-        <translation type="obsolete">هل ترغب في حذف المتغير &quot;%1&quot; ?</translation>
+        <source>Add new datasource</source>
+        <translation>新建数据源</translation>
+    </message>
+    <message>
+        <source>View data</source>
+        <translation>查看数据</translation>
+    </message>
+    <message>
+        <source>Change datasource</source>
+        <translation>编辑数据源</translation>
+    </message>
+    <message>
+        <source>Delete datasource</source>
+        <translation>删除数据源</translation>
+    </message>
+    <message>
+        <source>Show error</source>
+        <translation>显示错误</translation>
+    </message>
+    <message>
+        <source>Variables</source>
+        <translation>变量</translation>
+    </message>
+    <message>
+        <source>Add new variable</source>
+        <translation>新增变量</translation>
+    </message>
+    <message>
+        <source>Edit variable</source>
+        <translation>编辑变量</translation>
+    </message>
+    <message>
+        <source>Delete variable</source>
+        <translation>删除变量</translation>
     </message>
     <message>
         <source>Grab variable</source>
-        <translation type="unfinished"></translation>
+        <translation>取得变量</translation>
     </message>
     <message>
-        <source>Report variables</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>External variables</source>
-        <translation type="unfinished"></translation>
+        <source>Attention</source>
+        <translation>注意</translation>
     </message>
     <message>
         <source>Do you really want to delete &quot;%1&quot; connection?</source>
-        <translation type="unfinished"></translation>
+        <translation>是否确认删除&quot;%1&quot;连接?</translation>
+    </message>
+    <message>
+        <source>Report variables</source>
+        <translation>报表变量</translation>
+    </message>
+    <message>
+        <source>System variables</source>
+        <translation>系统变量</translation>
+    </message>
+    <message>
+        <source>External variables</source>
+        <translation>外部变量</translation>
     </message>
     <message>
         <source>Do you really want to delete &quot;%1&quot; datasource?</source>
-        <translation type="unfinished"></translation>
+        <translation>是否确认删除&quot;%1&quot;数据源?</translation>
     </message>
     <message>
         <source>Do you really want to delete variable &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>是否确认删除变量&quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>错误</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataFooterBand</name>
     <message>
         <source>DataFooter</source>
-        <translation>ذيل جدول البيانات</translation>
+        <translation>数据带脚</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
         <source>DataHeader</source>
-        <translation>رأس جدول البيانات</translation>
+        <translation>数据带头</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
         <source>Connection &quot;%1&quot; is not open</source>
-        <translation>الإتصال &quot;%1&quot; غير مفتوح</translation>
-    </message>
-    <message>
-        <source>Datasource &quot;%1&quot; not found !</source>
-        <translation type="vanished">الإتصال &quot;%1&quot; غير موجود !</translation>
-    </message>
-    <message>
-        <source>connection with name &quot;%1&quot; already exists !</source>
-        <translation type="vanished">الإتصال بأسم &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
-        <source>datasource with name &quot;%1&quot; already exists !</source>
-        <oldsource>data source with name &quot;%1&quot; already exists !!</oldsource>
-        <translation type="vanished">مصدر البيانات بأسم &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
-        <source>invalid connection</source>
-        <translation>خطأ بالإتصال</translation>
+        <translation>连接&quot;%1&quot;没有打开</translation>
     </message>
     <message>
         <source>Variable &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到变量&quot;%1&quot;!</translation>
     </message>
     <message>
         <source>Datasource &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到数据源&quot;%1&quot;!</translation>
     </message>
     <message>
         <source>Connection with name &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>连接 &quot;%1&quot; 已存在!</translation>
     </message>
     <message>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>数据源 &quot;%1&quot; 已存在!</translation>
+    </message>
+    <message>
+        <source>Database &quot;%1&quot; not found</source>
+        <translation>未找到数据库 &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>invalid connection</source>
+        <translation>无效连接</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataSourceModel</name>
     <message>
         <source>Datasources</source>
-        <translation>مصدر البيانات</translation>
+        <translation>数据源</translation>
     </message>
     <message>
         <source>Variables</source>
-        <translation>المتغيرات</translation>
+        <translation>变量</translation>
     </message>
     <message>
         <source>External variables</source>
-        <translation type="unfinished"></translation>
+        <translation>外部变量</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::EnumPropItem</name>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>默认</translation>
     </message>
     <message>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>纵向</translation>
     </message>
     <message>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>横向</translation>
     </message>
     <message>
         <source>NoneAutoWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>无自动宽度</translation>
     </message>
     <message>
         <source>MaxWordLength</source>
-        <translation type="unfinished"></translation>
+        <translation>最大词长</translation>
     </message>
     <message>
         <source>MaxStringLength</source>
-        <translation type="unfinished"></translation>
+        <translation>最大字符串长</translation>
     </message>
     <message>
         <source>TransparentMode</source>
-        <translation type="unfinished"></translation>
+        <translation>透明模式</translation>
     </message>
     <message>
         <source>OpaqueMode</source>
-        <translation type="unfinished"></translation>
+        <translation>不透明模式</translation>
     </message>
     <message>
         <source>Angle0</source>
-        <translation type="unfinished"></translation>
+        <translation>0度</translation>
     </message>
     <message>
         <source>Angle90</source>
-        <translation type="unfinished"></translation>
+        <translation>90度</translation>
     </message>
     <message>
         <source>Angle180</source>
-        <translation type="unfinished"></translation>
+        <translation>180度</translation>
     </message>
     <message>
         <source>Angle270</source>
-        <translation type="unfinished"></translation>
+        <translation>270度</translation>
     </message>
     <message>
         <source>Angle45</source>
-        <translation type="unfinished"></translation>
+        <translation>45度</translation>
     </message>
     <message>
         <source>Angle315</source>
-        <translation type="unfinished"></translation>
+        <translation>315度</translation>
     </message>
     <message>
         <source>DateTime</source>
-        <translation type="unfinished"></translation>
+        <translation>日期时间</translation>
     </message>
     <message>
         <source>Double</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>NoBrush</source>
-        <translation type="unfinished"></translation>
+        <translation>无</translation>
     </message>
     <message>
         <source>SolidPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>填充</translation>
     </message>
     <message>
         <source>Dense1Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集1</translation>
     </message>
     <message>
         <source>Dense2Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集2</translation>
     </message>
     <message>
         <source>Dense3Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集3</translation>
     </message>
     <message>
         <source>Dense4Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集4</translation>
     </message>
     <message>
         <source>Dense5Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集5</translation>
     </message>
     <message>
         <source>Dense6Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集6</translation>
     </message>
     <message>
         <source>Dense7Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>密集7</translation>
     </message>
     <message>
         <source>HorPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>横条纹</translation>
     </message>
     <message>
         <source>VerPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>竖条纹</translation>
     </message>
     <message>
         <source>CrossPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>交叉条纹</translation>
     </message>
     <message>
         <source>BDiagPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>斜条纹</translation>
     </message>
     <message>
         <source>FDiagPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>反斜条纹</translation>
     </message>
     <message>
         <source>LeftToRight</source>
-        <translation type="unfinished"></translation>
+        <translation>从左到右</translation>
     </message>
     <message>
         <source>RightToLeft</source>
-        <translation type="unfinished"></translation>
+        <translation>从右到左</translation>
     </message>
     <message>
         <source>LayoutDirectionAuto</source>
-        <translation type="unfinished"></translation>
+        <translation>自动布局方向</translation>
     </message>
     <message>
         <source>LeftItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>左对齐</translation>
     </message>
     <message>
         <source>RightItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>右对齐</translation>
     </message>
     <message>
         <source>CenterItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>居中对齐</translation>
     </message>
     <message>
         <source>ParentWidthItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>上层宽度对齐</translation>
     </message>
     <message>
         <source>DesignedItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>保持设计对齐</translation>
     </message>
     <message>
         <source>HorizontalLine</source>
-        <translation type="unfinished"></translation>
+        <translation>水平线</translation>
     </message>
     <message>
         <source>VerticalLine</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直线</translation>
     </message>
     <message>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>椭圆</translation>
     </message>
     <message>
         <source>Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>矩形</translation>
     </message>
     <message>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>页</translation>
     </message>
     <message>
         <source>Band</source>
-        <translation type="unfinished"></translation>
+        <translation>带</translation>
     </message>
     <message>
         <source>Horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation>水平</translation>
     </message>
     <message>
         <source>Vertical</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直</translation>
     </message>
     <message>
         <source>VerticalUniform</source>
-        <translation type="unfinished"></translation>
+        <translation>均匀垂直</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
     <message>
         <source>NoLine</source>
-        <translation type="unfinished"></translation>
+        <translation>无边框</translation>
     </message>
     <message>
         <source>TopLine</source>
-        <translation type="unfinished">خط علوي</translation>
+        <translation>顶边框</translation>
     </message>
     <message>
         <source>BottomLine</source>
-        <translation type="unfinished">خط سفلي</translation>
+        <translation>底边框</translation>
     </message>
     <message>
         <source>LeftLine</source>
-        <translation type="unfinished">خط أيسر</translation>
+        <translation>左边框</translation>
     </message>
     <message>
         <source>RightLine</source>
-        <translation type="unfinished">خط أيمن</translation>
+        <translation>右边框</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::FontEditorWidget</name>
     <message>
         <source>Font bold</source>
-        <translation>خط ثخين</translation>
+        <translation>粗体</translation>
     </message>
     <message>
         <source>Font Italic</source>
-        <translation>خط مائل</translation>
+        <translation>斜体</translation>
     </message>
     <message>
         <source>Font Underline</source>
-        <translation>تحته خط</translation>
+        <translation>下划线</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::FontPropItem</name>
     <message>
         <source>bold</source>
-        <translation>ثخين</translation>
+        <translation>粗体</translation>
     </message>
     <message>
         <source>italic</source>
-        <translation>مائل</translation>
+        <translation>斜体</translation>
     </message>
     <message>
         <source>underline</source>
-        <translation>تحته خط</translation>
+        <translation>下划线</translation>
     </message>
     <message>
         <source>size</source>
-        <translation>حجم</translation>
+        <translation>字号</translation>
     </message>
     <message>
         <source>family</source>
-        <translation>الفئة</translation>
+        <translation>系列</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::GroupBandFooter</name>
     <message>
         <source>GroupFooter</source>
-        <translation>ذيل المجموعة</translation>
+        <translation>组带脚</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::GroupBandHeader</name>
     <message>
         <source>GroupHeader</source>
-        <translation>رأس المجموعة</translation>
+        <translation>组带头</translation>
     </message>
     <message>
         <source>Group field not found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到组字段</translation>
     </message>
     <message>
         <source>Datasource &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到数据源 &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::GroupFunction</name>
     <message>
         <source>Field &quot;%1&quot; not found</source>
-        <translation>الحقل &quot;%1&quot; غير موجود</translation>
+        <translation>未找到字段 &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Variable &quot;%1&quot; not found</source>
-        <translation>المتغير &quot;%1&quot; غير موجود</translation>
-    </message>
-    <message>
-        <source>Item &quot;%1&quot; not found</source>
-        <translation>العنصر &quot;%1&quot; غير موجود</translation>
+        <translation>未找到变量 &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Wrong script syntax &quot;%1&quot; </source>
-        <translation type="unfinished"></translation>
+        <translation>脚本语法错误 &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Item &quot;%1&quot; not found</source>
+        <translation>未找到目标项 &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ImageItem</name>
     <message>
         <source>Image</source>
-        <translation>صورة</translation>
+        <translation>图像</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
     <message>
         <source>Band</source>
-        <translation type="unfinished"></translation>
+        <translation>带</translation>
     </message>
     <message>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>页</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ItemsAlignmentEditorWidget</name>
     <message>
         <source>Bring to top</source>
-        <translation>إحضار للأمام</translation>
+        <translation>置顶</translation>
     </message>
     <message>
         <source>Send to back</source>
-        <translation>إرسال للخلف</translation>
+        <translation>置底</translation>
     </message>
     <message>
         <source>Align to left</source>
-        <translation>محاذاة يسار</translation>
+        <translation>左对齐</translation>
     </message>
     <message>
         <source>Align to right</source>
-        <translation>محاذاة يمين</translation>
+        <translation>右对齐</translation>
     </message>
     <message>
         <source>Align to vertical center</source>
-        <translation>محاذاة وسط(عمودي)</translation>
+        <translation>居中对齐</translation>
     </message>
     <message>
         <source>Align to top</source>
-        <translation>محاذاة لأعلى</translation>
+        <translation>顶部对齐</translation>
     </message>
     <message>
         <source>Align to bottom</source>
-        <translation>محاذاة لأسفل</translation>
+        <translation>底部对齐</translation>
     </message>
     <message>
         <source>Align to horizontal center</source>
-        <translation>محاذاة وسط (أفقي)</translation>
+        <translation>水平居中</translation>
     </message>
     <message>
         <source>Set same height</source>
-        <translation>مساواة الارتفاع</translation>
+        <translation>相同高度</translation>
     </message>
     <message>
         <source>Set same width</source>
-        <translation>مساواة العرض</translation>
+        <translation>相同宽度</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ItemsBordersEditorWidget</name>
     <message>
         <source>Top line</source>
-        <translation>خط علوي</translation>
+        <translation>顶边框</translation>
     </message>
     <message>
         <source>Bottom line</source>
-        <translation>خط سفلي</translation>
+        <translation>底边框</translation>
     </message>
     <message>
         <source>Left line</source>
-        <translation>خط أيسر</translation>
+        <translation>左边框</translation>
     </message>
     <message>
         <source>Right line</source>
-        <translation>خط أيمن</translation>
+        <translation>右边框</translation>
     </message>
     <message>
         <source>No borders</source>
-        <translation>بدون إطار</translation>
+        <translation>无边框</translation>
     </message>
     <message>
         <source>All borders</source>
-        <translation>محاط بإطار</translation>
+        <translation>所有边框</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
-        <translation>الحقل: &quot;%1&quot; غير موجود في مصدر البيانات الفرعي &quot;%2&quot;</translation>
+        <translation>从数据源 &quot;%2&quot; 中未找到字段: &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
-        <translation>الحقل: &quot;%1&quot; غير موجود في مصدر البيانات الرئيسي &quot;%2&quot;</translation>
+        <translation>主数据源 &quot;%2&quot; 中未找到字段: &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
         <source>model is destroyed</source>
-        <translation></translation>
+        <translation>数据模型已销毁</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ObjectBrowser</name>
     <message>
         <source>Objects</source>
-        <translation>الكائن</translation>
-    </message>
-</context>
-<context>
-    <name>LimeReport::PageDesignIntf</name>
-    <message>
-        <source>Warning</source>
-        <translation type="vanished">تحذير</translation>
-    </message>
-    <message>
-        <source>Multi band deletion not allowed</source>
-        <translation type="vanished">لا يمكن حذف فقرات متعددة</translation>
+        <translation>对象</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PageFooter</name>
     <message>
         <source>Page Footer</source>
-        <translation>ذيل الصفحة</translation>
+        <translation>页脚</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PageHeader</name>
     <message>
         <source>Page Header</source>
-        <translation>رأس الصفحة</translation>
+        <translation>页眉</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
         <source>Paste</source>
-        <translation type="unfinished">لصق</translation>
+        <translation>粘贴</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PreviewReportWidget</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">نموذج</translation>
+        <translation>表格</translation>
     </message>
     <message>
         <source>PDF file name</source>
-        <translation type="unfinished">أسم ملف PDF</translation>
+        <translation>PDF 文件名</translation>
     </message>
     <message>
         <source>Report file name</source>
-        <translation type="unfinished">أسم التقرير</translation>
+        <translation>报表文件名</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PreviewReportWindow</name>
     <message>
+        <source>Preview</source>
+        <translation>预览</translation>
+    </message>
+    <message>
         <source>View</source>
-        <translation type="unfinished">عرض</translation>
+        <translation>查看</translation>
     </message>
     <message>
         <source>Report</source>
-        <translation type="unfinished">تقرير</translation>
+        <translation>报表</translation>
     </message>
     <message>
         <source>toolBar</source>
-        <translation type="unfinished">شريط الأدوات</translation>
+        <translation>工具栏</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">طباعة</translation>
-    </message>
-    <message>
-        <source>Zoom In</source>
-        <translation type="unfinished">تكبير</translation>
-    </message>
-    <message>
-        <source>Zoom Out</source>
-        <translation type="unfinished">تصغير</translation>
-    </message>
-    <message>
-        <source>Prior Page</source>
-        <translation type="unfinished">الصفحة السابقة</translation>
-    </message>
-    <message>
-        <source>Next Page</source>
-        <translation type="unfinished">الصفحة التالية</translation>
-    </message>
-    <message>
-        <source>Close Preview</source>
-        <translation type="unfinished">أغلاق</translation>
-    </message>
-    <message>
-        <source>Edit Mode</source>
-        <translation type="unfinished">وضع التعديل</translation>
-    </message>
-    <message>
-        <source>Save to file</source>
-        <translation type="unfinished">حفظ إلى ملف</translation>
-    </message>
-    <message>
-        <source>Show errors</source>
-        <translation type="unfinished">عرض الأخطاء</translation>
-    </message>
-    <message>
-        <source>First Page</source>
-        <translation type="unfinished">الصفحة الأولى</translation>
-    </message>
-    <message>
-        <source>First page</source>
-        <translation type="unfinished">الصفحة الأولى</translation>
-    </message>
-    <message>
-        <source>Last Page</source>
-        <translation type="unfinished">الصفحة الأخيرة</translation>
-    </message>
-    <message>
-        <source>Print To PDF</source>
-        <translation type="unfinished">تحويل إلى PDF</translation>
-    </message>
-    <message>
-        <source>Page: </source>
-        <translation type="unfinished">صفحة: </translation>
-    </message>
-    <message>
-        <source> of %1</source>
-        <translation type="unfinished"> من %1</translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation type="obsolete">أسم التقرير</translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
-        <translation type="obsolete">أسم ملف PDF</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="unfinished">معاينة</translation>
+        <translation>打印</translation>
     </message>
     <message>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <source>Fit page width</source>
-        <translation type="unfinished">تمديد ليتاسب عرض الصفحة</translation>
+        <source>Zoom In</source>
+        <translation>放大</translation>
     </message>
     <message>
-        <source>Fit page</source>
-        <translation type="unfinished">تمديد ليناسب الصفحة بالكامل</translation>
+        <source>Zoom Out</source>
+        <translation>缩小</translation>
     </message>
     <message>
-        <source>One to one</source>
-        <translation type="unfinished"></translation>
+        <source>Prior Page</source>
+        <translation>上一页</translation>
     </message>
     <message>
-        <source>Show Toolbar</source>
-        <translation type="unfinished">عرض شريط الأدوات</translation>
+        <source>Next Page</source>
+        <translation>下一页</translation>
     </message>
     <message>
-        <source>Show toolbar</source>
-        <translation type="unfinished">عرض شريط الأدوات</translation>
+        <source>Close Preview</source>
+        <translation>关闭预览</translation>
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Edit Mode</source>
+        <translation>编辑模式</translation>
+    </message>
+    <message>
+        <source>Save to file</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <source>Show errors</source>
+        <translation>显示错误</translation>
+    </message>
+    <message>
+        <source>First Page</source>
+        <translation>首页</translation>
+    </message>
+    <message>
+        <source>First page</source>
+        <translation>首页</translation>
+    </message>
+    <message>
+        <source>Last Page</source>
+        <translation>末页</translation>
+    </message>
+    <message>
+        <source>Print To PDF</source>
+        <translation>打印到PDF文件</translation>
+    </message>
+    <message>
+        <source>Fit page width</source>
+        <translation>适合页宽</translation>
+    </message>
+    <message>
+        <source>Fit page</source>
+        <translation>适合页高</translation>
+    </message>
+    <message>
+        <source>One to one</source>
+        <translation>原始尺寸</translation>
+    </message>
+    <message>
+        <source>Show Toolbar</source>
+        <translation>显示工具栏</translation>
+    </message>
+    <message>
+        <source>Show toolbar</source>
+        <translation>显示工具栏</translation>
+    </message>
+    <message>
+        <source>Page: </source>
+        <translation>页数:</translation>
     </message>
     <message>
         <source>Font</source>
-        <translation type="unfinished">خط</translation>
+        <translation>字体</translation>
     </message>
     <message>
         <source>Text align</source>
-        <translation type="unfinished"></translation>
+        <translation>文本对齐</translation>
+    </message>
+    <message>
+        <source> of %1</source>
+        <translation> / %1</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
         <source>Datasource has been invalidated</source>
-        <translation type="unfinished">مصدر البيانات غير صحيح</translation>
+        <translation>数据源已失效</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::QObjectPropertyModel</name>
     <message>
-        <source>Property Name</source>
-        <translation>الخاصية</translation>
-    </message>
-    <message>
-        <source>Property value</source>
-        <translation>القيمة</translation>
-    </message>
-    <message>
         <source>leftMargin</source>
-        <translation>الهامش الأيسر</translation>
+        <translation>左边距</translation>
     </message>
     <message>
         <source>rightMargin</source>
-        <translation>الهامش الأيمن</translation>
+        <translation>右边距</translation>
     </message>
     <message>
         <source>topMargin</source>
-        <translation>الهامش العلوي</translation>
-    </message>
-    <message>
-        <source>الهامش السفلي</source>
-        <translation type="vanished">Отступ нижний</translation>
-    </message>
-    <message>
-        <source>objectName</source>
-        <translation>أسم الكائن</translation>
-    </message>
-    <message>
-        <source>borders</source>
-        <translation>الإطار</translation>
-    </message>
-    <message>
-        <source>geometry</source>
-        <translation>الأبعاد</translation>
-    </message>
-    <message>
-        <source>itemAlign</source>
-        <translation>محاذاة</translation>
-    </message>
-    <message>
-        <source>pageOrientation</source>
-        <translation>أتجاة الصفحة</translation>
-    </message>
-    <message>
-        <source>pageSize</source>
-        <translation>حجم الصفحة</translation>
-    </message>
-    <message>
-        <source>TopLine</source>
-        <translation>خط علوي</translation>
-    </message>
-    <message>
-        <source>BottomLine</source>
-        <translation>خط سفلي</translation>
-    </message>
-    <message>
-        <source>LeftLine</source>
-        <translation>خط أيسر</translation>
-    </message>
-    <message>
-        <source>RightLine</source>
-        <translation>خط أيمن</translation>
-    </message>
-    <message>
-        <source>datasource</source>
-        <translation type="unfinished">مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>alignment</source>
-        <translation type="unfinished">расположение</translation>
-    </message>
-    <message>
-        <source>content</source>
-        <translation type="unfinished">المحتوى</translation>
-    </message>
-    <message>
-        <source>itemLocation</source>
-        <translation type="unfinished">قفل</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>تحذير</translation>
-    </message>
-    <message>
-        <source>reprintOnEachPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>borderLineSize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>autoHeight</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>backgroundColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>columnCount</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>columnsFillDirection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>keepBottomSpace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>keepFooterTogether</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>keepSubdetailTogether</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>printIfEmpty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>sliceLastRow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>splittable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>angle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>autoWidth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>backgroundMode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>backgroundOpacity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>fontColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>foregroundOpacity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>margin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>stretchToMaxHeight</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>trimValue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>lineWidth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>opacity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>penStyle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>shape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>shapeBrush</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>shapeBrushColor</source>
-        <translation type="unfinished"></translation>
+        <translation>顶边距</translation>
     </message>
     <message>
         <source>bottomMargin</source>
-        <translation type="unfinished"></translation>
+        <translation>底边距</translation>
+    </message>
+    <message>
+        <source>objectName</source>
+        <translation>对象名称</translation>
+    </message>
+    <message>
+        <source>borders</source>
+        <translation>边框</translation>
+    </message>
+    <message>
+        <source>geometry</source>
+        <translation>形状</translation>
+    </message>
+    <message>
+        <source>itemAlign</source>
+        <translation>对齐方式</translation>
+    </message>
+    <message>
+        <source>pageOrientation</source>
+        <translation>页面布局</translation>
+    </message>
+    <message>
+        <source>pageSize</source>
+        <translation>页面规格</translation>
+    </message>
+    <message>
+        <source>TopLine</source>
+        <translation>顶边框</translation>
+    </message>
+    <message>
+        <source>BottomLine</source>
+        <translation>底边框</translation>
+    </message>
+    <message>
+        <source>LeftLine</source>
+        <translation>左边框</translation>
+    </message>
+    <message>
+        <source>RightLine</source>
+        <translation>右边框</translation>
+    </message>
+    <message>
+        <source>reprintOnEachPage</source>
+        <translation>重新打印每页</translation>
+    </message>
+    <message>
+        <source>borderLineSize</source>
+        <translation>边框线宽</translation>
+    </message>
+    <message>
+        <source>autoHeight</source>
+        <translation>自动高度</translation>
+    </message>
+    <message>
+        <source>backgroundColor</source>
+        <translation>背景颜色</translation>
+    </message>
+    <message>
+        <source>columnCount</source>
+        <translation>列数</translation>
+    </message>
+    <message>
+        <source>columnsFillDirection</source>
+        <translation>列填充方向</translation>
+    </message>
+    <message>
+        <source>datasource</source>
+        <translation>数据源</translation>
+    </message>
+    <message>
+        <source>keepBottomSpace</source>
+        <translation>保持底部空间</translation>
+    </message>
+    <message>
+        <source>keepFooterTogether</source>
+        <translation>保持页脚</translation>
+    </message>
+    <message>
+        <source>keepSubdetailTogether</source>
+        <translation>保持子细节脚</translation>
+    </message>
+    <message>
+        <source>printIfEmpty</source>
+        <translation>为空时打印</translation>
+    </message>
+    <message>
+        <source>sliceLastRow</source>
+        <translation>分割末行</translation>
+    </message>
+    <message>
+        <source>splittable</source>
+        <translation>可拆分</translation>
+    </message>
+    <message>
+        <source>alignment</source>
+        <translation>对齐</translation>
+    </message>
+    <message>
+        <source>angle</source>
+        <translation>角度</translation>
+    </message>
+    <message>
+        <source>autoWidth</source>
+        <translation>自动宽度</translation>
+    </message>
+    <message>
+        <source>backgroundMode</source>
+        <translation>背景模式</translation>
+    </message>
+    <message>
+        <source>backgroundOpacity</source>
+        <translation>背景不透明度</translation>
+    </message>
+    <message>
+        <source>content</source>
+        <translation>内容</translation>
+    </message>
+    <message>
+        <source>font</source>
+        <translation>字体</translation>
+    </message>
+    <message>
+        <source>fontColor</source>
+        <translation>字体颜色</translation>
+    </message>
+    <message>
+        <source>foregroundOpacity</source>
+        <translation>背景不透明度</translation>
+    </message>
+    <message>
+        <source>itemLocation</source>
+        <translation>组件位置</translation>
+    </message>
+    <message>
+        <source>margin</source>
+        <translation>边距</translation>
+    </message>
+    <message>
+        <source>stretchToMaxHeight</source>
+        <translation>拉伸到最大高度</translation>
+    </message>
+    <message>
+        <source>trimValue</source>
+        <translation>裁剪值</translation>
+    </message>
+    <message>
+        <source>lineWidth</source>
+        <translation>线宽</translation>
+    </message>
+    <message>
+        <source>opacity</source>
+        <translation>不透明度</translation>
+    </message>
+    <message>
+        <source>penStyle</source>
+        <translation>画笔样式</translation>
+    </message>
+    <message>
+        <source>shape</source>
+        <translation>形状</translation>
+    </message>
+    <message>
+        <source>shapeBrush</source>
+        <translation>画刷</translation>
+    </message>
+    <message>
+        <source>shapeBrushColor</source>
+        <translation>画刷颜色</translation>
     </message>
     <message>
         <source>gridStep</source>
-        <translation type="unfinished"></translation>
+        <translation>栅格长</translation>
     </message>
     <message>
         <source>fullPage</source>
-        <translation type="unfinished"></translation>
+        <translation>全页</translation>
     </message>
     <message>
         <source>oldPrintMode</source>
-        <translation type="unfinished"></translation>
+        <translation>旧打印模式</translation>
     </message>
     <message>
         <source>borderColor</source>
-        <translation type="unfinished"></translation>
+        <translation>边框颜色</translation>
     </message>
     <message>
         <source>resetPageNumber</source>
-        <translation type="unfinished"></translation>
+        <translation>重置页号</translation>
     </message>
     <message>
         <source>alternateBackgroundColor</source>
-        <translation type="unfinished"></translation>
+        <translation>变更背景色</translation>
     </message>
     <message>
         <source>backgroundBrushStyle</source>
-        <translation type="unfinished"></translation>
+        <translation>背景画刷样式</translation>
     </message>
     <message>
         <source>startFromNewPage</source>
-        <translation type="unfinished"></translation>
+        <translation>从新页开始</translation>
     </message>
     <message>
         <source>startNewPage</source>
-        <translation type="unfinished"></translation>
+        <translation>开始新页</translation>
     </message>
     <message>
         <source>adaptFontToSize</source>
-        <translation type="unfinished"></translation>
+        <translation>字体适应字号</translation>
     </message>
     <message>
         <source>allowHTML</source>
-        <translation type="unfinished"></translation>
+        <translation>允许HTML</translation>
     </message>
     <message>
         <source>allowHTMLInFields</source>
-        <translation type="unfinished"></translation>
+        <translation>允许字段HTML</translation>
     </message>
     <message>
         <source>followTo</source>
-        <translation type="unfinished"></translation>
+        <translation>跟随</translation>
     </message>
     <message>
         <source>format</source>
-        <translation type="unfinished"></translation>
+        <translation>格式</translation>
     </message>
     <message>
         <source>lineSpacing</source>
-        <translation type="unfinished"></translation>
+        <translation>线距</translation>
     </message>
     <message>
         <source>textIndent</source>
-        <translation type="unfinished"></translation>
+        <translation>文本缩进</translation>
     </message>
     <message>
         <source>textLayoutDirection</source>
-        <translation type="unfinished"></translation>
+        <translation>文本布局方向</translation>
     </message>
     <message>
         <source>underlineLineSize</source>
-        <translation type="unfinished"></translation>
+        <translation>下划线宽</translation>
     </message>
     <message>
         <source>underlines</source>
-        <translation type="unfinished"></translation>
+        <translation>下划线</translation>
     </message>
     <message>
         <source>valueType</source>
-        <translation type="unfinished"></translation>
+        <translation>值类型</translation>
     </message>
     <message>
         <source>securityLevel</source>
-        <translation type="unfinished"></translation>
+        <translation>安全级别</translation>
     </message>
     <message>
         <source>testValue</source>
-        <translation type="unfinished"></translation>
+        <translation>测试值</translation>
     </message>
     <message>
         <source>whitespace</source>
-        <translation type="unfinished"></translation>
+        <translation>空格</translation>
     </message>
     <message>
         <source>resourcePath</source>
-        <translation type="unfinished"></translation>
+        <translation>资源路径</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translation>比例</translation>
     </message>
     <message>
         <source>cornerRadius</source>
-        <translation type="unfinished"></translation>
+        <translation>圆角半径</translation>
     </message>
     <message>
         <source>shapeColor</source>
-        <translation type="unfinished"></translation>
+        <translation>颜色</translation>
     </message>
     <message>
         <source>layoutType</source>
-        <translation type="unfinished"></translation>
+        <translation>布局类型</translation>
     </message>
     <message>
         <source>barcodeType</source>
-        <translation type="unfinished"></translation>
+        <translation>条码类型</translation>
     </message>
     <message>
         <source>barcodeWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>条码宽度</translation>
     </message>
     <message>
         <source>foregroundColor</source>
-        <translation type="unfinished"></translation>
+        <translation>颜色</translation>
     </message>
     <message>
         <source>inputMode</source>
-        <translation type="unfinished"></translation>
+        <translation>输入法</translation>
     </message>
     <message>
         <source>pdf417CodeWords</source>
-        <translation type="unfinished"></translation>
+        <translation>PDF417码</translation>
     </message>
     <message>
         <source>autoSize</source>
-        <translation type="unfinished"></translation>
+        <translation>自动大小</translation>
     </message>
     <message>
         <source>center</source>
-        <translation type="unfinished"></translation>
+        <translation>居中</translation>
     </message>
     <message>
         <source>field</source>
-        <translation type="unfinished">الحقل</translation>
+        <translation>字段</translation>
     </message>
     <message>
         <source>image</source>
-        <translation type="unfinished"></translation>
+        <translation>图像</translation>
     </message>
     <message>
         <source>keepAspectRatio</source>
-        <translation type="unfinished"></translation>
+        <translation>保持比例</translation>
     </message>
     <message>
         <source>columnsCount</source>
-        <translation type="unfinished"></translation>
+        <translation>列数</translation>
     </message>
     <message>
         <source>useAlternateBackgroundColor</source>
-        <translation type="unfinished"></translation>
+        <translation>使用变更背景色</translation>
     </message>
     <message>
         <source>printBeforePageHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>页眉前打印</translation>
     </message>
     <message>
         <source>maxScalePercent</source>
-        <translation type="unfinished"></translation>
+        <translation>最大百分比</translation>
     </message>
     <message>
         <source>printOnFirstPage</source>
-        <translation type="unfinished"></translation>
+        <translation>打印到首页</translation>
     </message>
     <message>
         <source>printOnLastPage</source>
-        <translation type="unfinished"></translation>
+        <translation>打印到尾页</translation>
     </message>
     <message>
         <source>printAlways</source>
-        <translation type="unfinished"></translation>
+        <translation>始终打印</translation>
     </message>
     <message>
         <source>repeatOnEachRow</source>
-        <translation type="unfinished"></translation>
+        <translation>每行重复</translation>
     </message>
     <message>
         <source>condition</source>
-        <translation type="unfinished"></translation>
+        <translation>条件</translation>
     </message>
     <message>
         <source>groupFieldName</source>
-        <translation type="unfinished"></translation>
+        <translation>组字段名</translation>
     </message>
     <message>
         <source>keepGroupTogether</source>
-        <translation type="unfinished"></translation>
+        <translation>保持组脚</translation>
+    </message>
+    <message>
+        <source>Property Name</source>
+        <translation>属性名</translation>
+    </message>
+    <message>
+        <source>Property value</source>
+        <translation>属性值</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>警告</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
     <message>
         <source>width</source>
-        <translation>العرض</translation>
+        <translation>宽</translation>
     </message>
     <message>
         <source>height</source>
-        <translation>الأرتفاع</translation>
+        <translation>高</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
     <message>
         <source>width</source>
-        <translation>العرض</translation>
+        <translation>宽</translation>
     </message>
     <message>
         <source>height</source>
-        <translation>الأرتفاع</translation>
+        <translation>高</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
-        <source>Report file name</source>
-        <translation>أسم التقرير</translation>
+        <source>Script</source>
+        <translation>脚本</translation>
     </message>
     <message>
-        <source>Script</source>
-        <translation type="unfinished"></translation>
+        <source>Report file name</source>
+        <translation>报表文件名</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>错误</translation>
     </message>
     <message>
         <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>文件格式错误</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
         <source>New Report</source>
-        <translation>تقرير جديد</translation>
-    </message>
-    <message>
-        <source>Edit Mode</source>
-        <translation>وضع التعديل</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation>تراجع</translation>
-    </message>
-    <message>
-        <source>Redo</source>
-        <translation>أعادة التراجع</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>نسخ</translation>
-    </message>
-    <message>
-        <source>Paste</source>
-        <translation>لصق</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation>قص</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>إعدادات</translation>
-    </message>
-    <message>
-        <source>Use grid</source>
-        <translation>عرض الشبكة</translation>
-    </message>
-    <message>
-        <source>Text Item</source>
-        <translation>نص</translation>
-    </message>
-    <message>
-        <source>Save Report</source>
-        <translation>حفظ التقرير</translation>
-    </message>
-    <message>
-        <source>Save Report As</source>
-        <translation>حفظ التقرير بأسم</translation>
-    </message>
-    <message>
-        <source>Load Report</source>
-        <translation>تحميل التقرير</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation>حذف</translation>
-    </message>
-    <message>
-        <source>Zoom In</source>
-        <translation>تكبير</translation>
-    </message>
-    <message>
-        <source>Zoom Out</source>
-        <translation>تصغير</translation>
-    </message>
-    <message>
-        <source>Render Report</source>
-        <translation>إنشاء التقرير</translation>
-    </message>
-    <message>
-        <source>نمط تعديل النسق</source>
-        <translation type="vanished">Режим редактирования группировок</translation>
-    </message>
-    <message>
-        <source>نسق أفقي</source>
-        <translation type="vanished">Горизонтальная группировка</translation>
-    </message>
-    <message>
-        <source>حول البرنامج</source>
-        <translation type="vanished">О программе</translation>
-    </message>
-    <message>
-        <source>Hide left panel</source>
-        <translation>إخفاء المقطع الأيسر</translation>
-    </message>
-    <message>
-        <source>Hide right panel</source>
-        <translation>إخفاء المقطع الأيمن</translation>
-    </message>
-    <message>
-        <source>Report Tools</source>
-        <translation>أدوات التقرير</translation>
-    </message>
-    <message>
-        <source>Main Tools</source>
-        <translation>الأدوات الرئيسة</translation>
-    </message>
-    <message>
-        <source>Font</source>
-        <translation>خط</translation>
-    </message>
-    <message>
-        <source>Text alignment</source>
-        <translation>محاذاة النص</translation>
-    </message>
-    <message>
-        <source>Items alignment</source>
-        <translation>محاذاة</translation>
-    </message>
-    <message>
-        <source>Borders</source>
-        <translation>الإطار</translation>
-    </message>
-    <message>
-        <source>Report bands</source>
-        <translation>فقرات التقرير</translation>
-    </message>
-    <message>
-        <source>Report Header</source>
-        <translation>رأس التقرير</translation>
-    </message>
-    <message>
-        <source>Report Footer</source>
-        <translation>ذيل التقرير</translation>
-    </message>
-    <message>
-        <source>Page Header</source>
-        <translation>رأس الصفحة</translation>
-    </message>
-    <message>
-        <source>Page Footer</source>
-        <translation>ذيل الصفحة</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation>جدول البيانات</translation>
-    </message>
-    <message>
-        <source>Data Header</source>
-        <translation>رأس جدول البيانات</translation>
-    </message>
-    <message>
-        <source>Data Footer</source>
-        <translation>ذيل جدول البيانات</translation>
-    </message>
-    <message>
-        <source>SubDetail</source>
-        <translation>بيانات فرعية</translation>
-    </message>
-    <message>
-        <source>SubDetailHeader</source>
-        <translation>رأس البيانات الفرعية</translation>
-    </message>
-    <message>
-        <source>SubDetailFooter</source>
-        <translation>ذيل البيانات الفرعية</translation>
-    </message>
-    <message>
-        <source>GroupHeader</source>
-        <translation>رأس المجموعة</translation>
-    </message>
-    <message>
-        <source>GroupFooter</source>
-        <translation>ذيل المجموعة</translation>
-    </message>
-    <message>
-        <source>File</source>
-        <translation>ملف</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>تحرير</translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation>معلومات</translation>
-    </message>
-    <message>
-        <source>Object Inspector</source>
-        <translation>فاحص الكائن</translation>
-    </message>
-    <message>
-        <source>Report structure</source>
-        <translation>بنية التقرير</translation>
-    </message>
-    <message>
-        <source>Data Browser</source>
-        <translation>إستعراض البيانات</translation>
-    </message>
-    <message>
-        <source>Report has been modified ! Do you want save the report ?</source>
-        <translation type="vanished">تم تعديل التقرير ! هل تريد حفظ التعديلات ?</translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation>أسم التقرير</translation>
-    </message>
-    <message>
-        <source>Rendering report</source>
-        <translation>جاري قراءة التقرير</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>إجهاض</translation>
-    </message>
-    <message>
-        <source> page rendered</source>
-        <translation>تم إنشاء الصفحة</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation type="unfinished">تحذير</translation>
-    </message>
-    <message>
-        <source>Use magnet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Recent Files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tear-off Band</source>
-        <translation type="unfinished"></translation>
+        <translation>新建报表</translation>
     </message>
     <message>
         <source>New Report Page</source>
-        <translation type="unfinished"></translation>
+        <translation>新建页</translation>
     </message>
     <message>
         <source>Delete Report Page</source>
-        <translation type="unfinished"></translation>
+        <translation>删除也</translation>
+    </message>
+    <message>
+        <source>Edit Mode</source>
+        <translation>编辑模式</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>撤销</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>重做</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>粘贴</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>剪切</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Use grid</source>
+        <translation>使用栅格</translation>
+    </message>
+    <message>
+        <source>Use magnet</source>
+        <translation>使用磁力</translation>
+    </message>
+    <message>
+        <source>Text Item</source>
+        <translation>文本组件</translation>
+    </message>
+    <message>
+        <source>Save Report</source>
+        <translation>保存报表</translation>
+    </message>
+    <message>
+        <source>Save Report As</source>
+        <translation>另存为</translation>
+    </message>
+    <message>
+        <source>Load Report</source>
+        <translation>读取报表</translation>
+    </message>
+    <message>
+        <source>Delete item</source>
+        <translation>删除组建</translation>
+    </message>
+    <message>
+        <source>Zoom In</source>
+        <translation>放大</translation>
+    </message>
+    <message>
+        <source>Zoom Out</source>
+        <translation>缩小</translation>
+    </message>
+    <message>
+        <source>Render Report</source>
+        <translation>生成报表</translation>
     </message>
     <message>
         <source>Edit layouts mode</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑布局模式</translation>
     </message>
     <message>
         <source>Horizontal layout</source>
-        <translation type="unfinished"></translation>
+        <translation>水平布局</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">حول البرنامج</translation>
+        <translation>关于</translation>
+    </message>
+    <message>
+        <source>Hide left panel | Alt+L</source>
+        <translation>隐藏左面板 | Alt+L</translation>
+    </message>
+    <message>
+        <source>Hide right panel | Alt+R</source>
+        <translation>隐藏右面板 | Alt+R</translation>
+    </message>
+    <message>
+        <source>Report Tools</source>
+        <translation>报表工具</translation>
+    </message>
+    <message>
+        <source>Main Tools</source>
+        <translation>工具</translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation>字体</translation>
+    </message>
+    <message>
+        <source>Text alignment</source>
+        <translation>文本对齐</translation>
+    </message>
+    <message>
+        <source>Items alignment</source>
+        <translation>组件对齐</translation>
+    </message>
+    <message>
+        <source>Borders</source>
+        <translation>边框</translation>
+    </message>
+    <message>
+        <source>Report bands</source>
+        <translation>报表带</translation>
+    </message>
+    <message>
+        <source>Report Header</source>
+        <translation>表头</translation>
+    </message>
+    <message>
+        <source>Report Footer</source>
+        <translation>表脚</translation>
+    </message>
+    <message>
+        <source>Page Header</source>
+        <translation>页眉</translation>
+    </message>
+    <message>
+        <source>Page Footer</source>
+        <translation>页脚</translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation>数据带</translation>
+    </message>
+    <message>
+        <source>Data Header</source>
+        <translation>数据带头</translation>
+    </message>
+    <message>
+        <source>Data Footer</source>
+        <translation>数据带脚</translation>
+    </message>
+    <message>
+        <source>SubDetail</source>
+        <translation>子细节带</translation>
+    </message>
+    <message>
+        <source>SubDetailHeader</source>
+        <translation>子细节带头</translation>
+    </message>
+    <message>
+        <source>SubDetailFooter</source>
+        <translation>子细节带脚</translation>
+    </message>
+    <message>
+        <source>GroupHeader</source>
+        <translation>组带头</translation>
+    </message>
+    <message>
+        <source>GroupFooter</source>
+        <translation>组带脚</translation>
+    </message>
+    <message>
+        <source>Tear-off Band</source>
+        <translation>分离带</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>文件</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>编辑</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>信息</translation>
+    </message>
+    <message>
+        <source>Recent Files</source>
+        <translation>最近打开文件</translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation>对象观察器</translation>
+    </message>
+    <message>
+        <source>Report structure</source>
+        <translation>报表结构</translation>
+    </message>
+    <message>
+        <source>Data Browser</source>
+        <translation>数据浏览器</translation>
     </message>
     <message>
         <source>Script Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>脚本浏览器</translation>
     </message>
     <message>
         <source>Report has been modified! Do you want save the report?</source>
-        <translation type="unfinished"></translation>
+        <translation>报表已修改! 是否保存?</translation>
+    </message>
+    <message>
+        <source>Report file name</source>
+        <translation>报表文件名</translation>
+    </message>
+    <message>
+        <source>Rendering report</source>
+        <translation>生成报表</translation>
+    </message>
+    <message>
+        <source>Abort</source>
+        <translation>关于</translation>
+    </message>
+    <message>
+        <source> page rendered</source>
+        <translation>报表生成</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>警告</translation>
+    </message>
+    <message>
+        <source>File &quot;%1&quot; not found!</source>
+        <translation>未找到文件 &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
-        <source>Error</source>
-        <translation>Ошибка</translation>
+        <source>Preview</source>
+        <translation>预览</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">معاينة</translation>
+        <source>Error</source>
+        <translation>错误</translation>
     </message>
     <message>
         <source>Report File Change</source>
-        <translation type="unfinished"></translation>
+        <translation>报表文件改变</translation>
     </message>
     <message>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>报表文件 &quot;%1&quot; 重命名或删除。
+
+预览已无效。</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportFooter</name>
     <message>
         <source>Report Footer</source>
-        <translation>Завершение отчета</translation>
+        <translation>表脚</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportHeader</name>
     <message>
         <source>Report Header</source>
-        <translation>رأس التقرير</translation>
+        <translation>表头</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportRender</name>
     <message>
         <source>Error</source>
-        <translation>خطأ</translation>
-    </message>
-    <message>
-        <source>Databand &quot;%1&quot; not found</source>
-        <translation>فقرة جدول البيانات &quot;%1&quot; غير موجودة</translation>
-    </message>
-    <message>
-        <source>Wrong using function %1</source>
-        <translation>خطأ في إستخدام الدالة %1</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <source>page index out of range</source>
-        <translation type="unfinished"></translation>
+        <translation>页索引越界</translation>
+    </message>
+    <message>
+        <source>Databand &quot;%1&quot; not found</source>
+        <translation>未找到数据带 &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Wrong using function %1</source>
+        <translation>函数 %1 使用错误</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SQLEditDialog</name>
     <message>
         <source>Datasource</source>
-        <translation type="unfinished">مصدر البيانات</translation>
+        <translation>数据源</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished">الإتصال</translation>
+        <translation>数据连接</translation>
     </message>
     <message>
         <source>Datasource Name</source>
-        <translation type="unfinished">أسم مصدر البيانات</translation>
+        <translation>数据源名</translation>
     </message>
     <message>
         <source>Subdetail</source>
-        <translation type="unfinished">البيانات الفرعية</translation>
+        <translation>子细节</translation>
     </message>
     <message>
         <source>Master datasource</source>
-        <translation type="unfinished">مصدر البيانات الرئيسي</translation>
+        <translation>主数据源</translation>
     </message>
     <message>
         <source>Subquery mode</source>
-        <translation type="unfinished">وضع الاستعلام الفرعي</translation>
+        <translation>子查询模式</translation>
     </message>
     <message>
         <source>Filter mode</source>
-        <translation type="unfinished">وضع التصفية</translation>
+        <translation>筛选模式</translation>
     </message>
     <message>
         <source>SQL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide Preview</source>
-        <translation type="unfinished">إخفاء المعاينة</translation>
-    </message>
-    <message>
-        <source>Child datasource</source>
-        <translation type="unfinished">مصدر البيانات الفرعي</translation>
-    </message>
-    <message>
-        <source>Fields map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data preview</source>
-        <translation type="unfinished">معاينة البيانات</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished">خطأ</translation>
-    </message>
-    <message>
-        <source>Datasource Name is empty !</source>
-        <translation type="obsolete">أسم مصدر البيانات فارغ !</translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation type="obsolete">SQL فارغة !</translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="obsolete">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
-        <source>Datasource with name %1 already exist</source>
-        <translation type="unfinished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً</translation>
-    </message>
-    <message>
-        <source>Attention</source>
-        <translation type="unfinished">Attention</translation>
-    </message>
-    <message>
-        <source>Connection is not specified</source>
-        <translation type="unfinished">إتصال غير محدد</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation type="unfinished">تحديث</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished">معاينة</translation>
+        <translation>预览</translation>
+    </message>
+    <message>
+        <source>Hide Preview</source>
+        <translation>隐藏预览</translation>
+    </message>
+    <message>
+        <source>Child datasource</source>
+        <translation>子数据源</translation>
+    </message>
+    <message>
+        <source>Fields map</source>
+        <translation>字段映射</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Data preview</source>
+        <translation>数据预览</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished">موافق</translation>
+        <translation>确定</translation>
     </message>
     <message>
-        <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <source>Error</source>
+        <translation>错误</translation>
     </message>
     <message>
         <source>Datasource Name is empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>数据源名为空!</translation>
     </message>
     <message>
         <source>SQL is empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>SQL语句为空!</translation>
     </message>
     <message>
         <source>Datasource with name: &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>数据源 &quot;%1&quot; 已存在!</translation>
+    </message>
+    <message>
+        <source>defaultConnection</source>
+        <translation>默认连接</translation>
+    </message>
+    <message>
+        <source>Datasource with name %1 already exist</source>
+        <translation>数据源 &quot;%1&quot; 已存在</translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation>注意</translation>
+    </message>
+    <message>
+        <source>Connection is not specified</source>
+        <translation>未指定连接</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>刷新</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptBrowser</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">نموذج</translation>
+        <translation>表单</translation>
     </message>
     <message>
         <source>Functions</source>
-        <translation type="unfinished">الدوال</translation>
+        <translation>函数</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>对话框</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">النوع</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">الأسم</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <source>NO CATEGORY</source>
-        <translation type="unfinished"></translation>
+        <translation>无类别</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>错误</translation>
     </message>
     <message>
         <source>Dialog with name: %1 already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>对话框 %1 已存在</translation>
     </message>
     <message>
         <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>ui 文件必须包含 QDialog 而不是 QWidget 或 QMainWindow</translation>
     </message>
     <message>
         <source>wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>文件格式错误</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
         <source>Dialog with name: %1 can`t be created</source>
-        <translation type="unfinished"></translation>
+        <translation>无法创建对话框 %1</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
-        <source>FieldName</source>
-        <translation type="vanished">Имя поля</translation>
-    </message>
-    <message>
-        <source>BandName</source>
-        <translation>أسم الفقرة</translation>
+        <source>GROUP FUNCTIONS</source>
+        <translation>组函数</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>القيمة</translation>
+        <translation>值</translation>
     </message>
     <message>
-        <source>Format</source>
-        <translation>الصيغة</translation>
-    </message>
-    <message>
-        <source>Precision</source>
-        <translation>الموقع</translation>
-    </message>
-    <message>
-        <source>Locale</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>CurrencySymbol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished">الأسم</translation>
+        <source>BandName</source>
+        <translation>带名称</translation>
     </message>
     <message>
         <source>Variable %1 not found</source>
-        <translation type="unfinished">المتغير %1 غير موجود</translation>
-    </message>
-    <message>
-        <source>GROUP FUNCTIONS</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到变量 %1</translation>
     </message>
     <message>
         <source>SYSTEM</source>
-        <translation type="unfinished"></translation>
+        <translation>系统</translation>
     </message>
     <message>
         <source>NUMBER</source>
-        <translation type="unfinished"></translation>
+        <translation>数字</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>格式</translation>
+    </message>
+    <message>
+        <source>Precision</source>
+        <translation>精度</translation>
+    </message>
+    <message>
+        <source>Locale</source>
+        <translation>区域</translation>
     </message>
     <message>
         <source>DATE&amp;TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>日期时间</translation>
+    </message>
+    <message>
+        <source>Seconds</source>
+        <translation>秒</translation>
+    </message>
+    <message>
+        <source>CurrencySymbol</source>
+        <translation>货币符号</translation>
     </message>
     <message>
         <source>GENERAL</source>
-        <translation type="unfinished"></translation>
+        <translation>通用</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>名称</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
     <message>
         <source>Designer setting</source>
-        <translation type="unfinished">إعدادات</translation>
-    </message>
-    <message>
-        <source>Default font</source>
-        <translation type="unfinished">الخط الإفتراضي</translation>
-    </message>
-    <message>
-        <source>Grid</source>
-        <translation type="unfinished">شبكة</translation>
-    </message>
-    <message>
-        <source>Vertical grid step</source>
-        <translation type="unfinished">تباعد الشبكة العمودي</translation>
-    </message>
-    <message>
-        <source>Horizontal grid step</source>
-        <translation type="unfinished">تباعد الشبكة الأفقي</translation>
+        <translation>设计器设置</translation>
     </message>
     <message>
         <source>Designer Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>设计器设置</translation>
+    </message>
+    <message>
+        <source>Default font</source>
+        <translation>默认字体</translation>
+    </message>
+    <message>
+        <source>Grid</source>
+        <translation>栅格</translation>
+    </message>
+    <message>
+        <source>Vertical grid step</source>
+        <translation>竖栅格</translation>
+    </message>
+    <message>
+        <source>Horizontal grid step</source>
+        <translation>横栅格</translation>
     </message>
     <message>
         <source>Report Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>报表设置</translation>
     </message>
     <message>
         <source>Suppress absent fields and variables warning</source>
-        <translation type="unfinished"></translation>
+        <translation>抑制缺失字段及变量警告</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SubDetailBand</name>
     <message>
         <source>SubDetail</source>
-        <translation>البيانات الفرعية</translation>
+        <translation>子细节</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SubDetailHeaderBand</name>
     <message>
         <source>SubDetailHeader</source>
-        <translation>رأس البيانات الفرعية</translation>
+        <translation>子细节头</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TearOffBand</name>
     <message>
         <source>Tear-off Band</source>
-        <translation type="unfinished"></translation>
+        <translation>分离带</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TextAlignmentEditorWidget</name>
     <message>
         <source>Text align left</source>
-        <translation>محاذاة النص لليسار</translation>
+        <translation>文本左对齐</translation>
     </message>
     <message>
         <source>Text align center</source>
-        <translation>محاذاة النص للوسط</translation>
+        <translation>文本居中对齐</translation>
     </message>
     <message>
         <source>Text align right</source>
-        <translation>محاذاة النص لليمين</translation>
+        <translation>文本右对齐</translation>
     </message>
     <message>
         <source>Text align justify</source>
-        <translation>ملأ السطر</translation>
+        <translation>文本行对齐</translation>
     </message>
     <message>
         <source>Text align top</source>
-        <translation>محاذاة النص لأعلى</translation>
+        <translation>文本顶部对齐</translation>
     </message>
     <message>
         <source>Text align bottom</source>
-        <translation>محاذاة السطر لأسفل</translation>
+        <translation>文本底部对齐</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TextItem</name>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">تحرير</translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <source>Auto height</source>
-        <translation type="unfinished"></translation>
+        <translation>自动高度</translation>
     </message>
     <message>
         <source>Allow HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>允许HTML</translation>
     </message>
     <message>
         <source>Allow HTML in fields</source>
-        <translation type="unfinished"></translation>
+        <translation>允许字段HTML</translation>
     </message>
     <message>
         <source>Stretch to max height</source>
-        <translation type="unfinished"></translation>
+        <translation>拉伸至最大高度</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>错误</translation>
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
-        <translation type="unfinished"></translation>
+        <translation>文本框 &quot;%1 &quot; 已有 &quot;%2 &quot; </translation>
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到文本框 &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
     <message>
         <source>Text Item Editor</source>
-        <translation type="unfinished">تحرير النص</translation>
+        <translation>文本编辑器</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished">المحتوى</translation>
-    </message>
-    <message>
-        <source>Functions</source>
-        <translation type="unfinished">الدوال</translation>
-    </message>
-    <message>
-        <source>Editor settings</source>
-        <translation type="unfinished">إعدادات المحرر</translation>
-    </message>
-    <message>
-        <source>Editor font</source>
-        <translation type="unfinished">خطوط المحرر</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">إلغاء الأمر</translation>
+        <translation>内容</translation>
     </message>
     <message>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>数据</translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation>函数</translation>
+    </message>
+    <message>
+        <source>Editor settings</source>
+        <translation>编辑器设置</translation>
+    </message>
+    <message>
+        <source>Editor font</source>
+        <translation>编辑器字体</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished">موافق</translation>
+        <translation>确定</translation>
     </message>
     <message>
         <source>Ctrl+Return</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>LimeReport::VariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation type="unfinished">متغير بأسم</translation>
-    </message>
-    <message>
-        <source> already exists !!</source>
-        <translation type="obsolete">موجود مسبقاً !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="obsolete">غير موجود !!</translation>
+        <translation>变量</translation>
     </message>
     <message>
         <source> already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>已存在!</translation>
     </message>
     <message>
         <source> does not exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PreviewReportWindow</name>
-    <message>
-        <source>Preview</source>
-        <translation type="vanished">معاينة</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="vanished">عرض</translation>
-    </message>
-    <message>
-        <source>Report</source>
-        <translation type="vanished">تقرير</translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation type="vanished">شريط الأدوات</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">طباعة</translation>
-    </message>
-    <message>
-        <source>Zoom In</source>
-        <translation type="vanished">تكبير</translation>
-    </message>
-    <message>
-        <source>Zoom Out</source>
-        <translation type="vanished">تصغير</translation>
-    </message>
-    <message>
-        <source>Prior Page</source>
-        <translation type="vanished">الصفحة السابقة</translation>
-    </message>
-    <message>
-        <source>Next Page</source>
-        <translation type="vanished">الصفحة التالية</translation>
-    </message>
-    <message>
-        <source>Close Preview</source>
-        <translation type="vanished">أغلاق</translation>
-    </message>
-    <message>
-        <source>Edit Mode</source>
-        <translation type="vanished">وضع التعديل</translation>
-    </message>
-    <message>
-        <source>Save to file</source>
-        <translation type="vanished">حفظ إلى ملف</translation>
-    </message>
-    <message>
-        <source>Show errors</source>
-        <translation type="vanished">عرض الأخطاء</translation>
-    </message>
-    <message>
-        <source>First Page</source>
-        <translation type="vanished">الصفحة الأولى</translation>
-    </message>
-    <message>
-        <source>First page</source>
-        <translation type="vanished">الصفحة الأولى</translation>
-    </message>
-    <message>
-        <source>Last Page</source>
-        <translation type="vanished">الصفحة الأخيرة</translation>
-    </message>
-    <message>
-        <source>Print To PDF</source>
-        <translation type="vanished">تحويل إلى PDF</translation>
-    </message>
-    <message>
-        <source>Page: </source>
-        <translation type="vanished">صفحة: </translation>
-    </message>
-    <message>
-        <source> of %1</source>
-        <translation type="vanished"> من %1</translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation type="vanished">أسم التقرير</translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
-        <translation type="vanished">أسم ملف  PDF</translation>
+        <translation>不存在!</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Data</source>
-        <translation>جدول البرنامج</translation>
+        <translation>数据带</translation>
     </message>
     <message>
         <source>DataHeader</source>
-        <translation>رأس جدول البيانات</translation>
+        <translation>数据带头</translation>
     </message>
     <message>
         <source>DataFooter</source>
-        <translation>ذيل جدول البيانات</translation>
+        <translation>数据带脚</translation>
     </message>
     <message>
         <source>GroupHeader</source>
-        <translation>رأس المجموعة</translation>
+        <translation>组带头</translation>
     </message>
     <message>
         <source>GroupFooter</source>
-        <translation>ذيل المجموعة</translation>
+        <translation>组带脚</translation>
     </message>
     <message>
         <source>Page Footer</source>
-        <translation>ذيل الصفحة</translation>
+        <translation>页脚</translation>
     </message>
     <message>
         <source>Page Header</source>
-        <translation>رأس الصفحة</translation>
+        <translation>页眉</translation>
     </message>
     <message>
         <source>Report Footer</source>
-        <translation>ذيل التقرير</translation>
+        <translation>表脚</translation>
     </message>
     <message>
         <source>Report Header</source>
-        <translation>رأس التقرير</translation>
+        <translation>表头</translation>
     </message>
     <message>
         <source>SubDetail</source>
-        <translation>البيانات الفرعية</translation>
+        <translation>子细节</translation>
     </message>
     <message>
         <source>SubDetailHeader</source>
-        <translation>رأس البيانات الفرعية</translation>
+        <translation>子细节头</translation>
     </message>
     <message>
         <source>SubDetailFooter</source>
-        <translation>ذيل البيانات الفرعية</translation>
+        <translation>子细节带脚</translation>
+    </message>
+    <message>
+        <source>Tear-off Band</source>
+        <translation>分离带</translation>
     </message>
     <message>
         <source>alignment</source>
-        <translation>محاذاة</translation>
+        <translation>对齐</translation>
     </message>
     <message>
         <source>Barcode Item</source>
-        <translation>باركود</translation>
+        <translation>条码组件</translation>
     </message>
     <message>
         <source>HLayout</source>
-        <translation>نسق أفقي</translation>
+        <translation>水平布局</translation>
     </message>
     <message>
         <source>Image Item</source>
-        <translation>صورة</translation>
+        <translation>图像组件</translation>
     </message>
     <message>
         <source>Shape Item</source>
-        <translation>رسم</translation>
+        <translation>图形组件</translation>
     </message>
     <message>
         <source>itemLocation</source>
-        <translation>الموقع</translation>
+        <translation>组件位置</translation>
     </message>
     <message>
         <source>Text Item</source>
-        <translation>نص</translation>
+        <translation>文本组件</translation>
     </message>
     <message>
         <source>Invalid connection! %1</source>
-        <translation>خطأ بإتصال %1</translation>
+        <translation>无效连接 %1</translation>
     </message>
     <message>
         <source>Master datasource &quot;%1&quot; not found!</source>
-        <translation>مصدر البيانات الرئيسي &quot;%1&quot; غير موجود!</translation>
+        <translation>未找到主数据源 &quot;%1&quot;!</translation>
+    </message>
+    <message>
+        <source>Master datasouce &quot;%1&quot; not found!</source>
+        <translation>未找到主数据源 &quot;%1&quot;!</translation>
     </message>
     <message>
         <source>Child</source>
-        <translation>بيانات فرعية</translation>
+        <translation>子</translation>
     </message>
     <message>
         <source> and child </source>
-        <translation>و بيانات فرعية</translation>
+        <translation>子数据源</translation>
     </message>
     <message>
         <source>datasouce &quot;%1&quot; not found!</source>
-        <translation>مصدر البيانات الرئيسي &quot;%1&quot; غير موجود !</translation>
+        <translation>未找到子数据源&quot;%1&quot;!</translation>
     </message>
     <message>
-        <source>Attention!</source>
+        <source>bool</source>
         <translation></translation>
     </message>
     <message>
-        <source>Selected elements have different parent containers</source>
-        <translation>العناصر المحددة مختلفة البنية</translation>
+        <source>QColor</source>
+        <translation></translation>
     </message>
     <message>
-        <source>Object with name %1 already exists</source>
-        <translation type="vanished">أسم الكائن %1 уже موجود مسبقاً</translation>
-    </message>
-    <message>
-        <source>Function %1 not found or have wrong arguments</source>
-        <translation>الدالة %1 غير موجودة او الباريميترات خاطئة</translation>
+        <source>content</source>
+        <translation>内容</translation>
     </message>
     <message>
         <source>datasource</source>
-        <translation>مصدر البيانات</translation>
+        <translation>数据源</translation>
     </message>
     <message>
         <source>field</source>
-        <translation>الحقل</translation>
+        <translation>字段映射</translation>
     </message>
     <message>
         <source>enum</source>
@@ -2754,240 +2436,72 @@ This preview is no longer valid.</source>
         <translation></translation>
     </message>
     <message>
-        <source>geometry</source>
-        <translation>الأبعاد</translation>
-    </message>
-    <message>
-        <source>mm</source>
+        <source>QFont</source>
         <translation></translation>
     </message>
     <message>
-        <source>File %1 not opened</source>
-        <translation>الحقل %1 غير مفتوح</translation>
-    </message>
-    <message>
-        <source>TopLine</source>
-        <translation type="vanished">خط علوي</translation>
-    </message>
-    <message>
-        <source>BottomLine</source>
-        <translation type="vanished">خط سفلي</translation>
-    </message>
-    <message>
-        <source>LeftLine</source>
-        <translation type="vanished">خط أيسر</translation>
-    </message>
-    <message>
-        <source>RightLine</source>
-        <translation type="vanished">خط أيمن</translation>
-    </message>
-    <message>
-        <source>content</source>
-        <translation>المحتوى</translation>
-    </message>
-    <message>
-        <source>Master datasouce &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>bool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>QColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>QFont</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>QImage</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>int</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>qreal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QRect</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>QRectF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>geometry</source>
+        <translation>形状</translation>
     </message>
     <message>
         <source>QString</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <source>Content string is empty</source>
-        <translation type="unfinished"></translation>
+        <source>Attention!</source>
+        <translation>注意!</translation>
     </message>
     <message>
-        <source>Content is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tear-off Band</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
+        <source>Selected elements have different parent containers</source>
+        <translation>选中元素有不同的容器</translation>
     </message>
     <message>
         <source>Object with name %1 already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SQLEditDialog</name>
-    <message>
-        <source>Datasource</source>
-        <translation type="vanished">مصدر البيانات</translation>
+        <translation>对象 %1 已存在!</translation>
     </message>
     <message>
-        <source>Connection</source>
-        <translation type="vanished">الإتصال</translation>
+        <source>Function %1 not found or have wrong arguments</source>
+        <translation>未找到函数 %1 或参数错误</translation>
     </message>
     <message>
-        <source>Datasource Name</source>
-        <translation type="vanished">أسم مصدر البيانات</translation>
+        <source>mm</source>
+        <translation>毫米</translation>
     </message>
     <message>
-        <source>Subdetail</source>
-        <translation type="vanished">البيانات الفرعية</translation>
+        <source>Wrong file format</source>
+        <translation>文件格式错误</translation>
     </message>
     <message>
-        <source>Master datasource</source>
-        <translation type="vanished">مصدر البيانات الرئيسي</translation>
+        <source>File %1 not opened</source>
+        <translation>无法打开文件 %1</translation>
     </message>
     <message>
-        <source>Subquery mode</source>
-        <translation type="vanished">وضع الاستعلام الفرعي</translation>
+        <source>Content string is empty</source>
+        <translation>字符串为空</translation>
     </message>
     <message>
-        <source>Filter mode</source>
-        <translation type="vanished">وضع التصفية</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="vanished">معاينة</translation>
-    </message>
-    <message>
-        <source>Hide Preview</source>
-        <translation type="vanished">إخفاء المعاينة</translation>
-    </message>
-    <message>
-        <source>Child datasource</source>
-        <translation type="vanished">مصدر البيانات الفرعي</translation>
-    </message>
-    <message>
-        <source>Data preview</source>
-        <translation type="vanished">معاينة البيانات</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="vanished">خطأ</translation>
-    </message>
-    <message>
-        <source>Datasource Name is empty !</source>
-        <translation type="vanished">أسم مصدر البيانات فارغ !</translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation type="vanished">SQL فارغة !</translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="vanished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
-        <source>Datasource with name %1 already exist</source>
-        <translation type="vanished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً</translation>
-    </message>
-    <message>
-        <source>Connection is not specified</source>
-        <translation type="vanished">إتصال غير محدد</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation type="vanished">تحديث</translation>
-    </message>
-</context>
-<context>
-    <name>SettingDialog</name>
-    <message>
-        <source>Designer setting</source>
-        <translation type="vanished">إعدادات</translation>
-    </message>
-    <message>
-        <source>Default font</source>
-        <translation type="vanished">الخط الإفتراضي</translation>
-    </message>
-    <message>
-        <source>Grid</source>
-        <translation type="vanished">شبكة</translation>
-    </message>
-    <message>
-        <source>Vertical grid step</source>
-        <translation type="vanished">تباعد الشبكة العمودي</translation>
-    </message>
-    <message>
-        <source>Horizontal grid step</source>
-        <translation type="vanished">تباعد الشبكة الأفقي</translation>
-    </message>
-</context>
-<context>
-    <name>TextItemEditor</name>
-    <message>
-        <source>Text Item Editor</source>
-        <translation type="vanished">محرر النص</translation>
-    </message>
-    <message>
-        <source>Content</source>
-        <translation type="vanished">المحتوى</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">جدول البيانات</translation>
-    </message>
-    <message>
-        <source>Functions</source>
-        <translation type="vanished">الدوال</translation>
-    </message>
-    <message>
-        <source>Editor settings</source>
-        <translation type="vanished">إعدادات المحرر</translation>
-    </message>
-    <message>
-        <source>Editor font</source>
-        <translation type="vanished">محرر الخطوط</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">إلغاء الأمر</translation>
-    </message>
-</context>
-<context>
-    <name>WaitForm</name>
-    <message>
-        <source>Wait</source>
-        <translation type="vanished">انتظر</translation>
-    </message>
-    <message>
-        <source>Please wait ...</source>
-        <translation type="vanished">يرجى الإنتظار ...</translation>
+        <source>Content is empty</source>
+        <translation>字符串为空</translation>
     </message>
 </context>
 </TS>

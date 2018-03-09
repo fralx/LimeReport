@@ -628,10 +628,10 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
             result.setX(leftBorder);
             break;
         case RightItemAlign:
-            result.setX(parent->width()-rightBorder);
+            result.setX(parent->width() - (rightBorder + width()));
             break;
         case CenterItemAlign:
-            result.setX((avaibleSpace-width())/2);
+            result.setX((avaibleSpace-width()) / 2 + leftBorder);
             break;
         case ParentWidthItemAlign:
             result.setX(leftBorder);
@@ -1008,6 +1008,7 @@ QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
     }
     if (change == QGraphicsItem::ItemSelectedChange) {
         turnOnSelectionMarker(value.toBool());
+        emit itemSelectedHasBeenChanged(this, value.toBool());
     }
     if (change == QGraphicsItem::ItemParentHasChanged) {
         parentChangedEvent(dynamic_cast<BaseDesignIntf*>(value.value<QGraphicsItem*>()));
@@ -1152,6 +1153,7 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    if (!(flags() & QGraphicsItem::ItemIsSelectable)) return;
     PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
     if (!page->selectedItems().contains(this)){
         page->clearSelection();

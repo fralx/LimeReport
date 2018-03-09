@@ -74,7 +74,8 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
                              option.rect.y()+option.rect.height()
                              );
                  painter->save();
-                 painter->setPen(option.palette.color(QPalette::Dark));
+                 QColor color = static_cast<QRgb>(QApplication::style()->styleHint(QStyle::SH_Table_GridLineColor, &option));
+                 painter->setPen(color);
                  painter->drawLine(start,end);
                  painter->restore();
              }

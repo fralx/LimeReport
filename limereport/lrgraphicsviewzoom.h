@@ -1,5 +1,5 @@
-#ifndef GRAPHICSVIEWZOOM_H
-#define GRAPHICSVIEWZOOM_H
+#ifndef LRGRAPHICSVIEWZOOM_H
+#define LRGRAPHICSVIEWZOOM_H
 
 #include <QObject>
 #include <QGraphicsView>

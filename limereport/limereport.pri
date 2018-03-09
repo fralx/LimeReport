@@ -91,6 +91,10 @@ SOURCES += \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp
+
+contains(CONFIG, staticlib){
+    SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
+}
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
@@ -159,6 +163,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
+    $$REPORT_PATH/lrfactoryinitializer.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
     $$REPORT_PATH/lrbandsmanager.h \
@@ -191,7 +196,11 @@ HEADERS += \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \ 
     $$REPORT_PATH/lritemscontainerdesignitf.h
-    
+
+contains(CONFIG, staticlib){
+    HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
+}
+
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
 }
@@ -208,8 +217,6 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.ui \
-
-
 
 RESOURCES += \
     $$REPORT_PATH/objectinspector/lobjectinspector.qrc \

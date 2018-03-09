@@ -42,6 +42,16 @@
 #include "lrreportengine_p.h"
 #include "lrgraphicsviewzoom.h"
 
+#ifdef HAVE_QT4
+QT_BEGIN_NAMESPACE
+class LimeReportTabWidget: public QTabWidget{
+    Q_OBJECT
+public:
+    explicit LimeReportTabWidget(QWidget *parent = 0):QTabWidget(parent){}
+    QTabBar* tabBar() const{ return QTabWidget::tabBar();}
+};
+QT_END_NAMESPACE
+#endif
 
 namespace LimeReport {
 
@@ -128,6 +138,8 @@ private slots:
     void slotDatasourceCollectionLoaded(const QString&);
     void slotSceneRectChanged(QRectF);
     void slotCurrentTabChanged(int index);
+    void slotPagePropertyObjectNameChanged(const QString& oldValue, const QString& newValue);
+    void slotTabMoved(int from, int to);
 signals:
     void insertModeStarted();
     void itemInserted(LimeReport::PageDesignIntf*,QPointF,const QString&);
@@ -156,7 +168,12 @@ private:
     QGraphicsView *m_view;
     QTextEdit* m_scriptEditor;
     QMainWindow *m_mainWindow;
+#ifdef HAVE_QT5
     QTabWidget* m_tabWidget;
+#endif
+#ifdef HAVE_QT4
+    LimeReportTabWidget* m_tabWidget;
+#endif
     GraphicsViewZoomer* m_zoomer;
     QFont m_defaultFont;
     int m_verticalGridStep;
@@ -164,6 +181,7 @@ private:
     bool m_useGrid;
     bool m_useMagnet;
 //    static ReportDesignWidget* m_instance;
+    void prepareReport();
 };
 
 }

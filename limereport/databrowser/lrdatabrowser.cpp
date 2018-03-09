@@ -131,7 +131,7 @@ void DataBrowser::slotDeleteConnection()
                 QMessageBox::critical(
                     this,
                     tr("Attention"),
-                    tr("Do you really want to delete \"%1\" connection ?").arg(getConnectionName(NameForUser)),
+                    tr("Do you really want to delete \"%1\" connection?").arg(getConnectionName(NameForUser)),
                     QMessageBox::Ok|QMessageBox::No,
                     QMessageBox::No
                 ) == QMessageBox::Ok
@@ -395,7 +395,7 @@ void DataBrowser::slotDeleteDatasource()
                 QMessageBox::critical(
                     this,
                     tr("Attention"),
-                    tr("Do you really want to delete \"%1\" datasource ?").arg(datasourceName),
+                    tr("Do you really want to delete \"%1\" datasource?").arg(datasourceName),
                     QMessageBox::Ok|QMessageBox::No,
                     QMessageBox::No
                 ) == QMessageBox::Ok
@@ -702,7 +702,7 @@ void DataBrowser::on_dataTree_currentItemChanged(QTreeWidgetItem *current, QTree
     Q_UNUSED(previous)
     if (current&&(current->type() == DataBrowserTree::Connection)) {
         bool internalConnection = m_report->dataManager()->connectionByName(ConnectionDesc::connectionNameForReport(current->text(0)));
-        if (m_report->dataManager()->isConnectionConnected(current->text(0))){
+        if (m_report->dataManager()->isConnectionConnected(ConnectionDesc::connectionNameForReport(current->text(0)))){
             ui->pbConnect->setIcon(QIcon(":/databrowser/images/plug-connect.png"));
         } else {
             ui->pbConnect->setIcon(QIcon(":/databrowser/images/plug-disconnect.png"));
@@ -766,7 +766,7 @@ void DataBrowser::on_deleteVariable_clicked()
 {
     QString varName = getVariable();
     if (!varName.isEmpty()){
-        if (QMessageBox::critical(this,tr("Attention"),QString(tr("Do you really want to delete variable \"%1\" ?")).arg(varName),
+        if (QMessageBox::critical(this,tr("Attention"),QString(tr("Do you really want to delete variable \"%1\"?")).arg(varName),
                  QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel
         )==QMessageBox::Ok){
             m_report->dataManager()->deleteVariable(varName);

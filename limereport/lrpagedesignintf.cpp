@@ -125,7 +125,7 @@ void PageDesignIntf::updatePageRect()
         m_pageItem->setRightMargin(5);
         m_pageItem->setObjectName("ReportPage1");
         connect(m_pageItem.data(), SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)), this, SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)));
-        connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeomertyChanged(QObject *, QRectF, QRectF)));
+        connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeometryChanged(QObject *, QRectF, QRectF)));
         connect(m_pageItem.data(), SIGNAL(objectLoaded(QObject *)), this, SLOT(slotPageItemLoaded(QObject *)));
     }
     this->setSceneRect(-Const::SCENE_MARGIN, -Const::SCENE_MARGIN,
@@ -777,7 +777,7 @@ QStringList PageDesignIntf::possibleParentItems()
     return itemsList;
 }
 
-void PageDesignIntf::slotPageGeomertyChanged(QObject *, QRectF /*newGeometry*/, QRectF)
+void PageDesignIntf::slotPageGeometryChanged(QObject *, QRectF /*newGeometry*/, QRectF)
 {
     if (!m_isLoading){
         pageItem()->relocateBands();
@@ -1069,6 +1069,14 @@ void PageDesignIntf::setReportSettings(ReportSettings *reportSettings)
 {
     m_reportSettings = reportSettings;
     m_pageItem->setReportSettings(m_reportSettings);
+}
+
+void PageDesignIntf::setPropertyToSelectedItems(const char* name, const QVariant& value)
+{
+    foreach(QGraphicsItem* gi, selectedItems()){
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(gi);
+        if(item && item->metaObject()->indexOfProperty(name) != -1 ) item->setProperty(name,value);
+    }
 }
 
 bool PageDesignIntf::magneticMovement() const

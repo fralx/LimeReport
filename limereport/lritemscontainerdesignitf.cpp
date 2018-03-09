@@ -91,7 +91,7 @@ void ItemsContainerDesignInft::arrangeSubItems(RenderPass pass, DataSourceManage
     }
 }
 
-qreal ItemsContainerDesignInft::findMaxBottom()
+qreal ItemsContainerDesignInft::findMaxBottom() const
 {
     qreal maxBottom=0;
     foreach(QGraphicsItem* item,childItems()){
@@ -103,7 +103,7 @@ qreal ItemsContainerDesignInft::findMaxBottom()
     return maxBottom;
 }
 
-qreal ItemsContainerDesignInft::findMaxHeight()
+qreal ItemsContainerDesignInft::findMaxHeight() const
 {
     qreal maxHeight=0;
     foreach(QGraphicsItem* item,childItems()){

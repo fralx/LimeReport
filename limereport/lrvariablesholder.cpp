@@ -61,8 +61,9 @@ void VariablesHolder::addVariable(const QString& name, const QVariant& value, Va
         m_varNames.insert(name,varValue);
         if (type==VarDesc::Report)
             m_userVariables.append(varValue);
+        emit variableHasBeenAdded(name);
     } else {
-        throw ReportError(tr("variable with name ")+name+tr(" already exists !!"));
+        throw ReportError(tr("variable with name ")+name+tr(" already exists!"));
     }
 }
 
@@ -77,7 +78,7 @@ VarDesc::VarType VariablesHolder::variableType(const QString &name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->varType();
-    else throw ReportError(tr("variable with name ")+name+tr(" does not exists !!"));
+    else throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
 }
 
 void VariablesHolder::deleteVariable(const QString &name)
@@ -86,6 +87,7 @@ void VariablesHolder::deleteVariable(const QString &name)
         m_userVariables.removeOne(m_varNames.value(name));
         delete m_varNames.value(name);
         m_varNames.remove(name);
+        emit variableHasBennDeleted(name);
     }
 }
 
@@ -93,8 +95,9 @@ void VariablesHolder::changeVariable(const QString &name, const QVariant &value)
 {
     if(m_varNames.contains(name)) {
         m_varNames.value(name)->setValue(value);
+        emit variableHasBeenChanged(name);
     } else
-        throw ReportError(tr("variable with name ")+name+tr(" does not exists !!"));
+        throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
 }
 
 void VariablesHolder::clearUserVariables()
@@ -142,7 +145,7 @@ RenderPass VariablesHolder::variablePass(const QString &name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->renderPass();
-    else throw ReportError(tr("variable with name ")+name+tr(" does not exists !!"));
+    else throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
 }
 
 }// namespace LimeReport

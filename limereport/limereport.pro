@@ -10,8 +10,15 @@ CONFIG(debug, debug|release) {
 
 TEMPLATE = lib
 
-CONFIG += lib
-CONFIG += dll
+contains(CONFIG, static_build){
+    CONFIG += staticlib
+}
+
+!contains(CONFIG, staticlib){
+    CONFIG += lib
+    CONFIG += dll
+}
+
 CONFIG += create_prl
 CONFIG += link_prl
 
@@ -22,6 +29,12 @@ macx{
 }
 
 DEFINES += LIMEREPORT_EXPORTS
+
+contains(CONFIG, staticlib){
+    DEFINES += HAVE_STATIC_BUILD
+    message(STATIC_BUILD)
+    DEFINES -= LIMEREPORT_EXPORTS
+}
 
 EXTRA_FILES += \
     $$PWD/lrglobal.cpp \
@@ -83,7 +96,7 @@ contains(CONFIG,zint){
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es_ES ar
+    LANGUAGES = ru es_ES ar fr zh
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3

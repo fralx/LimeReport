@@ -57,21 +57,21 @@ IDataSource * ModelHolder::dataSource(IDataSource::DatasourceMode mode)
 }
 
 QueryHolder::QueryHolder(QString queryText, QString connectionName, DataSourceManager *dataManager)
-    : m_query(0), m_queryText(queryText), m_connectionName(connectionName),
+    : m_queryText(queryText), m_connectionName(connectionName),
       m_mode(IDataSource::RENDER_MODE), m_dataManager(dataManager), m_prepared(true)
 {
     extractParams();
 }
 
-QueryHolder::~QueryHolder()
-{
-    if (m_query) delete m_query;
-}
+QueryHolder::~QueryHolder(){}
 
 bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
 {
     m_mode = mode;
+
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+    QSqlQuery query(db);
+
     if (!db.isValid()) {
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
         return false;
@@ -82,16 +82,12 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         if (!m_prepared) return false;
     }
 
-    if (!m_query){
-        m_query = new QSqlQuery(db);
-        m_query->prepare(m_preparedSQL);
-    }
-
-    fillParams(m_query);
-    m_query->exec();
+    query.prepare(m_preparedSQL);
+    fillParams(&query);
+    query.exec();
 
     QSqlQueryModel *model = new QSqlQueryModel;
-    model->setQuery(*m_query);
+    model->setQuery(query);
 
     while (model->canFetchMore())
         model->fetchMore();
@@ -102,7 +98,7 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         setLastError(model->lastError().text());
         delete model;
         return false;
-    } else setLastError("");
+    } else { setLastError("");}
 
     setDatasource(IDataSource::Ptr(new ModelToDataSource(model,true)));
     return true;
@@ -118,11 +114,10 @@ void QueryHolder::setConnectionName(QString connectionName)
     m_connectionName=connectionName;
 }
 
-void QueryHolder::invalidate(IDataSource::DatasourceMode mode){
+void QueryHolder::invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed){
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-    if (!db.isValid()){
+    if (!db.isValid() || dbWillBeClosed){
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
-        delete m_query;
         m_dataSource.clear();
     } else {
         runQuery(mode);
@@ -197,10 +192,6 @@ void QueryHolder::setQueryText(QString queryText)
 {
     m_queryText=queryText;
     m_prepared = false;
-    if (m_query) {
-        delete m_query;
-        m_query = 0;
-    }
 }
 
 IDataSource* QueryHolder::dataSource(IDataSource::DatasourceMode mode)
@@ -350,13 +341,13 @@ void ModelToDataSource::slotModelDestroed()
 
 ConnectionDesc::ConnectionDesc(QSqlDatabase db, QObject *parent)
     : QObject(parent), m_connectionName(db.connectionName()), m_connectionHost(db.hostName()), m_connectionDriver(db.driverName()),
-      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_autoconnect(false),
+      m_databaseName(db.databaseName()), m_user(db.userName()), m_password(db.password()), m_port(-1), m_autoconnect(false),
       m_internal(false), m_keepDBCredentials(true)
 {}
 
 ConnectionDesc::ConnectionDesc(QObject *parent)
-    :QObject(parent),m_connectionName(""),m_connectionHost(""),m_connectionDriver(""),
-      m_databaseName(""), m_user(""), m_password(""), m_autoconnect(false),
+    :QObject(parent),m_connectionName(""),m_connectionHost(""), m_connectionDriver(""),
+      m_databaseName(""), m_user(""), m_password(""), m_port(-1), m_autoconnect(false),
       m_internal(false), m_keepDBCredentials(true)
 {}
 
@@ -391,6 +382,16 @@ QString ConnectionDesc::connectionNameForReport(const QString &connectionName)
     return connectionName.compare(tr("defaultConnection")) == 0 ? QSqlDatabase::defaultConnection : connectionName;
 }
 
+int ConnectionDesc::port() const
+{
+    return m_port;
+}
+
+void ConnectionDesc::setPort(int port)
+{
+    m_port = port;
+}
+
 bool ConnectionDesc::keepDBCredentials() const
 {
     return m_keepDBCredentials;
@@ -421,7 +422,7 @@ void SubQueryHolder::setMasterDatasource(const QString &value)
 void SubQueryHolder::extractParams()
 {
     if (!dataManager()->containsDatasource(m_masterDatasource)){
-        setLastError(QObject::tr("Master datasource \"%1\" not found!!!").arg(m_masterDatasource));
+        setLastError(QObject::tr("Master datasource \"%1\" not found!").arg(m_masterDatasource));
         setPrepared(false);
     } else {
         m_preparedSQL = replaceFields(replaceVariables(queryText()));
@@ -552,9 +553,10 @@ IDataSource *ProxyHolder::dataSource(IDataSource::DatasourceMode mode)
     return m_datasource.data();
 }
 
-void ProxyHolder::invalidate(IDataSource::DatasourceMode mode)
+void ProxyHolder::invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed)
 {
     Q_UNUSED(mode)
+    Q_UNUSED(dbWillBeClosed);
     if (m_model && m_model->isInvalid()){
         m_invalid = true;
         m_lastError = tr("Datasource has been invalidated");
@@ -638,11 +640,26 @@ QVariant MasterDetailProxyModel::masterData(QString fieldName) const
 
 bool CallbackDatasource::next(){
     if (!m_eof){
+        bool nextRowExists = checkNextRecord(m_currentRow);
+        if (m_currentRow>-1){
+            if (!m_getDataFromCache && nextRowExists){
+                for (int i = 0; i < m_columnCount; ++i ){
+                    m_valuesCache[columnNameByIndex(i)] = data(columnNameByIndex(i));
+                }
+
+            }
+        }
+        if (!nextRowExists){
+            m_eof = true;
+            return false;
+        }
         m_currentRow++;
-        bool result = false;
-        emit changePos(CallbackInfo::Next,result);
+        bool result = true;
+        if (!m_getDataFromCache)
+            emit changePos(CallbackInfo::Next,result);
+        m_getDataFromCache = false;
         if (m_rowCount != -1){
-            if (m_rowCount>0 && m_currentRow<m_rowCount){
+            if (m_rowCount > 0 && m_currentRow < m_rowCount){
                 m_eof = false;
             } else {
                 m_eof = true;
@@ -653,6 +670,21 @@ bool CallbackDatasource::next(){
             return result;
         }
     } else return false;
+}
+
+bool CallbackDatasource::prior(){
+     if (m_currentRow !=-1) {
+        if (!m_getDataFromCache && !m_valuesCache.isEmpty()){
+            m_getDataFromCache = true;
+            m_currentRow--;
+            m_eof = false;
+            return true;
+        } else {
+            return false;
+        }
+     } else {
+         return false;
+     }
 }
 
 void CallbackDatasource::first(){
@@ -673,12 +705,19 @@ void CallbackDatasource::first(){
 
 QVariant CallbackDatasource::data(const QString& columnName)
 {
-    CallbackInfo info;
-    info.dataType = CallbackInfo::ColumnData;
-    info.columnName = columnName;
-    info.index = m_currentRow;
     QVariant result;
-    emit getCallbackData(info,result);
+    if (!bof())
+    {
+        if (!m_getDataFromCache){
+            CallbackInfo info;
+            info.dataType = CallbackInfo::ColumnData;
+            info.columnName = columnName;
+            info.index = m_currentRow;
+            emit getCallbackData(info,result);
+        } else {
+            result = m_valuesCache[columnName];
+        }
+    }
     return result;
 }
 
@@ -728,7 +767,7 @@ QString CallbackDatasource::columnNameByIndex(int columnIndex)
 int CallbackDatasource::columnIndexByName(QString name)
 {
     for (int i=0;i<m_headers.size();++i) {
-        if (m_headers[i].compare(name) == 0)
+        if (m_headers[i].compare(name, Qt::CaseInsensitive) == 0)
             return i;
     }
 //    if (m_headers.size()==0){
@@ -741,8 +780,9 @@ int CallbackDatasource::columnIndexByName(QString name)
 }
 
 bool CallbackDatasource::checkNextRecord(int recordNum){
-    if (m_rowCount>0 && m_currentRow<m_rowCount){
-        return true;
+    if (bof()) checkIfEmpty();
+    if (m_rowCount > 0) {
+        return (m_currentRow < (m_rowCount-1));
     } else {
         QVariant result = false;
         CallbackInfo info;
@@ -762,7 +802,10 @@ bool CallbackDatasource::checkIfEmpty(){
         CallbackInfo info;
         info.dataType = CallbackInfo::RowCount;
         emit getCallbackData(info, recordCount);
-        if (recordCount.toInt()>0) return false;
+        if (recordCount.toInt()>0) {
+            m_rowCount = recordCount.toInt();
+            return false;
+        }
         info.dataType = CallbackInfo::IsEmpty;
         emit getCallbackData(info,isEmpty);
         return isEmpty.toBool();

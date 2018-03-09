@@ -224,9 +224,12 @@ protected:
     void setLastError(const QString& value);
     void invalidateLinkedDatasources(QString datasourceName);
     bool checkConnection(QSqlDatabase db);
+    void invalidateQueriesContainsVariable(const QString& variableName);
 private slots:
     void slotConnectionRenamed(const QString& oldName,const QString& newName);
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
+    void slotVariableHasBeenAdded(const QString& variableName);
+    void slotVariableHasBeenChanged(const QString& variableName);
 private:
     explicit DataSourceManager(QObject *parent = 0);
     bool initAndOpenDB(QSqlDatabase &db, ConnectionDesc &connectionDesc);

@@ -27,8 +27,8 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef LRGLOBAL_H
+#define LRGLOBAL_H
 #include "qglobal.h"
 #include <stdexcept>
 #include <QString>
@@ -76,6 +76,7 @@ namespace Const{
     const qreal SELECTION_OPACITY = 0.3;
     const QString FIELD_RX = "\\$D\\s*\\{\\s*([^{}]*)\\s*\\}";
     const QString VARIABLE_RX = "\\$V\\s*\\{\\s*([^{}]*)\\s*\\}";
+    const QString NAMED_VARIABLE_RX = "\\$V\\s*\\{\\s*(%1)\\s*\\}";
     const QString SCRIPT_RX = "\\$S\\s*\\{(.*)\\}";
 
     //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(((?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"))(\\w+\\.?\\w+)((?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,\\s*\\\"(\\w+)\\\"\\s*\\)";
@@ -84,7 +85,8 @@ namespace Const{
 
     //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:((?:(?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"?\\$S\\s*\\{\\s*)|(?:\\\"))((?:\\w+\\.?\\w+)|(?:\\w+))(?:(?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,)|(?:))\\s*\\\"(\\w+)\\\"\\s*\\)";
     //const QString GROUP_FUNCTION_PARAM_RX = "\\((?:(.+),(.+))|(?:\\\"(\\w+)\\\")\\)";
-    const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:(?:(?:\\\")|(?:))(\\w+)(?:(?:\\\")|(?:)))|(?:(?:(?:\\\")|(?:))(\\s*\\$\\w\\s*\\{.+\\}\\s*)(?:(?:\\\")|(?:))\\s*,\\s*(?:(?:\\\")|(?:))(\\w+)(?:(?:\\\")|(?:))))\\)";
+    //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:(?:(?:\\\")|(?:))(\\w+)(?:(?:\\\")|(?:)))|(?:(?:(?:\\\")|(?:))(\\s*\\$\\w\\s*\\{.+\\}\\s*)(?:(?:\\\")|(?:))\\s*,\\s*(?:(?:\\\")|(?:))(\\w+)(?:(?:\\\")|(?:))))\\)";
+    const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*((?:(?:\\\")|(?:))(?:(?:\\$(?:(?:D\\{\\s*\\w*.\\w*\\s*\\})|(?:V\\{\\s*\\w*\\s*\\})|(?:S\\{.+\\})))|(?:\\w*))(?:(?:\\\")|(?:)))(?:(?:\\s*,\\s*(?:\\\"(\\w*)\\\"))|(?:))\\)";
     const int DATASOURCE_INDEX = 3;//4;
     const int VALUE_INDEX = 2; //2;
     const int EXPRESSION_ARGUMENT_INDEX = 1;//3;

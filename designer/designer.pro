@@ -23,14 +23,16 @@ unix:{
     } else {
         LIBS += -llimereport
     }
-    contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS}
-        CONFIG(debug, debug|release) {
-            LIBS += -lQtZintd
-        } else {
-            LIBS += -lQtZint
-        }
-    }
+    !contains(CONFIG, static_build){
+		contains(CONFIG,zint){
+			LIBS += -L$${DEST_LIBS}
+			CONFIG(debug, debug|release) {
+				LIBS += -lQtZintd
+			} else {
+				LIBS += -lQtZint
+			}
+		}
+	}
     DESTDIR = $$DEST_DIR
 linux{
     #Link share lib to ../lib rpath
@@ -50,15 +52,17 @@ win32 {
 
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
-
-    contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS}
-        CONFIG(debug, debug|release) {
-            LIBS += -lQtZintd
-        } else {
-            LIBS += -lQtZint
-        }
+    !contains(CONFIG, static_build){
+		contains(CONFIG,zint){
+			LIBS += -L$${DEST_LIBS}
+			CONFIG(debug, debug|release) {
+				LIBS += -lQtZintd
+			} else {
+				LIBS += -lQtZint
+			}
+		}
     }
+	
     LIBS += -L$${DEST_LIBS}
     CONFIG(debug, debug|release) {
         LIBS += -llimereportd

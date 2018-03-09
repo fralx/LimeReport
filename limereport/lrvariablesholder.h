@@ -27,8 +27,8 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifndef VARIABLEHOLDER_H
-#define VARIABLEHOLDER_H
+#ifndef LRVARIABLEHOLDER_H
+#define LRVARIABLEHOLDER_H
 
 #include <QObject>
 #include <QMap>
@@ -92,6 +92,9 @@ public:
     int userVariablesCount();
     VarDesc* userVariableAt(int index);
 signals:
+    void variableHasBeenAdded(const QString& variableName);
+    void variableHasBeenChanged(const QString& variableName);
+    void variableHasBennDeleted(const QString& variableName);
 private:
     QMap<QString,VarDesc*> m_varNames;
     QList<VarDesc*> m_userVariables;

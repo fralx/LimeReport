@@ -217,16 +217,16 @@ void ReportDesignWindow::createActions()
     m_aboutAction->setIcon(QIcon(":/report/images/copyright"));
     connect(m_aboutAction,SIGNAL(triggered()),this,SLOT(slotShowAbout()));
 
-    m_hideLeftPanel = new QAction(tr("Hide left panel"),this);
+    m_hideLeftPanel = new QAction(tr("Hide left panel | Alt+L"),this);
     m_hideLeftPanel->setCheckable(true);
-//    m_hideLeftPanel->setChecked(true);
     m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
+    m_hideLeftPanel->setShortcut(QKeySequence(Qt::ALT + Qt::Key_L));
     connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
 
-    m_hideRightPanel = new QAction(tr("Hide right panel"),this);
+    m_hideRightPanel = new QAction(tr("Hide right panel | Alt+R"),this);
     m_hideRightPanel->setCheckable(true);
-//    m_hideRightPanel->setChecked(true);
     m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
+    m_hideRightPanel->setShortcut(QKeySequence(Qt::ALT + Qt::Key_R));
     connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
 }
 
@@ -683,7 +683,7 @@ bool ReportDesignWindow::checkNeedToSave()
 {
     if (m_reportDesignWidget->isNeedToSave()){
         QMessageBox::StandardButton button = QMessageBox::question(
-            this,"",tr("Report has been modified ! Do you want save the report ?"),
+            this,"",tr("Report has been modified! Do you want save the report?"),
             QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::Yes
         );
         switch (button) {
@@ -1058,8 +1058,10 @@ void ReportDesignWindow::slotBandAdded(PageDesignIntf *, BandDesignIntf * band)
             break;
         case BandDesignIntf::ReportFooter:
             m_newReportFooter->setDisabled(true);
+            break;
         case BandDesignIntf::TearOffBand:
             m_newTearOffBand->setDisabled(true);
+            break;
         default:
             break;
         }
@@ -1267,7 +1269,7 @@ bool ObjectNameValidator::validate(const QString &propName, const QVariant &prop
         BaseDesignIntf* bd = dynamic_cast<BaseDesignIntf*>(object);
         if (bd){
             if (bd->page()->reportItemByName(propValue.toString())){
-                msg = QString(QObject::tr("Object with name %1 already exists").arg(propValue.toString()));
+                msg = QString(QObject::tr("Object with name %1 already exists!").arg(propValue.toString()));
                 return false;
             } else (bd->emitObjectNamePropertyChanged(object->objectName(),propValue.toString()));
         }

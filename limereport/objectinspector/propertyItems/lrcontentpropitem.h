@@ -1,5 +1,5 @@
-#ifndef CONTENTPROPITEM_H
-#define CONTENTPROPITEM_H
+#ifndef LRCONTENTPROPITEM_H
+#define LRCONTENTPROPITEM_H
 
 #include "lrstringpropitem.h"
 #include "objectinspector/editors/lrbuttonlineeditor.h"

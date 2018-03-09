@@ -99,6 +99,11 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+void BandMarker::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    m_band->contextMenuEvent(event);
+}
+
 BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, QObject* owner, QGraphicsItem *parent) :
     ItemsContainerDesignInft(xmlTypeName, owner,parent),
     m_bandType(bandType),
@@ -122,7 +127,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startNewPage(false),
     m_startFromNewPage(false),
     m_printAlways(false),
-    m_repeatOnEachRow(false)
+    m_repeatOnEachRow(false),
+    m_bottomSpace()
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -145,6 +151,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_bandNameLabel->setVisible(false);
     if (scene()) scene()->addItem(m_bandNameLabel);
     m_alternateBackgroundColor = backgroundColor();
+    connect(this, SIGNAL(propertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotPropertyObjectNameChanged(const QString&,const QString&)));
 }
 
 BandDesignIntf::~BandDesignIntf()
@@ -159,6 +167,21 @@ BandDesignIntf::~BandDesignIntf()
     delete m_bandNameLabel;
 }
 
+int extractItemIndex(const BaseDesignIntf* item){
+    QString objectName = extractClassName(item->metaObject()->className());
+    QString value = item->objectName().right(item->objectName().size() - objectName.size());
+    return value.toInt();
+}
+
+QString BandDesignIntf::translateBandName(const BaseDesignIntf* item) const{
+    QString defaultBandName = extractClassName(item->metaObject()->className()).toLatin1()+QString::number(extractItemIndex(item));
+    if (item->objectName().compare(defaultBandName) == 0){
+        return tr(extractClassName(item->metaObject()->className()).toLatin1())+QString::number(extractItemIndex(item));
+    } else {
+        return item->objectName();
+    }
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -170,8 +193,7 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
     if (itemMode() & DesignMode){
         painter->save();
-        QString bandText = objectName();
-        if (parentBand()) bandText+=QLatin1String(" connected to ")+parentBand()->objectName();
+        QString bandText = bandTitle();
         QFont font("Arial", 7 * Const::fontFACTOR, -1, true);
         QFontMetrics fontMetrics(font);
 
@@ -202,6 +224,23 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     BaseDesignIntf::paint(painter,option,widget);
 }
 
+void BandDesignIntf::translateBandsName()
+{
+    tr("DataBand");
+    tr("DataHeaderBand");
+    tr("DataFooterBand");
+    tr("ReportHeader");
+    tr("ReportFooter");
+    tr("PageHeader");
+    tr("PageFooter");
+    tr("SubDetailBand");
+    tr("SubDetailHeaderBand");
+    tr("SubDetailFooterBand");
+    tr("GroupBandHeader");
+    tr("GroupBandFooter");
+    tr("TearOffBand");
+}
+
 BandDesignIntf::BandsType  BandDesignIntf::bandType() const
 {
     return m_bandType;
@@ -209,8 +248,8 @@ BandDesignIntf::BandsType  BandDesignIntf::bandType() const
 
 QString  BandDesignIntf::bandTitle() const
 {
-    QString result = objectName();
-    if (parentBand()) result +=tr(" connected to ")+parentBand()->objectName();
+    QString result = translateBandName(this);
+    if (parentBand()) result +=tr(" connected to ") + translateBandName(parentBand());
     return result;
 }
 
@@ -229,9 +268,15 @@ void BandDesignIntf::setBandIndex(int value)
     m_bandIndex=value;
 }
 
-void BandDesignIntf::changeBandIndex(int value)
+void BandDesignIntf::changeBandIndex(int value, bool firstTime)
 {
-    int indexOffset = value - m_bandIndex;
+    int indexOffset;
+
+    if (firstTime && bandHeader())
+        value += 1;
+
+    indexOffset = value - m_bandIndex;
+
     foreach(BandDesignIntf* band, childBands()){
         int newIndex = band->bandIndex()+indexOffset;
         band->changeBandIndex(newIndex);
@@ -250,6 +295,14 @@ QString BandDesignIntf::datasourceName(){
 
 void BandDesignIntf::setDataSourceName(const QString &datasource){
     m_dataSourceName=datasource;
+}
+
+void BandDesignIntf::setKeepBottomSpaceOption(bool value){
+    if (m_keepBottomSpace!=value){
+        m_keepBottomSpace=value;
+        if (!isLoading())
+            notify("keepBottomSpace",!value,value);
+    }
 }
 
 void BandDesignIntf::addChildBand(BandDesignIntf *band)
@@ -291,6 +344,16 @@ bool BandDesignIntf::isConnectedToBand(BandDesignIntf::BandsType bandType) const
 {
     foreach(BandDesignIntf* band,childBands()) if (band->bandType()==bandType) return true;
     return false;
+}
+
+int BandDesignIntf::maxChildIndex(BandDesignIntf::BandsType bandType) const{
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if ( (childBand->bandIndex() > bandIndex()) && (childBand->bandType() < bandType) ){
+            curIndex = std::max(curIndex,childBand->maxChildIndex());
+        }
+    }
+    return curIndex;
 }
 
 int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{
@@ -416,13 +479,25 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     }
 
     menu.addSeparator();
-    QAction* autoHeightAction = menu.addAction(tr("Auto height"));
-    autoHeightAction->setCheckable(true);
-    autoHeightAction->setChecked(autoHeight());
+    QAction* currAction = menu.addAction(tr("Auto height"));
+    currAction->setCheckable(true);
+    currAction->setChecked(autoHeight());
 
-    QAction* autoSplittableAction = menu.addAction(tr("Splittable"));
-    autoSplittableAction->setCheckable(true);
-    autoSplittableAction->setChecked(isSplittable());
+    currAction = menu.addAction(tr("Splittable"));
+    currAction->setCheckable(true);
+    currAction->setChecked(isSplittable());
+
+    currAction = menu.addAction(tr("Keep bottom space"));
+    currAction->setCheckable(true);
+    currAction->setChecked(keepBottomSpaceOption());
+
+    currAction = menu.addAction(tr("Start from new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startFromNewPage());
+
+    currAction = menu.addAction(tr("Start new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startNewPage());
 }
 
 void BandDesignIntf::processPopUpAction(QAction *action)
@@ -433,13 +508,23 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Splittable")) == 0){
         setProperty("splittable",action->isChecked());
     }
+    if (action->text().compare(tr("Keep bottom space")) == 0){
+        setProperty("keepBottomSpace",action->isChecked());
+    }
+    if (action->text().compare(tr("Start new page")) == 0){
+        setProperty("startNewPage",action->isChecked());
+    }
+    if (action->text().compare(tr("Start from new page")) == 0){
+        setProperty("startFromNewPage",action->isChecked());
+    }
 }
 
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int maxBottom = 0;
     BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    BaseDesignIntf* upperItem;
+    upperPart->m_bottomSpace = this->bottomSpace();
+    BaseDesignIntf* upperItem = 0;
 
     upperPart->initFromItem(this);
 
@@ -485,6 +570,7 @@ bool itemLessThen(QGraphicsItem* i1, QGraphicsItem* i2){
 BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     BandDesignIntf* bottomPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
+    bottomPart->m_bottomSpace = this->bottomSpace();
     bottomPart->initFromItem(this);
 
     QList<QGraphicsItem*> bandItems;
@@ -497,30 +583,28 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
         if (item){
             if (item->geometry().top()>height){
                 BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
-                tmpItem->setPos(tmpItem->pos().x(),tmpItem->pos().y()-height);
+                tmpItem->setPos(tmpItem->pos().x(), (tmpItem->pos().y()-height)+borderLineSize());
             }
             else if ((item->geometry().top()<height) && (item->geometry().bottom()>height)){
                 int sliceHeight = height-item->geometry().top();
-                if (item->canBeSplitted(sliceHeight)) {
+                if (item->isSplittable() && item->canBeSplitted(sliceHeight)) {
                     BaseDesignIntf* tmpItem=item->cloneBottomPart(sliceHeight,bottomPart,bottomPart);
-                    tmpItem->setPos(tmpItem->pos().x(),0);
-                    if (tmpItem->pos().y()<0) tmpItem->setPos(tmpItem->pos().x(),0);
-                    qreal sizeOffset = (m_slicedItems.value(tmpItem->objectName())->height()+tmpItem->height()) - item->height();
-                    qreal bottomOffset = (height - m_slicedItems.value(tmpItem->objectName())->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
-                    moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
-                }
-                else if (item->isSplittable()){
-                    BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
-                    tmpItem->setPos(tmpItem->pos().x(),0);
+                    tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
+                    BaseDesignIntf* slicedItem = m_slicedItems.value(tmpItem->objectName());
+                    if (slicedItem){
+                        qreal sizeOffset = (slicedItem->height()+tmpItem->height()) - item->height();
+                        qreal bottomOffset = (height - slicedItem->pos().y())-m_slicedItems.value(tmpItem->objectName())->height();
+                        moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
+                    }
                 } else {
                     if ((item->geometry().bottom()-height)>height){
                         BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
-                        tmpItem->setPos(tmpItem->pos().x(),0);
+                        tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
                         tmpItem->setHeight((this->height()-height));
                     } else {
                         BaseDesignIntf* tmpItem = item->cloneEmpty((this->height()-height),bottomPart,bottomPart);
                         if (tmpItem)
-                            tmpItem->setPos(tmpItem->pos().x(),0);
+                            tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
                     }
                 }
             }
@@ -570,7 +654,7 @@ void BandDesignIntf::trimToMaxHeight(int maxHeight)
 
 void BandDesignIntf::setBandTypeText(const QString &value){
     m_bandTypeText=value;
-    m_bandNameLabel->updateLabel();
+    m_bandNameLabel->updateLabel(bandTitle());
 }
 
 QSet<BandDesignIntf::BandsType> BandDesignIntf::groupBands()
@@ -628,7 +712,7 @@ QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
             m_bandMarker->update(0,0,
                                  m_bandMarker->boundingRect().width(),
                                  m_bandMarker->boundingRect().width());
-            m_bandNameLabel->updateLabel();
+            m_bandNameLabel->updateLabel(bandTitle());
             m_bandNameLabel->setVisible(value.toBool());
 
         }
@@ -682,6 +766,18 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
     m_alternateBackgroundColor = alternateBackgroundColor;
 }
 
+qreal BandDesignIntf::bottomSpace() const
+{
+    return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
+}
+
+void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
+{
+    update();
+    if (m_bandNameLabel)
+        m_bandNameLabel->updateLabel(newName);
+}
+
 bool BandDesignIntf::repeatOnEachRow() const
 {
     return m_repeatOnEachRow;
@@ -709,7 +805,11 @@ bool BandDesignIntf::startFromNewPage() const
 
 void BandDesignIntf::setStartFromNewPage(bool startWithNewPage)
 {
-    m_startFromNewPage = startWithNewPage;
+    if (m_startFromNewPage != startWithNewPage){
+        m_startFromNewPage = startWithNewPage;
+        if (!isLoading())
+            notify("startFromNewPage", !startWithNewPage, startWithNewPage);
+    }
 }
 
 bool BandDesignIntf::startNewPage() const
@@ -719,7 +819,11 @@ bool BandDesignIntf::startNewPage() const
 
 void BandDesignIntf::setStartNewPage(bool startNewPage)
 {
-    m_startNewPage = startNewPage;
+    if (m_startNewPage != startNewPage){
+        m_startNewPage = startNewPage;
+        if (!isLoading())
+            notify("startNewPage", !startNewPage, startNewPage);
+    }
 }
 
 void BandDesignIntf::setAutoHeight(bool value){
@@ -816,7 +920,8 @@ void BandDesignIntf::setKeepFooterTogether(bool value)
 void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     qreal spaceBorder=0;
-    if (keepBottomSpaceOption()) spaceBorder=height()-findMaxBottom();
+    if (keepBottomSpaceOption()) spaceBorder = bottomSpace();
+    spaceBorder = spaceBorder>0 ? spaceBorder : 0;
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
@@ -836,7 +941,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
 
 void BandDesignIntf::updateBandNameLabel()
 {
-    if (m_bandNameLabel) m_bandNameLabel->updateLabel();
+    if (m_bandNameLabel) m_bandNameLabel->updateLabel(bandTitle());
 }
 
 QColor BandDesignIntf::selectionColor() const
@@ -879,7 +984,7 @@ QRectF BandNameLabel::boundingRect() const
     return m_rect;
 }
 
-void BandNameLabel::updateLabel()
+void BandNameLabel::updateLabel(const QString& bandName)
 {
     QFont font("Arial",7*Const::fontFACTOR,-1,true);
     QFontMetrics fontMetrics(font);
@@ -887,7 +992,7 @@ void BandNameLabel::updateLabel()
     m_rect = QRectF(
                 m_band->pos().x()+10,
                 m_band->pos().y()-(fontMetrics.height()+10),
-                fontMetrics.width(m_band->bandTitle())+20,fontMetrics.height()+10
+                fontMetrics.width(bandName)+20,fontMetrics.height()+10
                 );
     update();
 }

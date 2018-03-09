@@ -1,5 +1,13 @@
 CONFIG += build_translations
-CONFIG += zint
+
+!contains(CONFIG, no_zint){
+    CONFIG += zint
+}
+
+ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+contains(CONFIG,zint){
+    DEFINES += HAVE_ZINT
+}
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += uitools
@@ -7,8 +15,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 lessThan(QT_MAJOR_VERSION, 5){
     CONFIG += uitools
 }
-
-ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
 
 CONFIG(release, debug|release){
     message(Release)
@@ -56,7 +62,7 @@ RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 4
-LIMEREPORT_VERSION_RELEASE = 8
+LIMEREPORT_VERSION_RELEASE = 63
 
 LIMEREPORT_VERSION = '\\"$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}\\"'
 DEFINES += LIMEREPORT_VERSION_STR=\"$${LIMEREPORT_VERSION}\"
@@ -82,3 +88,5 @@ lessThan(QT_MAJOR_VERSION, 5){
         DEFINES += HAVE_UI_LOADER
     }
 }
+
+
