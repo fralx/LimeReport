@@ -7,8 +7,9 @@ contains(CONFIG, static_build){
 }
 
 !contains(CONFIG, staticlib){
-CONFIG += dll
+    CONFIG += dll
     DEFINES += QZINT_LIBRARY
+
 }
 
 include(../../../common.pri)
