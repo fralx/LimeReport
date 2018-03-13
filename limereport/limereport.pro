@@ -28,7 +28,7 @@ DEFINES += LIMEREPORT_EXPORTS
 
 contains(CONFIG, staticlib){
     DEFINES += HAVE_STATIC_BUILD
-    message(Static Build)
+    message(STATIC_BUILD)
     DEFINES -= LIMEREPORT_EXPORTS
 }
 
