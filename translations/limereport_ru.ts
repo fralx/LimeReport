@@ -456,6 +456,10 @@ p, li { white-space: pre-wrap; }
         <source> already exists! </source>
         <translation> уже существует! </translation>
     </message>
+    <message>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ContentItemDesignIntf</name>
@@ -1769,11 +1773,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Hide left panel</source>
-        <translation>Спрятать левую панель</translation>
+        <translation type="vanished">Спрятать левую панель</translation>
     </message>
     <message>
         <source>Hide right panel</source>
-        <translation>Спрятать правую панель</translation>
+        <translation type="vanished">Спрятать правую панель</translation>
     </message>
     <message>
         <source>Report Tools</source>
@@ -1950,6 +1954,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Report has been modified! Do you want save the report?</source>
         <translation>Отчет был изменен! Хотите его сохранить?</translation>
+    </message>
+    <message>
+        <source>Hide left panel | Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide right panel | Alt+R</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2224,6 +2236,10 @@ This preview is no longer valid.</source>
     <message>
         <source>GENERAL</source>
         <translation>ОБЩИЕ</translation>
+    </message>
+    <message>
+        <source>Seconds</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

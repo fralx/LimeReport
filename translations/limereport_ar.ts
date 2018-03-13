@@ -587,6 +587,10 @@ p, li { white-space: pre-wrap; }
         <source> already exists! </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ContentItemDesignIntf</name>
@@ -1891,11 +1895,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Hide left panel</source>
-        <translation>إخفاء المقطع الأيسر</translation>
+        <translation type="vanished">إخفاء المقطع الأيسر</translation>
     </message>
     <message>
         <source>Hide right panel</source>
-        <translation>إخفاء المقطع الأيمن</translation>
+        <translation type="vanished">إخفاء المقطع الأيمن</translation>
     </message>
     <message>
         <source>Report Tools</source>
@@ -2063,6 +2067,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Report has been modified! Do you want save the report?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide left panel | Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide right panel | Alt+R</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2345,6 +2357,10 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>GENERAL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Seconds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
