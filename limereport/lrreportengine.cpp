@@ -291,10 +291,6 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
     qreal leftMargin, topMargin, rightMargin, bottomMargin;
     printer.getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
 
-    QRectF printerPageRect = printer.pageRect(QPrinter::Millimeter);
-    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
-                                 (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
-
     foreach(PageItemDesignIntf::Ptr page, pages){
 
         if (
@@ -342,7 +338,11 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
             } else {
                 isFirst=false;
                 painter = new QPainter(&printer);
-            }            
+            }
+
+            QRectF printerPageRect = printer.pageRect(QPrinter::Millimeter);
+            printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
+                                         (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
 
             if (printerPageRect.width() < page->geometry().width()){
                 qreal pageWidth = page->geometry().width();
