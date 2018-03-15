@@ -705,8 +705,8 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
                     foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
                         renderBand(footer, 0);
-                        closeDataGroup(subBand);
                     }
+                    closeDataGroup(subBand);
                 }
 
                 foreach (BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)) {
