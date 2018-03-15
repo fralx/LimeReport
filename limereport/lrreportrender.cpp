@@ -253,7 +253,7 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     }
 
 #ifndef USE_QJSENGINE
-    ScriptEngineManager::instance().scriptEngine()->popContext();
+    Manager::instance().scriptEScriptEnginengine()->popContext();
 #endif
 
 }
@@ -294,6 +294,24 @@ void ReportRender::initRenderPage()
         m_renderPageItem->setItemMode(PreviewMode);
         m_renderPageItem->setPatternName(m_patternPageItem->objectName());
         m_renderPageItem->setPatternItem(m_patternPageItem);
+
+        ScriptValueType svCurrentPage;
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
+
+#ifdef USE_QJSENGINE
+        svCurrentPage = getCppOwnedJSValue(*se, m_renderPageItem);
+        se->globalObject().setProperty("currentPage", svCurrentPage);
+#else
+        svCurrentPage = se->globalObject().property("currentPage");
+        if (svCurrentPage.isValid()){
+            se->newQObject(svCurrentPage, m_renderPageItem);
+        } else {
+            svThis = se->newQObject(m_renderPageItem);
+            se->globalObject().setProperty("currentPage", svCurrentPage);
+        }
+#endif
+
+
     }
 }
 
@@ -384,7 +402,15 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                     QVector<QString> captures = normalizeCaptures(rx);
                     if (captures.size() >= 3){
                         QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
-                        content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                        if (captures.size()<5){
+                            content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                        } else {
+                            content.replace(captures.at(0),QString("%1(%2,%3,%4)")
+                                            .arg(functionName)
+                                            .arg('"'+expressionIndex+'"')
+                                            .arg('"'+band->objectName()+'"')
+                                            .arg(captures.at(4)));
+                        }
                     }
                     pos += rx.matchedLength();
                 }

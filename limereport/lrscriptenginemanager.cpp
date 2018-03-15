@@ -41,6 +41,7 @@
 #include "lrdatasourcemanager.h"
 #include "lrbasedesignintf.h"
 #include "lrbanddesignintf.h"
+#include "lrpageitemdesignintf.h"
 
 Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
@@ -340,8 +341,9 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                     func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")",
                     LimeReport::Const::FUNCTION_MANAGER_NAME,
                     m_functionManager,
-                    QString("function %1(fieldName,bandName){\
-                            return %2.calcGroupFunction(\"%1\",fieldName,bandName);}"
+                    QString("function %1(fieldName, bandName, pageitem){\
+                            pageitem = typeof pageitem !== 'undefined' ? pageitem : 0; \
+                            return %2.calcGroupFunction(\"%1\",fieldName, bandName, pageitem);}"
                     ).arg(func)
                      .arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                 );
@@ -1444,14 +1446,15 @@ void JSFunctionDesc::setScriptWrapper(const QString &scriptWrapper)
     m_scriptWrapper = scriptWrapper;
 }
 
-QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName)
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName, QObject* currentPage)
 {
     if (m_scriptEngineManager->dataManager()){
+        PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(currentPage);
         QString expression = m_scriptEngineManager->dataManager()->getExpression(expressionID);
         GroupFunction* gf =  m_scriptEngineManager->dataManager()->groupFunction(name,expression,bandName);
         if (gf){
             if (gf->isValid()){
-                return gf->calculate();
+                return gf->calculate(pageItem);
             }else{
                 return gf->error();
             }
