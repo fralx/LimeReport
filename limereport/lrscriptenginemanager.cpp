@@ -31,7 +31,9 @@
 
 #include <QDate>
 #include <QStringList>
+#ifndef USE_QJSENGINE
 #include <QScriptValueIterator>
+#endif
 #include <QMessageBox>
 #ifdef HAVE_UI_LOADER
 #include <QUiLoader>
@@ -47,11 +49,13 @@ Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
 Q_DECLARE_METATYPE(LimeReport::ScriptEngineManager *)
 
+#ifndef USE_QJSENGINE
 QScriptValue constructColor(QScriptContext *context, QScriptEngine *engine)
 {
      QColor color(context->argument(0).toString());
      return engine->toScriptValue(color);
 }
+#endif
 
 namespace LimeReport{
 

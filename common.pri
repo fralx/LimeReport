@@ -14,10 +14,18 @@ contains(CONFIG, easy_profiler){
     DEFINES += BUILD_WITH_EASY_PROFILER
 }
 
-!contains(CONFIG, qtscriptengine):
-greaterThan(QT_MAJOR_VERSION, 4):
+!contains(CONFIG, qtscriptengine){
+greaterThan(QT_MAJOR_VERSION, 4){
 greaterThan(QT_MINOR_VERSION, 5){
     CONFIG *= qjsengine
+}
+}
+}
+
+contains(CONFIG, qtscriptengine){
+    CONFIG -= qjsengine
+    QT *= script
+    message(qtscriptengine)
 }
 
 !contains(CONFIG, no_formdesigner){
@@ -93,7 +101,8 @@ LIMEREPORT_VERSION_RELEASE = 68
 LIMEREPORT_VERSION = '$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}'
 DEFINES *= LIMEREPORT_VERSION_STR=\\\"$${LIMEREPORT_VERSION}\\\"
 
-QT *= script xml sql
+QT *= xml sql
+
 REPORT_PATH = $$PWD/limereport
 TRANSLATIONS_PATH = $$PWD/translations
 

@@ -29,7 +29,9 @@
  ****************************************************************************/
 #include <QtGui>
 #include <QTextLayout>
+#ifndef USE_QJSENGINE
 #include <QtScript/QScriptEngine>
+#endif
 #include <QLocale>
 #include <QMessageBox>
 #include <math.h>

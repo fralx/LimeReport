@@ -29,14 +29,15 @@
  ****************************************************************************/
 #ifndef LRSCRIPTENGINEMANAGER_H
 #define LRSCRIPTENGINEMANAGER_H
-
+#ifndef USE_QJSENGINE
 #include <QtScript/QScriptEngine>
+#include <QScriptable>
+#endif
 #include <QVector>
 #include <QIcon>
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QtGlobal>
-#include <QScriptable>
 #include <QFont>
 #include <QComboBox>
 
@@ -440,6 +441,7 @@ private:
 
 };
 
+#ifndef USE_QJSENGINE
 class QFontPrototype : public QObject, public QScriptable {
     Q_OBJECT
     Q_PROPERTY(QString family READ family)
@@ -486,9 +488,9 @@ public:
         return qScriptValueFromValue<QFont>(engine, font);
     }
 };
+#endif
 
 }
-
 #ifndef USE_QJSENGINE
 Q_DECLARE_METATYPE(LimeReport::ComboBoxPrototype*)
 Q_DECLARE_METATYPE(QComboBox*)

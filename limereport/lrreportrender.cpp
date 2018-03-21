@@ -253,7 +253,7 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     }
 
 #ifndef USE_QJSENGINE
-    Manager::instance().scriptEScriptEnginengine()->popContext();
+    ScriptEngineManager::instance().scriptEngine()->popContext();
 #endif
 
 }
@@ -306,7 +306,7 @@ void ReportRender::initRenderPage()
         if (svCurrentPage.isValid()){
             se->newQObject(svCurrentPage, m_renderPageItem);
         } else {
-            svThis = se->newQObject(m_renderPageItem);
+            svCurrentPage = se->newQObject(m_renderPageItem);
             se->globalObject().setProperty("currentPage", svCurrentPage);
         }
 #endif
