@@ -165,6 +165,8 @@ public:
     void setTextIndent(const qreal &textIndent);
     Qt::LayoutDirection textLayoutDirection() const;
     void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
+
+    void setWatermark(bool watermark);
     
 protected:
     void updateLayout();
