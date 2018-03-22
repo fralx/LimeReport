@@ -1183,6 +1183,7 @@ void BaseDesignIntf::showEditorDialog(){
         dialog->layout()->setContentsMargins(2,2,2,2);
         dialog->layout()->addWidget(editor);
         connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));
+        dialog->setWindowTitle(editor->windowTitle());
         dialog->exec();
 #endif
     }
