@@ -34,6 +34,7 @@ public:
     void updateCompleaterModel(DataSourceManager* dataManager);
 protected:
     QStringList extractSlotNames(BaseDesignIntf* item);
+    QStringList extractPropertyes(BaseDesignIntf* item);
     void addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent);
     void addAdditionalDatawords(DataSourceManager *dataManager);
 private:

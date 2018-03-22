@@ -219,8 +219,6 @@ void ScriptEditor::slotOnCurrentChanged(const QModelIndex &to, const QModelIndex
     }
 }
 
-
-
 QString ReportStructureCompleater::pathFromIndex(const QModelIndex &index) const
 {
     QStringList dataList;
@@ -284,15 +282,24 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
             itemNode->setText(page->pageItem()->objectName());
             m_model.invisibleRootItem()->appendRow(itemNode);
 
-            QStringList slotsNames = extractSlotNames(page->pageItem());
-            foreach(QString slotName, slotsNames){
+            QStringList items = extractSlotNames(page->pageItem());
+            foreach(QString slotName, items){
                 QStandardItem* slotItem = new QStandardItem;
                 slotItem->setText(slotName);
+                slotItem->setIcon(QIcon(":/report/images/signal"));
                 itemNode->appendRow(slotItem);
+            }
+            items = extractPropertyes(page->pageItem());
+            foreach(QString propertyName, items){
+                QStandardItem* properyItem = new QStandardItem;
+                properyItem->setText(propertyName);
+                properyItem->setIcon(QIcon(":/report/images/property"));
+                itemNode->appendRow(properyItem);
             }
             foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
                 addChildItem(item, itemNode->text(), m_model.invisibleRootItem());
             }
+
         }
     }
 }
@@ -318,6 +325,22 @@ QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
                 result.append(QString::fromLatin1(mo->method(i).signature()));
 #endif
             }
+        }
+        mo = mo->superClass();
+    }
+    result.sort();
+    return result;
+}
+
+QStringList ReportStructureCompleater::extractPropertyes(BaseDesignIntf *item)
+{
+    QStringList result;
+    if (!item) return result;
+    QMetaObject const * mo = item->metaObject();
+    while (mo){
+        for(int i = mo->propertyOffset(); i < mo->propertyCount(); ++i)
+        {
+                result.append(QString::fromLatin1(mo->property(i).name()));
         }
         mo = mo->superClass();
     }
