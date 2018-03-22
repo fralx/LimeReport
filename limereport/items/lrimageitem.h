@@ -47,6 +47,7 @@ class ImageItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(bool keepAspectRatio READ keepAspectRatio WRITE setKeepAspectRatio)
     Q_PROPERTY(bool center READ center WRITE setCenter)
     Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
+    Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
 public:
     enum Format {
         Binary  = 0,

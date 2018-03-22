@@ -282,6 +282,9 @@ public:
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
 
+    bool isWatermark() const;
+    void setWatermark(bool watermark);
+
 protected:
 
     //ICollectionContainer
@@ -396,6 +399,7 @@ private:
     QColor  m_borderColor;
     ReportSettings* m_reportSettings;
     QString m_patternName;
+    bool m_watermark;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);

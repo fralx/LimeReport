@@ -78,7 +78,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_changingItemAlign(false),
     m_borderColor(Qt::black),
     m_reportSettings(0),
-    m_patternName("")
+    m_patternName(""),
+    m_watermark(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -698,6 +699,19 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
     } else {
         delete m_selectionMarker;
         m_selectionMarker = 0;
+    }
+}
+
+bool BaseDesignIntf::isWatermark() const
+{
+    return m_watermark;
+}
+
+void BaseDesignIntf::setWatermark(bool watermark)
+{
+    if (m_watermark != watermark){
+        m_watermark = watermark;
+        notify("watermark",!watermark,watermark);
     }
 }
 
