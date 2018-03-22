@@ -640,7 +640,10 @@ void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
     m_renderPageItem->restoreLinks();
     m_renderPageItem->updateSubItemsSize(FirstPass,m_datasources);
     foreach(BaseDesignIntf* item, pageItems){
-        item->setZValue(item->zValue()-100000);
+        if (!item->isWatermark())
+            item->setZValue(item->zValue()-100000);
+        else
+            item->setZValue(item->zValue()+100000);
     }
 }
 
