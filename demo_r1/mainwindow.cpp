@@ -38,7 +38,13 @@
 #include <QDebug>
 #include <QStringListModel>
 
+#ifndef HAVE_QT4
 #include "easy/profiler.h"
+#else
+# define EASY_BLOCK(...)
+# define EASY_END_BLOCK
+# define EASY_PROFILER_ENABLE
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -121,7 +127,9 @@ void MainWindow::on_pushButton_clicked()
     report->setShowProgressDialog(false);
     report->designReport();
     EASY_END_BLOCK;
+#ifndef HAVE_QT4
     profiler::dumpBlocksToFile("test.prof");
+#endif
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -137,7 +145,9 @@ void MainWindow::on_pushButton_2_clicked()
             report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
         }
         EASY_END_BLOCK;
+#ifndef HAVE_QT4
         profiler::dumpBlocksToFile("test.prof");
+#endif
         report->previewReport();
     }
 }

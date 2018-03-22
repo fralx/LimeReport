@@ -312,7 +312,11 @@ QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
         for(int i = mo->methodOffset(); i < mo->methodCount(); ++i)
         {
             if (mo->method(i).methodType() == QMetaMethod::Signal) {
+#ifndef HAVE_QT4
                 result.append(QString::fromLatin1(mo->method(i).name()));
+#else
+                result.append(QString::fromLatin1(mo->method(i).signature()));
+#endif
             }
         }
         mo = mo->superClass();

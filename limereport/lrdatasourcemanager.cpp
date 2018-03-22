@@ -37,7 +37,12 @@
 #include <QFileInfo>
 #include <stdexcept>
 
+#ifndef HAVE_QT4
 #include "easy/profiler.h"
+#else
+# define EASY_BLOCK(...)
+# define EASY_END_BLOCK
+#endif
 
 namespace LimeReport{
 
