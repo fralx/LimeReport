@@ -147,6 +147,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("legendAlign");
     tr("series");
     tr("titleAlign");
+    tr("watermark");
 }
 
 void QObjectPropertyModel::clearObjectsList()
