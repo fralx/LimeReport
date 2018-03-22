@@ -31,6 +31,7 @@
 #include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
+#include "lrpagedesignintf.h"
 
 namespace{
 
@@ -73,6 +74,20 @@ void ImageItem::loadPictureFromVariant(QVariant& data){
             }
         }
 
+    }
+}
+
+void ImageItem::preparePopUpMenu(QMenu &menu)
+{
+    QAction* action = menu.addAction(tr("Watermark"));
+    action->setCheckable(true);
+    action->setChecked(isWatermark());
+}
+
+void ImageItem::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Watermark")) == 0){
+        page()->setPropertyToSelectedItems("watermark",action->isChecked());
     }
 }
 

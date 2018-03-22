@@ -111,6 +111,9 @@ void TextItem::preparePopUpMenu(QMenu &menu)
     action->setCheckable(true);
     action->setChecked(backgroundMode() == TransparentMode);
 
+    action = menu.addAction(tr("Watermark"));
+    action->setCheckable(true);
+    action->setChecked(isWatermark());
 }
 
 void TextItem::processPopUpAction(QAction *action)
@@ -136,6 +139,9 @@ void TextItem::processPopUpAction(QAction *action)
         } else {
             setProperty("backgroundMode",OpaqueMode);
         }
+    }
+    if (action->text().compare(tr("Watermark")) == 0){
+        page()->setPropertyToSelectedItems("watermark",action->isChecked());
     }
 }
 

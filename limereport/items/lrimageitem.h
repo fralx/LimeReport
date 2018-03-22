@@ -87,6 +87,8 @@ protected:
     bool isNeedUpdateSize(RenderPass) const;
     bool drawDesignBorders() const {return m_picture.isNull();}
     void loadPictureFromVariant(QVariant& data);
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
     QImage  m_picture;
     QString m_resourcePath;
