@@ -280,6 +280,7 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
 
             QStandardItem* itemNode = new QStandardItem;
             itemNode->setText(page->pageItem()->objectName());
+            itemNode->setIcon(QIcon(":/report/images/object"));
             m_model.invisibleRootItem()->appendRow(itemNode);
 
             QStringList items = extractSlotNames(page->pageItem());
@@ -354,19 +355,25 @@ void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString
 
     QStandardItem* itemNode = new QStandardItem;
     itemNode->setText(pageName+"_"+item->objectName());
+    itemNode->setIcon(QIcon(":/report/images/object"));
     parent->appendRow(itemNode);
-    QStringList slotNames = extractSlotNames(item);
-    foreach(QString slotName, slotNames){
+    QStringList items = extractSlotNames(item);
+    foreach(QString slotName, items){
         QStandardItem* slotItem = new QStandardItem;
         slotItem->setText(slotName);
+        slotItem->setIcon(QIcon(":/report/images/signal"));
         itemNode->appendRow(slotItem);
     }
-    //BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
-    //if (band){
+    items = extractPropertyes(item);
+    foreach(QString propertyName, items){
+        QStandardItem* properyItem = new QStandardItem;
+        properyItem->setText(propertyName);
+        properyItem->setIcon(QIcon(":/report/images/property"));
+        itemNode->appendRow(properyItem);
+    }
     foreach (BaseDesignIntf* child, item->childBaseItems()){
         addChildItem(child, pageName, parent);
     }
-    //}
 }
 
 } // namespace LimeReport
