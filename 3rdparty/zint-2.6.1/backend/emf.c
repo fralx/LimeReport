@@ -35,7 +35,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
+#ifdef _MSC_VER
 #include <malloc.h>
+#endif
 #include "common.h"
 #include "emf.h"
 
