@@ -289,6 +289,9 @@ public:
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
 
+    bool isWatermark() const;
+    void setWatermark(bool watermark);
+
 protected:
 
     //ICollectionContainer
@@ -408,6 +411,7 @@ private:
     QString m_patternName;
     BaseDesignIntf* m_patternItem;
     bool    m_fillInSecondPass;
+    bool m_watermark;
     
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

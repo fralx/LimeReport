@@ -80,7 +80,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_reportSettings(0),
     m_patternName(""),
     m_patternItem(0),
-    m_fillInSecondPass(false)
+    m_fillInSecondPass(false),
+    m_watermark(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -714,6 +715,19 @@ void BaseDesignIntf::setFillInSecondPass(bool fillInSecondPass)
         notify("fillInSecondPass",!fillInSecondPass,fillInSecondPass);
     }
 
+}
+
+bool BaseDesignIntf::isWatermark() const
+{
+    return m_watermark;
+}
+
+void BaseDesignIntf::setWatermark(bool watermark)
+{
+    if (m_watermark != watermark){
+        m_watermark = watermark;
+        notify("watermark",!watermark,watermark);
+    }
 }
 
 QString BaseDesignIntf::patternName() const
