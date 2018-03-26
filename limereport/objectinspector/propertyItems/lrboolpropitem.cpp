@@ -69,20 +69,29 @@ void BoolPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mod
 
 bool BoolPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index)
 {
-    if (index.column()==1){
-        QStyleOptionButton so;
-        int border = (option.rect.height() - QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth))/2;
-        so.rect = option.rect.adjusted(border,border,0,-border);
-        so.rect.setWidth(QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth));
 
-        if (!isValueReadonly())
-            so.state = QStyle::State_Enabled;
-        else
-            so.state &= ~QStyle::State_Enabled;
+    QStyle* style = option.widget ? option.widget->style() : QApplication::style();
+    int offset = 0;
+
+#ifdef Q_OS_MAC
+    offset = 2;
+#endif
+
+    if (index.column()==1){
+        StyleOptionViewItem so(option);
+        int border = (option.rect.height() - style->pixelMetric(QStyle::PM_IndicatorWidth))/2;
+        so.rect = option.rect.adjusted(border,border,0,-border);
+        so.rect.setWidth(style->pixelMetric(QStyle::PM_IndicatorWidth)+offset);
+        so.rect.setHeight(style->pixelMetric(QStyle::PM_IndicatorHeight)+offset);
+
+//        if (!isValueReadonly())
+//            so.state = QStyle::State_Enabled;
+//        else
+//            so.state &= ~QStyle::State_Enabled;
 
         so.state |= propertyValue().toBool() ? QStyle::State_On : QStyle::State_Off;
 
-        option.widget->style()->drawPrimitive(QStyle::PE_IndicatorCheckBox,&so,painter);
+        style->drawPrimitive(QStyle::PE_IndicatorItemViewItemCheck,&so,painter);
 
         return true;
     } else return false;
