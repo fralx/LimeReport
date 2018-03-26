@@ -45,6 +45,8 @@ public:
     virtual void setPropertyEditorData(QWidget * propertyEditor, const QModelIndex &) const;
     virtual void setModelData(QWidget * propertyEditor, QAbstractItemModel * model, const QModelIndex & index);
     bool paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index);
+protected:
+    QPixmap getIndicatorImage(const StyleOptionViewItem &option);
 };
 } // namespace LimeReport
 
