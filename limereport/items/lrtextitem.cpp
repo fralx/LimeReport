@@ -545,7 +545,9 @@ void TextItem::setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirec
 
 void TextItem::setWatermark(bool watermark)
 {
-    setBackgroundMode(TransparentMode);
+    if (watermark){
+        setBackgroundMode(TransparentMode);
+    }
     BaseDesignIntf::setWatermark(watermark);
 }
 
