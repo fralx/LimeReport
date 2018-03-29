@@ -60,20 +60,22 @@ bool ColorPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, 
         painter->save();
         QPen pen;
 
-        if (option.state & QStyle::State_Selected){
-            pen.setWidth(2);
-            pen.setColor(option.palette.brightText().color());
-        }else {
-            pen.setColor(Qt::gray);
-        }
+//        if (option.state & QStyle::State_Selected){
+//            pen.setWidth(1);
+//            pen.setColor(option.palette.brightText().color());
+//        }else {
+//            pen.setColor(Qt::darkGray);
+//        }
 
+        pen.setColor(Qt::transparent);
         painter->setPen(pen);
 
         painter->setBrush(propertyValue().value<QColor>());
         QRect rect = option.rect.adjusted(4,4,-4,-6);
         rect.setWidth(rect.height());
         painter->setRenderHint(QPainter::Antialiasing);
-        painter->drawEllipse(rect);
+        painter->drawRoundedRect(rect,2,2);
+//        painter->drawEllipse(rect);
         painter->restore();
         return true;
     } else return false;

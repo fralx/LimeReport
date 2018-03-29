@@ -100,11 +100,12 @@ void ColorIndicator::paintEvent(QPaintEvent* event)
     QPainter painter(this);
     painter.save();
     painter.setBrush(m_color);
-    painter.setPen(Qt::gray);
+    painter.setPen(Qt::transparent);
     QRect rect = event->rect().adjusted(3,3,-4,-4);
     rect.setWidth(rect.height());
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.drawEllipse(rect);
+//    painter.drawEllipse(rect);
+    painter.drawRoundedRect(rect,2,2);
     painter.restore();
 }
 
