@@ -148,6 +148,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("series");
     tr("titleAlign");
     tr("watermark");
+    tr("keepTopSpace");
+
 }
 
 void QObjectPropertyModel::clearObjectsList()
