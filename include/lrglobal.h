@@ -101,6 +101,7 @@ namespace Const{
     QString escapeSimbols(const QString& value);
     QString replaceHTMLSymbols(const QString &value);
     QVector<QString> normalizeCaptures(const QRegExp &reg);
+    bool isColorDark(QColor color);
 
     enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     enum RenderPass {FirstPass = 1, SecondPass = 2};
