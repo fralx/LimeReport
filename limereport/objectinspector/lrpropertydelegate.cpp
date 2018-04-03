@@ -62,14 +62,12 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
                 painter->save();
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
                 painter->setBackground(QBrush(option.palette.color(QPalette::Highlight)));
-                //drawBackground(painter,option,index);
                 cellOpt.widget->style()->drawPrimitive(QStyle::PE_IndicatorBranch,&primitiveOpt,painter);
                 cellOpt.rect.adjust(primitiveOpt.rect.width(),0,0,0);
                 cellOpt.font.setBold(true);
                 cellOpt.palette.setColor(QPalette::Text,cellOpt.palette.color(QPalette::BrightText));
                 cellOpt.text = LimeReport::extractClassName(node->propertyName());
                 style->drawControl(QStyle::CE_ItemViewItem, &cellOpt, painter, cellOpt.widget);
-                //drawDisplay(painter,cellOpt,cellOpt.rect,LimeReport::extractClassName(node->propertyName()));
                 painter->restore();
             }
          } else {
@@ -92,13 +90,13 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
              else
                 so.palette.setColor(QPalette::Text,Qt::black);
 
-//             drawBackground(painter,option,index);
-
              opt.text = "";
+             opt.rect.setHeight(opt.rect.height()-1);
              style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, opt.widget);
 
              if (!node->paint(painter,so,index)){
                  so.state &= ~QStyle::State_HasFocus;
+                 so.rect.adjust(0,0,0,-1);
                  QStyledItemDelegate::paint(painter, so, index);
              }
 
@@ -117,6 +115,8 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
                  painter->drawLine(start,end);
                  painter->restore();
              }
+
+
          }
     }
 }
