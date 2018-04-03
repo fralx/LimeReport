@@ -42,7 +42,6 @@ protected:
     };
     QTextCharFormat m_formats[FormatsCount];
     bool isKeyWord(const QString& word);
-    bool isDark(QColor color);
     void createParentheisisInfo(const char& literal, TextBlockData *data, const QString& text);
 };
 
