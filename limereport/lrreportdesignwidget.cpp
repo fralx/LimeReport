@@ -206,7 +206,10 @@ void ReportDesignWidget::applySettings()
         QString styleSheet = theme.readAll();
         parentWidget()->setStyleSheet(styleSheet);
         m_report->setStyleSheet(styleSheet);
-    } else parentWidget()->setStyleSheet("");
+    } else {
+        parentWidget()->setStyleSheet("");
+        m_report->setStyleSheet("");
+    }
 }
 
 void ReportDesignWidget::loadState(QSettings* settings)
