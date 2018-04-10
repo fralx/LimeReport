@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <QMainWindow>
+#include <QLocale>
 #include "lrreportengine.h"
 #include "lrcollection.h"
 #include "lrglobal.h"
@@ -83,6 +84,9 @@ public:
     virtual void                    setSuppressFieldAndVarError(bool suppressFieldAndVarError) = 0;
     virtual void                    setStyleSheet(const QString& styleSheet) = 0;
     virtual QString                 styleSheet() const = 0;
+    virtual QList<QLocale::Language>* designerLanguages() = 0;
+    virtual QLocale::Language       currentDesignerLanguage() = 0;
+    virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
 };
 
 class ReportEnginePrivate : public QObject, public ICollectionContainer, public ITranslationContainer,
@@ -178,7 +182,13 @@ public:
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
     QString styleSheet() const;
     void setStyleSheet(const QString &styleSheet);
-
+    QString getLanguagesDir() const;
+    void setLanguagesDir(const QString& languagesDir);
+    void addDesignerLanguage(QLocale::Language language);
+    void removeDesignerLanguage(QLocale::Language language);
+    QList<QLocale::Language>* designerLanguages();
+    QLocale::Language currentDesignerLanguage();
+    void setCurrentDesignerLanguage(QLocale::Language language);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -247,6 +257,9 @@ private:
     Qt::LayoutDirection m_previewLayoutDirection;
     LimeReportPluginInterface* m_designerFactory;
     QString m_styleSheet;
+    QString m_languagesDir;
+    QList<QLocale::Language> m_designerLanguages;
+    QLocale::Language m_currentDesignerLanguage;
 };
 
 }

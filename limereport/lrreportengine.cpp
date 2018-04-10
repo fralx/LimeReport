@@ -950,6 +950,42 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
     }
 }
 
+QString ReportEnginePrivate::getLanguagesDir() const
+{
+    return m_languagesDir;
+}
+
+void ReportEnginePrivate::setLanguagesDir(const QString& languagesDir)
+{
+    m_languagesDir = languagesDir;
+}
+
+void ReportEnginePrivate::addDesignerLanguage(QLocale::Language language)
+{
+    if (!m_designerLanguages.contains(language))
+        m_designerLanguages.append(language);
+}
+
+void ReportEnginePrivate::removeDesignerLanguage(QLocale::Language language)
+{
+    m_designerLanguages.removeAll(language);
+}
+
+QList<QLocale::Language>* ReportEnginePrivate::designerLanguages()
+{
+    return &m_designerLanguages;
+}
+
+QLocale::Language ReportEnginePrivate::currentDesignerLanguage()
+{
+    return m_currentDesignerLanguage;
+}
+
+void ReportEnginePrivate::setCurrentDesignerLanguage(QLocale::Language language)
+{
+    m_currentDesignerLanguage = language;
+}
+
 QString ReportEnginePrivate::styleSheet() const
 {
     return m_styleSheet;
@@ -1235,6 +1271,30 @@ bool ReportEngine::setReportLanguage(QLocale::Language language)
 {
     Q_D(ReportEngine);
     return d->setReportLanguage(language);
+}
+
+void ReportEngine::addDesignerLanguage(QLocale::Language language)
+{
+    Q_D(ReportEngine);
+    d->addDesignerLanguage(language);
+}
+
+void ReportEngine::removeDesignerLanguage(QLocale::Language language)
+{
+    Q_D(ReportEngine);
+    d->removeDesignerLanguage(language);
+}
+
+QList<QLocale::Language>*ReportEngine::designerLanguages()
+{
+    Q_D(ReportEngine);
+    return d->designerLanguages();
+}
+
+QLocale::Language ReportEngine::currentDesignerLanguage()
+{
+    Q_D(ReportEngine);
+    return d->currentDesignerLanguage();
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

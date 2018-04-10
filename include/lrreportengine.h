@@ -113,6 +113,10 @@ public:
     bool setReportLanguage(QLocale::Language language);
     Qt::LayoutDirection previewLayoutDirection();
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
+    void addDesignerLanguage(QLocale::Language language);
+    void removeDesignerLanguage(QLocale::Language language);
+    QList<QLocale::Language>* designerLanguages();
+    QLocale::Language currentDesignerLanguage();
 signals:
     void renderStarted();
     void renderFinished();
