@@ -346,8 +346,8 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                     LimeReport::Const::FUNCTION_MANAGER_NAME,
                     m_functionManager,
                     QString("function %1(fieldName, bandName, pageitem){\
-                            pageitem = typeof pageitem !== 'undefined' ? pageitem : 0; \
-                            return %2.calcGroupFunction(\"%1\",fieldName, bandName, pageitem);}"
+                            if (typeof pageitem == 'undefined') return %2.calcGroupFunction(\"%1\", fieldName, bandName); \
+                            else return %2.calcGroupFunction(\"%1\", fieldName, bandName, pageitem);}"
                     ).arg(func)
                      .arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                 );
@@ -1469,6 +1469,11 @@ QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QS
     } else {
         return QString(QObject::tr("Datasource manager not found"));
     }
+}
+
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName)
+{
+    return calcGroupFunction(name, expressionID, bandName, 0);
 }
 
 QVariant ScriptFunctionsManager::line(const QString &bandName)
