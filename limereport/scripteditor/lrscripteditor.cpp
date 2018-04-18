@@ -272,7 +272,8 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
 {
     if (report){
         m_model.clear();
-
+        QIcon signalIcon(":/report/images/signal");
+        QIcon propertyIcon(":/report/images/property");
         addAdditionalDatawords(report->dataManager());
 
         for ( int i = 0; i < report->pageCount(); ++i){
@@ -283,18 +284,18 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
             itemNode->setIcon(QIcon(":/report/images/object"));
             m_model.invisibleRootItem()->appendRow(itemNode);
 
-            QStringList items = extractSlotNames(page->pageItem());
+            QStringList items = extractSignalNames(page->pageItem());
             foreach(QString slotName, items){
                 QStandardItem* slotItem = new QStandardItem;
                 slotItem->setText(slotName);
-                slotItem->setIcon(QIcon(":/report/images/signal"));
+                slotItem->setIcon(signalIcon);
                 itemNode->appendRow(slotItem);
             }
-            items = extractPropertyes(page->pageItem());
+            items = extractProperties(page->pageItem());
             foreach(QString propertyName, items){
                 QStandardItem* properyItem = new QStandardItem;
                 properyItem->setText(propertyName);
-                properyItem->setIcon(QIcon(":/report/images/property"));
+                properyItem->setIcon(propertyIcon);
                 itemNode->appendRow(properyItem);
             }
             foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
@@ -311,7 +312,7 @@ void ReportStructureCompleater::updateCompleaterModel(DataSourceManager *dataMan
     addAdditionalDatawords(dataManager);
 }
 
-QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
+QStringList ReportStructureCompleater::extractSignalNames(BaseDesignIntf *item)
 {
     QStringList result;
     if (!item) return result;
@@ -333,7 +334,7 @@ QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
     return result;
 }
 
-QStringList ReportStructureCompleater::extractPropertyes(BaseDesignIntf *item)
+QStringList ReportStructureCompleater::extractProperties(BaseDesignIntf *item)
 {
     QStringList result;
     if (!item) return result;
@@ -353,24 +354,43 @@ void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString
 {
     if (!item) return;
 
+    QIcon signalIcon(":/report/images/signal");
+    QIcon propertyIcon(":/report/images/property");
+
     QStandardItem* itemNode = new QStandardItem;
     itemNode->setText(pageName+"_"+item->objectName());
     itemNode->setIcon(QIcon(":/report/images/object"));
     parent->appendRow(itemNode);
-    QStringList items = extractSlotNames(item);
+    QStringList items;
+
+    if (!m_signals.contains(item->metaObject()->className())){
+        items = extractSignalNames(item);
+        m_signals.insert(item->metaObject()->className(),items);
+    } else {
+        items = m_signals.value(item->metaObject()->className());
+    }
+
     foreach(QString slotName, items){
         QStandardItem* slotItem = new QStandardItem;
         slotItem->setText(slotName);
-        slotItem->setIcon(QIcon(":/report/images/signal"));
+        slotItem->setIcon(signalIcon);
         itemNode->appendRow(slotItem);
     }
-    items = extractPropertyes(item);
+
+    if (!m_properties.contains(item->metaObject()->className())){
+        items = extractProperties(item);
+        m_properties.insert(item->metaObject()->className(),items);
+    } else {
+        items = m_properties.value(item->metaObject()->className());
+    }
+
     foreach(QString propertyName, items){
         QStandardItem* properyItem = new QStandardItem;
         properyItem->setText(propertyName);
-        properyItem->setIcon(QIcon(":/report/images/property"));
+        properyItem->setIcon(propertyIcon);
         itemNode->appendRow(properyItem);
     }
+
     foreach (BaseDesignIntf* child, item->childBaseItems()){
         addChildItem(child, pageName, parent);
     }
