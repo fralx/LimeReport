@@ -400,19 +400,21 @@ void BaseDesignIntf::prepareRect(QPainter *painter, const QStyleOptionGraphicsIt
 {
     painter->save();
 
+    QRectF r = rect().adjusted(0, 0, borderLineSize(), borderLineSize());
     QBrush brush(m_backgroundColor,static_cast<Qt::BrushStyle>(m_backgroundBrushStyle));
     brush.setTransform(painter->worldTransform().inverted());
 
     if (isSelected() && (opacity() == 100) && (m_BGMode!=TransparentMode)) {
-        painter->fillRect(rect(), brush);
+        painter->fillRect(r, brush);
     }
     else {
         if (m_BGMode == OpaqueMode) {
-            painter->setOpacity(qreal(m_opacity) / 100);
-            painter->fillRect(rect(), brush);
+            qreal o = (itemMode() & DesignMode) ? 0.5 : qreal(m_opacity) / 100;
+            painter->setOpacity(o);
+            painter->fillRect(r, brush);
         } else if (itemMode() & DesignMode){
             painter->setOpacity(0.1);
-            painter->fillRect(rect(), QBrush(QPixmap(":/report/images/empty")));
+            painter->fillRect(r, QBrush(QPixmap(":/report/images/empty")));
         }
     }
     painter->restore();
