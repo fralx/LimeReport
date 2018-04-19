@@ -106,6 +106,8 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
+    Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
+    Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
     Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
     friend class BandNameLabel;
@@ -243,6 +245,8 @@ public:
     void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
     void replaceGroupsFunction(BandDesignIntf *band);
     qreal bottomSpace() const;
+    void setBackgroundModeProperty(BGMode value);
+    void setBackgroundOpacity(int value);
 
     void addBookmark(const QString& key, const QVariant& value){ m_bookmarks.insert(key, value);}
     QList<QString> bookmarks(){ return m_bookmarks.keys();}
