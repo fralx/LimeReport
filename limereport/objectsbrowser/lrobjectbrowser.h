@@ -60,6 +60,7 @@ protected:
     void buildTree(BaseDesignIntf *ignoredItem = 0);
     void removeItem(BaseDesignIntf* item);
     void findAndRemove(QTreeWidgetItem *node, BaseDesignIntf *item);
+    void moveItemNode(BaseDesignIntf* item, BaseDesignIntf* parent);
 private slots:
 //    void slotObjectNameChanged(const QString& objectName);
     void slotPropertyObjectNameChanged(const QString& oldName, const QString& newName);
@@ -82,6 +83,8 @@ private:
     QTreeWidget*        m_treeView;
     QMap<QObject*, ObjectBrowserNode*> m_itemsMap;
     bool m_changingItemSelection;
+    bool m_movingItem;
+    QList<QObject*> m_defferedItems;
 };
 
 } //namespace LimeReport
