@@ -35,7 +35,8 @@
 namespace LimeReport{
 
 ObjectBrowser::ObjectBrowser(QWidget *parent)
-    :QWidget(parent), m_report(NULL), m_mainWindow(NULL), m_changingItemSelection(false)
+    :QWidget(parent), m_report(NULL), m_mainWindow(NULL),
+      m_changingItemSelection(false), m_movingItem(false)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     setLayout(layout);
@@ -86,6 +87,7 @@ void ObjectBrowser::slotClear()
 }
 
 void ObjectBrowser::fillNode(QTreeWidgetItem* parentNode, BaseDesignIntf* reportItem, BaseDesignIntf *ignoredItem){
+
     foreach (BaseDesignIntf* item, reportItem->childBaseItems()) {
         if (item != ignoredItem){
             ObjectBrowserNode* treeItem = new ObjectBrowserNode(parentNode);
@@ -93,11 +95,11 @@ void ObjectBrowser::fillNode(QTreeWidgetItem* parentNode, BaseDesignIntf* report
             treeItem->setObject(item);
             treeItem->setIcon(0,QIcon(":/items/"+extractClassName(item->metaObject()->className())));
             connect(item, SIGNAL(propertyObjectNameChanged(QString,QString)),
-                    this, SLOT(slotPropertyObjectNameChanged(QString,QString)));
+                    this, SLOT(slotPropertyObjectNameChanged(QString,QString)), Qt::UniqueConnection);
             ItemDesignIntf* i = dynamic_cast<ItemDesignIntf*>(item);
             if (i){
                 connect(i, SIGNAL(itemLocationChanged(BaseDesignIntf*,BaseDesignIntf*)),
-                        this, SLOT(slotItemParentChanged(BaseDesignIntf*,BaseDesignIntf*)));
+                        this, SLOT(slotItemParentChanged(BaseDesignIntf*,BaseDesignIntf*)), Qt::UniqueConnection);
             }
             m_itemsMap.insert(item,treeItem);
             parentNode->addChild(treeItem);
@@ -283,7 +285,9 @@ void ObjectBrowser::slotActivePageUpdated(LimeReport::PageDesignIntf *)
     buildTree();
 }
 
-void ObjectBrowser::slotItemParentChanged(BaseDesignIntf* item, BaseDesignIntf* parent)
+
+
+void ObjectBrowser::moveItemNode(BaseDesignIntf* item, BaseDesignIntf* parent)
 {
     if (m_itemsMap.contains(item) && m_itemsMap.contains(parent)){
         m_itemsMap.value(item)->parent()->removeChild(m_itemsMap.value(item));
@@ -293,7 +297,24 @@ void ObjectBrowser::slotItemParentChanged(BaseDesignIntf* item, BaseDesignIntf* 
         item->setSelected(true);
         m_changingItemSelection = false;
     }
+}
 
+void ObjectBrowser::slotItemParentChanged(BaseDesignIntf* item, BaseDesignIntf* parent)
+{
+    if (!m_movingItem){
+        m_movingItem = true;
+        moveItemNode(item, parent);
+        m_movingItem = false;
+        foreach(QObject* di, m_defferedItems){
+            BaseDesignIntf* b = dynamic_cast<BaseDesignIntf*>(di);
+            if (b)
+                moveItemNode(b, parent);
+        }
+        m_defferedItems.clear();
+    } else {
+        if (!m_defferedItems.contains(item))
+            m_defferedItems.append(item);
+    }
 }
 
 void ObjectBrowserNode::setObject(QObject *value)
