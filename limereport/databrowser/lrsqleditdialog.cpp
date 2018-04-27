@@ -278,6 +278,7 @@ void SQLEditDialog::initSubQueryMode()
     ui->leMaster->setVisible(true);
     ui->leMaster->setEnabled(true);
     ui->lbMaster->setVisible(true);
+    ui->cbSubdetail->setEnabled(true);
 
 }
 
