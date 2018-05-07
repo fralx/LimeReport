@@ -56,7 +56,7 @@
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
 
-#ifndef HAVE_QT4
+#ifdef BUILD_WITH_EASY_PROFILER
 #include "easy/profiler.h"
 #else
 # define EASY_BLOCK(...)
