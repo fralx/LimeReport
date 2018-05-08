@@ -474,7 +474,7 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
             ScriptValueType svThis;
 
 #ifdef USE_QJSENGINE
-            svThis = getCppOwnedJSValue(*se, reportItem);
+            svThis = getJSValue(*se, reportItem);
             se->globalObject().setProperty("THIS",svThis);
 #else
             svThis = se->globalObject().property("THIS");
@@ -1280,7 +1280,7 @@ void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDe
         ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 
 #ifdef USE_QJSENGINE
-        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        ScriptValueType sItem = getJSValue(*engine, item);
         QString on = item->patternName().compare(pageName) == 0 ? pageName : pageName+"_"+item->patternName();
         engine->globalObject().setProperty(on, sItem);
 #else
@@ -1303,7 +1303,7 @@ void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
 {
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 #ifdef USE_QJSENGINE
-        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        ScriptValueType sItem = getJSValue(*engine, item);
         engine->globalObject().setProperty(name, sItem);
 #else
         ScriptValueType sItem = engine->globalObject().property(name);
