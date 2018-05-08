@@ -168,6 +168,7 @@ private slots:
     void slotDatasourceCollectionLoaded(const QString&);
     void slotSceneRectChanged(QRectF);
     void slotCurrentTabChanged(int index);
+    void slotReportLoaded();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void slotDialogChanged(QString);
     void slotDialogNameChanged(QString oldName, QString newName);

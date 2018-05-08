@@ -189,6 +189,7 @@ signals:
     void    onLoad(bool& loaded);
     void    onSave();
     void    saveFinished();
+    void    loaded();
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();

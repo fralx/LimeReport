@@ -72,20 +72,15 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QMa
     mainLayout->addWidget(m_tabWidget);
     setLayout(mainLayout);
 
-//    if (!report) {
-//        m_report=new ReportEnginePrivate(this);
-//        m_report->setObjectName("report");
-//        m_report->appendPage("page1");
-//    }
-//    else {
-        m_report=report;//report->d_ptr;
-        if (!m_report->pageCount()) m_report->appendPage("page1");
-//    }
+    m_report=report;
+    if (!m_report->pageCount()) m_report->appendPage("page1");
 
     createTabs();
 
     connect(dynamic_cast<QObject*>(m_report), SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
-    connect(dynamic_cast<QObject*>(m_report), SIGNAL(cleared()),this,SIGNAL(cleared()));
+    connect(dynamic_cast<QObject*>(m_report), SIGNAL(cleared()), this, SIGNAL(cleared()));
+    connect(dynamic_cast<QObject*>(m_report), SIGNAL(loaded()), this, SLOT(slotReportLoaded()));
+
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
 #ifdef HAVE_UI_LOADER
     connect(m_report->scriptContext(), SIGNAL(dialogDeleted(QString)), this, SLOT(slotDialogDeleted(QString)));
@@ -250,6 +245,7 @@ void ReportDesignWidget::loadState(QSettings* settings)
 
 
 void ReportDesignWidget::createTabs(){
+    m_tabWidget->clear();
     int pageIndex  = -1;
     for (int i = 0; i<m_report->pageCount();++i){
         QGraphicsView* view = new QGraphicsView(qobject_cast<QWidget*>(this));
@@ -465,14 +461,13 @@ bool ReportDesignWidget::save()
 bool ReportDesignWidget::loadFromFile(const QString &fileName)
 {
     if (m_report->loadFromFile(fileName,false)){
-        QByteArray editorState = m_scriptEditor->saveState();
-        createTabs();
-        //connectPage(m_report->pageAt(0));
-        m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
-        m_scriptEditor->restoreState(editorState);
-        emit loaded();
-        m_dialogChanged = false;
-        return true;
+//        QByteArray editorState = m_scriptEditor->saveState();
+//        createTabs();
+//        m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
+//        m_scriptEditor->restoreState(editorState);
+//        emit loaded();
+//        m_dialogChanged = false;
+//        return true;
     } else {
         QMessageBox::critical(this,tr("Error"),tr("Wrong file format"));
         return false;
@@ -837,6 +832,16 @@ void ReportDesignWidget::slotCurrentTabChanged(int index)
     emit activePageChanged();
 
     if (view) view->centerOn(0,0);
+}
+
+void ReportDesignWidget::slotReportLoaded()
+{
+    QByteArray editorState = m_scriptEditor->saveState();
+    createTabs();
+    m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
+    m_scriptEditor->restoreState(editorState);
+    emit loaded();
+    m_dialogChanged = false;
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION
