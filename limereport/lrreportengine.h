@@ -121,6 +121,7 @@ signals:
     void onSave();
     void saveFinished();
     void loaded();
+    void printedToPDF(QString fileName);
 public slots:
     void cancelRender();
 protected:

@@ -147,6 +147,7 @@ public:
     void emitSaveReport();
     bool emitLoadReport();
     void emitSaveFinished();
+    void emitPrintedToPDF(QString fileName);
     bool isSaved();
     void setCurrentReportsDir(const QString& dirName);
     QString currentReportsDir(){ return m_reportsDir;}
@@ -190,6 +191,7 @@ signals:
     void    onSave();
     void    saveFinished();
     void    loaded();
+    void    printedToPDF(QString fileName);
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
