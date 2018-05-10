@@ -11,12 +11,19 @@ DEPENDPATH += $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
 contains(CONFIG, easy_profiler){
     message(EasyProfiler)
     unix|win32: LIBS += -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler
-    DEFINES += BUILD_WITH_EASY_PROFILER
+    greaterThan(QT_MAJOR_VERSION, 4){
+        DEFINES += BUILD_WITH_EASY_PROFILER
+    }
 }
 
 !contains(CONFIG, qtscriptengine){
 greaterThan(QT_MAJOR_VERSION, 4){
+greaterThan(QT_MINOR_VERSION, 5){
     CONFIG *= qjsengine
+}
+lessThan(QT_MINOR_VERSION, 6){
+    CONFIG *= qtscriptengine
+}
 }
 lessThan(QT_MAJOR_VERSION, 5){
     CONFIG *= qtscriptengine
@@ -97,7 +104,7 @@ RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 4
-LIMEREPORT_VERSION_RELEASE = 76
+LIMEREPORT_VERSION_RELEASE = 78
 
 LIMEREPORT_VERSION = '$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}'
 DEFINES *= LIMEREPORT_VERSION_STR=\\\"$${LIMEREPORT_VERSION}\\\"

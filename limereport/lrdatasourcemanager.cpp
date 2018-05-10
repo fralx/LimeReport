@@ -37,7 +37,7 @@
 #include <QFileInfo>
 #include <stdexcept>
 
-#ifndef HAVE_QT4
+#ifdef BUILD_WITH_EASY_PROFILER
 #include "easy/profiler.h"
 #else
 # define EASY_BLOCK(...)

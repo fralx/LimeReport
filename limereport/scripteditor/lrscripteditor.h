@@ -33,12 +33,14 @@ public:
     void updateCompleaterModel(ReportEnginePrivateInterface* report);
     void updateCompleaterModel(DataSourceManager* dataManager);
 protected:
-    QStringList extractSlotNames(BaseDesignIntf* item);
-    QStringList extractPropertyes(BaseDesignIntf* item);
+    QStringList extractSignalNames(BaseDesignIntf* item);
+    QStringList extractProperties(BaseDesignIntf* item);
     void addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent);
     void addAdditionalDatawords(DataSourceManager *dataManager);
 private:
     QStandardItemModel m_model;
+    QMap<QString, QStringList> m_properties;
+    QMap<QString, QStringList> m_signals;
 };
 
 class ScriptEditor : public QWidget
