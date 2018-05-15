@@ -18,12 +18,13 @@ contains(CONFIG, easy_profiler){
 
 !contains(CONFIG, qtscriptengine){
 greaterThan(QT_MAJOR_VERSION, 4){
-greaterThan(QT_MINOR_VERSION, 5){
     CONFIG *= qjsengine
-}
-lessThan(QT_MINOR_VERSION, 6){
-    CONFIG *= qtscriptengine
-}
+#greaterThan(QT_MINOR_VERSION, 5){
+#    CONFIG *= qjsengine
+#}
+#lessThan(QT_MINOR_VERSION, 6){
+#    CONFIG *= qtscriptengine
+#}
 }
 lessThan(QT_MAJOR_VERSION, 5){
     CONFIG *= qtscriptengine

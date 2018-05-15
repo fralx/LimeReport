@@ -195,6 +195,7 @@ signals:
     void    onLoad(bool& loaded);
     void    onSave();
     void    saveFinished();
+	void    loaded();
     void    getAviableLanguages(QList<QLocale::Language>* languages);
     void    currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language  getCurrentDefaultLanguage();

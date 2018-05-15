@@ -67,6 +67,7 @@
 #ifdef HAVE_STATIC_BUILD
 #include "lrfactoryinitializer.h"
 #endif
+
 namespace LimeReport{
 
 QSettings* ReportEngine::m_settings = 0;
@@ -740,7 +741,11 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPre
       m_fileWatcher->addPath( fileName );
    }
 
-   return slotLoadFromFile( fileName );
+   bool result = slotLoadFromFile( fileName );
+   if (result) {
+       emit loaded();
+   }
+   return result;
 }
 
 bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &name){
@@ -752,6 +757,7 @@ bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &nam
         if (reader->readItem(this)){
             m_fileName = "";
             m_reportName = name;
+            emit loaded();
             return true;
         };
     }
@@ -768,6 +774,7 @@ bool ReportEnginePrivate::loadFromString(const QString &report, const QString &n
         if (reader->readItem(this)){
             m_fileName = "";
             m_reportName = name;
+            emit loaded();
             return true;
         };
     }
@@ -1152,12 +1159,15 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
+	connect(d, SIGNAL(loaded()), this, SIGNAL(loaded()));
+    
     connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
             this, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)));
     connect(d, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)),
             this, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)));
     connect(d, SIGNAL(getCurrentDefaultLanguage()),
             this, SIGNAL(getCurrentDefaultLanguage()));
+
 }
 
 ReportEngine::~ReportEngine()
@@ -1204,7 +1214,7 @@ void ReportEngine::designReport()
     d->designReport();
 }
 
-ReportDesignWindowInterface*ReportEngine::getDesignerWindow()
+ReportDesignWindowInterface* ReportEngine::getDesignerWindow()
 {
     Q_D(ReportEngine);
     return d->getDesignerWindow();

@@ -299,7 +299,7 @@ void ReportRender::initRenderPage()
         ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
 #ifdef USE_QJSENGINE
-        svCurrentPage = getCppOwnedJSValue(*se, m_renderPageItem);
+        svCurrentPage = getJSValue(*se, m_renderPageItem);
         se->globalObject().setProperty("currentPage", svCurrentPage);
 #else
         svCurrentPage = se->globalObject().property("currentPage");
