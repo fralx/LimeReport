@@ -49,7 +49,7 @@ bool SettingDialog::suppressAbsentFieldsAndVarsWarnings()
 
 QLocale::Language SettingDialog::designerLanguage()
 {
-    foreach (QLocale::Language language, *m_designerLanguages) {
+    foreach (QLocale::Language language, m_aviableLanguages) {
         if (ui->designerLanguage->currentText().compare(QLocale::languageToString(language)) == 0)
             return language;
     }
@@ -81,14 +81,22 @@ void SettingDialog::setUseDarkTheme(bool value)
     ui->cbbUseDarkTheme->setChecked(value);
 }
 
-void SettingDialog::setDesignerLanguages(QList<QLocale::Language>* languages, QLocale::Language currentLanguage)
+void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLocale::Language currentLanguage)
 {
-    m_designerLanguages = languages;
+    m_aviableLanguages = languages;
+    m_currentLanguage = currentLanguage;
+
+    if (languages.isEmpty()) {
+        ui->designerLanguage->setVisible(false);
+        ui->lblLanguage->setVisible(false);
+        return;
+    }
     ui->designerLanguage->addItem(QLocale::languageToString(currentLanguage));
-    foreach (QLocale::Language language, *languages) {
+    foreach (QLocale::Language language, languages) {
         if (language != currentLanguage)
             ui->designerLanguage->addItem(QLocale::languageToString(language));
     }
+    ui->designerLanguage->setCurrentText(QLocale::languageToString(currentLanguage));
 }
 
 } // namespace LimeReport

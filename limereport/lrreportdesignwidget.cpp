@@ -720,7 +720,9 @@ void ReportDesignWidget::editSetting()
         m_defaultFont = setting.defaultFont();
         m_useDarkTheme = setting.userDarkTheme();
         m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
-        m_report->setCurrentDesignerLanguage(setting.designerLanguage());
+        if (m_report->currentDesignerLanguage() != setting.designerLanguage() ){
+            m_report->setCurrentDesignerLanguage(setting.designerLanguage());
+        }
         applySettings();
     }
 }

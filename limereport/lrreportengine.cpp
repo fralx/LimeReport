@@ -950,40 +950,25 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
     }
 }
 
-QString ReportEnginePrivate::getLanguagesDir() const
+QList<QLocale::Language> ReportEnginePrivate::designerLanguages()
 {
-    return m_languagesDir;
-}
 
-void ReportEnginePrivate::setLanguagesDir(const QString& languagesDir)
-{
-    m_languagesDir = languagesDir;
-}
-
-void ReportEnginePrivate::addDesignerLanguage(QLocale::Language language)
-{
-    if (!m_designerLanguages.contains(language))
-        m_designerLanguages.append(language);
-}
-
-void ReportEnginePrivate::removeDesignerLanguage(QLocale::Language language)
-{
-    m_designerLanguages.removeAll(language);
-}
-
-QList<QLocale::Language>* ReportEnginePrivate::designerLanguages()
-{
-    return &m_designerLanguages;
+    QList<QLocale::Language> result;
+    emit getAviableLanguages(&result);
+    return result;
 }
 
 QLocale::Language ReportEnginePrivate::currentDesignerLanguage()
 {
-    return m_currentDesignerLanguage;
+    QLocale::Language result = emit getCurrentDefaultLanguage();
+    return result;
 }
 
 void ReportEnginePrivate::setCurrentDesignerLanguage(QLocale::Language language)
 {
     m_currentDesignerLanguage = language;
+    QMessageBox::information(m_designerWindow, tr("Warning") ,tr("The language will change after the application is restarted"));
+    emit currentDefaulLanguageChanged(language);
 }
 
 QString ReportEnginePrivate::styleSheet() const
@@ -1167,6 +1152,12 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
+    connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
+            this, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)));
+    connect(d, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)),
+            this, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)));
+    connect(d, SIGNAL(getCurrentDefaultLanguage()),
+            this, SIGNAL(getCurrentDefaultLanguage()));
 }
 
 ReportEngine::~ReportEngine()
@@ -1273,19 +1264,19 @@ bool ReportEngine::setReportLanguage(QLocale::Language language)
     return d->setReportLanguage(language);
 }
 
-void ReportEngine::addDesignerLanguage(QLocale::Language language)
+Qt::LayoutDirection ReportEngine::previewLayoutDirection()
 {
     Q_D(ReportEngine);
-    d->addDesignerLanguage(language);
+    return d->previewLayoutDirection();
 }
 
-void ReportEngine::removeDesignerLanguage(QLocale::Language language)
+void ReportEngine::setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection)
 {
     Q_D(ReportEngine);
-    d->removeDesignerLanguage(language);
+    d->setPreviewLayoutDirection(previewLayoutDirection);
 }
 
-QList<QLocale::Language>*ReportEngine::designerLanguages()
+QList<QLocale::Language> ReportEngine::designerLanguages()
 {
     Q_D(ReportEngine);
     return d->designerLanguages();
