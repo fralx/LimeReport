@@ -15,6 +15,8 @@ void DesignerSettingManager::getAviableLanguages(QList<QLocale::Language>* langu
     languages->append(QLocale::Russian);
     languages->append(QLocale::English);
     languages->append(QLocale::Arabic);
+    languages->append(QLocale::French);
+    languages->append(QLocale::Chinese);
 }
 
 QLocale::Language DesignerSettingManager::getCurrentDefaultLanguage()

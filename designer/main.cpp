@@ -9,24 +9,27 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     DesignerSettingManager manager;
 
+    LimeReport::ReportEngine report;
+
     QTranslator limeReportTranslator;
+    QTranslator qtTranslator;
     QString translationPath = QApplication::applicationDirPath();
     translationPath.append("/languages");
 
     QString designerTranslation = QLocale(manager.getCurrentDefaultLanguage()).name();
 
-    limeReportTranslator.load("limereport_"+designerTranslation, translationPath);
-    a.installTranslator(&limeReportTranslator);
+    if (limeReportTranslator.load("limereport_"+designerTranslation, translationPath)){
 
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + designerTranslation, translationPath);
-    a.installTranslator(&qtTranslator);
+        qtTranslator.load("qt_" + designerTranslation, translationPath);
+        a.installTranslator(&qtTranslator);
+        a.installTranslator(&limeReportTranslator);
 
-    Qt::LayoutDirection layoutDirection = QLocale(manager.getCurrentDefaultLanguage()).textDirection();
+        Qt::LayoutDirection layoutDirection = QLocale(manager.getCurrentDefaultLanguage()).textDirection();
 
-    LimeReport::ReportEngine report;
-    a.setLayoutDirection(layoutDirection);
-    report.setPreviewLayoutDirection(layoutDirection);
+        a.setLayoutDirection(layoutDirection);
+        report.setPreviewLayoutDirection(layoutDirection);
+    }
+
 
     if (a.arguments().count()>1){
         report.loadFromFile(a.arguments().at(1));
