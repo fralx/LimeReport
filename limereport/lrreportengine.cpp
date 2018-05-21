@@ -957,6 +957,27 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
     }
 }
 
+QList<QLocale::Language> ReportEnginePrivate::designerLanguages()
+{
+
+    QList<QLocale::Language> result;
+    emit getAviableLanguages(&result);
+    return result;
+}
+
+QLocale::Language ReportEnginePrivate::currentDesignerLanguage()
+{
+    QLocale::Language result = emit getCurrentDefaultLanguage();
+    return result;
+}
+
+void ReportEnginePrivate::setCurrentDesignerLanguage(QLocale::Language language)
+{
+    m_currentDesignerLanguage = language;
+    QMessageBox::information(m_designerWindow, tr("Warning") ,tr("The language will change after the application is restarted"));
+    emit currentDefaulLanguageChanged(language);
+}
+
 QString ReportEnginePrivate::styleSheet() const
 {
     return m_styleSheet;
@@ -1138,7 +1159,15 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
-    connect(d, SIGNAL(loaded()), this, SIGNAL(loaded()));
+	connect(d, SIGNAL(loaded()), this, SIGNAL(loaded()));
+    
+    connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
+            this, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)));
+    connect(d, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)),
+            this, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)));
+    connect(d, SIGNAL(getCurrentDefaultLanguage()),
+            this, SIGNAL(getCurrentDefaultLanguage()));
+
 }
 
 ReportEngine::~ReportEngine()
@@ -1243,6 +1272,30 @@ bool ReportEngine::setReportLanguage(QLocale::Language language)
 {
     Q_D(ReportEngine);
     return d->setReportLanguage(language);
+}
+
+Qt::LayoutDirection ReportEngine::previewLayoutDirection()
+{
+    Q_D(ReportEngine);
+    return d->previewLayoutDirection();
+}
+
+void ReportEngine::setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection)
+{
+    Q_D(ReportEngine);
+    d->setPreviewLayoutDirection(previewLayoutDirection);
+}
+
+QList<QLocale::Language> ReportEngine::designerLanguages()
+{
+    Q_D(ReportEngine);
+    return d->designerLanguages();
+}
+
+QLocale::Language ReportEngine::currentDesignerLanguage()
+{
+    Q_D(ReportEngine);
+    return d->currentDesignerLanguage();
 }
 
 void ReportEngine::setShowProgressDialog(bool value)

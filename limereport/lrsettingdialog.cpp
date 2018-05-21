@@ -47,6 +47,15 @@ bool SettingDialog::suppressAbsentFieldsAndVarsWarnings()
     return ui->cbSuppressWarnings->isChecked();
 }
 
+QLocale::Language SettingDialog::designerLanguage()
+{
+    foreach (QLocale::Language language, m_aviableLanguages) {
+        if (ui->designerLanguage->currentText().compare(QLocale::languageToString(language)) == 0)
+            return language;
+    }
+    return QLocale().language();
+}
+
 void SettingDialog::setSuppressAbsentFieldsAndVarsWarnings(bool value){
     ui->cbSuppressWarnings->setChecked(value);
 }
@@ -70,6 +79,24 @@ void SettingDialog::setDefaultFont(const QFont &value)
 void SettingDialog::setUseDarkTheme(bool value)
 {
     ui->cbbUseDarkTheme->setChecked(value);
+}
+
+void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLocale::Language currentLanguage)
+{
+    m_aviableLanguages = languages;
+    m_currentLanguage = currentLanguage;
+
+    if (languages.isEmpty()) {
+        ui->designerLanguage->setVisible(false);
+        ui->lblLanguage->setVisible(false);
+        return;
+    }
+    ui->designerLanguage->addItem(QLocale::languageToString(currentLanguage));
+    foreach (QLocale::Language language, languages) {
+        if (language != currentLanguage)
+            ui->designerLanguage->addItem(QLocale::languageToString(language));
+    }
+    ui->designerLanguage->setCurrentText(QLocale::languageToString(currentLanguage));
 }
 
 } // namespace LimeReport

@@ -8,7 +8,8 @@ contains(CONFIG,release) {
 }
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    designersettingmanager.cpp
 
 INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
@@ -60,4 +61,7 @@ win32 {
 		LIBS += -llimereportd
 	}
 }
+
+HEADERS += \
+    designersettingmanager.h
 
