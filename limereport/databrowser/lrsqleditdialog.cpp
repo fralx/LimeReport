@@ -179,7 +179,7 @@ void SQLEditDialog::setDataSources(LimeReport::DataSourceManager *dataSources, Q
 {
     m_datasources=dataSources;
     if (!datasourceName.isEmpty()){
-        ui->cbSubdetail->setEnabled(false);
+        ui->cbSubdetail->setEnabled(true);
         initQueryMode();
         m_oldDatasourceName=datasourceName;
         ui->leDatasourceName->setText(datasourceName);
@@ -278,7 +278,6 @@ void SQLEditDialog::initSubQueryMode()
     ui->leMaster->setVisible(true);
     ui->leMaster->setEnabled(true);
     ui->lbMaster->setVisible(true);
-
 }
 
 void SQLEditDialog::initProxyMode()

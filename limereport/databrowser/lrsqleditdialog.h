@@ -95,7 +95,7 @@ private:
 };
 
 struct SQLEditResult{
-    enum ResultMode{Query,SubQuery,SubProxy};
+    enum ResultMode{Query, SubQuery, SubProxy, Undefined};
     QString connectionName;
     QString datasourceName;
     QString oldDatasourceName;
