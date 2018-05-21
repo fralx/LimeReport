@@ -151,6 +151,7 @@ public:
     void emitSaveReport();
     bool emitLoadReport();
     void emitSaveFinished();
+    void emitPrintedToPDF(QString fileName);
     bool isSaved();
     void setCurrentReportsDir(const QString& dirName);
     QString currentReportsDir(){ return m_reportsDir;}
@@ -195,10 +196,14 @@ signals:
     void    onLoad(bool& loaded);
     void    onSave();
     void    saveFinished();
-	void    loaded();
+
+    void    loaded();
+    void    printedToPDF(QString fileName);
+
     void    getAviableLanguages(QList<QLocale::Language>* languages);
     void    currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language  getCurrentDefaultLanguage();
+
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();

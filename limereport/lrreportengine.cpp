@@ -484,7 +484,9 @@ bool ReportEnginePrivate::printToPDF(const QString &fileName)
         QPrinter printer;
         printer.setOutputFileName(fn);
         printer.setOutputFormat(QPrinter::PdfFormat);
-        return printReport(&printer);
+        bool success = printReport(&printer);
+        if(success) emitPrintedToPDF(fileName);
+        return success;
     }
     return false;
 }
@@ -598,6 +600,11 @@ bool ReportEnginePrivate::emitLoadReport()
 void ReportEnginePrivate::emitSaveFinished()
 {
     emit saveFinished();
+}
+
+void ReportEnginePrivate::emitPrintedToPDF(QString fileName)
+{
+    emit printedToPDF(fileName);
 }
 
 bool ReportEnginePrivate::isSaved()
@@ -1159,7 +1166,9 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
-	connect(d, SIGNAL(loaded()), this, SIGNAL(loaded()));
+
+    connect(d, SIGNAL(loaded()), this, SIGNAL(loaded()));
+    connect(d, SIGNAL(printedToPDF(QString)), this, SIGNAL(printedToPDF(QString)));
     
     connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
             this, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)));

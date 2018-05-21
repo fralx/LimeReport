@@ -200,6 +200,7 @@ void PreviewReportWidget::printToPDF()
         foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
             d_ptr->m_previewPage->reactivatePageItem(pageItem);
         }
+        d_ptr->m_report->emitPrintedToPDF(fileName);
     }
 }
 
