@@ -707,6 +707,7 @@ void ReportDesignWidget::editSetting()
     setting.setDefaultFont(m_defaultFont);
     setting.setSuppressAbsentFieldsAndVarsWarnings(m_report->suppressFieldAndVarError());
     setting.setUseDarkTheme(m_useDarkTheme);
+    setting.setDesignerLanguages(m_report->designerLanguages(), m_report->currentDesignerLanguage());
 
     if (setting.exec()){
         m_horizontalGridStep = setting.horizontalGridStep();
@@ -714,6 +715,9 @@ void ReportDesignWidget::editSetting()
         m_defaultFont = setting.defaultFont();
         m_useDarkTheme = setting.userDarkTheme();
         m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
+        if (m_report->currentDesignerLanguage() != setting.designerLanguage() ){
+            m_report->setCurrentDesignerLanguage(setting.designerLanguage());
+        }
         applySettings();
     }
 }

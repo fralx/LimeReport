@@ -53,7 +53,7 @@ protected:
     QFontComboBox* fontNameEditor(){return m_fontNameEditor;}
     virtual void initEditor();
 protected slots:
-    virtual void slotFontChanged(const QFont);
+    virtual void slotFontChanged(const QFont&);
     virtual void slotFontSizeChanged(const QString& value);
     virtual void slotFontAttribsChanged(bool);
     void slotPropertyChanged(const QString& objectName, const QString& property, const QVariant &oldValue, const QVariant &newValue);

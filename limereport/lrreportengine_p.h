@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <QMainWindow>
+#include <QLocale>
 #include "lrreportengine.h"
 #include "lrcollection.h"
 #include "lrglobal.h"
@@ -83,6 +84,9 @@ public:
     virtual void                    setSuppressFieldAndVarError(bool suppressFieldAndVarError) = 0;
     virtual void                    setStyleSheet(const QString& styleSheet) = 0;
     virtual QString                 styleSheet() const = 0;
+    virtual QList<QLocale::Language> designerLanguages() = 0;
+    virtual QLocale::Language       currentDesignerLanguage() = 0;
+    virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
 };
 
 class ReportEnginePrivate : public QObject, public ICollectionContainer, public ITranslationContainer,
@@ -179,7 +183,9 @@ public:
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
     QString styleSheet() const;
     void setStyleSheet(const QString &styleSheet);
-
+    QList<QLocale::Language> designerLanguages();
+    QLocale::Language currentDesignerLanguage();
+    void setCurrentDesignerLanguage(QLocale::Language language);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -190,8 +196,14 @@ signals:
     void    onLoad(bool& loaded);
     void    onSave();
     void    saveFinished();
+
     void    loaded();
     void    printedToPDF(QString fileName);
+
+    void    getAviableLanguages(QList<QLocale::Language>* languages);
+    void    currentDefaulLanguageChanged(QLocale::Language);
+    QLocale::Language  getCurrentDefaultLanguage();
+
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
@@ -250,6 +262,7 @@ private:
     Qt::LayoutDirection m_previewLayoutDirection;
     LimeReportPluginInterface* m_designerFactory;
     QString m_styleSheet;
+    QLocale::Language m_currentDesignerLanguage;
 };
 
 }

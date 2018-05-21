@@ -952,6 +952,7 @@ QDockWidget {
 QDockWidget::title{
     background: #383838;
     padding-left: 5px;
+    margin-top: 4px;
 }
 
 
