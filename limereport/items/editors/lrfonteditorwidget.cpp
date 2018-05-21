@@ -106,9 +106,9 @@ bool FontEditorWidget::ignoreSlots() const
 }
 
 
-void FontEditorWidget::slotFontChanged(const QFont /*&font*/)
+void FontEditorWidget::slotFontChanged(const QFont& /*font*/)
 {
-    //    if (page()) page()->setFont(font);
+     //if (page()) page()->setFont(font);
 }
 
 void FontEditorWidget::slotFontSizeChanged(const QString &value)
