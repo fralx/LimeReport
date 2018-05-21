@@ -122,10 +122,14 @@ signals:
     void onLoad(bool& loaded);
     void onSave();
     void saveFinished();
-	void loaded();
+
+    void loaded();
+    void printedToPDF(QString fileName);
+
     void getAviableLanguages(QList<QLocale::Language>* languages);
     void currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language getCurrentDefaultLanguage();
+
 public slots:
     void cancelRender();
 protected:
