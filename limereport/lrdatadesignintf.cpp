@@ -507,7 +507,7 @@ QObject *ProxyDesc::elementAt(const QString &collectionName, int index)
 
 ProxyHolder::ProxyHolder(ProxyDesc* desc, DataSourceManager* dataManager)
     :m_model(0), m_desc(desc), m_lastError(""), m_mode(IDataSource::RENDER_MODE),
-     m_invalid(false), m_dataManger(dataManager)
+     m_invalid(false), m_dataManager(dataManager)
 {}
 
 QString ProxyHolder::masterDatasource()

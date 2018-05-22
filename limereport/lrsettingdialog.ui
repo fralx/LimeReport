@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>397</width>
-    <height>378</height>
+    <height>345</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+   <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -20,6 +20,9 @@
    <string>Designer setting</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">

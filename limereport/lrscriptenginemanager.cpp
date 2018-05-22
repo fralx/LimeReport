@@ -262,7 +262,7 @@ bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
             return false;
         }
     } else {
-        m_lastError = tr("Function manger with name \"%1\" already exists!");
+        m_lastError = tr("Function manager with name \"%1\" already exists!");
         return false;
     }
 

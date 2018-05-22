@@ -232,10 +232,10 @@ public:
                    const QString& functionCategory,
                    const QString& functionDescription,
                    const QString& functionManagerName,
-                   QObject* functionManger,
+                   QObject* functionManager,
                    const QString& functionScriptWrapper
                    ): m_name(functionName), m_category(functionCategory), m_description(functionDescription),
-                      m_managerName(functionManagerName), m_manager(functionManger), m_scriptWrapper(functionScriptWrapper)
+                      m_managerName(functionManagerName), m_manager(functionManager), m_scriptWrapper(functionScriptWrapper)
     {}
     QString name() const;
     void setName(const QString &name);
