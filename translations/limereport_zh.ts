@@ -1800,6 +1800,14 @@ p, li { white-space: pre-wrap; }
         <source>keepTopSpace</source>
         <translation>保持顶部距离</translation>
     </message>
+    <message>
+        <source>printable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AllLines</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
