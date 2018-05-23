@@ -77,8 +77,8 @@ void LimeReport::ItemLocationPropItem::setPropertyEditorData(QWidget *propertyEd
 }
 
 void LimeReport::ItemLocationPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index){
-    object()->setProperty(propertyName().toLatin1(),stringToLocation(qobject_cast<ComboBoxEditor*>(propertyEditor)->text()));
     model->setData(index,object()->property(propertyName().toLatin1()));
+    setValueToObject(propertyName(), propertyValue());
 }
 
 QString LimeReport::ItemLocationPropItem::locationToString(LimeReport::ItemDesignIntf::LocationType location) const{
@@ -92,6 +92,5 @@ LimeReport::ItemDesignIntf::LocationType LimeReport::ItemLocationPropItem::strin
 void LimeReport::ItemLocationPropItem::slotLocationChanged(const QString &text){
     if ( locationToString(object()->property(propertyName().toLatin1()).toInt())!=text){
       object()->setProperty(propertyName().toLatin1(),stringToLocation(text));
-      dynamic_cast<ComboBoxEditor*>(sender())->setTextValue(locationToString(object()->property(propertyName().toLatin1()).toInt()));
     }
 }

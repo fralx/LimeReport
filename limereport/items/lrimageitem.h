@@ -47,6 +47,8 @@ class ImageItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(bool keepAspectRatio READ keepAspectRatio WRITE setKeepAspectRatio)
     Q_PROPERTY(bool center READ center WRITE setCenter)
     Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
+    Q_PROPERTY(QString variable READ variable WRITE setVariable)
+    Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
 public:
     enum Format {
         Binary  = 0,
@@ -75,14 +77,18 @@ public:
     void setCenter(bool center);
     Format format() const;
     void setFormat(Format format);
-
     qreal minHeight() const;
 
+    QString variable(){ return m_variable;}
+    void setVariable(const QString& variable);
 protected:
     BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
     bool isNeedUpdateSize(RenderPass) const;
     bool drawDesignBorders() const {return m_picture.isNull();}
+    void loadPictureFromVariant(QVariant& data);
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
     QImage  m_picture;
     QString m_resourcePath;
@@ -93,6 +99,8 @@ private:
     bool    m_keepAspectRatio;
     bool    m_center;
     Format  m_format;
+    QString m_variable;
+
 };
 
 }

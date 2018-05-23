@@ -31,6 +31,7 @@
 #include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
+#include "lrpagedesignintf.h"
 
 namespace{
 
@@ -54,6 +55,42 @@ BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *par
     return new ImageItem(owner,parent);
 }
 
+void ImageItem::loadPictureFromVariant(QVariant& data){
+    if (data.isValid()){
+        if (data.type()==QVariant::Image){
+          m_picture =  data.value<QImage>();
+        } else {
+            switch (m_format) {
+            default:
+            case Binary:
+                m_picture.loadFromData(data.toByteArray());
+                break;
+            case Hex:
+                m_picture.loadFromData(QByteArray::fromHex(data.toByteArray()));
+                break;
+            case Base64:
+                m_picture.loadFromData(QByteArray::fromBase64(data.toByteArray()));
+                break;
+            }
+        }
+
+    }
+}
+
+void ImageItem::preparePopUpMenu(QMenu &menu)
+{
+    QAction* action = menu.addAction(tr("Watermark"));
+    action->setCheckable(true);
+    action->setChecked(isWatermark());
+}
+
+void ImageItem::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Watermark")) == 0){
+        page()->setPropertyToSelectedItems("watermark",action->isChecked());
+    }
+}
+
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
 
@@ -62,28 +99,13 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
            IDataSource* ds = dataManager->dataSource(m_datasource);
            if (ds) {
               QVariant data = ds->data(m_field);
-              if (data.isValid()){
-                  if (data.type()==QVariant::Image){
-                    m_picture =  data.value<QImage>();
-                  } else {
-                      switch (m_format) {
-                      default:
-                      case Binary:
-                          m_picture.loadFromData(data.toByteArray());
-                          break;
-                      case Hex:
-                          m_picture.loadFromData(QByteArray::fromHex(data.toByteArray()));
-                          break;
-                      case Base64:
-                          m_picture.loadFromData(QByteArray::fromBase64(data.toByteArray()));
-                          break;
-                      }
-                  }
-
-              }
+              loadPictureFromVariant(data);
            }
        } else if (!m_resourcePath.isEmpty()){
            m_picture = QImage(m_resourcePath);
+       } else if (!m_variable.isEmpty()){
+           QVariant data = dataManager->variable(m_variable);
+           loadPictureFromVariant(data);
        }
    }
    if (m_autoSize){
@@ -109,6 +131,16 @@ qreal ImageItem::minHeight() const{
         return m_picture.height();
     } else {
         return 0;
+    }
+}
+
+void ImageItem::setVariable(const QString& content)
+{
+    if (m_variable!=content){
+        QString oldValue = m_variable;
+        m_variable=content;
+        update();
+        notify("content", oldValue, m_variable);
     }
 }
 

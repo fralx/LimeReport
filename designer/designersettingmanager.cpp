@@ -1,0 +1,39 @@
+#include "designersettingmanager.h"
+
+DesignerSettingManager::DesignerSettingManager(QObject *parent) : QObject(parent)
+{
+    m_setting = new QSettings("LimeReport",QCoreApplication::applicationName());
+}
+
+DesignerSettingManager::~DesignerSettingManager()
+{
+    delete m_setting;
+}
+
+void DesignerSettingManager::getAviableLanguages(QList<QLocale::Language>* languages)
+{
+    languages->append(QLocale::Russian);
+    languages->append(QLocale::English);
+    languages->append(QLocale::Arabic);
+    languages->append(QLocale::French);
+    languages->append(QLocale::Chinese);
+}
+
+QLocale::Language DesignerSettingManager::getCurrentDefaultLanguage()
+{
+    m_setting->beginGroup("ReportDesigner");
+    QVariant v = m_setting->value("DesignerLanguage");
+    m_setting->endGroup();
+    if (v.isValid()){
+        return static_cast<QLocale::Language>(v.toInt()) ;
+    } else {
+        return QLocale::system().language();
+    }
+}
+
+void DesignerSettingManager::currentDefaulLanguageChanged(QLocale::Language language)
+{
+    m_setting->beginGroup("ReportDesigner");
+    m_setting->setValue("DesignerLanguage", (int)language);
+    m_setting->endGroup();
+}

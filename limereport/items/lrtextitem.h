@@ -72,6 +72,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(qreal textIndent READ textIndent WRITE setTextIndent)
     Q_PROPERTY(Qt::LayoutDirection textLayoutDirection READ textLayoutDirection WRITE setTextLayoutDirection)
     Q_PROPERTY(bool fillInSecondPass READ fillInSecondPass WRITE setFillInSecondPass)
+    Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -164,6 +165,8 @@ public:
     void setTextIndent(const qreal &textIndent);
     Qt::LayoutDirection textLayoutDirection() const;
     void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
+
+    void setWatermark(bool watermark);
     
 protected:
     void updateLayout();

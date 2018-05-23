@@ -29,14 +29,15 @@
  ****************************************************************************/
 #ifndef LRSCRIPTENGINEMANAGER_H
 #define LRSCRIPTENGINEMANAGER_H
-
+#ifndef USE_QJSENGINE
 #include <QtScript/QScriptEngine>
+#include <QScriptable>
+#endif
 #include <QVector>
 #include <QIcon>
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QtGlobal>
-#include <QScriptable>
 #include <QFont>
 #include <QComboBox>
 
@@ -231,10 +232,10 @@ public:
                    const QString& functionCategory,
                    const QString& functionDescription,
                    const QString& functionManagerName,
-                   QObject* functionManger,
+                   QObject* functionManager,
                    const QString& functionScriptWrapper
                    ): m_name(functionName), m_category(functionCategory), m_description(functionDescription),
-                      m_managerName(functionManagerName), m_manager(functionManger), m_scriptWrapper(functionScriptWrapper)
+                      m_managerName(functionManagerName), m_manager(functionManager), m_scriptWrapper(functionScriptWrapper)
     {}
     QString name() const;
     void setName(const QString &name);
@@ -305,6 +306,7 @@ public:
     ~ScriptFunctionsManager(){
         foreach(IWrapperCreator* wrapper, m_wrappersFactory.values()){ delete wrapper;} m_wrappersFactory.clear();
     }
+    Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName, QObject* currentPage);
     Q_INVOKABLE QVariant calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName);
     Q_INVOKABLE QVariant line(const QString& bandName);
     Q_INVOKABLE QVariant numberFormat(QVariant value, const char &format, int precision, const QString &locale);
@@ -440,6 +442,7 @@ private:
 
 };
 
+#ifndef USE_QJSENGINE
 class QFontPrototype : public QObject, public QScriptable {
     Q_OBJECT
     Q_PROPERTY(QString family READ family)
@@ -486,9 +489,9 @@ public:
         return qScriptValueFromValue<QFont>(engine, font);
     }
 };
+#endif
 
 }
-
 #ifndef USE_QJSENGINE
 Q_DECLARE_METATYPE(LimeReport::ComboBoxPrototype*)
 Q_DECLARE_METATYPE(QComboBox*)

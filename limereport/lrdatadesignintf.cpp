@@ -70,7 +70,7 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
     m_mode = mode;
 
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-    QSqlQuery* query = new QSqlQuery(db);
+    QSqlQuery query(db);
 
     if (!db.isValid()) {
         setLastError(QObject::tr("Invalid connection! %1").arg(m_connectionName));
@@ -82,13 +82,12 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         if (!m_prepared) return false;
     }
 
-    query->prepare(m_preparedSQL);
-
-    fillParams(query);
-    query->exec();
+    query.prepare(m_preparedSQL);
+    fillParams(&query);
+    query.exec();
 
     QSqlQueryModel *model = new QSqlQueryModel;
-    model->setQuery(*query);
+    model->setQuery(query);
 
     while (model->canFetchMore())
         model->fetchMore();
@@ -508,7 +507,7 @@ QObject *ProxyDesc::elementAt(const QString &collectionName, int index)
 
 ProxyHolder::ProxyHolder(ProxyDesc* desc, DataSourceManager* dataManager)
     :m_model(0), m_desc(desc), m_lastError(""), m_mode(IDataSource::RENDER_MODE),
-     m_invalid(false), m_dataManger(dataManager)
+     m_invalid(false), m_dataManager(dataManager)
 {}
 
 QString ProxyHolder::masterDatasource()

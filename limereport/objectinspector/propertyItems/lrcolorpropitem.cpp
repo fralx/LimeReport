@@ -28,8 +28,10 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrcolorpropitem.h"
+#include "lrglobal.h"
 #include "editors/lrcoloreditor.h"
 #include <QPainter>
+#include <QApplication>
 
 namespace{
     LimeReport::ObjectPropItem * createColorPropItem(
@@ -58,22 +60,20 @@ bool ColorPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, 
 {
     if (index.column()==1){
         painter->save();
+
+        QStyle* style = option.widget ? option.widget->style() : QApplication::style();
         QPen pen;
-
-        if (option.state & QStyle::State_Selected){
-            pen.setWidth(2);
-            pen.setColor(option.palette.brightText().color());
-        }else {
-            pen.setColor(Qt::gray);
-        }
-
+        QColor penColor = isColorDark(propertyValue().value<QColor>()) ? Qt::transparent : Qt::darkGray;
+        pen.setColor(penColor);
         painter->setPen(pen);
-
         painter->setBrush(propertyValue().value<QColor>());
-        QRect rect = option.rect.adjusted(4,4,-4,-6);
-        rect.setWidth(rect.height());
-        painter->setRenderHint(QPainter::Antialiasing);
-        painter->drawEllipse(rect);
+        int border = (option.rect.height() - style->pixelMetric(QStyle::PM_IndicatorWidth))/2;
+
+        QRect rect(option.rect.x()+border,option.rect.y()+border,
+                   style->pixelMetric(QStyle::PM_IndicatorWidth),
+                   style->pixelMetric(QStyle::PM_IndicatorWidth));
+        painter->drawRect(rect);
+
         painter->restore();
         return true;
     } else return false;

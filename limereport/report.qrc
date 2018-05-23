@@ -179,5 +179,8 @@
         <file alias="/images/deleteDialog">images/deleteDialog.png</file>
         <file alias="/images/copy">images/copy3.png</file>
         <file alias="/images/paste">images/paste2.png</file>
+        <file alias="/images/property">images/property.png</file>
+        <file alias="/images/signal">images/signal.png</file>
+        <file alias="/images/object">images/object.png</file>
     </qresource>
 </RCC>

@@ -279,6 +279,8 @@ public:
     virtual QMap<QString, QString> getStringForTranslation();
     bool fillInSecondPass() const;
     void setFillInSecondPass(bool fillInSecondPass);
+    bool isWatermark() const;
+    virtual void setWatermark(bool watermark);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -408,6 +410,7 @@ private:
     QString m_patternName;
     BaseDesignIntf* m_patternItem;
     bool    m_fillInSecondPass;
+    bool m_watermark;
     
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

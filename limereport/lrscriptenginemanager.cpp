@@ -31,7 +31,9 @@
 
 #include <QDate>
 #include <QStringList>
+#ifndef USE_QJSENGINE
 #include <QScriptValueIterator>
+#endif
 #include <QMessageBox>
 #ifdef HAVE_UI_LOADER
 #include <QUiLoader>
@@ -41,16 +43,19 @@
 #include "lrdatasourcemanager.h"
 #include "lrbasedesignintf.h"
 #include "lrbanddesignintf.h"
+#include "lrpageitemdesignintf.h"
 
 Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
 Q_DECLARE_METATYPE(LimeReport::ScriptEngineManager *)
 
+#ifndef USE_QJSENGINE
 QScriptValue constructColor(QScriptContext *context, QScriptEngine *engine)
 {
      QColor color(context->argument(0).toString());
      return engine->toScriptValue(color);
 }
+#endif
 
 namespace LimeReport{
 
@@ -257,7 +262,7 @@ bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
             return false;
         }
     } else {
-        m_lastError = tr("Function manger with name \"%1\" already exists!");
+        m_lastError = tr("Function manager with name \"%1\" already exists!");
         return false;
     }
 
@@ -340,8 +345,9 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                     func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")",
                     LimeReport::Const::FUNCTION_MANAGER_NAME,
                     m_functionManager,
-                    QString("function %1(fieldName,bandName){\
-                            return %2.calcGroupFunction(\"%1\",fieldName,bandName);}"
+                    QString("function %1(fieldName, bandName, pageitem){\
+                            if (typeof pageitem == 'undefined') return %2.calcGroupFunction(\"%1\", fieldName, bandName); \
+                            else return %2.calcGroupFunction(\"%1\", fieldName, bandName, pageitem);}"
                     ).arg(func)
                      .arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                 );
@@ -468,7 +474,7 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
             ScriptValueType svThis;
 
 #ifdef USE_QJSENGINE
-            svThis = getCppOwnedJSValue(*se, reportItem);
+            svThis = getJSValue(*se, reportItem);
             se->globalObject().setProperty("THIS",svThis);
 #else
             svThis = se->globalObject().property("THIS");
@@ -1274,7 +1280,7 @@ void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDe
         ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 
 #ifdef USE_QJSENGINE
-        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        ScriptValueType sItem = getJSValue(*engine, item);
         QString on = item->patternName().compare(pageName) == 0 ? pageName : pageName+"_"+item->patternName();
         engine->globalObject().setProperty(on, sItem);
 #else
@@ -1297,7 +1303,7 @@ void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
 {
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 #ifdef USE_QJSENGINE
-        ScriptValueType sItem = getCppOwnedJSValue(*engine, item);
+        ScriptValueType sItem = getJSValue(*engine, item);
         engine->globalObject().setProperty(name, sItem);
 #else
         ScriptValueType sItem = engine->globalObject().property(name);
@@ -1444,14 +1450,15 @@ void JSFunctionDesc::setScriptWrapper(const QString &scriptWrapper)
     m_scriptWrapper = scriptWrapper;
 }
 
-QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName)
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName, QObject* currentPage)
 {
     if (m_scriptEngineManager->dataManager()){
+        PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(currentPage);
         QString expression = m_scriptEngineManager->dataManager()->getExpression(expressionID);
         GroupFunction* gf =  m_scriptEngineManager->dataManager()->groupFunction(name,expression,bandName);
         if (gf){
             if (gf->isValid()){
-                return gf->calculate();
+                return gf->calculate(pageItem);
             }else{
                 return gf->error();
             }
@@ -1462,6 +1469,11 @@ QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QS
     } else {
         return QString(QObject::tr("Datasource manager not found"));
     }
+}
+
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName)
+{
+    return calcGroupFunction(name, expressionID, bandName, 0);
 }
 
 QVariant ScriptFunctionsManager::line(const QString &bandName)

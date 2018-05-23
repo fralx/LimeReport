@@ -51,7 +51,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
-    m_endlessHeight(false)
+    m_endlessHeight(false), m_printable(true)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -64,8 +64,8 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
-    m_endlessHeight(false)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
+    m_endlessHeight(false), m_printable(true)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -331,6 +331,16 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     for(int i=0;i<columnCount;++i){
         posByColumns.append(pos);
     }
+}
+
+bool PageItemDesignIntf::isPrintable() const
+{
+    return m_printable;
+}
+
+void PageItemDesignIntf::setPrintable(bool printable)
+{
+    m_printable = printable;
 }
 
 bool PageItemDesignIntf::endlessHeight() const

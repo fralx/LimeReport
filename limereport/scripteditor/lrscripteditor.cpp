@@ -219,8 +219,6 @@ void ScriptEditor::slotOnCurrentChanged(const QModelIndex &to, const QModelIndex
     }
 }
 
-
-
 QString ReportStructureCompleater::pathFromIndex(const QModelIndex &index) const
 {
     QStringList dataList;
@@ -274,7 +272,8 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
 {
     if (report){
         m_model.clear();
-
+        QIcon signalIcon(":/report/images/signal");
+        QIcon propertyIcon(":/report/images/property");
         addAdditionalDatawords(report->dataManager());
 
         for ( int i = 0; i < report->pageCount(); ++i){
@@ -282,17 +281,27 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
 
             QStandardItem* itemNode = new QStandardItem;
             itemNode->setText(page->pageItem()->objectName());
+            itemNode->setIcon(QIcon(":/report/images/object"));
             m_model.invisibleRootItem()->appendRow(itemNode);
 
-            QStringList slotsNames = extractSlotNames(page->pageItem());
-            foreach(QString slotName, slotsNames){
+            QStringList items = extractSignalNames(page->pageItem());
+            foreach(QString slotName, items){
                 QStandardItem* slotItem = new QStandardItem;
                 slotItem->setText(slotName);
+                slotItem->setIcon(signalIcon);
                 itemNode->appendRow(slotItem);
+            }
+            items = extractProperties(page->pageItem());
+            foreach(QString propertyName, items){
+                QStandardItem* properyItem = new QStandardItem;
+                properyItem->setText(propertyName);
+                properyItem->setIcon(propertyIcon);
+                itemNode->appendRow(properyItem);
             }
             foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
                 addChildItem(item, itemNode->text(), m_model.invisibleRootItem());
             }
+
         }
     }
 }
@@ -303,7 +312,7 @@ void ReportStructureCompleater::updateCompleaterModel(DataSourceManager *dataMan
     addAdditionalDatawords(dataManager);
 }
 
-QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
+QStringList ReportStructureCompleater::extractSignalNames(BaseDesignIntf *item)
 {
     QStringList result;
     if (!item) return result;
@@ -312,8 +321,28 @@ QStringList ReportStructureCompleater::extractSlotNames(BaseDesignIntf *item)
         for(int i = mo->methodOffset(); i < mo->methodCount(); ++i)
         {
             if (mo->method(i).methodType() == QMetaMethod::Signal) {
+#ifndef HAVE_QT4
                 result.append(QString::fromLatin1(mo->method(i).name()));
+#else
+                result.append(QString::fromLatin1(mo->method(i).signature()));
+#endif
             }
+        }
+        mo = mo->superClass();
+    }
+    result.sort();
+    return result;
+}
+
+QStringList ReportStructureCompleater::extractProperties(BaseDesignIntf *item)
+{
+    QStringList result;
+    if (!item) return result;
+    QMetaObject const * mo = item->metaObject();
+    while (mo){
+        for(int i = mo->propertyOffset(); i < mo->propertyCount(); ++i)
+        {
+                result.append(QString::fromLatin1(mo->property(i).name()));
         }
         mo = mo->superClass();
     }
@@ -325,21 +354,46 @@ void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString
 {
     if (!item) return;
 
+    QIcon signalIcon(":/report/images/signal");
+    QIcon propertyIcon(":/report/images/property");
+
     QStandardItem* itemNode = new QStandardItem;
     itemNode->setText(pageName+"_"+item->objectName());
+    itemNode->setIcon(QIcon(":/report/images/object"));
     parent->appendRow(itemNode);
-    QStringList slotNames = extractSlotNames(item);
-    foreach(QString slotName, slotNames){
+    QStringList items;
+
+    if (!m_signals.contains(item->metaObject()->className())){
+        items = extractSignalNames(item);
+        m_signals.insert(item->metaObject()->className(),items);
+    } else {
+        items = m_signals.value(item->metaObject()->className());
+    }
+
+    foreach(QString slotName, items){
         QStandardItem* slotItem = new QStandardItem;
         slotItem->setText(slotName);
+        slotItem->setIcon(signalIcon);
         itemNode->appendRow(slotItem);
     }
-    //BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
-    //if (band){
+
+    if (!m_properties.contains(item->metaObject()->className())){
+        items = extractProperties(item);
+        m_properties.insert(item->metaObject()->className(),items);
+    } else {
+        items = m_properties.value(item->metaObject()->className());
+    }
+
+    foreach(QString propertyName, items){
+        QStandardItem* properyItem = new QStandardItem;
+        properyItem->setText(propertyName);
+        properyItem->setIcon(propertyIcon);
+        itemNode->appendRow(properyItem);
+    }
+
     foreach (BaseDesignIntf* child, item->childBaseItems()){
         addChildItem(child, pageName, parent);
     }
-    //}
 }
 
 } // namespace LimeReport

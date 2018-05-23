@@ -949,6 +949,13 @@ QDockWidget {
     titlebar-normal-icon: url(:/qss_icons/rc/undock.png);
 }
 
+QDockWidget::title{
+    background: #383838;
+    padding-left: 5px;
+    margin-top: 4px;
+}
+
+
 QDockWidget::close-button, QDockWidget::float-button {
     border: 1px solid transparent;
     border-radius: 2px;

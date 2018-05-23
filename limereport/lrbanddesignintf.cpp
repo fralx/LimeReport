@@ -191,14 +191,27 @@ void BandDesignIntf::copyBookmarks(BandDesignIntf* sourceBand)
     }
 }
 
+void BandDesignIntf::setBackgroundModeProperty(BaseDesignIntf::BGMode value)
+{
+    if (value!=backgroundMode()){
+        BaseDesignIntf::BGMode oldValue = backgroundMode();
+        setBackgroundMode(value);
+        notify("backgroundMode",oldValue,value);
+    }
+}
+
+void BandDesignIntf::setBackgroundOpacity(int value)
+{
+    if (opacity()!=value){
+        int oldValue = opacity();
+        setOpacity(value);
+        notify("backgroundOpacity",oldValue,value);
+    }
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-    if ( !(backgroundColor() == Qt::white && backgroundBrushStyle() == SolidPattern) ) {
-        QBrush brush(backgroundColor(), static_cast<Qt::BrushStyle>(backgroundBrushStyle()));
-        brush.setTransform(painter->worldTransform().inverted());
-        painter->fillRect(rect(), brush);
-    }
+    prepareRect(painter, option, widget);
 
     if (itemMode() & DesignMode){
         painter->save();
@@ -614,7 +627,7 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
                 BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
                 tmpItem->setPos(tmpItem->pos().x(), (tmpItem->pos().y()-height)+borderLineSize());
             }
-            else if ((item->geometry().top()<height) && (item->geometry().bottom()>height)){
+            else if ((item->geometry().top()<=height) && (item->geometry().bottom()>height)){
                 int sliceHeight = height-item->geometry().top();
                 if (item->isSplittable() && item->canBeSplitted(sliceHeight)) {
                     BaseDesignIntf* tmpItem=item->cloneBottomPart(sliceHeight,bottomPart,bottomPart);
@@ -626,7 +639,7 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
                         moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
                     }
                 } else {
-                    if ((item->geometry().bottom()-height)>height){
+                    if ((item->geometry().bottom()-height)>=height){
                         BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
                         tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
                         tmpItem->setHeight((this->height()-height));

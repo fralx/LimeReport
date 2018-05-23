@@ -83,7 +83,7 @@ void DataBand::preparePopUpMenu(QMenu &menu)
 {
     DataBandDesignIntf::preparePopUpMenu(menu);
 
-    QAction* autoSplittableAction = menu.addAction(tr("useAlternateBackgroundColor"));
+    QAction* autoSplittableAction = menu.addAction(tr("Use alternate background color"));
     autoSplittableAction->setCheckable(true);
     autoSplittableAction->setChecked(useAlternateBackgroundColor());
 }
@@ -91,7 +91,7 @@ void DataBand::preparePopUpMenu(QMenu &menu)
 void DataBand::processPopUpAction(QAction *action)
 {
     DataBandDesignIntf::processPopUpAction(action);
-    if (action->text().compare(tr("useAlternateBackgroundColor")) == 0){
+    if (action->text().compare(tr("Use alternate background color")) == 0){
         setProperty("useAlternateBackgroundColor",action->isChecked());
     }
 }

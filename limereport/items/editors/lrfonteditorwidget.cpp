@@ -106,9 +106,9 @@ bool FontEditorWidget::ignoreSlots() const
 }
 
 
-void FontEditorWidget::slotFontChanged(const QFont /*&font*/)
+void FontEditorWidget::slotFontChanged(const QFont& /*font*/)
 {
-    //    if (page()) page()->setFont(font);
+     //if (page()) page()->setFont(font);
 }
 
 void FontEditorWidget::slotFontSizeChanged(const QString &value)
@@ -122,6 +122,7 @@ void FontEditorWidget::slotFontAttribsChanged(bool)
 {
     if (m_ignoreSlots) return;
     m_resFont = m_fontNameEditor->currentFont();
+    m_resFont.setPointSize(m_fontSizeEditor->currentText().toInt());
     m_resFont.setBold(m_fontBold->isChecked());
     m_resFont.setItalic(m_fontItalic->isChecked());
     m_resFont.setUnderline(m_fontUnderline->isChecked());

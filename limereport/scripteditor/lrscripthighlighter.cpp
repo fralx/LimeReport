@@ -1,4 +1,5 @@
 #include "lrscripthighlighter.h"
+#include "lrglobal.h"
 #include <QDebug>
 #include <QPalette>
 
@@ -180,17 +181,11 @@ bool ScriptHighlighter::isKeyWord(const QString& word)
     return false;
 }
 
-bool ScriptHighlighter::isDark(QColor color)
-{
-    double a = 1 - ( 0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255;
-    return  (a < 0.5);
-}
-
 ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
     QSyntaxHighlighter(parent)
 {
 
-    if ( isDark(QPalette().background().color())){
+    if ( isColorDark(QPalette().background().color())){
         m_formats[NumberFormat].setForeground(Qt::darkBlue);
         m_formats[StringFormat].setForeground(Qt::darkGreen);
         m_formats[KeywordFormat].setForeground(Qt::darkYellow);
@@ -202,6 +197,13 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
         m_formats[KeywordFormat].setForeground(QColor("#45c5d5"));
         m_formats[CommentFormat].setForeground(QColor("#a1a4a9"));
         m_formats[CommentFormat].setFontItalic(true);
+    }
+}
+
+TextBlockData::~TextBlockData()
+{
+    foreach(ParenthesisInfo* info, m_parentheses){
+        delete info;
     }
 }
 

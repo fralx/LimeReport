@@ -29,7 +29,9 @@
  ****************************************************************************/
 #include <QtGui>
 #include <QTextLayout>
+#ifndef USE_QJSENGINE
 #include <QtScript/QScriptEngine>
+#endif
 #include <QLocale>
 #include <QMessageBox>
 #include <math.h>
@@ -109,6 +111,9 @@ void TextItem::preparePopUpMenu(QMenu &menu)
     action->setCheckable(true);
     action->setChecked(backgroundMode() == TransparentMode);
 
+    action = menu.addAction(tr("Watermark"));
+    action->setCheckable(true);
+    action->setChecked(isWatermark());
 }
 
 void TextItem::processPopUpAction(QAction *action)
@@ -134,6 +139,9 @@ void TextItem::processPopUpAction(QAction *action)
         } else {
             setProperty("backgroundMode",OpaqueMode);
         }
+    }
+    if (action->text().compare(tr("Watermark")) == 0){
+        page()->setPropertyToSelectedItems("watermark",action->isChecked());
     }
 }
 
@@ -551,6 +559,15 @@ void TextItem::setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirec
         update();
         notify("textLayoutDirection",oldValue,int(textLayoutDirection));
     }
+}
+
+void TextItem::setWatermark(bool watermark)
+{
+    if (watermark){
+        setBackgroundMode(TransparentMode);
+    }
+    BaseDesignIntf::setWatermark(watermark);
+
 }
 
 

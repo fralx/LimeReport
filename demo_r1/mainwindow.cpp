@@ -38,6 +38,14 @@
 #include <QDebug>
 #include <QStringListModel>
 
+#ifdef BUILD_WITH_EASY_PROFILER
+#include "easy/profiler.h"
+#else
+# define EASY_BLOCK(...)
+# define EASY_END_BLOCK
+# define EASY_PROFILER_ENABLE
+#endif
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), m_progressDialog(0), m_customers(0), m_orders(0)
@@ -110,22 +118,36 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    EASY_PROFILER_ENABLE;
+    EASY_BLOCK("design report");
     report->dataManager()->clearUserVariables();
     if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
         report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
     }
     report->setShowProgressDialog(false);
     report->designReport();
+    EASY_END_BLOCK;
+#ifdef BUILD_WITH_EASY_PROFILER
+    profiler::dumpBlocksToFile("test.prof");
+#endif
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,"Select report file",QApplication::applicationDirPath()+"/demo_reports/","*.lrxml");
     if (!fileName.isEmpty()) {
+        EASY_PROFILER_ENABLE;
+        EASY_BLOCK("Load file");
         report->loadFromFile(fileName);
+        EASY_END_BLOCK;
+        EASY_BLOCK("Set report variable");
         if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
             report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
         }
+        EASY_END_BLOCK;
+#ifdef BUILD_WITH_EASY_PROFILER
+        profiler::dumpBlocksToFile("test.prof");
+#endif
         report->previewReport();
     }
 }

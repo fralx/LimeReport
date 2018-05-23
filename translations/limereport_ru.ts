@@ -2,6 +2,60 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>$ClassName$</name>
+    <message>
+        <source>$ClassName$</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartItemEditor</name>
+    <message>
+        <source>Series editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Имя</translation>
+    </message>
+    <message>
+        <source>Values field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Тип</translation>
+    </message>
+    <message>
+        <source>Labels field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished">Ок</translation>
+    </message>
+    <message>
+        <source>Series name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
@@ -22,6 +76,21 @@
     <message>
         <source>Attention</source>
         <translation>Внимание</translation>
+    </message>
+    <message>
+        <source>Mandatory</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LanguageSelectDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -319,6 +388,10 @@ p, li { white-space: pre-wrap; }
         <source>Start new page</source>
         <translation>Начинать новую страницу</translation>
     </message>
+    <message>
+        <source>Keep top space</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -349,6 +422,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>All borders</source>
         <translation>Внешние границы</translation>
+    </message>
+    <message>
+        <source>Create Horizontal Layout</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -440,12 +517,20 @@ p, li { white-space: pre-wrap; }
         <source> already exists! </source>
         <translation> уже существует! </translation>
     </message>
+    <message>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataBand</name>
     <message>
         <source>Data</source>
         <translation>Данные</translation>
+    </message>
+    <message>
+        <source>Use alternate background color</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -593,6 +678,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>External variables</source>
         <translation>Внешние переменные</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::DialogDesignerManager</name>
+    <message>
+        <source>Edit Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation type="unfinished">Инспектор объектов</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signals &amp;&amp; Slots Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -785,6 +901,42 @@ p, li { white-space: pre-wrap; }
         <source>VerticalUniform</source>
         <translation>Вертикально равномерно</translation>
     </message>
+    <message>
+        <source>Pie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorizontalBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignTop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignBottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignLeft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignRight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -893,6 +1045,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Image</source>
         <translation>Изображение</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1007,6 +1163,14 @@ p, li { white-space: pre-wrap; }
         <source>Page Footer</source>
         <translation>Нижний колонтитул</translation>
     </message>
+    <message>
+        <source>Print on first page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print on last page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::PageHeader</name>
@@ -1020,6 +1184,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Paste</source>
         <translation>Вставить</translation>
+    </message>
+    <message>
+        <source>Page is TOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset page number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set page size to printer</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1553,6 +1733,66 @@ p, li { white-space: pre-wrap; }
         <source>Property value</source>
         <translation>Значение</translation>
     </message>
+    <message>
+        <source>endlessHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>extendedHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>isExtendedInDesignMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pageIsTOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>setPageSizeToPrinter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fillInSecondPass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chartTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chartType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>drawLegendBorder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>labelsField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>legendAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>titleAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>keepTopSpace</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1593,6 +1833,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Wrong file format</source>
         <translation>Неверный формат файла</translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1687,11 +1931,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Hide left panel</source>
-        <translation>Спрятать левую панель</translation>
+        <translation type="vanished">Спрятать левую панель</translation>
     </message>
     <message>
         <source>Hide right panel</source>
-        <translation>Спрятать правую панель</translation>
+        <translation type="vanished">Спрятать правую панель</translation>
     </message>
     <message>
         <source>Report Tools</source>
@@ -1837,6 +2081,46 @@ p, li { white-space: pre-wrap; }
         <source>Report has been modified! Do you want save the report?</source>
         <translation>Отчет был изменен! Сохранить изменения?</translation>
     </message>
+    <message>
+        <source>Hide left panel | Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide right panel | Alt+R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SignalSlot Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog Designer Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
@@ -1857,6 +2141,22 @@ p, li { white-space: pre-wrap; }
 
 This preview is no longer valid.</source>
         <translation>Файл отчета &quot;%1&quot; изменил имя или был удален.</translation>
+    </message>
+    <message>
+        <source>Designer not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language %1 already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished">Предупреждение</translation>
+    </message>
+    <message>
+        <source>The language will change after the application is restarted</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2043,10 +2343,29 @@ This preview is no longer valid.</source>
     </message>
 </context>
 <context>
+    <name>LimeReport::ScriptEditor</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">Форма</translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation type="unfinished">Данные</translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation type="unfinished">Функции</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>Диалог %1 не может быть создан</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">Ошибка</translation>
     </message>
 </context>
 <context>
@@ -2103,6 +2422,50 @@ This preview is no longer valid.</source>
         <source>GENERAL</source>
         <translation>ОБЩИЕ</translation>
     </message>
+    <message>
+        <source>Function manger with name &quot;%1&quot; already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FieldName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Field %1 not found in %2!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource</source>
+        <translation type="unfinished">Источник данных</translation>
+    </message>
+    <message>
+        <source>ValueField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KeyField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KeyFieldValue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unique identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished">Содержимое</translation>
+    </message>
+    <message>
+        <source>Indent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>datasourceName</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
@@ -2137,6 +2500,14 @@ This preview is no longer valid.</source>
     <message>
         <source>Suppress absent fields and variables warning</source>
         <translation>Не выводить сообщения об отсутствии полей или переменных</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use dark theme</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2221,6 +2592,14 @@ This preview is no longer valid.</source>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>Текстовый элемент %1 не найден!</translation>
     </message>
+    <message>
+        <source>Transparent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
@@ -2234,7 +2613,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Functions</source>
-        <translation>Функции</translation>
+        <translation type="vanished">Функции</translation>
     </message>
     <message>
         <source>Editor settings</source>
@@ -2250,7 +2629,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Data</source>
-        <translation>Данные</translation>
+        <translation type="vanished">Данные</translation>
     </message>
     <message>
         <source>...</source>
@@ -2267,6 +2646,53 @@ This preview is no longer valid.</source>
     <message>
         <source>Esc</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::TranslationEditor</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">Форма</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <source>Pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Strings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2485,6 +2911,26 @@ This preview is no longer valid.</source>
     <message>
         <source>Object with name %1 already exists!</source>
         <translation>Объект %1 уже существует!</translation>
+    </message>
+    <message>
+        <source>Chart Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Second</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datasource manager not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

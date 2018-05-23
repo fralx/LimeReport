@@ -187,10 +187,10 @@ void ReportRender::initDatasource(const QString& name){
     }
 }
 
-void ReportRender::renderPage(PageDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
+void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
 {
     m_curentNameIndex = 0;
-    m_patternPageItem = patternPage->pageItem();
+    m_patternPageItem = patternPage;
     m_renderingFirstTOC = isTOC && isFirst;
 
     if (m_patternPageItem->resetPageNumber() && m_pageCount>0 && !isTOC) {
@@ -269,19 +269,19 @@ PageItemDesignIntf::Ptr ReportRender::pageAt(int index)
     else return m_renderedPages.at(index);
 }
 
-QString ReportRender::renderPageToString(PageDesignIntf *patternPage)
+QString ReportRender::renderPageToString(PageItemDesignIntf *patternPage)
 {
     renderPage(patternPage);
     return toString();
 }
 
-ReportPages ReportRender::renderPageToPages(PageDesignIntf *patternPage)
+ReportPages ReportRender::renderPageToPages(PageItemDesignIntf *patternPage)
 {
     renderPage(patternPage);
     return m_renderedPages;
 }
 
-ReportPages ReportRender::renderTOC(PageDesignIntf* patternPage, bool first, bool resetPages){
+ReportPages ReportRender::renderTOC(PageItemDesignIntf* patternPage, bool first, bool resetPages){
     renderPage(patternPage, true, first, resetPages);
     return m_renderedPages;
 }
@@ -294,6 +294,24 @@ void ReportRender::initRenderPage()
         m_renderPageItem->setItemMode(PreviewMode);
         m_renderPageItem->setPatternName(m_patternPageItem->objectName());
         m_renderPageItem->setPatternItem(m_patternPageItem);
+
+        ScriptValueType svCurrentPage;
+        ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
+
+#ifdef USE_QJSENGINE
+        svCurrentPage = getJSValue(*se, m_renderPageItem);
+        se->globalObject().setProperty("currentPage", svCurrentPage);
+#else
+        svCurrentPage = se->globalObject().property("currentPage");
+        if (svCurrentPage.isValid()){
+            se->newQObject(svCurrentPage, m_renderPageItem);
+        } else {
+            svCurrentPage = se->newQObject(m_renderPageItem);
+            se->globalObject().setProperty("currentPage", svCurrentPage);
+        }
+#endif
+
+
     }
 }
 
@@ -384,7 +402,15 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                     QVector<QString> captures = normalizeCaptures(rx);
                     if (captures.size() >= 3){
                         QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
-                        content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                        if (captures.size()<5){
+                            content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                        } else {
+                            content.replace(captures.at(0),QString("%1(%2,%3,%4)")
+                                            .arg(functionName)
+                                            .arg('"'+expressionIndex+'"')
+                                            .arg('"'+band->objectName()+'"')
+                                            .arg(captures.at(4)));
+                        }
                     }
                     pos += rx.matchedLength();
                 }
@@ -650,7 +676,10 @@ void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
     m_renderPageItem->restoreLinks();
     m_renderPageItem->updateSubItemsSize(FirstPass,m_datasources);
     foreach(BaseDesignIntf* item, pageItems){
-        item->setZValue(item->zValue()-100000);
+        if (!item->isWatermark())
+            item->setZValue(item->zValue()-100000);
+        else
+            item->setZValue(item->zValue()+100000);
     }
 }
 
@@ -749,8 +778,8 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
                     foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
                         renderBand(footer, 0);
-                        closeDataGroup(subBand);
                     }
+                    closeDataGroup(subBand);
                 }
 
                 foreach (BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)) {
@@ -1134,7 +1163,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
 {
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
 
-    m_scriptEngineContext->baseDesignIntfToScript(patternBand->page()->pageItem()->objectName(), bandClone);
+    m_scriptEngineContext->baseDesignIntfToScript(patternBand->parent()->objectName(), bandClone);
     m_scriptEngineContext->setCurrentBand(bandClone);
     emit(patternBand->beforeRender());
 

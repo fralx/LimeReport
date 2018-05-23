@@ -78,8 +78,14 @@ void TranslationEditor::updateUi()
                     ui->lvLanguages->addItem(QLocale::languageToString(language));
             }
             if (!translations->keys().isEmpty()){
-                ui->lvLanguages->item(0)->setSelected(true);
-                activateLanguage(getLanguageByName(ui->lvLanguages->item(0)->text()));
+                if (ui->lvLanguages->count()!=0){
+                    ui->lvLanguages->item(0)->setSelected(true);
+                    activateLanguage(getLanguageByName(ui->lvLanguages->item(0)->text()));
+                } else {
+                    //activateLanguage(QLocale::AnyLanguage);
+                    ui->twPages->clear();
+                    ui->tbStrings->setRowCount(0);
+                }
             }
         }
     }

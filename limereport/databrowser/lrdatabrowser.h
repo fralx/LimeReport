@@ -106,6 +106,11 @@ private:
     void addProxy(SQLEditResult result);
     void changeProxy(SQLEditResult result);
 
+
+    SQLEditResult::ResultMode currentDatasourceType(const QString& datasourceName);
+    void applyChanges(SQLEditResult result);
+    void addDatasource(SQLEditResult result);
+
     void addConnectionDesc(ConnectionDesc *connection);
     void changeConnectionDesc(ConnectionDesc *connection);
     bool checkConnectionDesc(ConnectionDesc *connection);

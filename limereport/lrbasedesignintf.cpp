@@ -80,7 +80,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_reportSettings(0),
     m_patternName(""),
     m_patternItem(0),
-    m_fillInSecondPass(false)
+    m_fillInSecondPass(false),
+    m_watermark(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -399,19 +400,21 @@ void BaseDesignIntf::prepareRect(QPainter *painter, const QStyleOptionGraphicsIt
 {
     painter->save();
 
+    QRectF r = rect().adjusted(0, 0, borderLineSize(), borderLineSize());
     QBrush brush(m_backgroundColor,static_cast<Qt::BrushStyle>(m_backgroundBrushStyle));
     brush.setTransform(painter->worldTransform().inverted());
 
     if (isSelected() && (opacity() == 100) && (m_BGMode!=TransparentMode)) {
-        painter->fillRect(rect(), brush);
+        painter->fillRect(r, brush);
     }
     else {
         if (m_BGMode == OpaqueMode) {
-            painter->setOpacity(qreal(m_opacity) / 100);
-            painter->fillRect(rect(), brush);
+            qreal o = (itemMode() & DesignMode) ? 0.5 : qreal(m_opacity) / 100;
+            painter->setOpacity(o);
+            painter->fillRect(r, brush);
         } else if (itemMode() & DesignMode){
             painter->setOpacity(0.1);
-            painter->fillRect(rect(), QBrush(QPixmap(":/report/images/empty")));
+            painter->fillRect(r, QBrush(QPixmap(":/report/images/empty")));
         }
     }
     painter->restore();
@@ -714,6 +717,19 @@ void BaseDesignIntf::setFillInSecondPass(bool fillInSecondPass)
         notify("fillInSecondPass",!fillInSecondPass,fillInSecondPass);
     }
 
+}
+
+bool BaseDesignIntf::isWatermark() const
+{
+    return m_watermark;
+}
+
+void BaseDesignIntf::setWatermark(bool watermark)
+{
+    if (m_watermark != watermark){
+        m_watermark = watermark;
+        notify("watermark",!watermark,watermark);
+    }
 }
 
 QString BaseDesignIntf::patternName() const
@@ -1169,6 +1185,7 @@ void BaseDesignIntf::showEditorDialog(){
         dialog->layout()->setContentsMargins(2,2,2,2);
         dialog->layout()->addWidget(editor);
         connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));
+        dialog->setWindowTitle(editor->windowTitle());
         dialog->exec();
 #endif
     }
@@ -1186,6 +1203,7 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    if (!(flags() & QGraphicsItem::ItemIsSelectable)) return;
     PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
     if (!page->selectedItems().contains(this)){
         page->clearSelection();

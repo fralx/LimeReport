@@ -37,6 +37,13 @@
 
 #include <QDebug>
 
+#ifdef BUILD_WITH_EASY_PROFILER
+#include "easy/profiler.h"
+#else
+# define EASY_BLOCK(...)
+# define EASY_END_BLOCK
+#endif
+
 namespace LimeReport{
 
 XMLReader::XMLReader()
@@ -107,6 +114,7 @@ bool XMLReader::readItem(QObject *item)
 
 void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 {
+    EASY_BLOCK("readItemFromNode");
     ObjectLoadingStateIntf* lf = dynamic_cast<ObjectLoadingStateIntf*>(item);
     if(lf) lf->objectLoadStarted();
     for (int i=0;i<node->childNodes().count();i++){
@@ -129,6 +137,7 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
             if (baseItem) baseItem->parentObjectLoadFinished();
         }
     }
+    EASY_END_BLOCK;
 }
 
 QString XMLReader::lastError()
@@ -183,13 +192,16 @@ QVariant XMLReader::getValue(QDomElement *node)
 
 void XMLReader::readQObject(QObject* item, QDomElement* node)
 {
+    EASY_BLOCK("readQObject");
     QObject* childItem = qvariant_cast<QObject*>(item->property(node->nodeName().toLatin1()));
     if (childItem)
         readItemFromNode(childItem,node);
+    EASY_END_BLOCK;
 }
 
 void XMLReader::readCollection(QObject *item, QDomElement *node)
 {
+    EASY_BLOCK("readCollection")
     ICollectionContainer* collection = dynamic_cast<ICollectionContainer*>(item);
     if (collection){
         QString collectionName = node->nodeName();
@@ -201,6 +213,7 @@ void XMLReader::readCollection(QObject *item, QDomElement *node)
         }
         collection->collectionLoadFinished(collectionName);
     }
+    EASY_END_BLOCK;
 }
 
 void XMLReader::readTranslation(QObject* item, QDomElement* node)

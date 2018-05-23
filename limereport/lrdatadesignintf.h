@@ -337,7 +337,7 @@ public:
     void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update(){}
     void clearErrors(){m_lastError = "";}
-    DataSourceManager* dataManager() const {return m_dataManger;}
+    DataSourceManager* dataManager() const {return m_dataManager;}
 private slots:
     void slotChildModelDestoroyed();
 private:
@@ -347,7 +347,7 @@ private:
     QString m_lastError;
     IDataSource::DatasourceMode m_mode;
     bool m_invalid;
-    DataSourceManager* m_dataManger;
+    DataSourceManager* m_dataManager;
 };
 
 class ModelToDataSource : public QObject, public IDataSource{

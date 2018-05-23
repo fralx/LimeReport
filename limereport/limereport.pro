@@ -28,7 +28,7 @@ DEFINES += LIMEREPORT_EXPORTS
 
 contains(CONFIG, staticlib){
     DEFINES += HAVE_STATIC_BUILD
-    message(Static Build)
+    message(STATIC_BUILD)
     DEFINES -= LIMEREPORT_EXPORTS
 }
 
@@ -90,7 +90,7 @@ contains(CONFIG,zint){
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es_ES ar fr
+    LANGUAGES = ru es_ES ar fr zh
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3
@@ -102,10 +102,10 @@ contains(CONFIG,build_translations){
     qtPrepareTool(LUPDATE, lupdate)
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    ts.commands = $$LUPDATE $$shell_quote($$PWD) -ts $$TRANSLATIONS
+    ts.commands = $$LUPDATE $$shell_quote($$PWD) -no-obsolete -ts $$TRANSLATIONS
 }
 lessThan(QT_MAJOR_VERSION, 5){
-    ts.commands = $$LUPDATE $$quote($$PWD) -ts $$TRANSLATIONS
+    ts.commands = $$LUPDATE $$quote($$PWD) -no-obsolete -ts $$TRANSLATIONS
 }
     TRANSLATIONS_FILES =
     qtPrepareTool(LRELEASE, lrelease)

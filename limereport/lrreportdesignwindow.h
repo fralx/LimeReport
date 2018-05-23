@@ -71,7 +71,6 @@ public:
     QSettings* settings();
     void restoreSetting();
     void setShowProgressDialog(bool value){m_showProgressDialog = value;}
-
 private slots:
     void slotNewReport();
     void slotNewPage();
