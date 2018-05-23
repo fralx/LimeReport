@@ -2,6 +2,60 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>$ClassName$</name>
+    <message>
+        <source>$ClassName$</source>
+        <translation>$ClassName$</translation>
+    </message>
+</context>
+<context>
+    <name>ChartItemEditor</name>
+    <message>
+        <source>Series editor</source>
+        <translation>数据系列编辑器</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>数据系列</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>增加</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <source>Values field</source>
+        <translation>取值字段</translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation>颜色</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <source>Labels field</source>
+        <translation>标签字段</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Series name</source>
+        <translation>系列名称</translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
@@ -22,6 +76,21 @@
     <message>
         <source>Attention</source>
         <translation>注意</translation>
+    </message>
+    <message>
+        <source>Mandatory</source>
+        <translation>必要</translation>
+    </message>
+</context>
+<context>
+    <name>LanguageSelectDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>对话框</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>语言</translation>
     </message>
 </context>
 <context>
@@ -296,7 +365,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> connected to </source>
-        <translation>连接到</translation>
+        <translation> 连接到 </translation>
     </message>
     <message>
         <source>Bring to top</source>
@@ -325,6 +394,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Start new page</source>
         <translation>开始新页</translation>
+    </message>
+    <message>
+        <source>Keep top space</source>
+        <translation>保持顶部距离</translation>
     </message>
 </context>
 <context>
@@ -357,6 +430,10 @@ p, li { white-space: pre-wrap; }
         <source>All borders</source>
         <translation>所有边框</translation>
     </message>
+    <message>
+        <source>Create Horizontal Layout</source>
+        <translation>创建水平布局</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDesc</name>
@@ -385,7 +462,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Server </source>
-        <translation>服务器</translation>
+        <translation>服务器 </translation>
     </message>
     <message>
         <source>Port</source>
@@ -441,11 +518,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connection with name </source>
-        <translation>连接</translation>
+        <translation>连接 </translation>
     </message>
     <message>
         <source> already exists! </source>
-        <translation>已经存在!</translation>
+        <translation> 已经存在! </translation>
     </message>
     <message>
         <source>defaultConnection</source>
@@ -457,6 +534,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Data</source>
         <translation>数据带</translation>
+    </message>
+    <message>
+        <source>Use alternate background color</source>
+        <translation>使用交替背景色</translation>
     </message>
 </context>
 <context>
@@ -604,6 +685,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>External variables</source>
         <translation>外部变量</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::DialogDesignerManager</name>
+    <message>
+        <source>Edit Widgets</source>
+        <translation>编辑组件</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>组件盒</translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation>对象观察器</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>属性编辑器</translation>
+    </message>
+    <message>
+        <source>Signals &amp;&amp; Slots Editor</source>
+        <translation>信号槽编辑器</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>资源编辑器</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>动作编辑器</translation>
     </message>
 </context>
 <context>
@@ -796,6 +908,42 @@ p, li { white-space: pre-wrap; }
         <source>VerticalUniform</source>
         <translation>均匀垂直</translation>
     </message>
+    <message>
+        <source>Pie</source>
+        <translation>饼状图</translation>
+    </message>
+    <message>
+        <source>VerticalBar</source>
+        <translation>柱状图</translation>
+    </message>
+    <message>
+        <source>HorizontalBar</source>
+        <translation>条形图</translation>
+    </message>
+    <message>
+        <source>LegendAlignTop</source>
+        <translation>图例靠上对齐</translation>
+    </message>
+    <message>
+        <source>LegendAlignCenter</source>
+        <translation>图例居中</translation>
+    </message>
+    <message>
+        <source>LegendAlignBottom</source>
+        <translation>图例靠下对齐</translation>
+    </message>
+    <message>
+        <source>TitleAlignLeft</source>
+        <translation>标题左对齐</translation>
+    </message>
+    <message>
+        <source>TitleAlignRight</source>
+        <translation>标题右对齐</translation>
+    </message>
+    <message>
+        <source>TitleAlignCenter</source>
+        <translation>标题居中</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -892,7 +1040,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wrong script syntax &quot;%1&quot; </source>
-        <translation>脚本语法错误 &quot;%1&quot;</translation>
+        <translation>脚本语法错误 &quot;%1&quot; </translation>
     </message>
     <message>
         <source>Item &quot;%1&quot; not found</source>
@@ -904,6 +1052,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Image</source>
         <translation>图像</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation>水印</translation>
     </message>
 </context>
 <context>
@@ -1018,6 +1170,14 @@ p, li { white-space: pre-wrap; }
         <source>Page Footer</source>
         <translation>页脚</translation>
     </message>
+    <message>
+        <source>Print on first page</source>
+        <translation>首页时打印</translation>
+    </message>
+    <message>
+        <source>Print on last page</source>
+        <translation>末页时打印</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::PageHeader</name>
@@ -1031,6 +1191,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Paste</source>
         <translation>粘贴</translation>
+    </message>
+    <message>
+        <source>Page is TOC</source>
+        <translation>目录页面</translation>
+    </message>
+    <message>
+        <source>Reset page number</source>
+        <translation>重置页数</translation>
+    </message>
+    <message>
+        <source>Full page</source>
+        <translation>全页</translation>
+    </message>
+    <message>
+        <source>Set page size to printer</source>
+        <translation>适合打印机纸张大小</translation>
     </message>
 </context>
 <context>
@@ -1148,7 +1324,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Page: </source>
-        <translation>页数:</translation>
+        <translation>页数: </translation>
     </message>
     <message>
         <source>Font</source>
@@ -1564,6 +1740,66 @@ p, li { white-space: pre-wrap; }
         <source>Warning</source>
         <translation>警告</translation>
     </message>
+    <message>
+        <source>endlessHeight</source>
+        <translation>无限高度</translation>
+    </message>
+    <message>
+        <source>extendedHeight</source>
+        <translation>扩展高度</translation>
+    </message>
+    <message>
+        <source>isExtendedInDesignMode</source>
+        <translation>设计模式扩展</translation>
+    </message>
+    <message>
+        <source>pageIsTOC</source>
+        <translation>目录页面</translation>
+    </message>
+    <message>
+        <source>setPageSizeToPrinter</source>
+        <translation>适合打印机纸张</translation>
+    </message>
+    <message>
+        <source>fillInSecondPass</source>
+        <translation>二次填充</translation>
+    </message>
+    <message>
+        <source>chartTitle</source>
+        <translation>图表标题</translation>
+    </message>
+    <message>
+        <source>chartType</source>
+        <translation>图表类型</translation>
+    </message>
+    <message>
+        <source>drawLegendBorder</source>
+        <translation>显示图例边框</translation>
+    </message>
+    <message>
+        <source>labelsField</source>
+        <translation>标签字段</translation>
+    </message>
+    <message>
+        <source>legendAlign</source>
+        <translation>图例对齐</translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation>数据系列</translation>
+    </message>
+    <message>
+        <source>titleAlign</source>
+        <translation>标题对齐</translation>
+    </message>
+    <message>
+        <source>watermark</source>
+        <translation>水印</translation>
+    </message>
+    <message>
+        <source>keepTopSpace</source>
+        <translation>保持顶部距离</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1604,6 +1840,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Wrong file format</source>
         <translation>文件格式错误</translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation>翻译</translation>
     </message>
 </context>
 <context>
@@ -1838,7 +2078,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> page rendered</source>
-        <translation>报表生成</translation>
+        <translation> 报表生成</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -1847,6 +2087,38 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>File &quot;%1&quot; not found!</source>
         <translation>未找到文件 &quot;%1&quot;!</translation>
+    </message>
+    <message>
+        <source>Delete dialog</source>
+        <translation>删除对话框</translation>
+    </message>
+    <message>
+        <source>Add new dialog</source>
+        <translation>新增对话框</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>组件盒</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>属性编辑器</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>动作编辑器</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>资源编辑器</translation>
+    </message>
+    <message>
+        <source>SignalSlot Editor</source>
+        <translation>信号槽编辑器</translation>
+    </message>
+    <message>
+        <source>Dialog Designer Tools</source>
+        <translation>对话框设计工具</translation>
     </message>
 </context>
 <context>
@@ -1870,6 +2142,22 @@ This preview is no longer valid.</source>
         <translation>报表文件 &quot;%1&quot; 重命名或删除。
 
 预览已无效。</translation>
+    </message>
+    <message>
+        <source>Designer not found!</source>
+        <translation>设计器未找到！</translation>
+    </message>
+    <message>
+        <source>Language %1 already exists</source>
+        <translation>语言 %1 已存在</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>警告</translation>
+    </message>
+    <message>
+        <source>The language will change after the application is restarted</source>
+        <translation>应用重启后语言版本将改变</translation>
     </message>
 </context>
 <context>
@@ -2056,10 +2344,29 @@ This preview is no longer valid.</source>
     </message>
 </context>
 <context>
+    <name>LimeReport::ScriptEditor</name>
+    <message>
+        <source>Form</source>
+        <translation>表格</translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation>数据</translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation>函数</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>无法创建对话框 %1</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>错误</translation>
     </message>
 </context>
 <context>
@@ -2105,10 +2412,6 @@ This preview is no longer valid.</source>
         <translation>日期时间</translation>
     </message>
     <message>
-        <source>Seconds</source>
-        <translation>秒</translation>
-    </message>
-    <message>
         <source>CurrencySymbol</source>
         <translation>货币符号</translation>
     </message>
@@ -2119,6 +2422,50 @@ This preview is no longer valid.</source>
     <message>
         <source>Name</source>
         <translation>名称</translation>
+    </message>
+    <message>
+        <source>Function manager with name &quot;%1&quot; already exists!</source>
+        <translation>函数管理器 %1 已存在！</translation>
+    </message>
+    <message>
+        <source>FieldName</source>
+        <translation>字段名</translation>
+    </message>
+    <message>
+        <source>Field %1 not found in %2!</source>
+        <translation>在 %2 中找不到字段 %1 ！</translation>
+    </message>
+    <message>
+        <source>Datasource</source>
+        <translation>数据源</translation>
+    </message>
+    <message>
+        <source>ValueField</source>
+        <translation>值字段</translation>
+    </message>
+    <message>
+        <source>KeyField</source>
+        <translation>键名字段</translation>
+    </message>
+    <message>
+        <source>KeyFieldValue</source>
+        <translation>键字段值</translation>
+    </message>
+    <message>
+        <source>Unique identifier</source>
+        <translation>唯一标识符</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>内容内容</translation>
+    </message>
+    <message>
+        <source>Indent</source>
+        <translation>缩进</translation>
+    </message>
+    <message>
+        <source>datasourceName</source>
+        <translation>数据源名称</translation>
     </message>
 </context>
 <context>
@@ -2154,6 +2501,14 @@ This preview is no longer valid.</source>
     <message>
         <source>Suppress absent fields and variables warning</source>
         <translation>抑制缺失字段及变量警告</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <source>Use dark theme</source>
+        <translation>使用暗色主题</translation>
     </message>
 </context>
 <context>
@@ -2238,6 +2593,14 @@ This preview is no longer valid.</source>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>未找到文本框 &quot;%1&quot;!</translation>
     </message>
+    <message>
+        <source>Transparent</source>
+        <translation>透明</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation>水印</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
@@ -2248,14 +2611,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Content</source>
         <translation>内容</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation>数据</translation>
-    </message>
-    <message>
-        <source>Functions</source>
-        <translation>函数</translation>
     </message>
     <message>
         <source>Editor settings</source>
@@ -2287,18 +2642,65 @@ This preview is no longer valid.</source>
     </message>
 </context>
 <context>
+    <name>LimeReport::TranslationEditor</name>
+    <message>
+        <source>Form</source>
+        <translation>表格</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>Pages</source>
+        <translation>页</translation>
+    </message>
+    <message>
+        <source>Strings</source>
+        <translation>字符串</translation>
+    </message>
+    <message>
+        <source>Source Text</source>
+        <translation>源文</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>译文</translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation>选中</translation>
+    </message>
+    <message>
+        <source>Report Item</source>
+        <translation>报表组件</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation>属性</translation>
+    </message>
+    <message>
+        <source>Source text</source>
+        <translation>源文</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::VariablesHolder</name>
     <message>
         <source>variable with name </source>
-        <translation>变量</translation>
+        <translation>变量 </translation>
     </message>
     <message>
         <source> already exists!</source>
-        <translation>已存在!</translation>
+        <translation> 已存在!</translation>
     </message>
     <message>
         <source> does not exists!</source>
-        <translation>不存在!</translation>
+        <translation> 不存在!</translation>
     </message>
 </context>
 <context>
@@ -2401,7 +2803,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source> and child </source>
-        <translation>子数据源</translation>
+        <translation> 子数据源 </translation>
     </message>
     <message>
         <source>datasouce &quot;%1&quot; not found!</source>
@@ -2502,6 +2904,26 @@ This preview is no longer valid.</source>
     <message>
         <source>Content is empty</source>
         <translation>字符串为空</translation>
+    </message>
+    <message>
+        <source>Chart Item</source>
+        <translation>图表组件</translation>
+    </message>
+    <message>
+        <source>First</source>
+        <translation>第一</translation>
+    </message>
+    <message>
+        <source>Second</source>
+        <translation>第二</translation>
+    </message>
+    <message>
+        <source>Thrid</source>
+        <translation>第三</translation>
+    </message>
+    <message>
+        <source>Datasource manager not found</source>
+        <translation>数据源管理器未找到</translation>
     </message>
 </context>
 </TS>
