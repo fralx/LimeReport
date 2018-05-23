@@ -585,9 +585,18 @@ PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
     return result;
 }
 
-void ReportEnginePrivate::emitSaveReport()
+bool ReportEnginePrivate::emitSaveReport()
 {
-    emit onSave();
+    bool result = false;
+    emit onSave(result);
+    return result;
+}
+
+bool ReportEnginePrivate::emitSaveReportAs()
+{
+    bool result = false;
+    emit onSaveAs(result);
+    return result;
 }
 
 bool ReportEnginePrivate::emitLoadReport()
@@ -600,6 +609,11 @@ bool ReportEnginePrivate::emitLoadReport()
 void ReportEnginePrivate::emitSaveFinished()
 {
     emit saveFinished();
+}
+
+void ReportEnginePrivate::emitLoadFinished()
+{
+    emit loadFinished();
 }
 
 void ReportEnginePrivate::emitPrintedToPDF(QString fileName)
@@ -750,7 +764,7 @@ bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPre
 
    bool result = slotLoadFromFile( fileName );
    if (result) {
-       emit loaded();
+       emit loadFinished();
    }
    return result;
 }
@@ -764,7 +778,7 @@ bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &nam
         if (reader->readItem(this)){
             m_fileName = "";
             m_reportName = name;
-            emit loaded();
+            emit loadFinished();
             return true;
         };
     }
@@ -781,7 +795,7 @@ bool ReportEnginePrivate::loadFromString(const QString &report, const QString &n
         if (reader->readItem(this)){
             m_fileName = "";
             m_reportName = name;
-            emit loaded();
+            emit loadFinished();
             return true;
         };
     }
@@ -1162,11 +1176,11 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
-    connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
+    connect(d, SIGNAL(onSave(bool&)), this, SIGNAL(onSave(bool&)));
+    connect(d, SIGNAL(onSaveAs(bool&)), this, SIGNAL(onSaveAs(bool&)));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
-
-    connect(d, SIGNAL(loaded()), this, SIGNAL(loaded()));
+    connect(d, SIGNAL(loadFinished()), this, SIGNAL(loadFinished()));
     connect(d, SIGNAL(printedToPDF(QString)), this, SIGNAL(printedToPDF(QString)));
     
     connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),

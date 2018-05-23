@@ -119,13 +119,12 @@ signals:
     void renderStarted();
     void renderFinished();
     void renderPageFinished(int renderedPageCount);
+    void onSave(bool& saved);
+    void onSaveAs(bool& saved);
     void onLoad(bool& loaded);
-    void onSave();
     void saveFinished();
-
-    void loaded();
+    void loadFinished();
     void printedToPDF(QString fileName);
-
     void getAviableLanguages(QList<QLocale::Language>* languages);
     void currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language getCurrentDefaultLanguage();
