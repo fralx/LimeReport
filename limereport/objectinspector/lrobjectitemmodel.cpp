@@ -149,7 +149,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("titleAlign");
     tr("watermark");
     tr("keepTopSpace");
-
+    tr("printable");
+    tr("AllLines");
 }
 
 void QObjectPropertyModel::clearObjectsList()
@@ -398,7 +399,7 @@ ObjectPropItem * QObjectPropertyModel::createPropertyItem(QMetaProperty prop, QO
                     0,
                     0,
                     QString(prop.name()),
-                    QString(prop.name()),
+                    QString(tr(prop.name())),
                     object->property(prop.name()),
                     parent
                  );
