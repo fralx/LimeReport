@@ -972,6 +972,10 @@ p, li { white-space: pre-wrap; }
         <source>RightLine</source>
         <translation>Правая граница</translation>
     </message>
+    <message>
+        <source>AllLines</source>
+        <translation>Внешние границы</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FontEditorWidget</name>
@@ -1810,8 +1814,8 @@ p, li { white-space: pre-wrap; }
         <translation>Печатать</translation>
     </message>
     <message>
-        <source>AllLines</source>
-        <translation>Все границы</translation>
+        <source>variable</source>
+        <translation>Переменная</translation>
     </message>
 </context>
 <context>
@@ -2161,14 +2165,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Language %1 already exists</source>
         <translation>Язык %1 уже существует</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Предупреждение</translation>
-    </message>
-    <message>
-        <source>The language will change after the application is restarted</source>
-        <translation>Язык будет изменен после перезапуска приложения</translation>
     </message>
 </context>
 <context>
