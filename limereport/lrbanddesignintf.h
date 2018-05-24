@@ -105,6 +105,8 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
+    Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
+    Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
     Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
     friend class BandNameLabel;
@@ -235,6 +237,8 @@ public:
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
     qreal bottomSpace() const;
+    void setBackgroundModeProperty(BGMode value);
+    void setBackgroundOpacity(int value);
 signals:
     void bandRendered(BandDesignIntf* band);        
 protected:

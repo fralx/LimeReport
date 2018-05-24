@@ -9,6 +9,7 @@ contains(CONFIG, static_build){
 !contains(CONFIG, staticlib){
     CONFIG += dll
     DEFINES += QZINT_LIBRARY
+
 }
 
 include(../../../common.pri)
@@ -26,7 +27,15 @@ unix{
 
 INCLUDEPATH += $$PWD/../backend
 DEFINES +=  _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS ZINT_VERSION=\\\"$$VERSION\\\"
-TARGET = QtZint
+
+CONFIG(debug, debug|release) {
+    TARGET = QtZintd
+} else {
+    TARGET = QtZint
+}
+
+
+
 
 !contains(DEFINES, NO_PNG) {
     SOURCES += $$PWD/../backend/png.c

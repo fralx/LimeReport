@@ -272,6 +272,8 @@ public:
     void setZValueProperty(qreal value);
     QString patternName() const;
     void setPatternName(const QString &patternName);
+    bool isWatermark() const;
+    virtual void setWatermark(bool watermark);
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -396,6 +398,7 @@ private:
     QColor  m_borderColor;
     ReportSettings* m_reportSettings;
     QString m_patternName;
+    bool m_watermark;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);

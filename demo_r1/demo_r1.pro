@@ -26,24 +26,37 @@ macx{
 }
 
 unix:{
-    LIBS += -L$${DEST_LIBS} -llimereport
-    !contains(CONFIG, static_build){
-        contains(CONFIG,zint){
-            LIBS += -L$${DEST_LIBS} -lQtZint
-        }
+    LIBS += -L$${DEST_LIBS}
+    CONFIG(debug, debug|release) {
+        LIBS += -llimereportd
+    } else {
+        LIBS += -llimereport
     }
-    DESTDIR = $$DEST_DIR
-#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
-linux{
-    #Link share lib to ../lib rpath
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
-    QMAKE_LFLAGS_RPATH += #. .. ./libs
-}
-    target.path = $${DEST_DIR}
-    INSTALLS = target
+
+    !contains(CONFIG, static_build){
+		contains(CONFIG,zint){
+			LIBS += -L$${DEST_LIBS}
+
+			CONFIG(debug, debug|release) {
+				LIBS += -lQtZintd
+			} else {
+				LIBS += -lQtZint
+			}
+		}
+	}
+	DESTDIR = $$DEST_DIR
+	#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
+	QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+		
+	linux{
+		#Link share lib to ../lib rpath
+		QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
+		QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
+		QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
+		QMAKE_LFLAGS_RPATH += #. .. ./libs
+	}
+	target.path = $${DEST_DIR}
+	INSTALLS = target
 }
 
 win32 {
@@ -56,11 +69,23 @@ win32 {
 
     QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     !contains(CONFIG, static_build){
-        contains(CONFIG,zint){
-            LIBS += -L$${DEST_LIBS} -lQtZint
-        }
+		
+		contains(CONFIG,zint){
+			LIBS += -L$${DEST_LIBS}
+			CONFIG(debug, debug|release) {
+				LIBS += -lQtZintd
+			} else {
+				LIBS += -lQtZint
+			}
+		}
     }
-    LIBS += -L$${DEST_LIBS} -llimereport
+	
+    LIBS += -L$${DEST_LIBS}
+	CONFIG(debug, debug|release) {
+		LIBS += -llimereportd
+	} else {
+		LIBS += -llimereport
+	}
 }
 
 

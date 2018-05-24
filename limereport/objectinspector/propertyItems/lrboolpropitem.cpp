@@ -67,23 +67,39 @@ void BoolPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *mod
     setValueToObject(propertyName(),propertyValue());
 }
 
+QPixmap BoolPropItem::getIndicatorImage(const StyleOptionViewItem &option){
+    QStyleOptionButton so;
+    so.state = option.state;
+    if (!isValueReadonly())
+        so.state = QStyle::State_Enabled;
+    else
+        so.state &= ~QStyle::State_Enabled;
+    so.state |= propertyValue().toBool() ? QStyle::State_On : QStyle::State_Off;
+    so.rect = QRect(0,0,
+                    QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth),
+                    QApplication::style()->pixelMetric(QStyle::PM_IndicatorHeight));
+
+    QPixmap pixmap(so.rect.width(),so.rect.height());
+    pixmap.fill(Qt::transparent);
+    QPainter p(&pixmap);
+    option.widget->style()->drawPrimitive(QStyle::PE_IndicatorItemViewItemCheck,&so, &p);
+    return pixmap;
+}
+
 bool BoolPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index)
 {
+
+    QStyle* style = option.widget ? option.widget->style() : QApplication::style();
+
     if (index.column()==1){
-        QStyleOptionButton so;
-        int border = (option.rect.height() - QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth))/2;
-        so.rect = option.rect.adjusted(border,border,0,-border);
-        so.rect.setWidth(QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth));
-
-        if (!isValueReadonly())
-            so.state = QStyle::State_Enabled;
-        else
-            so.state &= ~QStyle::State_Enabled;
-
-        so.state |= propertyValue().toBool() ? QStyle::State_On : QStyle::State_Off;
-
-        option.widget->style()->drawPrimitive(QStyle::PE_IndicatorCheckBox,&so,painter);
-
+        int border = (option.rect.height() - style->pixelMetric(QStyle::PM_IndicatorWidth))/2;
+//        QStyleOptionButton so;
+//        so.rect = option.rect.adjusted(border,border,0,-border);
+//        so.rect.setWidth(style->pixelMetric(QStyle::PM_IndicatorWidth));
+//        so.rect.setHeight(style->pixelMetric(QStyle::PM_IndicatorHeight));
+//        so.state |= propertyValue().toBool() ? QStyle::State_On : QStyle::State_Off;
+//        style->drawPrimitive(QStyle::PE_IndicatorItemViewItemCheck,&so,painter);
+        painter->drawPixmap(option.rect.x()+border,option.rect.y()+border, getIndicatorImage(option));
         return true;
     } else return false;
 }

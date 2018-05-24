@@ -640,7 +640,10 @@ void ReportRender::renderPageItems(PageItemDesignIntf* patternPage)
     m_renderPageItem->restoreLinks();
     m_renderPageItem->updateSubItemsSize(FirstPass,m_datasources);
     foreach(BaseDesignIntf* item, pageItems){
-        item->setZValue(item->zValue()-100000);
+        if (!item->isWatermark())
+            item->setZValue(item->zValue()-100000);
+        else
+            item->setZValue(item->zValue()+100000);
     }
 }
 
@@ -705,8 +708,8 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
                     foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
                         renderBand(footer, 0);
-                        closeDataGroup(subBand);
                     }
+                    closeDataGroup(subBand);
                 }
 
                 foreach (BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)) {

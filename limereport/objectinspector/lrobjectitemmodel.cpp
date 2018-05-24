@@ -134,6 +134,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("condition");
     tr("groupFieldName");
     tr("keepGroupTogether");
+    tr("watermark");
 }
 
 void QObjectPropertyModel::clearObjectsList()
