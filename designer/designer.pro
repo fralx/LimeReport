@@ -8,6 +8,9 @@ contains(CONFIG,release) {
 }
 TEMPLATE = app
 
+HEADERS += \
+    designersettingmanager.h
+
 SOURCES += main.cpp \
     designersettingmanager.cpp
 
@@ -62,6 +65,5 @@ win32 {
 	}
 }
 
-HEADERS += \
-    designersettingmanager.h
+
 

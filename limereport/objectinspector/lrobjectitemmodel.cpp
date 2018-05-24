@@ -150,7 +150,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("watermark");
     tr("keepTopSpace");
     tr("printable");
-    tr("AllLines");
+    tr("variable");
 }
 
 void QObjectPropertyModel::clearObjectsList()

@@ -981,7 +981,6 @@ QLocale::Language ReportEnginePrivate::currentDesignerLanguage()
 void ReportEnginePrivate::setCurrentDesignerLanguage(QLocale::Language language)
 {
     m_currentDesignerLanguage = language;
-    QMessageBox::information(m_designerWindow, tr("Warning") ,tr("The language will change after the application is restarted"));
     emit currentDefaulLanguageChanged(language);
 }
 

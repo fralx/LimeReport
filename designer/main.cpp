@@ -9,8 +9,6 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     DesignerSettingManager manager;
 
-
-
     QTranslator limeReportTranslator;
     QTranslator qtTranslator;
     QString translationPath = QApplication::applicationDirPath();

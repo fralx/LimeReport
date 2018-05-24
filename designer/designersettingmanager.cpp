@@ -1,4 +1,5 @@
 #include "designersettingmanager.h"
+#include <QMessageBox>
 
 DesignerSettingManager::DesignerSettingManager(QObject *parent) : QObject(parent)
 {
@@ -33,6 +34,7 @@ QLocale::Language DesignerSettingManager::getCurrentDefaultLanguage()
 
 void DesignerSettingManager::currentDefaulLanguageChanged(QLocale::Language language)
 {
+    QMessageBox::information(0, tr("Warning") , tr("The language will change after the application is restarted"));
     m_setting->beginGroup("ReportDesigner");
     m_setting->setValue("DesignerLanguage", (int)language);
     m_setting->endGroup();

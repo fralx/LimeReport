@@ -13,8 +13,6 @@ public:
     explicit DesignerSettingManager(QObject *parent = 0);
     ~DesignerSettingManager();
     void setApplicationInstance(QApplication* application);
-signals:
-
 public slots:
     void getAviableLanguages(QList<QLocale::Language>* languages);
     QLocale::Language getCurrentDefaultLanguage();

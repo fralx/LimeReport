@@ -467,7 +467,7 @@ bool ReportDesignWidget::loadFromFile(const QString &fileName)
 //        m_scriptEditor->restoreState(editorState);
 //        emit loaded();
 //        m_dialogChanged = false;
-//        return true;
+        return true;
     } else {
         QMessageBox::critical(this,tr("Error"),tr("Wrong file format"));
         return false;
