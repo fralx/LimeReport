@@ -94,21 +94,6 @@
     </message>
 </context>
 <context>
-    <name>LimeReport::AVariablesHolder</name>
-    <message>
-        <source>variable with name </source>
-        <translation type="obsolete">variable con el nombre</translation>
-    </message>
-    <message>
-        <source> already exists !!</source>
-        <translation type="obsolete">ya existe !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="obsolete">no existe !!</translation>
-    </message>
-</context>
-<context>
     <name>LimeReport::AboutDialog</name>
     <message>
         <source>About</source>
@@ -398,6 +383,10 @@ p, li { white-space: pre-wrap; }
         <source>Start new page</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Keep top space</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -427,6 +416,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>All borders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create Horizontal Layout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -504,10 +497,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> already exists </source>
-        <translation type="vanished">ya existe</translation>
-    </message>
-    <message>
         <source>Use default application connection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -523,12 +512,9 @@ p, li { white-space: pre-wrap; }
         <source> already exists! </source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>LimeReport::ContentItemDesignIntf</name>
     <message>
-        <source>Variable %1 not found</source>
-        <translation type="vanished">Variable %1 no encontrada</translation>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -538,7 +524,7 @@ p, li { white-space: pre-wrap; }
         <translation>Datos</translation>
     </message>
     <message>
-        <source>useAlternateBackgroundColor</source>
+        <source>Use alternate background color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -595,14 +581,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Delete variable</source>
         <translation>Borrarvariable</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete &quot;%1&quot; connection ?</source>
-        <translation type="vanished">Realmente quieres borrar  la conexion &quot;%1&quot;?</translation>
-    </message>
-    <message>
-        <source>User variables</source>
-        <translation type="obsolete">Variables de usuario</translation>
     </message>
     <message>
         <source>System variables</source>
@@ -977,6 +955,10 @@ p, li { white-space: pre-wrap; }
         <source>RightLine</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>AllLines</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FontEditorWidget</name>
@@ -1061,6 +1043,10 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::ImageItem</name>
     <message>
         <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1174,6 +1160,14 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PageFooter</name>
     <message>
         <source>Page Footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print on first page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print on last page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1790,6 +1784,22 @@ p, li { white-space: pre-wrap; }
         <source>titleAlign</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>keepTopSpace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>variable</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1920,14 +1930,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Horizontal layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide left panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide right panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2108,6 +2110,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Report has been modified! Do you want save the report?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide left panel | Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide right panel | Alt+R</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2384,10 +2394,6 @@ This preview is no longer valid.</source>
         <translation type="unfinished">Nombre</translation>
     </message>
     <message>
-        <source>Function manger with name &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>GROUP FUNCTIONS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2447,6 +2453,10 @@ This preview is no longer valid.</source>
         <source>datasourceName</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Function manager with name &quot;%1&quot; already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
@@ -2484,6 +2494,10 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Use dark theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2573,6 +2587,10 @@ This preview is no longer valid.</source>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
@@ -2587,10 +2605,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Content</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="obsolete">Datos</translation>
     </message>
     <message>
         <source>Editor settings</source>
@@ -2669,14 +2683,6 @@ This preview is no longer valid.</source>
     <message>
         <source>variable with name </source>
         <translation type="unfinished">variable con el nombre</translation>
-    </message>
-    <message>
-        <source> already exists !!</source>
-        <translation type="obsolete">ya existe !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="obsolete">no existe !!</translation>
     </message>
     <message>
         <source> already exists!</source>

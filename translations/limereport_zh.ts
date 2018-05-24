@@ -967,6 +967,10 @@ p, li { white-space: pre-wrap; }
         <source>RightLine</source>
         <translation>右边框</translation>
     </message>
+    <message>
+        <source>AllLines</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FontEditorWidget</name>
@@ -1805,7 +1809,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>AllLines</source>
+        <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2158,14 +2162,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Language %1 already exists</source>
         <translation>语言 %1 已存在</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>警告</translation>
-    </message>
-    <message>
-        <source>The language will change after the application is restarted</source>
-        <translation>应用重启后语言版本将改变</translation>
     </message>
 </context>
 <context>
