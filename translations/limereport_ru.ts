@@ -1767,7 +1767,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>setPageSizeToPrinter</source>
-        <translation>Оправитьпараметры страницы в принтер</translation>
+        <translation>Отправить параметры страницы в принтер</translation>
     </message>
     <message>
         <source>fillInSecondPass</source>
