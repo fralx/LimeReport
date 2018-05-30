@@ -67,14 +67,16 @@ public:
     virtual DataSourceManager*      dataManager() = 0;
     virtual QString                 reportFileName() = 0;
     virtual void                    setReportFileName(const QString& reportFileName) = 0;
-    virtual void                    emitSaveFinished() = 0;
     virtual bool                    isNeedToSave() = 0;
-    virtual void                    emitSaveReport() = 0;
+    virtual bool                    emitSaveReport() = 0;
+    virtual bool                    emitSaveReportAs() = 0;
+    virtual void                    emitSaveFinished() = 0;
     virtual bool                    saveToFile(const QString& fileName = "") = 0;
     virtual bool                    isSaved() = 0;
     virtual QString                 reportName() = 0;
     virtual bool                    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange) = 0;
     virtual bool                    emitLoadReport() = 0;
+    virtual void                    emitLoadFinished() = 0;
     virtual void                    clearSelection() = 0;
     virtual bool                    printReport(QPrinter *printer=0) = 0;
     virtual void                    previewReport(PreviewHints hints = PreviewBarsUserSetting) = 0;
@@ -148,9 +150,11 @@ public:
     bool    isNeedToSave();
     QString lastError();
     ReportEngine * q_ptr;
-    void emitSaveReport();
+    bool emitSaveReport();
+    bool emitSaveReportAs();
     bool emitLoadReport();
     void emitSaveFinished();
+    void emitLoadFinished();
     void emitPrintedToPDF(QString fileName);
     bool isSaved();
     void setCurrentReportsDir(const QString& dirName);
@@ -193,11 +197,11 @@ signals:
     void    renderStarted();
     void    renderFinished();
     void    renderPageFinished(int renderedPageCount);
+    void    onSave(bool& saved);
+    void    onSaveAs(bool& saved);
     void    onLoad(bool& loaded);
-    void    onSave();
     void    saveFinished();
-
-    void    loaded();
+    void    loadFinished();
     void    printedToPDF(QString fileName);
 
     void    getAviableLanguages(QList<QLocale::Language>* languages);

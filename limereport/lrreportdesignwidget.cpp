@@ -79,7 +79,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QMa
 
     connect(dynamic_cast<QObject*>(m_report), SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
     connect(dynamic_cast<QObject*>(m_report), SIGNAL(cleared()), this, SIGNAL(cleared()));
-    connect(dynamic_cast<QObject*>(m_report), SIGNAL(loaded()), this, SLOT(slotReportLoaded()));
+    connect(dynamic_cast<QObject*>(m_report), SIGNAL(loadFinished()), this, SLOT(slotReportLoaded()));
 
     connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentTabChanged(int)));
 #ifdef HAVE_UI_LOADER
@@ -432,14 +432,15 @@ bool ReportDesignWidget::save()
 
     bool result = false;
 
-    if (!m_report->reportFileName().isEmpty()){
+    if (emitSaveReport()) {
+        result = true; // saved via signal
+    }
+    else if (!m_report->reportFileName().isEmpty()){
         if (m_report->saveToFile()){
             m_report->emitSaveFinished();
             result = true;
         }
-    }
-    else {
-        m_report->emitSaveReport();
+    } else {
         if (m_report->isSaved()) {
             m_report->emitSaveFinished();
             result = true;
@@ -449,6 +450,7 @@ bool ReportDesignWidget::save()
             result = true;
         };
     }
+
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     if (result){
         m_dialogChanged = false;
@@ -492,6 +494,16 @@ bool ReportDesignWidget::isNeedToSave()
     if(m_report)
         return (m_report->isNeedToSave() || m_dialogChanged);
     return false;
+}
+
+bool ReportDesignWidget::emitSaveReport()
+{
+    return m_report->emitSaveReport();
+}
+
+bool ReportDesignWidget::emitSaveReportAs()
+{
+    return m_report->emitSaveReportAs();
 }
 
 bool ReportDesignWidget::emitLoadReport()

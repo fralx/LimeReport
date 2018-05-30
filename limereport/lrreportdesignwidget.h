@@ -108,6 +108,8 @@ public:
     ReportEnginePrivateInterface* report(){return m_report;}
     QString reportFileName();
     bool isNeedToSave();
+    bool emitSaveReport();
+    bool emitSaveReportAs();
     bool emitLoadReport();
     void saveState(QSettings *settings);
     void loadState(QSettings *settings);

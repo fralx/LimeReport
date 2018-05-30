@@ -51,7 +51,7 @@ void ObjectBrowser::setReportEditor(ReportDesignWidget *report)
 {
     m_report=report;
     connect(m_report,SIGNAL(cleared()),this,SLOT(slotClear()));
-    connect(m_report, SIGNAL(loaded()), this, SLOT(slotReportLoaded()));
+    connect(m_report, SIGNAL(loadFinished()), this, SLOT(slotReportLoaded()));
     connect(m_report, SIGNAL(activePageChanged()), this, SLOT(slotActivePageChanged()));
 
     connect(m_report,SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
