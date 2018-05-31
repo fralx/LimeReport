@@ -798,7 +798,7 @@ void ReportDesignWidget::slotPagesLoadFinished()
 {
     applySettings();
     //setActivePage(m_report->pageAt(0));
-    emit loaded();
+    emit loadFinished();
 }
 
 void ReportDesignWidget::slotDialogDeleted(QString dialogName)
@@ -856,7 +856,7 @@ void ReportDesignWidget::slotReportLoaded()
     createTabs();
     m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
     m_scriptEditor->restoreState(editorState);
-    emit loaded();
+    emit loadFinished();
     m_dialogChanged = false;
 }
 

@@ -125,6 +125,7 @@ signals:
     void saveFinished();
     void loadFinished();
     void printedToPDF(QString fileName);
+
     void getAviableLanguages(QList<QLocale::Language>* languages);
     void currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language getCurrentDefaultLanguage();

@@ -35,7 +35,7 @@
 namespace LimeReport{
 
 ObjectBrowser::ObjectBrowser(QWidget *parent)
-    :QWidget(parent), m_report(NULL), m_mainWindow(NULL),
+    :QWidget(parent), m_designerWidget(NULL), m_mainWindow(NULL),
       m_changingItemSelection(false), m_movingItem(false)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -47,28 +47,28 @@ ObjectBrowser::ObjectBrowser(QWidget *parent)
     m_treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
-void ObjectBrowser::setReportEditor(ReportDesignWidget *report)
+void ObjectBrowser::setReportEditor(ReportDesignWidget *designerWidget)
 {
-    m_report=report;
-    connect(m_report,SIGNAL(cleared()),this,SLOT(slotClear()));
-    connect(m_report, SIGNAL(loadFinished()), this, SLOT(slotReportLoaded()));
-    connect(m_report, SIGNAL(activePageChanged()), this, SLOT(slotActivePageChanged()));
+    m_designerWidget=designerWidget;
+    connect(m_designerWidget,SIGNAL(cleared()),this,SLOT(slotClear()));
+    connect(m_designerWidget, SIGNAL(loadFinished()), this, SLOT(slotReportLoaded()));
+    connect(m_designerWidget, SIGNAL(activePageChanged()), this, SLOT(slotActivePageChanged()));
 
-    connect(m_report,SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
+    connect(m_designerWidget,SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
             this, SLOT(slotItemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-    connect(m_report, SIGNAL(itemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
+    connect(m_designerWidget, SIGNAL(itemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
             this, SLOT(slotItemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-    connect(m_report, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
+    connect(m_designerWidget, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
-    connect(m_report, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
+    connect(m_designerWidget, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(m_treeView, SIGNAL(itemSelectionChanged()),
             this, SLOT(slotObjectTreeItemSelectionChanged()) );
-    connect(m_report, SIGNAL(itemSelected(LimeReport::BaseDesignIntf*)),
+    connect(m_designerWidget, SIGNAL(itemSelected(LimeReport::BaseDesignIntf*)),
             this, SLOT(slotItemSelected(LimeReport::BaseDesignIntf*)));
-    connect(m_report, SIGNAL(multiItemSelected()),
+    connect(m_designerWidget, SIGNAL(multiItemSelected()),
             this, SLOT(slotMultiItemSelected()) );
-    connect(m_report, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)),
+    connect(m_designerWidget, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)),
             this, SLOT(slotActivePageUpdated(LimeReport::PageDesignIntf*)));
     connect(m_treeView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*,int)));
@@ -113,15 +113,15 @@ void ObjectBrowser::buildTree(BaseDesignIntf* ignoredItem){
 
     m_treeView->clear();
     m_itemsMap.clear();
-    if (!m_report->activePage()) return;
+    if (!m_designerWidget->activePage()) return;
 
     ObjectBrowserNode *topLevelItem=new ObjectBrowserNode(m_treeView);
-    topLevelItem->setText(0,m_report->activePage()->objectName());
-    topLevelItem->setObject(m_report->activePage());
-    m_itemsMap.insert(m_report->activePage(),topLevelItem);
+    topLevelItem->setText(0,m_designerWidget->activePage()->objectName());
+    topLevelItem->setObject(m_designerWidget->activePage());
+    m_itemsMap.insert(m_designerWidget->activePage(),topLevelItem);
 
     m_treeView->addTopLevelItem(topLevelItem);
-    QList<QGraphicsItem*> itemsList = m_report->activePage()->items();
+    QList<QGraphicsItem*> itemsList = m_designerWidget->activePage()->items();
     foreach (QGraphicsItem* item, itemsList) {
         if (item != ignoredItem){
             BaseDesignIntf* reportItem = dynamic_cast<BaseDesignIntf*>(item);
@@ -212,20 +212,20 @@ void ObjectBrowser::slotItemDeleted(PageDesignIntf *, BaseDesignIntf *item)
 
 void ObjectBrowser::slotObjectTreeItemSelectionChanged()
 {
-    if (!m_changingItemSelection  && m_report->activePage()){
+    if (!m_changingItemSelection  && m_designerWidget->activePage()){
         m_changingItemSelection = true;
-        m_report->activePage()->clearSelection();
+        m_designerWidget->activePage()->clearSelection();
         foreach(QTreeWidgetItem* item, m_treeView->selectedItems()){
             ObjectBrowserNode* tn = dynamic_cast<ObjectBrowserNode*>(item);
             if (tn){
                 BaseDesignIntf* si = dynamic_cast<BaseDesignIntf*>(tn->object());
                 if (si) {
-                    m_report->activePage()->animateItem(si);
+                    m_designerWidget->activePage()->animateItem(si);
                     si->setSelected(true);
                     QPointF p = si->mapToScene(si->pos());
                     if (si->parentItem())
                         p = si->parentItem()->mapToScene(si->pos());
-                    m_report->activeView()->centerOn(p);
+                    m_designerWidget->activeView()->centerOn(p);
                 }
             }
         }
@@ -256,7 +256,7 @@ void ObjectBrowser::slotMultiItemSelected()
 
         m_treeView->selectionModel()->clear();
 
-        foreach(QGraphicsItem* item, m_report->activePage()->selectedItems()){
+        foreach(QGraphicsItem* item, m_designerWidget->activePage()->selectedItems()){
             BaseDesignIntf* bg = dynamic_cast<BaseDesignIntf*>(item);
             if (bg){
                 ObjectBrowserNode* node = m_itemsMap.value(bg);

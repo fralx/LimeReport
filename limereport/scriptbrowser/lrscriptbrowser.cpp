@@ -54,13 +54,13 @@ ScriptBrowser::~ScriptBrowser()
     delete ui;
 }
 
-void ScriptBrowser::setReportEditor(ReportDesignWidget* report)
+void ScriptBrowser::setReportEditor(ReportDesignWidget* designerWidget)
 {
-    m_report=report;
-    connect(m_report,SIGNAL(cleared()),this,SLOT(slotClear()));
-    connect(m_report,SIGNAL(loaded()),this,SLOT(slotUpdate()));
+    m_designerWidget=designerWidget;
+    connect(m_designerWidget,SIGNAL(cleared()),this,SLOT(slotClear()));
+    connect(m_designerWidget,SIGNAL(loadFinished()),this,SLOT(slotUpdate()));
 #ifdef HAVE_UI_LOADER
-    connect(m_report->scriptContext(), SIGNAL(dialogAdded(QString)), this, SLOT(slotDialogAdded(QString)));
+    connect(m_designerWidget->scriptContext(), SIGNAL(dialogAdded(QString)), this, SLOT(slotDialogAdded(QString)));
 #endif
     updateFunctionTree();
 }
@@ -163,9 +163,9 @@ void ScriptBrowser::on_tbAddDialog_clicked()
                     QWidget* widget = loader.load(&file);
                     QDialog* dialog = dynamic_cast<QDialog*>(widget);
                     if (dialog){
-                        if (!m_report->scriptContext()->containsDialog(dialog->objectName())){
+                        if (!m_designerWidget->scriptContext()->containsDialog(dialog->objectName())){
                             file.seek(0);
-                            m_report->scriptContext()->addDialog(dialog->objectName(),file.readAll());
+                            m_designerWidget->scriptContext()->addDialog(dialog->objectName(),file.readAll());
                             //updateDialogsTree();
                         } else {
                             QMessageBox::critical(this,tr("Error"),tr("Dialog with name: %1 already exists").arg(dialog->objectName()));
@@ -186,14 +186,14 @@ void ScriptBrowser::on_tbAddDialog_clicked()
 void ScriptBrowser::on_tbRunDialog_clicked()
 {
     if (ui->twDialogs->currentItem()&& ui->twDialogs->currentItem()->parent()==0){
-        m_report->scriptContext()->previewDialog(ui->twDialogs->currentItem()->text(0));
+        m_designerWidget->scriptContext()->previewDialog(ui->twDialogs->currentItem()->text(0));
     }
 }
 
 void ScriptBrowser::on_tbDeleteDialog_clicked()
 {
     if (ui->twDialogs->currentItem()&& ui->twDialogs->currentItem()->parent()==0){
-        m_report->scriptContext()->deleteDialog(ui->twDialogs->currentItem()->text(0));
+        m_designerWidget->scriptContext()->deleteDialog(ui->twDialogs->currentItem()->text(0));
         updateDialogsTree();
     }
 }

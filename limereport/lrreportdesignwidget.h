@@ -186,7 +186,7 @@ signals:
     void multiItemSelected();
     void commandHistoryChanged();
     void cleared();
-    void loaded();
+    void loadFinished();
     void activePageChanged();
     void activePageUpdated(LimeReport::PageDesignIntf*);
     void bandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*);
