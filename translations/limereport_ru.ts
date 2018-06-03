@@ -325,15 +325,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Keep bottom space</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранять нижний отступ</translation>
     </message>
     <message>
         <source>Start from new page</source>
-        <translation type="unfinished"></translation>
+        <translation>Начинать с новой страницы</translation>
     </message>
     <message>
         <source>Start new page</source>
-        <translation type="unfinished"></translation>
+        <translation>Начинать новую станицу</translation>
     </message>
 </context>
 <context>
@@ -458,7 +458,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Порт</translation>
     </message>
 </context>
 <context>
@@ -1635,6 +1635,14 @@ p, li { white-space: pre-wrap; }
         <source>repeatOnEachRow</source>
         <translation>Печатать на каждой странице</translation>
     </message>
+    <message>
+        <source>watermark</source>
+        <translation>Водяной знак</translation>
+    </message>
+    <message>
+        <source>replaceCRwithBR</source>
+        <translation>Заменять CR на BR</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1957,11 +1965,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Hide left panel | Alt+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть левую панель | Alt+L</translation>
     </message>
     <message>
         <source>Hide right panel | Alt+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть правую панель | Alt+R</translation>
     </message>
 </context>
 <context>
@@ -2239,7 +2247,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Секунды</translation>
     </message>
 </context>
 <context>
