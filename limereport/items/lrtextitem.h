@@ -73,6 +73,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(Qt::LayoutDirection textLayoutDirection READ textLayoutDirection WRITE setTextLayoutDirection)
     Q_PROPERTY(bool fillInSecondPass READ fillInSecondPass WRITE setFillInSecondPass)
     Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
+    Q_PROPERTY(bool replaceCRwithBR READ isReplaceCarriageReturns WRITE setReplaceCarriageReturns)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -168,11 +169,14 @@ public:
 
     void setWatermark(bool watermark);
     
+    bool isReplaceCarriageReturns() const;
+    void setReplaceCarriageReturns(bool isReplaceCarriageReturns);
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
-    QString replaceBR(QString text);
-    QString replaceReturns(QString text);
+    QString replaceBR(QString text) const;
+    QString replaceReturns(QString text) const;
     int fakeMarginSize() const;
     QString getTextPart(int height, int skipHeight);
     void restoreLinksEvent();
@@ -205,6 +209,7 @@ private:
     int m_underlineLineSize;
     bool m_allowHTML;
     bool m_allowHTMLInFields;
+    bool m_replaceCarriageReturns;
 
     QString m_format;
     ValueType m_valueType;

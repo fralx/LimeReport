@@ -1803,7 +1803,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>watermark</source>
-        <translation>водяной знак</translation>
+        <translation>Водяной знак</translation>
     </message>
     <message>
         <source>keepTopSpace</source>
@@ -1816,6 +1816,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>variable</source>
         <translation>Переменная</translation>
+    </message>
+    <message>
+        <source>replaceCRwithBR</source>
+        <translation>Заменять CR на BR</translation>
     </message>
 </context>
 <context>
@@ -2473,6 +2477,10 @@ This preview is no longer valid.</source>
     <message>
         <source>datasourceName</source>
         <translation>Имя источника данных</translation>
+    </message>
+    <message>
+        <source>Seconds</source>
+        <translation>Секунды</translation>
     </message>
 </context>
 <context>

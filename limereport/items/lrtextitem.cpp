@@ -61,7 +61,8 @@ namespace LimeReport{
 
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
-      m_allowHTMLInFields(false), m_followTo(""), m_follower(0), m_textIndent(0), m_textLayoutDirection(Qt::LayoutDirectionAuto)
+      m_allowHTMLInFields(false), m_replaceCarriageReturns(false), m_followTo(""), m_follower(0), m_textIndent(0),
+      m_textLayoutDirection(Qt::LayoutDirectionAuto)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -308,8 +309,10 @@ void TextItem::setContent(const QString &value)
 
 void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
+
     if (isNeedExpandContent())
         expandContent(dataManager, pass);
+
     if (!isLoading() && (autoHeight() || autoWidth() || hasFollower()) )
         initTextSizes();
 
@@ -350,12 +353,12 @@ bool TextItem::isNeedExpandContent() const
     return content().contains(rx) || isContentBackedUp();
 }
 
-QString TextItem::replaceBR(QString text)
+QString TextItem::replaceBR(QString text) const
 {
     return text.replace("<br/>","\n");
 }
 
-QString TextItem::replaceReturns(QString text)
+QString TextItem::replaceReturns(QString text) const
 {
     QString result = text.replace("\r\n","<br/>");
     result = result.replace("\n","<br/>");
@@ -484,7 +487,11 @@ TextItem::TextPtr TextItem::textDocument() const
     TextPtr text(new QTextDocument);
 
     if (allowHTML())
-        text->setHtml(m_strText);
+        if (isReplaceCarriageReturns()){
+            text->setHtml(replaceReturns(m_strText));
+        } else {
+            text->setHtml(m_strText);
+        }
     else
         text->setPlainText(m_strText);
 
@@ -528,6 +535,21 @@ TextItem::TextPtr TextItem::textDocument() const
     }
 
     return text;
+
+}
+
+bool TextItem::isReplaceCarriageReturns() const
+{
+    return m_replaceCarriageReturns;
+}
+
+void TextItem::setReplaceCarriageReturns(bool replaceCarriageReturns)
+{
+    if (replaceCarriageReturns != m_replaceCarriageReturns){
+        m_replaceCarriageReturns = replaceCarriageReturns;
+        update();
+        notify("replaceCRwithBR",!replaceCarriageReturns, replaceCarriageReturns);
+    }
 
 }
 

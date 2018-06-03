@@ -151,6 +151,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("keepTopSpace");
     tr("printable");
     tr("variable");
+    tr("replaceCRwithBR");
 }
 
 void QObjectPropertyModel::clearObjectsList()
