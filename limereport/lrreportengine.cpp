@@ -1181,6 +1181,7 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
     connect(d, SIGNAL(loadFinished()), this, SIGNAL(loadFinished()));
+    connect(d, SIGNAL(cleared()), this, SIGNAL(cleared()));
     connect(d, SIGNAL(printedToPDF(QString)), this, SIGNAL(printedToPDF(QString)));
     
     connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
