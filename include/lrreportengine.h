@@ -116,6 +116,7 @@ public:
     QList<QLocale::Language> designerLanguages();
     QLocale::Language currentDesignerLanguage();
 signals:
+    void cleared();
     void renderStarted();
     void renderFinished();
     void renderPageFinished(int renderedPageCount);

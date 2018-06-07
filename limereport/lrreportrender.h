@@ -162,6 +162,7 @@ private:
     void renderGroupFooterByHeader(BandDesignIntf *groupHeader);
     void updateTOC(BaseDesignIntf* item, int pageNumber);
     PagesRange& currentRange(bool isTOC = false){ return (isTOC) ? m_ranges.first(): m_ranges.last();}
+    void placeBandOnPage(BandDesignIntf *band, int columnIndex);
 private:
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
@@ -190,9 +191,10 @@ private:
     int             m_currentColumn;
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
-    unsigned long long m_curentNameIndex;
+    unsigned long long m_currentNameIndex;
     bool m_newPageStarted;
     bool            m_renderingFirstTOC;
+
 };
 } // namespace LimeReport
 #endif // LRREPORTRENDER_H

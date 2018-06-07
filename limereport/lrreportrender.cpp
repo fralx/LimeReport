@@ -47,6 +47,7 @@ void ReportRender::initColumns(){
     m_currentStartDataPos.clear();
     m_maxHeightByColumn.append(0);
     m_currentStartDataPos.append(0);
+    m_currentColumn = 0;
 }
 
 bool ReportRender::isNeedToRearrangeColumnsItems()
@@ -141,7 +142,7 @@ qreal ReportRender::maxColumnHeight()
 void ReportRender::renameChildItems(BaseDesignIntf *item){
     foreach(BaseDesignIntf* child, item->childBaseItems()){
         if (!child->childBaseItems().isEmpty()) renameChildItems(child);
-        child->setObjectName(child->metaObject()->className()+QString::number(++m_curentNameIndex));
+        child->setObjectName(child->metaObject()->className()+QString::number(++m_currentNameIndex));
     }
 }
 
@@ -189,7 +190,7 @@ void ReportRender::initDatasource(const QString& name){
 
 void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
 {
-    m_curentNameIndex = 0;
+    m_currentNameIndex = 0;
     m_patternPageItem = patternPage;
     m_renderingFirstTOC = isTOC && isFirst;
 
@@ -727,9 +728,7 @@ void ReportRender::renderChildBands(BandDesignIntf *parentBand)
         if (!band->datasourceName().isEmpty())
             ds = m_datasources->dataSource(band->datasourceName());
         if (ds) ds->first();
-        //renderChildHeader(band,PrintAlwaysPrintable);
         renderDataBand(band);
-        //renderChildFooter(band,PrintAlwaysPrintable);
         closeFooterGroup(band);
     }
 }
@@ -777,7 +776,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                 bool didGoBack = dataSource->prior();
                 foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
                     foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
-                        renderBand(footer, 0);
+                        renderBand(footer, 0, StartNewPageAsNeeded);
                     }
                     closeDataGroup(subBand);
                 }
@@ -959,10 +958,31 @@ qreal minVectorValue(QVector<qreal> vector){
     return curValue;
 }
 
+void ReportRender::placeBandOnPage(BandDesignIntf* band, int columnIndex){
+
+    qreal bandPos = m_currentStartDataPos[columnIndex];
+
+    m_currentStartDataPos[columnIndex] += band->height();
+    m_maxHeightByColumn[columnIndex] -= band->height();
+    band->setPos(m_renderPageItem->pageRect().x()+band->width()*columnIndex, bandPos);
+    band->setBandIndex(++m_currentIndex);
+    band->setColumnIndex(columnIndex);
+
+    m_renderPageItem->registerBand(band);
+    m_currentColumn = columnIndex;
+}
+
+bool isMultiColumnHeader(BandDesignIntf* band){
+    return ( (band->columnsCount() > 1 ) &&
+             (band->isHeader() &&
+             ((band->bandNestingLevel() == 0) || (band->columnsFillDirection() == BandDesignIntf::Horizontal))));
+}
+
 bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
 {
-    if (band->columnsCount()==1 && m_maxHeightByColumn.size()>1){
-        if (band->bandType()!=BandDesignIntf::PageFooter){
+
+    if (band->columnsCount() == 1 && m_maxHeightByColumn.size() > 1 ){
+        if (band->bandType() != BandDesignIntf::PageFooter){
             rearrangeColumnsItems();
             m_currentColumn = 0;
             qreal minValue = minVectorValue(m_maxHeightByColumn);
@@ -974,63 +994,64 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         }
     }
 
-    if ( (band->columnsCount()>1) &&
-         (!band->isHeader() || (band->bandNestingLevel()>0 && band->columnsFillDirection() != BandDesignIntf::Horizontal ))){
+    if (band->columnsCount() != m_maxHeightByColumn.size()){
+        for(int i=1;i<band->columnsCount();++i){
+            m_maxHeightByColumn.append(m_maxHeightByColumn[0]);
+            m_currentStartDataPos.append(m_currentStartDataPos[0]);
+        }
+        m_currentColumn = 0;
+    }
 
-        if (m_maxHeightByColumn.size()!=band->columnsCount()){
-            for(int i=1;i<band->columnsCount();++i){
-                m_maxHeightByColumn.append(m_maxHeightByColumn[0]);
-                m_currentStartDataPos.append(m_currentStartDataPos[0]);
-            }
-            m_currentColumn = 0;
+
+    if ( (band->columnsCount() > 1) &&
+         (!band->isHeader() || (band->bandNestingLevel() > 0 && band->columnsFillDirection() != BandDesignIntf::Horizontal ))){
+
+        if (band->columnsFillDirection() == BandDesignIntf::Horizontal){
+            if (m_currentColumn<band->columnsCount()-1)
+                m_currentColumn = m_currentColumn+1;
+            else
+                m_currentColumn = 0;
         } else {
-            if (band->columnsFillDirection()==BandDesignIntf::Horizontal){
-                if (m_currentColumn<band->columnsCount()-1)
-                    m_currentColumn = m_currentColumn+1;
-                else
-                    m_currentColumn = 0;
+            if ( (m_maxHeightByColumn[0] == m_maxHeightByColumn[m_currentColumn]) && (m_maxHeightByColumn[0] >= band->height()) ){
+                m_currentColumn = 0;
             }
         }
 
     }
 
-    if (band->height() <= m_maxHeightByColumn[m_currentColumn] || m_patternPageItem->endlessHeight()){
+    if (  (band->height() <= m_maxHeightByColumn[m_currentColumn]) ||
+          m_patternPageItem->endlessHeight() ||
+          (isMultiColumnHeader(band) && (band->height() <= m_maxHeightByColumn[0]))
+    ){
 
-        if (band->bandType()==BandDesignIntf::PageFooter){
-           for (int i=0;i<m_maxHeightByColumn.size();++i)
+        if ( (band->bandType() == BandDesignIntf::PageFooter) ){
+           for (int i=0; i < m_maxHeightByColumn.size(); ++i)
                m_maxHeightByColumn[i]+=band->height();
-        } else {
-            m_maxHeightByColumn[m_currentColumn]-=band->height();
         }
 
-        if ( (band->columnsCount()>1) &&
-             (band->isHeader() && (band->bandNestingLevel()==0 || band->columnsFillDirection()==BandDesignIntf::Horizontal))){
+        if ( isMultiColumnHeader(band)){
 
-            qreal bandPos = m_currentStartDataPos[m_currentColumn];
-            m_currentStartDataPos[m_currentColumn]+=band->height();
-            for (int i=0;i<band->columnsCount();++i){
-                if (i!=0) band = dynamic_cast<BandDesignIntf*>(band->cloneItem(PreviewMode));
-                band->setPos(m_renderPageItem->pageRect().x()+band->width()*i,bandPos);
-                band->setBandIndex(++m_currentIndex);
-                band->setColumnIndex(i);
-                m_renderPageItem->registerBand(band);
+            if (!band->parent()){
+                for (int i = 0; i < band->columnsCount(); ++i){
+                    m_currentColumn = i;
+                    if (i != 0) band = dynamic_cast<BandDesignIntf*>(band->cloneItem(PreviewMode));
+                    placeBandOnPage(band, i);
+                }
+            } else {
+                placeBandOnPage(band, band->columnIndex());
             }
+
 
         } else {
 
-            if (band->bandType()!=BandDesignIntf::PageFooter){
-                band->setPos(m_renderPageItem->pageRect().x()+band->width()*m_currentColumn,
-                             m_currentStartDataPos[m_currentColumn]);
-                m_currentStartDataPos[m_currentColumn]+=band->height();
-                band->setBandIndex(++m_currentIndex);
-                band->setColumnIndex(m_currentColumn);
+            if (band->bandType() != BandDesignIntf::PageFooter){
+                placeBandOnPage(band, m_currentColumn);
             }
 
-            if (band->columnsCount()>1){
+            if (band->columnsCount() > 1){
                 m_columnedBandItems.append(band);
             }
 
-            m_renderPageItem->registerBand(band);
         }
 
         foreach(QList<BandDesignIntf*>* list,m_childBands.values()){
@@ -1046,7 +1067,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         }
 
         if (band->isData()) m_renderedDataBandCount++;
-        band->setObjectName(band->objectName()+QString::number(++m_curentNameIndex));
+        band->setObjectName(band->objectName()+QString::number(++m_currentNameIndex));
         renameChildItems(band);
         if (m_lastDataBand){
 #ifdef HAVE_QT4
@@ -1195,9 +1216,7 @@ void ReportRender::startNewColumn(){
 void ReportRender::startNewPage(bool isFirst)
 {
     m_renderPageItem = 0;
-    m_currentColumn = 0;
     m_newPageStarted = true;
-
     initColumns();
     initRenderPage();
 
@@ -1311,8 +1330,14 @@ void ReportRender::pasteGroups()
     m_popupedValues.clear();
 }
 
+bool bandLessThen(BandDesignIntf* b1, BandDesignIntf* b2){
+    return b1->bandIndex() < b2->bandIndex();
+}
+
 void ReportRender::checkLostHeadersOnPrevPage()
 {
+    QVector<BandDesignIntf*> lostHeaders;
+
     if (m_renderedPages.isEmpty()) return;
     PageItemDesignIntf::Ptr page = m_renderedPages.last();
     if (page->bands().isEmpty()) return;
@@ -1331,10 +1356,17 @@ void ReportRender::checkLostHeadersOnPrevPage()
         if (it.value()->isHeader()){
             if (it.value()->reprintOnEachPage()){
                 delete it.value();
-            } else { registerBand(it.value());}
+            } else { lostHeaders.append(it.value());}
             it.remove();
             it.previous();
         } else break;
+    }
+
+    if (lostHeaders.size() > 0){
+        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        foreach(BandDesignIntf* header, lostHeaders){
+            registerBand(header);
+        }
     }
 
 }
