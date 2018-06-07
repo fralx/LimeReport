@@ -880,8 +880,10 @@ void BandDesignIntf::setPrintIfEmpty(bool printIfEmpty)
 BandDesignIntf *BandDesignIntf::bandHeader()
 {
     foreach (BandDesignIntf* band, childBands()) {
-        if (band->isHeader() && !band->isGroupHeader())
+        if (band->isHeader() && !band->isGroupHeader()){
+            if (band->columnsCount() > 1) band->setColumnsFillDirection(this->columnsFillDirection());
             return band;
+        }
     }
     return 0;
 }
