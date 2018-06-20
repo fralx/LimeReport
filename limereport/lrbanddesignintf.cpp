@@ -437,7 +437,11 @@ bool BandDesignIntf::isNeedRender() const
 
 void BandDesignIntf::setTryToKeepTogether(bool value)
 {
-    m_tryToKeepTogether=value;
+    if (m_tryToKeepTogether != value){
+        m_tryToKeepTogether = value;
+        if (!isLoading())
+            notify("keepSubdetailTogether", !value, value);
+    }
 }
 
 bool BandDesignIntf::tryToKeepTogether()
@@ -506,6 +510,7 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     currAction->setChecked(autoHeight());
 
     currAction = menu.addAction(tr("Splittable"));
+    currAction->setEnabled(metaObject()->indexOfProperty("splittable") != -1);
     currAction->setCheckable(true);
     currAction->setChecked(isSplittable());
 
@@ -513,17 +518,10 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     currAction->setCheckable(true);
     currAction->setChecked(keepBottomSpaceOption());
 
-    currAction = menu.addAction(tr("Keep top space"));
+    currAction = menu.addAction(tr("Print if empty"));
     currAction->setCheckable(true);
-    currAction->setChecked(keepTopSpace());
+    currAction->setChecked(printIfEmpty());
 
-    currAction = menu.addAction(tr("Start from new page"));
-    currAction->setCheckable(true);
-    currAction->setChecked(startFromNewPage());
-
-    currAction = menu.addAction(tr("Start new page"));
-    currAction->setCheckable(true);
-    currAction->setChecked(startNewPage());
 }
 
 void BandDesignIntf::processPopUpAction(QAction *action)
@@ -537,15 +535,11 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Keep bottom space")) == 0){
         setProperty("keepBottomSpace",action->isChecked());
     }
-    if (action->text().compare(tr("Keep top space")) == 0){
-        setProperty("keepTopSpace",action->isChecked());
+
+    if (action->text().compare(tr("Print if empty")) == 0){
+        setProperty("printIfEmpty",action->isChecked());
     }
-    if (action->text().compare(tr("Start new page")) == 0){
-        setProperty("startNewPage",action->isChecked());
-    }
-    if (action->text().compare(tr("Start from new page")) == 0){
-        setProperty("startFromNewPage",action->isChecked());
-    }
+
 }
 
 void BandDesignIntf::recalcItems(DataSourceManager* dataManager)
@@ -867,7 +861,11 @@ bool BandDesignIntf::repeatOnEachRow() const
 
 void BandDesignIntf::setRepeatOnEachRow(bool repeatOnEachRow)
 {
-    m_repeatOnEachRow = repeatOnEachRow;
+    if (m_repeatOnEachRow != repeatOnEachRow){
+        m_repeatOnEachRow = repeatOnEachRow;
+        if (!isLoading())
+            notify("repeatOnEachRow", !m_repeatOnEachRow, m_repeatOnEachRow);
+    }
 }
 
 bool BandDesignIntf::printAlways() const
@@ -877,7 +875,11 @@ bool BandDesignIntf::printAlways() const
 
 void BandDesignIntf::setPrintAlways(bool printAlways)
 {
-    m_printAlways = printAlways;
+    if (m_printAlways != printAlways){
+        m_printAlways = printAlways;
+        if (!isLoading())
+            notify("printAlways", !m_printAlways, m_printAlways);
+    }
 }
 
 bool BandDesignIntf::startFromNewPage() const
@@ -923,7 +925,11 @@ bool BandDesignIntf::reprintOnEachPage() const
 
 void BandDesignIntf::setReprintOnEachPage(bool reprintOnEachPage)
 {
-    m_reprintOnEachPage = reprintOnEachPage;
+    if (m_reprintOnEachPage != reprintOnEachPage){
+        m_reprintOnEachPage = reprintOnEachPage;
+        if (!isLoading())
+            notify("reprintOnEachPage", !m_reprintOnEachPage, m_reprintOnEachPage);
+    }
 }
 
 int BandDesignIntf::columnIndex() const
@@ -943,7 +949,12 @@ bool BandDesignIntf::printIfEmpty() const
 
 void BandDesignIntf::setPrintIfEmpty(bool printIfEmpty)
 {
-    m_printIfEmpty = printIfEmpty;
+    if (m_printIfEmpty != printIfEmpty){
+        m_printIfEmpty = printIfEmpty;
+        if (!isLoading())
+            notify("printIfEmpty", !m_printIfEmpty, m_printIfEmpty);
+    }
+
 }
 
 BandDesignIntf *BandDesignIntf::bandHeader()
@@ -972,7 +983,11 @@ bool BandDesignIntf::sliceLastRow() const
 
 void BandDesignIntf::setSliceLastRow(bool sliceLastRow)
 {
-    m_sliceLastRow = sliceLastRow;
+    if (m_sliceLastRow != sliceLastRow){
+        m_sliceLastRow = sliceLastRow;
+        if (!isLoading())
+            notify("sliceLastRow", !sliceLastRow, sliceLastRow);
+    }
 }
 
 int BandDesignIntf::maxScalePercent() const

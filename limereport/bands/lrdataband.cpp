@@ -104,6 +104,16 @@ void DataBand::preparePopUpMenu(QMenu &menu)
     currAction->setCheckable(true);
     currAction->setChecked(sliceLastRow());
 
+    currAction = menu.addAction(tr("Start from new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startFromNewPage());
+
+    currAction = menu.addAction(tr("Start new page"));
+    currAction->setCheckable(true);
+    currAction->setChecked(startNewPage());
+
+
+
 }
 
 void DataBand::processPopUpAction(QAction *action)
@@ -123,6 +133,14 @@ void DataBand::processPopUpAction(QAction *action)
 
     if (action->text().compare(tr("Use alternate background color")) == 0){
         setProperty("useAlternateBackgroundColor",action->isChecked());
+    }
+
+    if (action->text().compare(tr("Start new page")) == 0){
+        setProperty("startNewPage",action->isChecked());
+    }
+
+    if (action->text().compare(tr("Start from new page")) == 0){
+        setProperty("startFromNewPage",action->isChecked());
     }
 
 }
@@ -159,7 +177,7 @@ void DataHeaderBand::processPopUpAction(QAction *action)
 {
     BandDesignIntf::processPopUpAction(action);
     if (action->text().compare(tr("Reprint on each page")) == 0){
-        setProperty("repeatOnEachPage",action->isChecked());
+        setProperty("reprintOnEachPage",action->isChecked());
     }
 
     if (action->text().compare(tr("Repeat on each row")) == 0){
