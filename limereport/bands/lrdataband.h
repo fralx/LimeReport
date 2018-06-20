@@ -54,6 +54,8 @@ public:
     bool isData() const {return true;}
 protected:
     QColor bandColor() const;
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 };
@@ -71,6 +73,9 @@ public:
     bool isUnique() const {return false;}
     bool isHeader() const {return true;}
     QColor bandColor() const {return QColor(Qt::darkGreen);}
+protected:
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0){
         return new DataHeaderBand(owner,parent);
@@ -88,6 +93,9 @@ public:
     bool isUnique() const {return false;}
     bool isFooter() const {return true;}
     QColor bandColor() const{return QColor(Qt::darkGreen);}
+protected:
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
 private:
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0){
         return new DataFooterBand(owner,parent);

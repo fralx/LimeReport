@@ -577,15 +577,19 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
             firstTime = false;
         }
 
-        m_reprintableBands.removeOne(dataBand->bandHeader());
+        if (!dataBand->keepFooterTogether())
+            m_reprintableBands.removeOne(dataBand->bandHeader());
 
         if (bandDatasource->prior()){
             renderGroupFooter(dataBand);
             bandDatasource->next();
         }
 
-        if (footer && !footer->printAlways())
+        if (footer && !footer->printAlways()){
             renderBand(footer, 0, StartNewPageAsNeeded);
+            if (dataBand->keepFooterTogether())
+                m_reprintableBands.removeOne(dataBand);
+        }
 
         datasources()->deleteVariable(varName);
 
@@ -593,8 +597,11 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         renderBand(dataBand, 0, StartNewPageAsNeeded);
     }
 
-    if (footer && footer->printAlways())
+    if (footer && footer->printAlways()){
         renderBand(footer, 0, StartNewPageAsNeeded);
+        if (dataBand->keepFooterTogether())
+            m_reprintableBands.removeOne(dataBand);
+    }
 }
 
 void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
