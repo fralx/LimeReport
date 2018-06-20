@@ -79,23 +79,6 @@ bool DataBand::isUnique() const
     return false;
 }
 
-void DataBand::preparePopUpMenu(QMenu &menu)
-{
-    DataBandDesignIntf::preparePopUpMenu(menu);
-
-    QAction* autoSplittableAction = menu.addAction(tr("Use alternate background color"));
-    autoSplittableAction->setCheckable(true);
-    autoSplittableAction->setChecked(useAlternateBackgroundColor());
-}
-
-void DataBand::processPopUpAction(QAction *action)
-{
-    DataBandDesignIntf::processPopUpAction(action);
-    if (action->text().compare(tr("Use alternate background color")) == 0){
-        setProperty("useAlternateBackgroundColor",action->isChecked());
-    }
-}
-
 QColor DataBand::bandColor() const
 {
     return QColor(Qt::darkGreen);
@@ -104,7 +87,12 @@ QColor DataBand::bandColor() const
 void DataBand::preparePopUpMenu(QMenu &menu)
 {
     BandDesignIntf::preparePopUpMenu(menu);
-    QAction* currAction = menu.addAction(tr("Keep footer together"));
+
+    QAction* currAction = menu.addAction(tr("Use alternate background color"));
+    currAction->setCheckable(true);
+    currAction->setChecked(useAlternateBackgroundColor());
+
+    currAction = menu.addAction(tr("Keep footer together"));
     currAction->setCheckable(true);
     currAction->setChecked(keepFooterTogether());
 
@@ -131,6 +119,10 @@ void DataBand::processPopUpAction(QAction *action)
 
     if (action->text().compare(tr("Slice last row")) == 0){
         setProperty("sliceLastRow",action->isChecked());
+    }
+
+    if (action->text().compare(tr("Use alternate background color")) == 0){
+        setProperty("useAlternateBackgroundColor",action->isChecked());
     }
 
 }

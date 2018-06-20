@@ -53,8 +53,6 @@ public:
     DataBand(QObject* owner = 0, QGraphicsItem* parent=0);
     bool isUnique() const;
     bool isData() const {return true;}
-    void preparePopUpMenu(QMenu &menu);
-    void processPopUpAction(QAction *action);
 protected:
     QColor bandColor() const;
     void preparePopUpMenu(QMenu &menu);
