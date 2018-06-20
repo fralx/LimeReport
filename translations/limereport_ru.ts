@@ -374,7 +374,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>TearOffBand</source>
-        <translation>Полоса отрыва</translation>
+        <translation>Полоса для отрывания</translation>
     </message>
     <message>
         <source>SubDetailBand</source>
@@ -390,19 +390,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Keep bottom space</source>
-        <translation>Сохранять отступ снизу</translation>
+        <translation>Сохранять нижний отступ</translation>
     </message>
     <message>
-        <source>Start from new page</source>
-        <translation>Начинать с новой страницы</translation>
-    </message>
-    <message>
-        <source>Start new page</source>
-        <translation>Начинать новую страницу</translation>
-    </message>
-    <message>
-        <source>Keep top space</source>
-        <translation>Сохранять отступ сверху</translation>
+        <source>Print if empty</source>
+        <translation>Печатать если пустой</translation>
     </message>
 </context>
 <context>
@@ -541,8 +533,28 @@ p, li { white-space: pre-wrap; }
         <translation>Данные</translation>
     </message>
     <message>
+        <source>Keep footer together</source>
+        <translation>Привязать колонтитул к данными</translation>
+    </message>
+    <message>
+        <source>Keep subdetail together</source>
+        <translation>Привязать подчиненные данные</translation>
+    </message>
+    <message>
+        <source>Slice last row</source>
+        <translation>Разрезать последнюю запись</translation>
+    </message>
+    <message>
+        <source>Start from new page</source>
+        <translation>Начинать с новой страницы</translation>
+    </message>
+    <message>
+        <source>Start new page</source>
+        <translation>Начинать новую станицу</translation>
+    </message>
+    <message>
         <source>Use alternate background color</source>
-        <translation>Использовать альтернативный цвет фона</translation>
+        <translation>Использовать альтернативную заливку</translation>
     </message>
 </context>
 <context>
@@ -638,12 +650,28 @@ p, li { white-space: pre-wrap; }
         <source>DataFooter</source>
         <translation>Завершение данных</translation>
     </message>
+    <message>
+        <source>Print always</source>
+        <translation>Печатать всегда</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
         <source>DataHeader</source>
         <translation>Заголовок данных</translation>
+    </message>
+    <message>
+        <source>Reprint on each page</source>
+        <translation>Печать на каждой странице</translation>
+    </message>
+    <message>
+        <source>Repeat on each row</source>
+        <translation>Повторять на каждой строке</translation>
+    </message>
+    <message>
+        <source>Print always</source>
+        <translation>Печатать всегда</translation>
     </message>
 </context>
 <context>
@@ -1675,7 +1703,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>columnCount</source>
-        <translation>Количество столбцов</translation>
+        <translation>Количество колонок</translation>
     </message>
     <message>
         <source>securityLevel</source>
@@ -2099,15 +2127,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Report has been modified! Do you want save the report?</source>
-        <translation>Отчет был изменен! Сохранить изменения?</translation>
+        <translation>Отчет был изменен! Хотите его сохранить?</translation>
     </message>
     <message>
         <source>Hide left panel | Alt+L</source>
-        <translation>Спрятать левую панель | Alt+L</translation>
+        <translation>Скрыть левую панель | Alt+L</translation>
     </message>
     <message>
         <source>Hide right panel | Alt+R</source>
-        <translation>Спрятать правую панель | Alt+R</translation>
+        <translation>Скрыть правую панель | Alt+R</translation>
     </message>
     <message>
         <source>Delete dialog</source>
@@ -2115,7 +2143,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Add new dialog</source>
-        <translation>Добавить диалог</translation>
+        <translation>Добавить новый диалог</translation>
     </message>
     <message>
         <source>Widget Box</source>
@@ -2139,7 +2167,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Dialog Designer Tools</source>
-        <translation>Панель Инструментов</translation>
+        <translation>Инструменты дизайнера диалогов</translation>
     </message>
 </context>
 <context>
@@ -2197,7 +2225,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Wrong using function %1</source>
-        <translation>Неверное использование функции %1</translation>
+        <translation>Не правильное использование функции %1</translation>
     </message>
     <message>
         <source>page index out of range</source>
@@ -2478,10 +2506,6 @@ This preview is no longer valid.</source>
         <source>datasourceName</source>
         <translation>Имя источника данных</translation>
     </message>
-    <message>
-        <source>Seconds</source>
-        <translation>Секунды</translation>
-    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
@@ -2602,11 +2626,11 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
-        <translation>Текстовый элемент %1 уже следует за %2 </translation>
+        <translation>Текстовый элемент &quot;%1&quot; уже следует за &quot;%2&quot; </translation>
     </message>
     <message>
         <source>TextItem &quot; %1 &quot; not found!</source>
-        <translation>Текстовый элемент %1 не найден!</translation>
+        <translation>Текстовый элемент &quot;%1&quot; не найден!</translation>
     </message>
     <message>
         <source>Transparent</source>
@@ -2910,7 +2934,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Wrong file format</source>
-        <translation>Неверный формат файла</translation>
+        <translation>Неправильный формат файла</translation>
     </message>
     <message>
         <source>Master datasource &quot;%1&quot; not found!</source>
