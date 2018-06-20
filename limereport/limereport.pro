@@ -102,10 +102,10 @@ contains(CONFIG,build_translations){
     qtPrepareTool(LUPDATE, lupdate)
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    ts.commands = $$LUPDATE $$shell_quote($$PWD) -no-obsolete -ts $$TRANSLATIONS
+    ts.commands = $$LUPDATE $$shell_quote($$PWD) -noobsolete -ts $$TRANSLATIONS
 }
 lessThan(QT_MAJOR_VERSION, 5){
-    ts.commands = $$LUPDATE $$quote($$PWD) -no-obsolete -ts $$TRANSLATIONS
+    ts.commands = $$LUPDATE $$quote($$PWD) -noobsolete -ts $$TRANSLATIONS
 }
     TRANSLATIONS_FILES =
     qtPrepareTool(LRELEASE, lrelease)
