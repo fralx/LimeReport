@@ -630,6 +630,12 @@ void ReportDesignWidget::addHLayout()
         activePage()->addHLayout();
 }
 
+void ReportDesignWidget::addVLayout()
+{
+    if (activePage())
+        activePage()->addVLayout();
+}
+
 void ReportDesignWidget::setFont(const QFont& font)
 {
     if (activePage())

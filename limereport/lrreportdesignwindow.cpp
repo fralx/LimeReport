@@ -221,6 +221,10 @@ void ReportDesignWindow::createActions()
     m_addHLayout->setIcon(QIcon(":/report/images/hlayout"));
     connect(m_addHLayout,SIGNAL(triggered()),this,SLOT(slotHLayout()));
 
+    m_addVLayout = new QAction(tr("Vertical layout"),this);
+    m_addVLayout->setIcon(QIcon(":/report/images/vlayout"));
+    connect(m_addVLayout,SIGNAL(triggered()),this,SLOT(slotVLayout()));
+
     m_aboutAction = new QAction(tr("About"),this);
     m_aboutAction->setIcon(QIcon(":/report/images/copyright"));
     connect(m_aboutAction,SIGNAL(triggered()),this,SLOT(slotShowAbout()));
@@ -258,6 +262,7 @@ void ReportDesignWindow::createReportToolBar()
     createItemsActions();
     m_reportToolBar->addSeparator();
     m_reportToolBar->addAction(m_addHLayout);
+    m_reportToolBar->addAction(m_addVLayout);
     m_reportToolBar->addSeparator();
     m_reportToolBar->addAction(m_deleteItemAction);
 
@@ -1169,6 +1174,11 @@ void ReportDesignWindow::slotEditLayoutMode()
 void ReportDesignWindow::slotHLayout()
 {
     m_reportDesignWidget->addHLayout();
+}
+
+void ReportDesignWindow::slotVLayout()
+{
+    m_reportDesignWidget->addVLayout();
 }
 
 void ReportDesignWindow::slotTest()

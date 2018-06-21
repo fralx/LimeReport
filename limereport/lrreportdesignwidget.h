@@ -150,6 +150,7 @@ public slots:
     void sameWidth();
     void editLayoutMode(bool value);
     void addHLayout();
+    void addVLayout();
     void setFont(const QFont &font);
     void setTextAlign(const bool &horizontalAlign, const Qt::AlignmentFlag &alignment);
     void setBorders(const BaseDesignIntf::BorderLines& borders);

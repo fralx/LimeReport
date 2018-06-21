@@ -74,6 +74,7 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(bool fillInSecondPass READ fillInSecondPass WRITE setFillInSecondPass)
     Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
     Q_PROPERTY(bool replaceCRwithBR READ isReplaceCarriageReturns WRITE setReplaceCarriageReturns)
+    Q_PROPERTY(bool hideIfEmpty READ hideIfEmpty WRITE setHideIfEmpty)
 public:
 
     enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
@@ -107,7 +108,7 @@ public:
 
     bool canBeSplitted(int height) const;
     bool isSplittable() const { return true;}
-    bool isEmpty() const{return m_strText.trimmed().isEmpty() /*m_text->isEmpty()*/;}
+    bool isEmpty() const{return m_strText.trimmed().isEmpty();}
     BaseDesignIntf* cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
@@ -172,6 +173,9 @@ public:
     bool isReplaceCarriageReturns() const;
     void setReplaceCarriageReturns(bool isReplaceCarriageReturns);
 
+    bool hideIfEmpty() const;
+    void setHideIfEmpty(bool hideIfEmpty);
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
@@ -193,8 +197,6 @@ private:
     TextPtr textDocument() const;
 private:
     QString m_strText;
-    //QTextLayout m_layout;
-    //QTextDocument* m_text;    
     Qt::Alignment m_alignment;
     bool m_autoHeight;
     AutoWidth m_autoWidth;
@@ -217,6 +219,7 @@ private:
     TextItem* m_follower;
     qreal m_textIndent;
     Qt::LayoutDirection m_textLayoutDirection;
+    bool m_hideIfEmpty;
 
 };
 

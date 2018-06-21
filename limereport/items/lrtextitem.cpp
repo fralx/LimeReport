@@ -62,7 +62,7 @@ namespace LimeReport{
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
       m_allowHTMLInFields(false), m_replaceCarriageReturns(false), m_followTo(""), m_follower(0), m_textIndent(0),
-      m_textLayoutDirection(Qt::LayoutDirectionAuto)
+      m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -115,6 +115,11 @@ void TextItem::preparePopUpMenu(QMenu &menu)
     action = menu.addAction(tr("Watermark"));
     action->setCheckable(true);
     action->setChecked(isWatermark());
+
+    action = menu.addAction(tr("Hide if empty"));
+    action->setCheckable(true);
+    action->setChecked(hideIfEmpty());
+
 }
 
 void TextItem::processPopUpAction(QAction *action)
@@ -143,6 +148,10 @@ void TextItem::processPopUpAction(QAction *action)
     }
     if (action->text().compare(tr("Watermark")) == 0){
         page()->setPropertyToSelectedItems("watermark",action->isChecked());
+    }
+
+    if (action->text().compare(tr("Hide if empty")) == 0){
+        page()->setPropertyToSelectedItems("hideIfEmpty",action->isChecked());
     }
 }
 
@@ -329,6 +338,7 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
         }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
+    if (isEmpty() && hideIfEmpty()) setVisible(false);
 }
 
 void TextItem::updateLayout()
@@ -536,6 +546,19 @@ TextItem::TextPtr TextItem::textDocument() const
 
     return text;
 
+}
+
+bool TextItem::hideIfEmpty() const
+{
+    return m_hideIfEmpty;
+}
+
+void TextItem::setHideIfEmpty(bool hideEmpty)
+{
+    if (m_hideIfEmpty != hideEmpty){
+        m_hideIfEmpty = hideEmpty;
+        notify("hideIfEmpty",!m_hideIfEmpty, m_hideIfEmpty);
+    }
 }
 
 bool TextItem::isReplaceCarriageReturns() const

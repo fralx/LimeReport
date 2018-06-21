@@ -1224,15 +1224,19 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         pasteAction->setEnabled(true);
     }
     menu.addSeparator();
-    QAction* brinToTopAction = menu.addAction(QIcon(":/report//images/bringToTop"), tr("Bring to top"));
-    QAction* sendToBackAction = menu.addAction(QIcon(":/report//images/sendToBack"), tr("Send to back"));
+    QAction* brinToTopAction = menu.addAction(QIcon(":/report/images/bringToTop"), tr("Bring to top"));
+    QAction* sendToBackAction = menu.addAction(QIcon(":/report/images/sendToBack"), tr("Send to back"));
     QAction* createHLayout = 0;
     if( page->selectedItems().count()>1){
         createHLayout =  menu.addAction(QIcon(":/report/images/hlayout"), tr("Create Horizontal Layout"));
     }
+    QAction* createVLayout = 0;
+    if( page->selectedItems().count()>1){
+        createVLayout =  menu.addAction(QIcon(":/report/images/vlayout"), tr("Create Vertical Layout"));
+    }
     menu.addSeparator();
-    QAction* noBordersAction = menu.addAction(QIcon(":/report//images/noLines"), tr("No borders"));
-    QAction* allBordersAction = menu.addAction(QIcon(":/report//images/allLines"), tr("All borders"));
+    QAction* noBordersAction = menu.addAction(QIcon(":/report/images/noLines"), tr("No borders"));
+    QAction* allBordersAction = menu.addAction(QIcon(":/report/images/allLines"), tr("All borders"));
     preparePopUpMenu(menu);
     QAction* a = menu.exec(event->screenPos());
     if (a){
@@ -1255,6 +1259,8 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             page->setBorders(BaseDesignIntf::AllLines);
         if (a == createHLayout)
             page->addHLayout();
+        if (a == createVLayout)
+            page->addVLayout();
         processPopUpAction(a);
     }
 }

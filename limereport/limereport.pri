@@ -45,6 +45,9 @@ SOURCES += \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
     $$REPORT_PATH/items/lrshapeitem.cpp \
     $$REPORT_PATH/items/lrtextitem.cpp \
+    $$REPORT_PATH/items/lrverticallayout.cpp \
+    $$REPORT_PATH/items/lrlayoutmarker.cpp \
+    $$REPORT_PATH/items/lrabstractlayout.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
     $$REPORT_PATH/lrpagedesignintf.cpp \
@@ -70,6 +73,7 @@ SOURCES += \
     $$REPORT_PATH/items/lrchartitem.cpp \
     $$REPORT_PATH/items/lrchartitemeditor.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp
+
 
 contains(CONFIG, embedded_designer){
 SOURCES += \
@@ -152,6 +156,9 @@ HEADERS += \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
+    $$REPORT_PATH/items/lrverticallayout.h \
+    $$REPORT_PATH/items/lrlayoutmarker.h \
+    $$REPORT_PATH/items/lrabstractlayout.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
     $$REPORT_PATH/lrbandsmanager.h \
@@ -188,6 +195,7 @@ HEADERS += \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.h \
     $$REPORT_PATH/lrreporttranslation.h \
     $$REPORT_PATH/lrreportdesignwindowintrerface.h
+
 
 contains(CONFIG, embedded_designer){
 HEADERS += \

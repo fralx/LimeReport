@@ -31,6 +31,7 @@
 #include "lrbasedesignintf.h"
 #include "lrtextitem.h"
 #include "lrhorizontallayout.h"
+#include "lrverticallayout.h"
 //#include "lrbarcodeitem.h"
 #include "lrbanddesignintf.h"
 #include "lrbandsmanager.h"
@@ -1546,6 +1547,46 @@ void PageDesignIntf::addHLayout()
 
 }
 
+void PageDesignIntf::addVLayout()
+{
+    if (selectedItems().isEmpty()) return;
+
+    QList<QGraphicsItem *> si = selectedItems();
+    QList<QGraphicsItem *>::iterator it = si.begin();
+
+    int itemsCount = 0;
+    for (; it != si.end();) {
+        if (dynamic_cast<ItemDesignIntf *>(*it)){
+            itemsCount++;
+            break;
+        }
+        ++it;
+    };
+
+    if (itemsCount == 0) return;
+
+    for (; it != si.end();) {
+        if (!dynamic_cast<ItemDesignIntf *>(*it)) {
+            (*it)->setSelected(false);
+            it = si.erase(it);
+        }
+        else ++it;
+    }
+
+    if (!si.isEmpty()){
+        it = si.begin();
+        QGraphicsItem* elementsParent = (*it)->parentItem();
+        for (; it != si.end();++it) {
+            if ((*it)->parentItem()!=elementsParent){
+                QMessageBox::information(0,QObject::tr("Attention!"),QObject::tr("Selected elements have different parent containers"));
+                return;
+            }
+        }
+        CommandIf::Ptr cm = InsertVLayoutCommand::create(this);
+        saveCommand(cm,true);
+    }
+}
+
 bool hLayoutLessThen(QGraphicsItem *c1, QGraphicsItem *c2)
 {
     return c1->pos().x() < c2->pos().x();
@@ -1582,6 +1623,50 @@ HorizontalLayout* PageDesignIntf::internalAddHLayout()
 
             layout->setObjectName(genObjectName(*layout));
             layout->setItemTypeName("HorizontalLayout");
+            layout->setSelected(true);
+            registerItem(layout);
+            return layout;
+        }
+    }
+    return 0;
+}
+
+bool vLayoutLessThen(QGraphicsItem *c1, QGraphicsItem *c2)
+{
+    return c1->pos().y() < c2->pos().y();
+}
+
+VerticalLayout* PageDesignIntf::internalAddVLayout()
+{
+    if (m_firstSelectedItem && (selectedItems().count() > 1)) {
+
+        QList<QGraphicsItem *> si = selectedItems();
+        QList<QGraphicsItem *>::iterator it = si.begin();
+        qSort(si.begin(), si.end(), vLayoutLessThen);
+        it = si.begin();
+
+        if (si.count() > 1) {
+
+            it = si.begin();
+            ItemDesignIntf *firstElement = dynamic_cast<ItemDesignIntf *>(*it);
+
+            VerticalLayout *layout = new VerticalLayout(firstElement->parent(), firstElement->parentItem());
+            layout->setItemLocation(firstElement->itemLocation());
+            layout->setPos(firstElement->pos());
+            layout->setWidth(firstElement->width());
+            layout->setHeight(0);
+
+            for (; it != si.end(); ++it) {
+                BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(*it);
+                layout->addChild(bdItem);
+            }
+
+            foreach(QGraphicsItem * item, selectedItems()) {
+                item->setSelected(false);
+            }
+
+            layout->setObjectName(genObjectName(*layout));
+            layout->setItemTypeName("VerticalLayout");
             layout->setSelected(true);
             registerItem(layout);
             return layout;
@@ -2240,7 +2325,59 @@ qreal ItemProjections::square(QRectF rect)
 
 qreal ItemProjections::square(BaseDesignIntf *item)
 {
-   return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
+    return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
+}
+
+CommandIf::Ptr InsertVLayoutCommand::create(PageDesignIntf* page)
+{
+    InsertVLayoutCommand *command = new InsertVLayoutCommand();
+    command->setPage(page);
+
+    QList<QGraphicsItem *> si = page->selectedItems();
+    QList<QGraphicsItem *>::iterator it = si.begin();
+
+    BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>((*it)->parentItem());
+    command->m_oldParentName = (parentItem)?(parentItem->objectName()):"";
+
+    for(it = si.begin();it!=si.end();++it){
+        BaseDesignIntf* bi = dynamic_cast<BaseDesignIntf*>(*it);
+        if (bi)
+            command->m_elements.insert(bi->objectName(),bi->pos());
+    }
+
+    return CommandIf::Ptr(command);
+}
+
+bool InsertVLayoutCommand::doIt()
+{
+    foreach (QString itemName, m_elements.keys()) {
+        BaseDesignIntf* bi = page()->reportItemByName(itemName);
+        if (bi)
+          bi->setSelected(true);
+    }
+    LayoutDesignIntf* layout = page()->internalAddVLayout();
+    if (layout)
+        m_layoutName = layout->objectName();
+    return layout != 0;
+}
+
+void InsertVLayoutCommand::undoIt()
+{
+    VerticalLayout* layout = dynamic_cast<VerticalLayout*>(page()->reportItemByName(m_layoutName));
+    if (layout){
+        foreach(QGraphicsItem* item, layout->childBaseItems()){
+            BaseDesignIntf* bi = dynamic_cast<BaseDesignIntf*>(item);
+            BaseDesignIntf* parent = page()->reportItemByName(m_oldParentName);
+            if (bi && parent){
+                bi->setParentItem(parent);
+                bi->setParent(parent);
+                bi->setPos(m_elements.value(bi->objectName()));
+                bi->setFixedPos(false);
+                bi->setPossibleResizeDirectionFlags(BaseDesignIntf::AllDirections);
+            }
+        }
+        page()->removeReportItem(layout,false);
+    }
 }
 
 }

@@ -92,6 +92,7 @@ private slots:
     void slotDelete();
     void slotEditLayoutMode();
     void slotHLayout();
+    void slotVLayout();
     void slotItemSelected(LimeReport::BaseDesignIntf *item);
     void slotItemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant &oldValue, const QVariant &newValue);
     void slotMultiItemSelected();
@@ -223,6 +224,7 @@ private:
     QAction* m_aboutAction;
     QAction* m_editLayoutMode;
     QAction* m_addHLayout;
+    QAction* m_addVLayout;
     QAction* m_hideLeftPanel;
     QAction* m_hideRightPanel;
 #ifdef HAVE_QTDESIGNER_INTEGRATION

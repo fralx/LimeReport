@@ -43,6 +43,7 @@ namespace LimeReport {
     class ReportEnginePrivate;
     class PropertyChangedCommand;
     class HorizontalLayout;
+    class VerticalLayout;
     class LayoutDesignIntf;
 
     class CommandIf {
@@ -102,6 +103,7 @@ namespace LimeReport {
         public:
             friend class PropertyChangedCommand;
             friend class InsertHLayoutCommand;
+            friend class InsertVLayoutCommand;
             enum Orientation {Portrait, Landscape};
             enum PageSize {A4, B5, Letter, Legal, Executive,
                            A0, A1, A2, A3, A5, A6, A7, A8, A9, B0, B1,
@@ -208,6 +210,7 @@ namespace LimeReport {
             void objectLoadFinished();
 
             HorizontalLayout* internalAddHLayout();
+            VerticalLayout* internalAddVLayout();
             QPointF placePosOnGrid(QPointF point);
             QSizeF placeSizeOnGrid(QSizeF size);
     signals:
@@ -250,6 +253,7 @@ namespace LimeReport {
             void sameWidth();
             void sameHeight();
             void addHLayout();
+            void addVLayout();
             void setFont(const QFont &font);
             void setTextAlign(const Qt::Alignment& alignment);
             void setBorders(const BaseDesignIntf::BorderLines& border);
@@ -333,6 +337,19 @@ namespace LimeReport {
         void undoIt();
     private:
         InsertHLayoutCommand(){}
+    private:
+        QString m_layoutName;
+        QString m_oldParentName;
+        QMap<QString,QPointF> m_elements;
+    };
+
+    class InsertVLayoutCommand : public AbstractPageCommand{
+    public:
+        static CommandIf::Ptr create(PageDesignIntf* page);
+        bool doIt();
+        void undoIt();
+    private:
+        InsertVLayoutCommand(){}
     private:
         QString m_layoutName;
         QString m_oldParentName;

@@ -141,6 +141,8 @@ void EnumPropItem::translateEnumItemName()
     tr("TitleAlignLeft");
     tr("TitleAlignRight");
     tr("TitleAlignCenter");
+    tr("Layout");
+    tr("Table");
 }
 
 void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const

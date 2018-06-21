@@ -152,6 +152,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("printable");
     tr("variable");
     tr("replaceCRwithBR");
+    tr("hideIfEmpty");
+    tr("hideEmptyItems");
 }
 
 void QObjectPropertyModel::clearObjectsList()

@@ -182,5 +182,6 @@
         <file alias="/images/property">images/property.png</file>
         <file alias="/images/signal">images/signal.png</file>
         <file alias="/images/object">images/object.png</file>
+        <file alias="/images/vlayout">images/vlayuot_4_24.png</file>
     </qresource>
 </RCC>
