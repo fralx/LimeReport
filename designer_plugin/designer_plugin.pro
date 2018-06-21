@@ -1,6 +1,8 @@
-include(../common.pri)
-include(limereport.pri)
 QT += core gui
+
+include(../common.pri)
+include(../limereport/limereport.pri)
+include(../limereport/designer.pri)
 
 contains(CONFIG,release) {
         TARGET = designer_plugin
