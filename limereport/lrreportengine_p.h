@@ -264,7 +264,7 @@ private:
     QLocale::Language m_reportLanguage;
     void activateLanguage(QLocale::Language language);
     Qt::LayoutDirection m_previewLayoutDirection;
-    LimeReportPluginInterface* m_designerFactory;
+    LimeReportDesignerPluginInterface* m_designerFactory;
     QString m_styleSheet;
     QLocale::Language m_currentDesignerLanguage;
 };

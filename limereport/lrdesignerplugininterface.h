@@ -17,12 +17,12 @@ namespace LimeReport {
     class ReportEnginePrivateInterface;
 }
 
-class LimeReportPluginInterface {
+class LimeReportDesignerPluginInterface {
 public:
-    virtual ~LimeReportPluginInterface() { }
+    virtual ~LimeReportDesignerPluginInterface() { }
     virtual LimeReport::ReportDesignWindowInterface* getDesignerWindow(LimeReport::ReportEnginePrivateInterface* report, QWidget *parent = 0, QSettings* settings=0) = 0;
 };
 
-Q_DECLARE_INTERFACE( LimeReportPluginInterface, "ru.limereport.LimeReport.DesignerPluginInterface/1.0" )
+Q_DECLARE_INTERFACE( LimeReportDesignerPluginInterface, "ru.limereport.LimeReport.DesignerPluginInterface/1.0" )
 
 #endif // LRDESIGNERPLUGININTERFACE_H

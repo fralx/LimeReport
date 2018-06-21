@@ -113,8 +113,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
         QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
         if( loader.load() ) {
-            if( LimeReportPluginInterface* myPlugin = qobject_cast< LimeReportPluginInterface* >( loader.instance() ) ) {
-                m_designerFactory = myPlugin;
+            if( LimeReportDesignerPluginInterface* designerPlugin = qobject_cast< LimeReportDesignerPluginInterface* >( loader.instance() ) ) {
+                m_designerFactory = designerPlugin;
                 break;
             }
         }
