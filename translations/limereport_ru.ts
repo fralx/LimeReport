@@ -381,21 +381,9 @@ p, li { white-space: pre-wrap; }
         <translation>Сохранять отступ снизу</translation>
     </message>
     <message>
-        <source>Start from new page</source>
-        <translation>Начинать с новой страницы</translation>
-    </message>
-    <message>
-        <source>Start new page</source>
-        <translation>Начинать новую страницу</translation>
-    </message>
-    <message>
-        <source>Keep top space</source>
-        <translation>Сохранять отступ сверху</translation>
-    </message>
-    <message>
         <source>Print if empty</source>
         <translation>Печатать, если пустое</translation>
-    </message>		
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -434,7 +422,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Create Vertical Layout</source>
         <translation>Создать Вертикальную Компановку</translation>
-    </message>	
+    </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDesc</name>
@@ -543,11 +531,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Keep subdetail together</source>
         <translation>Привязать подчиненные данные</translation>
-    </message>	
+    </message>
     <message>
         <source>Keep footer together</source>
         <translation>Привязать завершение данных</translation>
-    </message>	
+    </message>
     <message>
         <source>Start from new page</source>
         <translation>Начинать с новой страницы</translation>
@@ -559,7 +547,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Slice last row</source>
         <translation>Разрезать последнюю запись</translation>
-    </message>		
+    </message>
 </context>
 <context>
     <name>LimeReport::DataBrowser</name>
@@ -657,7 +645,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Print always</source>
         <translation>Печатать всегда</translation>
-    </message>	
+    </message>
 </context>
 <context>
     <name>LimeReport::DataHeaderBand</name>
@@ -676,7 +664,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Print always</source>
         <translation>Печатать всегда</translation>
-    </message>	
+    </message>
 </context>
 <context>
     <name>LimeReport::DataSourceManager</name>
@@ -771,12 +759,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Layout</source>
-        <translation>Компановка</translation>
-    </message>	
+        <translation>Компоновка</translation>
+    </message>
     <message>
         <source>Table</source>
         <translation>Таблица</translation>
-    </message>		
+    </message>
     <message>
         <source>NoneAutoWidth</source>
         <translation>Нет</translation>
@@ -992,7 +980,7 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
-	<message>
+    <message>
         <source>AllLines</source>
         <translation>Все границы</translation>
     </message>
@@ -1214,6 +1202,13 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::PDFExporter</name>
+    <message>
+        <source>Export to PDF</source>
+        <translation>Экспортировать в PDF</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::PageFooter</name>
     <message>
         <source>Page Footer</source>
@@ -1265,12 +1260,12 @@ p, li { white-space: pre-wrap; }
         <translation>Форма</translation>
     </message>
     <message>
-        <source>PDF file name</source>
-        <translation>Имя PDF файла</translation>
-    </message>
-    <message>
         <source>Report file name</source>
         <translation>Имя файла отчета</translation>
+    </message>
+    <message>
+        <source>%1 file name</source>
+        <translation>%1 имя файла</translation>
     </message>
 </context>
 <context>
@@ -1685,10 +1680,10 @@ p, li { white-space: pre-wrap; }
         <source>shapeBrushColor</source>
         <translation>Цвет кисти</translation>
     </message>
-	<message>
+    <message>
         <source>replaceCRwithBR</source>
         <translation>Заменять CR на BR</translation>
-    </message>		
+    </message>
     <message>
         <source>allowHTML</source>
         <translation>Разрешить HTML</translation>
@@ -1856,19 +1851,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>printable</source>
         <translation>Печатать</translation>
-    </message>	
+    </message>
     <message>
         <source>hideIfEmpty</source>
         <translation>Скрывать, если пустое</translation>
-    </message>	
+    </message>
     <message>
         <source>variable</source>
         <translation>Переменная</translation>
-    </message>		
+    </message>
     <message>
         <source>hideEmptyItems</source>
         <translation>Скрывать пустые элементы</translation>
-    </message>		
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1995,27 +1990,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Edit layouts mode</source>
-        <translation>Режим редактирования компановок</translation>
+        <translation>Режим редактирования компоновок</translation>
     </message>
     <message>
         <source>Horizontal layout</source>
-        <translation>Горизонтальная компановка</translation>
+        <translation>Горизонтальная компоновка</translation>
     </message>
     <message>
         <source>Vertical layout</source>
-        <translation>Вертикальная компановка</translation>
-    </message>	
+        <translation>Вертикальная компоновка</translation>
+    </message>
     <message>
         <source>About</source>
         <translation>О программе</translation>
-    </message>
-    <message>
-        <source>Hide left panel</source>
-        <translation type="vanished">Спрятать левую панель</translation>
-    </message>
-    <message>
-        <source>Hide right panel</source>
-        <translation type="vanished">Спрятать правую панель</translation>
     </message>
     <message>
         <source>Report Tools</source>
@@ -2231,12 +2218,8 @@ This preview is no longer valid.</source>
         <translation>Язык %1 уже существует</translation>
     </message>
     <message>
-        <source>Warning</source>
-        <translation>Предупреждение</translation>
-    </message>
-    <message>
-        <source>The language will change after the application is restarted</source>
-        <translation>Язык будет изменен после перезапуска приложения</translation>
+        <source>%1 file name</source>
+        <translation>%1 имя файла</translation>
     </message>
 </context>
 <context>
@@ -2648,10 +2631,6 @@ This preview is no longer valid.</source>
         <source>Auto height</source>
         <translation>Автоматическая высота</translation>
     </message>
-	<message>
-        <source>ReplaceCRwithBR</source>
-        <translation>Заменять CR на BR></translation>
-    </message>	
     <message>
         <source>Allow HTML</source>
         <translation>Разрешить HTML</translation>
@@ -2687,7 +2666,7 @@ This preview is no longer valid.</source>
     <message>
         <source>Hide if empty</source>
         <translation>Скрывать, если пустое</translation>
-    </message>		
+    </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
@@ -2700,10 +2679,6 @@ This preview is no longer valid.</source>
         <translation>Содержимое</translation>
     </message>
     <message>
-        <source>Functions</source>
-        <translation type="vanished">Функции</translation>
-    </message>
-    <message>
         <source>Editor settings</source>
         <translation>Настройки</translation>
     </message>
@@ -2714,10 +2689,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Cancel</source>
         <translation>Отмена</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">Данные</translation>
     </message>
     <message>
         <source>...</source>
@@ -2863,7 +2834,7 @@ This preview is no longer valid.</source>
     <message>
         <source>VLayout</source>
         <translation>Вертикальная компоновка</translation>
-    </message>	
+    </message>
     <message>
         <source>Image Item</source>
         <translation>Элемент изображение</translation>
@@ -3023,6 +2994,10 @@ This preview is no longer valid.</source>
     <message>
         <source>Datasource manager not found</source>
         <translation>Менеджер источников данных не найден</translation>
+    </message>
+    <message>
+        <source>Export to PDF</source>
+        <translation>Экспортировать в PDF</translation>
     </message>
 </context>
 </TS>
