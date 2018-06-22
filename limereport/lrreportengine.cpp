@@ -35,6 +35,7 @@
 #include <QDesktopWidget>
 #include <QFileSystemWatcher>
 #include <QPluginLoader>
+#include <QFileDialog>
 
 #include "time.h"
 
@@ -55,6 +56,8 @@
 #include "lrpreviewreportwindow.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
+#include "lrexporterintf.h"
+#include "lrexportersfactory.h"
 
 #ifdef BUILD_WITH_EASY_PROFILER
 #include "easy/profiler.h"
@@ -62,7 +65,6 @@
 # define EASY_BLOCK(...)
 # define EASY_END_BLOCK
 #endif
-
 
 #ifdef HAVE_STATIC_BUILD
 #include "lrfactoryinitializer.h"
@@ -102,7 +104,6 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
 
-#ifndef HAVE_REPORT_DESIGNER
     QDir pluginsDir = QCoreApplication::applicationDirPath();
     pluginsDir.cd("../lib" );
     if (!pluginsDir.exists()){
@@ -113,13 +114,15 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
         QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
         if( loader.load() ) {
+#ifndef HAVE_REPORT_DESIGNER
             if( LimeReportDesignerPluginInterface* designerPlugin = qobject_cast< LimeReportDesignerPluginInterface* >( loader.instance() ) ) {
                 m_designerFactory = designerPlugin;
                 break;
             }
-        }
-    }
 #endif
+        }        
+    }
+
 }
 
 ReportEnginePrivate::~ReportEnginePrivate()
@@ -476,17 +479,31 @@ void ReportEnginePrivate::printToFile(const QString &fileName)
 
 bool ReportEnginePrivate::printToPDF(const QString &fileName)
 {
-    if (!fileName.isEmpty()){
-        QFileInfo fi(fileName);
-        QString fn = fileName;
-        if (fi.suffix().isEmpty())
-            fn+=".pdf";
-        QPrinter printer;
-        printer.setOutputFileName(fn);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        bool success = printReport(&printer);
-        if(success) emitPrintedToPDF(fileName);
-        return success;
+    return exportReport("PDF");
+}
+
+bool ReportEnginePrivate::exportReport(QString exporterName, const QString &fileName, const QMap<QString, QVariant> &params)
+{
+    QString fn = fileName;
+    if (ExportersFactory::instance().map().contains(exporterName)){
+        ReportExporterInterface* e = ExportersFactory::instance().objectCreator(exporterName)(this);
+        if (fn.isEmpty()){
+            QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
+            QString fn = QFileDialog::getSaveFileName(0,tr("%1 file name").arg(e->exporterName()),"",filter);
+            if (!fn.isEmpty()){
+                QFileInfo fi(fn);
+                if (fi.suffix().isEmpty())
+                    fn += QString(".%1").arg(e->exporterFileExt());
+
+                bool designTime = dataManager()->designTime();
+                dataManager()->setDesignTime(false);
+                ReportPages pages = renderToPages();
+                dataManager()->setDesignTime(designTime);
+                bool result = e->exportPages(pages, fn, params);
+                delete e;
+                return result;
+            }
+        }
     }
     return false;
 }
@@ -1219,6 +1236,12 @@ bool ReportEngine::printToPDF(const QString &fileName)
 {
     Q_D(ReportEngine);
     return d->printToPDF(fileName);
+}
+
+bool ReportEngine::exportReport(QString exporterName, const QString &fileName, const QMap<QString, QVariant> &params)
+{
+    Q_D(ReportEngine);
+    return d->exportReport(exporterName, fileName, params);
 }
 
 void ReportEngine::previewReport(PreviewHints hints)

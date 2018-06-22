@@ -1015,12 +1015,11 @@ void BandDesignIntf::setKeepFooterTogether(bool value)
     }
 }
 
-
 void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     qreal spaceBorder=0;
     if (keepBottomSpaceOption()) spaceBorder = bottomSpace();
-    spaceBorder = spaceBorder>0 ? spaceBorder : 0;
+    spaceBorder = spaceBorder > 0 ? spaceBorder : 0;
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }

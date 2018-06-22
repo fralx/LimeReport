@@ -20,6 +20,7 @@ public:
     QRectF calcPageShift();
     void setPages( ReportPages pages);
     PageItemDesignIntf::Ptr currentPage();
+    QList<QString> aviableExporters();
 public:
     PageDesignIntf* m_previewPage;
     ReportPages     m_reportPages;

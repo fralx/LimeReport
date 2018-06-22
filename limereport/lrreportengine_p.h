@@ -48,11 +48,13 @@
 
 class QFileSystemWatcher;
 
+
 namespace LimeReport{
 
 class PageDesignIntf;
 class PrintRange;
 class ReportDesignWindow;
+class ReportExporterInterface;
 
 class ReportEnginePrivateInterface {
 public:
@@ -132,6 +134,7 @@ public:
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
+    bool    exportReport(QString exporterName, const QString &fileName = "", const QMap<QString, QVariant>& params = QMap<QString, QVariant>());
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
 
     ReportDesignWindowInterface* getDesignerWindow();
@@ -267,6 +270,7 @@ private:
     LimeReportDesignerPluginInterface* m_designerFactory;
     QString m_styleSheet;
     QLocale::Language m_currentDesignerLanguage;
+    QMap<QString, ReportExporterInterface*> exporters;
 };
 
 }

@@ -66,7 +66,8 @@ SOURCES += \
     $$REPORT_PATH/lrcolorindicator.cpp \
     $$REPORT_PATH/items/lrchartitem.cpp \
     $$REPORT_PATH/items/lrchartitemeditor.cpp \
-    $$REPORT_PATH/lrreporttranslation.cpp
+    $$REPORT_PATH/lrreporttranslation.cpp \
+    $$REPORT_PATH/exporters/lrpdfexporter.cpp
 
 contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
@@ -144,7 +145,10 @@ HEADERS += \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.h \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.h \
     $$REPORT_PATH/lrreporttranslation.h \
-    $$REPORT_PATH/lrreportdesignwindowintrerface.h
+    $$REPORT_PATH/lrreportdesignwindowintrerface.h \
+    $$REPORT_PATH/lrexporterintf.h \
+    $$REPORT_PATH/lrexportersfactory.h \	
+    $$REPORT_PATH/exporters/lrpdfexporter.h 
 
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h

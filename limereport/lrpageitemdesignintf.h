@@ -120,7 +120,7 @@ public:
 
     bool oldPrintMode() const;
     void setOldPrintMode(bool oldPrintMode);
-    bool canContainChildren(){ return true;}
+    bool canContainChildren() const{ return true;}
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
     void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);

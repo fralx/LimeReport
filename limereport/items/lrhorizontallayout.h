@@ -48,6 +48,7 @@ public:
     ~HorizontalLayout();
     BaseDesignIntf *createSameTypeItem(QObject *owner = 0, QGraphicsItem *parent = 0);
     bool isSplittable() const { return true;}
+    bool canContainChildren() const { return true;}
 
 protected:
     void updateLayoutSize();

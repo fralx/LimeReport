@@ -13,6 +13,9 @@
 #include "lrpreviewreportwidget_p.h"
 #include "serializators/lrxmlwriter.h"
 
+#include "lrexportersfactory.h"
+
+
 namespace LimeReport {
 
 bool PreviewReportWidgetPrivate::pageIsVisible(){
@@ -60,6 +63,11 @@ PageItemDesignIntf::Ptr PreviewReportWidgetPrivate::currentPage()
     else return PageItemDesignIntf::Ptr(0);
 }
 
+QList<QString> PreviewReportWidgetPrivate::aviableExporters()
+{
+    return ExportersFactory::instance().map().keys();
+}
+
 PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this))
@@ -84,6 +92,31 @@ PreviewReportWidget::~PreviewReportWidget()
     delete d_ptr->m_zoomer;
     delete d_ptr;
     delete ui;
+}
+
+QList<QString> PreviewReportWidget::aviableExporters()
+{
+    return d_ptr->aviableExporters();
+}
+
+bool PreviewReportWidget::exportReport(QString exporterName, const QMap<QString, QVariant> &params)
+{
+    if (ExportersFactory::instance().map().contains(exporterName)){
+
+        ReportExporterInterface* e = ExportersFactory::instance().objectCreator(exporterName)(d_ptr->m_report);
+
+        QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
+        QString fileName = QFileDialog::getSaveFileName(this,tr("%1 file name").arg(e->exporterName()),"",filter);
+        if (!fileName.isEmpty()){
+            QFileInfo fi(fileName);
+            if (fi.suffix().isEmpty())
+                fileName += QString(".%1").arg(e->exporterFileExt());
+            bool result = e->exportPages(d_ptr->m_reportPages, fileName, params);
+            delete e;
+            return result;
+        }
+    }
+    return false;
 }
 
 void PreviewReportWidget::initPreview()
@@ -185,22 +218,11 @@ void PreviewReportWidget::print()
 
 void PreviewReportWidget::printToPDF()
 {
-    QString filter = "PDF (*.pdf)";
-    QString fileName = QFileDialog::getSaveFileName(this,tr("PDF file name"),"","PDF (*.pdf)");
-    if (!fileName.isEmpty()){
-        QFileInfo fi(fileName);
-        if (fi.suffix().isEmpty())
-            fileName+=".pdf";
-        QPrinter printer;
-        printer.setOutputFileName(fileName);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        if (!d_ptr->m_reportPages.isEmpty()){
-            ReportEnginePrivate::printReport(d_ptr->m_reportPages,printer);
-        }
+    if (!d_ptr->m_reportPages.isEmpty()){
+        exportReport("PDF");
         foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
             d_ptr->m_previewPage->reactivatePageItem(pageItem);
         }
-        d_ptr->m_report->emitPrintedToPDF(fileName);
     }
 }
 

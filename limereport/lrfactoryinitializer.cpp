@@ -41,6 +41,10 @@
 #include "serializators/lrxmlqrectserializator.h"
 #include "serializators/lrxmlserializatorsfactory.h"
 
+#include "lrexportersfactory.h"
+#include "lrexporterintf.h"
+#include "exporters/lrpdfexporter.h"
+
 void initResources(){
     Q_INIT_RESOURCE(report);
 #ifdef HAVE_REPORT_DESIGNER
@@ -440,6 +444,19 @@ void initSerializators()
     XMLAbstractSerializatorFactory::instance().registerCreator("QVariant", createQVariantSerializator);
     XMLAbstractSerializatorFactory::instance().registerCreator("QRect", createQRectSerializator);
     XMLAbstractSerializatorFactory::instance().registerCreator("QRectF", createQRectSerializator);
+}
+
+LimeReport::ReportExporterInterface* createPDFExporter(ReportEnginePrivate* parent){
+    return new LimeReport::PDFExporter(parent);
+}
+
+void initExporters()
+{
+    ExportersFactory::instance().registerCreator(
+                "PDF",
+                LimeReport::ExporterAttribs(QObject::tr("Export to PDF"), "PDFExporter"),
+                createPDFExporter
+    );
 }
 
 } //namespace LimeReport

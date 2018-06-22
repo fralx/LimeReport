@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
@@ -281,6 +281,8 @@
   </action>
  </widget>
  <resources>
+  <include location="report.qrc"/>
+  <include location="databrowser/lrdatabrowser.qrc"/>
   <include location="report.qrc"/>
   <include location="databrowser/lrdatabrowser.qrc"/>
  </resources>

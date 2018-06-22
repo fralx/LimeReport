@@ -268,7 +268,7 @@ public:
     QColor borderColor() const;
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
-    virtual bool canContainChildren(){ return false;}
+    virtual bool canContainChildren() const { return false;}
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
@@ -288,6 +288,8 @@ public:
     Q_INVOKABLE qreal getItemHeight();
     Q_INVOKABLE qreal getItemPosX();
     Q_INVOKABLE qreal getItemPosY();
+    Q_INVOKABLE qreal getAbsolutePosX();
+    Q_INVOKABLE qreal getAbsolutePosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
 
@@ -352,7 +354,8 @@ protected:
     virtual void processPopUpAction(QAction* action){Q_UNUSED(action)}
 
     void addChildItems(QList<BaseDesignIntf*>* list);
-
+    qreal calcAbsolutePosY(qreal currentOffset, BaseDesignIntf* item);
+    qreal calcAbsolutePosX(qreal currentOffset, BaseDesignIntf* item);
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -410,7 +413,7 @@ private:
     QString m_patternName;
     BaseDesignIntf* m_patternItem;
     bool    m_fillInSecondPass;
-    bool m_watermark;
+    bool    m_watermark;
     
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

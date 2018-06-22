@@ -227,6 +227,16 @@ qreal BaseDesignIntf::getItemPosY()
     return y() / mmFactor();
 }
 
+qreal BaseDesignIntf::getAbsolutePosX()
+{
+    return calcAbsolutePosX(0,this);
+}
+
+qreal BaseDesignIntf::getAbsolutePosY()
+{
+    return calcAbsolutePosY(0,this);
+}
+
 QString BaseDesignIntf::setItemPosX(qreal xValue)
 {
     setItemPos(xValue * mmFactor(),y());
@@ -1483,6 +1493,24 @@ void BaseDesignIntf::addChildItems(QList<BaseDesignIntf*>* list){
         list->append(item);
         item->addChildItems(list);
     }
+}
+
+qreal BaseDesignIntf::calcAbsolutePosY(qreal currentOffset, BaseDesignIntf *item)
+{
+    BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(item->parent());
+    if (parent)
+        return calcAbsolutePosY(currentOffset + item->getItemPosY(), parent);
+    else
+        return currentOffset + item->getItemPosY();
+}
+
+qreal BaseDesignIntf::calcAbsolutePosX(qreal currentOffset, BaseDesignIntf *item)
+{
+    BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(item->parent());
+    if (parent)
+        return calcAbsolutePosX(currentOffset + item->getItemPosX(), parent);
+    else
+        return currentOffset + item->getItemPosX();
 }
 
 QList<BaseDesignIntf*> BaseDesignIntf::allChildBaseItems()
