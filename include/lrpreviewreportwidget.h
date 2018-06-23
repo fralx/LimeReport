@@ -22,7 +22,9 @@ class LIMEREPORT_EXPORT PreviewReportWidget : public QWidget
     friend class PreviewReportWidgetPrivate;
 public:
     explicit PreviewReportWidget(ReportEngine *report, QWidget *parent = 0);
-    ~PreviewReportWidget();    
+    ~PreviewReportWidget();
+    QList<QString> aviableExporters();
+    bool exportReport(QString exporterName, const QMap<QString, QVariant>& params = QMap<QString, QVariant>());
 public slots:
     void refreshPages();
     void zoomIn();

@@ -84,6 +84,7 @@ public:
     void    printToFile(const QString& fileName);
     PageDesignIntf *createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);
+    bool    exportReport(QString exporterName, const QString &fileName = "", const QMap<QString, QVariant>& params = QMap<QString, QVariant>());
     void    previewReport(PreviewHints hints = PreviewBarsUserSetting);
     void    designReport();
     ReportDesignWindowInterface* getDesignerWindow();

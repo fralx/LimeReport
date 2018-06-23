@@ -174,7 +174,7 @@
         <file alias="/images/delete">images/delete2.png</file>
         <file alias="/images/addBand">images/addBand2.png</file>
         <file alias="/images/editMode">images/edit_control_4_24.png</file>
-        <file alias="/images/logo32">images/logo_32x32_1.png</file>
+        <file>images/logo_32x32_1.png</file>
         <file alias="/images/addDialog">images/addDialog.png</file>
         <file alias="/images/deleteDialog">images/deleteDialog.png</file>
         <file alias="/images/copy">images/copy3.png</file>
@@ -183,5 +183,6 @@
         <file alias="/images/signal">images/signal.png</file>
         <file alias="/images/object">images/object.png</file>
         <file alias="/images/vlayout">images/vlayuot_4_24.png</file>
+        <file alias="/images/logo32">images/designer.png</file>
     </qresource>
 </RCC>
