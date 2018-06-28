@@ -267,12 +267,13 @@ QMenu::separator {
 QMenu::indicator {
     width: 18px;
     height: 18px;
+    padding-left: 4px;
 }
 
 /* non-exclusive indicator = check box style indicator
    (see QActionGroup::setExclusive) */
 QMenu::indicator:non-exclusive:unchecked {
-    image: url(:/qss_icons/rc/checkbox_unchecked.png);
+    image: url(:/qss_icons/rc/checkbox_unchecked.png);    
 }
 
 QMenu::indicator:non-exclusive:unchecked:selected {
@@ -1061,10 +1062,8 @@ QSlider::handle:vertical {
 }
 
 QToolButton {
-\\    background: #404040;
     color : white;
-    border: 1px solid #404040;
-\\    border-radius: 2px;
+    border: 1px solid transparent;
     margin: 2px;
     padding: 2px;
 }
@@ -1089,10 +1088,6 @@ QToolButton:disabled{
     border: 1px transparent #2b2b2b;
 }
 
-
-QToolBar QToolButton{
-    border: 1px solid #383838;
-}
 \\
 \\QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
 \\ padding-right: 20px; /* make way for the popup button */

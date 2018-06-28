@@ -1219,12 +1219,12 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         page->clearSelection();
         this->setSelected(true);
     }
-    QMenu menu;
-    QAction* copyAction = menu.addAction(QIcon(":/report/images/copy.png"), tr("Copy"));
+    QMenu menu(event->widget());
+    QAction* copyAction = menu.addAction(QIcon(":/report/images/copy"), tr("Copy"));
     copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
     QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));
     cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
-    QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste.png"), tr("Paste"));
+    QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste"), tr("Paste"));
     pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
     pasteAction->setEnabled(false);
 
