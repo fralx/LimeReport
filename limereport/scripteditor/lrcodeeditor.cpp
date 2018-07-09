@@ -170,7 +170,7 @@ QString CodeEditor::textUnderCursor() const
             currentText = blockText.at(i-1) + currentText;
         else break;
     }
-    return currentText;
+    return currentText.trimmed();
 }
 
 bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numLeftParentheses)
