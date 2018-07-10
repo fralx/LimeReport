@@ -104,6 +104,9 @@ public:
     void setPassPharse(QString& passPharse);
     Qt::LayoutDirection previewLayoutDirection();
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
+    ScaleType previewScaleType();
+    int  previewScalePercent();
+    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
 signals:
     void renderStarted();
     void renderFinished();

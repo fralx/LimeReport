@@ -132,6 +132,10 @@ public:
     void clearSelection();
     Qt::LayoutDirection previewLayoutDirection();
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
+    ScaleType previewScaleType();
+    int       previewScalePercent();
+    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -186,6 +190,8 @@ private:
     QString m_passPhrase;
     QFileSystemWatcher  *m_fileWatcher;
     Qt::LayoutDirection m_previewLayoutDirection;
+    ScaleType m_previewScaleType;
+    int m_previewScalePercent;
 };
 
 }
