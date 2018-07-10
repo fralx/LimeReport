@@ -82,7 +82,14 @@ void FontPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIn
 
 void FontPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex &index)
 {
-    model->setData(index,qobject_cast<FontEditor*>(propertyEditor)->fontValue());
+
+    QFont tmpFont = qobject_cast<FontEditor*>(propertyEditor)->fontValue();
+    QFont font(tmpFont.family());
+    font.setBold(tmpFont.bold());
+    font.setPointSize(tmpFont.pointSize());
+    font.setItalic(tmpFont.italic());
+    font.setUnderline(tmpFont.underline());
+    model->setData(index,font);
     setValueToObject(propertyName(),propertyValue());
 }
 
