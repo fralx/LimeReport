@@ -253,7 +253,22 @@ void PreviewReportWindow::showEvent(QShowEvent *)
 {
     m_fontEditor->setVisible(ui->actionEdit_Mode->isChecked());
     m_textAlignmentEditor->setVisible(ui->actionEdit_Mode->isChecked());
+    switch (m_previewScaleType) {
+    case FitWidth:
+        m_previewReportWidget->fitWidth();
+        break;
+    case FitPage:
+        m_previewReportWidget->fitPage();
+        break;
+    case OneToOne:
+        m_previewReportWidget->setScalePercent(100);
+        break;
+    case Percents:
+        m_previewReportWidget->setScalePercent(m_previewScalePercent);
+
+    }
 }
+
 void PreviewReportWindow::selectStateIcon()
 {
     if (ui->toolBar->isHidden()){
@@ -331,6 +346,18 @@ void PreviewReportWindow::initPercentCombobox()
         m_scalePercent->addItem(QString("%1%").arg(i));
     }
     m_scalePercent->setCurrentIndex(4);
+}
+
+ScaleType PreviewReportWindow::previewScaleType() const
+{
+    return m_previewScaleType;
+}
+
+void PreviewReportWindow::setPreviewScaleType(const ScaleType &previewScaleType, int percent)
+{
+    m_previewScaleType = previewScaleType;
+    m_previewScalePercent = percent;
+    m_previewReportWidget->setScaleType(previewScaleType, percent);
 }
 
 void PreviewReportWindow::on_actionSaveToFile_triggered()
