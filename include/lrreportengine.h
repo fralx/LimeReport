@@ -116,6 +116,9 @@ public:
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
     QList<QLocale::Language> designerLanguages();
     QLocale::Language currentDesignerLanguage();
+    ScaleType previewScaleType();
+    int  previewScalePercent();
+    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
 signals:
     void cleared();
     void renderStarted();

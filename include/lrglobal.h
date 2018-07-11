@@ -106,6 +106,7 @@ namespace Const{
     enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     enum RenderPass {FirstPass = 1, SecondPass = 2};
     enum ArrangeType {AsNeeded, Force};
+    enum ScaleType {FitWidth, FitPage, OneToOne, Percents};
     enum PreviewHint{ShowAllPreviewBars = 0,
                      HidePreviewToolBar = 1,
                      HidePreviewMenuBar = 2,

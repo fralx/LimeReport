@@ -81,7 +81,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
     m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage),
-    m_previewLayoutDirection(Qt::LeftToRight), m_designerFactory(0)
+    m_previewLayoutDirection(Qt::LeftToRight), m_designerFactory(0),
+    m_previewScaleType(FitWidth), m_previewScalePercent(0)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
@@ -527,6 +528,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setSettings(settings());
             w->setPages(pages);
             w->setLayoutDirection(m_previewLayoutDirection);
+
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
@@ -540,6 +542,9 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setHideResultEditButton(resultIsEditable());
             w->setStyleSheet(m_styleSheet);
             m_activePreview = w;
+
+            w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
+
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
             w->exec();
         }
@@ -909,7 +914,24 @@ QString ReportEnginePrivate::renderToString()
         render.setDatasources(dataManager());
         render.setScriptContext(scriptContext());
         return render.renderPageToString(m_pages.at(0)->pageItem());
-    }else return QString();
+    } else return QString();
+
+}
+
+ScaleType ReportEnginePrivate::previewScaleType()
+{
+    return m_previewScaleType;
+}
+
+int ReportEnginePrivate::previewScalePercent()
+{
+    return m_previewScalePercent;
+}
+
+void ReportEnginePrivate::setPreviewScaleType(const ScaleType &scaleType, int percent)
+{
+    m_previewScaleType = scaleType;
+    m_previewScalePercent = percent;
 }
 
 PageItemDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
@@ -1343,6 +1365,25 @@ QLocale::Language ReportEngine::currentDesignerLanguage()
     Q_D(ReportEngine);
     return d->currentDesignerLanguage();
 }
+
+ScaleType ReportEngine::previewScaleType()
+{
+    Q_D(ReportEngine);
+    return d->previewScaleType();
+}
+
+int ReportEngine::previewScalePercent()
+{
+    Q_D(ReportEngine);
+    return d->previewScalePercent();
+}
+
+void ReportEngine::setPreviewScaleType(const ScaleType &previewScaleType, int percent)
+{
+    Q_D(ReportEngine);
+    d->setPreviewScaleType(previewScaleType, percent);
+}
+
 
 void ReportEngine::setShowProgressDialog(bool value)
 {

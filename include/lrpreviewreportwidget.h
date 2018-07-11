@@ -2,6 +2,7 @@
 #define LRPREVIEWREPORTWIDGET_H
 
 #include <QWidget>
+#include <QTimer>
 #include "lrglobal.h"
 
 namespace LimeReport {
@@ -25,6 +26,9 @@ public:
     ~PreviewReportWidget();
     QList<QString> aviableExporters();
     bool exportReport(QString exporterName, const QMap<QString, QVariant>& params = QMap<QString, QVariant>());
+    ScaleType scaleType() const;
+    int  scalePercent() const;
+    void setScaleType(const ScaleType &scaleType, int percent = 0);
 public slots:
     void refreshPages();
     void zoomIn();
@@ -42,6 +46,8 @@ public slots:
     void setScalePercent(int percent);
     void fitWidth();
     void fitPage();
+protected:
+    void resizeEvent(QResizeEvent *);
 signals:
     void pageChanged(int page);
     void scalePercentChanged(int percent);
@@ -50,6 +56,7 @@ private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);
     void slotZoomed(double);
+    void resizeDone();
 private:
     void initPreview();
     void setErrorsMesagesVisible(bool visible);
@@ -58,6 +65,9 @@ private:
 private:
     Ui::PreviewReportWidget *ui;
     PreviewReportWidgetPrivate* d_ptr;
+    ScaleType m_scaleType;
+    int       m_scalePercent;
+    QTimer m_resizeTimer;
 };
 
 } // namespace LimeReport

@@ -193,6 +193,9 @@ public:
     QList<QLocale::Language> designerLanguages();
     QLocale::Language currentDesignerLanguage();
     void setCurrentDesignerLanguage(QLocale::Language language);
+    ScaleType previewScaleType();
+    int       previewScalePercent();
+    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -271,6 +274,8 @@ private:
     QString m_styleSheet;
     QLocale::Language m_currentDesignerLanguage;
     QMap<QString, ReportExporterInterface*> exporters;
+    ScaleType m_previewScaleType;
+    int m_previewScalePercent;
 };
 
 }
