@@ -262,6 +262,7 @@ void PreviewReportWidget::setScalePercent(int percent)
         m_scaleType = OneToOne;
     } else {
         m_scaleType = Percents;
+        m_scalePercent = percent;
     }
 }
 
