@@ -480,7 +480,7 @@ void ReportEnginePrivate::printToFile(const QString &fileName)
 
 bool ReportEnginePrivate::printToPDF(const QString &fileName)
 {
-    return exportReport("PDF");
+    return exportReport("PDF", fileName);
 }
 
 bool ReportEnginePrivate::exportReport(QString exporterName, const QString &fileName, const QMap<QString, QVariant> &params)

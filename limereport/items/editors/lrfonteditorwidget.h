@@ -51,7 +51,7 @@ public:
 protected:
     void setItemEvent(BaseDesignIntf *item);
     QFontComboBox* fontNameEditor(){return m_fontNameEditor;}
-    virtual void initEditor();
+    void initEditor();
 protected slots:
     virtual void slotFontChanged(const QFont&);
     virtual void slotFontSizeChanged(const QString& value);
@@ -94,7 +94,7 @@ class FontEditorWidgetForDesigner : public FontEditorWidget{
     Q_OBJECT
 public:
     explicit FontEditorWidgetForDesigner(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0)
-        : FontEditorWidget(title, parent), m_reportEditor(reportEditor){}
+        : FontEditorWidget(title, parent), m_reportEditor(reportEditor){initEditor();}
 
 protected:
     void initEditor();

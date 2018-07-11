@@ -45,7 +45,7 @@ public:
     int flag() const;
 protected:
     void setItemEvent(BaseDesignIntf *item);
-    virtual void initEditor();
+    void initEditor();
     bool m_textAttibutesIsChanging;
 private:
     void updateValues(const Qt::Alignment& align);
@@ -84,7 +84,7 @@ class TextAlignmentEditorWidgetForDesigner: public TextAlignmentEditorWidget{
     Q_OBJECT
 public:
     TextAlignmentEditorWidgetForDesigner(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0)
-        :TextAlignmentEditorWidget(title, parent), m_reportEditor(reportEditor){}
+        :TextAlignmentEditorWidget(title, parent), m_reportEditor(reportEditor){initEditor();}
 protected:
     void initEditor();
 protected slots:

@@ -971,7 +971,7 @@ void TextItem::setTextItemFont(QFont value)
     if (font()!=value){
         QFont oldValue = font();
         setFont(value);
-        update();
+        if (!isLoading()) update();
         notify("font",oldValue,value);
     }
 }

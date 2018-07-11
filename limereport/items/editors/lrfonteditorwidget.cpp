@@ -158,7 +158,6 @@ void FontEditorWidgetForPage::slotFontAttribsChanged(bool value)
 #ifdef HAVE_REPORT_DESIGNER
 void FontEditorWidgetForDesigner::initEditor()
 {
-    FontEditorWidget::initEditor();
     connect(m_reportEditor,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
             this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
 }

@@ -164,8 +164,10 @@ QFont BaseDesignIntf::font() const
 
 void BaseDesignIntf::setFont(QFont &font)
 {
-    m_font = font;
-    update();
+    if (m_font != font){
+        m_font = font;
+        if (!isLoading()) update();
+    }
 }
 
 qreal BaseDesignIntf::width() const

@@ -197,7 +197,6 @@ void TextAlignmentEditorWidgetForPage::slotTextVAttribsChanged(bool value)
 #ifdef HAVE_REPORT_DESIGNER
 void TextAlignmentEditorWidgetForDesigner::initEditor()
 {
-    TextAlignmentEditorWidget::initEditor();
     connect(m_reportEditor,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
             this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
 
