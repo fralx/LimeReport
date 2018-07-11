@@ -416,7 +416,7 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                 QString fieldValue;
                 varValue = dataManager()->fieldData(field);
                 if (expandType == EscapeSymbols) {
-                    if (dataManager()->fieldData(field).isNull()) {
+                    if (varValue.isNull()) {
                         fieldValue="\"\"";
                     } else {
                         fieldValue = escapeSimbols(varValue.toString());
@@ -437,8 +437,8 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                         fieldValue = replaceHTMLSymbols(varValue.toString());
                     else fieldValue = varValue.toString();
                 }
-                if (varValue.isValid())
-                    context.replace(rx.cap(0),fieldValue);
+
+                context.replace(rx.cap(0),fieldValue);
 
             } else {
                 QString error;
