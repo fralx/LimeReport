@@ -109,8 +109,8 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         ppainter->fillRect(rect(),Qt::white);
         QPen pen;
         pen.setColor(Qt::gray);
-        pen.setWidth(2);
-        pen.setStyle(Qt::DotLine);
+        pen.setWidth(1);
+        pen.setStyle(Qt::SolidLine);
         ppainter->setPen(pen);
         QRectF tmpRect = rect();
         tmpRect.adjust(-4,-4,4,4);
