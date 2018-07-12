@@ -595,9 +595,32 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
         }
     }
     if (curIndex != band->bandIndex()){
-        int swapIndex = bandToSwap->maxChildIndex();
-        bandToSwap->changeBandIndex(band->bandIndex(),true);
-        band->changeBandIndex(swapIndex,true);
+
+        int startIndex = std::min(band->minChildIndex(), bandToSwap->minChildIndex());
+
+//        int endIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
+//        QList<BandDesignIntf*> bandToMove;
+//        foreach(BandDesignIntf* curBand, m_bands){
+//            if (curBand->bandIndex() > endIndex)
+//                bandToMove.append(curBand);
+//        }
+
+        BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
+
+        firstMoveBand->changeBandIndex(startIndex, true);
+        if (firstMoveBand == band){
+            bandToSwap->changeBandIndex(firstMoveBand->maxChildIndex()+1,true);
+        } else {
+            band->changeBandIndex(firstMoveBand->maxChildIndex()+1, true);
+        }
+
+//        int maxNewIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
+//        if (maxNewIndex > endIndex){
+//            foreach(BandDesignIntf* curBand, bandToMove){
+//                curBand->setBandIndex(curBand->bandIndex()+(maxNewIndex - endIndex));
+//            }
+//        }
+
     }
 
     relocateBands();
