@@ -389,6 +389,19 @@ int BandDesignIntf::minChildIndex(BandDesignIntf::BandsType bandType){
     return curIndex;
 }
 
+int BandDesignIntf::minChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands)
+{
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if (!ignoredBands.contains(childBand->bandType()) && childBand->bandIndex() < bandIndex()){
+            curIndex = std::min(curIndex, childBand->maxChildIndex(ignoredBands));
+        }
+    }
+    return curIndex;
+}
+
+
+
 QList<BandDesignIntf *> BandDesignIntf::childrenByType(BandDesignIntf::BandsType type)
 {
     QList<BandDesignIntf*> resList;
