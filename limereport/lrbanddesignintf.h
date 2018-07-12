@@ -173,6 +173,7 @@ public:
     bool isConnectedToBand(BandDesignIntf::BandsType bandType) const;
 
     int minChildIndex(BandsType bandType);
+    int minChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>());
     int maxChildIndex(BandDesignIntf::BandsType bandType) const;
     int maxChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>()) const;
 

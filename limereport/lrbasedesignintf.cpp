@@ -1001,7 +1001,9 @@ void BaseDesignIntf::setGeometryProperty(QRectF rect)
             setWidth(rect.width());
         if (rect.height() != geometry().height())
             setHeight(rect.height());
-        if (!isLoading()) notify("geometry",oldValue,rect);
+        if (!isLoading()) {
+            notify("geometry",oldValue,rect);
+        }
     }
 }
 
