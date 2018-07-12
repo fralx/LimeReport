@@ -73,6 +73,7 @@ private slots:
     void on_rbProxy_clicked(bool checked);
     void on_rbSubQuery_clicked(bool checked);
     void on_pbAddField_clicked();
+    void on_pbDelField_clicked();
     void initQueryMode();
     void initSubQueryMode();
     void initProxyMode();

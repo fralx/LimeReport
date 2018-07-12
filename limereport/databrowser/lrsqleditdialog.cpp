@@ -113,8 +113,8 @@ void SQLEditDialog::accept()
     if (ui->fieldsMap->rowCount()>0){
         for(int i=0;i<ui->fieldsMap->rowCount();++i){
             LimeReport::FieldsCorrelation fieldsCorrelation;
-            fieldsCorrelation.master=ui->fieldsMap->item(i,0)->data(Qt::DisplayRole).toString();
-            fieldsCorrelation.detail=ui->fieldsMap->item(i,1)->data(Qt::DisplayRole).toString();
+            fieldsCorrelation.master = ui->fieldsMap->item(i,0) ? ui->fieldsMap->item(i,0)->data(Qt::DisplayRole).toString() : "";
+            fieldsCorrelation.detail = ui->fieldsMap->item(i,1) ? ui->fieldsMap->item(i,1)->data(Qt::DisplayRole).toString() : "";
             result.fieldMap.append(fieldsCorrelation);
         }
     }
@@ -350,4 +350,13 @@ void SQLEditDialog::hidePreview()
     ui->pbHidePreview->setVisible(false);
 }
 
+void SQLEditDialog::on_pbDelField_clicked()
+{
+    ui->fieldsMap->removeRow(ui->fieldsMap->currentRow());
+}
+
 } // namespace LimeReport
+
+
+
+
