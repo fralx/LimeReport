@@ -116,7 +116,8 @@ public:
     bool canContainChildren(){ return true;}
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
-    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);
+    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);    
+    void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);
 
 protected slots:
     void bandDeleted(QObject* band);
