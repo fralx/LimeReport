@@ -702,6 +702,34 @@ void PageItemDesignIntf::bandDeleted(QObject *band)
     relocateBands();
 }
 
+void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToSwap){
+    int startIndex = std::min(band->minChildIndex(), bandToSwap->minChildIndex());
+
+//        int endIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
+//        QList<BandDesignIntf*> bandToMove;
+//        foreach(BandDesignIntf* curBand, m_bands){
+//            if (curBand->bandIndex() > endIndex)
+//                bandToMove.append(curBand);
+//        }
+
+    BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
+
+    firstMoveBand->changeBandIndex(startIndex, true);
+    if (firstMoveBand == band){
+        bandToSwap->changeBandIndex(firstMoveBand->maxChildIndex()+1,true);
+    } else {
+        band->changeBandIndex(firstMoveBand->maxChildIndex()+1, true);
+    }
+    relocateBands();
+
+//        int maxNewIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
+//        if (maxNewIndex > endIndex){
+//            foreach(BandDesignIntf* curBand, bandToMove){
+//                curBand->setBandIndex(curBand->bandIndex()+(maxNewIndex - endIndex));
+//            }
+//        }
+}
+
 void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
 {
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
@@ -730,33 +758,10 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
     }
     if (curIndex != band->bandIndex()){
 
-        int startIndex = std::min(band->minChildIndex(), bandToSwap->minChildIndex());
-
-//        int endIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
-//        QList<BandDesignIntf*> bandToMove;
-//        foreach(BandDesignIntf* curBand, m_bands){
-//            if (curBand->bandIndex() > endIndex)
-//                bandToMove.append(curBand);
-//        }
-
-        BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
-
-        firstMoveBand->changeBandIndex(startIndex, true);
-        if (firstMoveBand == band){
-            bandToSwap->changeBandIndex(firstMoveBand->maxChildIndex()+1,true);
-        } else {
-            band->changeBandIndex(firstMoveBand->maxChildIndex()+1, true);
-        }
-
-//        int maxNewIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
-//        if (maxNewIndex > endIndex){
-//            foreach(BandDesignIntf* curBand, bandToMove){
-//                curBand->setBandIndex(curBand->bandIndex()+(maxNewIndex - endIndex));
-//            }
-//        }
+        //swapBands(band, bandToSwap);
+        page()->saveCommand(BandSwapCommand::create(page(), band->objectName(), bandToSwap->objectName()), true);
 
     }
-
     relocateBands();
 }
 

@@ -123,7 +123,8 @@ public:
     bool canContainChildren() const{ return true;}
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
-    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);
+    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);    
+    void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);
 
     bool isExtendedInDesignMode() const;
     void setExtendedInDesignMode(bool isExtendedInDesignMode);
