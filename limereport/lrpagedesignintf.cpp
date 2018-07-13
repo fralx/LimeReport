@@ -870,10 +870,17 @@ void PageDesignIntf::saveSelectedItemsGeometry()
 
 void PageDesignIntf::checkSizeOrPosChanges()
 {
-
     CommandIf::Ptr posCommand;
     if ((selectedItems().count() > 0) && (m_positionStamp.count() > 0)) {
-        if (m_positionStamp[0].pos != selectedItems().at(0)->pos()) {
+        bool bandFound = false;
+        foreach(QGraphicsItem* item, selectedItems()){
+            BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+            if (band){
+                bandFound = true;
+                break;
+            }
+        }
+        if (!bandFound && (m_positionStamp[0].pos != selectedItems().at(0)->pos())) {
             posCommand = createChangePosCommand();
         }
         m_positionStamp.clear();
@@ -909,16 +916,14 @@ CommandIf::Ptr PageDesignIntf::createChangePosCommand()
     QVector<ReportItemPos> newPoses;
     foreach(ReportItemPos itemPos, m_positionStamp) {
         BaseDesignIntf *reportItem = reportItemByName(itemPos.objectName);
-
         if (reportItem) {
             ReportItemPos newPos;
             newPos.objectName = reportItem->objectName();
             newPos.pos = reportItem->pos();
             newPoses.append(newPos);
         }
-    }
+    }    
     return PosChangedCommand::create(this, m_positionStamp, newPoses);
-
 }
 
 CommandIf::Ptr PageDesignIntf::createChangeSizeCommand()
@@ -2240,7 +2245,35 @@ qreal ItemProjections::square(QRectF rect)
 
 qreal ItemProjections::square(BaseDesignIntf *item)
 {
-   return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
+    return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
+}
+
+CommandIf::Ptr BandSwapCommand::create(PageDesignIntf *page, const QString &bandName, const QString &bandToSwapName)
+{
+    BandSwapCommand *command = new BandSwapCommand();
+    command->setPage(page);
+    command->bandName = bandName;
+    command->bandToSwapName = bandToSwapName;
+    return CommandIf::Ptr(command);
+}
+
+bool BandSwapCommand::doIt()
+{
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandName));
+    BandDesignIntf* bandToSwap = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandToSwapName));
+    if (band && bandToSwap){
+        page()->pageItem()->swapBands(band, bandToSwap);
+        return true;
+    }
+    return false;
+}
+
+void BandSwapCommand::undoIt()
+{
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandName));
+    BandDesignIntf* bandToSwap = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandToSwapName));
+    if (band && bandToSwap)
+        page()->pageItem()->swapBands(bandToSwap, band);
 }
 
 }
