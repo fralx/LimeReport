@@ -569,7 +569,8 @@ void PageItemDesignIntf::bandDeleted(QObject *band)
 }
 
 void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToSwap){
-    int startIndex = std::min(band->minChildIndex(), bandToSwap->minChildIndex());
+    int firstStartIndex = std::min(band->minChildIndex(), bandToSwap->minChildIndex());
+    int secondStartIndex = std::max(band->minChildIndex(), bandToSwap->minChildIndex());
 
 //        int endIndex = std::max(band->maxChildIndex(), bandToSwap->maxChildIndex());
 //        QList<BandDesignIntf*> bandToMove;
@@ -580,11 +581,11 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
 
     BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
 
-    firstMoveBand->changeBandIndex(startIndex, true);
+    firstMoveBand->changeBandIndex(firstStartIndex, true);
     if (firstMoveBand == band){
-        bandToSwap->changeBandIndex(firstMoveBand->maxChildIndex()+1,true);
+        bandToSwap->changeBandIndex(secondStartIndex,true);
     } else {
-        band->changeBandIndex(firstMoveBand->maxChildIndex()+1, true);
+        band->changeBandIndex(secondStartIndex, true);
     }
     relocateBands();
 
