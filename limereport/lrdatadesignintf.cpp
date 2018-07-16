@@ -692,6 +692,7 @@ bool CallbackDatasource::prior(){
 
 void CallbackDatasource::first(){
     m_currentRow = 0;
+    m_getDataFromCache = false;
     m_eof=checkIfEmpty();
     bool result=false;
 
