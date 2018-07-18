@@ -931,7 +931,6 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         m_currentColumn = -1;
     }
 
-
     if ( (band->columnsCount() > 1) &&
          (!band->isHeader() || (band->bandNestingLevel() > 0 && band->columnsFillDirection() != BandDesignIntf::Horizontal ))){
 
@@ -941,14 +940,17 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
             else
                 m_currentColumn = 0;
         } else {
-            if ( (m_maxHeightByColumn[0] == m_maxHeightByColumn[m_currentColumn]) && (m_maxHeightByColumn[0] >= band->height()) ){
+            m_currentColumn = m_currentColumn == -1 ? 0: m_currentColumn;
+            if ((m_currentColumn !=0) &&
+                (m_maxHeightByColumn[0] == m_maxHeightByColumn[m_currentColumn]) &&
+                (m_maxHeightByColumn[0] >= band->height())
+            ){
                 m_currentColumn = 0;
             }
         }
-
     }
 
-    if (m_currentColumn == -1) m_currentColumn = 0;
+    m_currentColumn = m_currentColumn == -1 ? 0: m_currentColumn;
 
     if (  (isMultiColumnHeader(band) && band->height() <= m_maxHeightByColumn[0]) ||
           (band->height() <= m_maxHeightByColumn[m_currentColumn])){
