@@ -948,6 +948,8 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
 
     }
 
+    if (m_currentColumn == -1) m_currentColumn = 0;
+
     if (  (isMultiColumnHeader(band) && band->height() <= m_maxHeightByColumn[0]) ||
           (band->height() <= m_maxHeightByColumn[m_currentColumn])){
 
