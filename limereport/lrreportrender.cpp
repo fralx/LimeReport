@@ -88,11 +88,11 @@ void ReportRender::rearrangeColumnsItems()
 {
     if (isNeedToRearrangeColumnsItems()){
         qreal startHeight = columnHeigth(0);
-        int avg = m_columnedBandItems.size()/m_columnedBandItems[0]->columnsCount();
-        for (int i=1;i<m_columnedBandItems[0]->columnsCount();++i){
-           if (columnItemsCount(i)<avg){
+        int avg = m_columnedBandItems.size() / m_columnedBandItems[0]->columnsCount();
+        for (int i = 1; i < m_columnedBandItems[0]->columnsCount(); ++i){
+           if (columnItemsCount(i) < avg){
                int getCount = avg * (m_columnedBandItems[0]->columnsCount()-i) - columnItemsCount(i);
-               for (int j=0;j<getCount;++j){
+               for (int j = 0; j < getCount; ++j){
                    BandDesignIntf* band = lastColumnItem(i-1);
                    band->setPos(band->pos().x()+band->width(),m_columnedBandItems[0]->pos().y());
                    band->setColumnIndex(i);
@@ -148,7 +148,7 @@ void ReportRender::renameChildItems(BaseDesignIntf *item){
 
 ReportRender::ReportRender(QObject *parent)
     :QObject(parent), m_renderPageItem(0), m_pageCount(0),
-     m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0), m_newPageStarted(false), m_renderingFirstTOC(false)
+    m_lastRenderedHeader(0), m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0), m_newPageStarted(false), m_renderingFirstTOC(false)
 {
     initColumns();
 }
@@ -440,6 +440,9 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
     QCoreApplication::processEvents();
     if (patternBand){
 
+        if (patternBand->isHeader())
+            m_lastRenderedHeader = patternBand;
+
         BandDesignIntf* bandClone = 0;
 
         if (bandData){
@@ -499,6 +502,9 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                  bandClone->columnsFillDirection()==BandDesignIntf::VerticalUniform))
                             {
                                 startNewColumn();
+                                if (patternBand->bandHeader() && patternBand->bandHeader()->columnsCount()>1){
+                                    renderBand(patternBand->bandHeader(), 0, mode);
+                                }
                             } else {
                                 savePage();
                                 startNewPage();
