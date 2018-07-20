@@ -178,6 +178,7 @@ private:
     qreal           m_dataAreaSize;
     qreal           m_reportFooterHeight;
     int             m_renderedDataBandCount;
+    BandDesignIntf* m_lastRenderedHeader;
     BandDesignIntf* m_lastDataBand;
     BandDesignIntf* m_lastRenderedFooter;
     bool            m_renderCanceled;
