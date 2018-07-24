@@ -462,6 +462,17 @@ namespace LimeReport {
         QString bandToSwapName;
     };
 
+    class BandMoveFromToCommand : public AbstractPageCommand{
+    public:
+        static CommandIf::Ptr create(PageDesignIntf* page, int from, int to);
+        bool doIt();
+        void undoIt();
+    private:
+        int from;
+        int to;
+    };
+
+
     class SizeChangedCommand : public AbstractPageCommand{
     public:
         static CommandIf::Ptr create(PageDesignIntf* page, QVector<ReportItemSize>& oldSize, QVector<ReportItemSize>& newSize);

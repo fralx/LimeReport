@@ -2398,7 +2398,7 @@ bool BandSwapCommand::doIt()
 {
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandName));
     BandDesignIntf* bandToSwap = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandToSwapName));
-    if (band && bandToSwap){
+    if (page() && band && bandToSwap){
         page()->pageItem()->swapBands(band, bandToSwap);
         return true;
     }
@@ -2409,8 +2409,31 @@ void BandSwapCommand::undoIt()
 {
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandName));
     BandDesignIntf* bandToSwap = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandToSwapName));
-    if (band && bandToSwap)
+    if (page() && band && bandToSwap)
         page()->pageItem()->swapBands(bandToSwap, band);
+}
+
+CommandIf::Ptr BandMoveFromToCommand::create(PageDesignIntf* page, int from, int to)
+{
+    BandMoveFromToCommand* command = new BandMoveFromToCommand();
+    command->setPage(page);
+    command->from = from;
+    command->to = to;
+    return CommandIf::Ptr(command);
+}
+
+bool BandMoveFromToCommand::doIt()
+{
+    if (page() && from != to) {
+        page()->pageItem()->moveBandFromTo(from, to);
+        return true;
+    }
+    return false;
+}
+
+void BandMoveFromToCommand::undoIt()
+{
+    if (page()) page()->pageItem()->moveBandFromTo(to, from);
 }
 
 }
