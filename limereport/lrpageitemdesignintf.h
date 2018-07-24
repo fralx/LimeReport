@@ -117,7 +117,8 @@ public:
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
     void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);    
-    void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);
+    void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);    
+    void moveBandFromTo(int from, int to);
 
 protected slots:
     void bandDeleted(QObject* band);

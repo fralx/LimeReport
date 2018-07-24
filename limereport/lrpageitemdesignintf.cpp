@@ -577,7 +577,7 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
     QList<BandDesignIntf*> bandToMove;
     foreach(BandDesignIntf* curBand, m_bands){
         if ( curBand->bandIndex() > moveIndex && curBand->bandIndex() < secondIndex &&
-            curBand->bandType() == BandDesignIntf::Data &&
+            curBand->bandType() == band->bandType() &&
             curBand != band && curBand != bandToSwap
         )
             bandToMove.append(curBand);
@@ -587,7 +587,9 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
 
     firstMoveBand->changeBandIndex(firstIndex, true);
     moveIndex = firstMoveBand->maxChildIndex() + 1;
+    moveIndex = firstIndex;
     qSort(bandToMove.begin(), bandToMove.end(), bandIndexLessThen);
+
     foreach(BandDesignIntf* curBand, bandToMove){
        curBand->changeBandIndex(moveIndex,true);
        moveIndex = curBand->maxChildIndex() + 1;
@@ -602,16 +604,63 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
 
 }
 
+void PageItemDesignIntf::moveBandFromTo(int from, int to)
+{
+    BandDesignIntf* firstBand = 0;
+    BandDesignIntf* secondBand = 0;
+
+    int firstIndex = std::min(from,to);
+    int secondIndex = std::max(from,to);
+    QList<BandDesignIntf*> bandsToMove;
+    int moveIndex = 0;
+
+    foreach(BandDesignIntf* band, bands()){
+        if (band->bandIndex() == from){
+            firstBand = band;
+        }
+        if (band->bandIndex() == to){
+            secondBand = band;
+            bandsToMove.append(band);
+        }
+    }
+
+    foreach(BandDesignIntf* curBand, m_bands){
+        if ( curBand->bandIndex() > firstIndex && curBand->bandIndex() < secondIndex &&
+            curBand->bandType() == firstBand->bandType() &&
+            curBand != firstBand
+        )
+            bandsToMove.append(curBand);
+    }
+    qSort(bandsToMove.begin(), bandsToMove.end(), bandIndexLessThen);
+
+
+    if (from > to){
+        firstBand->changeBandIndex(secondBand->minChildIndex(), true);
+        moveIndex = firstBand->maxChildIndex()+1;
+    } else {
+        moveIndex = firstBand->minChildIndex();
+        firstBand->changeBandIndex(secondBand->minChildIndex(), true);
+    }
+
+    foreach(BandDesignIntf* curBand, bandsToMove){
+       curBand->changeBandIndex(moveIndex,true);
+       moveIndex = curBand->maxChildIndex() + 1;
+    }
+
+    relocateBands();
+
+}
+
 void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
 {
     BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
     int curIndex = band->bandIndex();
     BandDesignIntf* bandToSwap = 0;
     foreach(BandDesignIntf* curBand, bands()){
-        if (newGeometry.y()>oldGeometry.y()) {
+        if (newGeometry.y() > oldGeometry.y()) {
             if (curBand->bandType() == band->bandType()
-                    && curIndex<curBand->bandIndex()
-                    && (curBand->pos().y()+(curBand->height()/2))<newGeometry.y()
+                    && curIndex < curBand->bandIndex()
+                    && (curBand->pos().y() + (curBand->height()/2)) < newGeometry.y()
                     && curBand->parentBand() == band->parentBand())
             {
                 curIndex = curBand->bandIndex();
@@ -620,7 +669,7 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
         } else {
             if (curBand->bandType() == band->bandType()
                     && curIndex>curBand->bandIndex()
-                    && (curBand->pos().y()+(curBand->height()/2))>newGeometry.y()
+                    && (curBand->pos().y() + (curBand->height()/2)) > newGeometry.y()
                     && curBand->parentBand() == band->parentBand())
             {
                 curIndex = curBand->bandIndex();
@@ -629,10 +678,9 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
         }
     }
     if (curIndex != band->bandIndex()){
-
         //swapBands(band, bandToSwap);
-        page()->saveCommand(BandSwapCommand::create(page(), band->objectName(), bandToSwap->objectName()), true);
-
+        //page()->saveCommand(BandSwapCommand::create(page(), band->objectName(), bandToSwap->objectName()), true);
+        page()->saveCommand(BandMoveFromToCommand::create(page(), band->bandIndex(), bandToSwap->bandIndex()), true);
     }
     relocateBands();
 }
