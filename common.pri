@@ -24,7 +24,12 @@ CONFIG(release, debug|release){
     BUILD_TYPE = debug
 }
 
-BUILD_DIR = $$PWD/build/$${QT_VERSION}
+isEmpty(TOP_BUILD_DIR) {
+BUILD_DIR = $${OUT_PWD}/build/$${QT_VERSION}
+}else{
+BUILD_DIR = $${TOP_BUILD_DIR}/build/$${QT_VERSION}
+}
+
 DEST_INCLUDE_DIR = $$PWD/include
 unix{
     ARCH_DIR       = $${OUT_PWD}/unix
