@@ -1,0 +1,22 @@
+QT += xml sql script
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+QT += widgets printsupport
+}
+
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/LimeReport
+
+CONFIG(debug, debug|release) {
+LIB_NAME = limereportd
+} else {
+LIB_NAME = limereport
+}
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+    LIBS += -l$${LIB_NAME}
+} else {
+    qtAddLibrary($${LIB_NAME})
+}
+
+DEFINES += LIMEREPORT
+DEFINES -= NO_LIMEREPORT
