@@ -1,4 +1,7 @@
-CONFIG += build_translations
+
+!contains(CONFIG, no_build_translations){
+    CONFIG += build_translations
+}
 
 !contains(CONFIG, no_zint){
     CONFIG += zint
