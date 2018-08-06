@@ -33,7 +33,6 @@ contains(CONFIG, staticlib){
 }
 
 EXTRA_FILES += \
-    $$PWD/lrglobal.cpp \
     $$PWD/lrglobal.h \
     $$PWD/lrdatasourcemanagerintf.h \
     $$PWD/lrreportengine.h \
@@ -86,6 +85,19 @@ contains(CONFIG,zint){
 		LIBS += -lQtZintd
 	}
 }
+
+#### Install mkspecs, headers and libs to QT_INSTALL_DIR
+
+headerFiles.path = $$[QT_INSTALL_HEADERS]/LimeReport/
+headerFiles.files = $${DEST_INCLUDE_DIR}/*
+INSTALLS += headerFiles
+
+mkspecs.path = $$[QT_INSTALL_DATA]/mkspecs/features
+mkspecs.files = limereport.prf
+INSTALLS += mkspecs
+
+target.path = $$[QT_INSTALL_LIBS]
+INSTALLS += target
 
 ####Automatically build required translation files (*.qm)
 
