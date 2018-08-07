@@ -254,6 +254,8 @@ public:
     QVariant getBookMark(const QString& key);
     void copyBookmarks(BandDesignIntf* sourceBand);
 
+    int bootomSpace() const;
+    void setBootomSpace(int bootomSpace);
 signals:
     void bandRendered(BandDesignIntf* band);
     void bandRegistred();
@@ -313,7 +315,7 @@ private:
     QMap<QString,BaseDesignIntf*> m_slicedItems;
     QColor 						m_alternateBackgroundColor;
     bool                        m_useAlternateBackgroundColor;
-    InitializedValue 			m_bottomSpace;
+    int 						m_bottomSpace;
     QMap<QString,QVariant>      m_bookmarks;
 };
 

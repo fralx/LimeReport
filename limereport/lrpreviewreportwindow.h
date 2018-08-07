@@ -123,6 +123,7 @@ private:
     QComboBox* m_scalePercent;
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
+    bool m_scalePercentChanging;
 
 };
 } //namespace LimeReport
