@@ -428,6 +428,8 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
             bandClone=renderData(patternBand);
         }
 
+        if (isLast) bandClone->setBootomSpace(1);
+
         if (mode == ForcedStartPage){
             savePage();
             startNewPage();

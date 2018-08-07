@@ -45,7 +45,7 @@ namespace LimeReport{
 
 PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
-    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false)
+    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false), m_scalePercentChanging(false)
 {
     ui->setupUi(this);
     setWindowTitle("Lime Report Preview");
@@ -402,12 +402,20 @@ void PreviewReportWindow::on_actionOne_to_one_triggered()
 
 void PreviewReportWindow::scaleComboboxChanged(QString text)
 {
+    if (m_scalePercentChanging) return;
+    m_scalePercentChanging = true;
     m_previewReportWidget->setScalePercent(text.remove(text.count()-1,1).toInt());
+    m_scalePercentChanging = false;
 }
 
 void PreviewReportWindow::slotScalePercentChanged(int percent)
 {
+    if (m_scalePercentChanging) return;
+    m_scalePercentChanging = true;
+    if (m_scalePercent->findText(QString("%1%").arg(percent)) == -1)
+        m_scalePercent->setCurrentIndex(-1);
     m_scalePercent->setEditText(QString("%1%").arg(percent));
+    m_scalePercentChanging = false;
 }
 
 void PreviewReportWindow::on_actionShowMessages_toggled(bool value)

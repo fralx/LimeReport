@@ -63,7 +63,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
-    m_fileWatcher( new QFileSystemWatcher( this ) ),
+    m_fileWatcher( new QFileSystemWatcher( this ) ), m_previewLayoutDirection(Qt::LayoutDirectionAuto),
     m_previewScaleType(FitWidth), m_previewScalePercent(0)
 {
 #ifdef HAVE_STATIC_BUILD

@@ -128,7 +128,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startFromNewPage(false),
     m_printAlways(false),
     m_repeatOnEachRow(false),
-    m_bottomSpace()
+    m_bottomSpace(0)
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -549,7 +549,6 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
 {
     int maxBottom = 0;
     BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    upperPart->m_bottomSpace = this->bottomSpace();
     BaseDesignIntf* upperItem = 0;
 
     upperPart->initFromItem(this);
@@ -596,7 +595,6 @@ bool itemLessThen(QGraphicsItem* i1, QGraphicsItem* i2){
 BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     BandDesignIntf* bottomPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    bottomPart->m_bottomSpace = this->bottomSpace();
     bottomPart->initFromItem(this);
 
     QList<QGraphicsItem*> bandItems;
@@ -794,7 +792,7 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
 
 qreal BandDesignIntf::bottomSpace() const
 {
-    return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
+    return height()-findMaxBottom();
 }
 
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
@@ -802,6 +800,16 @@ void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QStrin
     update();
     if (m_bandNameLabel)
         m_bandNameLabel->updateLabel(newName);
+}
+
+int BandDesignIntf::bootomSpace() const
+{
+    return m_bottomSpace;
+}
+
+void BandDesignIntf::setBootomSpace(int bootomSpace)
+{
+    m_bottomSpace = bootomSpace;
 }
 
 bool BandDesignIntf::repeatOnEachRow() const
@@ -974,6 +982,8 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
+
+    spaceBorder += m_bottomSpace;
     restoreLinks();
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);
