@@ -1255,7 +1255,7 @@ void ReportRender::startNewPage(bool isFirst)
 
     renderPageHeader(m_patternPageItem);
 
-    m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem);
+    m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem)+2;
     m_maxHeightByColumn[m_currentColumn] -= m_pageFooterHeight;
     m_currentIndex=10;
     m_dataAreaSize = m_maxHeightByColumn[m_currentColumn];
