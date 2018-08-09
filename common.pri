@@ -1,3 +1,6 @@
+!contains(CONFIG, config_build_dir){
+    TOP_BUILD_DIR = $${PWD}
+}
 
 !contains(CONFIG, no_build_translations){
     CONFIG += build_translations
@@ -27,11 +30,13 @@ CONFIG(release, debug|release){
     BUILD_TYPE = debug
 }
 
-isEmpty(TOP_BUILD_DIR) {
-BUILD_DIR = $${OUT_PWD}/build/$${QT_VERSION}
-}else{
+#isEmpty(TOP_BUILD_DIR) {
+#    BUILD_DIR = $${OUT_PWD}/build/$${QT_VERSION}
+#}else{
+#    BUILD_DIR = $${TOP_BUILD_DIR}/build/$${QT_VERSION}
+#}
+
 BUILD_DIR = $${TOP_BUILD_DIR}/build/$${QT_VERSION}
-}
 
 DEST_INCLUDE_DIR = $$PWD/include
 unix{
@@ -70,7 +75,7 @@ RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 4
-LIMEREPORT_VERSION_RELEASE = 98
+LIMEREPORT_VERSION_RELEASE = 99
 
 LIMEREPORT_VERSION = '\\"$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}\\"'
 DEFINES += LIMEREPORT_VERSION_STR=\"$${LIMEREPORT_VERSION}\"

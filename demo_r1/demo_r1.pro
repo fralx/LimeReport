@@ -46,7 +46,7 @@ unix:{
 	}
 	DESTDIR = $$DEST_DIR
 	#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
-	QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
 		
 	linux{
 		#Link share lib to ../lib rpath
@@ -67,7 +67,8 @@ win32 {
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
 
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+    #QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     !contains(CONFIG, static_build){
 		
 		contains(CONFIG,zint){
