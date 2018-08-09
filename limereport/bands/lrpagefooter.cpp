@@ -53,6 +53,7 @@ PageFooter::PageFooter(QObject *owner, QGraphicsItem *parent)
 {
         setBandTypeText( tr("Page Footer") );
         setMarkerColor(bandColor());
+        setAutoHeight(false);
 }
 
 BaseDesignIntf *PageFooter::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
