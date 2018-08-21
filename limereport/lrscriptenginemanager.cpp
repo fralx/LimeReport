@@ -733,7 +733,7 @@ bool ScriptEngineManager::createCurrencyUSBasedFormatFunction(){
     fd.setDescription("currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
     fd.setScriptWrapper(QString("function currencyUSBasedFormat(value, currencySymbol){"
                                 " if(typeof(currencySymbol)==='undefined') currencySymbol = \"\"; "
-                                "return %1.currencyFormat(value,currencySymbol);}"
+                                "return %1.currencyUSBasedFormat(value,currencySymbol);}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
