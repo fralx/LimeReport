@@ -511,10 +511,15 @@ void BandDesignIntf::moveItemsDown(qreal startPos, qreal offset){
 
 void BandDesignIntf::preparePopUpMenu(QMenu &menu)
 {
+
+    QList<QString> disabledActions;
+    disabledActions << tr("Bring to top") <<
+                       tr("Send to back") <<
+                       tr("Cut") <<
+                       tr("Copy");
+
     foreach (QAction* action, menu.actions()) {
-        if (action->text().compare(tr("Bring to top")) == 0 ||
-            action->text().compare(tr("Send to back")) == 0  )
-            action->setEnabled(false);
+          action->setEnabled(!disabledActions.contains(action->text()));
     }
 
     menu.addSeparator();
