@@ -1859,7 +1859,7 @@ CommandIf::Ptr CutCommand::create(PageDesignIntf *page)
     ItemsWriterIntf *writer = new XMLWriter();
     foreach(QGraphicsItem * item, page->selectedItems()) {
         if (!dynamic_cast<PageItemDesignIntf*>(item)){
-            BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
+            ItemDesignIntf *reportItem = dynamic_cast<ItemDesignIntf *>(item);
 
             if (reportItem) {
                 command->m_itemNames.push_back(reportItem->objectName());
