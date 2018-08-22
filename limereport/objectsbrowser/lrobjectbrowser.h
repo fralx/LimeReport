@@ -42,7 +42,7 @@ public:
     void setObject(QObject* value);
     QObject* object() const;
     explicit ObjectBrowserNode(QTreeWidget *view);
-    explicit ObjectBrowserNode(QTreeWidgetItem *parent);
+    explicit ObjectBrowserNode(QTreeWidgetItem *parent = 0);
     bool operator <(const QTreeWidgetItem& other) const;
 private:
     QObject* m_object;

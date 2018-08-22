@@ -90,7 +90,7 @@ void ObjectBrowser::fillNode(QTreeWidgetItem* parentNode, BaseDesignIntf* report
 
     foreach (BaseDesignIntf* item, reportItem->childBaseItems()) {
         if (item != ignoredItem){
-            ObjectBrowserNode* treeItem = new ObjectBrowserNode(parentNode);
+            ObjectBrowserNode* treeItem = new ObjectBrowserNode(/*parentNode*/);
             treeItem->setText(0,item->objectName());
             treeItem->setObject(item);
             treeItem->setIcon(0,QIcon(":/items/"+extractClassName(item->metaObject()->className())));
@@ -102,7 +102,26 @@ void ObjectBrowser::fillNode(QTreeWidgetItem* parentNode, BaseDesignIntf* report
                         this, SLOT(slotItemParentChanged(BaseDesignIntf*,BaseDesignIntf*)), Qt::UniqueConnection);
             }
             m_itemsMap.insert(item,treeItem);
-            parentNode->addChild(treeItem);
+
+            BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+
+            QSet<BandDesignIntf::BandsType> subBands;
+            subBands << BandDesignIntf::SubDetailBand <<
+                        BandDesignIntf::SubDetailHeader <<
+                        BandDesignIntf::SubDetailFooter;
+
+            if (band && subBands.contains(band->bandType())){
+                ObjectBrowserNode* parentBandNode = 0;
+                if (band->bandType() == BandDesignIntf::SubDetailBand){
+                    parentBandNode = m_itemsMap.value(band->parentBand());
+                } else {
+                    parentBandNode = m_itemsMap.value(band->parentBand()->parentBand());
+                }
+                if(parentBandNode)
+                    parentBandNode->addChild(treeItem);
+            } else {
+                parentNode->addChild(treeItem);
+            }
             if (!item->childBaseItems().isEmpty())
                 fillNode(treeItem,item, ignoredItem);
         }
