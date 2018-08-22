@@ -41,5 +41,7 @@
         <file alias="ImageItem">images/imageItem4.png</file>
         <file alias="ShapeItem">images/shapes7.png</file>
         <file alias="BarcodeItem">images/barcode5.png</file>
+        <file alias="DataHeaderBand">images/DataHeaderBand.png</file>
+        <file alias="DataFooterBand">images/DataFooterBand.png</file>
     </qresource>
 </RCC>
