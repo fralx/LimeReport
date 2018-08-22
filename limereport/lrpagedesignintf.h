@@ -140,6 +140,7 @@ namespace LimeReport {
             BaseDesignIntf::ItemMode itemMode(){return m_itemMode;}
             BaseDesignIntf* reportItemByName(const QString& name);
             QList<BaseDesignIntf *> reportItemsByName(const QString &name);
+            BandDesignIntf* bandAt(QPointF pos);
             BaseDesignIntf* addReportItem(const QString& itemType, QPointF pos, QSizeF size);
             BaseDesignIntf* addReportItem(const QString& itemType, QObject *owner=0, BaseDesignIntf *parent=0);
             BaseDesignIntf* createReportItem(const QString& itemType, QObject *owner=0, BaseDesignIntf *parent=0);

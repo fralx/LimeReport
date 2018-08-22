@@ -482,12 +482,7 @@ QSizeF PageDesignIntf::placeSizeOnGrid(QSizeF size){
 
 BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF pos, QSizeF size)
 {
-    BandDesignIntf *band=0;
-    foreach(QGraphicsItem * item, items(pos)) {
-        band = dynamic_cast<BandDesignIntf *>(item);
-        if (band) break;
-    }
-
+    BandDesignIntf *band = bandAt(pos);
     if (band) {
         BaseDesignIntf *reportItem = addReportItem(itemType, band, band);
 //        QPointF insertPos = band->mapFromScene(pos);
@@ -1731,6 +1726,16 @@ QList<BaseDesignIntf*> PageDesignIntf::reportItemsByName(const QString &name){
         if (bd && (bd->objectName().compare(name, Qt::CaseInsensitive) == 0)) result.append(bd);
     }
     return result;
+}
+
+BandDesignIntf *PageDesignIntf::bandAt(QPointF pos)
+{
+    BandDesignIntf *band=0;
+    foreach(QGraphicsItem * item, items(pos)) {
+        band = dynamic_cast<BandDesignIntf *>(item);
+        if (band) break;
+    }
+    return band;
 }
 
 void CommandIf::addCommand(Ptr command, bool execute)
