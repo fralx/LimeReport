@@ -69,7 +69,7 @@ PageTranslation* ReportTranslation::findPageTranslation(const QString& page_name
 
 void ReportTranslation::updatePageTranslation(PageDesignIntf* page)
 {
-    PageTranslation* pageTranslation = findPageTranslation(page->objectName());
+    PageTranslation* pageTranslation = findPageTranslation(page->pageItem()->objectName());
     if (!pageTranslation){
        pageTranslation = createPageTranslation(page);
        m_pagesTranslation.append(pageTranslation);
