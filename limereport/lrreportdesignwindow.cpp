@@ -78,7 +78,10 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivate *report, QWidget *par
     m_lblReportName = new QLabel(report->reportFileName(),this);
     m_statusBar->insertWidget(0,m_lblReportName);
     setStatusBar(m_statusBar);
-    setWindowTitle("Lime Report Designer");
+    QString windowTitle = "Lime Report Designer";
+    if (!report->reportName().isEmpty())
+        windowTitle = report->reportName() + " - " + windowTitle;
+    setWindowTitle(windowTitle);
     restoreSetting();
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
     m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
@@ -742,6 +745,7 @@ void ReportDesignWindow::slotNewReport()
         m_lblReportName->setText("");
         startNewReport();
         m_deletePageAction->setEnabled(false);
+        setWindowTitle("Lime Report Designer");
     }
 }
 
@@ -931,7 +935,6 @@ void ReportDesignWindow::slotLoadReport()
                 	m_lblReportName->setText(fileName);
                 	m_propertyModel->setObject(0);
                 	updateRedoUndo();
-                	setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
                 	if (!m_recentFiles.contains(fileName)){
                     	if (m_recentFiles.count()==10){
                         	QMap<QString, QDateTime>::const_iterator it = m_recentFiles.constBegin();
