@@ -1096,7 +1096,31 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
 }
+void ReportEngine::setItemImage(QString name, QString imagePath)
+{
+    Q_D(ReportEngine);
+    for(int page = 0; page < d->pageCount(); page++)
+    {
+        PageDesignIntf *pageDesignIntf =  d->pageAt(page);
+        if(pageDesignIntf != NULL)
+        {
+            BaseDesignIntf *baseDesignIntf = pageDesignIntf->reportItemByName(name);
+            if(baseDesignIntf != NULL)
+            {
+                ImageItem *imageItem = qobject_cast<ImageItem *>(baseDesignIntf);
+                if(imageItem)
+                {
+                    if(QFile::exists(imagePath))
+                    {
+                        QImage img(imagePath);
+                        imageItem->setImage(img);
+                    }
 
+                }
+            }
+        }
+    }
+}
 
 
 }

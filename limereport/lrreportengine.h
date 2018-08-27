@@ -107,6 +107,7 @@ public:
     ScaleType previewScaleType();
     int  previewScalePercent();
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+	void setItemImage(QString name, QString imagePath);
 signals:
     void renderStarted();
     void renderFinished();

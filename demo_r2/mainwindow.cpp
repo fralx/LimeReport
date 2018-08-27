@@ -52,6 +52,14 @@ MainWindow::MainWindow(QWidget *parent) :
     move(x, y);
     if (QFile::exists(QApplication::applicationDirPath()+"/demo_reports/categories.lrxml")){
         m_report.loadFromFile(QApplication::applicationDirPath()+"/demo_reports/categories.lrxml");
+		
+		//Set a image of a imageitem by code
+		/* 
+		QImage img ;
+        img.load("C:/demo.png");
+        m_report.setItemImage("image_item_name",img); 
+		*/
+		
         m_preview->refreshPages();
     }
 
