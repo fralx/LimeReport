@@ -88,7 +88,11 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     m_lblReportName = new QLabel(report->reportFileName(),this);
     m_statusBar->insertWidget(0,m_lblReportName);
     setStatusBar(m_statusBar);
-    setWindowTitle("Lime Report Designer");
+
+    QString windowTitle = "Lime Report Designer";
+    if (!report->reportName().isEmpty())
+        windowTitle = report->reportName() + " - " + windowTitle;
+    setWindowTitle(windowTitle);
     showDefaultEditors();
     showDefaultToolBars();
     restoreSetting();
@@ -886,6 +890,7 @@ void ReportDesignWindow::slotNewReport()
         m_lblReportName->setText("");
         startNewReport();
         m_deletePageAction->setEnabled(false);
+        setWindowTitle("Lime Report Designer");
     }
 }
 
