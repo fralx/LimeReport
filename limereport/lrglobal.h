@@ -46,7 +46,7 @@
 //#include <QJSEngine>
 #include <QQmlEngine>
 #else
-#include <QScriptEngine>
+#include <QtScript/QScriptEngine>
 #endif
 
 namespace LimeReport {
