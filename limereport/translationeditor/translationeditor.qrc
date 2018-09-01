@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/translationeditor">
-        <file>images/add.png</file>
-        <file>images/remove.png</file>
+        <file alias="add">images/add.png</file>
+        <file alias="remove">images/remove.png</file>
         <file>images/checked.png</file>
-        <file>images/question.png</file>
+        <file alias="question">images/question.png</file>
+        <file alias="checked">images/green_check.png</file>
     </qresource>
 </RCC>

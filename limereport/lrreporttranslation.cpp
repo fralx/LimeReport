@@ -82,8 +82,14 @@ void ReportTranslation::updatePageTranslation(PageDesignIntf* page)
                 if (itemTranslation){
                     foreach(QString propertyName, stringsForTranslation.keys()){
                         PropertyTranslation* propertyTranslation = itemTranslation->findProperty(propertyName);
+                        if (propertyTranslation->checked)
+                            propertyTranslation->sourceHasBeenChanged = propertyTranslation->sourceValue != stringsForTranslation.value(propertyName);
+                        if (propertyTranslation->sourceHasBeenChanged)
+                            propertyTranslation->checked = false;
                         propertyTranslation->sourceValue = stringsForTranslation.value(propertyName);
-                        propertyTranslation->sourceHasBeenChanged = propertyTranslation->value != propertyTranslation->sourceValue;
+
+                        if ( language() == QLocale::AnyLanguage )
+                            propertyTranslation->value = propertyTranslation->sourceValue;
                     }
                 } else {
                    createItemTranslation(item, pageTranslation);

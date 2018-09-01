@@ -62,7 +62,7 @@
                </property>
                <property name="icon">
                 <iconset resource="translationeditor.qrc">
-                 <normaloff>:/translationeditor/images/add.png</normaloff>:/translationeditor/images/add.png</iconset>
+                 <normaloff>:/translationeditor/add</normaloff>:/translationeditor/add</iconset>
                </property>
                <property name="autoRaise">
                 <bool>true</bool>
@@ -76,7 +76,7 @@
                </property>
                <property name="icon">
                 <iconset resource="translationeditor.qrc">
-                 <normaloff>:/translationeditor/images/remove.png</normaloff>:/translationeditor/images/remove.png</iconset>
+                 <normaloff>:/translationeditor/remove</normaloff>:/translationeditor/remove</iconset>
                </property>
                <property name="autoRaise">
                 <bool>true</bool>
@@ -158,6 +158,10 @@
               <property name="text">
                <string/>
               </property>
+              <property name="icon">
+               <iconset resource="translationeditor.qrc">
+                <normaloff>:/translationeditor/checked</normaloff>:/translationeditor/checked</iconset>
+              </property>
              </column>
              <column>
               <property name="text">
@@ -214,6 +218,7 @@
   </layout>
  </widget>
  <resources>
+  <include location="translationeditor.qrc"/>
   <include location="translationeditor.qrc"/>
  </resources>
  <connections/>

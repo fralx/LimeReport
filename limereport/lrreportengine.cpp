@@ -908,6 +908,7 @@ bool ReportEnginePrivate::isNeedToSave()
 QString ReportEnginePrivate::renderToString()
 {
     LimeReport::ReportRender render;
+    updateTranslations();
     dataManager()->connectAllDatabases();
     dataManager()->setDesignTime(false);
     if (m_pages.count()){
@@ -1120,6 +1121,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 {
     if (m_reportRendering) return ReportPages();
     m_reportRender = ReportRender::Ptr(new ReportRender);
+    updateTranslations();
 
     dataManager()->clearErrors();
     dataManager()->connectAllDatabases();
@@ -1159,7 +1161,6 @@ ReportPages ReportEnginePrivate::renderToPages()
                     result.append(m_reportRender->renderPageToPages(page));
                 }
             }
-
 
             for (int i=0; i<m_renderingPages.count(); ++i){
                 PageItemDesignIntf* page = m_renderingPages.at(i);

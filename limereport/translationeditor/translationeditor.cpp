@@ -19,7 +19,7 @@ TranslationEditor::TranslationEditor(QWidget *parent) :
     ui->splitter_2->setStretchFactor(1,2);
     ui->splitter->setStretchFactor(0,2);
     QTableWidgetItem* item = new QTableWidgetItem();
-    item->setIcon(QIcon(":/translationeditor/images/checked.png"));
+    item->setIcon(QIcon(":/translationeditor/checked"));
     ui->tbStrings->setColumnCount(4);
     ui->tbStrings->setColumnWidth(0,30);
     ui->tbStrings->setColumnWidth(1,100);
@@ -132,8 +132,14 @@ void TranslationEditor::activatePage(PageTranslation* pageTranslation)
             ui->tbStrings->setRowCount(rowIndex+1);
             foreach(PropertyTranslation* propertyTranslation, itemTranslation->propertyesTranslation){
                 QTableWidgetItem* checkItem = new QTableWidgetItem();
-                if (propertyTranslation->checked)
-                    checkItem->setIcon(QIcon(":/translationeditor/images/checked.png"));
+
+                if (propertyTranslation->sourceHasBeenChanged){
+                    checkItem->setIcon(QIcon(":/translationeditor/question"));
+                }
+                if (propertyTranslation->checked){
+                    checkItem->setIcon(QIcon(":/translationeditor/checked"));
+                }
+
                 ui->tbStrings->setItem(rowIndex,0,checkItem);
                 ui->tbStrings->setItem(rowIndex,1,new QTableWidgetItem(itemTranslation->itemName));
                 ui->tbStrings->setItem(rowIndex,2,new QTableWidgetItem(propertyTranslation->propertyName));
@@ -179,7 +185,7 @@ void TranslationEditor::on_cbChecked_toggled(bool checked)
 {
     if (m_currentPropertyTranslation){
         m_currentPropertyTranslation->checked = checked;
-        ui->tbStrings->item(ui->tbStrings->currentRow(),0)->setIcon(checked ? QIcon(":/translationeditor/images/checked.png"):QIcon());
+        ui->tbStrings->item(ui->tbStrings->currentRow(),0)->setIcon(checked ? QIcon(":/translationeditor/checked"):QIcon());
     }
 }
 
