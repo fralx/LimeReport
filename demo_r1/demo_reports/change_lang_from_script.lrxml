@@ -108,20 +108,6 @@ Dialog.exec() == 1;
     </scriptContext>
     <suppressFieldAndVarError Type="bool" Value="0"/>
     <translation Type="Translation">
-      <Default Value="0">
-        <page1>
-          <TextItem1>
-            <content Checked="N" SourceValue="Test" Value="Test"/>
-          </TextItem1>
-        </page1>
-      </Default>
-      <Russian Value="96">
-        <page1>
-          <TextItem1>
-            <content Checked="Y" SourceValue="Test" Value="Проверка"/>
-          </TextItem1>
-        </page1>
-      </Russian>
     </translation>
   </object>
 </Report>

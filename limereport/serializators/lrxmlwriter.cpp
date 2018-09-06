@@ -232,14 +232,17 @@ void XMLWriter::saveTranslation(QString propertyName, QObject* item, QDomElement
                 languageNode.appendChild(pageNode);
                 foreach(ItemTranslation* item, page->itemsTranslation){
                     QDomElement itemNode = m_doc->createElement(item->itemName);
-                    pageNode.appendChild(itemNode);
                     foreach(PropertyTranslation* property, item->propertyesTranslation){
-                          QDomElement propertyNode = m_doc->createElement(property->propertyName);
-                          propertyNode.setAttribute("Value",property->value);
-                          propertyNode.setAttribute("SourceValue", property->sourceValue);
-                          propertyNode.setAttribute("Checked", property->checked ? "Y":"N");
-                          itemNode.appendChild(propertyNode);
+                        if (property->sourceValue.compare(property->value) != 0){
+                            QDomElement propertyNode = m_doc->createElement(property->propertyName);
+                            propertyNode.setAttribute("Value",property->value);
+                            propertyNode.setAttribute("SourceValue", property->sourceValue);
+                            propertyNode.setAttribute("Checked", property->checked ? "Y":"N");
+                            itemNode.appendChild(propertyNode);
+                        }
                     }
+                    if (!itemNode.childNodes().isEmpty())
+                        pageNode.appendChild(itemNode);
                 }
             }
         }

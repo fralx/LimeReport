@@ -1010,7 +1010,8 @@ void ReportEnginePrivate::activateLanguage(QLocale::Language language)
                 BaseDesignIntf* item = page->childByName(itemTranslation->itemName);
                 if (item) {
                     foreach(PropertyTranslation* propertyTranslation, itemTranslation->propertyesTranslation){
-                        item->setProperty(propertyTranslation->propertyName.toLatin1(), propertyTranslation->value);
+                        if (propertyTranslation->checked)
+                            item->setProperty(propertyTranslation->propertyName.toLatin1(), propertyTranslation->value);
                     }
                 }
             }
@@ -1123,11 +1124,6 @@ ReportPages ReportEnginePrivate::renderToPages()
     m_reportRender = ReportRender::Ptr(new ReportRender);
     updateTranslations();
 
-    dataManager()->clearErrors();
-    dataManager()->connectAllDatabases();
-    dataManager()->setDesignTime(false);
-    dataManager()->updateDatasourceModel();
-
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
 
@@ -1151,6 +1147,11 @@ ReportPages ReportEnginePrivate::renderToPages()
         scriptContext()->qobjectToScript("engine",this);
 
         if (m_scriptEngineContext->runInitScript()){
+
+            dataManager()->clearErrors();
+            dataManager()->connectAllDatabases();
+            dataManager()->setDesignTime(false);
+            dataManager()->updateDatasourceModel();
 
             activateLanguage(m_reportLanguage);
             emit renderStarted();
