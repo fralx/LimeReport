@@ -12,7 +12,8 @@ public:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
 protected:
     QColor bandColor() const;
-    virtual bool isUnique() const {return true;}
+    bool isUnique() const {return true;}
+    bool isFooter() const{ return true;}
 };
 
 } // namespace LimeReport
