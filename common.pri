@@ -1,6 +1,12 @@
-!contains(CONFIG, config_build_dir){
+isEmpty(TOP_BUILD_DIR) {
     TOP_BUILD_DIR = $${PWD}
 }
+
+message(TOP_BUILD_DIR: $$TOP_BUILD_DIR)
+
+#!contains(CONFIG, config_build_dir){
+#    TOP_BUILD_DIR = $${PWD}
+#}
 
 !contains(CONFIG, no_build_translations){
     CONFIG += build_translations
@@ -72,12 +78,6 @@ CONFIG(release, debug|release){
     message(Debug)
     BUILD_TYPE = debug
 }
-
-#isEmpty(TOP_BUILD_DIR) {
-#    BUILD_DIR = $${OUT_PWD}/build/$${QT_VERSION}
-#}else{
-#    BUILD_DIR = $${TOP_BUILD_DIR}/build/$${QT_VERSION}
-#}
 
 BUILD_DIR = $${TOP_BUILD_DIR}/build/$${QT_VERSION}
 
