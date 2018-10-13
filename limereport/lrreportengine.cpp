@@ -491,19 +491,19 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
         if (fn.isEmpty()){
             QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
             QString fn = QFileDialog::getSaveFileName(0,tr("%1 file name").arg(e->exporterName()),"",filter);
-            if (!fn.isEmpty()){
-                QFileInfo fi(fn);
-                if (fi.suffix().isEmpty())
-                    fn += QString(".%1").arg(e->exporterFileExt());
+        }
+        if (!fn.isEmpty()){
+            QFileInfo fi(fn);
+            if (fi.suffix().isEmpty())
+                fn += QString(".%1").arg(e->exporterFileExt());
 
-                bool designTime = dataManager()->designTime();
-                dataManager()->setDesignTime(false);
-                ReportPages pages = renderToPages();
-                dataManager()->setDesignTime(designTime);
-                bool result = e->exportPages(pages, fn, params);
-                delete e;
-                return result;
-            }
+            bool designTime = dataManager()->designTime();
+            dataManager()->setDesignTime(false);
+            ReportPages pages = renderToPages();
+            dataManager()->setDesignTime(designTime);
+            bool result = e->exportPages(pages, fn, params);
+            delete e;
+            return result;
         }
     }
     return false;
