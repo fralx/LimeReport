@@ -1,7 +1,7 @@
 include(../common.pri)
 QT += core gui
 
-contains(CONFIG,release) {
+CONFIG(release, debug|release) {
 	TARGET = LRDemo_r1
 } else {
 	TARGET = LRDemo_r1d
@@ -31,51 +31,58 @@ macx{
 }
 
 unix:{
-    LIBS += -L$${DEST_LIBS} -llimereport
-    !contains(CONFIG, static_build){
-        contains(CONFIG,zint){
-            LIBS += -L$${DEST_LIBS} -lQtZint
-        }
-    }
-    DESTDIR = $$DEST_DIR
-#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
-    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
-linux{
-    #Link share lib to ../lib rpath
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
-    QMAKE_LFLAGS_RPATH += #. .. ./libs
-}
-    target.path = $${DEST_DIR}
-    INSTALLS = target
+	DESTDIR = $$DEST_DIR
+	#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+		
+	linux{
+		#Link share lib to ../lib rpath
+		QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
+		QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
+		QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib
+		QMAKE_LFLAGS_RPATH += #. .. ./libs
+	}
+	target.path = $${DEST_DIR}
+	INSTALLS = target
 }
 
 win32 {
-    EXTRA_DIR ~= s,/,\\,g
-    DEST_DIR ~= s,/,\\,g
-    REPORTS_DIR ~= s,/,\\,g
-
     DESTDIR = $$DEST_DIR
-    RC_FILE += mainicon.rc
+    contains(QMAKE_HOST.os, Linux){
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+    } else {
+	EXTRA_DIR ~= s,/,\\,g
+        DEST_DIR ~= s,/,\\,g
+	REPORTS_DIR ~= s,/,\\,g
 
-    greaterThan(QT_MAJOR_VERSION, 4) {
+	RC_FILE += mainicon.rc
+	
+	greaterThan(QT_MAJOR_VERSION, 4) {
         QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     }
     lessThan(QT_MAJOR_VERSION, 5){
         QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     }
-    !contains(CONFIG, static_build){
-        contains(CONFIG,zint){
-            LIBS += -L$${DEST_LIBS} -lQtZint
-        }
+	#QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+	#QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     }
-    LIBS += -L$${DEST_LIBS}
-	contains(CONFIG,release) {
-		LIBS += -llimereport
-	} else {
-		LIBS += -llimereportd
-	}
 }
 
+LIBS += -L$${DEST_LIBS}
+CONFIG(debug, debug|release) {
+    LIBS += -llimereportd
+} else {
+    LIBS += -llimereport
+}
+message($$LIBS)
 
+!contains(CONFIG, static_build){
+	contains(CONFIG,zint){
+		LIBS += -L$${DEST_LIBS}
+		CONFIG(debug, debug|release) {
+			LIBS += -lQtZintd
+		} else {
+			LIBS += -lQtZint
+		}
+	}
+}
