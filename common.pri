@@ -1,5 +1,7 @@
-isEmpty(TOP_BUILD_DIR) {
-    TOP_BUILD_DIR = $${PWD}
+#BINARY_RESULT_DIR = $${TOP_BUILD_DIR}
+
+isEmpty(BINARY_RESULT_DIR) {
+    BINARY_RESULT_DIR = $${PWD}
 }
 
 message(TOP_BUILD_DIR: $$TOP_BUILD_DIR)
@@ -79,7 +81,7 @@ CONFIG(release, debug|release){
     BUILD_TYPE = debug
 }
 
-BUILD_DIR = $${TOP_BUILD_DIR}/build/$${QT_VERSION}
+BUILD_DIR = $${BINARY_RESULT_DIR}/build/$${QT_VERSION}
 
 DEST_INCLUDE_DIR = $$PWD/include
 unix{
