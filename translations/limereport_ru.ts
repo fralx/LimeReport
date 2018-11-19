@@ -1890,7 +1890,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview</source>
-        <translation>Предосмотр</translation>
+        <translation>Предпросмотр</translation>
     </message>
     <message>
         <source>Report File Change</source>
@@ -2012,7 +2012,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Предосмотр</translation>
+        <translation>Предпросмотр</translation>
     </message>
     <message>
         <source>...</source>
