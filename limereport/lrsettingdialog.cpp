@@ -96,7 +96,11 @@ void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLo
         if (language != currentLanguage)
             ui->designerLanguage->addItem(QLocale::languageToString(language));
     }
+#ifdef HAVE_QT4
+    ui->designerLanguage->setCurrentIndex(ui->designerLanguage->findText(QLocale::languageToString(currentLanguage)));
+#else
     ui->designerLanguage->setCurrentText(QLocale::languageToString(currentLanguage));
+#endif
 }
 
 } // namespace LimeReport
