@@ -93,7 +93,10 @@ public:
     virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
 };
 
-class ReportEnginePrivate : public QObject, public ICollectionContainer, public ITranslationContainer,
+class ReportEnginePrivate : public QObject,
+        public ICollectionContainer,
+        public ITranslationContainer,
+        public IExternalPainter,
         public ReportEnginePrivateInterface
 {
     Q_OBJECT
@@ -214,6 +217,8 @@ signals:
     void    currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language  getCurrentDefaultLanguage();
 
+    void    externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);
+
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
@@ -242,6 +247,8 @@ private:
     PageItemDesignIntf *getPageByName(const QString& pageName);
     ATranslationProperty fakeTranslationReader(){ return ATranslationProperty();}
     PageItemDesignIntf *createRenderingPage(PageItemDesignIntf *page);
+    void initReport();
+    void paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options);
 private:
     QList<PageDesignIntf*> m_pages;
     QList<PageItemDesignIntf*> m_renderingPages;

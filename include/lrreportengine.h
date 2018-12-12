@@ -135,6 +135,8 @@ signals:
     void currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language getCurrentDefaultLanguage();
 
+    void  externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);
+
 public slots:
     void cancelRender();
 protected:

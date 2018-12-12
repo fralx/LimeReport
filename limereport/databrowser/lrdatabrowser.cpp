@@ -661,6 +661,8 @@ void DataBrowser::applyChanges(SQLEditResult result)
                 break;
             case SQLEditResult::SubProxy:
                 changeProxy(result);
+                break;
+            default: break;
         }
     } else {
         removeDatasource(result.datasourceName);
@@ -679,6 +681,7 @@ void DataBrowser::addDatasource(SQLEditResult result)
             break;
         case SQLEditResult::SubProxy:
             addProxy(result);
+            break;
         default:
             break;
     }

@@ -1,7 +1,7 @@
-CONFIG(release, debug|release){
-    TARGET = limereport
-} else {
+CONFIG(debug, debug|release){
     TARGET = limereportd
+} else {
+    TARGET = limereport
 }
 
 TEMPLATE = lib

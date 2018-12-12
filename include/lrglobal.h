@@ -119,7 +119,7 @@ namespace Const{
 
     class ReportError : public std::runtime_error{
     public:
-        ReportError(const QString& message):std::runtime_error(message.toStdString()){}
+        ReportError(const QString& message);
     };
 
     class ReportSettings{
@@ -130,6 +130,18 @@ namespace Const{
         void setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentFieldsAndVarsWarnings);
     private:
         bool m_suppressAbsentFieldsAndVarsWarnings;
+    };
+
+    class IExternalPainter{
+    public:
+        virtual void paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options) = 0;
+        virtual ~IExternalPainter();
+    };
+
+    class IPainterProxy{
+    public:
+        virtual void setExternalPainter(IExternalPainter* externalPainter) = 0;
+        virtual ~IPainterProxy();
     };
 
 #ifdef HAVE_QT4

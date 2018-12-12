@@ -77,6 +77,7 @@ void LimeReport::ItemLocationPropItem::setPropertyEditorData(QWidget *propertyEd
 }
 
 void LimeReport::ItemLocationPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index){
+    Q_UNUSED(propertyEditor)
     model->setData(index,object()->property(propertyName().toLatin1()));
     setValueToObject(propertyName(), propertyValue());
 }

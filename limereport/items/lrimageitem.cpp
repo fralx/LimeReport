@@ -48,11 +48,15 @@ bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instanc
 namespace LimeReport{
 
 ImageItem::ImageItem(QObject* owner,QGraphicsItem* parent)
-    :ItemDesignIntf(xmlTag,owner,parent),m_autoSize(false), m_scale(true), m_keepAspectRatio(true), m_center(true), m_format(Binary){}
+    :ItemDesignIntf(xmlTag,owner,parent), m_useExternalPainter(false), m_externalPainter(0),
+     m_autoSize(false), m_scale(true),
+     m_keepAspectRatio(true), m_center(true), m_format(Binary){}
 
 BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
-    return new ImageItem(owner,parent);
+    ImageItem* result = new ImageItem(owner,parent);
+    result->setExternalPainter(m_externalPainter);
+    return result;
 }
 
 void ImageItem::loadPictureFromVariant(QVariant& data){
@@ -91,12 +95,26 @@ void ImageItem::processPopUpAction(QAction *action)
     }
 }
 
+bool ImageItem::useExternalPainter() const
+{
+    return m_useExternalPainter;
+}
+
+void ImageItem::setUseExternalPainter(bool value)
+{
+    if (m_useExternalPainter != value){
+        m_useExternalPainter = value;
+        notify("useExternalPainter",!value, value);
+        update();
+    }
+}
+
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
 
-   if (m_picture.isNull()){
-       if (!m_datasource.isEmpty() && !m_field.isEmpty()){
-           IDataSource* ds = dataManager->dataSource(m_datasource);
+    if (m_picture.isNull()){
+        if (!m_datasource.isEmpty() && !m_field.isEmpty()){
+            IDataSource* ds = dataManager->dataSource(m_datasource);
            if (ds) {
               QVariant data = ds->data(m_field);
               loadPictureFromVariant(data);
@@ -293,10 +311,13 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
         ppainter->setPen(Qt::black);
         if (!datasource().isEmpty() && !field().isEmpty())
             text = datasource()+"."+field();
-        else text = tr("Image");
+        else  if (m_useExternalPainter) text = tr("Ext."); else text = tr("Image");
         ppainter->drawText(rect().adjusted(4,4,-4,-4), Qt::AlignCenter, text );
     } else {
-        ppainter->drawImage(point,img);
+        if (m_externalPainter && m_useExternalPainter)
+            m_externalPainter->paintByExternalPainter(this->patternName(), ppainter, option);
+        else
+            ppainter->drawImage(point,img);
     }
     ItemDesignIntf::paint(ppainter,option,widget);
     ppainter->restore();

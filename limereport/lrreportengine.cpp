@@ -1118,12 +1118,32 @@ PageItemDesignIntf* ReportEnginePrivate::createRenderingPage(PageItemDesignIntf*
     return result;
 }
 
+void ReportEnginePrivate::initReport()
+{
+    for(int index = 0; index < pageCount(); ++index){
+        PageDesignIntf* page =  pageAt(index);
+        if (page != 0){
+            foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()) {
+                IPainterProxy *proxyItem = dynamic_cast<IPainterProxy *>(item);
+                if (proxyItem){
+                    proxyItem->setExternalPainter(this);
+                }
+            }
+        }
+    }
+}
+
+void ReportEnginePrivate::paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options)
+{
+    emit externalPaint(objectName, painter, options);
+}
+
 ReportPages ReportEnginePrivate::renderToPages()
 {
     if (m_reportRendering) return ReportPages();
+    initReport();
     m_reportRender = ReportRender::Ptr(new ReportRender);
     updateTranslations();
-
     connect(m_reportRender.data(),SIGNAL(pageRendered(int)),
             this, SIGNAL(renderPageFinished(int)));
 
@@ -1231,6 +1251,9 @@ ReportEngine::ReportEngine(QObject *parent)
             this, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)));
     connect(d, SIGNAL(getCurrentDefaultLanguage()),
             this, SIGNAL(getCurrentDefaultLanguage()));
+
+    connect(d, SIGNAL(externalPaint(const QString&, QPainter*, const QStyleOptionGraphicsItem*)),
+            this, SIGNAL(externalPaint(const QString&, QPainter*, const QStyleOptionGraphicsItem*)));
 
 }
 

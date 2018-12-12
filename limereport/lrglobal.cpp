@@ -85,4 +85,8 @@ bool isColorDark(QColor color){
     }
 }
 
+ReportError::ReportError(const QString& message):std::runtime_error(message.toStdString()){}
+IExternalPainter::~IExternalPainter(){}
+IPainterProxy::~IPainterProxy(){}
+
 } //namespace LimeReport
