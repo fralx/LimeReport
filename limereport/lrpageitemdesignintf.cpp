@@ -225,17 +225,22 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
 
     int bandIndex=-1;
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
-    foreach(BandDesignIntf* band,m_bands){
-        if ((band->bandType() == BandDesignIntf::GroupHeader) && ( band->bandType() > bandType)) break;
-        if ((band->bandType() <= bandType)){
-            if (bandIndex <= band->bandIndex()) {
-                if (bandType != BandDesignIntf::Data){
+    if (bandType != BandDesignIntf::Data){
+        foreach(BandDesignIntf* band,m_bands){
+            if ((band->bandType() == BandDesignIntf::GroupHeader) && ( band->bandType() > bandType)) break;
+            if ((band->bandType() <= bandType)){
+                if (bandIndex <= band->bandIndex()) {
                     bandIndex=band->maxChildIndex(bandType)+1;
-                } else {
-                    bandIndex=band->maxChildIndex()+1;
                 }
-            }
-        } else { increaseBandIndex = true; break;}
+            } else { increaseBandIndex = true; break;}
+        }
+    } else {
+        int maxChildIndex = 0;
+        foreach(BandDesignIntf* band, m_bands){
+            if (band->bandType() == BandDesignIntf::Data)
+                maxChildIndex = std::max(maxChildIndex, band->maxChildIndex());
+        }
+        bandIndex = std::max(bandIndex, maxChildIndex+1);
     }
 
     if (bandIndex==-1) {

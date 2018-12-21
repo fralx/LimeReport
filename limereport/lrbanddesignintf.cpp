@@ -381,7 +381,7 @@ int BandDesignIntf::maxChildIndex(BandDesignIntf::BandsType bandType) const{
 int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{
     int curIndex = bandIndex();
     foreach(BandDesignIntf* childBand, childBands()){
-        if (!ignoredBands.contains(childBand->bandType()) && childBand->bandIndex()>bandIndex()){
+        if (!ignoredBands.contains(childBand->bandType())){
             curIndex = std::max(curIndex,childBand->maxChildIndex(ignoredBands));
         }
     }
