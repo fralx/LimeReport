@@ -794,6 +794,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
                     dataSource->next();
                 }
             }
+            closeDataGroup(band);
         }
 
         if (gb && !gb->isStarted()){
