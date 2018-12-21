@@ -717,22 +717,11 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
         if (gb&&gb->isNeedToClose(m_datasources)){
             if (band->childBands().count()>0){
                 bool didGoBack = dataSource->prior();
-                foreach (BandDesignIntf* subBand, band->childrenByType(BandDesignIntf::GroupHeader)) {
-                    foreach(BandDesignIntf* footer, subBand->childrenByType(BandDesignIntf::GroupFooter)){
-                        renderBand(footer, 0, StartNewPageAsNeeded);
-                    }
-                    closeDataGroup(subBand);
-                }
-
-                foreach (BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)) {
-                    renderBand(footer, 0, StartNewPageAsNeeded);
-                }
-
+                renderGroupFooterByHeader(band);
                 if (didGoBack){
                     dataSource->next();
                 }
             }
-            closeDataGroup(band);
         }
 
         if (gb && !gb->isStarted()){
@@ -759,12 +748,14 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
 }
 
 void ReportRender::renderGroupFooterByHeader(BandDesignIntf* groupHeader){
+    if (groupHeader->reprintOnEachPage()) m_reprintableBands.removeOne(groupHeader);
     foreach (BandDesignIntf* header, groupHeader->childrenByType(BandDesignIntf::GroupHeader)){
         renderGroupFooterByHeader(header);
     }
     foreach (BandDesignIntf* footer, groupHeader->childrenByType(BandDesignIntf::GroupFooter)){
         renderBand(footer, 0, StartNewPageAsNeeded);
     }
+    closeDataGroup(groupHeader);
 }
 
 void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
@@ -772,14 +763,7 @@ void ReportRender::renderGroupFooter(BandDesignIntf *parentBand)
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){
         IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb && gb->isStarted()){
-            if (band->reprintOnEachPage()) m_reprintableBands.removeOne(band);
-            foreach(BandDesignIntf* header, band->childrenByType(BandDesignIntf::GroupHeader)){
-                renderGroupFooterByHeader(header);
-            }
-            foreach(BandDesignIntf* footer, band->childrenByType(BandDesignIntf::GroupFooter)){
-                renderBand(footer, 0, StartNewPageAsNeeded);
-            }
-            closeDataGroup(band);
+            renderGroupFooterByHeader(band);
         }
     }
 }
