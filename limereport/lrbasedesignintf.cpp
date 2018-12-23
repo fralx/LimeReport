@@ -1372,7 +1372,7 @@ QObject *BaseDesignIntf::createElement(const QString& /*collectionName*/, const 
             obj = LimeReport::DesignElementsFactory::instance().objectCreator(elementType)(this, this);
             connect(obj,SIGNAL(propertyChanged(QString,QVariant,QVariant)),page(),SLOT(slotItemPropertyChanged(QString,QVariant,QVariant)));
         }
-    } catch (ReportError error){
+    } catch (ReportError &error){
         qDebug()<<error.what();
     }
     return obj;

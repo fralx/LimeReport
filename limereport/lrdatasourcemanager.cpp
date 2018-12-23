@@ -307,7 +307,7 @@ void DataSourceManager::connectAllDatabases()
     foreach(ConnectionDesc* conn,m_connections){
         try{
             connectConnection(conn);
-        } catch (ReportError e){
+        } catch (ReportError &e){
             putError(e.what());
             setLastError(e.what());
             qDebug()<<e.what();
@@ -323,7 +323,7 @@ bool DataSourceManager::addModel(const QString &name, QAbstractItemModel *model,
     try{
         putHolder(name, mh);
         connect(mh, SIGNAL(modelStateChanged()), this, SIGNAL(datasourcesChanged()));
-    } catch (ReportError e){
+    } catch (ReportError &e){
         putError(e.what());
         setLastError(e.what());
         return false;
@@ -871,7 +871,7 @@ void DataSourceManager::connectAutoConnections()
         if (conn->autoconnect()) {
             try {
                 connectConnection(conn);
-            } catch(ReportError e){
+            } catch(ReportError &e){
                 setLastError(e.what());
                 putError(e.what());
                 qDebug()<<e.what();
