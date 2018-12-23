@@ -138,7 +138,7 @@ public slots:
     void copy();
     void paste();
     void cut();
-    void brinToFront();
+    void bringToFront();
     void sendToBack();
     void alignToLeft();
     void alignToRight();

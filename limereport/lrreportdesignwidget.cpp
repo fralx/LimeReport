@@ -555,7 +555,7 @@ void ReportDesignWidget::cut()
         activePage()->cut();
 }
 
-void ReportDesignWidget::brinToFront()
+void ReportDesignWidget::bringToFront()
 {
     if (activePage())
         activePage()->bringToFront();
