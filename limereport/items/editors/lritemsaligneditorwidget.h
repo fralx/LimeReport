@@ -45,7 +45,7 @@ public:
     explicit ItemsAlignmentEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
     explicit ItemsAlignmentEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
 private slots:
-    void slotBrinToFront();
+    void slotBringToFront();
     void slotSendToBack();
     void slotAlignToLeft();
     void slotAlignToRight();

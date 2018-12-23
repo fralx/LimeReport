@@ -1238,7 +1238,7 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         pasteAction->setEnabled(true);
     }
     menu.addSeparator();
-    QAction* brinToTopAction = menu.addAction(QIcon(":/report/images/bringToTop"), tr("Bring to top"));
+    QAction* bringToTopAction = menu.addAction(QIcon(":/report/images/bringToTop"), tr("Bring to top"));
     QAction* sendToBackAction = menu.addAction(QIcon(":/report/images/sendToBack"), tr("Send to back"));
     QAction* createHLayout = 0;
     if( page->selectedItems().count()>1){
@@ -1263,7 +1263,7 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             page->copy();
         if (a == pasteAction)
             page->paste();
-        if (a == brinToTopAction)
+        if (a == bringToTopAction)
             page->bringToFront();
         if (a == sendToBackAction)
             page->sendToBack();
