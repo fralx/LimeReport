@@ -50,6 +50,7 @@ class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(int securityLevel READ securityLevel WRITE setSecurityLevel)
     Q_PROPERTY(int pdf417CodeWords READ pdf417CodeWords WRITE setPdf417CodeWords)
     Q_PROPERTY(InputMode inputMode READ inputMode WRITE setInputMode)
+    Q_PROPERTY(bool hideText READ hideText WRITE setHideText)
 public:
 //    enum BarcodeType {QRCODE=58,CODE128=20,DATAMATRIX=71,MAXICODE=57,MICROPDF417=84};
 //    enum BarcodeType {CODE_11=1,C25MATRIX=2,QRCODE=58,CODE128=20,DATAMATRIX=71,MAXICODE=57,MICROPDF417=84,
@@ -167,6 +168,9 @@ public:
     InputMode inputMode() const;
     void setInputMode(const InputMode &inputMode);
 
+    bool hideText() const;
+    void setHideText(bool hideText);
+
 private:
     Zint::QZint m_bc;
     QString m_content;
@@ -180,6 +184,7 @@ private:
     int m_securityLevel;
     int m_pdf417CodeWords;
     InputMode m_inputMode;
+    bool m_hideText;
 };
 
 }
