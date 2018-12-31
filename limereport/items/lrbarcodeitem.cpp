@@ -73,6 +73,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     bc.setWidth(m_barcodeWidth);
     bc.setSecurityLevel(m_securityLevel);
     bc.setPdf417CodeWords(m_pdf417CodeWords);
+    bc.setHideText(m_hideText);
 
     if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
 
@@ -245,6 +246,22 @@ void BarcodeItem::setInputMode(const InputMode &inputMode)
         if (!isLoading()){
             update();
             notify("inputMode",oldValue,inputMode);
+        }
+    }
+}
+
+bool BarcodeItem::hideText() const
+{
+    return m_hideText;
+}
+
+void BarcodeItem::setHideText(bool hideText)
+{
+    if (m_hideText != hideText){
+        m_hideText = hideText;
+        if (!isLoading()){
+            update();
+            notify("hideText",!m_hideText,m_hideText);
         }
     }
 }
