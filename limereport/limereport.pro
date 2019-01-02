@@ -87,7 +87,7 @@ contains(CONFIG,zint){
     INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
     DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
 	LIBS += -L$${DEST_LIBS}
-	contains(CONFIG,release) {
+        CONFIG(release, debug|release){
 		LIBS += -lQtZint
 	} else {
 		LIBS += -lQtZintd
