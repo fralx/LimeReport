@@ -105,7 +105,11 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
            m_picture = QImage(m_resourcePath);
        } else if (!m_variable.isEmpty()){
            QVariant data = dataManager->variable(m_variable);
-           loadPictureFromVariant(data);
+           if (data.type() == QVariant::String){
+                m_picture = QImage(data.toString());
+           } else if (data.type() == QVariant::Image){
+                loadPictureFromVariant(data);
+           }
        }
    }
    if (m_autoSize){
@@ -140,7 +144,7 @@ void ImageItem::setVariable(const QString& content)
         QString oldValue = m_variable;
         m_variable=content;
         update();
-        notify("content", oldValue, m_variable);
+        notify("variable", oldValue, m_variable);
     }
 }
 
