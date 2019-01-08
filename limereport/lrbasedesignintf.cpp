@@ -1135,13 +1135,6 @@ void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void BaseDesignIntf::showEditorDialog(){
     QWidget *editor = defaultEditor();
     if (editor) {
-
-#ifdef Q_OS_WIN
-        editor->setAttribute(Qt::WA_DeleteOnClose);
-        editor->setWindowFlags(Qt::Dialog);
-        editor->setWindowModality(Qt::ApplicationModal);
-        editor->show();
-#else
         QDialog* dialog = new QDialog(QApplication::activeWindow());
         dialog->setAttribute(Qt::WA_DeleteOnClose);
 #ifdef Q_OS_MAC
@@ -1155,7 +1148,6 @@ void BaseDesignIntf::showEditorDialog(){
         dialog->layout()->addWidget(editor);
         connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));
         dialog->exec();
-#endif
     }
 }
 
