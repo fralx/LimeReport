@@ -141,7 +141,7 @@ void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
 void HorizontalLayout::updateLayoutSize()
 {
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
-    int w = spaceBorder*2;
+    qreal w = spaceBorder*2;
     qreal h = 0;
     foreach(BaseDesignIntf* item, layoutsChildren()){
         if (item->isEmpty() && hideEmptyItems()) item->setVisible(false);
@@ -150,8 +150,15 @@ void HorizontalLayout::updateLayoutSize()
             w+=item->width();
         }
     }
-    if (h>0) setHeight(h+spaceBorder*2);
-    setWidth(w);
+    if (h>0) setHeight(h+spaceBorder*2);    
+    if (layoutType() == Layout)
+        setWidth(w);
+    else{
+        relocateChildren();
+        if (!isRelocating()){
+            divideSpace();
+        }
+    }
 }
 
 void HorizontalLayout::relocateChildren()
@@ -216,14 +223,19 @@ void HorizontalLayout::divideSpace(){
             visibleItemsCount++;
         }
     }
-    qreal delta = (width() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
 
-    for (int i=0; i<layoutsChildren().size(); ++i){
-        if (layoutsChildren()[i]->isVisible() || itemMode() == DesignMode)
-            layoutsChildren()[i]->setWidth(layoutsChildren()[i]->width()+delta);
-        if ((i+1)<layoutsChildren().size())
-            if (layoutsChildren()[i+1]->isVisible() || itemMode() == DesignMode)
-                layoutsChildren()[i+1]->setPos(layoutsChildren()[i+1]->pos().x()+delta*(i+1),layoutsChildren()[i+1]->pos().y());
+    if (itemMode() == DesignMode && !layoutsChildren().isEmpty()){
+        qreal delta = (width() - (itemsSumSize+spaceBorder*2));
+        layoutsChildren().last()->setWidth(layoutsChildren().last()->width()+delta);
+    } else {
+        qreal delta = (width() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
+        for (int i=0; i<layoutsChildren().size(); ++i){
+            if (layoutsChildren()[i]->isVisible() || itemMode() == DesignMode)
+                layoutsChildren()[i]->setWidth(layoutsChildren()[i]->width()+delta);
+            if ((i+1)<layoutsChildren().size())
+                if (layoutsChildren()[i+1]->isVisible() || itemMode() == DesignMode)
+                    layoutsChildren()[i+1]->setPos(layoutsChildren()[i+1]->pos().x()+delta*(i+1),layoutsChildren()[i+1]->pos().y());
+        }
     }
     setIsRelocating(false);
 }
