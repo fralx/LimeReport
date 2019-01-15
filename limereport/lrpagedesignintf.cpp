@@ -2200,6 +2200,7 @@ void InsertHLayoutCommand::undoIt()
                 bi->setPos(m_elements.value(bi->objectName()));
                 bi->setFixedPos(false);
                 bi->setPossibleResizeDirectionFlags(BaseDesignIntf::AllDirections);
+                bi->setVisible(true);
             }
         }
         page()->removeReportItem(layout,false);
@@ -2384,6 +2385,7 @@ void InsertVLayoutCommand::undoIt()
                 bi->setPos(m_elements.value(bi->objectName()));
                 bi->setFixedPos(false);
                 bi->setPossibleResizeDirectionFlags(BaseDesignIntf::AllDirections);
+                bi->setVisible(true);
             }
         }
         page()->removeReportItem(layout,false);
