@@ -69,6 +69,7 @@ public:
     PagesRanges(): m_TOCRangeIndex(-1) {}
     int findLastPageNumber(int index);
     int findPageNumber(int index);
+    PagesRange& currentRange(bool isTOC);
     void startNewRange(bool isTOC = false);
     void addTOCMarker(bool addNewRange);
     void addPage();
@@ -166,8 +167,8 @@ private:
     void    startNewColumn();
     void    startNewPage(bool isFirst = false);
     void    resetPageNumber(ResetPageNuberType resetType);
-    int     findLastPageNumber(int currentPage);
-    int     findPageNumber(int currentPage);
+    //int     findLastPageNumber(int currentPage);
+    //int     findPageNumber(int currentPage);
     void    savePage(bool isLast = false);
     QString toString();
     void initColumns();
@@ -180,7 +181,7 @@ private:
     void renameChildItems(BaseDesignIntf *item);
     void renderGroupFooterByHeader(BandDesignIntf *groupHeader);
     void updateTOC(BaseDesignIntf* item, int pageNumber);
-    PagesRange& currentRange(bool isTOC = false){ return (isTOC) ? m_ranges.first(): m_ranges.last();}
+    //PagesRange& currentRange(bool isTOC = false){ return (isTOC) ? m_ranges.first(): m_ranges.last();}
     void placeBandOnPage(BandDesignIntf *band, int columnIndex);
 private:
     DataSourceManager* m_datasources;
@@ -209,12 +210,10 @@ private:
     QVector<qreal>  m_maxHeightByColumn;
     QVector<qreal>  m_currentStartDataPos;
     int             m_currentColumn;
-    QList<PagesRange> m_ranges;
     PagesRanges     m_pagesRanges;
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_currentNameIndex;
     bool            m_newPageStarted;
-    bool            m_renderingFirstTOC;
 
 };
 } // namespace LimeReport
