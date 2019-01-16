@@ -193,9 +193,12 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     m_currentNameIndex = 0;
     m_patternPageItem = patternPage;
     m_renderingFirstTOC = isTOC && isFirst;
-
     if (m_patternPageItem->resetPageNumber() && m_pageCount>0 && !isTOC) {
         resetPageNumber(PageReset);
+    }
+
+    if (m_patternPageItem->resetPageNumber() && !isTOC && m_pageCount == 0){
+        m_pagesRanges.startNewRange();
     }
 
     if (m_renderingFirstTOC && resetPageNumbers){
@@ -249,8 +252,8 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     savePage(true);
 
     if (m_renderingFirstTOC && resetPageNumbers && m_ranges.count()>1){
-        m_ranges[1].firstPage = m_ranges.at(0).lastPage+1;
-        m_ranges[1].lastPage += m_ranges.at(0).lastPage+1;
+        m_ranges[1].firstPage = m_ranges.first().lastPage+1;
+        m_ranges[1].lastPage += m_ranges.first().lastPage+1;
     }
 
 #ifndef USE_QJSENGINE
@@ -1153,6 +1156,11 @@ void ReportRender::secondRenderPass(ReportPages renderedPages)
     }
 }
 
+void ReportRender::createTOCMarker(bool startNewRange)
+{
+    m_pagesRanges.addTOCMarker(startNewRange);
+}
+
 BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf* patternBand)
 {
     int sliceHeight = height;
@@ -1256,6 +1264,7 @@ void ReportRender::startNewPage(bool isFirst)
 
 void ReportRender::resetPageNumber(ResetPageNuberType resetType)
 {
+    m_pagesRanges.startNewRange();
     PagesRange range;
     if (!m_ranges.isEmpty()){
         currentRange().lastPage = (resetType == BandReset)? m_pageCount : m_pageCount-1;
@@ -1406,6 +1415,10 @@ void ReportRender::moveTearOffBand(){
 
 void ReportRender::savePage(bool isLast)
 {
+    if (m_renderPageItem->isTOC())
+        m_pagesRanges.addTOCPage();
+    else
+        m_pagesRanges.addPage();
 
     m_datasources->setReportVariable("#IS_LAST_PAGEFOOTER",isLast);
     m_datasources->setReportVariable("#IS_FIRST_PAGEFOOTER",m_datasources->variable("#PAGE").toInt()==1);
@@ -1476,6 +1489,89 @@ ReportRender::~ReportRender(){
 
 void ReportRender::cancelRender(){
     m_renderCanceled = true;
+}
+
+int PagesRanges::findLastPageNumber(int index)
+{
+    foreach (PagesRange range, m_ranges) {
+        if ( range.firstPage<= (index) && range.lastPage>= (index) )
+            return (range.lastPage-(range.firstPage))+1;
+    }
+    return 0;
+}
+
+int PagesRanges::findPageNumber(int index)
+{
+    foreach (PagesRange range, m_ranges) {
+        if ( range.firstPage <= (index) && range.lastPage >= (index) )
+            return (index - range.firstPage)+1;
+    }
+    return 0;
+}
+
+void PagesRanges::startNewRange(bool isTOC)
+{
+    PagesRange range;
+    if (!m_ranges.isEmpty()){
+        range.firstPage = 0;
+        range.lastPage = m_ranges.last().lastPage + 1;
+    } else {
+        range.firstPage = 0;
+        range.lastPage = 0;
+    }
+    range.isTOC = isTOC;
+    m_ranges.append(range);
+    if (isTOC) m_TOCRangeIndex = m_ranges.size()-1;
+}
+
+void PagesRanges::addTOCMarker(bool addNewRange)
+{
+    if ( addNewRange || m_ranges.isEmpty()){
+        startNewRange(true);
+    } else {
+        m_TOCRangeIndex =  m_ranges.size()-1;
+        m_ranges.last().isTOC = true;
+    }
+}
+
+void PagesRanges::addPage()
+{
+    if (m_ranges.isEmpty()) startNewRange();
+    if (m_ranges.last().firstPage == 0){
+        m_ranges.last().firstPage = m_ranges.last().lastPage == 0 ? 1 : m_ranges.last().lastPage;
+        m_ranges.last().lastPage = m_ranges.last().lastPage == 0 ? 1 : m_ranges.last().lastPage;
+    } else {
+        m_ranges.last().lastPage++;
+    }
+}
+
+void PagesRanges::shiftRangesNextToTOC(){
+    for(int i = m_TOCRangeIndex+1; i < m_ranges.size(); ++i){
+        m_ranges[i].firstPage++;
+        m_ranges[i].lastPage++;
+    }
+}
+
+void PagesRanges::addTOCPage()
+{
+    Q_ASSERT(m_TOCRangeIndex != -1);
+    if (m_TOCRangeIndex != -1){
+        PagesRange& tocRange = m_ranges[m_TOCRangeIndex];
+        if (tocRange.firstPage == 0) {
+            tocRange.firstPage = tocRange.lastPage == 0 ? 1 :  tocRange.lastPage;
+            tocRange.lastPage = tocRange.lastPage == 0 ? 1 :  tocRange.lastPage;
+            if (tocRange.lastPage == 1 and tocRange.lastPage == 1)
+                shiftRangesNextToTOC();
+        } else {
+            tocRange.lastPage++;
+            shiftRangesNextToTOC();
+        }
+    }
+}
+
+void PagesRanges::clear()
+{
+    m_ranges.clear();
 }
 
 } // namespace LimeReport
