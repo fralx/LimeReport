@@ -67,8 +67,6 @@ bool bandSortBandLessThen(const BandDesignIntf *c1, const BandDesignIntf *c2)
 
 PageDesignIntf::PageDesignIntf(QObject *parent):
     QGraphicsScene(parent),
-    m_pageSize(A4),
-    m_orientation(Portrait),
     m_pageItem(0),
     m_insertMode(false),
     m_itemInsertRect(0),
@@ -84,8 +82,6 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_executingGroupCommand(false),
     m_settings(0),
     m_selectionRect(0),
-    //m_verticalGridStep(1*Const::mmFACTOR),
-    //m_horizontalGridStep(1*Const::mmFACTOR)
     m_verticalGridStep(2),
     m_horizontalGridStep(2),
     m_updating(false),
@@ -134,22 +130,22 @@ void PageDesignIntf::updatePageRect()
     emit sceneRectChanged(sceneRect());
 }
 
-PageDesignIntf::Orientation PageDesignIntf::getOrientation()
-{
-    return m_orientation;
-}
+//PageDesignIntf::Orientation PageDesignIntf::getOrientation()
+//{
+//    return m_orientation;
+//}
 
-void PageDesignIntf::setPageSize(PageDesignIntf::PageSize sizeType, QSizeF sizeValue)
-{
-    m_pageSize = sizeType;
-    m_pageSizeValue = sizeValue;
-    updatePageRect();
-}
+//void PageDesignIntf::setPageSize(PageDesignIntf::PageSize sizeType, QSizeF sizeValue)
+//{
+//    m_pageSize = sizeType;
+//    m_pageSizeValue = sizeValue;
+//    updatePageRect();
+//}
 
-PageDesignIntf::PageSize PageDesignIntf::pageSize() const
-{
-    return m_pageSize;
-}
+//PageDesignIntf::PageSize PageDesignIntf::pageSize() const
+//{
+//    return m_pageSize;
+//}
 
 void PageDesignIntf::keyPressEvent(QKeyEvent *event)
 {
@@ -672,22 +668,22 @@ bool PageDesignIntf::isExistsObjectName(const QString &objectName, QList<QGraphi
     return false;
 }
 
-QRectF PageDesignIntf::getRectByPageSize(PageDesignIntf::PageSize pageSize)
-{
-    if (m_pageSize != Custom) {
-        QPrinter printer;
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOrientation((QPrinter::Orientation)getOrientation());
-        printer.setPageSize((QPrinter::PageSize)pageSize);
-        return QRectF(0, 0, printer.paperRect(QPrinter::Millimeter).width() * 10,
-                      printer.paperSize(QPrinter::Millimeter).height() * 10);
-    }
+//QRectF PageDesignIntf::getRectByPageSize(PageDesignIntf::PageSize pageSize)
+//{
+//    if (m_pageSize != PageSize::Custom) {
+//        QPrinter printer;
+//        printer.setOutputFormat(QPrinter::PdfFormat);
+//        printer.setOrientation((QPrinter::Orientation)getOrientation());
+//        printer.setPageSize((QPrinter::PageSize)pageSize);
+//        return QRectF(0, 0, printer.paperRect(QPrinter::Millimeter).width() * 10,
+//                      printer.paperSize(QPrinter::Millimeter).height() * 10);
+//    }
 
-    else {
-        return QRectF(0, 0, m_pageSizeValue.width() * 10,
-                      m_pageSizeValue.height() * 10);
-    }
-}
+//    else {
+//        return QRectF(0, 0, m_pageSizeValue.width() * 10,
+//                      m_pageSizeValue.height() * 10);
+//    }
+//}
 
 bool PageDesignIntf::isLoading()
 {
