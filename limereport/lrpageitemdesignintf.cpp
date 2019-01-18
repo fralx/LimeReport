@@ -800,33 +800,35 @@ void PageItemDesignIntf::moveBandFromTo(int from, int to)
 
 void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
 {
-    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
-    int curIndex = band->bandIndex();
-    BandDesignIntf* bandToSwap = 0;
-    foreach(BandDesignIntf* curBand, bands()){
-        if (newGeometry.y() > oldGeometry.y()) {
-            if (curBand->bandType() == band->bandType()
-                    && curIndex < curBand->bandIndex()
-                    && (curBand->pos().y() + (curBand->height()/2)) < newGeometry.y()
-                    && curBand->parentBand() == band->parentBand())
-            {
-                curIndex = curBand->bandIndex();
-                bandToSwap =  curBand;
-            }
-        } else {
-            if (curBand->bandType() == band->bandType()
-                    && curIndex>curBand->bandIndex()
-                    && (curBand->pos().y() + (curBand->height()/2)) > newGeometry.y()
-                    && curBand->parentBand() == band->parentBand())
-            {
-                curIndex = curBand->bandIndex();
-                bandToSwap =  curBand;
+    if (itemMode() == DesignMode){
+        BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
+        int curIndex = band->bandIndex();
+        BandDesignIntf* bandToSwap = 0;
+        foreach(BandDesignIntf* curBand, bands()){
+            if (newGeometry.y() > oldGeometry.y()) {
+                if (curBand->bandType() == band->bandType()
+                        && curIndex < curBand->bandIndex()
+                        && (curBand->pos().y() + (curBand->height()/2)) < newGeometry.y()
+                        && curBand->parentBand() == band->parentBand())
+                {
+                    curIndex = curBand->bandIndex();
+                    bandToSwap =  curBand;
+                }
+            } else {
+                if (curBand->bandType() == band->bandType()
+                        && curIndex>curBand->bandIndex()
+                        && (curBand->pos().y() + (curBand->height()/2)) > newGeometry.y()
+                        && curBand->parentBand() == band->parentBand())
+                {
+                    curIndex = curBand->bandIndex();
+                    bandToSwap =  curBand;
+                }
             }
         }
-    }
-    if (curIndex != band->bandIndex() && itemMode() == DesignMode){
-        if (page())
-            page()->saveCommand(BandMoveFromToCommand::create(page(), band->bandIndex(), bandToSwap->bandIndex()), true);
+        if (curIndex != band->bandIndex() && itemMode() == DesignMode){
+            if (page())
+                page()->saveCommand(BandMoveFromToCommand::create(page(), band->bandIndex(), bandToSwap->bandIndex()), true);
+        }
     }
     relocateBands();
 }

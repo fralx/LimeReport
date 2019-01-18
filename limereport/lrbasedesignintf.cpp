@@ -1163,6 +1163,12 @@ void BaseDesignIntf::setItemPos(const QPointF &newPos)
 void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
+    QRectF newGeometry = geometry();
+    if (newGeometry != m_oldGeometry) {
+        geometryChangedEvent(newGeometry, m_oldGeometry);
+        updateSelectionMarker();
+        emit(geometryChanged(this, newGeometry, m_oldGeometry));
+    }
 }
 
 QWidget* findRootWidget(QWidget* widget){
