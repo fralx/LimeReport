@@ -30,6 +30,7 @@ void ContentEditor::editButtonClicked()
     dialog->setWindowTitle(propertyName());
     QWidget* editor = dynamic_cast<BaseDesignIntf*>(m_object)->defaultEditor();
     dialog->layout()->addWidget(editor);
+    dialog->resize(editor->size());
     connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));
     connect(editor,SIGNAL(destroyed()),this,SIGNAL(editingFinished()));
     dialog->exec();
