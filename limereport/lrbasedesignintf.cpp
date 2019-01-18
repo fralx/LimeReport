@@ -544,10 +544,12 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
         setItemPos(QPointF(div(m_startPos.x(), hStep).quot * hStep, div(m_startPos.y(), vStep).quot * vStep) - delta);
 
-        if (!isBand() && scene()->selectedItems().count()>1)
-            moveSelectedItems(tmpPos - pos());
-        if (scene()->selectedItems().count()==1 && (page()->magneticMovement()))
-            page()->itemMoved(this);
+        if (page()){
+            if (!isBand() && page()->selectedItems().count()>1)
+                moveSelectedItems(tmpPos - pos());
+            if (page()->selectedItems().count()==1 && (page()->magneticMovement()))
+                page()->itemMoved(this);
+        }
     }
 }
 
@@ -806,29 +808,29 @@ void BaseDesignIntf::setBorderLineSize(int value)
 
 void BaseDesignIntf::moveRight()
 {
-    if (!m_fixedPos) setItemPos(pos().x() + page()->horizontalGridStep(), pos().y());
+    if (!m_fixedPos && page()) setItemPos(pos().x() + page()->horizontalGridStep(), pos().y());
 }
 
 void BaseDesignIntf::moveLeft()
 {
-    if (!m_fixedPos) setItemPos(pos().x() - page()->horizontalGridStep(), pos().y());
+    if (!m_fixedPos && page()) setItemPos(pos().x() - page()->horizontalGridStep(), pos().y());
 }
 
 void BaseDesignIntf::moveDown()
 {
-    if (!m_fixedPos) setItemPos(pos().x(), pos().y() + page()->verticalGridStep());
+    if (!m_fixedPos && page()) setItemPos(pos().x(), pos().y() + page()->verticalGridStep());
 }
 
 void BaseDesignIntf::moveUp()
 {
-    if (!m_fixedPos) setItemPos(pos().x(), pos().y() - page()->verticalGridStep());
+    if (!m_fixedPos && page()) setItemPos(pos().x(), pos().y() - page()->verticalGridStep());
 }
 
 void BaseDesignIntf::sizeRight()
 {
     if ((m_possibleResizeDirectionFlags & ResizeLeft) ||
          (m_possibleResizeDirectionFlags & ResizeRight)) {
-        setWidth(width() + page()->horizontalGridStep());
+        if (page()) setWidth(width() + page()->horizontalGridStep());
     }
 }
 
@@ -836,7 +838,7 @@ void BaseDesignIntf::sizeLeft()
 {
     if ((m_possibleResizeDirectionFlags & ResizeLeft) ||
          (m_possibleResizeDirectionFlags & ResizeRight)) {
-        setWidth(width() - page()->horizontalGridStep());
+        if(page()) setWidth(width() - page()->horizontalGridStep());
     }
 }
 
@@ -844,7 +846,7 @@ void BaseDesignIntf::sizeUp()
 {
     if ((m_possibleResizeDirectionFlags & ResizeTop) ||
          (m_possibleResizeDirectionFlags & ResizeBottom)) {
-        setHeight(height() - page()->verticalGridStep());
+        if (page()) setHeight(height() - page()->verticalGridStep());
     }
 }
 
@@ -852,7 +854,7 @@ void BaseDesignIntf::sizeDown()
 {
     if ((m_possibleResizeDirectionFlags & ResizeTop) ||
          (m_possibleResizeDirectionFlags & ResizeBottom)) {
-        setHeight(height() + page()->verticalGridStep());
+        if (page()) setHeight(height() + page()->verticalGridStep());
     }
 }
 
@@ -1325,7 +1327,7 @@ void BaseDesignIntf::collectionLoadFinished(const QString &collectionName)
             foreach(QObject * obj, QObject::children()) {
 #endif
                 BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(obj);
-                if (item) {
+                if (item && page()) {
                     page()->registerItem(item);
                 }
             }

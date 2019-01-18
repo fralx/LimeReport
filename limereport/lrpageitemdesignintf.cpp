@@ -690,10 +690,9 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
             }
         }
     }
-    if (curIndex != band->bandIndex()){
-        //swapBands(band, bandToSwap);
-        //page()->saveCommand(BandSwapCommand::create(page(), band->objectName(), bandToSwap->objectName()), true);
-        page()->saveCommand(BandMoveFromToCommand::create(page(), band->bandIndex(), bandToSwap->bandIndex()), true);
+    if (curIndex != band->bandIndex() && itemMode() == DesignMode){
+        if (page())
+            page()->saveCommand(BandMoveFromToCommand::create(page(), band->bandIndex(), bandToSwap->bandIndex()), true);
     }
     relocateBands();
 }
