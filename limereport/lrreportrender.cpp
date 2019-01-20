@@ -1560,7 +1560,7 @@ void PagesRanges::addTOCPage()
         if (tocRange.firstPage == 0) {
             tocRange.firstPage = tocRange.lastPage == 0 ? 1 :  tocRange.lastPage;
             tocRange.lastPage = tocRange.lastPage == 0 ? 1 :  tocRange.lastPage;
-            if (tocRange.lastPage == 1 and tocRange.lastPage == 1)
+            if (tocRange.lastPage == 1 && tocRange.lastPage == 1)
                 shiftRangesNextToTOC();
         } else {
             tocRange.lastPage++;
