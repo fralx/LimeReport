@@ -1063,6 +1063,7 @@ QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
     if (change == QGraphicsItem::ItemPositionHasChanged) {
         updateSelectionMarker();
     }
+
     if (change == QGraphicsItem::ItemSelectedChange) {
         turnOnSelectionMarker(value.toBool());
         emit itemSelectedHasBeenChanged(this, value.toBool());
@@ -1157,18 +1158,18 @@ void BaseDesignIntf::setItemPos(const QPointF &newPos)
     QPointF oldPos = pos();
     QPointF finalPos = modifyPosForAlignedItem(newPos);
     QGraphicsItem::setPos(finalPos);
-    emit posChanged(this, finalPos, oldPos);
+    emit posChanging(this, finalPos, oldPos);
 }
 
 void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseReleaseEvent(event);
     QRectF newGeometry = geometry();
     if (newGeometry != m_oldGeometry) {
         geometryChangedEvent(newGeometry, m_oldGeometry);
         updateSelectionMarker();
-        emit(geometryChanged(this, newGeometry, m_oldGeometry));
+        emit(posChanged(this, newGeometry.topLeft(), m_oldGeometry.topLeft()));
     }
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 QWidget* findRootWidget(QWidget* widget){
