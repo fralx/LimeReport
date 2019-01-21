@@ -303,7 +303,7 @@ void PageItemDesignIntf::registerBand(BandDesignIntf *band)
         band->setParentItem(this);
         band->setWidth(pageRect().width()/band->columnsCount());
         connect(band, SIGNAL(destroyed(QObject*)),this,SLOT(bandDeleted(QObject*)));
-        connect(band, SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(bandGeometryChanged(QObject*,QRectF,QRectF)));
+        connect(band, SIGNAL(posChanged(QObject*,QPointF,QPointF)),this,SLOT(bandPositionChanged(QObject*,QPointF,QPointF)));
     }
 }
 
@@ -664,17 +664,17 @@ void PageItemDesignIntf::moveBandFromTo(int from, int to)
 
 }
 
-void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
+void PageItemDesignIntf::bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos)
 {
     if (itemMode() == DesignMode){
         BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
         int curIndex = band->bandIndex();
         BandDesignIntf* bandToSwap = 0;
         foreach(BandDesignIntf* curBand, bands()){
-            if (newGeometry.y() > oldGeometry.y()) {
+            if (newPos.y() > oldPos.y()) {
                 if (curBand->bandType() == band->bandType()
                         && curIndex < curBand->bandIndex()
-                        && (curBand->pos().y() + (curBand->height()/2)) < newGeometry.y()
+                        && (curBand->pos().y() + (curBand->height()/2)) < newPos.y()
                         && curBand->parentBand() == band->parentBand())
                 {
                     curIndex = curBand->bandIndex();
@@ -683,7 +683,7 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
             } else {
                 if (curBand->bandType() == band->bandType()
                         && curIndex>curBand->bandIndex()
-                        && (curBand->pos().y() + (curBand->height()/2)) > newGeometry.y()
+                        && (curBand->pos().y() + (curBand->height()/2)) > newPos.y()
                         && curBand->parentBand() == band->parentBand())
                 {
                     curIndex = curBand->bandIndex();

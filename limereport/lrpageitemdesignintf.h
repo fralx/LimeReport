@@ -122,7 +122,7 @@ public:
 
 protected slots:
     void bandDeleted(QObject* band);
-    void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
+    void bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos);
 protected:
     void    collectionLoadFinished(const QString& collectionName);
     QRectF& pageRect(){return m_pageRect;}

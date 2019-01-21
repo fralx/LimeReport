@@ -401,6 +401,7 @@ private:
     bool m_watermark;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
+    void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
     void itemSelected(LimeReport::BaseDesignIntf *item);
     void itemSelectedHasBeenChanged(BaseDesignIntf *item, bool value);
@@ -412,7 +413,6 @@ signals:
     void propertyesChanged(QVector<QString> propertyNames);
     void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
     void itemVisibleHasChanged(BaseDesignIntf* item);
-
     void beforeRender();
     void afterData();
     void afterRender();
