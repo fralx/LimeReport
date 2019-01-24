@@ -24,7 +24,8 @@ public:
     void addChild(BaseDesignIntf *item,bool updateSize=true);
     void restoreChild(BaseDesignIntf *item);
     bool isEmpty() const;
-    void paint(QPainter* ppainter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    void paintChild(BaseDesignIntf* child, QPointF parentPos, QPainter* painter);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
     bool hideEmptyItems() const;
     void setHideEmptyItems(bool hideEmptyItems);

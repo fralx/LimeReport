@@ -116,22 +116,32 @@ bool AbstractLayout::isEmpty() const
     return (isEmpty && allItemsIsText);
 }
 
-void AbstractLayout::paint(QPainter* ppainter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void AbstractLayout::paintChild(BaseDesignIntf *child, QPointF parentPos, QPainter *painter)
 {
-    if (isSelected()){
-        foreach( BaseDesignIntf* item, m_children){
-            ppainter->save();
-            ppainter->setPen(Qt::red);
-            ppainter->drawRect(
-                QRectF(item->pos().x(),item->pos().y(),
-                       item->rect().bottomRight().rx(),
-                       item->rect().bottomRight().ry()
-                )
-            );
-            ppainter->restore();
+    if (!child->childBaseItems().isEmpty()){
+        foreach (BaseDesignIntf* item, child->childBaseItems()) {
+            paintChild(item, child->pos(),painter);
         }
     }
-    LayoutDesignIntf::paint(ppainter, option, widget);
+    painter->drawRect(
+        QRectF(parentPos.x()+child->pos().x(), parentPos.y()+child->pos().y(),
+               child->rect().bottomRight().rx(),
+               child->rect().bottomRight().ry()
+        )
+    );
+}
+
+void AbstractLayout::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    if (isSelected()){
+        painter->save();
+        painter->setPen(Qt::red);
+        foreach( BaseDesignIntf* item, m_children){
+            paintChild(item, QPointF(0,0), painter);
+        }
+        painter->restore();
+    }
+    LayoutDesignIntf::paint(painter, option, widget);
 }
 
 int AbstractLayout::childrenCount()

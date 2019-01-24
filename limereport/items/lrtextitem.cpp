@@ -127,17 +127,19 @@ void TextItem::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Edit")) == 0){
         this->showEditorDialog();
     }
-    if (action->text().compare(tr("Auto height")) == 0){
-        page()->setPropertyToSelectedItems("autoHeight",action->isChecked());
-    }
-    if (action->text().compare(tr("Allow HTML")) == 0){
-        page()->setPropertyToSelectedItems("allowHTML",action->isChecked());
-    }
-    if (action->text().compare(tr("Allow HTML in fields")) == 0){
-        page()->setPropertyToSelectedItems("allowHTMLInFields",action->isChecked());
-    }
-    if (action->text().compare(tr("Stretch to max height")) == 0){
-        page()->setPropertyToSelectedItems("stretchToMaxHeight",action->isChecked());
+    if (page()){
+        if (action->text().compare(tr("Auto height")) == 0){
+            page()->setPropertyToSelectedItems("autoHeight",action->isChecked());
+        }
+        if (action->text().compare(tr("Allow HTML")) == 0){
+            page()->setPropertyToSelectedItems("allowHTML",action->isChecked());
+        }
+        if (action->text().compare(tr("Allow HTML in fields")) == 0){
+            page()->setPropertyToSelectedItems("allowHTMLInFields",action->isChecked());
+        }
+        if (action->text().compare(tr("Stretch to max height")) == 0){
+            page()->setPropertyToSelectedItems("stretchToMaxHeight",action->isChecked());
+        }
     }
     if (action->text().compare(tr("Transparent")) == 0){
         if (action->isChecked()){
