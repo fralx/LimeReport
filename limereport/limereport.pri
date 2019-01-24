@@ -131,6 +131,7 @@ HEADERS += \
     $$REPORT_PATH/lrvariablesholder.h \
     $$REPORT_PATH/lrgroupfunctions.h \
     $$REPORT_PATH/lrreportengine.h \
+    $$REPORT_PATH/lrdatasourceintf.h \
     $$REPORT_PATH/lrdatasourcemanagerintf.h \
     $$REPORT_PATH/lrscriptenginemanagerintf.h \
     $$REPORT_PATH/lrsimplecrypt.h \

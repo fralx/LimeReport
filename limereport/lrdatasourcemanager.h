@@ -38,6 +38,7 @@
 #include "lrvariablesholder.h"
 #include "lrgroupfunctions.h"
 #include "lrdatasourcemanagerintf.h"
+#include "lrdatasourceintf.h"
 
 namespace LimeReport{
 
