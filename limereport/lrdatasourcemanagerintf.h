@@ -65,6 +65,7 @@ public:
     virtual VariableDataType variableDataType(const QString& name) = 0;
     virtual bool variableIsSystem(const QString& name) = 0;
     virtual IDataSource* dataSource(const QString& name) = 0;
+    virtual IDataSourceHolder* dataSourceHolder(const QString& name) = 0;
 };
 
 }
