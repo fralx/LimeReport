@@ -34,6 +34,7 @@
 #include "lritemscontainerdesignitf.h"
 #include <QList>
 #include <QColor>
+#include <QPrinter>
 
 namespace LimeReport{
 
@@ -61,12 +62,19 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(bool printable READ isPrintable WRITE setPrintable)
     friend class ReportRender;
 public:
-    enum Orientation { Portrait, Landscape };
-    enum PageSize {A4, B5, Letter, Legal, Executive,
-                   A0, A1, A2, A3, A5, A6, A7, A8, A9, B0, B1,
-                   B10, B2, B3, B4, B6, B7, B8, B9, C5E, Comm10E,
-                   DLE, Folio, Ledger, Tabloid, Custom, NPageSize = Custom
-                  };
+    enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
+    enum PageSize {
+        A4 = QPrinter::A4, B5 = QPrinter::B5, Letter = QPrinter::Letter,
+        Legal = QPrinter::Legal, Executive = QPrinter::Executive,
+        A0 = QPrinter::A0, A1 = QPrinter::A1, A2 = QPrinter::A2, A3 = QPrinter::A3,
+        A5 = QPrinter::A5, A6 = QPrinter::A6, A7 = QPrinter::A7, A8 = QPrinter::A8,
+        A9 = QPrinter::A9, B0 = QPrinter::B0, B1 = QPrinter::B1, B10 = QPrinter::B10,
+        B2 = QPrinter::B2, B3 = QPrinter::B3, B4 = QPrinter::B4, B6 = QPrinter::B6,
+        B7 = QPrinter::B7, B8 = QPrinter::B8, B9 = QPrinter::B9, C5E = QPrinter::C5E,
+        Comm10E = QPrinter::Comm10E, DLE = QPrinter::DLE, Folio = QPrinter::Folio,
+        Ledger = QPrinter::Ledger, Tabloid = QPrinter::Tabloid, Custom = QPrinter::Custom,
+        NPageSize = Custom
+    };
     typedef QList<BandDesignIntf*> BandsList;
     typedef QList<BandDesignIntf*>::const_iterator BandsIterator;
     typedef QSharedPointer<PageItemDesignIntf> Ptr;
