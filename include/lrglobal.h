@@ -156,7 +156,7 @@ namespace Const{
     template <typename T>
     static inline QJSValue getJSValue(QJSEngine &e, T *p)
     {
-        QJSValue res = e.newQObject(p);
+        QJSValue res = e.toScriptValue(p);
         return res;
     }
 #else
