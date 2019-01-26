@@ -156,7 +156,8 @@ namespace Const{
     template <typename T>
     static inline QJSValue getJSValue(QJSEngine &e, T *p)
     {
-        QJSValue res = e.toScriptValue(p);
+        QJSValue res = e.newQObject(p);
+        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
         return res;
     }
 #else
