@@ -210,7 +210,10 @@ namespace LimeReport {
         void multiItemsSelected(QList<QObject*>* objectsList);
         void miltiItemsSelectionFinished();
         void commandHistoryChanged();
-        void itemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+        void itemPropertyChanged(const QString& objectName,
+                                 const QString& propertyName,
+                                 const QVariant& oldValue,
+                                 const QVariant& newValue);
         void itemAdded(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void itemRemoved(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void bandAdded(LimeReport::PageDesignIntf* page, LimeReport::BandDesignIntf* band);
@@ -247,7 +250,9 @@ namespace LimeReport {
         void setBorders(const BaseDesignIntf::BorderLines& border);
     private slots:
         void slotPageGeometryChanged(QObject*, QRectF, QRectF );
-        void slotItemPropertyChanged(QString propertyName, const QVariant &oldValue, const QVariant &newValue);
+        void slotItemPropertyChanged(QString propertyName,
+                                     const QVariant &oldValue,
+                                     const QVariant &newValue);
         void slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
         void bandDeleted(QObject* band);
         void slotPageItemLoaded(QObject *);
@@ -262,7 +267,10 @@ namespace LimeReport {
         void checkSizeOrPosChanges();
         CommandIf::Ptr createChangePosCommand();
         CommandIf::Ptr createChangeSizeCommand();
-        void saveChangeProppertyCommand(const QString& objectName, const QString& propertyName, const QVariant& oldPropertyValue, const QVariant& newPropertyValue);
+        void saveChangeProppertyCommand(const QString& objectName,
+                                        const QString& propertyName,
+                                        const QVariant& oldPropertyValue,
+                                        const QVariant& newPropertyValue);
         void changeSelectedGroupProperty(const QString& name,const QVariant& value);
 
     private:
