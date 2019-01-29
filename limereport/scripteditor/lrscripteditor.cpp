@@ -126,27 +126,6 @@ QString ScriptEditor::toPlainText()
     return ui->textEdit->toPlainText();
 }
 
-//void ScriptEditor::addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords)
-//{
-//    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
-//    if (band){
-//        dataWords << band->objectName();
-//        dataWords << pageName+"_"+band->objectName();
-//        dataWords << pageName+"_"+band->objectName()+".beforeRender";
-//        dataWords << pageName+"_"+item->objectName()+".afterData";
-//        dataWords << pageName+"_"+band->objectName()+".afterRender";
-//        foreach (BaseDesignIntf* child, band->childBaseItems()){
-//            addItemToCompleater(pageName, child, dataWords);
-//        }
-//    } else {
-//        dataWords << item->objectName();
-//        dataWords << pageName+"_"+item->objectName();
-//        dataWords << pageName+"_"+item->objectName()+".beforeRender";
-//        dataWords << pageName+"_"+item->objectName()+".afterData";
-//        dataWords << pageName+"_"+item->objectName()+".afterRender";
-//    }
-//}
-
 void ScriptEditor::on_twData_doubleClicked(const QModelIndex &index)
 {
     if (!index.isValid()) return;
@@ -192,7 +171,7 @@ QStringList ReportStructureCompleater::splitPath(const QString &path) const
     return path.split(".");
 }
 
-void ReportStructureCompleater::addAdditionalDatawords(DataSourceManager* dataManager){
+void ReportStructureCompleater::addAdditionalDatawords(QStandardItemModel* model, DataSourceManager* dataManager){
 
     foreach(const QString &dsName,dataManager->dataSourceNames()){
         QStandardItem* dsNode = new QStandardItem;
@@ -202,13 +181,13 @@ void ReportStructureCompleater::addAdditionalDatawords(DataSourceManager* dataMa
             fieldNode->setText(field);
             dsNode->appendRow(fieldNode);
         }
-        m_model.invisibleRootItem()->appendRow(dsNode);
+        model->invisibleRootItem()->appendRow(dsNode);
     }
 
     foreach (QString varName, dataManager->variableNames()) {
         QStandardItem* varNode = new QStandardItem;
         varNode->setText(varName.remove("#"));
-        m_model.invisibleRootItem()->appendRow(varNode);
+        model->invisibleRootItem()->appendRow(varNode);
     }
 
 #ifdef USE_QJSENGINE
@@ -219,8 +198,30 @@ void ReportStructureCompleater::addAdditionalDatawords(DataSourceManager* dataMa
         it.next();
         if (it.value().isCallable() ){
             QStandardItem* itemNode = new QStandardItem;
-            itemNode->setText(it.name());
-            m_model.invisibleRootItem()->appendRow(itemNode);
+            itemNode->setText(it.name()+"()");
+            model->invisibleRootItem()->appendRow(itemNode);
+        }
+        if (it.value().isQObject()){
+            if (it.value().toQObject()){
+                QStandardItem* objectNode = new QStandardItem;
+                objectNode->setText(it.name());
+                for (int i = 0; i< it.value().toQObject()->metaObject()->methodCount();++i){
+                    if (it.value().toQObject()->metaObject()->method(i).methodType() == QMetaMethod::Method){
+                        QStandardItem* methodNode = new QStandardItem;
+                        QMetaMethod m = it.value().toQObject()->metaObject()->method(i);
+                        QString methodSignature = m.name() + "(";
+                        bool isFirst = true;
+                        for (int j = 0; j <  m.parameterCount(); ++j){
+                                methodSignature += (isFirst ? "" : ",") + m.parameterTypes()[j]+" "+m.parameterNames()[j];
+                            if (isFirst) isFirst = false;
+                        }
+                        methodSignature += ")";
+                        methodNode->setText(methodSignature);
+                        objectNode->appendRow(methodNode);
+                    }
+                }
+                model->invisibleRootItem()->appendRow(objectNode);
+            }
         }
     }
 #endif
@@ -233,7 +234,7 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
         m_model.clear();
         QIcon signalIcon(":/report/images/signal");
         QIcon propertyIcon(":/report/images/property");
-        addAdditionalDatawords(report->dataManager());
+        addAdditionalDatawords(&m_model, report->dataManager());
 
         for ( int i = 0; i < report->pageCount(); ++i){
             PageDesignIntf* page = report->pageAt(i);
@@ -268,7 +269,7 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
 void ReportStructureCompleater::updateCompleaterModel(DataSourceManager *dataManager)
 {
     m_model.clear();
-    addAdditionalDatawords(dataManager);
+    addAdditionalDatawords(&m_model, dataManager);
 }
 
 QStringList ReportStructureCompleater::extractSignalNames(BaseDesignIntf *item)
