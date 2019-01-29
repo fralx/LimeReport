@@ -562,6 +562,13 @@ void ScriptEngineManager::clearTableOfContents(){
     }
 }
 
+ScriptValueType ScriptEngineManager::moveQObjectToScript(QObject* object, const QString objectName)
+{
+    ScriptValueType result = scriptEngine()->newQObject(object);
+    scriptEngine()->globalObject().setProperty(objectName, result);
+    return result;
+}
+
 void ScriptEngineManager::updateModel()
 {
 

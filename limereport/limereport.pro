@@ -34,6 +34,7 @@ contains(CONFIG, staticlib){
 
 EXTRA_FILES += \
     $$PWD/lrglobal.h \
+    $$PWD/lrdatasourceintf.h \
     $$PWD/lrdatasourcemanagerintf.h \
     $$PWD/lrreportengine.h \
     $$PWD/lrscriptenginemanagerintf.h \
