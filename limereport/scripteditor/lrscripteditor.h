@@ -36,7 +36,7 @@ protected:
     QStringList extractSignalNames(BaseDesignIntf* item);
     QStringList extractProperties(BaseDesignIntf* item);
     void addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent);
-    void addAdditionalDatawords(DataSourceManager *dataManager);
+    void addAdditionalDatawords(QStandardItemModel* model, DataSourceManager *dataManager);
 private:
     QStandardItemModel m_model;
     QMap<QString, QStringList> m_properties;
@@ -69,8 +69,6 @@ private slots:
     void on_twData_doubleClicked(const QModelIndex &index);
     void on_twScriptEngine_doubleClicked(const QModelIndex &index);
     void slotOnCurrentChanged(const QModelIndex& to, const QModelIndex&);
-//private:
-//    void addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords);
 private:
     Ui::ScriptEditor *ui;
     ReportEnginePrivateInterface* m_reportEngine;
