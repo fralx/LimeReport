@@ -46,7 +46,9 @@ public:
     virtual bool addFunction(const QString &name, const QString& script,
                              const QString &category="", const QString &description="") = 0;
     virtual const QString& lastError() const = 0;
+    virtual ScriptValueType moveQObjectToScript(QObject* object, const QString objectName) = 0;
     virtual ~IScriptEngineManager(){}
+
 };
 
 } //namespace LimeReport

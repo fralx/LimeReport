@@ -377,7 +377,7 @@ public:
     QVariant evaluateScript(const QString &script);
     void    addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent);
     void    clearTableOfContents();
-
+    ScriptValueType moveQObjectToScript(QObject* object, const QString objectName);
 protected:
     void updateModel();
     bool containsFunction(const QString &functionName);
