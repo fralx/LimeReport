@@ -95,6 +95,7 @@ namespace Const{
     const int SCENE_MARGIN = 50;
     const QString FUNCTION_MANAGER_NAME = "LimeReport";
     const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
+    const int DEFAULT_TAB_INDENTION = 4;
 
 }
     QString extractClassName(QString className);
@@ -157,6 +158,7 @@ namespace Const{
     static inline QJSValue getJSValue(QJSEngine &e, T *p)
     {
         QJSValue res = e.newQObject(p);
+        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
         return res;
     }
 #else

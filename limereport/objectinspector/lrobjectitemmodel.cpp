@@ -154,6 +154,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("replaceCRwithBR");
     tr("hideIfEmpty");
     tr("hideEmptyItems");
+	tr("useExternalPainter");
 }
 
 void QObjectPropertyModel::clearObjectsList()

@@ -384,6 +384,14 @@ p, li { white-space: pre-wrap; }
         <source>Print if empty</source>
         <translation>Печатать, если пустое</translation>
     </message>
+    <message>
+        <source>Cut</source>
+        <translation>Вырезать</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -1086,6 +1094,10 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>LimeReport::ImageItem</name>
+    <message>
+        <source>Ext.</source>
+        <translation>Внешний</translation>
+    </message>
     <message>
         <source>Image</source>
         <translation>Изображение</translation>
@@ -1863,6 +1875,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>hideEmptyItems</source>
         <translation>Скрывать пустые элементы</translation>
+    </message>
+    <message>
+        <source>useExternalPainter</source>
+        <translation>Использовать внешний отрисовщик</translation>
     </message>
 </context>
 <context>

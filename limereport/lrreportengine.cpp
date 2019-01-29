@@ -82,7 +82,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
     m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage),
     m_previewLayoutDirection(Qt::LayoutDirectionAuto), m_designerFactory(0),
-    m_previewScaleType(FitWidth), m_previewScalePercent(0)
+    m_previewScaleType(FitWidth), m_previewScalePercent(0), m_startTOCPage(0)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
@@ -252,7 +252,6 @@ void ReportEnginePrivate::clearReport()
     m_fileName="";
     m_scriptEngineContext->clear();
     m_reportSettings.setDefaultValues();
-
     emit cleared();
 }
 
@@ -404,7 +403,11 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
             m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #ifdef HAVE_QT5
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
+#else
+        m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+#endif
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -437,7 +440,11 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
             m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #ifdef HAVE_QT5
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
+#else
+            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+#endif
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -1140,6 +1147,9 @@ void ReportEnginePrivate::paintByExternalPainter(const QString& objectName, QPai
 
 ReportPages ReportEnginePrivate::renderToPages()
 {
+    int startTOCPage = -1;
+    int pageAfterTOCIndex = -1;
+
     if (m_reportRendering) return ReportPages();
     initReport();
     m_reportRender = ReportRender::Ptr(new ReportRender);
@@ -1176,10 +1186,15 @@ ReportPages ReportEnginePrivate::renderToPages()
             activateLanguage(m_reportLanguage);
             emit renderStarted();
 
-            foreach(PageItemDesignIntf* page , m_renderingPages){
+            for(int i = 0; i < m_renderingPages.count(); ++i){
+                PageItemDesignIntf* page = m_renderingPages.at(i);
                 if (!page->isTOC() && page->isPrintable()){
                     page->setReportSettings(&m_reportSettings);
                     result.append(m_reportRender->renderPageToPages(page));
+                } else {
+                    startTOCPage = result.count();
+                    pageAfterTOCIndex = i+1;
+                    m_reportRender->createTOCMarker(page->resetPageNumber());
                 }
             }
 
@@ -1187,16 +1202,17 @@ ReportPages ReportEnginePrivate::renderToPages()
                 PageItemDesignIntf* page = m_renderingPages.at(i);
                 if (page->isTOC()){
                     page->setReportSettings(&m_reportSettings);
-                    if (i==0){
+                    if (i < m_renderingPages.count()){
                         PageItemDesignIntf* secondPage = 0;
-                        if (m_pages.count()>1) secondPage = m_renderingPages.at(1);
+                        if ( m_renderingPages.count() > (pageAfterTOCIndex))
+                            secondPage = m_renderingPages.at(pageAfterTOCIndex);
                         ReportPages pages = m_reportRender->renderTOC(
                                     page,
                                     true,
                                     secondPage && secondPage->resetPageNumber()
                         );
                         for (int j=0; j<pages.count(); ++j){
-                            result.insert(j,pages.at(j));
+                            result.insert(startTOCPage+j,pages.at(j));
                         }
 
                     } else {
@@ -1210,9 +1226,9 @@ ReportPages ReportEnginePrivate::renderToPages()
             emit renderFinished();
             m_reportRender.clear();
 
-            foreach(PageItemDesignIntf* page, m_renderingPages){
-                delete page;
-            }
+            //foreach(PageItemDesignIntf* page, m_renderingPages){
+            //    delete page;
+            //}
             m_renderingPages.clear();
         }
         m_reportRendering = false;

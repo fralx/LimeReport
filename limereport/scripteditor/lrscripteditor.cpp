@@ -14,12 +14,13 @@ namespace LimeReport{
 
 ScriptEditor::ScriptEditor(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ScriptEditor), m_reportEngine(0), m_page(0)
+    ui(new Ui::ScriptEditor), m_reportEngine(0), m_page(0), m_tabIndention(4)
 {
     ui->setupUi(this);
     setFocusProxy(ui->textEdit);
     m_completer = new ReportStructureCompleater(this);
     ui->textEdit->setCompleter(m_completer);
+    ui->textEdit->setTabStopWidth(ui->textEdit->fontMetrics().width("0")*m_tabIndention);
     connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SIGNAL(splitterMoved(int,int)));
 }
 
@@ -79,58 +80,16 @@ void ScriptEditor::setPageBand(BandDesignIntf* band)
     }
 }
 
+void ScriptEditor::setTabIndention(int charCount)
+{
+    if (m_tabIndention != charCount){
+        ui->textEdit->setTabStopWidth(ui->textEdit->fontMetrics().width("W")*charCount);
+        m_tabIndention = charCount;
+    }
+}
+
 void ScriptEditor::initCompleter()
 {
-//    QStringList dataWords;
-
-//    DataSourceManager* dm = 0;
-//    if (m_reportEngine)
-//        dm = m_reportEngine->dataManager();
-//    if (m_page)
-//        dm = m_page->datasourceManager();
-
-//#ifdef USE_QJSENGINE
-//    ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
-//    QJSValue globalObject = se.scriptEngine()->globalObject();
-//    QJSValueIterator it(globalObject);
-//    while (it.hasNext()){
-//        it.next();
-//        if (it.value().isCallable() ){
-//            dataWords << it.name();
-//        }
-//    }
-//#endif
-//    foreach(const QString &dsName,dm->dataSourceNames()){
-//        dataWords << dsName;
-//        foreach(const QString &field, dm->fieldNames(dsName)){
-//            dataWords<<dsName+"."+field;
-//        }
-//    }
-
-//    foreach (QString varName, dm->variableNames()) {
-//        dataWords << varName.remove("#");
-//    }
-
-//    if (m_reportEngine){
-//        for ( int i = 0; i < m_reportEngine->pageCount(); ++i){
-//            PageDesignIntf* page = m_reportEngine->pageAt(i);
-//            dataWords << page->pageItem()->objectName();
-//            QMetaObject const * mo = page->pageItem()->metaObject();
-//            for(int i = mo->methodOffset(); i < mo->methodCount(); ++i)
-//            {
-//                if (mo->method(i).methodType() == QMetaMethod::Signal) {
-//                    dataWords << page->pageItem()->objectName() +"."+QString::fromLatin1(mo->method(i).name());
-//                }
-//            }
-//            dataWords << page->pageItem()->objectName()+".beforeRender";
-//            dataWords << page->pageItem()->objectName()+".afterRender";
-//            foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
-//                addItemToCompleater(page->pageItem()->objectName(), item, dataWords);
-//            }
-//        }
-//    }
-
-//    dataWords.sort();
     if (m_reportEngine)
         m_completer->updateCompleaterModel(m_reportEngine);
     else
@@ -167,26 +126,26 @@ QString ScriptEditor::toPlainText()
     return ui->textEdit->toPlainText();
 }
 
-void ScriptEditor::addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords)
-{
-    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
-    if (band){
-        dataWords << band->objectName();
-        dataWords << pageName+"_"+band->objectName();
-        dataWords << pageName+"_"+band->objectName()+".beforeRender";
-        dataWords << pageName+"_"+item->objectName()+".afterData";
-        dataWords << pageName+"_"+band->objectName()+".afterRender";
-        foreach (BaseDesignIntf* child, band->childBaseItems()){
-            addItemToCompleater(pageName, child, dataWords);
-        }
-    } else {
-        dataWords << item->objectName();
-        dataWords << pageName+"_"+item->objectName();
-        dataWords << pageName+"_"+item->objectName()+".beforeRender";
-        dataWords << pageName+"_"+item->objectName()+".afterData";
-        dataWords << pageName+"_"+item->objectName()+".afterRender";
-    }
-}
+//void ScriptEditor::addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords)
+//{
+//    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+//    if (band){
+//        dataWords << band->objectName();
+//        dataWords << pageName+"_"+band->objectName();
+//        dataWords << pageName+"_"+band->objectName()+".beforeRender";
+//        dataWords << pageName+"_"+item->objectName()+".afterData";
+//        dataWords << pageName+"_"+band->objectName()+".afterRender";
+//        foreach (BaseDesignIntf* child, band->childBaseItems()){
+//            addItemToCompleater(pageName, child, dataWords);
+//        }
+//    } else {
+//        dataWords << item->objectName();
+//        dataWords << pageName+"_"+item->objectName();
+//        dataWords << pageName+"_"+item->objectName()+".beforeRender";
+//        dataWords << pageName+"_"+item->objectName()+".afterData";
+//        dataWords << pageName+"_"+item->objectName()+".afterRender";
+//    }
+//}
 
 void ScriptEditor::on_twData_doubleClicked(const QModelIndex &index)
 {

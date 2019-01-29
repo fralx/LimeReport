@@ -283,6 +283,7 @@ private:
     QMap<QString, ReportExporterInterface*> exporters;
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
+    int m_startTOCPage;
 };
 
 }

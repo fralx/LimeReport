@@ -84,7 +84,8 @@ public:
         Translations,
         TabTypeCount
     };
-    ReportDesignWidget(ReportEnginePrivateInterface* report, QMainWindow *mainWindow, QWidget *parent = 0);
+    ReportDesignWidget(ReportEnginePrivateInterface* report, QSettings* settings,
+                       QMainWindow *mainWindow, QWidget *parent = 0);
     ~ReportDesignWidget();
     void createStartPage();
     void clear();
@@ -112,7 +113,7 @@ public:
     bool emitSaveReportAs();
     bool emitLoadReport();
     void saveState(QSettings *settings);
-    void loadState(QSettings *settings);
+    void loadState();
     void applySettings();
     void applyUseGrid();
     bool useGrid(){ return m_useGrid;}
@@ -227,6 +228,7 @@ private:
     bool m_useMagnet;
     bool m_dialogChanged;
     bool m_useDarkTheme;
+    QSettings* m_settings;
 };
 
 } // namespace LimeReport
