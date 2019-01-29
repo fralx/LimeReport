@@ -52,6 +52,7 @@ public:
     void setReportEngine(LimeReport::ReportEnginePrivateInterface* reportEngine);
     void setReportPage(PageDesignIntf* page);
     void setPageBand(BandDesignIntf* band);
+    void setTabIndention(int charCount);
     void initCompleter();
     QByteArray saveState();
     void restoreState(QByteArray state);
@@ -68,13 +69,14 @@ private slots:
     void on_twData_doubleClicked(const QModelIndex &index);
     void on_twScriptEngine_doubleClicked(const QModelIndex &index);
     void slotOnCurrentChanged(const QModelIndex& to, const QModelIndex&);
-private:
-    void addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords);
+//private:
+//    void addItemToCompleater(const QString& pageName, BaseDesignIntf* item, QStringList& dataWords);
 private:
     Ui::ScriptEditor *ui;
     ReportEnginePrivateInterface* m_reportEngine;
     PageDesignIntf* m_page;
     ReportStructureCompleater* m_completer;
+    int m_tabIndention;
 };
 
 } // namespace LimeReport

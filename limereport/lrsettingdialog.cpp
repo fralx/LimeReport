@@ -1,11 +1,12 @@
 #include "lrsettingdialog.h"
 #include "ui_lrsettingdialog.h"
+#include "lrglobal.h"
 #include <QFile>
 
 namespace LimeReport{
 
 SettingDialog::SettingDialog(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent), m_settings(0),
     ui(new Ui::SettingDialog)
 {
     ui->setupUi(this);
@@ -13,6 +14,7 @@ SettingDialog::SettingDialog(QWidget *parent) :
     if (!theme.exists()){
         ui->cbbUseDarkTheme->setVisible(false);
     }
+    ui->indentSize->setRange(0,10);
 }
 
 SettingDialog::~SettingDialog()
@@ -35,6 +37,18 @@ QFont SettingDialog::defaultFont()
     QFont result = ui->defaultFont->currentFont();
     result.setPointSize(ui->defaultFontSize->value());
     return result;
+}
+
+QFont SettingDialog::scriptFont()
+{
+    QFont result = ui->scriptFont->currentFont();
+    result.setPointSize(ui->scriptFontSize->value());
+    return result;
+}
+
+int SettingDialog::tabIndention()
+{
+    return ui->indentSize->value();
 }
 
 bool SettingDialog::userDarkTheme()
@@ -76,6 +90,17 @@ void SettingDialog::setDefaultFont(const QFont &value)
     ui->defaultFontSize->setValue(value.pointSize());
 }
 
+void SettingDialog::setScriptFont(const QFont& value)
+{
+    ui->scriptFont->setCurrentFont(value);
+    ui->scriptFontSize->setValue(value.pointSize());
+}
+
+void SettingDialog::setScritpTabIndention(int size)
+{
+    ui->indentSize->setValue(size);
+}
+
 void SettingDialog::setUseDarkTheme(bool value)
 {
     ui->cbbUseDarkTheme->setChecked(value);
@@ -103,4 +128,37 @@ void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLo
 #endif
 }
 
+void SettingDialog::setSettings(QSettings* settings){
+    m_settings = settings;
+    if (m_settings){
+        m_settings->beginGroup("ScriptEditor");
+        QVariant fontName = m_settings->value("DefaultFontName");
+        if (fontName.isValid()){
+            QVariant fontSize = m_settings->value("DefaultFontSize");
+            ui->scriptFont->setCurrentFont(QFont(fontName.toString(),fontSize.toInt()));
+            ui->scriptFontSize->setValue(fontSize.toInt());
+        }
+        QVariant indentSize = m_settings->value("TabIndention");
+        if (indentSize.isValid()){
+            ui->indentSize->setValue(indentSize.toInt());
+        } else {
+            ui->indentSize->setValue(LimeReport::Const::DEFAULT_TAB_INDENTION);
+        }
+        m_settings->endGroup();
+    }
+}
+
+void SettingDialog::on_bbOkCancel_accepted()
+{
+    if (m_settings){
+        m_settings->beginGroup("ScriptEditor");
+        m_settings->setValue("DefaultFontName", ui->scriptFont->currentFont().family());
+        m_settings->setValue("DefaultFontSize", ui->scriptFontSize->value());
+        m_settings->setValue("TabIndention", ui->indentSize->value());
+        m_settings->endGroup();
+    }
+}
+
 } // namespace LimeReport
+
+

@@ -69,7 +69,7 @@ public:
                              QSettings* settings=0, QWidget *parent = 0);
     ~TextItemEditor();
     void setSettings(QSettings* value);
-    QSettings* settings();
+    QSettings* settings(); 
 protected:
     void resizeEvent(QResizeEvent *);
     void moveEvent(QMoveEvent *);
@@ -78,9 +78,6 @@ protected:
 private slots:
     void on_pbOk_clicked();
     void on_pbCancel_clicked();
-    void on_editorFont_currentFontChanged(const QFont &f);
-    void on_editorFontSize_valueChanged(int arg1);
-    void on_toolButton_clicked(bool checked);
     void slotSplitterMoved(int, int);
 private:
     void initUI();

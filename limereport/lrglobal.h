@@ -95,6 +95,7 @@ namespace Const{
     const int SCENE_MARGIN = 50;
     const QString FUNCTION_MANAGER_NAME = "LimeReport";
     const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
+    const int DEFAULT_TAB_INDENTION = 4;
 
 }
     QString extractClassName(QString className);

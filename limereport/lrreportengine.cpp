@@ -252,7 +252,6 @@ void ReportEnginePrivate::clearReport()
     m_fileName="";
     m_scriptEngineContext->clear();
     m_reportSettings.setDefaultValues();
-
     emit cleared();
 }
 

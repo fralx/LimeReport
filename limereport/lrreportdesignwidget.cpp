@@ -51,12 +51,13 @@ namespace LimeReport {
 
 // ReportDesignIntf
 
-ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QMainWindow *mainWindow, QWidget *parent) :
+ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSettings* settings, QMainWindow *mainWindow, QWidget *parent) :
     QWidget(parent),
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     m_dialogDesignerManager(new DialogDesignerManager(this)),
 #endif
-    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false), m_dialogChanged(false), m_useDarkTheme(false)
+    m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false),
+    m_dialogChanged(false), m_useDarkTheme(false), m_settings(settings)
 {
 #ifdef HAVE_QT4
     m_tabWidget = new LimeReportTabWidget(this);
@@ -205,41 +206,55 @@ void ReportDesignWidget::applySettings()
         parentWidget()->setStyleSheet("");
         m_report->setStyleSheet("");
     }
+
+    if (m_settings){
+        m_settings->beginGroup("ScriptEditor");
+        QVariant v = m_settings->value("DefaultFontName");
+        if (v.isValid()){
+            QVariant fontSize = m_settings->value("DefaultFontSize");
+            m_scriptEditor->setEditorFont(QFont(v.toString(),fontSize.toInt()));
+        }
+        v =  m_settings->value("TabIndention");
+        if (v.isValid()){
+            m_scriptEditor->setTabIndention(v.toInt());
+        }
+        m_settings->endGroup();
+    }
 }
 
-void ReportDesignWidget::loadState(QSettings* settings)
+void ReportDesignWidget::loadState()
 {
-    settings->beginGroup("DesignerWidget");
-    QVariant v = settings->value("hGridStep");
+    m_settings->beginGroup("DesignerWidget");
+    QVariant v = m_settings->value("hGridStep");
     if (v.isValid()){
         m_horizontalGridStep = v.toInt();
     }
 
-    v = settings->value("vGridStep");
+    v = m_settings->value("vGridStep");
     if (v.isValid()){
         m_verticalGridStep = v.toInt();
     }
-    v = settings->value("defaultFont");
+    v = m_settings->value("defaultFont");
     if (v.isValid()){
         m_defaultFont = v.value<QFont>();
     }
 
-    v = settings->value("useGrid");
+    v = m_settings->value("useGrid");
     if (v.isValid()){
         m_useGrid = v.toBool();
     }
 
-    v = settings->value("useDarkTheme");
+    v = m_settings->value("useDarkTheme");
     if (v.isValid()){
         m_useDarkTheme = v.toBool();
     }
 
-    v = settings->value("ScriptEditorState");
+    v = m_settings->value("ScriptEditorState");
     if (v.isValid()){
         m_scriptEditor->restoreState(v.toByteArray());
     }
 
-    settings->endGroup();
+    m_settings->endGroup();
     applySettings();
 }
 
@@ -720,6 +735,7 @@ void ReportDesignWidget::deleteCurrentPage()
 void ReportDesignWidget::editSetting()
 {
     SettingDialog setting(this);
+    setting.setSettings(m_settings);
     setting.setVerticalGridStep(m_verticalGridStep);
     setting.setHorizontalGridStep(m_horizontalGridStep);
     setting.setDefaultFont(m_defaultFont);

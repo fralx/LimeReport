@@ -26,7 +26,6 @@ void ContentEditor::editButtonClicked()
     dialog->setLayout(new QVBoxLayout());
     dialog->layout()->setContentsMargins(1,1,1,1);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
-    //dialog->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, dialog->size(), QApplication::desktop()->availableGeometry()));
     dialog->setWindowTitle(propertyName());
     QWidget* editor = dynamic_cast<BaseDesignIntf*>(m_object)->defaultEditor();
     dialog->layout()->addWidget(editor);

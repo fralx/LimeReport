@@ -118,8 +118,6 @@ void TextItemEditor::initUI()
 {
     QStringList dataWords;
 
-    ui->toolButton->setChecked(false);
-    ui->gbSettings->setVisible(false);
     LimeReport::DataSourceManager* dm =  m_page->datasourceManager();
     LimeReport::ScriptEngineManager& se = LimeReport::ScriptEngineManager::instance();
     se.setDataManager(dm);
@@ -152,13 +150,19 @@ void TextItemEditor::readSetting()
     if (v.isValid()){
         ui->codeEditor->restoreState(v.toByteArray());
     }
-
-    QVariant fontName = settings()->value("FontName");
+    settings()->endGroup();
+    settings()->beginGroup("ScriptEditor");
+    QVariant fontName = settings()->value("DefaultFontName");
     if (fontName.isValid()){
-        QVariant fontSize = settings()->value("FontSize");
+        QVariant fontSize = settings()->value("DefaultFontSize");
         ui->codeEditor->setEditorFont(QFont(fontName.toString(),fontSize.toInt()));
-        ui->editorFont->setCurrentFont(ui->codeEditor->editorFont());
-        ui->editorFontSize->setValue(fontSize.toInt());
+    }
+
+    QVariant tabIndention = settings()->value("TabIndention");
+    if (tabIndention.isValid()){
+        ui->codeEditor->setTabIndention(tabIndention.toInt());
+    } else {
+        ui->codeEditor->setTabIndention(LimeReport::Const::DEFAULT_TAB_INDENTION);
     }
     settings()->endGroup();
 
@@ -173,33 +177,6 @@ void TextItemEditor::writeSetting()
         settings()->setValue("CodeEditorState",ui->codeEditor->saveState());
         settings()->endGroup();
     }
-}
-
-void TextItemEditor::on_editorFont_currentFontChanged(const QFont &f)
-{
-    if (m_isReadingSetting) return;
-    QFont tmp = f;
-    tmp.setPointSize(ui->editorFontSize->value());
-    ui->codeEditor->setEditorFont(tmp);
-    settings()->beginGroup("TextItemEditor");
-    settings()->setValue("FontName",ui->codeEditor->editorFont().family());
-    settings()->setValue("FontSize",ui->editorFontSize->value());
-    settings()->endGroup();
-}
-
-void TextItemEditor::on_editorFontSize_valueChanged(int arg1)
-{
-    if (m_isReadingSetting) return;
-    ui->codeEditor->setEditorFont(QFont(ui->codeEditor->editorFont().family(),arg1));
-    settings()->beginGroup("TextItemEditor");
-    settings()->setValue("FontName",ui->codeEditor->editorFont().family());
-    settings()->setValue("FontSize",ui->editorFontSize->value());
-    settings()->endGroup();
-}
-
-void TextItemEditor::on_toolButton_clicked(bool checked)
-{
-    ui->gbSettings->setVisible(checked);
 }
 
 void TextItemEditor::slotSplitterMoved(int, int)
