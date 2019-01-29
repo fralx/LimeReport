@@ -203,7 +203,11 @@ void PreviewReportWidget::print()
             printer.setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #ifdef HAVE_QT5
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             printer.setPrinterName(pi.defaultPrinterName());
+#else
+            printer.setPrinterName(pi.defaultPrinter().printerName());
+#endif
 #endif
     QPrintDialog dialog(&printer,QApplication::activeWindow());
     if (dialog.exec()==QDialog::Accepted){

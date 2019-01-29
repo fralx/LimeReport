@@ -157,6 +157,7 @@ namespace Const{
     static inline QJSValue getJSValue(QJSEngine &e, T *p)
     {
         QJSValue res = e.newQObject(p);
+        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
         return res;
     }
 #else

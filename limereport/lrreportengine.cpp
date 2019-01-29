@@ -404,7 +404,11 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
             m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #ifdef HAVE_QT5
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
+#else
+        m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+#endif
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -437,7 +441,11 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
             m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #ifdef HAVE_QT5
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
+#else
+            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+#endif
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -1219,9 +1227,9 @@ ReportPages ReportEnginePrivate::renderToPages()
             emit renderFinished();
             m_reportRender.clear();
 
-            foreach(PageItemDesignIntf* page, m_renderingPages){
-                delete page;
-            }
+            //foreach(PageItemDesignIntf* page, m_renderingPages){
+            //    delete page;
+            //}
             m_renderingPages.clear();
         }
         m_reportRendering = false;
