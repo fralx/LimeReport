@@ -82,8 +82,8 @@ namespace Const{
     const qreal BAND_NAME_TEXT_OPACITY = 0.6;
     const qreal SELECTION_OPACITY = 0.3;
     const QString FIELD_RX = "\\$D\\s*\\{\\s*([^{}]*)\\s*\\}";
-    const QString VARIABLE_RX = "\\$V\\s*\\{\\s*([^{}]*)\\s*\\}";
-    const QString NAMED_VARIABLE_RX = "\\$V\\s*\\{\\s*(%1)\\s*\\}";
+    const QString VARIABLE_RX = "\\$V\\s*\\{\\s*(?:([^\\{\\},]*)|(?:([^\\{\\}]*)\\s*,\\s*([^\\{\\}]*)))\\s*\\}";
+    const QString NAMED_VARIABLE_RX = "\\$V\\s*\\{\\s*(?:(%1)|(?:(%1)\\s*,\\s*([^\\{\\}]*)))\\s*\\}";
     const QString SCRIPT_RX = "\\$S\\s*\\{(.*)\\}";    
     const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*((?:(?:\\\")|(?:))(?:(?:\\$(?:(?:D\\{\\s*\\w*..*\\})|(?:V\\{\\s*\\w*\\s*\\})|(?:S\\{.+\\})))|(?:\\w*))(?:(?:\\\")|(?:)))(?:(?:\\s*,\\s*(?:\\\"(\\w*)\\\"))|(?:))(?:(?:\\s*,\\s*(?:(\\w*)))|(?:))\\)";
     const int DATASOURCE_INDEX = 3;
@@ -94,6 +94,7 @@ namespace Const{
     const QString GROUP_FUNCTION_NAME_RX = "%1\\s*\\((.*[^\\)])\\)";
     const int SCENE_MARGIN = 50;
     const QString FUNCTION_MANAGER_NAME = "LimeReport";
+    const QString DATAFUNCTIONS_MANAGER_NAME = "DatasourceFunctions";
     const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
     const int DEFAULT_TAB_INDENTION = 4;
 

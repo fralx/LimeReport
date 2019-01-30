@@ -450,17 +450,32 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
             QString var=rx.cap(0);
             var.remove("$V{");
             var.remove("}");
-
-            if (aliasesToParam.contains(var)){
-                curentAliasIndex++;
-                aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
-                var += "_v_alias"+QString::number(curentAliasIndex);
+            if (!rx.cap(1).isEmpty()){
+                if (aliasesToParam.contains(var)){
+                    curentAliasIndex++;
+                    aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
+                    var += "_v_alias"+QString::number(curentAliasIndex);
+                } else {
+                    aliasesToParam.insert(var,var);
+                }
+                query.replace(pos,rx.cap(0).length(),":"+var);
             } else {
-                aliasesToParam.insert(var,var);
+                QString varName = rx.cap(2).trimmed();
+                QString varParam = rx.cap(3).trimmed();
+                if (!varName.isEmpty()){
+                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0 ){
+                        query.replace(pos,rx.cap(0).length(), variable(varName).toString());
+                    } else {
+                        query.replace(pos,rx.cap(0).length(),
+                                      QString(tr("Uknown parametr \"%1\" for variable \"%2\" found!")
+                                              .arg(varName)
+                                              .arg(varParam))
+                                      );
+                    }
+                } else {
+                    query.replace(pos,rx.cap(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+                }
             }
-
-            query.replace(pos,rx.cap(0).length(),":"+var);
-
         }
     }
     return query;
@@ -1291,13 +1306,11 @@ void DataSourceManager::invalidateQueriesContainsVariable(const QString& variabl
 
 void DataSourceManager::slotVariableHasBeenAdded(const QString& variableName)
 {
-    //qDebug()<< "variable has been added"<< variableName;
     invalidateQueriesContainsVariable(variableName);
 }
 
 void DataSourceManager::slotVariableHasBeenChanged(const QString& variableName)
 {
-    //qDebug()<< "variable has been changed"<< variableName;
     invalidateQueriesContainsVariable(variableName);
 }
 

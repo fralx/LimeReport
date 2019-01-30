@@ -1,3 +1,4 @@
+include(../common.pri)
 DEFINES+=HAVE_REPORT_DESIGNER
 
 contains(CONFIG,dialogdesigner){
