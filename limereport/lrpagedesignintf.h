@@ -151,7 +151,7 @@ namespace LimeReport {
         void emitItemRemoved(BaseDesignIntf* item);
 
         DataSourceManager* datasourceManager();
-        bool isSaved(){ return !m_hasHanges;}
+        bool isSaved(){ return !m_hasChanges;}
         void changeSelectedGrpoupTextAlignPropperty(const bool& horizontalAlign, Qt::AlignmentFlag flag);
 
         int verticalGridStep() const;
@@ -277,7 +277,7 @@ namespace LimeReport {
         bool m_changePosMode;
         bool m_changePosOrSizeMode;
         bool m_executingCommand;
-        bool m_hasHanges;
+        bool m_hasChanges;
         bool m_isLoading;
         bool m_executingGroupCommand;
         QSettings* m_settings;
