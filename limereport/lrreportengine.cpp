@@ -711,6 +711,7 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
             EASY_BLOCK("Connect auto connections")
             dataManager()->connectAutoConnections();
             EASY_END_BLOCK;
+            dataManager()->dropChanges();
 
             if ( hasActivePreview() )
             {
@@ -874,6 +875,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
             page->setToSaved();
         }
     }
+    m_datasources->dropChanges();
     return saved;
 }
 
@@ -888,6 +890,7 @@ QByteArray ReportEnginePrivate::saveToByteArray()
             page->setToSaved();
         }
     }
+    m_datasources->dropChanges();
     return result;
 }
 
@@ -901,6 +904,7 @@ QString ReportEnginePrivate::saveToString(){
             page->setToSaved();
         }
     }
+    m_datasources->dropChanges();
     return result;
 }
 
@@ -908,6 +912,9 @@ bool ReportEnginePrivate::isNeedToSave()
 {
     foreach(PageDesignIntf* page, m_pages){
         if (page->isHasChanges()) return true;
+    }
+    if (dataManager()->isHasChanges()){
+        return true;
     }
     return false;
 }
