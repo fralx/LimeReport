@@ -77,7 +77,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_changePosMode(false),
     m_changePosOrSizeMode(false),
     m_executingCommand(false),
-    m_hasHanges(false),
+    m_hasChanges(false),
     m_isLoading(false),
     m_executingGroupCommand(false),
     m_settings(0),
@@ -608,7 +608,7 @@ bool PageDesignIntf::saveCommand(CommandIf::Ptr command, bool runCommand)
 
     m_commandsList.push_back(command);
     m_currentCommand = m_commandsList.count() - 1;
-    m_hasHanges = true;
+    m_hasChanges = true;
     emit commandHistoryChanged();
     return true;
 }
@@ -625,7 +625,7 @@ bool PageDesignIntf::isCanUndo()
 
 bool PageDesignIntf::isHasChanges()
 {
-    return (m_commandsList.count() > 0) && m_hasHanges;
+    return (m_commandsList.count() > 0) && m_hasChanges;
 }
 
 bool PageDesignIntf::isItemInsertMode()
@@ -1201,7 +1201,7 @@ void PageDesignIntf::undo()
         m_executingCommand = true;
         m_commandsList.at(m_currentCommand)->undoIt();
         m_currentCommand--;
-        m_hasHanges = true;
+        m_hasChanges = true;
         m_executingCommand = false;
     }
 }
@@ -1212,7 +1212,7 @@ void PageDesignIntf::redo()
         m_executingCommand = true;
         m_currentCommand++;
         m_commandsList.at(m_currentCommand)->doIt();
-        m_hasHanges = true;
+        m_hasChanges = true;
         m_executingCommand = false;
     }
 }
@@ -1322,7 +1322,7 @@ void PageDesignIntf::cut()
 
 void PageDesignIntf::setToSaved()
 {
-    m_hasHanges = false;
+    m_hasChanges = false;
 }
 
 void PageDesignIntf::bringToFront()
