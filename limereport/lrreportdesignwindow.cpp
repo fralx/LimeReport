@@ -660,8 +660,8 @@ void ReportDesignWindow::startNewReport()
     m_newReportHeader->setEnabled(true);
     m_newReportFooter->setEnabled(true);
     m_editorTabType = ReportDesignWidget::Page;
-    //showDefaultEditors();
     showDefaultToolBars();
+    m_reportDesignWidget->report()->dataManager()->dropChanges();
 }
 
 void ReportDesignWindow::writePosition()

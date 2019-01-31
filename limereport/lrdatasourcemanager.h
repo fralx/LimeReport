@@ -214,6 +214,8 @@ public:
     ReportSettings *reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
 
+    bool isHasChanges(){ return m_hasChanges; }
+    void dropChanges(){ m_hasChanges = false; }
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
@@ -269,6 +271,7 @@ private:
     QHash<QString,int> m_groupFunctionsExpressionsMap;
     QVector<QString> m_groupFunctionsExpressions;
     IDbCredentialsProvider* m_dbCredentialsProvider;
+    bool m_hasChanges;
 };
 
 }
