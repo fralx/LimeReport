@@ -353,7 +353,7 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
                 );
                 addFunction(describer);
             }
-
+            moveQObjectToScript(new DatasourceFunctions(dataManager), LimeReport::Const::DATAFUNCTIONS_MANAGER_NAME);
         }
     }
 }
@@ -564,6 +564,9 @@ void ScriptEngineManager::clearTableOfContents(){
 
 ScriptValueType ScriptEngineManager::moveQObjectToScript(QObject* object, const QString objectName)
 {
+
+    ScriptValueType obj = scriptEngine()->globalObject().property(objectName);
+    if (!obj.isNull()) delete obj.toQObject();
     ScriptValueType result = scriptEngine()->newQObject(object);
     scriptEngine()->globalObject().setProperty(objectName, result);
     return result;
@@ -866,7 +869,6 @@ ScriptEngineManager::ScriptEngineManager()
     m_scriptEngine->setDefaultPrototype(qMetaTypeId<QComboBox*>(),
                                   m_scriptEngine->newQObject(new ComboBoxPrototype()));
 #endif
-
     createLineFunction();
     createNumberFomatFunction();
     createDateFormatFunction();
@@ -1786,8 +1788,6 @@ void LimeReport::TableOfContents::clear(){
 
 }
 
-//#ifdef USE_QJSENGINE
-
 QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
 {
     QComboBox* comboBox = dynamic_cast<QComboBox*>(item);
@@ -1797,7 +1797,19 @@ QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
     return 0;
 }
 
-//#endif
+bool DatasourceFunctions::next(const QString &datasourceName){
+    if (m_dataManager && m_dataManager->dataSource(datasourceName))
+        return m_dataManager->dataSource(datasourceName)->next();
+    return false;
+}
+
+bool DatasourceFunctions::isEOF(const QString &datasourceName)
+{
+    if (m_dataManager && m_dataManager->dataSource(datasourceName))
+        return m_dataManager->dataSource(datasourceName)->eof();
+    return false;
+}
+
 
 #ifndef USE_QJSENGINE
 void ComboBoxPrototype::addItem(const QString &text)

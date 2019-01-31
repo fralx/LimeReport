@@ -77,10 +77,8 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         return false;
     }
 
-    if (!m_prepared){
-        extractParams();
-        if (!m_prepared) return false;
-    }
+    extractParams();
+    if (!m_prepared) return false;
 
     query.prepare(m_preparedSQL);
     fillParams(&query);
@@ -152,35 +150,13 @@ void QueryHolder::fillParams(QSqlQuery *query)
 
 void QueryHolder::extractParams()
 {
-    m_preparedSQL = replaceVariables(m_queryText);
+    m_preparedSQL =  dataManager()->replaceVariables(m_queryText, m_aliasesToParam);
     m_prepared = true;
 }
 
 QString QueryHolder::replaceVariables(QString query)
 {
-    QRegExp rx(Const::VARIABLE_RX);
-    int curentAliasIndex = 0;
-    if (query.contains(rx)){
-        int pos = -1;
-        while ((pos=rx.indexIn(query))!=-1){
-
-            QString variable=rx.cap(0);
-            variable.remove("$V{");
-            variable.remove("}");
-
-            if (m_aliasesToParam.contains(variable)){
-                curentAliasIndex++;
-                m_aliasesToParam.insert(variable+"_alias"+QString::number(curentAliasIndex),variable);
-                variable += "_alias"+QString::number(curentAliasIndex);
-            } else {
-                m_aliasesToParam.insert(variable,variable);
-            }
-
-            query.replace(pos,rx.cap(0).length(),":"+variable);
-
-        }
-    }
-    return query;
+    return dataManager()->replaceVariables(query, m_aliasesToParam);
 }
 
 QString QueryHolder::queryText()
@@ -450,32 +426,7 @@ QString SubQueryHolder::extractField(QString source)
 
 QString SubQueryHolder::replaceFields(QString query)
 {
-    QRegExp rx(Const::FIELD_RX);
-    int curentAliasIndex=0;
-    if (query.contains(rx)){
-        int pos;
-        while ((pos=rx.indexIn(query))!=-1){
-            QString field=rx.cap(0);
-            field.remove("$D{");
-            field.remove("}");
-
-            if (!m_aliasesToParam.contains(field)){
-                if (field.contains("."))
-                    m_aliasesToParam.insert(field,field);
-                else
-                    m_aliasesToParam.insert(field,m_masterDatasource+"."+field);
-            } else {
-                curentAliasIndex++;
-                if (field.contains("."))
-                    m_aliasesToParam.insert(field+"_alias"+QString::number(curentAliasIndex),field);
-                else
-                    m_aliasesToParam.insert(field+"_alias"+QString::number(curentAliasIndex),m_masterDatasource+"."+field);
-                field+="_alias"+QString::number(curentAliasIndex);
-            }
-            query.replace(pos,rx.cap(0).length(),":"+extractField(field));
-        }
-    }
-    return query;
+    return dataManager()->replaceFields(query, m_aliasesToParam);
 }
 
 SubQueryDesc::SubQueryDesc(QString queryName, QString queryText, QString connection, QString masterDatasourceName)

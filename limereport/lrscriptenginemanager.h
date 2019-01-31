@@ -52,6 +52,8 @@
 #include "lrscriptenginemanagerintf.h"
 #include "lrcallbackdatasourceintf.h"
 #include "lrcollection.h"
+#include "lrdatasourceintf.h"
+#include "lrdatasourcemanagerintf.h"
 
 namespace LimeReport{
 
@@ -294,6 +296,16 @@ private:
 class ComboBoxWrapperCreator: public IWrapperCreator{
 private:
     QObject* createWrapper(QObject* item);
+};
+
+class DatasourceFunctions : public QObject{
+    Q_OBJECT
+public:
+    explicit DatasourceFunctions(IDataSourceManager* dataManager): m_dataManager(dataManager){}
+    Q_INVOKABLE bool next(const QString& datasourceName);
+    Q_INVOKABLE bool isEOF(const QString& datasourceName);
+private:
+    IDataSourceManager* m_dataManager;
 };
 
 class ScriptFunctionsManager : public QObject{
