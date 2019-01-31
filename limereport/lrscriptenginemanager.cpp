@@ -1797,9 +1797,25 @@ QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
     return 0;
 }
 
+bool DatasourceFunctions::first(const QString& datasourceName)
+{
+    if (m_dataManager && m_dataManager->dataSource(datasourceName)){
+        m_dataManager->dataSource(datasourceName)->first();
+        return true;
+    }
+    return false;
+}
+
 bool DatasourceFunctions::next(const QString &datasourceName){
     if (m_dataManager && m_dataManager->dataSource(datasourceName))
         return m_dataManager->dataSource(datasourceName)->next();
+    return false;
+}
+
+bool DatasourceFunctions::prior(const QString& datasourceName)
+{
+    if (m_dataManager && m_dataManager->dataSource(datasourceName))
+        return m_dataManager->dataSource(datasourceName)->prior();
     return false;
 }
 
@@ -1810,6 +1826,14 @@ bool DatasourceFunctions::isEOF(const QString &datasourceName)
     return false;
 }
 
+bool DatasourceFunctions::invalidate(const QString& datasourceName)
+{
+    if (m_dataManager && m_dataManager->dataSource(datasourceName)){
+        m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::DatasourceMode::RENDER_MODE);
+        return true;
+    }
+    return false;
+}
 
 #ifndef USE_QJSENGINE
 void ComboBoxPrototype::addItem(const QString &text)

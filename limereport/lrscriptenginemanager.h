@@ -302,8 +302,12 @@ class DatasourceFunctions : public QObject{
     Q_OBJECT
 public:
     explicit DatasourceFunctions(IDataSourceManager* dataManager): m_dataManager(dataManager){}
+    Q_INVOKABLE bool first(const QString& datasourceName);
     Q_INVOKABLE bool next(const QString& datasourceName);
+    Q_INVOKABLE bool prior(const QString& datasourceName);
     Q_INVOKABLE bool isEOF(const QString& datasourceName);
+    Q_INVOKABLE bool invalidate(const QString& datasourceName);
+
 private:
     IDataSourceManager* m_dataManager;
 };
