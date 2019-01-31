@@ -327,7 +327,11 @@ void PageItemDesignIntf::registerBand(BandDesignIntf *band)
         band->setParentItem(this);
         band->setWidth(pageRect().width()/band->columnsCount());
         connect(band, SIGNAL(destroyed(QObject*)),this,SLOT(bandDeleted(QObject*)));
-        connect(band, SIGNAL(posChanged(QObject*,QPointF,QPointF)),this,SLOT(bandPositionChanged(QObject*,QPointF,QPointF)));
+        connect(band, SIGNAL(posChanged(QObject*, QPointF, QPointF)),
+                this, SLOT(bandPositionChanged(QObject*, QPointF, QPointF)));
+        connect(band, SIGNAL(geometryChanged(QObject*, QRectF, QRectF)),
+                this, SLOT(bandGeometryChanged(QObject*, QRectF, QRectF)));
+
     }
 }
 
@@ -831,6 +835,11 @@ void PageItemDesignIntf::bandPositionChanged(QObject* object, QPointF newPos, QP
         }
     }
     relocateBands();
+}
+
+void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
+{
+    bandPositionChanged(object, newGeometry.topLeft(), oldGeometry.topLeft());
 }
 
 void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)

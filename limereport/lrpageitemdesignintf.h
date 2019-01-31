@@ -157,6 +157,7 @@ signals:
 protected slots:
     void bandDeleted(QObject* band);
     void bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos);
+    void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
 protected:
     void    collectionLoadFinished(const QString& collectionName);
     QRectF& pageRect(){return m_pageRect;}
