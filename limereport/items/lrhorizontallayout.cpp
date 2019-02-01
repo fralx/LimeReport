@@ -138,6 +138,11 @@ void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
     BaseDesignIntf::setItemAlign(itemAlign);
 }
 
+void HorizontalLayout::sortChildren()
+{
+    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+}
+
 void HorizontalLayout::updateLayoutSize()
 {
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
@@ -181,34 +186,6 @@ void HorizontalLayout::relocateChildren()
         }
     }
     setIsRelocating(false);
-}
-
-BaseDesignIntf* HorizontalLayout::findNext(BaseDesignIntf* item){
-    if (layoutsChildren().count() < childItems().size()-1){
-        layoutsChildren().clear();
-        foreach (BaseDesignIntf* childItem, childBaseItems()) {
-            layoutsChildren().append(childItem);
-        }
-    }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
-    for (int i=0; i<layoutsChildren().count();++i){
-        if (layoutsChildren()[i]==item && layoutsChildren().size()>i+1){ return layoutsChildren()[i+1];}
-    }
-    return 0;
-}
-
-BaseDesignIntf* HorizontalLayout::findPrior(BaseDesignIntf* item){
-    if (layoutsChildren().count()<childItems().size()-1){
-        layoutsChildren().clear();
-        foreach (BaseDesignIntf* childItem, childBaseItems()) {
-            layoutsChildren().append(childItem);
-        }
-    }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
-    for (int i=0; i<layoutsChildren().count();++i){
-        if (layoutsChildren()[i]==item && i!=0){ return layoutsChildren()[i-1];}
-    }
-    return 0;
 }
 
 void HorizontalLayout::divideSpace(){

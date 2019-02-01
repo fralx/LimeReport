@@ -259,6 +259,34 @@ void AbstractLayout::updateItemSize(DataSourceManager* dataManager, RenderPass p
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
 
+void AbstractLayout::rebuildChildrenIfNeeded(){
+    if (layoutsChildren().count() < childItems().size()-1){
+        layoutsChildren().clear();
+        foreach (BaseDesignIntf* childItem, childBaseItems()) {
+            layoutsChildren().append(childItem);
+        }
+        sortChildren();
+    }
+}
+
+BaseDesignIntf *AbstractLayout::findNext(BaseDesignIntf *item)
+{
+    rebuildChildrenIfNeeded();
+    for (int i=0; i<layoutsChildren().count();++i){
+        if (layoutsChildren()[i]==item && layoutsChildren().size()>i+1){ return layoutsChildren()[i+1];}
+    }
+    return 0;
+}
+
+BaseDesignIntf *AbstractLayout::findPrior(BaseDesignIntf *item)
+{
+    rebuildChildrenIfNeeded();
+    for (int i=0; i<layoutsChildren().count();++i){
+        if (layoutsChildren()[i]==item && i!=0){ return layoutsChildren()[i-1];}
+    }
+    return 0;
+}
+
 void AbstractLayout::slotOnChildDestroy(QObject* child)
 {
     m_children.removeAll(static_cast<BaseDesignIntf*>(child));
@@ -321,6 +349,13 @@ void AbstractLayout::setHideEmptyItems(bool hideEmptyItems)
         m_hideEmptyItems = hideEmptyItems;
         notify("hideEmptyItems", !m_hideEmptyItems, m_hideEmptyItems);
     }
+}
+
+BaseDesignIntf *AbstractLayout::at(int index)
+{
+    rebuildChildrenIfNeeded();
+    if (layoutsChildren().size() > index) return layoutsChildren()[index];
+    return 0;
 }
 
 LayoutMarker* AbstractLayout::layoutMarker() const

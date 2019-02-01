@@ -24,13 +24,10 @@ protected:
     BaseDesignIntf* cloneUpperPart(int height, QObject* owner=0, QGraphicsItem* parent=0);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner=0, QGraphicsItem *parent=0);
 private:
+    void sortChildren();
     void divideSpace();
     void placeItemInLayout(BaseDesignIntf* item);
     void insertItemInLayout(BaseDesignIntf* item);
-    BaseDesignIntf *findNext(BaseDesignIntf *item);
-    BaseDesignIntf *findPrior(BaseDesignIntf* item);
-private:
-
 };
 
 } // namespace LimeReport

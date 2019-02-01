@@ -142,6 +142,11 @@ BaseDesignIntf* VerticalLayout::cloneBottomPart(int height, QObject* owner, QGra
     return bottomPart;
 }
 
+void VerticalLayout::sortChildren()
+{
+    qSort(layoutsChildren().begin(),layoutsChildren().end(),verticalLessThen);
+}
+
 void VerticalLayout::divideSpace()
 {
     setIsRelocating(true);
@@ -187,34 +192,4 @@ void VerticalLayout::insertItemInLayout(BaseDesignIntf* item)
     }
 }
 
-BaseDesignIntf*VerticalLayout::findNext(BaseDesignIntf* item)
-{
-    if (layoutsChildren().count() < childItems().size()-1){
-        layoutsChildren().clear();
-        foreach (BaseDesignIntf* childItem, childBaseItems()) {
-            layoutsChildren().append(childItem);
-        }
-    }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),verticalLessThen);
-    for (int i=0; i<layoutsChildren().count();++i){
-        if (layoutsChildren()[i]==item && layoutsChildren().size()>i+1){ return layoutsChildren()[i+1];}
-    }
-    return 0;
-}
-
-BaseDesignIntf*VerticalLayout::findPrior(BaseDesignIntf* item)
-{
-    if (layoutsChildren().count()<childItems().size()-1){
-        layoutsChildren().clear();
-        foreach (BaseDesignIntf* childItem, childBaseItems()) {
-            layoutsChildren().append(childItem);
-        }
-    }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),verticalLessThen);
-    for (int i=0; i<layoutsChildren().count();++i){
-        if (layoutsChildren()[i]==item && i!=0){ return layoutsChildren()[i-1];}
-    }
-    return 0;
-}
-
-}
+} // namespace LimeReport

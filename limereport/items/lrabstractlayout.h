@@ -29,7 +29,7 @@ public:
 
     bool hideEmptyItems() const;
     void setHideEmptyItems(bool hideEmptyItems);
-
+    BaseDesignIntf* at(int index);
 protected:
     int  childrenCount();
     void beforeDelete();
@@ -42,12 +42,14 @@ protected:
     bool isNeedUpdateSize(RenderPass pass) const;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight);
+    void rebuildChildrenIfNeeded();
 private:
+    virtual void sortChildren() = 0;
     virtual void divideSpace() = 0;
     virtual void updateLayoutSize() = 0;
     virtual void relocateChildren() = 0;
-    virtual BaseDesignIntf *findNext(BaseDesignIntf *item) = 0;
-    virtual BaseDesignIntf *findPrior(BaseDesignIntf *item) = 0;
+    virtual BaseDesignIntf* findNext(BaseDesignIntf *item);
+    virtual BaseDesignIntf* findPrior(BaseDesignIntf *item);
     virtual void placeItemInLayout(BaseDesignIntf* item) = 0;
     virtual void insertItemInLayout(BaseDesignIntf* item) = 0;
 private slots:

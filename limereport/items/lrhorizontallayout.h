@@ -53,16 +53,13 @@ public:
 protected:
     void updateLayoutSize();
     void relocateChildren();
-    BaseDesignIntf *findNext(BaseDesignIntf *item);
-    BaseDesignIntf *findPrior(BaseDesignIntf *item);
-
     bool canBeSplitted(int height) const;
     BaseDesignIntf* cloneUpperPart(int height, QObject* owner=0, QGraphicsItem* parent=0);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner=0, QGraphicsItem *parent=0);
-
     void setItemAlign(const ItemAlign &itemAlign);
 
 private:
+    void sortChildren();
     void divideSpace();
     void placeItemInLayout(BaseDesignIntf* item);
     void insertItemInLayout(BaseDesignIntf* item);
