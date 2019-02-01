@@ -348,6 +348,10 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
             } else {
                 isFirst=false;
                 painter = new QPainter(&printer);
+                if (!painter->isActive()){
+                    delete painter;
+                    return;
+                }
             }
 
             QRectF printerPageRect = printer.pageRect(QPrinter::Millimeter);
