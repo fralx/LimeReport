@@ -322,14 +322,14 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
                                       renderPage.pageItem()->rightMargin(),
                                       renderPage.pageItem()->bottomMargin(),
                                       QPrinter::Millimeter);
-                printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
+                printer.setOrientation(static_cast<QPrinter::Orientation>(renderPage.pageItem()->pageOrientation()));
                 QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
                            QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
                            renderPage.pageItem()->sizeMM();
                 printer.setPaperSize(pageSize,QPrinter::Millimeter);
             } else {
                 printer.setFullPage(renderPage.pageItem()->fullPage());
-                printer.setOrientation((QPrinter::Orientation)renderPage.pageItem()->pageOrientation());
+                printer.setOrientation(static_cast<QPrinter::Orientation>(renderPage.pageItem()->pageOrientation()));
                 if (renderPage.pageItem()->pageSize()==PageItemDesignIntf::Custom){
                     QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
                                 QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
@@ -338,7 +338,7 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
                       printer.setPaperSize(pageSize,QPrinter::Millimeter);
                 } else {
                     if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
-                      printer.setPaperSize((QPrinter::PageSize)renderPage.pageItem()->pageSize());
+                      printer.setPaperSize(static_cast<QPrinter::PageSize>(renderPage.pageItem()->pageSize()));
                 }
             }
 
@@ -347,13 +347,19 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
             } else {
                 isFirst=false;
                 painter = new QPainter(&printer);
+                if (!painter->isActive()){
+                    delete painter;
+                    return;
+                }
             }
 
             QRectF printerPageRect = printer.pageRect(QPrinter::Millimeter);
             printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
                                          (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
 
-            if (printerPageRect.width() < page->geometry().width()){
+            if (printer.pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
+                printerPageRect.width() < page->geometry().width())
+            {
                 qreal pageWidth = page->geometry().width();
                 QRectF currentPrintingRect = printerPageRect;
                 while (pageWidth>0){
