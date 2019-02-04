@@ -29,9 +29,9 @@ public:
 
     bool hideEmptyItems() const;
     void setHideEmptyItems(bool hideEmptyItems);
-    BaseDesignIntf* at(int index);
-protected:
+    Q_INVOKABLE QObject* at(int index);
     int  childrenCount();
+protected:
     void beforeDelete();
     void childAddedEvent(BaseDesignIntf *child);
     void geometryChangedEvent(QRectF newRect, QRectF);

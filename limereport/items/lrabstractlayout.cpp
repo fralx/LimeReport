@@ -351,7 +351,7 @@ void AbstractLayout::setHideEmptyItems(bool hideEmptyItems)
     }
 }
 
-BaseDesignIntf *AbstractLayout::at(int index)
+QObject* AbstractLayout::at(int index)
 {
     rebuildChildrenIfNeeded();
     if (layoutsChildren().size() > index) return layoutsChildren()[index];
