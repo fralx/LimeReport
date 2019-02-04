@@ -258,6 +258,7 @@ public:
     void setBootomSpace(int bootomSpace);
 signals:
     void bandRendered(BandDesignIntf* band);
+    void preparedForRender();
     void bandRegistred();
 protected:
     void  trimToMaxHeight(int maxHeight);

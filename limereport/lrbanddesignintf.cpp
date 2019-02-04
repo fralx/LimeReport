@@ -1053,6 +1053,8 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     spaceBorder += m_bottomSpace;
     restoreLinks();
     snapshotItemsLayout();
+    BandDesignIntf* patternBand = dynamic_cast<BandDesignIntf*>(patternItem());
+    if (patternBand) emit(patternBand->preparedForRender());
     arrangeSubItems(pass, dataManager); 
     if (autoHeight()){
         if (!keepTopSpace()) {
