@@ -31,6 +31,7 @@
 
 #include <QDate>
 #include <QStringList>
+#include <QUuid>
 #ifndef USE_QJSENGINE
 #include <QScriptValueIterator>
 #endif
@@ -1823,7 +1824,7 @@ bool DatasourceFunctions::isEOF(const QString &datasourceName)
 {
     if (m_dataManager && m_dataManager->dataSource(datasourceName))
         return m_dataManager->dataSource(datasourceName)->eof();
-    return false;
+    return true;
 }
 
 bool DatasourceFunctions::invalidate(const QString& datasourceName)
@@ -1833,6 +1834,73 @@ bool DatasourceFunctions::invalidate(const QString& datasourceName)
         return true;
     }
     return false;
+}
+
+QObject* DatasourceFunctions::createTableBuilder(BaseDesignIntf* horizontalLayout)
+{
+    return new TableBuilder(dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout), dynamic_cast<DataSourceManager*>(m_dataManager));
+}
+
+QObject* TableBuilder::addRow()
+{
+    checkBaseLayout();
+    HorizontalLayout* newRow = new HorizontalLayout(m_baseLayout, m_baseLayout);
+    for(int i = 0; i < m_horizontalLayout->childrenCount(); ++i){
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_horizontalLayout->at(i));
+        BaseDesignIntf* cloneItem = item->cloneItem(item->itemMode(), newRow, newRow);
+        newRow->addChild(cloneItem);
+    }
+    m_baseLayout->addChild(newRow);
+    return newRow;
+}
+
+QObject* TableBuilder::currentRow()
+{
+    checkBaseLayout();
+    if (m_baseLayout && m_baseLayout->childrenCount()>0)
+        return m_baseLayout->at(m_baseLayout->childrenCount()-1);
+    return 0;
+}
+
+void TableBuilder::fillInRowData(QObject* row)
+{
+    HorizontalLayout* layout = dynamic_cast<HorizontalLayout*>(row);
+    if (layout){
+        for (int i = 0; i < layout->childrenCount(); ++i) {
+            BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(layout->at(i));
+            DataSourceManager* dm = dynamic_cast<DataSourceManager*>(m_dataManager);
+            if (item && dm)
+                item->updateItemSize(dm);
+        }
+    }
+}
+
+void TableBuilder::buildTable(const QString& datasourceName)
+{
+    checkBaseLayout();
+    m_dataManager->dataSource(datasourceName)->first();
+    while(!m_dataManager->dataSource(datasourceName)->eof()){
+        fillInRowData(addRow());
+        m_dataManager->dataSource(datasourceName)->next();
+    }
+    m_horizontalLayout->setVisible(false);
+}
+
+void TableBuilder::checkBaseLayout()
+{
+    if (!m_baseLayout){
+        m_baseLayout = dynamic_cast<VerticalLayout*>(m_horizontalLayout->parentItem());
+        if (!m_baseLayout){
+            m_baseLayout = new VerticalLayout(m_horizontalLayout->parent(), m_horizontalLayout->parentItem());
+            m_baseLayout->setItemLocation(m_horizontalLayout->itemLocation());
+            m_baseLayout->setPos(m_horizontalLayout->pos());
+            m_baseLayout->setWidth(m_horizontalLayout->width());
+            m_baseLayout->setHeight(0);
+            m_baseLayout->addChild(m_horizontalLayout);
+            m_baseLayout->setObjectName(QUuid::createUuid().toString());
+            m_baseLayout->setItemTypeName("VerticalLayout");
+        }
+    }
 }
 
 #ifndef USE_QJSENGINE

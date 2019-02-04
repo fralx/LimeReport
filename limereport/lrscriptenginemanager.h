@@ -54,6 +54,8 @@
 #include "lrcollection.h"
 #include "lrdatasourceintf.h"
 #include "lrdatasourcemanagerintf.h"
+#include "lrhorizontallayout.h"
+#include "lrverticallayout.h"
 
 namespace LimeReport{
 
@@ -298,16 +300,35 @@ private:
     QObject* createWrapper(QObject* item);
 };
 
+class TableBuilder: public QObject{
+    Q_OBJECT
+public:
+    TableBuilder(LimeReport::HorizontalLayout* layout, DataSourceManager* dataManager)
+        : m_horizontalLayout(layout), m_baseLayout(0), m_dataManager(dataManager){}
+    ~TableBuilder(){}
+    Q_INVOKABLE QObject* addRow();
+    Q_INVOKABLE QObject* currentRow();
+    Q_INVOKABLE void fillInRowData(QObject* row);
+    Q_INVOKABLE void buildTable(const QString& datasourceName);
+private:
+    void checkBaseLayout();
+private:
+    LimeReport::HorizontalLayout* m_horizontalLayout;
+    LimeReport::VerticalLayout* m_baseLayout;
+    DataSourceManager* m_dataManager;
+};
+
 class DatasourceFunctions : public QObject{
     Q_OBJECT
 public:
-    explicit DatasourceFunctions(IDataSourceManager* dataManager): m_dataManager(dataManager){}
+    explicit DatasourceFunctions(IDataSourceManager* dataManager)
+        : m_dataManager(dataManager){}
     Q_INVOKABLE bool first(const QString& datasourceName);
     Q_INVOKABLE bool next(const QString& datasourceName);
     Q_INVOKABLE bool prior(const QString& datasourceName);
     Q_INVOKABLE bool isEOF(const QString& datasourceName);
     Q_INVOKABLE bool invalidate(const QString& datasourceName);
-
+    Q_INVOKABLE QObject *createTableBuilder(BaseDesignIntf* horizontalLayout);
 private:
     IDataSourceManager* m_dataManager;
 };
