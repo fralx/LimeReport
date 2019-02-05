@@ -169,7 +169,7 @@ void HorizontalLayout::updateLayoutSize()
 void HorizontalLayout::relocateChildren()
 {
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
-    if (layoutsChildren().count()<childItems().size()-1){
+    if (layoutsChildren().count() < childItems().size()-1){
         layoutsChildren().clear();
         foreach (BaseDesignIntf* item, childBaseItems()) {
             layoutsChildren().append(item);

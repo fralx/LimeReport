@@ -1844,12 +1844,19 @@ QObject* DatasourceFunctions::createTableBuilder(BaseDesignIntf* horizontalLayou
     return new TableBuilder(dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout), dynamic_cast<DataSourceManager*>(m_dataManager));
 }
 
+TableBuilder::TableBuilder(HorizontalLayout* layout, DataSourceManager* dataManager)
+    : m_horizontalLayout(layout), m_baseLayout(0), m_dataManager(dataManager)
+{
+    if (m_horizontalLayout)
+        m_patternLayout = dynamic_cast<HorizontalLayout*>(m_horizontalLayout->cloneItem(m_horizontalLayout->itemMode()));
+}
+
 QObject* TableBuilder::addRow()
 {
     checkBaseLayout();
     HorizontalLayout* newRow = new HorizontalLayout(m_baseLayout, m_baseLayout);
     for(int i = 0; i < m_horizontalLayout->childrenCount(); ++i){
-        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_horizontalLayout->at(i));
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_patternLayout->at(i));
         BaseDesignIntf* cloneItem = item->cloneItem(item->itemMode(), newRow, newRow);
         newRow->addChild(cloneItem);
     }
@@ -1883,11 +1890,14 @@ void TableBuilder::buildTable(const QString& datasourceName)
     checkBaseLayout();
     m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
     m_dataManager->dataSource(datasourceName)->first();
+    bool firstTime = true;
+    QObject* row = m_horizontalLayout;
     while(!m_dataManager->dataSource(datasourceName)->eof()){
-        fillInRowData(addRow());
+        if (!firstTime) row =  addRow();
+        else firstTime = false;
+        fillInRowData(row);
         m_dataManager->dataSource(datasourceName)->next();
     }
-    m_horizontalLayout->setHeight(0);
 }
 
 void TableBuilder::checkBaseLayout()

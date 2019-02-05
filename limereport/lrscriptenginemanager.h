@@ -307,9 +307,8 @@ private:
 class TableBuilder: public QObject{
     Q_OBJECT
 public:
-    TableBuilder(LimeReport::HorizontalLayout* layout, DataSourceManager* dataManager)
-        : m_horizontalLayout(layout), m_baseLayout(0), m_dataManager(dataManager){}
-    ~TableBuilder(){}
+    TableBuilder(LimeReport::HorizontalLayout* layout, DataSourceManager* dataManager);
+    ~TableBuilder(){delete m_patternLayout;}
     Q_INVOKABLE QObject* addRow();
     Q_INVOKABLE QObject* currentRow();
     Q_INVOKABLE void fillInRowData(QObject* row);
@@ -318,6 +317,7 @@ private:
     void checkBaseLayout();
 private:
     LimeReport::HorizontalLayout* m_horizontalLayout;
+    LimeReport::HorizontalLayout* m_patternLayout;
     LimeReport::VerticalLayout* m_baseLayout;
     DataSourceManager* m_dataManager;
 };
