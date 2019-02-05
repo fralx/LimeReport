@@ -41,15 +41,17 @@ void VerticalLayout::updateLayoutSize()
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
     int h = spaceBorder*2;
     qreal w = 0;
+    int visibleItemCount = 0;
     foreach(BaseDesignIntf* item, layoutsChildren()){
         if (item->isEmpty() && hideEmptyItems()) item->setVisible(false);
         if (item->isVisible()){
             if (w < item->width()) w = item->width();
             h+=item->height();
+            visibleItemCount++;
         }
     }
     if (w>0) setWidth(w+spaceBorder*2);
-    setHeight(h);
+    setHeight(h + layoutSpacing() *(visibleItemCount-1));
 }
 
 void VerticalLayout::relocateChildren()
@@ -67,7 +69,7 @@ void VerticalLayout::relocateChildren()
     foreach (BaseDesignIntf* item, layoutsChildren()) {
         if (item->isVisible() || itemMode() == DesignMode){
             item->setPos(spaceBorder, curY);
-            curY+=item->height();
+            curY+=item->height() + layoutSpacing();
             item->setWidth(width() - (spaceBorder * 2));
         }
     }
@@ -160,6 +162,8 @@ void VerticalLayout::divideSpace()
             visibleItemsCount++;
         }
     }
+
+    itemsSumSize += layoutSpacing() * (visibleItemsCount - 1);
     qreal delta = (height() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
 
     for (int i=0; i<layoutsChildren().size(); ++i){

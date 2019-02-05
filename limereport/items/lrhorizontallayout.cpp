@@ -148,16 +148,18 @@ void HorizontalLayout::updateLayoutSize()
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
     qreal w = spaceBorder*2;
     qreal h = 0;
+    int visibleItemCount = 0;
     foreach(BaseDesignIntf* item, layoutsChildren()){
         if (item->isEmpty() && hideEmptyItems()) item->setVisible(false);
         if (item->isVisible()){
             if (h<item->height()) h=item->height();
             w+=item->width();
+            visibleItemCount++;
         }
     }
     if (h>0) setHeight(h+spaceBorder*2);    
     if (layoutType() == Layout)
-        setWidth(w);
+        setWidth(w + layoutSpacing() * (visibleItemCount-1));
     else{
         relocateChildren();
         if (!isRelocating()){
@@ -181,7 +183,7 @@ void HorizontalLayout::relocateChildren()
     foreach (BaseDesignIntf* item, layoutsChildren()) {
         if (item->isVisible() || itemMode() == DesignMode){
             item->setPos(curX,spaceBorder);
-            curX+=item->width();
+            curX += item->width() + layoutSpacing();
             item->setHeight(height()-(spaceBorder * 2));
         }
     }
@@ -200,6 +202,8 @@ void HorizontalLayout::divideSpace(){
             visibleItemsCount++;
         }
     }
+
+    itemsSumSize += layoutSpacing() * (visibleItemsCount-1);
 
     if (itemMode() == DesignMode && !layoutsChildren().isEmpty()){
         qreal delta = (width() - (itemsSumSize+spaceBorder*2));

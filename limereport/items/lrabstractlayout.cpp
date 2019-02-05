@@ -4,7 +4,7 @@ namespace LimeReport {
 
 AbstractLayout::AbstractLayout(QString xmlTag, QObject* owner, QGraphicsItem* parent)
     : LayoutDesignIntf(xmlTag, owner, parent), m_isRelocating(false), m_layoutType(Layout),
-    m_hideEmptyItems(false)
+    m_hideEmptyItems(false), m_layoutSpacing(0)
 {
     setPossibleResizeDirectionFlags(AllDirections);
     m_layoutMarker = new LayoutMarker(this);
@@ -334,6 +334,22 @@ void AbstractLayout::slotOnChildVisibleHasChanged(BaseDesignIntf*)
 void AbstractLayout::slotOnChildSelectionHasChanged(BaseDesignIntf* item, bool value)
 {
     item->setZValue(value ? item->zValue()+1 : item->zValue()-1);
+}
+
+int AbstractLayout::layoutSpacing() const
+{
+    return m_layoutSpacing;
+}
+
+void AbstractLayout::setLayoutSpacing(int layoutSpacing)
+{
+    if (m_layoutSpacing != layoutSpacing){
+        int oldValue = m_layoutSpacing;
+        m_layoutSpacing = layoutSpacing;
+        int delta  = (m_layoutSpacing - oldValue)  * (m_children.count()-1);
+        notify("layoutSpacing", oldValue, m_layoutSpacing);
+        setWidth(width() + delta);
+    }
 }
 
 bool AbstractLayout::hideEmptyItems() const

@@ -1854,14 +1854,16 @@ TableBuilder::TableBuilder(HorizontalLayout* layout, DataSourceManager* dataMana
 QObject* TableBuilder::addRow()
 {
     checkBaseLayout();
-    HorizontalLayout* newRow = new HorizontalLayout(m_baseLayout, m_baseLayout);
-    for(int i = 0; i < m_horizontalLayout->childrenCount(); ++i){
-        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_patternLayout->at(i));
-        BaseDesignIntf* cloneItem = item->cloneItem(item->itemMode(), newRow, newRow);
-        newRow->addChild(cloneItem);
-    }
-    m_baseLayout->addChild(newRow);
-    return newRow;
+    if (m_baseLayout && m_patternLayout){
+        HorizontalLayout* newRow = new HorizontalLayout(m_baseLayout, m_baseLayout);
+        for(int i = 0; i < m_horizontalLayout->childrenCount(); ++i){
+            BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_patternLayout->at(i));
+            BaseDesignIntf* cloneItem = item->cloneItem(item->itemMode(), newRow, newRow);
+            newRow->addChild(cloneItem);
+        }
+        m_baseLayout->addChild(newRow);
+        return newRow;
+    } else return 0;
 }
 
 QObject* TableBuilder::currentRow()

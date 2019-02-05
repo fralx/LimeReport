@@ -10,6 +10,7 @@ class AbstractLayout: public LayoutDesignIntf
     Q_OBJECT
     Q_ENUMS(LayoutType)
     Q_PROPERTY(bool hideEmptyItems READ hideEmptyItems WRITE setHideEmptyItems)
+    Q_PROPERTY(int layoutSpacing READ layoutSpacing WRITE setLayoutSpacing)
 public:
     enum LayoutType{Layout,Table};
     AbstractLayout(QString xmlTag, QObject *owner = 0, QGraphicsItem *parent = 0);
@@ -31,6 +32,9 @@ public:
     void setHideEmptyItems(bool hideEmptyItems);
     Q_INVOKABLE QObject* at(int index);
     int  childrenCount();
+    int layoutSpacing() const;
+    void setLayoutSpacing(int layoutSpacing);
+
 protected:
     void beforeDelete();
     void childAddedEvent(BaseDesignIntf *child);
@@ -64,6 +68,7 @@ private:
     LayoutMarker* m_layoutMarker;
     LayoutType m_layoutType;
     bool m_hideEmptyItems;
+    int m_layoutSpacing;
 };
 
 } // namespace LimeReport
