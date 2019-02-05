@@ -384,7 +384,7 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
                     }
                     pos=0;
 
-                } catch (ReportError e){
+                } catch (ReportError &e){
                     dataManager()->putError(e.what());
                     if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
                         context.replace(rx.cap(0),e.what());
