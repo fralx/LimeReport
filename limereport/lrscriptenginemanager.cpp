@@ -1878,6 +1878,7 @@ void TableBuilder::fillInRowData(QObject* row)
 void TableBuilder::buildTable(const QString& datasourceName)
 {
     checkBaseLayout();
+    m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
     m_dataManager->dataSource(datasourceName)->first();
     while(!m_dataManager->dataSource(datasourceName)->eof()){
         fillInRowData(addRow());
