@@ -1390,7 +1390,10 @@ QString ScriptEngineContext::initScript() const
 
 void ScriptEngineContext::setInitScript(const QString& initScript)
 {
-    m_initScript = initScript;
+    if (m_initScript != initScript){
+        m_initScript = initScript;
+        m_hasChanges = true;
+    }
 }
 
 DialogDescriber::Ptr DialogDescriber::create(const QString& name, const QByteArray& desc) {
@@ -1884,7 +1887,7 @@ void TableBuilder::buildTable(const QString& datasourceName)
         fillInRowData(addRow());
         m_dataManager->dataSource(datasourceName)->next();
     }
-    m_horizontalLayout->setVisible(false);
+    m_horizontalLayout->setHeight(0);
 }
 
 void TableBuilder::checkBaseLayout()

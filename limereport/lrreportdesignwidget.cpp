@@ -284,6 +284,7 @@ void ReportDesignWidget::createTabs(){
     }
 
     m_scriptEditor = new ScriptEditor(this);
+    connect(m_scriptEditor, SIGNAL(textChanged()), this, SLOT(slotScriptTextChanged()));
     m_scriptEditor->setReportEngine(m_report);
     pageIndex = m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
     m_tabWidget->setTabWhatsThis(pageIndex,"script");
@@ -880,6 +881,11 @@ void ReportDesignWidget::slotReportLoaded()
     m_scriptEditor->restoreState(editorState);
     emit loadFinished();
     m_dialogChanged = false;
+}
+
+void ReportDesignWidget::slotScriptTextChanged()
+{
+    m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION

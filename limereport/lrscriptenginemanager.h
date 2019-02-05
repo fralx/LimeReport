@@ -174,7 +174,9 @@ public:
 #ifdef HAVE_UI_LOADER
     typedef QSharedPointer<QDialog> DialogPtr;
 #endif
-    explicit ScriptEngineContext(QObject* parent=0):QObject(parent), m_tableOfContents(new TableOfContents(this)){}
+    explicit ScriptEngineContext(QObject* parent=0):
+        QObject(parent),
+        m_tableOfContents(new TableOfContents(this)), m_hasChanges(false) {}
 #ifdef HAVE_UI_LOADER
     void    addDialog(const QString& name, const QByteArray& description);
     bool    changeDialog(const QString& name, const QByteArray &description);
@@ -200,7 +202,8 @@ public:
     void setCurrentPage(PageItemDesignIntf* currentPage);
     TableOfContents* tableOfContents() const;
     void setTableOfContents(TableOfContents* tableOfContents);
-
+    void dropChanges(){ m_hasChanges = false;}
+    bool hasChanges(){ return m_hasChanges;}
 #ifdef HAVE_UI_LOADER    
 signals:
     void    dialogNameChanged(QString dialogName);
@@ -227,6 +230,7 @@ private:
     BandDesignIntf* m_currentBand;
     PageItemDesignIntf* m_currentPage;
     TableOfContents* m_tableOfContents;
+    bool m_hasChanges;
 };
 
 class JSFunctionDesc{

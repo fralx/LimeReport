@@ -214,7 +214,7 @@ public:
     ReportSettings *reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
 
-    bool isHasChanges(){ return m_hasChanges; }
+    bool hasChanges(){ return m_hasChanges; }
     void dropChanges(){ m_hasChanges = false; }
 signals:
     void loadCollectionFinished(const QString& collectionName);

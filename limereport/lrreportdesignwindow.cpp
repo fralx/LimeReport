@@ -662,6 +662,8 @@ void ReportDesignWindow::startNewReport()
     m_editorTabType = ReportDesignWidget::Page;
     showDefaultToolBars();
     m_reportDesignWidget->report()->dataManager()->dropChanges();
+    m_reportDesignWidget->report()->scriptContext()->dropChanges();
+
 }
 
 void ReportDesignWindow::writePosition()

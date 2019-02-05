@@ -60,8 +60,11 @@ public:
     void setEditorFont(QFont font);
     QFont editorFont();
     QString toPlainText();
+    bool hasChanges() const;
+    void setHasChanges(bool hasChanges);
 signals:
     void splitterMoved(int, int);
+    void textChanged();
 protected:
     void initEditor(DataSourceManager* dm);
 
@@ -69,6 +72,7 @@ private slots:
     void on_twData_doubleClicked(const QModelIndex &index);
     void on_twScriptEngine_doubleClicked(const QModelIndex &index);
     void slotOnCurrentChanged(const QModelIndex& to, const QModelIndex&);
+
 private:
     Ui::ScriptEditor *ui;
     ReportEnginePrivateInterface* m_reportEngine;

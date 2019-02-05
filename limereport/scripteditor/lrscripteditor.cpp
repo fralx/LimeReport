@@ -22,6 +22,7 @@ ScriptEditor::ScriptEditor(QWidget *parent) :
     ui->textEdit->setCompleter(m_completer);
     ui->textEdit->setTabStopWidth(ui->textEdit->fontMetrics().width("0")*m_tabIndention);
     connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SIGNAL(splitterMoved(int,int)));
+    connect(ui->textEdit, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
 }
 
 ScriptEditor::~ScriptEditor()
@@ -357,6 +358,8 @@ void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString
 }
 
 } // namespace LimeReport
+
+
 
 
 
