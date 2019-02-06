@@ -51,7 +51,7 @@ void VerticalLayout::updateLayoutSize()
         }
     }
     if (w>0) setWidth(w+spaceBorder*2);
-    setHeight(h + layoutSpacing() *(visibleItemCount-1));
+    setHeight(h + layoutSpacingMM() *(visibleItemCount-1));
 }
 
 void VerticalLayout::relocateChildren()
@@ -69,7 +69,7 @@ void VerticalLayout::relocateChildren()
     foreach (BaseDesignIntf* item, layoutsChildren()) {
         if (item->isVisible() || itemMode() == DesignMode){
             item->setPos(spaceBorder, curY);
-            curY+=item->height() + layoutSpacing();
+            curY+=item->height() + layoutSpacingMM();
             item->setWidth(width() - (spaceBorder * 2));
         }
     }
@@ -163,7 +163,7 @@ void VerticalLayout::divideSpace()
         }
     }
 
-    itemsSumSize += layoutSpacing() * (visibleItemsCount - 1);
+    itemsSumSize += layoutSpacingMM() * (visibleItemsCount - 1);
     qreal delta = (height() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
 
     for (int i=0; i<layoutsChildren().size(); ++i){
