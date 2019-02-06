@@ -155,6 +155,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("hideIfEmpty");
     tr("hideEmptyItems");
 	tr("useExternalPainter");
+    tr("layoutSpacing");
 }
 
 void QObjectPropertyModel::clearObjectsList()
