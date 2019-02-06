@@ -80,6 +80,7 @@ public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
     bool    printReport(QPrinter *printer=0);
+    bool    printReport(QMap<QString, QPrinter*> printers);
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     PageDesignIntf *createPreviewScene(QObject *parent = 0);

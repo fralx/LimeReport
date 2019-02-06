@@ -37,6 +37,7 @@
 #include <LRCallbackDS>
 #include <QDebug>
 #include <QStringListModel>
+#include <QPrinter>
 
 #ifdef BUILD_WITH_EASY_PROFILER
 #include "easy/profiler.h"
@@ -148,6 +149,13 @@ void MainWindow::on_pushButton_2_clicked()
 #ifdef BUILD_WITH_EASY_PROFILER
         profiler::dumpBlocksToFile("test.prof");
 #endif
+//        QPrinter* printer = new QPrinter;
+//        QPrintDialog dialog(printer);
+//        if (dialog.exec()){
+//            QMap<QString, QPrinter*> printers;
+//            printers.insert("default",printer);
+//            report->printReport(printers);
+//        }
         report->previewReport();
     }
 }

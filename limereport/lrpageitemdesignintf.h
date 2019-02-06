@@ -60,6 +60,7 @@ class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
     Q_PROPERTY(bool setPageSizeToPrinter READ getSetPageSizeToPrinter WRITE setSetPageSizeToPrinter )
     Q_PROPERTY(bool endlessHeight READ endlessHeight WRITE setEndlessHeight)
     Q_PROPERTY(bool printable READ isPrintable WRITE setPrintable)
+    Q_PROPERTY(QString printerName READ printerName WRITE setPrinterName)
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
@@ -151,6 +152,9 @@ public:
     bool isPrintable() const;
     void setPrintable(bool printable);
 
+    QString printerName() const;
+    void setPrinterName(const QString& printerName);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -190,6 +194,7 @@ private:
     bool m_setPageSizeToPrinter;
     bool m_endlessHeight;
     bool m_printable;
+    QString m_printerName;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;

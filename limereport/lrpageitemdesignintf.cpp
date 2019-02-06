@@ -342,6 +342,16 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+QString PageItemDesignIntf::printerName() const
+{
+    return m_printerName;
+}
+
+void PageItemDesignIntf::setPrinterName(const QString& printerName)
+{
+    m_printerName = printerName;
+}
+
 bool PageItemDesignIntf::isPrintable() const
 {
     return m_printable;

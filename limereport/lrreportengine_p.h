@@ -93,6 +93,19 @@ public:
     virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
 };
 
+class PrintProcessor{
+public:
+    explicit PrintProcessor(QPrinter* printer);
+    ~PrintProcessor(){ if (m_painter) delete m_painter;}
+    bool printPage(LimeReport::PageItemDesignIntf::Ptr page);
+private:
+    void initPrinter(PageItemDesignIntf* page);
+private:
+    QPrinter* m_printer;
+    QPainter* m_painter;
+    bool m_firstPage;
+};
+
 class ReportEnginePrivate : public QObject,
         public ICollectionContainer,
         public ITranslationContainer,
@@ -111,6 +124,7 @@ class ReportEnginePrivate : public QObject,
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
     static void printReport(ReportPages pages, QPrinter &printer);
+    static void printReport(ReportPages pages, QMap<QString,QPrinter*>printers);
     Q_INVOKABLE QStringList aviableReportTranslations();
     Q_INVOKABLE void setReportTranslation(const QString& languageName);
 public:
@@ -134,6 +148,7 @@ public:
 
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
+    bool    printReport(QMap<QString, QPrinter*>printers);
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
@@ -198,7 +213,7 @@ public:
     void setCurrentDesignerLanguage(QLocale::Language language);
     ScaleType previewScaleType();
     int       previewScalePercent();
-    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+    void      setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -216,7 +231,6 @@ signals:
     void    getAviableLanguages(QList<QLocale::Language>* languages);
     void    currentDefaulLanguageChanged(QLocale::Language);
     QLocale::Language  getCurrentDefaultLanguage();
-
     void    externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);
 
 public slots:

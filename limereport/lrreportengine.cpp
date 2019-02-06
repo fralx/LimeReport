@@ -289,19 +289,10 @@ void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& pri
 
 void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
 {
-    LimeReport::PageDesignIntf renderPage;
-    renderPage.setItemMode(PrintMode);
-    QPainter* painter=0;
-
-    bool isFirst = true;
     int currenPage = 1;
-
-
-    qreal leftMargin, topMargin, rightMargin, bottomMargin;
-    printer.getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
-
+    QMap<QString, QSharedPointer<PrintProcessor>> printProcessors;
+    printProcessors.insert("default",QSharedPointer<PrintProcessor>(new PrintProcessor(&printer)));
     foreach(PageItemDesignIntf::Ptr page, pages){
-
         if (
                 (printer.printRange() == QPrinter::AllPages) ||
                 (   (printer.printRange()==QPrinter::PageRange) &&
@@ -310,76 +301,32 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
                 )
            )
         {
-
-            QPointF pagePos = page->pos();
-
-            page->setPos(0,0);
-            renderPage.setPageItem(page);
-            renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
-            if (renderPage.pageItem()->oldPrintMode()){
-                printer.setPageMargins(renderPage.pageItem()->leftMargin(),
-                                      renderPage.pageItem()->topMargin(),
-                                      renderPage.pageItem()->rightMargin(),
-                                      renderPage.pageItem()->bottomMargin(),
-                                      QPrinter::Millimeter);
-                printer.setOrientation(static_cast<QPrinter::Orientation>(renderPage.pageItem()->pageOrientation()));
-                QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
-                           QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
-                           renderPage.pageItem()->sizeMM();
-                printer.setPaperSize(pageSize,QPrinter::Millimeter);
-            } else {
-                printer.setFullPage(renderPage.pageItem()->fullPage());
-                printer.setOrientation(static_cast<QPrinter::Orientation>(renderPage.pageItem()->pageOrientation()));
-                if (renderPage.pageItem()->pageSize()==PageItemDesignIntf::Custom){
-                    QSizeF pageSize = (renderPage.pageItem()->pageOrientation()==PageItemDesignIntf::Landscape)?
-                                QSizeF(renderPage.pageItem()->sizeMM().height(),renderPage.pageItem()->sizeMM().width()):
-                                renderPage.pageItem()->sizeMM();
-                    if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
-                      printer.setPaperSize(pageSize,QPrinter::Millimeter);
-                } else {
-                    if (page->getSetPageSizeToPrinter() || printer.outputFormat() == QPrinter::PdfFormat)
-                      printer.setPaperSize(static_cast<QPrinter::PageSize>(renderPage.pageItem()->pageSize()));
-                }
-            }
-
-            if (!isFirst){
-                printer.newPage();
-            } else {
-                isFirst=false;
-                painter = new QPainter(&printer);
-                if (!painter->isActive()){
-                    delete painter;
-                    return;
-                }
-            }
-
-            QRectF printerPageRect = printer.pageRect(QPrinter::Millimeter);
-            printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
-                                         (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
-
-            if (printer.pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
-                printerPageRect.width() < page->geometry().width())
-            {
-                qreal pageWidth = page->geometry().width();
-                QRectF currentPrintingRect = printerPageRect;
-                while (pageWidth>0){
-                    renderPage.render(painter, printer.pageRect(), currentPrintingRect);
-                    currentPrintingRect.adjust(printerPageRect.size().width(),0,printerPageRect.size().width(),0);
-                    pageWidth -= printerPageRect.size().width();
-                    if (pageWidth>0) printer.newPage();
-                }
-
-            } else {
-               renderPage.render(painter);
-            }
-
-
-            page->setPos(pagePos);
+              printProcessors["default"]->printPage(page);
         }
+        currenPage++;
+    }
+}
+
+void ReportEnginePrivate::printReport(ReportPages pages, QMap<QString, QPrinter*> printers)
+{
+    if (printers.values().isEmpty()) return;
+    int currenPage = 1;
+    QMap<QString, QSharedPointer<PrintProcessor>> printProcessors;
+    for (int i = 0; i < printers.keys().count(); ++i) {
+        printProcessors.insert(printers.keys()[i],QSharedPointer<PrintProcessor>(new PrintProcessor(printers[printers.keys()[i]])));
+    }
+
+    PrintProcessor* defaultProcessor = 0;
+    if (printProcessors.contains("default")) defaultProcessor =  printProcessors["default"].data();
+    else defaultProcessor = printProcessors.values().at(0).data();
+    foreach(PageItemDesignIntf::Ptr page, pages){
+
+        if (printProcessors.contains(page->printerName()))
+            printProcessors[page->printerName()]->printPage(page);
+        else defaultProcessor->printPage(page);
 
         currenPage++;
     }
-    delete painter;
 }
 
 QStringList ReportEnginePrivate::aviableReportTranslations()
@@ -435,6 +382,23 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
         }
         return true;
     } else return false;
+}
+
+bool ReportEnginePrivate::printReport(QMap<QString, QPrinter*> printers)
+{
+    try{
+        bool designTime = dataManager()->designTime();
+        dataManager()->setDesignTime(false);
+        ReportPages pages = renderToPages();
+        dataManager()->setDesignTime(designTime);
+        if (pages.count()>0){
+            printReport(pages,printers);
+        }
+    } catch(ReportError &exception){
+        saveError(exception.what());
+        return false;
+    }
+    return true;
 }
 
 bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
@@ -1299,6 +1263,12 @@ bool ReportEngine::printReport(QPrinter *printer)
     return d->printReport(printer);
 }
 
+bool ReportEngine::printReport(QMap<QString, QPrinter*> printers)
+{
+    Q_D(ReportEngine);
+    return d->printReport(printers);
+}
+
 bool ReportEngine::printPages(ReportPages pages, QPrinter *printer){
     Q_D(ReportEngine);
     return d->printPages(pages,printer);
@@ -1551,6 +1521,85 @@ ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
     ScriptEngineManager::instance().setContext(scriptContext());
     ScriptEngineManager::instance().setDataManager(dataManager());
     return &ScriptEngineManager::instance();
+}
+
+PrintProcessor::PrintProcessor(QPrinter* printer)
+    : m_printer(printer), m_painter(new QPainter(m_printer)), m_firstPage(true)
+{}
+
+
+bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
+{
+    if (m_painter && !m_painter->isActive()) return false;
+    LimeReport::PageDesignIntf renderPage;
+
+    renderPage.setItemMode(PrintMode);
+    initPrinter(renderPage.pageItem());
+
+    QPointF backupPagePos = page->pos();
+    page->setPos(0,0);
+    renderPage.setPageItem(page);
+    renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
+
+    if (!m_firstPage){
+        m_printer->newPage();
+    } else {
+        m_firstPage = false;
+    }
+
+    qreal leftMargin, topMargin, rightMargin, bottomMargin;
+    m_printer->getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
+
+    QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
+    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
+                                 (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
+
+    if (m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
+        printerPageRect.width() < page->geometry().width())
+    {
+        qreal pageWidth = page->geometry().width();
+        QRectF currentPrintingRect = printerPageRect;
+        while (pageWidth>0){
+            renderPage.render(m_painter, m_printer->pageRect(), currentPrintingRect);
+            currentPrintingRect.adjust(printerPageRect.size().width(),0,printerPageRect.size().width(),0);
+            pageWidth -= printerPageRect.size().width();
+            if (pageWidth>0) m_printer->newPage();
+        }
+
+    } else {
+       renderPage.render(m_painter);
+    }
+    page->setPos(backupPagePos);
+    return true;
+}
+
+void PrintProcessor::initPrinter(PageItemDesignIntf* page)
+{
+    if (page->oldPrintMode()){
+        m_printer->setPageMargins(page->leftMargin(),
+                              page->topMargin(),
+                              page->rightMargin(),
+                              page->bottomMargin(),
+                              QPrinter::Millimeter);
+        m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
+        QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
+                   QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                   page->sizeMM();
+        m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
+    } else {
+        m_printer->setFullPage(page->fullPage());
+        m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
+        if (page->pageSize()==PageItemDesignIntf::Custom){
+            QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
+                        QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                        page->sizeMM();
+            if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
+              m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
+        } else {
+            if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
+              m_printer->setPaperSize(static_cast<QPrinter::PageSize>(page->pageSize()));
+        }
+    }
 }
 
 }// namespace LimeReport
