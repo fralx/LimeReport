@@ -468,7 +468,7 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
                         query.replace(pos,rx.cap(0).length(), variable(varName).toString());
                     } else {
                         query.replace(pos,rx.cap(0).length(),
-                                      QString(tr("Uknown parametr \"%1\" for variable \"%2\" found!")
+                                      QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
                                               .arg(varName)
                                               .arg(varParam))
                                       );
