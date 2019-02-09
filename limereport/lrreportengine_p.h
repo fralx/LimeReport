@@ -124,7 +124,7 @@ class ReportEnginePrivate : public QObject,
 public:
     static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
     static void printReport(ReportPages pages, QPrinter &printer);
-    static void printReport(ReportPages pages, QMap<QString,QPrinter*>printers);
+    static void printReport(ReportPages pages, QMap<QString,QPrinter*>printers, bool printToAllPrinters = false);
     Q_INVOKABLE QStringList aviableReportTranslations();
     Q_INVOKABLE void setReportTranslation(const QString& languageName);
 public:
@@ -148,7 +148,7 @@ public:
 
     void    clearReport();
     bool    printReport(QPrinter *printer=0);
-    bool    printReport(QMap<QString, QPrinter*>printers);
+    bool    printReport(QMap<QString, QPrinter*>printers, bool printToAllPrinters);
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);

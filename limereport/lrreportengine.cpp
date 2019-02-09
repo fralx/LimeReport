@@ -307,7 +307,7 @@ void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
     }
 }
 
-void ReportEnginePrivate::printReport(ReportPages pages, QMap<QString, QPrinter*> printers)
+void ReportEnginePrivate::printReport(ReportPages pages, QMap<QString, QPrinter*> printers, bool printToAllPrinters)
 {
     if (printers.values().isEmpty()) return;
     int currenPage = 1;
@@ -317,13 +317,20 @@ void ReportEnginePrivate::printReport(ReportPages pages, QMap<QString, QPrinter*
     }
 
     PrintProcessor* defaultProcessor = 0;
+    int currentPrinter = 0;
     if (printProcessors.contains("default")) defaultProcessor =  printProcessors["default"].data();
     else defaultProcessor = printProcessors.values().at(0).data();
     foreach(PageItemDesignIntf::Ptr page, pages){
-
-        if (printProcessors.contains(page->printerName()))
-            printProcessors[page->printerName()]->printPage(page);
-        else defaultProcessor->printPage(page);
+        if (!printToAllPrinters){
+            if (printProcessors.contains(page->printerName()))
+                printProcessors[page->printerName()]->printPage(page);
+            else defaultProcessor->printPage(page);
+        } else {
+            printProcessors.values().at(currentPrinter)->printPage(page);
+            if (currentPrinter < printers.values().count()-1)
+                currentPrinter++;
+            else currentPrinter = 0;
+        }
 
         currenPage++;
     }
@@ -384,7 +391,7 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     } else return false;
 }
 
-bool ReportEnginePrivate::printReport(QMap<QString, QPrinter*> printers)
+bool ReportEnginePrivate::printReport(QMap<QString, QPrinter*> printers, bool printToAllPrinters)
 {
     try{
         bool designTime = dataManager()->designTime();
@@ -392,7 +399,7 @@ bool ReportEnginePrivate::printReport(QMap<QString, QPrinter*> printers)
         ReportPages pages = renderToPages();
         dataManager()->setDesignTime(designTime);
         if (pages.count()>0){
-            printReport(pages,printers);
+            printReport(pages, printers, printToAllPrinters);
         }
     } catch(ReportError &exception){
         saveError(exception.what());
@@ -1263,10 +1270,10 @@ bool ReportEngine::printReport(QPrinter *printer)
     return d->printReport(printer);
 }
 
-bool ReportEngine::printReport(QMap<QString, QPrinter*> printers)
+bool ReportEngine::printReport(QMap<QString, QPrinter*> printers, bool printToAllPrinters)
 {
     Q_D(ReportEngine);
-    return d->printReport(printers);
+    return d->printReport(printers, printToAllPrinters);
 }
 
 bool ReportEngine::printPages(ReportPages pages, QPrinter *printer){
