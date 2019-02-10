@@ -704,6 +704,10 @@ p, li { white-space: pre-wrap; }
         <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation>Источник данных &quot;%1&quot; уже существует!</translation>
     </message>
+    <message>
+        <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
+        <translation>Обнаружен неизвестный параметр &quot;%1&quot; для переменной &quot;%2&quot;!</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataSourceModel</name>
@@ -1880,6 +1884,10 @@ p, li { white-space: pre-wrap; }
         <source>useExternalPainter</source>
         <translation>Использовать внешний отрисовщик</translation>
     </message>
+    <message>
+        <source>layoutSpacing</source>
+        <translation>Интервал</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -2569,14 +2577,6 @@ This preview is no longer valid.</source>
         <translation>Горизонтальный шаг сетки</translation>
     </message>
     <message>
-        <source>Designer Setting</source>
-        <translation>Настройки дизайнера</translation>
-    </message>
-    <message>
-        <source>Report Setting</source>
-        <translation>Настройки отчета</translation>
-    </message>
-    <message>
         <source>Suppress absent fields and variables warning</source>
         <translation>Не выводить сообщения об отсутствии полей или переменных</translation>
     </message>
@@ -2587,6 +2587,26 @@ This preview is no longer valid.</source>
     <message>
         <source>Use dark theme</source>
         <translation>Использовать Темную тему</translation>
+    </message>
+    <message>
+        <source>Designer settings</source>
+        <translation>Настройки дизайнера</translation>
+    </message>
+    <message>
+        <source>Script editor settings</source>
+        <translation>Настройки редактора скриптов</translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation>Шрифт</translation>
+    </message>
+    <message>
+        <source>Indent size</source>
+        <translation>Отступ</translation>
+    </message>
+    <message>
+        <source>Report settings</source>
+        <translation>Настройки отчета</translation>
     </message>
 </context>
 <context>
@@ -2695,20 +2715,8 @@ This preview is no longer valid.</source>
         <translation>Содержимое</translation>
     </message>
     <message>
-        <source>Editor settings</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <source>Editor font</source>
-        <translation>Шрифт редактора</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Отмена</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation>...</translation>
     </message>
     <message>
         <source>Ok</source>
