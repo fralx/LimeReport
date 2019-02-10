@@ -225,12 +225,8 @@ void AbstractLayout::objectLoadFinished()
 
 bool AbstractLayout::isNeedUpdateSize(RenderPass pass) const
 {
-    foreach (QGraphicsItem *child, childItems()) {
-        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(child);
-        if (item && (item->isNeedUpdateSize(pass) || item->isEmpty()))
-            return true;
-    }
-    return false;
+    Q_UNUSED(pass)
+    return true;
 }
 
 QVariant AbstractLayout::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value)
@@ -251,7 +247,8 @@ void AbstractLayout::updateItemSize(DataSourceManager* dataManager, RenderPass p
     ItemDesignIntf::updateItemSize(dataManager, pass, maxHeight);
     foreach(QGraphicsItem *child, childItems()){
         BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(child);
-        if (item) item->updateItemSize(dataManager, pass, maxHeight);
+        if (item && item->isNeedUpdateSize(pass))
+            item->updateItemSize(dataManager, pass, maxHeight);
     }
     updateLayoutSize();
     relocateChildren();
@@ -300,7 +297,7 @@ void AbstractLayout::slotOnChildDestroy(QObject* child)
 
 void AbstractLayout::slotOnChildGeometryChanged(QObject* item, QRectF newGeometry, QRectF oldGeometry)
 {
-    if (!m_isRelocating){
+    if (!m_isRelocating && !isLoading()){
         if (m_layoutType == Layout){
             relocateChildren();
             updateLayoutSize();
@@ -343,12 +340,15 @@ int AbstractLayout::layoutSpacing() const
 
 void AbstractLayout::setLayoutSpacing(int layoutSpacing)
 {
-    if (m_layoutSpacing != layoutSpacing){
+     if (m_layoutSpacing != layoutSpacing){
         int oldValue = m_layoutSpacing;
         m_layoutSpacing = layoutSpacing;
-        int delta  = (m_layoutSpacing - oldValue)  * (m_children.count()-1);
-        notify("layoutSpacing", oldValue, m_layoutSpacing);
-        setWidth(width() + delta);
+        if (!isLoading()){
+            int delta  = (m_layoutSpacing - oldValue)  * (m_children.count()-1);
+            notify("layoutSpacing", oldValue, m_layoutSpacing);
+            setWidth(width() + delta);
+        }
+        relocateChildren();
     }
 }
 
