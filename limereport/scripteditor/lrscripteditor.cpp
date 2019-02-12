@@ -204,24 +204,27 @@ void ReportStructureCompleater::addAdditionalDatawords(QStandardItemModel* model
         }
         if (it.value().isQObject()){
             if (it.value().toQObject()){
-                QStandardItem* objectNode = new QStandardItem;
-                objectNode->setText(it.name());
-                for (int i = 0; i< it.value().toQObject()->metaObject()->methodCount();++i){
-                    if (it.value().toQObject()->metaObject()->method(i).methodType() == QMetaMethod::Method){
-                        QStandardItem* methodNode = new QStandardItem;
-                        QMetaMethod m = it.value().toQObject()->metaObject()->method(i);
-                        QString methodSignature = m.name() + "(";
-                        bool isFirst = true;
-                        for (int j = 0; j <  m.parameterCount(); ++j){
-                                methodSignature += (isFirst ? "" : ",") + m.parameterTypes()[j]+" "+m.parameterNames()[j];
-                            if (isFirst) isFirst = false;
+                if (model->findItems(it.name()).isEmpty()){
+                    QStandardItem* objectNode = new QStandardItem;
+                    objectNode->setText(it.name());
+                    objectNode->setIcon(QIcon(":/report/images/object"));
+                    for (int i = 0; i< it.value().toQObject()->metaObject()->methodCount();++i){
+                        if (it.value().toQObject()->metaObject()->method(i).methodType() == QMetaMethod::Method){
+                            QStandardItem* methodNode = new QStandardItem;
+                            QMetaMethod m = it.value().toQObject()->metaObject()->method(i);
+                            QString methodSignature = m.name() + "(";
+                            bool isFirst = true;
+                            for (int j = 0; j <  m.parameterCount(); ++j){
+                                    methodSignature += (isFirst ? "" : ",") + m.parameterTypes()[j]+" "+m.parameterNames()[j];
+                                if (isFirst) isFirst = false;
+                            }
+                            methodSignature += ")";
+                            methodNode->setText(methodSignature);
+                            objectNode->appendRow(methodNode);
                         }
-                        methodSignature += ")";
-                        methodNode->setText(methodSignature);
-                        objectNode->appendRow(methodNode);
                     }
+                    model->invisibleRootItem()->appendRow(objectNode);
                 }
-                model->invisibleRootItem()->appendRow(objectNode);
             }
         }
     }
@@ -235,7 +238,6 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
         m_model.clear();
         QIcon signalIcon(":/report/images/signal");
         QIcon propertyIcon(":/report/images/property");
-        addAdditionalDatawords(&m_model, report->dataManager());
 
         for ( int i = 0; i < report->pageCount(); ++i){
             PageDesignIntf* page = report->pageAt(i);
@@ -262,8 +264,10 @@ void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterfa
             foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
                 addChildItem(item, itemNode->text(), m_model.invisibleRootItem());
             }
-
         }
+
+        addAdditionalDatawords(&m_model, report->dataManager());
+        m_model.sort(0);
     }
 }
 
