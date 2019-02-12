@@ -1531,25 +1531,28 @@ ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
 }
 
 PrintProcessor::PrintProcessor(QPrinter* printer)
-    : m_printer(printer), m_painter(new QPainter(m_printer)), m_firstPage(true)
+    : m_printer(printer), m_painter(0), m_firstPage(true)
 {}
 
 
 bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
-    if (m_painter && !m_painter->isActive()) return false;
+    if (!m_firstPage && !m_painter->isActive()) return false;
+
     LimeReport::PageDesignIntf renderPage;
-    renderPage.setPageItem(page);
     renderPage.setItemMode(PrintMode);
-    initPrinter(renderPage.pageItem());
 
     QPointF backupPagePos = page->pos();
     page->setPos(0,0);
+    renderPage.setPageItem(page);
     renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
+    initPrinter(renderPage.pageItem());
 
     if (!m_firstPage){
         m_printer->newPage();
     } else {
+        m_painter = new QPainter(m_printer);
+        if (!m_painter->isActive()) return false;
         m_firstPage = false;
     }
 
