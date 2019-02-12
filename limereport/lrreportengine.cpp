@@ -1539,7 +1539,7 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
     if (m_painter && !m_painter->isActive()) return false;
     LimeReport::PageDesignIntf renderPage;
-
+    renderPage.setPageItem(page);
     renderPage.setItemMode(PrintMode);
     initPrinter(renderPage.pageItem());
 
