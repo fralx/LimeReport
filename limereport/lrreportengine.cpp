@@ -1545,7 +1545,6 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 
     QPointF backupPagePos = page->pos();
     page->setPos(0,0);
-    renderPage.setPageItem(page);
     renderPage.setSceneRect(renderPage.pageItem()->mapToScene(renderPage.pageItem()->rect()).boundingRect());
 
     if (!m_firstPage){
