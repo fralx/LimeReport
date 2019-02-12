@@ -650,6 +650,7 @@ void ReportDesignWindow::updateRedoUndo()
 
 void ReportDesignWindow::startNewReport()
 {
+    m_reportDesignWidget->saveState();
     m_reportDesignWidget->clear();
     m_reportDesignWidget->createStartPage();
     m_lblReportName->setText("");
@@ -663,6 +664,7 @@ void ReportDesignWindow::startNewReport()
     showDefaultToolBars();
     m_reportDesignWidget->report()->dataManager()->dropChanges();
     m_reportDesignWidget->report()->scriptContext()->dropChanges();
+    m_reportDesignWidget->loadState();
 
 }
 
@@ -670,7 +672,6 @@ void ReportDesignWindow::writePosition()
 {
     settings()->beginGroup("DesignerWindow");
     settings()->setValue("Geometry",saveGeometry());
-//    settings()->setValue("State",saveState());
     settings()->endGroup();
 }
 
@@ -706,7 +707,7 @@ void ReportDesignWindow::writeState()
         ++it;
     }
     settings()->endGroup();
-    m_reportDesignWidget->saveState(settings());
+    m_reportDesignWidget->saveState();
 }
 
 void ReportDesignWindow::createRecentFilesMenu()

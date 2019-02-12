@@ -112,7 +112,7 @@ public:
     bool emitSaveReport();
     bool emitSaveReportAs();
     bool emitLoadReport();
-    void saveState(QSettings *settings);
+    void saveState();
     void loadState();
     void applySettings();
     void applyUseGrid();

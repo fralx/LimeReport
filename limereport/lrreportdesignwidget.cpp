@@ -178,16 +178,16 @@ void ReportDesignWidget::setUseMagnet(bool useMagnet)
     }
 }
 
-void ReportDesignWidget::saveState(QSettings* settings)
+void ReportDesignWidget::saveState()
 {
-    settings->beginGroup("DesignerWidget");
-    settings->setValue("hGridStep",m_horizontalGridStep);
-    settings->setValue("vGridStep",m_verticalGridStep);
-    settings->setValue("defaultFont",m_defaultFont);
-    settings->setValue("useGrid",m_useGrid);
-    settings->setValue("useDarkTheme",m_useDarkTheme);
-    settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
-    settings->endGroup();
+    m_settings->beginGroup("DesignerWidget");
+    m_settings->setValue("hGridStep",m_horizontalGridStep);
+    m_settings->setValue("vGridStep",m_verticalGridStep);
+    m_settings->setValue("defaultFont",m_defaultFont);
+    m_settings->setValue("useGrid",m_useGrid);
+    m_settings->setValue("useDarkTheme",m_useDarkTheme);
+    m_settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
+    m_settings->endGroup();
 }
 
 void ReportDesignWidget::applySettings()
@@ -284,6 +284,14 @@ void ReportDesignWidget::createTabs(){
     }
 
     m_scriptEditor = new ScriptEditor(this);
+
+//    m_settings->beginGroup("DesignerWidget");
+//    QVariant v = m_settings->value("ScriptEditorState");
+//    if (v.isValid()){
+//        m_scriptEditor->restoreState(v.toByteArray());
+//    }
+//    m_settings->endGroup();
+
     connect(m_scriptEditor, SIGNAL(textChanged()), this, SLOT(slotScriptTextChanged()));
     m_scriptEditor->setReportEngine(m_report);
     pageIndex = m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
