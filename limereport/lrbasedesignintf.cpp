@@ -1639,4 +1639,18 @@ QMap<QString, QString> BaseDesignIntf::getStringForTranslation(){
     return QMap<QString,QString>();
 }
 
+QVariant BookmarkContainerDesignIntf::getBookMark(const QString& key)
+{
+    if (m_bookmarks.contains(key))
+        return m_bookmarks.value(key);
+    else return QVariant();
+}
+
+void BookmarkContainerDesignIntf::copyBookmarks(BookmarkContainerDesignIntf* source)
+{
+    foreach(QString key, source->bookmarks()){
+        addBookmark(key,source->getBookMark(key));
+    }
+}
+
 } //namespace LimeReport

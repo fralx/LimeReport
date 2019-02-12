@@ -356,6 +356,7 @@ protected:
     void addChildItems(QList<BaseDesignIntf*>* list);
     qreal calcAbsolutePosY(qreal currentOffset, BaseDesignIntf* item);
     qreal calcAbsolutePosX(qreal currentOffset, BaseDesignIntf* item);
+
 private:
     void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
@@ -414,7 +415,7 @@ private:
     BaseDesignIntf* m_patternItem;
     bool    m_fillInSecondPass;
     bool    m_watermark;
-    
+
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
@@ -432,6 +433,19 @@ signals:
     void beforeRender();
     void afterData();
     void afterRender();
+};
+
+class BookmarkContainerDesignIntf: public BaseDesignIntf{
+    Q_OBJECT
+public:
+    BookmarkContainerDesignIntf(const QString& storageTypeName, QObject* owner = 0, QGraphicsItem* parent = 0)
+        :BaseDesignIntf(storageTypeName, owner, parent){}
+    void addBookmark(const QString& key, const QVariant& value){ m_bookmarks.insert(key, value);}
+    QList<QString> bookmarks(){ return m_bookmarks.keys();}
+    QVariant getBookMark(const QString& key);
+    void copyBookmarks(BookmarkContainerDesignIntf* source);
+private:
+    QMap<QString,QVariant>  m_bookmarks;
 };
 
 } //namespace LimeReport

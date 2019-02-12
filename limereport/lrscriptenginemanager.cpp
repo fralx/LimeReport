@@ -553,6 +553,9 @@ void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const Q
         m_context->tableOfContents()->setItem(uniqKey, content, 0, indent);
         if (currentBand)
             currentBand->addBookmark(uniqKey, content);
+        else if (m_context->getCurrentPage()) {
+            m_context->getCurrentPage()->addBookmark(uniqKey, content);
+        }
     }
 }
 
@@ -1236,6 +1239,7 @@ PageItemDesignIntf* ScriptEngineContext::getCurrentPage() const
 void ScriptEngineContext::setCurrentPage(PageItemDesignIntf* currentPage)
 {
     m_currentPage = currentPage;
+    m_currentBand = 0;
 }
 
 BandDesignIntf* ScriptEngineContext::getCurrentBand() const

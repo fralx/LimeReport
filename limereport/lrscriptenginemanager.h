@@ -175,7 +175,7 @@ public:
     typedef QSharedPointer<QDialog> DialogPtr;
 #endif
     explicit ScriptEngineContext(QObject* parent=0):
-        QObject(parent),
+        QObject(parent), m_currentBand(0), m_currentPage(0),
         m_tableOfContents(new TableOfContents(this)), m_hasChanges(false) {}
 #ifdef HAVE_UI_LOADER
     void    addDialog(const QString& name, const QByteArray& description);

@@ -248,12 +248,6 @@ public:
     qreal bottomSpace() const;
     void setBackgroundModeProperty(BGMode value);
     void setBackgroundOpacity(int value);
-
-    void addBookmark(const QString& key, const QVariant& value){ m_bookmarks.insert(key, value);}
-    QList<QString> bookmarks(){ return m_bookmarks.keys();}
-    QVariant getBookMark(const QString& key);
-    void copyBookmarks(BandDesignIntf* sourceBand);
-
     int bootomSpace() const;
     void setBootomSpace(int bootomSpace);
 signals:

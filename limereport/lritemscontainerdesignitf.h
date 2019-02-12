@@ -37,10 +37,11 @@ struct ItemSortContainer {
 typedef QSharedPointer< ItemSortContainer > PItemSortContainer;
 bool itemSortContainerLessThen(const PItemSortContainer c1, const PItemSortContainer c2);
 
-class ItemsContainerDesignInft : public BaseDesignIntf{
+class ItemsContainerDesignInft : public BookmarkContainerDesignIntf{
+    Q_OBJECT
 public:
   ItemsContainerDesignInft(const QString& xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0):
-      BaseDesignIntf(xmlTypeName, owner, parent){}
+      BookmarkContainerDesignIntf(xmlTypeName, owner, parent){}
 protected:
   void  snapshotItemsLayout();
   void  arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type = AsNeeded);

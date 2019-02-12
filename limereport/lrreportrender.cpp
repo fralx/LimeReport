@@ -1112,21 +1112,21 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
 }
 
 void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
-    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
-    if (band){
+    BookmarkContainerDesignIntf* bookmarkContainer = dynamic_cast<BookmarkContainerDesignIntf*>(item);
+    if (bookmarkContainer){
         TableOfContents* toc = m_scriptEngineContext->tableOfContents();
-        foreach (QString key, band->bookmarks()){
-            toc->setItem(key, band->getBookMark(key).toString(), pageNumber);
+        foreach (QString key, bookmarkContainer->bookmarks()){
+            toc->setItem(key, bookmarkContainer->getBookMark(key).toString(), pageNumber);
         }
     }
 }
 
 void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
-
     if (!m_scriptEngineContext->tableOfContents()->isEmpty()){
         for(int i=0; i<renderedPages.count(); ++i){
             PageItemDesignIntf::Ptr page = renderedPages.at(i);
+            updateTOC(page.data(), m_pagesRanges.findPageNumber(i));
             foreach(BaseDesignIntf* item, page->childBaseItems()){
                 updateTOC(item, m_pagesRanges.findPageNumber(i));
             }
