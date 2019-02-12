@@ -1150,7 +1150,6 @@ ReportPages ReportEnginePrivate::renderToPages()
 #endif
         ReportPages result;
         m_reportRendering = true;
-
         m_reportRender->setDatasources(dataManager());
         m_reportRender->setScriptContext(scriptContext());
         m_renderingPages.clear();

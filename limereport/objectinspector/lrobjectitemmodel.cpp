@@ -156,6 +156,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("hideEmptyItems");
 	tr("useExternalPainter");
     tr("layoutSpacing");
+    tr("printerName");
 }
 
 void QObjectPropertyModel::clearObjectsList()
