@@ -1153,7 +1153,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 
         m_reportRender->setDatasources(dataManager());
         m_reportRender->setScriptContext(scriptContext());
-
+        m_renderingPages.clear();
         foreach (PageDesignIntf* page, m_pages) {
             PageItemDesignIntf* rp = createRenderingPage(page->pageItem());
             m_renderingPages.append(rp);
