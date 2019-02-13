@@ -51,7 +51,7 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
 
     QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
 
-    LimeReport::ObjectPropItem *node = static_cast<LimeReport::ObjectPropItem*>(index.internalPointer());
+    LimeReport::ObjectPropItem *node = qvariant_cast<LimeReport::ObjectPropItem*>(index.data(Qt::UserRole));
     if (node){
          if (!node->isHaveValue()){
             if (index.column()==0) {
@@ -137,7 +137,7 @@ QSize LimeReport::PropertyDelegate::sizeHint(const QStyleOptionViewItem &option,
 
 QWidget * LimeReport::PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    m_editingItem=static_cast<LimeReport::ObjectPropItem*>(index.internalPointer());
+    m_editingItem = qvariant_cast<LimeReport::ObjectPropItem*>(index.data(Qt::UserRole));
     connect(m_editingItem,SIGNAL(destroyed(QObject*)), this, SLOT(slotItemDeleted(QObject*)));
     QWidget *editor=m_editingItem->createProperyEditor(parent);
     if (editor){

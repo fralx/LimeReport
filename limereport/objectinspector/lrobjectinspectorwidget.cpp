@@ -134,7 +134,7 @@ void ObjectInspectorWidget::reset()
 
 ObjectPropItem * ObjectInspectorWidget::nodeFromIndex(QModelIndex index) const
 {
-    return static_cast<LimeReport::ObjectPropItem*>(index.internalPointer());
+    return qvariant_cast<LimeReport::ObjectPropItem*>(index.data(Qt::UserRole));
 }
 
 void ObjectInspectorWidget::keyPressEvent(QKeyEvent *event)

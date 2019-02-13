@@ -40,6 +40,8 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 #include <QDesktopWidget>
+#include <QSortFilterProxyModel>
+#include <QLineEdit>
 
 #include "lrreportdesignwindow.h"
 #include "lrbandsmanager.h"
@@ -504,13 +506,23 @@ void ReportDesignWindow::createObjectInspector()
     m_validator = new ObjectNameValidator();
     m_propertyModel->setValidator(m_validator);
     m_propertyModel->setSubclassesAsLevel(false);
-//    connect(m_propertyModel,SIGNAL(objectPropetyChanged(QString,QVariant,QVariant)),this,SLOT(slotItemDataChanged(QString,QVariant,QVariant)));
-    m_objectInspector->setModel(m_propertyModel);
+    m_filterModel = new PropertyFilterModel(this);
+    m_filterModel->setSourceModel(m_propertyModel);
+    m_filterModel->setFilterRegExp(QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString));
+    m_filterModel->setRecursiveFilteringEnabled(false);
+    m_objectInspector->setModel(m_filterModel);
     m_objectInspector->setAlternatingRowColors(true);
     m_objectInspector->setRootIsDecorated(!m_propertyModel->subclassesAsLevel());
     QDockWidget *objectDoc = new QDockWidget(this);
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
+    QLineEdit* le = new QLineEdit(w);
+    le->setPlaceholderText(tr("Filter"));
+    connect(le, SIGNAL(textChanged(const QString&)), this, SLOT(slotFilterTextChanged(const QString&)));
+//    QHBoxLayout* h = new QHBoxLayout(w);
+//    h->addWidget(new QLabel(tr("Filter")));
+//    h->addWidget(le);
+    l->addWidget(le);
     l->addWidget(m_objectInspector);
     l->setContentsMargins(2,2,2,2);
     w->setLayout(l);
@@ -1470,6 +1482,11 @@ void ReportDesignWindow::slotPageDeleted()
     m_deletePageAction->setEnabled(m_reportDesignWidget->report()->pageCount()>1);
 }
 
+void ReportDesignWindow::slotFilterTextChanged(const QString& filter)
+{
+    m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
+}
+
 #ifdef HAVE_QTDESIGNER_INTEGRATION
 void ReportDesignWindow::slotDeleteDialog()
 {
@@ -1539,6 +1556,13 @@ bool ObjectNameValidator::validate(const QString &propName, const QVariant &prop
         }
     }
     return true;
+}
+
+bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
+    if (sourceParent.isValid()) return true;
+    return sourceModel()->data(index).toString().contains(filterRegExp());
 }
 
 }

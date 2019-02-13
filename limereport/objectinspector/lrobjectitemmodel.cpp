@@ -303,6 +303,8 @@ QVariant QObjectPropertyModel::data(const QModelIndex &index, int role) const
             return node->iconValue();
         }else return QIcon();
         break;
+    case Qt::UserRole:
+        return QVariant::fromValue(node);
     default:
         return QVariant();
     }

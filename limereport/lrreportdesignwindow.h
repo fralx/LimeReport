@@ -120,6 +120,7 @@ private slots:
     void slotLoadRecentFile(const QString fileName);
     void slotPageAdded(PageDesignIntf* );
     void slotPageDeleted();
+    void slotFilterTextChanged(const QString& filter);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void slotDeleteDialog();
     void slotAddNewDialog();
@@ -273,12 +274,19 @@ private:
     bool m_reportItemIsLocked;
     QMap<QDockWidget*, bool> m_leftDocVisibleState;
     QMap<QDockWidget*, bool> m_rightDocVisibleState;
-
+    QSortFilterProxyModel* m_filterModel;
 };
 
 class ObjectNameValidator : public ValidatorIntf{
     bool validate(const QString &propName, const QVariant &propValue, QObject *object, QString &msg);
 };
 
+
+class PropertyFilterModel: public QSortFilterProxyModel{
+public:
+    PropertyFilterModel(QObject* parent = 0): QSortFilterProxyModel(parent){}
+protected:
+    bool filterAcceptsRow(int sourceRow,const QModelIndex &sourceParent) const;
+};
 }
 #endif // LRREPORTEDITORWINDOW_H
