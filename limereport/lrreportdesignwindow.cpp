@@ -42,6 +42,7 @@
 #include <QDesktopWidget>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
+#include <QPushButton>
 
 #include "lrreportdesignwindow.h"
 #include "lrbandsmanager.h"
@@ -517,12 +518,16 @@ void ReportDesignWindow::createObjectInspector()
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
     QLineEdit* le = new QLineEdit(w);
+    QPushButton * pbClear = new QPushButton(QIcon(":/items/clear.png"),"",w);
+    pbClear->setToolTip(tr("Clear"));
+    connect(pbClear, SIGNAL(clicked()), le, SLOT(clear()));
     le->setPlaceholderText(tr("Filter"));
     connect(le, SIGNAL(textChanged(const QString&)), this, SLOT(slotFilterTextChanged(const QString&)));
-//    QHBoxLayout* h = new QHBoxLayout(w);
-//    h->addWidget(new QLabel(tr("Filter")));
-//    h->addWidget(le);
-    l->addWidget(le);
+    QHBoxLayout* h = new QHBoxLayout();
+    h->setSpacing(2);
+    h->addWidget(le);
+    h->addWidget(pbClear);
+    l->addLayout(h);
     l->addWidget(m_objectInspector);
     l->setContentsMargins(2,2,2,2);
     w->setLayout(l);
