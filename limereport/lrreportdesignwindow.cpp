@@ -503,31 +503,16 @@ void ReportDesignWindow::initReportEditor(ReportEnginePrivateInterface* report)
 void ReportDesignWindow::createObjectInspector()
 {
     m_objectInspector = new ObjectInspectorWidget(this);
-    m_propertyModel = new BaseDesignPropertyModel(this);
+    //m_propertyModel = new BaseDesignPropertyModel(this);
     m_validator = new ObjectNameValidator();
-    m_propertyModel->setValidator(m_validator);
-    m_propertyModel->setSubclassesAsLevel(false);
-    m_filterModel = new PropertyFilterModel(this);
-    m_filterModel->setSourceModel(m_propertyModel);
-    m_filterModel->setFilterRegExp(QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString));
-    m_filterModel->setRecursiveFilteringEnabled(false);
-    m_objectInspector->setModel(m_filterModel);
+    m_objectInspector->setValidator(m_validator);
+    m_objectInspector->setSubclassesAsLevel(false);
+    //m_objectInspector->setModel(m_propertyModel);
     m_objectInspector->setAlternatingRowColors(true);
-    m_objectInspector->setRootIsDecorated(!m_propertyModel->subclassesAsLevel());
+    m_objectInspector->setRootIsDecorated(!m_objectInspector->subclassesAsLevel());
     QDockWidget *objectDoc = new QDockWidget(this);
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
-    QLineEdit* le = new QLineEdit(w);
-    QPushButton * pbClear = new QPushButton(QIcon(":/items/clear.png"),"",w);
-    pbClear->setToolTip(tr("Clear"));
-    connect(pbClear, SIGNAL(clicked()), le, SLOT(clear()));
-    le->setPlaceholderText(tr("Filter"));
-    connect(le, SIGNAL(textChanged(const QString&)), this, SLOT(slotFilterTextChanged(const QString&)));
-    QHBoxLayout* h = new QHBoxLayout();
-    h->setSpacing(2);
-    h->addWidget(le);
-    h->addWidget(pbClear);
-    l->addLayout(h);
     l->addWidget(m_objectInspector);
     l->setContentsMargins(2,2,2,2);
     w->setLayout(l);
@@ -707,11 +692,11 @@ void ReportDesignWindow::writeState()
     setDocWidgetsVisibility(true);
 
     m_editorsStates[m_editorTabType] = saveState();
-    settings()->setValue("PageEditorsState",        m_editorsStates[ReportDesignWidget::Page]);
-    settings()->setValue("DialogEditorsState",      m_editorsStates[ReportDesignWidget::Dialog]);
-    settings()->setValue("ScriptEditorsState",      m_editorsStates[ReportDesignWidget::Script]);
-    settings()->setValue("TranslationEditorsState", m_editorsStates[ReportDesignWidget::Translations]);
-    settings()->setValue("InspectorFirsColumnWidth",m_objectInspector->columnWidth(0));
+    settings()->setValue("PageEditorsState",         m_editorsStates[ReportDesignWidget::Page]);
+    settings()->setValue("DialogEditorsState",       m_editorsStates[ReportDesignWidget::Dialog]);
+    settings()->setValue("ScriptEditorsState",       m_editorsStates[ReportDesignWidget::Script]);
+    settings()->setValue("TranslationEditorsState",  m_editorsStates[ReportDesignWidget::Translations]);
+    settings()->setValue("InspectorFirsColumnWidth", m_objectInspector->columnWidth(0));
     settings()->endGroup();
     settings()->beginGroup("RecentFiles");
     settings()->setValue("filesCount",m_recentFiles.count());
@@ -950,7 +935,7 @@ void ReportDesignWindow::slotNewBand(int bandType)
 
 void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
 {
-    if (m_propertyModel->currentObject()!=item){
+    if (m_objectInspector->currentObject()!=item){
 
         m_newSubDetail->setEnabled(false);
         m_newSubDetailHeader->setEnabled(false);
@@ -961,9 +946,9 @@ void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
         m_newDataFooter->setEnabled(false);
 
         m_objectInspector->commitActiveEditorData();
-        m_propertyModel->setObject(item);
+        m_objectInspector->setObject(item);
 
-        if (m_propertyModel->subclassesAsLevel())
+        if (m_objectInspector->subclassesAsLevel())
           m_objectInspector->expandToDepth(0);
 
         QSet<BandDesignIntf::BandsType> bs;
@@ -997,7 +982,7 @@ void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
         m_fontEditorBar->setItem(item);
         m_textAlignmentEditorBar->setItem(item);
         m_itemsBordersEditorBar->setItem(item);
-    } else {m_propertyModel->clearObjectsList();}
+    } else {m_objectInspector->clearObjectsList();}
 }
 
 void ReportDesignWindow::slotItemPropertyChanged(const QString &objectName, const QString &propertyName, const QVariant& oldValue, const QVariant& newValue )
@@ -1005,8 +990,8 @@ void ReportDesignWindow::slotItemPropertyChanged(const QString &objectName, cons
     Q_UNUSED(oldValue)
     Q_UNUSED(newValue)
 
-    if (m_propertyModel->currentObject()&&(m_propertyModel->currentObject()->objectName()==objectName)){
-        m_propertyModel->updateProperty(propertyName);
+    if (m_objectInspector->currentObject()&&(m_objectInspector->currentObject()->objectName()==objectName)){
+        m_objectInspector->updateProperty(propertyName);
     }
 }
 
@@ -1019,8 +1004,8 @@ void ReportDesignWindow::slotMultiItemSelected()
         QObject* oi = dynamic_cast<QObject*>(gi);
         if (oi) selectionList.append(oi);
     }
-    m_propertyModel->setMultiObjects(&selectionList);
-    if (m_propertyModel->subclassesAsLevel())
+    m_objectInspector->setMultiObjects(&selectionList);
+    if (m_objectInspector->subclassesAsLevel())
        m_objectInspector->expandToDepth(0);
 }
 
@@ -1112,7 +1097,7 @@ void ReportDesignWindow::slotLoadReport()
         m_reportDesignWidget->clear();
         if (m_reportDesignWidget->loadFromFile(fileName)){
             m_lblReportName->setText(fileName);
-            m_propertyModel->setObject(0);
+            m_objectInspector->setObject(0);
             updateRedoUndo();
             setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
             if (!m_recentFiles.contains(fileName)){
@@ -1336,7 +1321,7 @@ void ReportDesignWindow::showDefaultEditors(){
 
 void ReportDesignWindow::slotActivePageChanged()
 {
-    m_propertyModel->setObject(0);
+    m_objectInspector->setObject(0);
     updateRedoUndo();
     updateAvaibleBands();
 
@@ -1464,7 +1449,7 @@ void ReportDesignWindow::slotLoadRecentFile(const QString fileName)
             m_reportDesignWidget->clear();
             m_reportDesignWidget->loadFromFile(fileName);
             m_lblReportName->setText(fileName);
-            m_propertyModel->setObject(0);
+            m_objectInspector->setObject(0);
             updateRedoUndo();
             unsetCursor();
             setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
@@ -1561,13 +1546,6 @@ bool ObjectNameValidator::validate(const QString &propName, const QVariant &prop
         }
     }
     return true;
-}
-
-bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
-{
-    QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-    if (sourceParent.isValid()) return true;
-    return sourceModel()->data(index).toString().contains(filterRegExp());
 }
 
 }

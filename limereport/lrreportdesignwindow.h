@@ -238,7 +238,7 @@ private:
     QSignalMapper* m_recentFilesSignalMap;
 
     ObjectInspectorWidget* m_objectInspector;
-    QObjectPropertyModel* m_propertyModel;
+    //QObjectPropertyModel* m_propertyModel;
 
     ReportDesignWidget* m_reportDesignWidget;
     DataBrowser * m_dataBrowser;
@@ -281,12 +281,5 @@ class ObjectNameValidator : public ValidatorIntf{
     bool validate(const QString &propName, const QVariant &propValue, QObject *object, QString &msg);
 };
 
-
-class PropertyFilterModel: public QSortFilterProxyModel{
-public:
-    PropertyFilterModel(QObject* parent = 0): QSortFilterProxyModel(parent){}
-protected:
-    bool filterAcceptsRow(int sourceRow,const QModelIndex &sourceParent) const;
-};
 }
 #endif // LRREPORTEDITORWINDOW_H

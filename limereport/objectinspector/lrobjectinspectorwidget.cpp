@@ -30,6 +30,10 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QApplication>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
 
 #include "lrglobal.h"
 #include "lrobjectinspectorwidget.h"
@@ -37,7 +41,7 @@
 
 namespace LimeReport{
 
-ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
+ObjectInspectorTreeView::ObjectInspectorTreeView(QWidget *parent)
     :QTreeView(parent), m_propertyDelegate(0)
 {
     setRootIsDecorated(false);
@@ -54,9 +58,9 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     setPalette(p);
 }
 
-ObjectInspectorWidget::~ObjectInspectorWidget(){}
+ObjectInspectorTreeView::~ObjectInspectorTreeView(){}
 
-void ObjectInspectorWidget::drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
+void ObjectInspectorTreeView::drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
     ObjectPropItem *node = nodeFromIndex(index);
     StyleOptionViewItem so = options;
@@ -84,7 +88,7 @@ void ObjectInspectorWidget::drawRow(QPainter *painter, const QStyleOptionViewIte
     painter->restore();
 }
 
-void ObjectInspectorWidget::mousePressEvent(QMouseEvent *event)
+void ObjectInspectorTreeView::mousePressEvent(QMouseEvent *event)
 {
 
     if ((event->button()==Qt::LeftButton)){
@@ -106,7 +110,7 @@ void ObjectInspectorWidget::mousePressEvent(QMouseEvent *event)
     QTreeView::mousePressEvent(event);
 }
 
-void ObjectInspectorWidget::initColorMap()
+void ObjectInspectorTreeView::initColorMap()
 {
     m_colors.reserve(6);
     m_colors.push_back(QColor(255,230,191));
@@ -117,12 +121,12 @@ void ObjectInspectorWidget::initColorMap()
     m_colors.push_back(QColor(255,191,239));
 }
 
-QColor ObjectInspectorWidget::getColor(const int index) const
+QColor ObjectInspectorTreeView::getColor(const int index) const
 {
     return m_colors[index];
 }
 
-void ObjectInspectorWidget::reset()
+void ObjectInspectorTreeView::reset()
 {
     QTreeView::reset();
     for (int i=0;i<model()->rowCount();i++){
@@ -132,12 +136,12 @@ void ObjectInspectorWidget::reset()
     }
 }
 
-ObjectPropItem * ObjectInspectorWidget::nodeFromIndex(QModelIndex index) const
+ObjectPropItem * ObjectInspectorTreeView::nodeFromIndex(QModelIndex index) const
 {
     return qvariant_cast<LimeReport::ObjectPropItem*>(index.data(Qt::UserRole));
 }
 
-void ObjectInspectorWidget::keyPressEvent(QKeyEvent *event)
+void ObjectInspectorTreeView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key()==Qt::Key_Return){
         if(!m_propertyDelegate->isEditing()){
@@ -149,10 +153,125 @@ void ObjectInspectorWidget::keyPressEvent(QKeyEvent *event)
     } else QTreeView::keyPressEvent(event);
 }
 
-void ObjectInspectorWidget::commitActiveEditorData(){
+void ObjectInspectorTreeView::commitActiveEditorData(){
     if (state()==QAbstractItemView::EditingState){
         commitData(indexWidget(currentIndex()));
     }
+}
+
+bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
+    if (sourceParent.isValid()) return true;
+    return sourceModel()->data(index).toString().contains(filterRegExp());
+}
+
+ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
+    :QWidget(parent), m_filterModel(0)
+{
+    m_objectInspectorView = new ObjectInspectorTreeView(this);
+    m_propertyModel = new BaseDesignPropertyModel(this);
+    m_filterModel = new PropertyFilterModel(this);
+    m_filterModel->setSourceModel(m_propertyModel);
+    m_filterModel->setFilterRegExp(QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString));
+    m_objectInspectorView->setModel(m_filterModel);
+    QVBoxLayout* l = new QVBoxLayout();
+    QLineEdit* le = new QLineEdit(this);
+    QPushButton * pbClear = new QPushButton(QIcon(":/items/clear.png"),"",this);
+    pbClear->setToolTip(tr("Clear"));
+    connect(pbClear, SIGNAL(clicked()), le, SLOT(clear()));
+    le->setPlaceholderText(tr("Filter"));
+    connect(le, SIGNAL(textChanged(const QString&)), this, SLOT(slotFilterTextChanged(const QString&)));
+    QHBoxLayout* h = new QHBoxLayout();
+    h->setSpacing(2);
+    h->addWidget(le);
+    h->addWidget(pbClear);
+    l->addLayout(h);
+    l->addWidget(m_objectInspectorView);
+    l->setContentsMargins(2,2,2,2);
+    this->setLayout(l);
+}
+
+void ObjectInspectorWidget::setModel(QAbstractItemModel *model)
+{
+
+    m_filterModel->setSourceModel(model);
+
+}
+
+void ObjectInspectorWidget::setAlternatingRowColors(bool value)
+{
+    m_objectInspectorView->setAlternatingRowColors(value);
+}
+
+void ObjectInspectorWidget::setRootIsDecorated(bool value)
+{
+    m_objectInspectorView->setRootIsDecorated(value);
+}
+
+void ObjectInspectorWidget::setColumnWidth(int column, int width)
+{
+    m_objectInspectorView->setColumnWidth(column, width);
+}
+
+int ObjectInspectorWidget::columnWidth(int column)
+{
+    return m_objectInspectorView->columnWidth(column);
+}
+
+void ObjectInspectorWidget::expandToDepth(int depth)
+{
+    m_objectInspectorView->expandToDepth(depth);
+}
+
+void ObjectInspectorWidget::commitActiveEditorData()
+{
+    m_objectInspectorView->commitActiveEditorData();
+}
+
+void ObjectInspectorWidget::setValidator(ValidatorIntf *validator)
+{
+    m_propertyModel->setValidator(validator);
+}
+
+bool ObjectInspectorWidget::subclassesAsLevel()
+{
+    return m_propertyModel->subclassesAsLevel();
+}
+
+void ObjectInspectorWidget::setSubclassesAsLevel(bool value)
+{
+    m_propertyModel->setSubclassesAsLevel(value);
+}
+
+const QObject *ObjectInspectorWidget::currentObject(){
+    return m_propertyModel->currentObject();
+}
+
+void ObjectInspectorWidget::setObject(QObject *object)
+{
+    m_propertyModel->setObject(object);
+}
+
+void ObjectInspectorWidget::setMultiObjects(QList<QObject *> *list)
+{
+    m_propertyModel->setMultiObjects(list);
+}
+
+void ObjectInspectorWidget::clearObjectsList()
+{
+    m_propertyModel->clearObjectsList();
+}
+
+void ObjectInspectorWidget::updateProperty(const QString &propertyName)
+{
+    m_propertyModel->updateProperty(propertyName);
+}
+
+void ObjectInspectorWidget::slotFilterTextChanged(const QString &filter)
+{
+    if (m_filterModel)
+        m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
 }
 
 } //namespace LimeReport

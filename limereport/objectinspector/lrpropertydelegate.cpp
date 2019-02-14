@@ -173,7 +173,7 @@ void LimeReport::PropertyDelegate::updateEditorGeometry(QWidget *editor, const Q
     if (m_editingItem) m_editingItem->updateEditorGeometry(editor,option,index);
 }
 
-void LimeReport::PropertyDelegate::setObjectInspector(ObjectInspectorWidget* objectInspector)
+void LimeReport::PropertyDelegate::setObjectInspector(ObjectInspectorTreeView* objectInspector)
 {
     m_objectInspector=objectInspector;
 }
