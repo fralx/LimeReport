@@ -503,11 +503,9 @@ void ReportDesignWindow::initReportEditor(ReportEnginePrivateInterface* report)
 void ReportDesignWindow::createObjectInspector()
 {
     m_objectInspector = new ObjectInspectorWidget(this);
-    //m_propertyModel = new BaseDesignPropertyModel(this);
     m_validator = new ObjectNameValidator();
     m_objectInspector->setValidator(m_validator);
     m_objectInspector->setSubclassesAsLevel(false);
-    //m_objectInspector->setModel(m_propertyModel);
     m_objectInspector->setAlternatingRowColors(true);
     m_objectInspector->setRootIsDecorated(!m_objectInspector->subclassesAsLevel());
     QDockWidget *objectDoc = new QDockWidget(this);
@@ -615,6 +613,7 @@ void ReportDesignWindow::createDialogDesignerToolBar()
 }
 
 #endif
+
 void ReportDesignWindow::createDataWindow()
 {
     QDockWidget *dataDoc = new QDockWidget(this);
