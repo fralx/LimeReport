@@ -238,8 +238,6 @@ private:
     QSignalMapper* m_recentFilesSignalMap;
 
     ObjectInspectorWidget* m_objectInspector;
-    //QObjectPropertyModel* m_propertyModel;
-
     ReportDesignWidget* m_reportDesignWidget;
     DataBrowser * m_dataBrowser;
     ScriptBrowser* m_scriptBrowser;

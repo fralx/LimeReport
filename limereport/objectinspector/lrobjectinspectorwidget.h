@@ -83,8 +83,8 @@ public:
     void setValidator(ValidatorIntf *validator);
     bool subclassesAsLevel();
     void setSubclassesAsLevel(bool value);
-    void setObject(QObject* object);
-    const QObject* currentObject();
+    void setObject(QObject* setObject);
+    const QObject* object();
     void setMultiObjects(QList<QObject *>* list);
     void clearObjectsList();
     void updateProperty(const QString &propertyName);

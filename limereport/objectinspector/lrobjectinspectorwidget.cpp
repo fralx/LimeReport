@@ -244,7 +244,7 @@ void ObjectInspectorWidget::setSubclassesAsLevel(bool value)
     m_propertyModel->setSubclassesAsLevel(value);
 }
 
-const QObject *ObjectInspectorWidget::currentObject(){
+const QObject *ObjectInspectorWidget::object(){
     return m_propertyModel->currentObject();
 }
 

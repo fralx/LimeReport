@@ -934,7 +934,7 @@ void ReportDesignWindow::slotNewBand(int bandType)
 
 void ReportDesignWindow::slotItemSelected(LimeReport::BaseDesignIntf *item)
 {
-    if (m_objectInspector->currentObject()!=item){
+    if (m_objectInspector->object()!=item){
 
         m_newSubDetail->setEnabled(false);
         m_newSubDetailHeader->setEnabled(false);
@@ -989,7 +989,7 @@ void ReportDesignWindow::slotItemPropertyChanged(const QString &objectName, cons
     Q_UNUSED(oldValue)
     Q_UNUSED(newValue)
 
-    if (m_objectInspector->currentObject()&&(m_objectInspector->currentObject()->objectName()==objectName)){
+    if (m_objectInspector->object()&&(m_objectInspector->object()->objectName()==objectName)){
         m_objectInspector->updateProperty(propertyName);
     }
 }
