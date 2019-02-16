@@ -67,8 +67,6 @@ bool bandSortBandLessThen(const BandDesignIntf *c1, const BandDesignIntf *c2)
 
 PageDesignIntf::PageDesignIntf(QObject *parent):
     QGraphicsScene(parent),
-    m_pageSize(A4),
-    m_orientation(Portrait),
     m_pageItem(0),
     m_insertMode(false),
     m_itemInsertRect(0),
@@ -79,13 +77,11 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_changePosMode(false),
     m_changePosOrSizeMode(false),
     m_executingCommand(false),
-    m_hasHanges(false),
+    m_hasChanges(false),
     m_isLoading(false),
     m_executingGroupCommand(false),
     m_settings(0),
     m_selectionRect(0),
-    //m_verticalGridStep(1*Const::mmFACTOR),
-    //m_horizontalGridStep(1*Const::mmFACTOR)
     m_verticalGridStep(2),
     m_horizontalGridStep(2),
     m_updating(false),
@@ -134,22 +130,22 @@ void PageDesignIntf::updatePageRect()
     emit sceneRectChanged(sceneRect());
 }
 
-PageDesignIntf::Orientation PageDesignIntf::getOrientation()
-{
-    return m_orientation;
-}
+//PageDesignIntf::Orientation PageDesignIntf::getOrientation()
+//{
+//    return m_orientation;
+//}
 
-void PageDesignIntf::setPageSize(PageDesignIntf::PageSize sizeType, QSizeF sizeValue)
-{
-    m_pageSize = sizeType;
-    m_pageSizeValue = sizeValue;
-    updatePageRect();
-}
+//void PageDesignIntf::setPageSize(PageDesignIntf::PageSize sizeType, QSizeF sizeValue)
+//{
+//    m_pageSize = sizeType;
+//    m_pageSizeValue = sizeValue;
+//    updatePageRect();
+//}
 
-PageDesignIntf::PageSize PageDesignIntf::pageSize() const
-{
-    return m_pageSize;
-}
+//PageDesignIntf::PageSize PageDesignIntf::pageSize() const
+//{
+//    return m_pageSize;
+//}
 
 void PageDesignIntf::keyPressEvent(QKeyEvent *event)
 {
@@ -612,7 +608,7 @@ bool PageDesignIntf::saveCommand(CommandIf::Ptr command, bool runCommand)
 
     m_commandsList.push_back(command);
     m_currentCommand = m_commandsList.count() - 1;
-    m_hasHanges = true;
+    m_hasChanges = true;
     emit commandHistoryChanged();
     return true;
 }
@@ -629,7 +625,7 @@ bool PageDesignIntf::isCanUndo()
 
 bool PageDesignIntf::isHasChanges()
 {
-    return (m_commandsList.count() > 0) && m_hasHanges;
+    return (m_commandsList.count() > 0) && m_hasChanges;
 }
 
 bool PageDesignIntf::isItemInsertMode()
@@ -672,22 +668,22 @@ bool PageDesignIntf::isExistsObjectName(const QString &objectName, QList<QGraphi
     return false;
 }
 
-QRectF PageDesignIntf::getRectByPageSize(PageDesignIntf::PageSize pageSize)
-{
-    if (m_pageSize != Custom) {
-        QPrinter printer;
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOrientation((QPrinter::Orientation)getOrientation());
-        printer.setPageSize((QPrinter::PageSize)pageSize);
-        return QRectF(0, 0, printer.paperRect(QPrinter::Millimeter).width() * 10,
-                      printer.paperSize(QPrinter::Millimeter).height() * 10);
-    }
+//QRectF PageDesignIntf::getRectByPageSize(PageDesignIntf::PageSize pageSize)
+//{
+//    if (m_pageSize != PageSize::Custom) {
+//        QPrinter printer;
+//        printer.setOutputFormat(QPrinter::PdfFormat);
+//        printer.setOrientation((QPrinter::Orientation)getOrientation());
+//        printer.setPageSize((QPrinter::PageSize)pageSize);
+//        return QRectF(0, 0, printer.paperRect(QPrinter::Millimeter).width() * 10,
+//                      printer.paperSize(QPrinter::Millimeter).height() * 10);
+//    }
 
-    else {
-        return QRectF(0, 0, m_pageSizeValue.width() * 10,
-                      m_pageSizeValue.height() * 10);
-    }
-}
+//    else {
+//        return QRectF(0, 0, m_pageSizeValue.width() * 10,
+//                      m_pageSizeValue.height() * 10);
+//    }
+//}
 
 bool PageDesignIntf::isLoading()
 {
@@ -870,10 +866,17 @@ void PageDesignIntf::saveSelectedItemsGeometry()
 
 void PageDesignIntf::checkSizeOrPosChanges()
 {
-
     CommandIf::Ptr posCommand;
     if ((selectedItems().count() > 0) && (m_positionStamp.count() > 0)) {
-        if (m_positionStamp[0].pos != selectedItems().at(0)->pos()) {
+        bool bandFound = false;
+        foreach(QGraphicsItem* item, selectedItems()){
+            BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(item);
+            if (band){
+                bandFound = true;
+                break;
+            }
+        }
+        if (!bandFound && (m_positionStamp[0].pos != selectedItems().at(0)->pos())) {
             posCommand = createChangePosCommand();
         }
         m_positionStamp.clear();
@@ -909,16 +912,14 @@ CommandIf::Ptr PageDesignIntf::createChangePosCommand()
     QVector<ReportItemPos> newPoses;
     foreach(ReportItemPos itemPos, m_positionStamp) {
         BaseDesignIntf *reportItem = reportItemByName(itemPos.objectName);
-
         if (reportItem) {
             ReportItemPos newPos;
             newPos.objectName = reportItem->objectName();
             newPos.pos = reportItem->pos();
             newPoses.append(newPos);
         }
-    }
+    }    
     return PosChangedCommand::create(this, m_positionStamp, newPoses);
-
 }
 
 CommandIf::Ptr PageDesignIntf::createChangeSizeCommand()
@@ -1200,7 +1201,7 @@ void PageDesignIntf::undo()
         m_executingCommand = true;
         m_commandsList.at(m_currentCommand)->undoIt();
         m_currentCommand--;
-        m_hasHanges = true;
+        m_hasChanges = true;
         m_executingCommand = false;
     }
 }
@@ -1211,7 +1212,7 @@ void PageDesignIntf::redo()
         m_executingCommand = true;
         m_currentCommand++;
         m_commandsList.at(m_currentCommand)->doIt();
-        m_hasHanges = true;
+        m_hasChanges = true;
         m_executingCommand = false;
     }
 }
@@ -1321,7 +1322,7 @@ void PageDesignIntf::cut()
 
 void PageDesignIntf::setToSaved()
 {
-    m_hasHanges = false;
+    m_hasChanges = false;
 }
 
 void PageDesignIntf::bringToFront()
@@ -1854,7 +1855,7 @@ CommandIf::Ptr CutCommand::create(PageDesignIntf *page)
     ItemsWriterIntf *writer = new XMLWriter();
     foreach(QGraphicsItem * item, page->selectedItems()) {
         if (!dynamic_cast<PageItemDesignIntf*>(item)){
-            BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
+            ItemDesignIntf *reportItem = dynamic_cast<ItemDesignIntf *>(item);
 
             if (reportItem) {
                 command->m_itemNames.push_back(reportItem->objectName());
@@ -2240,7 +2241,58 @@ qreal ItemProjections::square(QRectF rect)
 
 qreal ItemProjections::square(BaseDesignIntf *item)
 {
-   return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
+    return square(QRectF(item->pos().x(),item->pos().y(),item->width(),item->height()));
+}
+
+CommandIf::Ptr BandSwapCommand::create(PageDesignIntf *page, const QString &bandName, const QString &bandToSwapName)
+{
+    BandSwapCommand *command = new BandSwapCommand();
+    command->setPage(page);
+    command->bandName = bandName;
+    command->bandToSwapName = bandToSwapName;
+    return CommandIf::Ptr(command);
+}
+
+bool BandSwapCommand::doIt()
+{
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandName));
+    BandDesignIntf* bandToSwap = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandToSwapName));
+    if (page() && band && bandToSwap){
+        page()->pageItem()->swapBands(band, bandToSwap);
+        return true;
+    }
+    return false;
+}
+
+void BandSwapCommand::undoIt()
+{
+    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandName));
+    BandDesignIntf* bandToSwap = dynamic_cast<BandDesignIntf*>(page()->reportItemByName(bandToSwapName));
+    if (page() && band && bandToSwap)
+        page()->pageItem()->swapBands(bandToSwap, band);
+}
+
+CommandIf::Ptr BandMoveFromToCommand::create(PageDesignIntf* page, int from, int to)
+{
+    BandMoveFromToCommand* command = new BandMoveFromToCommand();
+    command->setPage(page);
+    command->from = from;
+    command->to = to;
+    return CommandIf::Ptr(command);
+}
+
+bool BandMoveFromToCommand::doIt()
+{
+    if (page() && from != to) {
+        page()->pageItem()->moveBandFromTo(from, to);
+        return true;
+    }
+    return false;
+}
+
+void BandMoveFromToCommand::undoIt()
+{
+    if (page()) page()->pageItem()->moveBandFromTo(to, from);
 }
 
 }

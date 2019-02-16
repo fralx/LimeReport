@@ -154,6 +154,8 @@ private:
     qreal maxColumnHeight();
     void renameChildItems(BaseDesignIntf *item);
     void renderGroupFooterByHeader(BandDesignIntf *groupHeader);
+    void placeBandOnPage(BandDesignIntf *band, int columnIndex);
+
 private:
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
@@ -176,6 +178,7 @@ private:
     qreal           m_dataAreaSize;
     qreal           m_reportFooterHeight;
     int             m_renderedDataBandCount;
+    BandDesignIntf* m_lastRenderedHeader;
     BandDesignIntf* m_lastDataBand;
     BandDesignIntf* m_lastRenderedFooter;
     bool            m_renderCanceled;
@@ -184,9 +187,8 @@ private:
     int             m_currentColumn;
     QList<PagesRange> m_ranges;
     QVector<BandDesignIntf*> m_columnedBandItems;
-    unsigned long long m_curentNameIndex;
+    unsigned long long m_currentNameIndex;
     bool m_newPageStarted;
-
 
 };
 } // namespace LimeReport

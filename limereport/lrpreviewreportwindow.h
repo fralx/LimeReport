@@ -68,6 +68,9 @@ public:
     void setMenuVisible(bool value);
     void setHideResultEditButton(bool value);
     QSettings* settings();
+    ScaleType previewScaleType() const;
+    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+
 protected:
     void writeSetting();
     void restoreSetting();
@@ -115,6 +118,10 @@ private:
     int m_priorScrolValue;
     PreviewReportWidget* m_previewReportWidget;
     QComboBox* m_scalePercent;
+    ScaleType m_previewScaleType;
+    int m_previewScalePercent;
+    bool m_scalePercentChanging;
+
 };
 } //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

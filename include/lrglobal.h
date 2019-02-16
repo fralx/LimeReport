@@ -78,15 +78,7 @@ namespace Const{
     const QString VARIABLE_RX = "\\$V\\s*\\{\\s*([^{}]*)\\s*\\}";
     const QString NAMED_VARIABLE_RX = "\\$V\\s*\\{\\s*(%1)\\s*\\}";
     const QString SCRIPT_RX = "\\$S\\s*\\{(.*)\\}";
-
-    //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(((?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"))(\\w+\\.?\\w+)((?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,\\s*\\\"(\\w+)\\\"\\s*\\)";
-    //const int DATASOURCE_INDEX = 6;
-    //const int VALUE_INDEX = 2;
-
-    //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:((?:(?:\\\"?\\$D\\s*\\{\\s*)|(?:\\\"?\\$V\\s*\\{\\s*)|(?:\\\"?\\$S\\s*\\{\\s*)|(?:\\\"))((?:\\w+\\.?\\w+)|(?:\\w+))(?:(?:\\\")|(?:\\s*\\}\\\"?\\s*)))\\s*,)|(?:))\\s*\\\"(\\w+)\\\"\\s*\\)";
-    //const QString GROUP_FUNCTION_PARAM_RX = "\\((?:(.+),(.+))|(?:\\\"(\\w+)\\\")\\)";
-    //const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*(?:(?:(?:(?:\\\")|(?:))(\\w+)(?:(?:\\\")|(?:)))|(?:(?:(?:\\\")|(?:))(\\s*\\$\\w\\s*\\{.+\\}\\s*)(?:(?:\\\")|(?:))\\s*,\\s*(?:(?:\\\")|(?:))(\\w+)(?:(?:\\\")|(?:))))\\)";
-    const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*((?:(?:\\\")|(?:))(?:(?:\\$(?:(?:D\\{\\s*\\w*.\\w*\\s*\\})|(?:V\\{\\s*\\w*\\s*\\})|(?:S\\{.+\\})))|(?:\\w*))(?:(?:\\\")|(?:)))(?:(?:\\s*,\\s*(?:\\\"(\\w*)\\\"))|(?:))\\)";
+    const QString GROUP_FUNCTION_PARAM_RX = "\\(\\s*((?:(?:\\\")|(?:))(?:(?:\\$(?:(?:D\\{\\s*\\w*..*\\})|(?:V\\{\\s*\\w*\\s*\\})|(?:S\\{.+\\})))|(?:\\w*))(?:(?:\\\")|(?:)))(?:(?:\\s*,\\s*(?:\\\"(\\w*)\\\"))|(?:))(?:(?:\\s*,\\s*(?:(\\w*)))|(?:))\\)";
     const int DATASOURCE_INDEX = 3;//4;
     const int VALUE_INDEX = 2; //2;
     const int EXPRESSION_ARGUMENT_INDEX = 1;//3;
@@ -103,6 +95,7 @@ namespace Const{
     enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     enum RenderPass {FirstPass, SecondPass};
     enum ArrangeType {AsNeeded, Force};
+    enum ScaleType {FitWidth, FitPage, OneToOne, Percents};
     enum PreviewHint{ShowAllPreviewBars = 0,
                      HidePreviewToolBar = 1,
                      HidePreviewMenuBar = 2,

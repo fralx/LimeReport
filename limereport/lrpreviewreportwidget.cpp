@@ -61,18 +61,21 @@ PageItemDesignIntf::Ptr PreviewReportWidgetPrivate::currentPage()
 
 PreviewReportWidget::PreviewReportWidget(ReportEnginePrivate *report, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this))
+    ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this)),
+    m_scaleType(FitWidth), m_scalePercent(0)
 {
     ui->setupUi(this);
     d_ptr->m_previewPage = report->createPreviewPage();
     d_ptr->m_previewPage->setItemMode( LimeReport::PreviewMode );
     d_ptr->m_report = report;
+    m_resizeTimer.setSingleShot(true);
 
     ui->errorsView->setVisible(false);
     connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
     connect(d_ptr->m_report, SIGNAL(destroyed(QObject*)), this, SLOT(reportEngineDestroyed(QObject*)));
     d_ptr->m_zoomer = new GraphicsViewZoomer(ui->graphicsView);
     connect(d_ptr->m_zoomer, SIGNAL(zoomed(double)), this, SLOT(slotZoomed(double)));
+    connect(&m_resizeTimer, SIGNAL(timeout()), this, SLOT(resizeDone()));
 }
 
 PreviewReportWidget::~PreviewReportWidget()
@@ -221,6 +224,12 @@ void PreviewReportWidget::setScalePercent(int percent)
     qreal scaleSize = percent/100.0;
     ui->graphicsView->scale(scaleSize, scaleSize);
     emit scalePercentChanged(percent);
+    if (percent == 100){
+        m_scaleType = OneToOne;
+    } else {
+        m_scaleType = Percents;
+        m_scalePercent = percent;
+    }
 }
 
 void PreviewReportWidget::fitWidth()
@@ -228,6 +237,7 @@ void PreviewReportWidget::fitWidth()
     if (d_ptr->currentPage()){
         qreal scalePercent = ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width();
         setScalePercent(scalePercent*100);
+        m_scaleType = FitWidth;
     }
 }
 
@@ -237,7 +247,13 @@ void PreviewReportWidget::fitPage()
         qreal vScale = ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width();
         qreal hScale = ui->graphicsView->viewport()->height() / d_ptr->currentPage()->height();
         setScalePercent(qMin(vScale,hScale)*100);
+        m_scaleType = FitPage;
     }
+}
+
+void PreviewReportWidget::resizeEvent(QResizeEvent *)
+{
+    m_resizeTimer.start(100);
 }
 
 void PreviewReportWidget::setErrorMessages(const QStringList &value)
@@ -250,6 +266,22 @@ void PreviewReportWidget::setErrorMessages(const QStringList &value)
 void PreviewReportWidget::emitPageSet()
 {
     emit pagesSet(d_ptr->m_reportPages.count());
+}
+
+ScaleType PreviewReportWidget::scaleType() const
+{
+    return m_scaleType;
+}
+
+int PreviewReportWidget::scalePercent() const
+{
+    return m_scalePercent;
+}
+
+void PreviewReportWidget::setScaleType(const ScaleType &scaleType, int percent)
+{
+    m_scaleType = scaleType;
+    m_scalePercent = percent;
 }
 
 void PreviewReportWidget::refreshPages()
@@ -305,6 +337,23 @@ void PreviewReportWidget::slotZoomed(double )
     emit scalePercentChanged(d_ptr->m_scalePercent);
 }
 
+void PreviewReportWidget::resizeDone()
+{
+    switch (m_scaleType) {
+    case FitPage:
+        fitPage();
+        break;
+    case FitWidth:
+        fitWidth();
+        break;
+    case OneToOne:
+        setScalePercent(100);
+        break;
+    case Percents:
+        setScalePercent(m_scalePercent);
+        break;
+    }
+}
 
 
 }

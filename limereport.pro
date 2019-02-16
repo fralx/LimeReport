@@ -10,12 +10,11 @@ contains(CONFIG, zint){
 }
 
 export($$CONFIG)
+
+CONFIG  += ordered
 SUBDIRS += \
-        limereport
-
-CONFIG   += ordered
-
-SUBDIRS += demo_r1 demo_r2 designer
-
-
+        limereport \
+        demo_r1 \
+        demo_r2 \
+        designer
 

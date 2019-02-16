@@ -128,7 +128,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_startFromNewPage(false),
     m_printAlways(false),
     m_repeatOnEachRow(false),
-    m_bottomSpace()
+    m_bottomSpace(0)
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -372,7 +372,7 @@ int BandDesignIntf::maxChildIndex(BandDesignIntf::BandsType bandType) const{
 int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) const{
     int curIndex = bandIndex();
     foreach(BandDesignIntf* childBand, childBands()){
-        if (!ignoredBands.contains(childBand->bandType()) && childBand->bandIndex()>bandIndex()){
+        if (!ignoredBands.contains(childBand->bandType())){
             curIndex = std::max(curIndex,childBand->maxChildIndex(ignoredBands));
         }
     }
@@ -388,6 +388,19 @@ int BandDesignIntf::minChildIndex(BandDesignIntf::BandsType bandType){
     }
     return curIndex;
 }
+
+int BandDesignIntf::minChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands)
+{
+    int curIndex = bandIndex();
+    foreach(BandDesignIntf* childBand, childBands()){
+        if (!ignoredBands.contains(childBand->bandType()) && childBand->bandIndex() < bandIndex()){
+            curIndex = std::min(curIndex, childBand->maxChildIndex(ignoredBands));
+        }
+    }
+    return curIndex;
+}
+
+
 
 QList<BandDesignIntf *> BandDesignIntf::childrenByType(BandDesignIntf::BandsType type)
 {
@@ -428,7 +441,11 @@ bool BandDesignIntf::isNeedRender() const
 
 void BandDesignIntf::setTryToKeepTogether(bool value)
 {
-    m_tryToKeepTogether=value;
+    if (m_tryToKeepTogether != value){
+        m_tryToKeepTogether = value;
+        if (!isLoading())
+            notify("keepSubdetailTogether", !value, value);
+    }
 }
 
 bool BandDesignIntf::tryToKeepTogether()
@@ -485,10 +502,15 @@ void BandDesignIntf::moveItemsDown(qreal startPos, qreal offset){
 
 void BandDesignIntf::preparePopUpMenu(QMenu &menu)
 {
+
+    QList<QString> disabledActions;
+    disabledActions << tr("Bring to top") <<
+                       tr("Send to back") <<
+                       tr("Cut") <<
+                       tr("Copy");
+
     foreach (QAction* action, menu.actions()) {
-        if (action->text().compare(tr("Bring to top")) == 0 ||
-            action->text().compare(tr("Send to back")) == 0  )
-            action->setEnabled(false);
+          action->setEnabled(!disabledActions.contains(action->text()));
     }
 
     menu.addSeparator();
@@ -497,6 +519,7 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     currAction->setChecked(autoHeight());
 
     currAction = menu.addAction(tr("Splittable"));
+    currAction->setEnabled(metaObject()->indexOfProperty("splittable") != -1);
     currAction->setCheckable(true);
     currAction->setChecked(isSplittable());
 
@@ -504,13 +527,10 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     currAction->setCheckable(true);
     currAction->setChecked(keepBottomSpaceOption());
 
-    currAction = menu.addAction(tr("Start from new page"));
+    currAction = menu.addAction(tr("Print if empty"));
     currAction->setCheckable(true);
-    currAction->setChecked(startFromNewPage());
+    currAction->setChecked(printIfEmpty());
 
-    currAction = menu.addAction(tr("Start new page"));
-    currAction->setCheckable(true);
-    currAction->setChecked(startNewPage());
 }
 
 void BandDesignIntf::processPopUpAction(QAction *action)
@@ -524,19 +544,16 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Keep bottom space")) == 0){
         setProperty("keepBottomSpace",action->isChecked());
     }
-    if (action->text().compare(tr("Start new page")) == 0){
-        setProperty("startNewPage",action->isChecked());
+    if (action->text().compare(tr("Print if empty")) == 0){
+        setProperty("printIfEmpty",action->isChecked());
     }
-    if (action->text().compare(tr("Start from new page")) == 0){
-        setProperty("startFromNewPage",action->isChecked());
-    }
+
 }
 
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int maxBottom = 0;
     BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    upperPart->m_bottomSpace = this->bottomSpace();
     BaseDesignIntf* upperItem = 0;
 
     upperPart->initFromItem(this);
@@ -583,7 +600,6 @@ bool itemLessThen(QGraphicsItem* i1, QGraphicsItem* i2){
 BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     BandDesignIntf* bottomPart = dynamic_cast<BandDesignIntf*>(createSameTypeItem(owner,parent));
-    bottomPart->m_bottomSpace = this->bottomSpace();
     bottomPart->initFromItem(this);
 
     QList<QGraphicsItem*> bandItems;
@@ -781,7 +797,7 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
 
 qreal BandDesignIntf::bottomSpace() const
 {
-    return m_bottomSpace.isValid() ? m_bottomSpace.value() : height()-findMaxBottom();
+    return height()-findMaxBottom();
 }
 
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
@@ -791,6 +807,16 @@ void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QStrin
         m_bandNameLabel->updateLabel(newName);
 }
 
+int BandDesignIntf::bootomSpace() const
+{
+    return m_bottomSpace;
+}
+
+void BandDesignIntf::setBootomSpace(int bootomSpace)
+{
+    m_bottomSpace = bootomSpace;
+}
+
 bool BandDesignIntf::repeatOnEachRow() const
 {
     return m_repeatOnEachRow;
@@ -798,7 +824,11 @@ bool BandDesignIntf::repeatOnEachRow() const
 
 void BandDesignIntf::setRepeatOnEachRow(bool repeatOnEachRow)
 {
-    m_repeatOnEachRow = repeatOnEachRow;
+    if (m_repeatOnEachRow != repeatOnEachRow){
+        m_repeatOnEachRow = repeatOnEachRow;
+        if (!isLoading())
+            notify("repeatOnEachRow", !m_repeatOnEachRow, m_repeatOnEachRow);
+    }
 }
 
 bool BandDesignIntf::printAlways() const
@@ -808,7 +838,11 @@ bool BandDesignIntf::printAlways() const
 
 void BandDesignIntf::setPrintAlways(bool printAlways)
 {
-    m_printAlways = printAlways;
+    if (m_printAlways != printAlways){
+        m_printAlways = printAlways;
+        if (!isLoading())
+            notify("printAlways", !m_printAlways, m_printAlways);
+    }
 }
 
 bool BandDesignIntf::startFromNewPage() const
@@ -854,7 +888,11 @@ bool BandDesignIntf::reprintOnEachPage() const
 
 void BandDesignIntf::setReprintOnEachPage(bool reprintOnEachPage)
 {
-    m_reprintOnEachPage = reprintOnEachPage;
+    if (m_reprintOnEachPage != reprintOnEachPage){
+        m_reprintOnEachPage = reprintOnEachPage;
+        if (!isLoading())
+            notify("reprintOnEachPage", !m_reprintOnEachPage, m_reprintOnEachPage);
+    }
 }
 
 int BandDesignIntf::columnIndex() const
@@ -874,14 +912,21 @@ bool BandDesignIntf::printIfEmpty() const
 
 void BandDesignIntf::setPrintIfEmpty(bool printIfEmpty)
 {
-    m_printIfEmpty = printIfEmpty;
+    if (m_printIfEmpty != printIfEmpty){
+        m_printIfEmpty = printIfEmpty;
+        if (!isLoading())
+            notify("printIfEmpty", !m_printIfEmpty, m_printIfEmpty);
+    }
+
 }
 
 BandDesignIntf *BandDesignIntf::bandHeader()
 {
     foreach (BandDesignIntf* band, childBands()) {
-        if (band->isHeader() && !band->isGroupHeader())
+        if (band->isHeader() && !band->isGroupHeader()){
+            if (band->columnsCount() > 1) band->setColumnsFillDirection(this->columnsFillDirection());
             return band;
+        }
     }
     return 0;
 }
@@ -901,7 +946,11 @@ bool BandDesignIntf::sliceLastRow() const
 
 void BandDesignIntf::setSliceLastRow(bool sliceLastRow)
 {
-    m_sliceLastRow = sliceLastRow;
+    if (m_sliceLastRow != sliceLastRow){
+        m_sliceLastRow = sliceLastRow;
+        if (!isLoading())
+            notify("sliceLastRow", !sliceLastRow, sliceLastRow);
+    }
 }
 
 int BandDesignIntf::maxScalePercent() const
@@ -938,6 +987,8 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (borderLines()!=0){
         spaceBorder += borderLineSize();
     }
+
+    spaceBorder += m_bottomSpace;
     restoreLinks();
     snapshotItemsLayout();
     arrangeSubItems(pass, dataManager);

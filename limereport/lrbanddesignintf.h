@@ -167,6 +167,7 @@ public:
     bool isConnectedToBand(BandDesignIntf::BandsType bandType) const;
 
     int minChildIndex(BandsType bandType);
+    int minChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>());
     int maxChildIndex(BandDesignIntf::BandsType bandType) const;
     int maxChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>()) const;
 
@@ -239,8 +240,10 @@ public:
     qreal bottomSpace() const;
     void setBackgroundModeProperty(BGMode value);
     void setBackgroundOpacity(int value);
+    int bootomSpace() const;
+    void setBootomSpace(int bootomSpace);
 signals:
-    void bandRendered(BandDesignIntf* band);        
+    void bandRendered(BandDesignIntf* band);
 protected:
     void  trimToMaxHeight(int maxHeight);
     void  setBandTypeText(const QString& value);
@@ -294,7 +297,7 @@ private:
     bool                        m_repeatOnEachRow;
     QMap<QString,BaseDesignIntf*> m_slicedItems;
     QColor 						m_alternateBackgroundColor;
-    InitializedValue 			m_bottomSpace;
+    int                         m_bottomSpace;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

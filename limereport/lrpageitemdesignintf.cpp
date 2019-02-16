@@ -201,17 +201,22 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
 
     int bandIndex=-1;
     qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
-    foreach(BandDesignIntf* band,m_bands){
-        if ((band->bandType() == BandDesignIntf::GroupHeader) && ( band->bandType() > bandType)) break;
-        if ((band->bandType() <= bandType)){
-            if (bandIndex <= band->bandIndex()) {
-                if (bandType != BandDesignIntf::Data){
+    if (bandType != BandDesignIntf::Data){
+        foreach(BandDesignIntf* band,m_bands){
+            if ((band->bandType() == BandDesignIntf::GroupHeader) && ( band->bandType() > bandType)) break;
+            if ((band->bandType() <= bandType)){
+                if (bandIndex <= band->bandIndex()) {
                     bandIndex=band->maxChildIndex(bandType)+1;
-                } else {
-                    bandIndex=band->maxChildIndex()+1;
                 }
-            }
-        } else { increaseBandIndex = true; break;}
+            } else { increaseBandIndex = true; break;}
+        }
+    } else {
+        int maxChildIndex = 0;
+        foreach(BandDesignIntf* band, m_bands){
+            if (band->bandType() == BandDesignIntf::Data)
+                maxChildIndex = std::max(maxChildIndex, band->maxChildIndex());
+        }
+        bandIndex = std::max(bandIndex, maxChildIndex+1);
     }
 
     if (bandIndex==-1) {
@@ -298,7 +303,11 @@ void PageItemDesignIntf::registerBand(BandDesignIntf *band)
         band->setParentItem(this);
         band->setWidth(pageRect().width()/band->columnsCount());
         connect(band, SIGNAL(destroyed(QObject*)),this,SLOT(bandDeleted(QObject*)));
-        connect(band, SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),this,SLOT(bandGeometryChanged(QObject*,QRectF,QRectF)));
+        connect(band, SIGNAL(posChanged(QObject*, QPointF, QPointF)),
+                this, SLOT(bandPositionChanged(QObject*, QPointF, QPointF)));
+        connect(band, SIGNAL(geometryChanged(QObject*, QRectF, QRectF)),
+                this, SLOT(bandGeometryChanged(QObject*, QRectF, QRectF)));
+
     }
 }
 
@@ -396,8 +405,16 @@ void PageItemDesignIntf::relocateBands()
                                    m_bands[i+1]->columnsCount());
                 }
                 if (m_bands[i+1]->columnIndex()==0){
-                    m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
-                    posByColumn[0] += m_bands[i+1]->height()+bandSpace;
+                    if ( ((m_bands[i]->borderLines() & BandDesignIntf::BottomLine) &&
+                         (m_bands[i+1]->borderLines() & BandDesignIntf::TopLine)) ||
+                         (!(m_bands[i]->borderLines() & BandDesignIntf::BottomLine) &&
+                          !(m_bands[i+1]->borderLines() & BandDesignIntf::TopLine))  ){
+                            m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
+                            posByColumn[0] += m_bands[i+1]->height()+bandSpace;
+                    } else {
+                        m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]+2);
+                        posByColumn[0] += m_bands[i+1]->height()+bandSpace+2;
+                    }
                 } else {
                     m_bands[i+1]->setPos(m_bands[i+1]->pos().x(),posByColumn[m_bands[i+1]->columnIndex()]);
                     posByColumn[m_bands[i+1]->columnIndex()] += m_bands[i+1]->height()+bandSpace;
@@ -568,39 +585,127 @@ void PageItemDesignIntf::bandDeleted(QObject *band)
     relocateBands();
 }
 
-void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
+void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToSwap){
+
+    int firstIndex = std::min(band->minChildIndex(), bandToSwap->minChildIndex());
+    int secondIndex = std::max(band->minChildIndex(), bandToSwap->minChildIndex());
+    int moveIndex = std::min(band->maxChildIndex(), bandToSwap->maxChildIndex());
+
+    QList<BandDesignIntf*> bandToMove;
+    foreach(BandDesignIntf* curBand, m_bands){
+        if ( curBand->bandIndex() > moveIndex && curBand->bandIndex() < secondIndex &&
+            curBand->bandType() == band->bandType() &&
+            curBand != band && curBand != bandToSwap
+        )
+            bandToMove.append(curBand);
+    }
+
+    BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
+
+    firstMoveBand->changeBandIndex(firstIndex, true);
+    moveIndex = firstMoveBand->maxChildIndex() + 1;
+    moveIndex = firstIndex;
+    qSort(bandToMove.begin(), bandToMove.end(), bandIndexLessThen);
+
+    foreach(BandDesignIntf* curBand, bandToMove){
+       curBand->changeBandIndex(moveIndex,true);
+       moveIndex = curBand->maxChildIndex() + 1;
+    }
+
+    if (firstMoveBand == band){
+        bandToSwap->changeBandIndex(moveIndex,true);
+    } else {
+        band->changeBandIndex(moveIndex, true);
+    }
+    relocateBands();
+
+}
+
+void PageItemDesignIntf::moveBandFromTo(int from, int to)
 {
-    BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
-    int curIndex = band->bandIndex();
-    BandDesignIntf* bandToSwap = 0;
-    foreach(BandDesignIntf* curBand, bands()){
-        if (newGeometry.y()>oldGeometry.y()) {
-            if (curBand->bandType() == band->bandType()
-                    && curIndex<curBand->bandIndex()
-                    && (curBand->pos().y()+(curBand->height()/2))<newGeometry.y()
-                    && curBand->parentBand() == band->parentBand())
-            {
-                curIndex = curBand->bandIndex();
-                bandToSwap =  curBand;
-            }
-        } else {
-            if (curBand->bandType() == band->bandType()
-                    && curIndex>curBand->bandIndex()
-                    && (curBand->pos().y()+(curBand->height()/2))>newGeometry.y()
-                    && curBand->parentBand() == band->parentBand())
-            {
-                curIndex = curBand->bandIndex();
-                bandToSwap =  curBand;
-            }
+    BandDesignIntf* firstBand = 0;
+    BandDesignIntf* secondBand = 0;
+
+    int firstIndex = std::min(from,to);
+    int secondIndex = std::max(from,to);
+    QList<BandDesignIntf*> bandsToMove;
+    int moveIndex = 0;
+
+    foreach(BandDesignIntf* band, bands()){
+        if (band->bandIndex() == from){
+            firstBand = band;
+        }
+        if (band->bandIndex() == to){
+            secondBand = band;
+            bandsToMove.append(band);
         }
     }
-    if (curIndex != band->bandIndex()){
-        int swapIndex = bandToSwap->maxChildIndex();
-        bandToSwap->changeBandIndex(band->bandIndex(),true);
-        band->changeBandIndex(swapIndex,true);
+
+    foreach(BandDesignIntf* curBand, m_bands){
+        if ( curBand->bandIndex() > firstIndex && curBand->bandIndex() < secondIndex &&
+            curBand->bandType() == firstBand->bandType() &&
+            curBand != firstBand
+        )
+            bandsToMove.append(curBand);
+    }
+    qSort(bandsToMove.begin(), bandsToMove.end(), bandIndexLessThen);
+
+
+    if (from > to){
+        firstBand->changeBandIndex(secondBand->minChildIndex(), true);
+        moveIndex = firstBand->maxChildIndex()+1;
+    } else {
+        moveIndex = firstBand->minChildIndex();
+        firstBand->changeBandIndex(secondBand->minChildIndex(), true);
+    }
+
+    foreach(BandDesignIntf* curBand, bandsToMove){
+       curBand->changeBandIndex(moveIndex,true);
+       moveIndex = curBand->maxChildIndex() + 1;
     }
 
     relocateBands();
+
+}
+
+void PageItemDesignIntf::bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos)
+{
+    if (itemMode() == DesignMode){
+        BandDesignIntf* band = dynamic_cast<BandDesignIntf*>(object);
+        int curIndex = band->bandIndex();
+        BandDesignIntf* bandToSwap = 0;
+        foreach(BandDesignIntf* curBand, bands()){
+            if (newPos.y() > oldPos.y()) {
+                if (curBand->bandType() == band->bandType()
+                        && curIndex < curBand->bandIndex()
+                        && (curBand->pos().y() + (curBand->height()/2)) < newPos.y()
+                        && curBand->parentBand() == band->parentBand())
+                {
+                    curIndex = curBand->bandIndex();
+                    bandToSwap =  curBand;
+                }
+            } else {
+                if (curBand->bandType() == band->bandType()
+                        && curIndex>curBand->bandIndex()
+                        && (curBand->pos().y() + (curBand->height()/2)) > newPos.y()
+                        && curBand->parentBand() == band->parentBand())
+                {
+                    curIndex = curBand->bandIndex();
+                    bandToSwap =  curBand;
+                }
+            }
+        }
+        if (curIndex != band->bandIndex() && itemMode() == DesignMode){
+            if (page())
+                page()->saveCommand(BandMoveFromToCommand::create(page(), band->bandIndex(), bandToSwap->bandIndex()), true);
+        }
+    }
+    relocateBands();
+}
+
+void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
+{
+    bandPositionChanged(object, newGeometry.topLeft(), oldGeometry.topLeft());
 }
 
 void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)

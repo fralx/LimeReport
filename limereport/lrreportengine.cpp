@@ -63,7 +63,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
-    m_fileWatcher( new QFileSystemWatcher( this ) )
+    m_fileWatcher( new QFileSystemWatcher( this ) ), m_previewLayoutDirection(Qt::LayoutDirectionAuto),
+    m_previewScaleType(FitWidth), m_previewScalePercent(0)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
@@ -381,6 +382,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setSettings(settings());
             w->setPages(pages);
             w->setLayoutDirection(m_previewLayoutDirection);
+
             if (!dataManager()->errorsList().isEmpty()){
                 w->setErrorMessages(dataManager()->errorsList());
             }
@@ -394,6 +396,9 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
             w->setHideResultEditButton(resultIsEditable());
 
             m_activePreview = w;
+
+            w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
+
             connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
             w->exec();
         }
@@ -508,7 +513,7 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
             }
 
             dataManager()->connectAutoConnections();
-
+            dataManager()->dropChanges();
             if ( hasActivePreview() )
             {
                currentPreview->reloadPreview();
@@ -661,6 +666,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
             page->setToSaved();
         }
     }
+    m_datasources->dropChanges();
     return saved;
 }
 
@@ -675,6 +681,7 @@ QByteArray ReportEnginePrivate::saveToByteArray()
             page->setToSaved();
         }
     }
+    m_datasources->dropChanges();
     return result;
 }
 
@@ -688,6 +695,7 @@ QString ReportEnginePrivate::saveToString(){
             page->setToSaved();
         }
     }
+    m_datasources->dropChanges();
     return result;
 }
 
@@ -695,6 +703,9 @@ bool ReportEnginePrivate::isNeedToSave()
 {
     foreach(PageDesignIntf* page, m_pages){
         if (page->isHasChanges()) return true;
+    }
+    if (dataManager()->isHasChanges()){
+        return true;
     }
     return false;
 }
@@ -714,7 +725,23 @@ QString ReportEnginePrivate::renderToString()
         render.setDatasources(dataManager());
         render.setScriptContext(scriptContext());
         return render.renderPageToString(m_pages.at(0));
-    }else return QString();
+    } else return QString();
+}
+
+ScaleType ReportEnginePrivate::previewScaleType()
+{
+    return m_previewScaleType;
+}
+
+int ReportEnginePrivate::previewScalePercent()
+{
+    return m_previewScalePercent;
+}
+
+void ReportEnginePrivate::setPreviewScaleType(const ScaleType &scaleType, int percent)
+{
+    m_previewScaleType = scaleType;
+    m_previewScalePercent = percent;
 }
 
 Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
@@ -944,6 +971,25 @@ void ReportEngine::setPreviewLayoutDirection(const Qt::LayoutDirection& layoutDi
     Q_D(ReportEngine);
     return d->setPreviewLayoutDirection(layoutDirection);
 }
+
+ScaleType ReportEngine::previewScaleType()
+{
+    Q_D(ReportEngine);
+    return d->previewScaleType();
+}
+
+int ReportEngine::previewScalePercent()
+{
+    Q_D(ReportEngine);
+    return d->previewScalePercent();
+}
+
+void ReportEngine::setPreviewScaleType(const ScaleType &previewScaleType, int percent)
+{
+    Q_D(ReportEngine);
+    d->setPreviewScaleType(previewScaleType, percent);
+}
+
 
 void ReportEngine::setShowProgressDialog(bool value)
 {
