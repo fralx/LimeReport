@@ -320,11 +320,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Start from new page</source>
-        <translation>从新页开始</translation>
+        <translation type="vanished">从新页开始</translation>
     </message>
     <message>
         <source>Start new page</source>
-        <translation>开始新页</translation>
+        <translation type="vanished">开始新页</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>剪切</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Print if empty</source>
+        <translation>为空时打印</translation>
     </message>
 </context>
 <context>
@@ -458,6 +470,26 @@ p, li { white-space: pre-wrap; }
         <source>Data</source>
         <translation>数据带</translation>
     </message>
+    <message>
+        <source>Keep footer together</source>
+        <translation>保持页脚</translation>
+    </message>
+    <message>
+        <source>Keep subdetail together</source>
+        <translation>保持子细节脚</translation>
+    </message>
+    <message>
+        <source>Slice last row</source>
+        <translation>分割末行</translation>
+    </message>
+    <message>
+        <source>Start from new page</source>
+        <translation>从新页开始</translation>
+    </message>
+    <message>
+        <source>Start new page</source>
+        <translation>开始新页</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataBrowser</name>
@@ -552,12 +584,28 @@ p, li { white-space: pre-wrap; }
         <source>DataFooter</source>
         <translation>数据带脚</translation>
     </message>
+    <message>
+        <source>Print always</source>
+        <translation>始终打印</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
         <source>DataHeader</source>
         <translation>数据带头</translation>
+    </message>
+    <message>
+        <source>Reprint on each page</source>
+        <translation>重新打印每页</translation>
+    </message>
+    <message>
+        <source>Repeat on each row</source>
+        <translation>每行重复</translation>
+    </message>
+    <message>
+        <source>Print always</source>
+        <translation>始终打印</translation>
     </message>
 </context>
 <context>
@@ -1564,6 +1612,14 @@ p, li { white-space: pre-wrap; }
         <source>Warning</source>
         <translation>警告</translation>
     </message>
+    <message>
+        <source>watermark</source>
+        <translation>水印</translation>
+    </message>
+    <message>
+        <source>replaceCRwithBR</source>
+        <translation>BR替换回车</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -2409,11 +2465,11 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>bool</source>
-        <translation></translation>
+        <translation>bool</translation>
     </message>
     <message>
         <source>QColor</source>
-        <translation></translation>
+        <translation>QColor</translation>
     </message>
     <message>
         <source>content</source>
@@ -2429,35 +2485,35 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>enum</source>
-        <translation></translation>
+        <translation>enum</translation>
     </message>
     <message>
         <source>flags</source>
-        <translation></translation>
+        <translation>flags</translation>
     </message>
     <message>
         <source>QFont</source>
-        <translation></translation>
+        <translation>QFont</translation>
     </message>
     <message>
         <source>QImage</source>
-        <translation></translation>
+        <translation>QImage</translation>
     </message>
     <message>
         <source>int</source>
-        <translation></translation>
+        <translation>int</translation>
     </message>
     <message>
         <source>qreal</source>
-        <translation></translation>
+        <translation>qreal</translation>
     </message>
     <message>
         <source>QRect</source>
-        <translation></translation>
+        <translation>QRect</translation>
     </message>
     <message>
         <source>QRectF</source>
-        <translation></translation>
+        <translation>QRectF</translation>
     </message>
     <message>
         <source>geometry</source>
@@ -2465,7 +2521,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>QString</source>
-        <translation></translation>
+        <translation>QString</translation>
     </message>
     <message>
         <source>Attention!</source>
