@@ -1304,7 +1304,7 @@ void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDe
             engine->newQObject(sItem, item);
         } else {
             sItem = engine->newQObject(item);
-            engine->globalObject().setProperty(pageName+"_"+item->patternName(),sItem);
+            engine->globalObject().setProperty(on,sItem);
         }
 #endif
         foreach(BaseDesignIntf* child, item->childBaseItems()){
