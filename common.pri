@@ -47,6 +47,7 @@ lessThan(QT_MAJOR_VERSION, 5){
 contains(CONFIG, qtscriptengine){
     CONFIG -= qjsengine
     QT *= script
+    DEFINES *= USE_QTSCRIPTENGINE
     message(qtscriptengine)
 }
 

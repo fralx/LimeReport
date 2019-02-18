@@ -29,17 +29,47 @@
  ****************************************************************************/
 #ifndef LRSCRIPTENGINEMANAGERINTF_H
 #define LRSCRIPTENGINEMANAGERINTF_H
+#include "qglobal.h"
 
-//#include <QJSEngine>
-#include "lrglobal.h"
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+    #ifndef USE_QTSCRIPTENGINE
+        #ifndef USE_QJSENGINE
+            #define USE_QJSENGINE
+        #endif
+    #endif
+#else
+    #ifndef USE_QTSCRIPTENGINE
+        #define USE_QTSCRIPTENGINE
+    #endif
+#endif
+
+#ifdef USE_QJSENGINE
+#include <QQmlEngine>
+#else
+#include <QtScript/QScriptEngine>
+#endif
 
 namespace LimeReport{
 
+#ifdef USE_QJSENGINE
+    typedef QJSEngine ScriptEngineType;
+    typedef QJSValue ScriptValueType;
+    template <typename T>
+    static inline QJSValue getJSValue(QJSEngine &e, T *p)
+    {
+        QJSValue res = e.newQObject(p);
+        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
+        return res;
+    }
+#else
+    typedef QScriptEngine ScriptEngineType;
+    typedef QScriptValue ScriptValueType;
+#endif
 
 class IScriptEngineManager{
 public:
     virtual ScriptEngineType* scriptEngine() = 0;
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
     virtual bool addFunction(const QString& name, ScriptEngineType::FunctionSignature function,
                              const QString& category="", const QString& description="") = 0;
 #endif

@@ -29,7 +29,7 @@
  ****************************************************************************/
 #ifndef LRSCRIPTENGINEMANAGER_H
 #define LRSCRIPTENGINEMANAGER_H
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 #include <QtScript/QScriptEngine>
 #include <QScriptable>
 #endif
@@ -272,7 +272,7 @@ private:
     QString  m_scriptWrapper;
 };
 
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 class ComboBoxPrototype : public QObject, public QScriptable{
     Q_OBJECT
 public:
@@ -363,6 +363,7 @@ public:
     Q_INVOKABLE QVariant getVariable(const QString& name);
     Q_INVOKABLE QVariant getField(const QString& field);
     Q_INVOKABLE QVariant getFieldByKeyField(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue);
+    Q_INVOKABLE QVariant getFieldByRowIndex(const QString& fieldName, int rowIndex);
     Q_INVOKABLE void     reopenDatasource(const QString& datasourceName);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
     Q_INVOKABLE void     addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent = 0);
@@ -399,7 +400,7 @@ public:
     void deleteFunction(const QString& functionsName);
 
     bool addFunction(const JSFunctionDesc& functionsDescriber);
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
     bool addFunction(const QString &name, QScriptEngine::FunctionSignature function, const QString &category, const QString &description);
 #endif
     bool addFunction(const QString &name, const QString& script,
@@ -438,6 +439,7 @@ private:
     bool createGetVariableFunction();
     bool createGetFieldFunction();
     bool createGetFieldByKeyFunction();
+    bool createGetFieldByRowIndex();
     bool createAddTableOfContentsItemFunction();
     bool createClearTableOfContentsFunction();
     bool createReopenDatasourceFunction();
@@ -483,7 +485,7 @@ private:
 
 };
 
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 class QFontPrototype : public QObject, public QScriptable {
     Q_OBJECT
     Q_PROPERTY(QString family READ family)
@@ -533,7 +535,7 @@ public:
 #endif
 
 }
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 Q_DECLARE_METATYPE(LimeReport::ComboBoxPrototype*)
 Q_DECLARE_METATYPE(QComboBox*)
 #endif

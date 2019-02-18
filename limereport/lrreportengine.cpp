@@ -1172,7 +1172,9 @@ ReportPages ReportEnginePrivate::renderToPages()
         }
 
         scriptContext()->qobjectToScript("engine",this);
-
+#ifdef USE_QTSCRIPTENGINE
+    ScriptEngineManager::instance().scriptEngine()->pushContext();
+#endif
         if (m_scriptEngineContext->runInitScript()){
 
             dataManager()->clearErrors();
@@ -1230,6 +1232,9 @@ ReportPages ReportEnginePrivate::renderToPages()
         }
         m_reportRendering = false;
         //activateLanguage(QLocale::AnyLanguage);
+#ifdef USE_QTSCRIPTENGINE
+    ScriptEngineManager::instance().scriptEngine()->popContext();
+#endif
         return result;
     } else {
         return ReportPages();

@@ -243,10 +243,6 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
 
     savePage(true);
 
-#ifndef USE_QJSENGINE
-    ScriptEngineManager::instance().scriptEngine()->popContext();
-#endif
-
 }
 
 int ReportRender::pageCount()
@@ -1422,7 +1418,8 @@ void ReportRender::savePage(bool isLast)
     moveTearOffBand();
     m_scriptEngineContext->setCurrentPage(m_renderPageItem);
     emit m_patternPageItem->afterRender();
-    if (isLast) emit m_patternPageItem->afterLastPageRendered();
+    if (isLast)
+        emit m_patternPageItem->afterLastPageRendered();
     if (isLast && m_patternPageItem->endlessHeight()){
         qreal pageHeight = 0;
         foreach (BandDesignIntf* band, m_renderPageItem->bands()) {

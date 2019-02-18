@@ -42,13 +42,6 @@
 #  define LIMEREPORT_EXPORT   /**/
 #endif
 
-#ifdef USE_QJSENGINE
-//#include <QJSEngine>
-#include <QQmlEngine>
-#else
-#include <QtScript/QScriptEngine>
-#endif
-
 namespace LimeReport {
 
 #ifdef __GNUC__
@@ -146,25 +139,10 @@ namespace Const{
         virtual ~IPainterProxy();
     };
 
-#ifdef HAVE_QT4
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     typedef QStyleOptionViewItemV4 StyleOptionViewItem;
 #else
     typedef QStyleOptionViewItem StyleOptionViewItem;
-#endif
-
-#ifdef USE_QJSENGINE
-    typedef QJSEngine ScriptEngineType;
-    typedef QJSValue ScriptValueType;
-    template <typename T>
-    static inline QJSValue getJSValue(QJSEngine &e, T *p)
-    {
-        QJSValue res = e.newQObject(p);
-        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
-        return res;
-    }
-#else
-    typedef QScriptEngine ScriptEngineType;
-    typedef QScriptValue ScriptValueType;
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)

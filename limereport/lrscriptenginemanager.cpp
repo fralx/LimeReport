@@ -32,7 +32,7 @@
 #include <QDate>
 #include <QStringList>
 #include <QUuid>
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 #include <QScriptValueIterator>
 #endif
 #include <QMessageBox>
@@ -50,7 +50,7 @@ Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
 Q_DECLARE_METATYPE(LimeReport::ScriptEngineManager *)
 
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 QScriptValue constructColor(QScriptContext *context, QScriptEngine *engine)
 {
      QColor color(context->argument(0).toString());
@@ -278,7 +278,7 @@ bool ScriptEngineManager::containsFunction(const QString& functionName){
     return false;
 }
 
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 #if QT_VERSION > 0x050600
 Q_DECL_DEPRECATED
 #endif
@@ -818,6 +818,23 @@ bool ScriptEngineManager::createGetFieldByKeyFunction()
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createGetFieldByRowIndex()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getFieldByRowIndex");
+    fd.setDescription("getFieldByRowIndex(\""+tr("FieldName")+"\", \""+
+                      tr("RowIndex")+"\")"
+    );
+    fd.setScriptWrapper(QString("function getFieldByRowIndex(fieldName, rowIndex){"
+                                "return %1.getFieldByRowIndex(fieldName, rowIndex);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 bool ScriptEngineManager::createAddTableOfContentsItemFunction()
 {
     JSFunctionDesc fd;
@@ -869,7 +886,7 @@ ScriptEngineManager::ScriptEngineManager()
     m_scriptEngine = new ScriptEngineType;
     m_functionManager = new ScriptFunctionsManager(this);
     m_functionManager->setScriptEngineManager(this);
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
     m_scriptEngine->setDefaultPrototype(qMetaTypeId<QComboBox*>(),
                                   m_scriptEngine->newQObject(new ComboBoxPrototype()));
 #endif
@@ -887,9 +904,10 @@ ScriptEngineManager::ScriptEngineManager()
 #endif
     createSetVariableFunction();
     createGetFieldFunction();
+    createGetFieldByRowIndex();
     createGetFieldByKeyFunction();
     createGetVariableFunction();
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
 
@@ -1362,9 +1380,6 @@ bool ScriptEngineContext::runInitScript(){
     ScriptEngineManager::instance().setContext(this);
     m_tableOfContents->clear();
 
-#ifndef USE_QJSENGINE
-    engine->pushContext();
-#endif
     ScriptValueType res = engine->evaluate(initScript());
     if (res.isBool()) return res.toBool();
 #ifdef  USE_QJSENGINE
@@ -1593,6 +1608,12 @@ QVariant ScriptFunctionsManager::getFieldByKeyField(const QString& datasourceNam
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldDataByKey(datasourceName, valueFieldName, keyFieldName, keyValue);
+}
+
+QVariant ScriptFunctionsManager::getFieldByRowIndex(const QString &fieldName, int rowIndex)
+{
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
+    return dm->fieldDataByRowIndex(fieldName, rowIndex);
 }
 
 void ScriptFunctionsManager::reopenDatasource(const QString& datasourceName)
@@ -1923,7 +1944,7 @@ void TableBuilder::checkBaseLayout()
     }
 }
 
-#ifndef USE_QJSENGINE
+#ifdef USE_QTSCRIPTENGINE
 void ComboBoxPrototype::addItem(const QString &text)
 {
     QComboBox* comboBox = qscriptvalue_cast<QComboBox*>(thisObject());
