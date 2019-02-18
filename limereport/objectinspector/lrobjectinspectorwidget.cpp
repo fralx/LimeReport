@@ -33,7 +33,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLineEdit>
-#include <QPushButton>
+#include <QToolButton>
 
 #include "lrglobal.h"
 #include "lrobjectinspectorwidget.h"
@@ -177,8 +177,9 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     m_objectInspectorView->setModel(m_filterModel);
     QVBoxLayout* l = new QVBoxLayout();
     QLineEdit* le = new QLineEdit(this);
-    QPushButton * pbClear = new QPushButton(QIcon(":/items/clear.png"),"",this);
+    QToolButton * pbClear = new QToolButton(this);
     pbClear->setToolTip(tr("Clear"));
+    pbClear->setIcon(QIcon(":/items/clear.png"));
     connect(pbClear, SIGNAL(clicked()), le, SLOT(clear()));
     le->setPlaceholderText(tr("Filter"));
     connect(le, SIGNAL(textChanged(const QString&)), this, SLOT(slotFilterTextChanged(const QString&)));
@@ -189,6 +190,7 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     l->addLayout(h);
     l->addWidget(m_objectInspectorView);
     l->setContentsMargins(2,2,2,2);
+    l->setSpacing(2);
     this->setLayout(l);
 }
 
