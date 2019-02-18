@@ -167,6 +167,7 @@ public:
     QStringList fieldNames(const QString& datasourceName);
     bool        containsField(const QString& fieldName);
     QVariant    fieldData(const QString& fieldName);
+    QVariant    fieldDataByRowIndex(const QString& fieldName, int rowIndex);
     QVariant    fieldDataByKey(
             const QString& datasourceName,
             const QString& valueFieldName,

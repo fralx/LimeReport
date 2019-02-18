@@ -258,6 +258,13 @@ QVariant ModelToDataSource::data(const QString &columnName)
     return m_model->data(m_model->index(currentRow(),columnIndexByName(columnName)));
 }
 
+QVariant ModelToDataSource::dataByRowIndex(const QString &columnName, int rowIndex)
+{
+    if (m_model->rowCount() > rowIndex)
+        return m_model->data(m_model->index(rowIndex, columnIndexByName(columnName)));
+    return QVariant();
+}
+
 QVariant ModelToDataSource::dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData)
 {
    for( int i=0; i < m_model->rowCount(); ++i ){
@@ -689,6 +696,21 @@ QVariant CallbackDatasource::data(const QString& columnName)
         } else {
             result = m_valuesCache[columnName];
         }
+    }
+    return result;
+}
+
+QVariant CallbackDatasource::dataByRowIndex(const QString &columnName, int rowIndex)
+{
+    int backupCurrentRow = m_currentRow;
+    QVariant result = QVariant();
+    first();
+    for (int i = 0; i < rowIndex && !eof(); ++i, next()){}
+    if (!eof()) result = callbackData(columnName, rowIndex);
+    first();
+    if (backupCurrentRow != -1){
+        for (int i = 0; i < backupCurrentRow; ++i)
+            next();
     }
     return result;
 }
