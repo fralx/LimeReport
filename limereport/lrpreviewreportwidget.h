@@ -29,6 +29,8 @@ public:
     ScaleType scaleType() const;
     int  scalePercent() const;
     void setScaleType(const ScaleType &scaleType, int percent = 0);
+    void setPreviewPageBackgroundColor(QColor color);
+    QColor previewPageBackgroundColor();
 public slots:
     void refreshPages();
     void zoomIn();
@@ -67,7 +69,8 @@ private:
     PreviewReportWidgetPrivate* d_ptr;
     ScaleType m_scaleType;
     int       m_scalePercent;
-    QTimer m_resizeTimer;
+    QTimer    m_resizeTimer;
+    QColor    m_previewPageBackgroundColor;
 };
 
 } // namespace LimeReport

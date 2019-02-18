@@ -71,7 +71,7 @@ QList<QString> PreviewReportWidgetPrivate::aviableExporters()
 PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this)),
-    m_scaleType(FitWidth), m_scalePercent(0)
+    m_scaleType(FitWidth), m_scalePercent(0), m_previewPageBackgroundColor(Qt::white)
 {
     ui->setupUi(this);
     d_ptr->m_report = report->d_ptr;
@@ -127,6 +127,7 @@ void PreviewReportWidget::initPreview()
         ui->graphicsView->setScene(d_ptr->m_previewPage);
     ui->graphicsView->resetMatrix();
     ui->graphicsView->centerOn(0, 0);
+    ui->graphicsView->scene()->setBackgroundBrush(QColor(m_previewPageBackgroundColor));
     setScalePercent(d_ptr->m_scalePercent);
 }
 
@@ -320,6 +321,16 @@ void PreviewReportWidget::setScaleType(const ScaleType &scaleType, int percent)
 {
     m_scaleType = scaleType;
     m_scalePercent = percent;
+}
+
+void PreviewReportWidget::setPreviewPageBackgroundColor(QColor color)
+{
+    m_previewPageBackgroundColor = color;
+}
+
+QColor PreviewReportWidget::previewPageBackgroundColor()
+{
+    return  m_previewPageBackgroundColor;
 }
 
 void PreviewReportWidget::refreshPages()

@@ -107,6 +107,7 @@ public:
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
     void setPreviewWindowTitle(const QString& title);
     void setPreviewWindowIcon(const QIcon& icon);
+    void setPreviewPageBackgroundColor(QColor color);
     void setResultEditable(bool value);
     bool resultIsEditable();
     bool isBusy();

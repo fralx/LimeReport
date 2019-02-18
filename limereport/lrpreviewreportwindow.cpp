@@ -47,7 +47,8 @@ namespace LimeReport{
 
 PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
-    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false), m_scalePercentChanging(false)
+    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false),
+    m_scalePercentChanging(false)
 {
     ui->setupUi(this);
     setWindowTitle("Lime Report Preview");
@@ -360,6 +361,16 @@ void PreviewReportWindow::setPreviewScaleType(const ScaleType &previewScaleType,
     m_previewScaleType = previewScaleType;
     m_previewScalePercent = percent;
     m_previewReportWidget->setScaleType(previewScaleType, percent);
+}
+
+QColor PreviewReportWindow::previewPageBackgroundColor()
+{
+    return m_previewReportWidget->previewPageBackgroundColor();
+}
+
+void PreviewReportWindow::setPreviewPageBackgroundColor(QColor color)
+{
+    m_previewReportWidget->setPreviewPageBackgroundColor(color);
 }
 
 void PreviewReportWindow::on_actionSaveToFile_triggered()

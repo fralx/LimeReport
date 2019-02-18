@@ -82,7 +82,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
     m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage),
     m_previewLayoutDirection(Qt::LayoutDirectionAuto), m_designerFactory(0),
-    m_previewScaleType(FitWidth), m_previewScalePercent(0), m_startTOCPage(0)
+    m_previewScaleType(FitWidth), m_previewScalePercent(0), m_startTOCPage(0),
+    m_previewPageBackgroundColor(Qt::white)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
@@ -503,6 +504,7 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
         if (pages.count()>0){
             Q_Q(ReportEngine);
             PreviewReportWindow* w = new PreviewReportWindow(q,0,settings());
+            w->setPreviewPageBackgroundColor(m_previewPageBackgroundColor);
             w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
             w->setAttribute(Qt::WA_DeleteOnClose,true);
             w->setWindowModality(Qt::ApplicationModal);
@@ -1094,6 +1096,16 @@ void ReportEnginePrivate::setPreviewWindowTitle(const QString &previewWindowTitl
     m_previewWindowTitle = previewWindowTitle;
 }
 
+QColor ReportEnginePrivate::previewWindowPageBackground()
+{
+    return m_previewPageBackgroundColor;
+}
+
+void ReportEnginePrivate::setPreviewWindowPageBackground(QColor color)
+{
+    m_previewPageBackgroundColor = color;
+}
+
 QIcon ReportEnginePrivate::previewWindowIcon() const
 {
     return m_previewWindowIcon;
@@ -1336,6 +1348,12 @@ void ReportEngine::setPreviewWindowIcon(const QIcon &icon)
 {
     Q_D(ReportEngine);
     d->setPreviewWindowIcon(icon);
+}
+
+void ReportEngine::setPreviewPageBackgroundColor(QColor color)
+{
+    Q_D(ReportEngine);
+    d->setPreviewWindowPageBackground(color);
 }
 
 void ReportEngine::setResultEditable(bool value)

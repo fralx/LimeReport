@@ -189,6 +189,8 @@ public:
     void setPreviewWindowIcon(const QIcon &previewWindowIcon);
     QString previewWindowTitle() const;
     void setPreviewWindowTitle(const QString &previewWindowTitle);
+    QColor previewWindowPageBackground();
+    void setPreviewWindowPageBackground(QColor color);
 
     bool suppressFieldAndVarError() const;
     void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
@@ -299,6 +301,7 @@ private:
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
     int m_startTOCPage;
+    QColor m_previewPageBackgroundColor;
 };
 
 }

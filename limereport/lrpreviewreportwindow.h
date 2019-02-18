@@ -73,7 +73,8 @@ public:
     QSettings* settings();
     ScaleType previewScaleType() const;
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
-
+    QColor previewPageBackgroundColor();
+    void setPreviewPageBackgroundColor(QColor color);
 protected:
     void writeSetting();
     void restoreSetting();
@@ -124,7 +125,6 @@ private:
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
     bool m_scalePercentChanging;
-
 };
 } //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H
