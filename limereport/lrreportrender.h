@@ -157,6 +157,7 @@ private:
     void    checkFooterGroup(BandDesignIntf* groupBand);
     void    pasteGroups();
     void    checkLostHeadersOnPrevPage();
+    void    checkLostHeadersInPrevColumn();
 
     BandDesignIntf* findEnclosingGroup();
     bool    registerBand(BandDesignIntf* band, bool registerInChildren=true);

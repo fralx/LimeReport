@@ -1201,6 +1201,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
 void ReportRender::startNewColumn(){
     if (m_currentColumn < m_maxHeightByColumn.size()-1){
         m_currentColumn++;
+        checkLostHeadersInPrevColumn();
     } else {
         savePage();
         startNewPage();
@@ -1337,6 +1338,38 @@ void ReportRender::checkLostHeadersOnPrevPage()
         }
     }
 
+}
+
+void ReportRender::checkLostHeadersInPrevColumn()
+{
+    QVector<BandDesignIntf*> lostHeaders;
+
+    QMutableListIterator<BandDesignIntf*>it(m_renderPageItem->bands());
+
+    it.toBack();
+    if (it.hasPrevious()){
+        if (it.previous()->isFooter()){
+                if (it.hasPrevious()) it.previous();
+                else return;
+        }
+    }
+
+    while (it.hasPrevious()){
+        if (it.value()->isHeader()){
+            if (it.value()->reprintOnEachPage()){
+                delete it.value();
+            } else { lostHeaders.append(it.value());}
+            it.remove();
+            it.previous();
+        } else break;
+    }
+
+    if (lostHeaders.size() > 0){
+        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        foreach(BandDesignIntf* header, lostHeaders){
+            registerBand(header);
+        }
+    }
 }
 
 BandDesignIntf* ReportRender::findEnclosingGroup()
