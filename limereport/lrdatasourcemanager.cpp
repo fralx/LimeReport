@@ -1469,6 +1469,17 @@ QVariant DataSourceManager::fieldData(const QString &fieldName)
     return QVariant();
 }
 
+QVariant DataSourceManager::fieldDataByRowIndex(const QString &fieldName, int rowIndex)
+{
+    if (containsField(fieldName)){
+        IDataSource* ds = dataSource(extractDataSource(fieldName));
+        if (ds){
+            return ds->dataByRowIndex(extractFieldName(fieldName), rowIndex);
+        }
+    }
+    return QVariant();
+}
+
 QVariant DataSourceManager::fieldDataByKey(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue)
 {
     IDataSource* ds = dataSource(datasourceName);

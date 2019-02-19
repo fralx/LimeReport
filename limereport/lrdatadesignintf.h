@@ -328,6 +328,7 @@ public:
     bool eof();
     bool bof();
     QVariant data(const QString& columnName);
+    QVariant dataByRowIndex(const QString &columnName, int rowIndex);
     QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
     QString columnNameByIndex(int columnIndex);
@@ -360,6 +361,7 @@ public:
     bool bof(){return m_currentRow == -1;}
     bool eof(){return m_eof;}
     QVariant data(const QString &columnName);
+    QVariant dataByRowIndex(const QString& columnName, int rowIndex);
     QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
     QString columnNameByIndex(int columnIndex);
