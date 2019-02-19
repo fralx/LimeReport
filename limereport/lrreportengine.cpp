@@ -83,7 +83,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage),
     m_previewLayoutDirection(Qt::LayoutDirectionAuto), m_designerFactory(0),
     m_previewScaleType(FitWidth), m_previewScalePercent(0), m_startTOCPage(0),
-    m_previewPageBackgroundColor(Qt::white)
+    m_previewPageBackgroundColor(Qt::gray)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
