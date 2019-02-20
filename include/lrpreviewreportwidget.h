@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QPrinter>
 #include "lrglobal.h"
 
 namespace LimeReport {
@@ -31,6 +32,8 @@ public:
     void setScaleType(const ScaleType &scaleType, int percent = 0);
     void setPreviewPageBackgroundColor(QColor color);
     QColor previewPageBackgroundColor();
+    QPrinter *defaultPrinter() const;
+    void setDefaultPrinter(QPrinter *defaultPrinter);
 public slots:
     void refreshPages();
     void zoomIn();
@@ -71,6 +74,8 @@ private:
     int       m_scalePercent;
     QTimer    m_resizeTimer;
     QColor    m_previewPageBackgroundColor;
+    QPrinter* m_defaultPrinter;
+    void printPages(QPrinter *printer);
 };
 
 } // namespace LimeReport

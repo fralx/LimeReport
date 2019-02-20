@@ -71,7 +71,8 @@ QList<QString> PreviewReportWidgetPrivate::aviableExporters()
 PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this)),
-    m_scaleType(FitWidth), m_scalePercent(0), m_previewPageBackgroundColor(Qt::white)
+    m_scaleType(FitWidth), m_scalePercent(0), m_previewPageBackgroundColor(Qt::white),
+    m_defaultPrinter(0)
 {
     ui->setupUi(this);
     d_ptr->m_report = report->d_ptr;
@@ -193,32 +194,41 @@ void PreviewReportWidget::lastPage()
     d_ptr->m_changingPage=false;
 }
 
-void PreviewReportWidget::print()
+void PreviewReportWidget::printPages(QPrinter* printer)
 {
+    if (!d_ptr->m_reportPages.isEmpty())
+        ReportEnginePrivate::printReport(
+            d_ptr->m_reportPages,
+            *printer
+        );
+    foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
+        d_ptr->m_previewPage->reactivatePageItem(pageItem);
+    }
+}
 
-    QPrinterInfo pi;
-    QPrinter printer(QPrinter::HighResolution);
+void PreviewReportWidget::print()
+{    
+    if (m_defaultPrinter){
+        printPages(m_defaultPrinter);
+    } else {
 
-    if (!pi.defaultPrinter().isNull())
+        QPrinterInfo pi;
+        QPrinter printer(QPrinter::HighResolution);
+
+        if (!pi.defaultPrinter().isNull())
 #ifdef HAVE_QT4
-            printer.setPrinterName(pi.defaultPrinter().printerName());
+                printer.setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #ifdef HAVE_QT5
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
-            printer.setPrinterName(pi.defaultPrinterName());
+                printer.setPrinterName(pi.defaultPrinterName());
 #else
-            printer.setPrinterName(pi.defaultPrinter().printerName());
+                printer.setPrinterName(pi.defaultPrinter().printerName());
 #endif
 #endif
-    QPrintDialog dialog(&printer,QApplication::activeWindow());
-    if (dialog.exec()==QDialog::Accepted){
-        if (!d_ptr->m_reportPages.isEmpty())
-            ReportEnginePrivate::printReport(
-                d_ptr->m_reportPages,
-                printer
-            );
-        foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
-            d_ptr->m_previewPage->reactivatePageItem(pageItem);
+        QPrintDialog dialog(&printer,QApplication::activeWindow());
+        if (dialog.exec()==QDialog::Accepted){
+            printPages(&printer);
         }
     }
 }
@@ -305,6 +315,16 @@ void PreviewReportWidget::setErrorMessages(const QStringList &value)
 void PreviewReportWidget::emitPageSet()
 {
     emit pagesSet(d_ptr->m_reportPages.count());
+}
+
+QPrinter *PreviewReportWidget::defaultPrinter() const
+{
+    return m_defaultPrinter;
+}
+
+void PreviewReportWidget::setDefaultPrinter(QPrinter *defaultPrinter)
+{
+    m_defaultPrinter = defaultPrinter;
 }
 
 ScaleType PreviewReportWidget::scaleType() const

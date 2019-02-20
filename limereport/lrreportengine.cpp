@@ -496,48 +496,54 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
 
 void ReportEnginePrivate::previewReport(PreviewHints hints)
 { 
-//    QTime start = QTime::currentTime();
-    try{
-        dataManager()->setDesignTime(false);
-        ReportPages pages = renderToPages();
-        dataManager()->setDesignTime(true);
-        if (pages.count()>0){
-            Q_Q(ReportEngine);
-            PreviewReportWindow* w = new PreviewReportWindow(q,0,settings());
-            w->setPreviewPageBackgroundColor(m_previewPageBackgroundColor);
-            w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
-            w->setAttribute(Qt::WA_DeleteOnClose,true);
-            w->setWindowModality(Qt::ApplicationModal);
-            //w->setWindowIcon(QIcon(":/report/images/main.ico"));
-            w->setWindowIcon(m_previewWindowIcon);
-            w->setWindowTitle(m_previewWindowTitle);
-            w->setSettings(settings());
-            w->setPages(pages);
-            w->setLayoutDirection(m_previewLayoutDirection);
+    previewReport(0, hints);
+}
 
-            if (!dataManager()->errorsList().isEmpty()){
-                w->setErrorMessages(dataManager()->errorsList());
+void ReportEnginePrivate::previewReport(QPrinter *printer, PreviewHints hints)
+{
+    //    QTime start = QTime::currentTime();
+        try{
+            dataManager()->setDesignTime(false);
+            ReportPages pages = renderToPages();
+            dataManager()->setDesignTime(true);
+            if (pages.count()>0){
+                Q_Q(ReportEngine);
+                PreviewReportWindow* w = new PreviewReportWindow(q,0,settings());
+                w->setPreviewPageBackgroundColor(m_previewPageBackgroundColor);
+                w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
+                w->setAttribute(Qt::WA_DeleteOnClose,true);
+                w->setWindowModality(Qt::ApplicationModal);
+                w->setDefaultPrinter(printer);
+                //w->setWindowIcon(QIcon(":/report/images/main.ico"));
+                w->setWindowIcon(m_previewWindowIcon);
+                w->setWindowTitle(m_previewWindowTitle);
+                w->setSettings(settings());
+                w->setPages(pages);
+                w->setLayoutDirection(m_previewLayoutDirection);
+
+                if (!dataManager()->errorsList().isEmpty()){
+                    w->setErrorMessages(dataManager()->errorsList());
+                }
+
+                if (!hints.testFlag(PreviewBarsUserSetting)){
+                    w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
+                    w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
+                    w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
+                }
+
+                w->setHideResultEditButton(resultIsEditable());
+                w->setStyleSheet(m_styleSheet);
+                m_activePreview = w;
+
+                w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
+
+                connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
+                w->exec();
             }
-
-            if (!hints.testFlag(PreviewBarsUserSetting)){
-                w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
-                w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
-                w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
-            }
-
-            w->setHideResultEditButton(resultIsEditable());
-            w->setStyleSheet(m_styleSheet);
-            m_activePreview = w;
-
-            w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
-
-            connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
-            w->exec();
+        } catch (ReportError &exception){
+            saveError(exception.what());
+            showError(exception.what());
         }
-    } catch (ReportError &exception){
-        saveError(exception.what());
-        showError(exception.what());
-    }
 }
 
 ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
@@ -1321,6 +1327,14 @@ void ReportEngine::previewReport(PreviewHints hints)
     if (m_settings)
         d->setSettings(m_settings);
     d->previewReport(hints);
+}
+
+void ReportEngine::previewReport(QPrinter *printer, PreviewHints hints)
+{
+    Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
+    d->previewReport(printer, hints);
 }
 
 void ReportEngine::designReport()

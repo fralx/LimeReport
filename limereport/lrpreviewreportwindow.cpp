@@ -209,6 +209,11 @@ void PreviewReportWindow::setPages(ReportPages pages)
     }
 }
 
+void PreviewReportWindow::setDefaultPrinter(QPrinter *printer)
+{
+    m_previewReportWidget->setDefaultPrinter(printer);
+}
+
 void PreviewReportWindow::exec()
 {
     bool deleteOnClose = testAttribute(Qt::WA_DeleteOnClose);

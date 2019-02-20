@@ -36,6 +36,7 @@
 #include <QComboBox>
 #include <QSettings>
 #include <QEventLoop>
+#include <QPrinter>
 
 #include "serializators/lrxmlreader.h"
 
@@ -61,6 +62,7 @@ public:
     ~PreviewReportWindow();
     void setReportReader(ItemsReaderIntf::Ptr reader);
     void setPages(ReportPages pages);
+    void setDefaultPrinter(QPrinter* printer);
     void exec();
     void initPreview(int pagesCount);
     void reloadPreview();
