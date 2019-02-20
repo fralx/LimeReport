@@ -1,33 +1,35 @@
-QT += core widgets
+include(../common.pri)
+QT += core
 QT -= gui
 
-CONFIG += c++11
-
-TARGET = console
+TARGET = limereport
 CONFIG += console
 CONFIG -= app_bundle
 
 TEMPLATE = app
-
 SOURCES += main.cpp
 
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-include(../common.pri)
+DESTDIR = $${DEST_BINS}
+
 INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
-LIBS += -L$${DEST_LIBS} -llimereport
+
+LIBS += -L$${DEST_LIBS}
+
+CONFIG(debug, debug|release) {
+    LIBS += -llimereportd
+} else {
+    LIBS += -llimereport
+}
 !contains(CONFIG, static_build){
     contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS} -lQtZint
+        LIBS += -L$${DEST_LIBS}
+        CONFIG(debug, debug|release) {
+                LIBS += -lQtZintd
+        } else {
+                LIBS += -lQtZint
+        }
     }
 }
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
