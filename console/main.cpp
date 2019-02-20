@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationVersion(LIMEREPORT_VERSION_STR);
     QStringList vars;
 
+#if QT_VERSION > QT_VERSION_CHECK(5, 2, 0)
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
@@ -60,7 +61,9 @@ int main(int argc, char *argv[])
     } else {
         report.printToPDF(parser.value(destinationOption));
     }
-
+#else
+    std::cerr<<"This demo intended for Qt 5.2 and higher\n";
+#endif
 //    QUuid uid = QUuid::createUuid();
 //    QString uidStr = uid.toString()+".pdf";
 //    report.printToPDF(uidStr);
