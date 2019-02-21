@@ -66,11 +66,13 @@ void ItemDesignIntf::setItemLocation(LocationType location)
             } else {
                 if (scene()){
                     PageItemDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene())->pageItem();
-                    QPointF parentPos = page->mapFromItem(parentItem(),x(),y());
-                    setParentItem(page);
-                    setParent(page);
-                    setPos(parentPos);
-                    emit itemLocationChanged(this, page);
+                    if (page){
+                        QPointF parentPos = page->mapFromItem(parentItem(),x(),y());
+                        setParentItem(page);
+                        setParent(page);
+                        setPos(parentPos);
+                        emit itemLocationChanged(this, page);
+                    }
                 }
             }
             notify("locationType",oldValue,location);

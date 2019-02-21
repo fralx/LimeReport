@@ -491,13 +491,16 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
         reportItem->setSize(placeSizeOnGrid(size));
         return reportItem;
     } else {
-        BaseDesignIntf *reportItem = addReportItem(itemType, pageItem(), pageItem());
-        reportItem->setPos(placePosOnGrid(pageItem()->mapFromScene(pos)));
-        reportItem->setSize(placeSizeOnGrid(size));
-        ItemDesignIntf* ii = dynamic_cast<ItemDesignIntf*>(reportItem);
-        if (ii)
-            ii->setItemLocation(ItemDesignIntf::Page);
-        return reportItem;
+        PageItemDesignIntf* page = pageItem() ? pageItem() : m_currentPage;
+        if (page){
+            BaseDesignIntf *reportItem = addReportItem(itemType, page, page);
+            reportItem->setPos(placePosOnGrid(page->mapFromScene(pos)));
+            reportItem->setSize(placeSizeOnGrid(size));
+            ItemDesignIntf* ii = dynamic_cast<ItemDesignIntf*>(reportItem);
+            if (ii)
+                ii->setItemLocation(ItemDesignIntf::Page);
+            return reportItem;
+        }
     }
 
     return 0;
@@ -1066,7 +1069,9 @@ PageItemDesignIntf* PageDesignIntf::getCurrentPage() const
 
 void PageDesignIntf::setCurrentPage(PageItemDesignIntf* currentPage)
 {
-    m_currentPage = currentPage;
+    if (m_currentPage != currentPage ){
+        m_currentPage = currentPage;
+    }
 }
 
 ReportSettings *PageDesignIntf::getReportSettings() const
