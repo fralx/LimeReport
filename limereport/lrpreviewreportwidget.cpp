@@ -68,6 +68,11 @@ QList<QString> PreviewReportWidgetPrivate::aviableExporters()
     return ExportersFactory::instance().map().keys();
 }
 
+void PreviewReportWidgetPrivate::startInsertTextItem()
+{
+    m_previewPage->startInsertMode("TextItem");
+}
+
 PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this)),
@@ -332,6 +337,11 @@ ScaleType PreviewReportWidget::scaleType() const
     return m_scaleType;
 }
 
+void PreviewReportWidget::startInsertTextItem()
+{
+    d_ptr->startInsertTextItem();
+}
+
 int PreviewReportWidget::scalePercent() const
 {
     return m_scalePercent;
@@ -388,6 +398,10 @@ void PreviewReportWidget::slotSliderMoved(int value)
 
     d_ptr->m_changingPage = true;
     emit pageChanged(d_ptr->m_currentPage);
+
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
+    if (page)
+        page->setCurrentPage(d_ptr->currentPage().data());
 
     d_ptr->m_changingPage = false;
     d_ptr->m_priorScrolValue = value;

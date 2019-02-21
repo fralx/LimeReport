@@ -100,6 +100,7 @@ public slots:
     void slotLastPage();
     void slotPrintToPDF();
     void slotPageChanged(int pageIndex);
+    void slotInsertNewTextItem();
 private slots:
     void on_actionFit_page_width_triggered();
     void on_actionFit_page_triggered();

@@ -21,6 +21,7 @@ public:
     void setPages( ReportPages pages);
     PageItemDesignIntf::Ptr currentPage();
     QList<QString> aviableExporters();
+    void startInsertTextItem();
 public:
     PageDesignIntf* m_previewPage;
     ReportPages     m_reportPages;

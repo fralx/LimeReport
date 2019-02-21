@@ -34,6 +34,7 @@ public:
     QColor previewPageBackgroundColor();
     QPrinter *defaultPrinter() const;
     void setDefaultPrinter(QPrinter *defaultPrinter);
+    void startInsertTextItem();
 public slots:
     void refreshPages();
     void zoomIn();

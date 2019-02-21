@@ -57,6 +57,7 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     m_pagesNavigator->setPrefix(tr("Page: "));
     m_pagesNavigator->setMinimumWidth(120);
     ui->toolBar->insertWidget(ui->actionNextPage,m_pagesNavigator);
+    ui->editModeTools->hide();
     ui->actionShowMessages->setVisible(false);
 
     connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
@@ -326,7 +327,9 @@ void PreviewReportWindow::on_actionEdit_Mode_triggered(bool checked)
     m_previewReportWidget->d_ptr->m_previewPage->setItemMode((checked)?ItemModes(DesignMode):PreviewMode);
     m_textAlignmentEditor->setVisible(checked);
     m_fontEditor->setVisible(checked);
-    //m_reportPages.at(m_currentPage)->setItemMode((checked)?DesignMode:PreviewMode);
+    if (checked)
+        ui->editModeTools->show();
+    else ui->editModeTools->hide();
 }
 
 void PreviewReportWindow::slotSelectionChanged()
@@ -403,6 +406,11 @@ void PreviewReportWindow::slotPageChanged(int pageIndex)
     m_pagesNavigator->setValue(pageIndex);
 }
 
+void PreviewReportWindow::slotInsertNewTextItem()
+{
+    m_previewReportWidget->startInsertTextItem();
+}
+
 void PreviewReportWindow::on_actionFit_page_width_triggered()
 {
     m_previewReportWidget->fitWidth();
@@ -439,6 +447,7 @@ void PreviewReportWindow::slotScalePercentChanged(int percent)
 void PreviewReportWindow::on_actionShowMessages_toggled(bool value)
 {
    m_previewReportWidget->setErrorsMesagesVisible(value);
+   m_previewReportWidget->startInsertTextItem();
 }
 
 void PreviewReportWindow::on_actionShow_Toolbar_triggered()

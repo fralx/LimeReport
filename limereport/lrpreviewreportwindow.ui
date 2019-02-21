@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
@@ -92,6 +92,21 @@
    <addaction name="separator"/>
    <addaction name="actionClosePreview"/>
    <addaction name="actionShowMessages"/>
+  </widget>
+  <widget class="QToolBar" name="editModeTools">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionInsertTextItem"/>
   </widget>
   <action name="actionPrint">
    <property name="icon">
@@ -279,11 +294,25 @@
     <string>Show toolbar</string>
    </property>
   </action>
+  <action name="actionInsertTextItem">
+   <property name="icon">
+    <iconset resource="items/items.qrc">
+     <normaloff>:/items/TextItem</normaloff>:/items/TextItem</iconset>
+   </property>
+   <property name="text">
+    <string>InsertTextItem</string>
+   </property>
+   <property name="toolTip">
+    <string>Add new TextItem</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="report.qrc"/>
+  <include location="items/items.qrc"/>
   <include location="databrowser/lrdatabrowser.qrc"/>
   <include location="report.qrc"/>
+  <include location="items/items.qrc"/>
   <include location="databrowser/lrdatabrowser.qrc"/>
  </resources>
  <connections>
@@ -431,6 +460,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionInsertTextItem</sender>
+   <signal>triggered()</signal>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
+   <slot>slotInsertNewTextItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slotNextPage()</slot>
@@ -441,5 +486,6 @@
   <slot>slotFirstPage()</slot>
   <slot>slotLastPage()</slot>
   <slot>slotPrintToPDF()</slot>
+  <slot>slotInsertNewTextItem()</slot>
  </slots>
 </ui>
