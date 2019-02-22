@@ -215,6 +215,7 @@ private:
     QVector<BandDesignIntf*> m_columnedBandItems;
     unsigned long long m_currentNameIndex;
     bool            m_newPageStarted;
+    bool            m_lostHeadersMoved;
 
 };
 } // namespace LimeReport

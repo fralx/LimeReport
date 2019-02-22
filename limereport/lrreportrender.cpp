@@ -148,7 +148,8 @@ void ReportRender::renameChildItems(BaseDesignIntf *item){
 
 ReportRender::ReportRender(QObject *parent)
     :QObject(parent), m_renderPageItem(0), m_pageCount(0),
-    m_lastRenderedHeader(0), m_lastDataBand(0), m_lastRenderedFooter(0), m_currentColumn(0), m_newPageStarted(false)
+    m_lastRenderedHeader(0), m_lastDataBand(0), m_lastRenderedFooter(0),
+    m_currentColumn(0), m_newPageStarted(false), m_lostHeadersMoved(false)
 {
     initColumns();
 }
@@ -490,7 +491,11 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                  bandClone->columnsFillDirection()==BandDesignIntf::VerticalUniform))
                             {
                                 startNewColumn();
-                                if (patternBand->bandHeader() && patternBand->bandHeader()->columnsCount()>1){
+                                if (patternBand->bandHeader() &&
+                                    patternBand->bandHeader()->columnsCount()>1 &&
+                                    !m_lostHeadersMoved &&
+                                    patternBand->bandNestingLevel() == 0
+                                ){
                                     renderBand(patternBand->bandHeader(), 0, mode);
                                 }
                             } else {
@@ -1164,7 +1169,15 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
     if (band->columnsCount()>1 &&
         (band->columnsFillDirection()==BandDesignIntf::Vertical ||
          band->columnsFillDirection()==BandDesignIntf::VerticalUniform)){
-       startNewColumn();
+        startNewColumn();
+        if (patternBand->bandHeader() &&
+            patternBand->bandHeader()->columnsCount()>1 &&
+            !m_lostHeadersMoved &&
+            patternBand->bandNestingLevel() == 0
+        ){
+            renderBand(patternBand->bandHeader(), 0, StartNewPageAsNeeded);
+        }
+
     } else {
         savePage();
         startNewPage();
@@ -1332,11 +1345,15 @@ void ReportRender::checkLostHeadersOnPrevPage()
     }
 
     if (lostHeaders.size() > 0){
+        m_lostHeadersMoved = true;
         qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
         }
+    } else {
+        m_lostHeadersMoved = false;
     }
+
 
 }
 
@@ -1365,10 +1382,13 @@ void ReportRender::checkLostHeadersInPrevColumn()
     }
 
     if (lostHeaders.size() > 0){
+        m_lostHeadersMoved = true;
         qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
         }
+    } else {
+        m_lostHeadersMoved = false;
     }
 }
 
