@@ -70,6 +70,8 @@ public:
     SelectionMarker(QGraphicsItem* parent=0);
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
@@ -204,7 +206,7 @@ public:
     void setItemPos(const QPointF &newPos);
     void setItemPos(qreal x, qreal y);
 
-    void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
+    virtual void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
     ItemMode itemMode() const {return m_itemMode;}
 
     virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
@@ -305,10 +307,11 @@ protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent* event);
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    //void virtual   hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void  hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
     void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     virtual void geometryChangedEvent(QRectF newRect, QRectF oldRect);
@@ -415,7 +418,7 @@ private:
     BaseDesignIntf* m_patternItem;
     bool    m_fillInSecondPass;
     bool    m_watermark;
-
+    bool    m_hovered;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);

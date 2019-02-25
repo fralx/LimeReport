@@ -304,6 +304,12 @@ bool BandDesignIntf::isUnique() const
     return true;
 }
 
+void BandDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
+{
+    ItemsContainerDesignInft::setItemMode(mode);
+    updateBandMarkerGeometry();
+}
+
 QString BandDesignIntf::datasourceName(){
     return m_dataSourceName;
 }
@@ -728,14 +734,19 @@ BandDesignIntf* BandDesignIntf::findParentBand()
     return 0;
 }
 
+void BandDesignIntf::updateBandMarkerGeometry()
+{
+    if (parentItem() && m_bandMarker){
+        QPointF sp = parentItem()->mapToScene(pos());
+        m_bandMarker->setPos((sp.x()-m_bandMarker->boundingRect().width()),sp.y());
+        m_bandMarker->setHeight(rect().height());
+    }
+}
+
 void BandDesignIntf::geometryChangedEvent(QRectF, QRectF )
 {
     if (((itemMode()&DesignMode) || (itemMode()&EditMode))&&parentItem()){
-        QPointF sp = parentItem()->mapToScene(pos());
-        if (m_bandMarker){
-            m_bandMarker->setPos((sp.x()-m_bandMarker->boundingRect().width()),sp.y());
-            m_bandMarker->setHeight(rect().height());
-        }
+        updateBandMarkerGeometry();
     }
     foreach (BaseDesignIntf* item, childBaseItems()) {
         if (item->itemAlign()!=DesignedItemAlign){

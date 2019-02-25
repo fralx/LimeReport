@@ -164,6 +164,12 @@ QRectF PageItemDesignIntf::boundingRect() const
     }
 }
 
+void PageItemDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
+{
+    ItemsContainerDesignInft::setItemMode(mode);
+    relocateBands();
+}
+
 void PageItemDesignIntf::clear()
 {
     foreach(QGraphicsItem* item, childItems()){

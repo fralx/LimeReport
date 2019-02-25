@@ -142,6 +142,7 @@ public:
     virtual QString bandTitle() const;
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
+    void setItemMode(BaseDesignIntf::ItemMode mode);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
     void restoreItems();
     void recalcItems(DataSourceManager* dataManager);
@@ -250,6 +251,8 @@ public:
     void setBackgroundOpacity(int value);
     int bootomSpace() const;
     void setBootomSpace(int bootomSpace);
+    void updateBandMarkerGeometry();
+
 signals:
     void bandRendered(BandDesignIntf* band);
     void preparedForRender();

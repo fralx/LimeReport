@@ -90,6 +90,7 @@ public:
     virtual QColor pageBorderColor() const;
     virtual QColor gridColor() const;
     virtual QRectF boundingRect() const;
+    void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
     void clear();
     const BandsList& childBands() const {return m_bands;}
     BandDesignIntf * bandByType(BandDesignIntf::BandsType bandType) const;
