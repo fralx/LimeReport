@@ -52,7 +52,7 @@ namespace LimeReport
 
 BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, QGraphicsItem *parent) :
     QObject(owner), QGraphicsItem(parent),
-    m_resizeHandleSize(Const::RESIZE_HANDLE_SIZE),
+    m_resizeHandleSize(Const::RESIZE_HANDLE_SIZE*2),
     m_selectionPenSize(Const::SELECTION_PEN_SIZE),
     m_possibleResizeDirectionFlags(ResizeTop | ResizeBottom | ResizeLeft | ResizeRight),
     m_possibleMoveDirectionFlags(All),
@@ -1136,6 +1136,7 @@ void BaseDesignIntf::drawSelection(QPainter *painter, QRectF /*rect*/) const
     QPen pen(Qt::red,m_selectionPenSize);
     painter->setPen(pen);
     painter->setBrush(QBrush(Qt::red));
+    painter->setOpacity(1);
     const int markerSize = Const::RESIZE_HANDLE_SIZE;
     painter->drawRect(QRectF(-markerSize,-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().right()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
