@@ -62,8 +62,12 @@ public:
     qreal width(){return m_rect.width();}
     qreal height(){return m_rect.height();}
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void  mousePressEvent(QGraphicsSceneMouseEvent *event);
     void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+    void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+    void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 private:
     QRectF m_rect;
     QColor m_color;

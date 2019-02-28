@@ -47,6 +47,35 @@ enum ItemModes{ DesignMode=1, PreviewMode=2, PrintMode=4, EditMode=8, LayoutEdit
 
 class ReportEnginePrivate;
 class PageDesignIntf;
+class  BaseDesignIntf;
+
+class Marker : public QGraphicsItem{
+public:
+    Marker(QGraphicsItem* parent = 0, BaseDesignIntf* owner = 0): QGraphicsItem(parent), m_owner(owner){}
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
+    void setColor(QColor color){m_color=color;}
+    QRectF rect() const {return m_rect;}
+    QColor color() const {return  m_color;}
+    BaseDesignIntf* owner() const {return m_owner;}
+private:
+    QRectF m_rect;
+    QColor m_color;
+    BaseDesignIntf* m_owner;
+};
+
+class SelectionMarker : public Marker{
+public:
+    SelectionMarker(QGraphicsItem* parent=0, BaseDesignIntf* owner = 0);
+protected:
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+};
+
 class DataSourceManager;
 class ReportRender;
 
@@ -151,6 +180,7 @@ public:
     virtual QPainterPath shape() const;
 
     void setFixedPos(bool fixedPos);
+    bool isFixedPos(){return  m_fixedPos;}
     int resizeHandleSize() const;
 
     void    setMMFactor(qreal mmFactor);
@@ -252,7 +282,8 @@ public:
     void setFillInSecondPass(bool fillInSecondPass);
     bool isWatermark() const;
     virtual void setWatermark(bool watermark);
-
+    void updateSelectionMarker();
+    void turnOnSelectionMarker(bool value);
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
@@ -385,6 +416,8 @@ private:
     bool    m_watermark;
     bool    m_hovered;
     bool    m_joinMarkerOn;
+    SelectionMarker* m_selectionMarker;
+    Marker*          m_joinMarker;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);

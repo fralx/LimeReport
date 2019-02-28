@@ -39,7 +39,9 @@ namespace LimeReport {
 
 BandMarker::BandMarker(BandDesignIntf *band, QGraphicsItem* parent)
     :QGraphicsItem(parent),m_rect(0,0,30,30),m_band(band)
-{}
+{
+    setAcceptHoverEvents(true);
+}
 
 QRectF BandMarker::boundingRect() const
 {
@@ -52,6 +54,13 @@ void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**opt
     painter->setOpacity(Const::BAND_MARKER_OPACITY);
     painter->fillRect(boundingRect(),m_color);
     painter->setOpacity(1);
+    painter->setPen(QPen(QBrush(Qt::white),2));
+    painter->fillRect(QRectF(
+                boundingRect().bottomLeft().x(),
+                boundingRect().bottomLeft().y()-4,
+                boundingRect().width(),4), Qt::white
+    );
+
     painter->setRenderHint(QPainter::Antialiasing);
     qreal size = (boundingRect().width()<boundingRect().height()) ? boundingRect().width() : boundingRect().height();
     QRectF r = QRectF(0,0,size,size);
@@ -62,6 +71,7 @@ void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**opt
         painter->setBrush(LimeReport::Const::SELECTION_COLOR);
         painter->drawEllipse(r.adjusted(7,7,-7,-7));
     }
+
     painter->restore();
 }
 
@@ -102,6 +112,31 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void BandMarker::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     m_band->contextMenuEvent(event);
+}
+
+void BandMarker::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+{
+    if (QRectF(0, height()-10, width(), 10).contains(event->pos())){
+       setCursor(Qt::SizeVerCursor);
+    } else {
+        unsetCursor();
+    }
+}
+
+void BandMarker::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    qreal delta = event->pos().y() - event->lastPos().y();
+    if (hasCursor()){
+        m_band->setHeight(m_band->height() + delta);
+    } else {
+        if (!m_band->isFixedPos())
+            m_band->setItemPos(QPointF(m_band->pos().x(),m_band->pos().y()+delta));
+    }
+}
+
+void BandMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    m_band->posChanged(m_band, m_band->pos(), m_band->pos());
 }
 
 BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, QObject* owner, QGraphicsItem *parent) :
