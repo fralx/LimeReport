@@ -132,7 +132,7 @@ TRANSLATIONS_PATH = $$PWD/translations
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES *= HAVE_QT5
-    QT *= printsupport widgets qml
+    QT *= printsupport widgets
     contains(QT,uitools){
         message(uitools)
         DEFINES *= HAVE_UI_LOADER
@@ -140,6 +140,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     contains(CONFIG, qjsengine){
         message(qjsengine)
         DEFINES *= USE_QJSENGINE
+        QT *= qml
     }
 }
 
