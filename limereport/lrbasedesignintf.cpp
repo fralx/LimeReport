@@ -82,7 +82,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_watermark(false),
     m_hovered(false),
     m_joinMarkerOn(false),
-    m_selectionMarker(0)
+    m_selectionMarker(0),
+    m_fillTransparentInDesignMode(true)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -430,7 +431,7 @@ void BaseDesignIntf::prepareRect(QPainter *painter, const QStyleOptionGraphicsIt
             qreal o = (itemMode() & DesignMode) ? 0.5 : qreal(m_opacity) / 100;
             painter->setOpacity(o);
             painter->fillRect(r, brush);
-        } else if (itemMode() & DesignMode){
+        } else if ((itemMode() & DesignMode) && fillTransparentInDesignMode()){
             painter->setOpacity(0.1);
             painter->fillRect(r, QBrush(QPixmap(":/report/images/empty")));
         }
@@ -719,6 +720,16 @@ void BaseDesignIntf::updatePossibleDirectionFlags(){
     case DesignedItemAlign:
        break;
     }
+}
+
+bool BaseDesignIntf::fillTransparentInDesignMode() const
+{
+    return m_fillTransparentInDesignMode;
+}
+
+void BaseDesignIntf::setFillTransparentInDesignMode(bool fillTransparentInDesignMode)
+{
+    m_fillTransparentInDesignMode = fillTransparentInDesignMode;
 }
 
 bool BaseDesignIntf::fillInSecondPass() const

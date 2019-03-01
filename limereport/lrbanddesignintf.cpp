@@ -54,11 +54,11 @@ void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**opt
     painter->setOpacity(Const::BAND_MARKER_OPACITY);
     painter->fillRect(boundingRect(),m_color);
     painter->setOpacity(1);
-    painter->setPen(QPen(QBrush(Qt::white),2));
+    painter->setPen(QPen(QBrush(Qt::lightGray),2));
     painter->fillRect(QRectF(
                 boundingRect().bottomLeft().x(),
                 boundingRect().bottomLeft().y()-4,
-                boundingRect().width(),4), Qt::white
+                boundingRect().width(),4), Qt::lightGray
     );
 
     painter->setRenderHint(QPainter::Antialiasing);
@@ -175,6 +175,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
         if (parentItem) setWidth(parentItem->width());
     }
 
+    setBackgroundMode(BGMode::TransparentMode);
+    setFillTransparentInDesignMode(false);
     setHeight(100);
     setFixedPos(true);
     setFlag(QGraphicsItem::ItemClipsChildrenToShape);

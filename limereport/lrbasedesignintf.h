@@ -295,6 +295,9 @@ public:
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
 
+    bool fillTransparentInDesignMode() const;
+    void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
+
 protected:
 
     //ICollectionContainer
@@ -418,6 +421,7 @@ private:
     bool    m_joinMarkerOn;
     SelectionMarker* m_selectionMarker;
     Marker*          m_joinMarker;
+    bool    m_fillTransparentInDesignMode;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);

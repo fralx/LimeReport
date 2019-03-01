@@ -2481,7 +2481,7 @@ CommandIf::Ptr BandMoveFromToCommand::create(PageDesignIntf* page, int from, int
 
 bool BandMoveFromToCommand::doIt()
 {
-    if (page() && from != to) {
+    if (page() && page()->pageItem() && from != to) {
         page()->pageItem()->moveBandFromTo(from, to);
         return true;
     }
