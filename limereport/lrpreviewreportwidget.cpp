@@ -177,6 +177,7 @@ void PreviewReportWidget::firstPage()
         d_ptr->m_currentPage=1;
         ui->graphicsView->ensureVisible(d_ptr->calcPageShift(), 0, 0);
         emit pageChanged(d_ptr->m_currentPage);
+        activateCurrentPage();
     }
     d_ptr->m_changingPage=false;
 }
@@ -188,6 +189,7 @@ void PreviewReportWidget::priorPage()
        d_ptr->m_currentPage--;
        ui->graphicsView->ensureVisible(d_ptr->calcPageShift(), 0, 0);
        emit pageChanged(d_ptr->m_currentPage);
+       activateCurrentPage();
     }
    d_ptr->m_changingPage=false;
 }
@@ -199,6 +201,7 @@ void PreviewReportWidget::nextPage()
         d_ptr->m_currentPage++;
         ui->graphicsView->ensureVisible(d_ptr->calcPageShift(), 0, 0);
         emit pageChanged(d_ptr->m_currentPage);
+        activateCurrentPage();
     }
     d_ptr->m_changingPage=false;
 }
@@ -210,6 +213,7 @@ void PreviewReportWidget::lastPage()
         d_ptr->m_currentPage=d_ptr->m_reportPages.count();
         ui->graphicsView->ensureVisible(d_ptr->calcPageShift(), 0, 0);
         emit pageChanged(d_ptr->m_currentPage);
+        activateCurrentPage();
     }
     d_ptr->m_changingPage=false;
 }
@@ -269,6 +273,7 @@ void PreviewReportWidget::pageNavigatorChanged(int value)
     d_ptr->m_changingPage = true;
     if ((!d_ptr->m_reportPages.isEmpty())&&(d_ptr->m_reportPages.count() >= value) && value>0){
         d_ptr->m_currentPage = value;
+        activateCurrentPage();
         ui->graphicsView->ensureVisible(d_ptr->calcPageShift(), 0, 0);
     }
     d_ptr->m_changingPage=false;
