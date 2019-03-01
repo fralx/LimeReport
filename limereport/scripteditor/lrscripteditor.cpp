@@ -54,14 +54,16 @@ void ScriptEditor::setReportEngine(ReportEnginePrivateInterface* reportEngine)
 {
     m_reportEngine = reportEngine;
     DataSourceManager* dm = m_reportEngine->dataManager();
-    initEditor(dm);
+    if (dm) initEditor(dm);
+    else ui->tabWidget->setVisible(false);
 }
 
 void ScriptEditor::setReportPage(PageDesignIntf* page)
 {
     m_page = page;
     DataSourceManager* dm = page->datasourceManager();
-    initEditor(dm);
+    if (dm) initEditor(dm);
+    else ui->tabWidget->setVisible(false);
 }
 
 void ScriptEditor::setPageBand(BandDesignIntf* band)

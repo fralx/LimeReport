@@ -336,7 +336,7 @@ QStringList ScriptEngineManager::functionsNames()
 }
 
 void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
-    if (m_dataManager != dataManager){
+    if (dataManager && m_dataManager != dataManager){
         m_dataManager =  dataManager;
         if (m_dataManager){
             foreach(QString func, m_dataManager->groupFunctionNames()){

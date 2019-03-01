@@ -240,7 +240,7 @@ public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
 protected:
-    PageDesignIntf* createPage(const QString& pageName="");
+    PageDesignIntf* createPage(const QString& pageName="", bool preview = false);
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:

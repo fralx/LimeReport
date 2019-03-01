@@ -57,6 +57,7 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     m_pagesNavigator->setPrefix(tr("Page: "));
     m_pagesNavigator->setMinimumWidth(120);
     ui->toolBar->insertWidget(ui->actionNextPage,m_pagesNavigator);
+    ui->editModeTools->hide();
     ui->actionShowMessages->setVisible(false);
 
     connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
@@ -81,10 +82,13 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     ui->toolBar->insertWidget(ui->actionZoomOut, m_scalePercent);
     initPercentCombobox();
     
-//    connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
     connect(ui->actionShowMessages, SIGNAL(triggered()), this, SLOT(slotShowErrors()));
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+    connect(m_previewReportWidget, SIGNAL(pageChanged(int)), this, SLOT(slotCurrentPageChanged(int)));
+    connect(m_previewReportWidget, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
+            this, SLOT(slotItemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));
+
     restoreSetting();
     selectStateIcon();
 }
@@ -109,10 +113,13 @@ void PreviewReportWindow::restoreSetting()
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
 
-        int x = screenWidth*0.1;
-        int y = screenHeight*0.1;
+        int x = static_cast<int>(screenWidth*0.1);
+        int y = static_cast<int>(screenHeight*0.1);
 
-        resize(screenWidth*0.8, screenHeight*0.8);
+        resize(
+            static_cast<int>(screenWidth*0.8),
+            static_cast<int>(screenHeight*0.8)
+        );
         move(x, y);
     }
     v = settings()->value("State");
@@ -260,6 +267,7 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 void PreviewReportWindow::showEvent(QShowEvent *)
 {
     m_fontEditor->setVisible(ui->actionEdit_Mode->isChecked());
+    ui->editModeTools->setVisible(false);
     m_textAlignmentEditor->setVisible(ui->actionEdit_Mode->isChecked());
     switch (m_previewScaleType) {
     case FitWidth:
@@ -326,7 +334,9 @@ void PreviewReportWindow::on_actionEdit_Mode_triggered(bool checked)
     m_previewReportWidget->d_ptr->m_previewPage->setItemMode((checked)?ItemModes(DesignMode):PreviewMode);
     m_textAlignmentEditor->setVisible(checked);
     m_fontEditor->setVisible(checked);
-    //m_reportPages.at(m_currentPage)->setItemMode((checked)?DesignMode:PreviewMode);
+    if (checked)
+        ui->editModeTools->show();
+    else ui->editModeTools->hide();
 }
 
 void PreviewReportWindow::slotSelectionChanged()
@@ -403,6 +413,24 @@ void PreviewReportWindow::slotPageChanged(int pageIndex)
     m_pagesNavigator->setValue(pageIndex);
 }
 
+void PreviewReportWindow::slotInsertNewTextItem()
+{
+    m_previewReportWidget->startInsertTextItem();
+    ui->actionSelection_Mode->setChecked(false);
+}
+
+void PreviewReportWindow::slotActivateItemSelectionMode()
+{
+    m_previewReportWidget->activateItemSelectionMode();
+    ui->actionSelection_Mode->setChecked(true);
+    ui->actionInsertTextItem->setChecked(false);
+}
+
+void PreviewReportWindow::slotDeleteSelectedItems()
+{
+    m_previewReportWidget->deleteSelectedItems();
+}
+
 void PreviewReportWindow::on_actionFit_page_width_triggered()
 {
     m_previewReportWidget->fitWidth();
@@ -439,6 +467,7 @@ void PreviewReportWindow::slotScalePercentChanged(int percent)
 void PreviewReportWindow::on_actionShowMessages_toggled(bool value)
 {
    m_previewReportWidget->setErrorsMesagesVisible(value);
+   m_previewReportWidget->startInsertTextItem();
 }
 
 void PreviewReportWindow::on_actionShow_Toolbar_triggered()
@@ -447,7 +476,15 @@ void PreviewReportWindow::on_actionShow_Toolbar_triggered()
     writeSetting();
 }
 
+void PreviewReportWindow::slotCurrentPageChanged(int page)
+{
+    slotActivateItemSelectionMode();
+}
+
+void PreviewReportWindow::slotItemInserted(PageDesignIntf *, QPointF, const QString&)
+{
+    slotActivateItemSelectionMode();
+}
+
 }// namespace LimeReport
-
-
 

@@ -176,6 +176,8 @@ namespace LimeReport {
 
         void setPropertyToSelectedItems(const char *name, const QVariant &value);
 
+        PageItemDesignIntf* getCurrentPage() const;
+        void setCurrentPage(PageItemDesignIntf* currentPage);
 
     protected:
 
@@ -314,7 +316,7 @@ namespace LimeReport {
         JoinType         m_joinType;
         bool             m_magneticMovement;
         ReportSettings*  m_reportSettings;
-
+        PageItemDesignIntf* m_currentPage;
     };
 
     class AbstractPageCommand : public CommandIf{

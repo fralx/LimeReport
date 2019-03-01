@@ -21,6 +21,9 @@ public:
     void setPages( ReportPages pages);
     PageItemDesignIntf::Ptr currentPage();
     QList<QString> aviableExporters();
+    void startInsertTextItem();
+    void activateItemSelectionMode();
+    void deleteSelectedItems();
 public:
     PageDesignIntf* m_previewPage;
     ReportPages     m_reportPages;

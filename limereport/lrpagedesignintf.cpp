@@ -91,7 +91,8 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_movedItem(0),
     m_joinItem(0),
     m_magneticMovement(false),
-    m_reportSettings(0)
+    m_reportSettings(0),
+    m_currentPage(0)
 {
     m_reportEditor = dynamic_cast<ReportEnginePrivate *>(parent);
     updatePageRect();
@@ -240,7 +241,9 @@ void PageDesignIntf::startInsertMode(const QString &ItemType)
     m_insertItemType = ItemType;
     m_itemInsertRect = this->addRect(0, 0, 200, 50);
     m_itemInsertRect->setVisible(false);
-    m_itemInsertRect->setParentItem(pageItem());
+    PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
+    if (page)
+        m_itemInsertRect->setParentItem(page);
 }
 
 void PageDesignIntf::startEditMode()
@@ -253,11 +256,12 @@ void PageDesignIntf::startEditMode()
 
 PageItemDesignIntf *PageDesignIntf::pageItem()
 {
-    return m_pageItem.data();
+    return m_currentPage ? m_currentPage : m_pageItem.data();
 }
 
 void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
 {
+    if (pageItem.isNull()) return;
     if (!m_pageItem.isNull()) {
         removeItem(m_pageItem.data());
         m_pageItem->setParent(0);
@@ -334,10 +338,11 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect->setRect(selectionRect);
     }
 
-    if ((m_insertMode) && (pageItem()->rect().contains(pageItem()->mapFromScene(event->scenePos())))) {
+    PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
+    if ((m_insertMode) && (page && page->rect().contains(page->mapFromScene(event->scenePos())))) {
         if (!m_itemInsertRect->isVisible()) m_itemInsertRect->setVisible(true);
-        qreal posY = div(pageItem()->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
-        qreal posX = div(pageItem()->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
+        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
+        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
         m_itemInsertRect->setPos(posX,posY);
         if (magneticMovement()){
             rectMoved(
@@ -348,8 +353,9 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                 )
             );
         }
+    } else {
+    	if (m_insertMode) m_itemInsertRect->setVisible(false);
     }
-    else { if (m_insertMode) m_itemInsertRect->setVisible(false); }
 
     QGraphicsScene::mouseMoveEvent(event);
 }
@@ -490,21 +496,20 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
     BandDesignIntf *band = bandAt(pos);
     if (band) {
         BaseDesignIntf *reportItem = addReportItem(itemType, band, band);
-//        QPointF insertPos = band->mapFromScene(pos);
-//        insertPos = QPointF(div(insertPos.x(), horizontalGridStep()).quot * horizontalGridStep(),
-//                          div(insertPos.y(), verticalGridStep()).quot * verticalGridStep());
-
         reportItem->setPos(placePosOnGrid(band->mapFromScene(pos)));
         reportItem->setSize(placeSizeOnGrid(size));
         return reportItem;
     } else {
-        BaseDesignIntf *reportItem = addReportItem(itemType, pageItem(), pageItem());
-        reportItem->setPos(placePosOnGrid(pageItem()->mapFromScene(pos)));
-        reportItem->setSize(placeSizeOnGrid(size));
-        ItemDesignIntf* ii = dynamic_cast<ItemDesignIntf*>(reportItem);
-        if (ii)
-            ii->setItemLocation(ItemDesignIntf::Page);
-        return reportItem;
+        PageItemDesignIntf* page = pageItem() ? pageItem() : m_currentPage;
+        if (page){
+            BaseDesignIntf *reportItem = addReportItem(itemType, page, page);
+            reportItem->setPos(placePosOnGrid(page->mapFromScene(pos)));
+            reportItem->setSize(placeSizeOnGrid(size));
+            ItemDesignIntf* ii = dynamic_cast<ItemDesignIntf*>(reportItem);
+            if (ii)
+                ii->setItemLocation(ItemDesignIntf::Page);
+            return reportItem;
+        }
     }
 
     return 0;
@@ -1063,6 +1068,22 @@ void PageDesignIntf::changeSelectedGroupProperty(const QString &name, const QVar
         }
         m_executingCommand = false;
         saveCommand(cm, false);
+    }
+}
+
+PageItemDesignIntf* PageDesignIntf::getCurrentPage() const
+{
+    return m_currentPage;
+}
+
+void PageDesignIntf::setCurrentPage(PageItemDesignIntf* currentPage)
+{
+    if (m_currentPage != currentPage ){
+        if (m_currentPage) m_currentPage->setItemMode(PreviewMode);
+        m_currentPage = currentPage;
+        if (m_itemMode == DesignMode){
+            m_currentPage->setItemMode(DesignMode);
+        }
     }
 }
 
@@ -1749,13 +1770,14 @@ void PageDesignIntf::removeAllItems()
 void PageDesignIntf::setItemMode(BaseDesignIntf::ItemMode state)
 {
     m_itemMode = state;
-    foreach(QGraphicsItem * item, items()) {
-        BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
+//    foreach(QGraphicsItem * item, items()) {
+//        BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
 
-        if (reportItem) {
-            reportItem->setItemMode(itemMode());
-        }
-    }
+//        if (reportItem) {
+//            reportItem->setItemMode(itemMode());
+//        }
+//    }
+    if (m_currentPage) m_currentPage->setItemMode(state);
 }
 
 BaseDesignIntf* PageDesignIntf::reportItemByName(const QString &name)
@@ -2490,7 +2512,8 @@ bool BandMoveFromToCommand::doIt()
 
 void BandMoveFromToCommand::undoIt()
 {
-    if (page()) page()->pageItem()->moveBandFromTo(to, from);
+    if (page() && page()->pageItem())
+        page()->pageItem()->moveBandFromTo(to, from);
 }
 
 }
