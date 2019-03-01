@@ -164,6 +164,12 @@ QRectF PageItemDesignIntf::boundingRect() const
     }
 }
 
+void PageItemDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
+{
+    ItemsContainerDesignInft::setItemMode(mode);
+    relocateBands();
+}
+
 void PageItemDesignIntf::clear()
 {
     foreach(QGraphicsItem* item, childItems()){
@@ -473,7 +479,7 @@ void PageItemDesignIntf::relocateBands()
 {
     if (isLoading()) return;
 
-    int bandSpace = (itemMode() & DesignMode)?4:0;
+    int bandSpace = (itemMode() & DesignMode)?0:0;
 
     QVector<qreal> posByColumn;
 

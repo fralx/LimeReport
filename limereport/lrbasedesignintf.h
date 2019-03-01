@@ -51,23 +51,23 @@ class  BaseDesignIntf;
 
 class Marker : public QGraphicsItem{
 public:
-    Marker(QGraphicsItem* parent=0):QGraphicsItem(parent),m_object(NULL){}
+    Marker(QGraphicsItem* parent = 0, BaseDesignIntf* owner = 0): QGraphicsItem(parent), m_owner(owner){}
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
     void setColor(QColor color){m_color=color;}
-    QRectF rect() const;
-    QColor color() const;
-    BaseDesignIntf *object() const;
+    QRectF rect() const {return m_rect;}
+    QColor color() const {return  m_color;}
+    BaseDesignIntf* owner() const {return m_owner;}
 private:
     QRectF m_rect;
     QColor m_color;
-    BaseDesignIntf* m_object;
+    BaseDesignIntf* m_owner;
 };
 
 class SelectionMarker : public Marker{
 public:
-    SelectionMarker(QGraphicsItem* parent=0);
+    SelectionMarker(QGraphicsItem* parent=0, BaseDesignIntf* owner = 0);
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -180,6 +180,7 @@ public:
     virtual QPainterPath shape() const;
 
     void setFixedPos(bool fixedPos);
+    bool isFixedPos(){return  m_fixedPos;}
     int resizeHandleSize() const;
 
     void    setMMFactor(qreal mmFactor);
@@ -204,7 +205,7 @@ public:
     void setItemPos(const QPointF &newPos);
     void setItemPos(qreal x, qreal y);
 
-    void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
+    virtual void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
     ItemMode itemMode() const {return m_itemMode;}
 
     virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
@@ -281,7 +282,8 @@ public:
     void setFillInSecondPass(bool fillInSecondPass);
     bool isWatermark() const;
     virtual void setWatermark(bool watermark);
-
+    void updateSelectionMarker();
+    void turnOnSelectionMarker(bool value);
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
@@ -292,6 +294,9 @@ public:
     Q_INVOKABLE qreal getAbsolutePosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
+
+    bool fillTransparentInDesignMode() const;
+    void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
 
 protected:
 
@@ -305,10 +310,11 @@ protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent* event);
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    //void virtual   hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void  hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
     void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     virtual void geometryChangedEvent(QRectF newRect, QRectF oldRect);
@@ -331,7 +337,7 @@ protected:
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
     void drawRenderModeBorder(QPainter *painter, QRectF rect) const;
     void drawResizeZone(QPainter*);
-    void drawSelection(QPainter* painter, QRectF) const;
+    void drawMarker(QPainter* painter, QColor color) const;
     void drawPinArea(QPainter* painter) const;
 
     void initResizeZones();
@@ -358,12 +364,10 @@ protected:
     qreal calcAbsolutePosX(qreal currentOffset, BaseDesignIntf* item);
 
 private:
-    void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPossibleCursor(int cursorFlags);
     void updatePossibleDirectionFlags();
-    void turnOnSelectionMarker(bool value);
 private:
     QPointF m_startPos;
     int     m_resizeHandleSize;
@@ -398,8 +402,6 @@ private:
     ItemMode m_itemMode;
 
     ObjectState m_objectState;
-    SelectionMarker* m_selectionMarker;
-    Marker* m_joinMarker;
 
     BrushStyle  m_backgroundBrushStyle;
     QColor      m_backgroundColor;
@@ -415,7 +417,11 @@ private:
     BaseDesignIntf* m_patternItem;
     bool    m_fillInSecondPass;
     bool    m_watermark;
-
+    bool    m_hovered;
+    bool    m_joinMarkerOn;
+    SelectionMarker* m_selectionMarker;
+    Marker*          m_joinMarker;
+    bool    m_fillTransparentInDesignMode;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
