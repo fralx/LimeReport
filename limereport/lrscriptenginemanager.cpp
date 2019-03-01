@@ -1881,6 +1881,7 @@ QObject* TableBuilder::addRow()
     checkBaseLayout();
     if (m_baseLayout && m_patternLayout){
         HorizontalLayout* newRow = new HorizontalLayout(m_baseLayout, m_baseLayout);
+        newRow->setLayoutSpacing(m_horizontalLayout->layoutSpacing());
         for(int i = 0; i < m_horizontalLayout->childrenCount(); ++i){
             BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_patternLayout->at(i));
             BaseDesignIntf* cloneItem = item->cloneItem(item->itemMode(), newRow, newRow);

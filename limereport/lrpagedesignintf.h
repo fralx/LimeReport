@@ -166,6 +166,7 @@ namespace LimeReport {
         bool isUpdating(){return m_updating;}
         void endUpdate();
 
+        void rectMoved(QRectF itemRect, BaseDesignIntf* container = 0);
         void itemMoved(BaseDesignIntf* item);
         bool magneticMovement() const;
         void setMagneticMovement(bool magneticMovement);
@@ -275,7 +276,7 @@ namespace LimeReport {
                                         const QVariant& oldPropertyValue,
                                         const QVariant& newPropertyValue);
         void changeSelectedGroupProperty(const QString& name,const QVariant& value);
-
+        void activateItemToJoin(QRectF itemRect, QList<ItemProjections>& items);
     private:
         enum JoinType{Width, Height};
         LimeReport::PageItemDesignIntf::Ptr m_pageItem;

@@ -344,8 +344,17 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
         qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
         m_itemInsertRect->setPos(posX,posY);
+        if (magneticMovement()){
+            rectMoved(
+                QRectF(m_itemInsertRect->pos().x(),
+                       m_itemInsertRect->pos().y(),
+                       m_itemInsertRect->boundingRect().width(),
+                       m_itemInsertRect->boundingRect().height()
+                )
+            );
+        }
     } else {
-        if (m_insertMode) m_itemInsertRect->setVisible(false);
+    	if (m_insertMode) m_itemInsertRect->setVisible(false);
     }
 
     QGraphicsScene::mouseMoveEvent(event);
@@ -1119,9 +1128,53 @@ void PageDesignIntf::endUpdate()
     emit pageUpdateFinished(this);
 }
 
+
+void PageDesignIntf::activateItemToJoin(QRectF itemRect, QList<ItemProjections>& items){
+    QRectF r1(itemRect.x(), itemRect.y()-50, itemRect.width(), itemRect.height()+100);
+    QRectF r2(itemRect.x()-50, itemRect.y(), itemRect.width()+100, itemRect.height());
+    qreal maxSquare = 0;
+
+    if (m_joinItem) {
+        m_joinItem->turnOnJoinMarker(false);
+        m_joinItem = 0;
+    }
+
+    foreach(ItemProjections p, items){
+        qreal tmpSquare = qMax(p.square(r1)/itemRect.width(),p.square(r2)/itemRect.height());
+        if (tmpSquare>maxSquare) {
+            maxSquare = tmpSquare;
+            m_joinItem = p.item();
+            if (p.square(r1)/itemRect.width() > p.square(r2) / itemRect.height())
+                m_joinType = Width;
+            else
+                m_joinType = Height;
+        }
+    }
+
+    if (m_joinItem) m_joinItem->turnOnJoinMarker(true);
+}
+
+void PageDesignIntf::rectMoved(QRectF itemRect, BaseDesignIntf* container){
+    if (!container){
+        container = bandAt(QPointF(itemRect.topLeft()));
+        if (!container) container = this->pageItem();
+    }
+
+    if (container){
+        m_projections.clear();
+        foreach(BaseDesignIntf* bi, container->childBaseItems()){
+            m_projections.append(ItemProjections(bi));
+        }
+    }
+
+    activateItemToJoin(itemRect, m_projections);
+
+}
+
 void PageDesignIntf::itemMoved(BaseDesignIntf *item)
 {
     if (m_movedItem!=item){
+        m_movedItem = item;
         BaseDesignIntf* curItem = dynamic_cast<BaseDesignIntf*>(item->parentItem()); ;
         while (curItem){
             m_movedItemContainer = dynamic_cast<BandDesignIntf*>(curItem);
@@ -1139,28 +1192,29 @@ void PageDesignIntf::itemMoved(BaseDesignIntf *item)
         }
     }
 
-    QRectF r1(item->pos().x(),item->pos().y()-50,item->width(),item->height()+100);
-    QRectF r2(item->pos().x()-50,item->pos().y(),item->width()+100,item->height());
-    qreal maxSquare = 0;
+    activateItemToJoin(item->geometry(), m_projections);
+//    QRectF r1(item->pos().x(),item->pos().y()-50,item->width(),item->height()+100);
+//    QRectF r2(item->pos().x()-50,item->pos().y(),item->width()+100,item->height());
+//    qreal maxSquare = 0;
 
-    if (m_joinItem) {
-        m_joinItem->turnOnJoinMarker(false);
-        m_joinItem = 0;
-    }
+//    if (m_joinItem) {
+//        m_joinItem->turnOnJoinMarker(false);
+//        m_joinItem = 0;
+//    }
 
-    foreach(ItemProjections p, m_projections){
-        qreal tmpSquare = qMax(p.square(r1)/item->width(),p.square(r2)/item->height());
-        if (tmpSquare>maxSquare) {
-            maxSquare = tmpSquare;
-            m_joinItem = p.item();
-            if (p.square(r1)/item->width()>p.square(r2)/item->height())
-                m_joinType = Width;
-            else
-                m_joinType = Height;
-        }
-    }
+//    foreach(ItemProjections p, m_projections){
+//        qreal tmpSquare = qMax(p.square(r1)/item->width(),p.square(r2)/item->height());
+//        if (tmpSquare>maxSquare) {
+//            maxSquare = tmpSquare;
+//            m_joinItem = p.item();
+//            if (p.square(r1)/item->width()>p.square(r2)/item->height())
+//                m_joinType = Width;
+//            else
+//                m_joinType = Height;
+//        }
+//    }
 
-    if (m_joinItem) m_joinItem->turnOnJoinMarker(true);
+//    if (m_joinItem) m_joinItem->turnOnJoinMarker(true);
 
 }
 
@@ -2444,7 +2498,7 @@ CommandIf::Ptr BandMoveFromToCommand::create(PageDesignIntf* page, int from, int
 
 bool BandMoveFromToCommand::doIt()
 {
-    if (page() && from != to) {
+    if (page() && page()->pageItem() && from != to) {
         page()->pageItem()->moveBandFromTo(from, to);
         return true;
     }

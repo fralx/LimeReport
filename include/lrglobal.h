@@ -52,8 +52,8 @@ namespace LimeReport {
 
 
 namespace Const{
-    int const RESIZE_HANDLE_SIZE = 10;
-    int const SELECTION_PEN_SIZE = 4;
+    int const RESIZE_HANDLE_SIZE = 5;
+    int const SELECTION_PEN_SIZE = 1;
     int const MINIMUM_ITEM_WIDTH = 2*RESIZE_HANDLE_SIZE;
     int const MINIMUM_ITEM_HEIGHT = 2*RESIZE_HANDLE_SIZE;
     double const RESIZE_ZONE_OPACITY = 0.5;
