@@ -82,10 +82,13 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     ui->toolBar->insertWidget(ui->actionZoomOut, m_scalePercent);
     initPercentCombobox();
     
-//    connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
     connect(ui->actionShowMessages, SIGNAL(triggered()), this, SLOT(slotShowErrors()));
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+    connect(m_previewReportWidget, SIGNAL(pageChanged(int)), this, SLOT(slotCurrentPageChanged(int)));
+    connect(m_previewReportWidget, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
+            this, SLOT(slotItemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));
+
     restoreSetting();
     selectStateIcon();
 }
@@ -110,10 +113,13 @@ void PreviewReportWindow::restoreSetting()
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
 
-        int x = screenWidth*0.1;
-        int y = screenHeight*0.1;
+        int x = static_cast<int>(screenWidth*0.1);
+        int y = static_cast<int>(screenHeight*0.1);
 
-        resize(screenWidth*0.8, screenHeight*0.8);
+        resize(
+            static_cast<int>(screenWidth*0.8),
+            static_cast<int>(screenHeight*0.8)
+        );
         move(x, y);
     }
     v = settings()->value("State");
@@ -410,6 +416,19 @@ void PreviewReportWindow::slotPageChanged(int pageIndex)
 void PreviewReportWindow::slotInsertNewTextItem()
 {
     m_previewReportWidget->startInsertTextItem();
+    ui->actionSelection_Mode->setChecked(false);
+}
+
+void PreviewReportWindow::slotActivateItemSelectionMode()
+{
+    m_previewReportWidget->activateItemSelectionMode();
+    ui->actionSelection_Mode->setChecked(true);
+    ui->actionInsertTextItem->setChecked(false);
+}
+
+void PreviewReportWindow::slotDeleteSelectedItems()
+{
+    m_previewReportWidget->deleteSelectedItems();
 }
 
 void PreviewReportWindow::on_actionFit_page_width_triggered()
@@ -455,6 +474,16 @@ void PreviewReportWindow::on_actionShow_Toolbar_triggered()
 {
     setToolBarVisible(!ui->toolBar->isHidden());
     writeSetting();
+}
+
+void PreviewReportWindow::slotCurrentPageChanged(int page)
+{
+    slotActivateItemSelectionMode();
+}
+
+void PreviewReportWindow::slotItemInserted(PageDesignIntf *, QPointF, const QString&)
+{
+    slotActivateItemSelectionMode();
 }
 
 }// namespace LimeReport

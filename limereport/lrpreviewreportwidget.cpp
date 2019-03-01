@@ -53,6 +53,7 @@ void PreviewReportWidgetPrivate::setPages(ReportPages pages)
         m_changingPage = false;
         q_ptr->initPreview();
         q_ptr->emitPageSet();
+        q_ptr->activateCurrentPage();
     }
 }
 
@@ -71,6 +72,16 @@ QList<QString> PreviewReportWidgetPrivate::aviableExporters()
 void PreviewReportWidgetPrivate::startInsertTextItem()
 {
     m_previewPage->startInsertMode("TextItem");
+}
+
+void PreviewReportWidgetPrivate::activateItemSelectionMode()
+{
+    m_previewPage->startEditMode();
+}
+
+void PreviewReportWidgetPrivate::deleteSelectedItems()
+{
+    m_previewPage->deleteSelected();
 }
 
 PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) :
@@ -135,6 +146,10 @@ void PreviewReportWidget::initPreview()
     ui->graphicsView->centerOn(0, 0);
     ui->graphicsView->scene()->setBackgroundBrush(QColor(m_previewPageBackgroundColor));
     setScalePercent(d_ptr->m_scalePercent);
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
+    if (page)
+        connect(page, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
+                this, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));
 }
 
 void PreviewReportWidget::setErrorsMesagesVisible(bool visible)
@@ -342,6 +357,16 @@ void PreviewReportWidget::startInsertTextItem()
     d_ptr->startInsertTextItem();
 }
 
+void PreviewReportWidget::activateItemSelectionMode()
+{
+    d_ptr->activateItemSelectionMode();
+}
+
+void PreviewReportWidget::deleteSelectedItems()
+{
+    d_ptr->deleteSelectedItems();
+}
+
 int PreviewReportWidget::scalePercent() const
 {
     return m_scalePercent;
@@ -380,8 +405,16 @@ void PreviewReportWidget::refreshPages()
     }
 }
 
+void PreviewReportWidget::activateCurrentPage()
+{
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
+    if (page)
+        page->setCurrentPage(d_ptr->currentPage().data());
+}
+
 void PreviewReportWidget::slotSliderMoved(int value)
 {
+    int curPage = d_ptr->m_currentPage;
     if (ui->graphicsView->verticalScrollBar()->minimum()==value){
         d_ptr->m_currentPage = 1;
     } else if (ui->graphicsView->verticalScrollBar()->maximum()==value){
@@ -396,14 +429,13 @@ void PreviewReportWidget::slotSliderMoved(int value)
         }
     }
 
-    d_ptr->m_changingPage = true;
-    emit pageChanged(d_ptr->m_currentPage);
+    if (curPage != d_ptr->m_currentPage){
+        d_ptr->m_changingPage = true;
+        emit pageChanged(d_ptr->m_currentPage);
+        activateCurrentPage();
+        d_ptr->m_changingPage = false;
+    }
 
-    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
-    if (page)
-        page->setCurrentPage(d_ptr->currentPage().data());
-
-    d_ptr->m_changingPage = false;
     d_ptr->m_priorScrolValue = value;
 }
 

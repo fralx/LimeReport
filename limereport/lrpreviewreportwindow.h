@@ -101,6 +101,8 @@ public slots:
     void slotPrintToPDF();
     void slotPageChanged(int pageIndex);
     void slotInsertNewTextItem();
+    void slotActivateItemSelectionMode();
+    void slotDeleteSelectedItems();
 private slots:
     void on_actionFit_page_width_triggered();
     void on_actionFit_page_triggered();
@@ -109,6 +111,8 @@ private slots:
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
+    void slotCurrentPageChanged(int page);
+    void slotItemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();

@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
@@ -106,7 +106,10 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionSelection_Mode"/>
    <addaction name="actionInsertTextItem"/>
+   <addaction name="separator"/>
+   <addaction name="actionDelete_Item"/>
   </widget>
   <action name="actionPrint">
    <property name="icon">
@@ -295,6 +298,9 @@
    </property>
   </action>
   <action name="actionInsertTextItem">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="items/items.qrc">
      <normaloff>:/items/TextItem</normaloff>:/items/TextItem</iconset>
@@ -304,6 +310,33 @@
    </property>
    <property name="toolTip">
     <string>Add new TextItem</string>
+   </property>
+  </action>
+  <action name="actionSelection_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/editMode</normaloff>:/report/images/editMode</iconset>
+   </property>
+   <property name="text">
+    <string>Selection Mode</string>
+   </property>
+  </action>
+  <action name="actionDelete_Item">
+   <property name="icon">
+    <iconset resource="report.qrc">
+     <normaloff>:/report/images/delete</normaloff>:/report/images/delete</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Item</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
  </widget>
@@ -476,6 +509,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSelection_Mode</sender>
+   <signal>triggered()</signal>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
+   <slot>slotActivateItemSelectionMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDelete_Item</sender>
+   <signal>triggered()</signal>
+   <receiver>LimeReport::PreviewReportWindow</receiver>
+   <slot>slotDeleteSelectedItems()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slotNextPage()</slot>
@@ -487,5 +552,7 @@
   <slot>slotLastPage()</slot>
   <slot>slotPrintToPDF()</slot>
   <slot>slotInsertNewTextItem()</slot>
+  <slot>slotActivateItemSelectionMode()</slot>
+  <slot>slotDeleteSelectedItems()</slot>
  </slots>
 </ui>

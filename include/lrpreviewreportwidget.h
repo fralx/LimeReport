@@ -15,6 +15,7 @@ class PreviewReportWidget;
 class PreviewReportWidgetPrivate;
 class ReportEnginePrivate;
 class ReportEngine;
+class PageDesignIntf;
 
 class LIMEREPORT_EXPORT PreviewReportWidget : public QWidget
 {
@@ -35,6 +36,10 @@ public:
     QPrinter *defaultPrinter() const;
     void setDefaultPrinter(QPrinter *defaultPrinter);
     void startInsertTextItem();
+    void activateItemSelectionMode();
+    void deleteSelectedItems();
+    void activateCurrentPage();
+
 public slots:
     void refreshPages();
     void zoomIn();
@@ -58,6 +63,7 @@ signals:
     void pageChanged(int page);
     void scalePercentChanged(int percent);
     void pagesSet(int pageCount);
+    void itemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
 private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);
