@@ -105,6 +105,7 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (!(event->modifiers() & Qt::ControlModifier))
             m_band->scene()->clearSelection();
         m_band->setSelected(true);
+        m_oldBandPos = m_band->pos();
         update(0,0,boundingRect().width(),boundingRect().width());
     }
 }
@@ -136,7 +137,7 @@ void BandMarker::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void BandMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-    m_band->posChanged(m_band, m_band->pos(), m_band->pos());
+    m_band->posChanged(m_band, m_band->pos(), m_oldBandPos);
 }
 
 BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, QObject* owner, QGraphicsItem *parent) :
