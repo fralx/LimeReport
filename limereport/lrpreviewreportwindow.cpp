@@ -261,6 +261,7 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 void PreviewReportWindow::showEvent(QShowEvent *)
 {
     m_fontEditor->setVisible(ui->actionEdit_Mode->isChecked());
+    ui->editModeTools->setVisible(false);
     m_textAlignmentEditor->setVisible(ui->actionEdit_Mode->isChecked());
     switch (m_previewScaleType) {
     case FitWidth:
@@ -457,6 +458,4 @@ void PreviewReportWindow::on_actionShow_Toolbar_triggered()
 }
 
 }// namespace LimeReport
-
-
 

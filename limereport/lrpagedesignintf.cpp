@@ -256,7 +256,7 @@ void PageDesignIntf::startEditMode()
 
 PageItemDesignIntf *PageDesignIntf::pageItem()
 {
-    return m_pageItem.data();
+    return m_currentPage ? m_currentPage : m_pageItem.data();
 }
 
 void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
@@ -1079,7 +1079,11 @@ PageItemDesignIntf* PageDesignIntf::getCurrentPage() const
 void PageDesignIntf::setCurrentPage(PageItemDesignIntf* currentPage)
 {
     if (m_currentPage != currentPage ){
+        if (m_currentPage) m_currentPage->setItemMode(PreviewMode);
         m_currentPage = currentPage;
+        if (m_itemMode == DesignMode){
+            m_currentPage->setItemMode(DesignMode);
+        }
     }
 }
 
@@ -1766,13 +1770,14 @@ void PageDesignIntf::removeAllItems()
 void PageDesignIntf::setItemMode(BaseDesignIntf::ItemMode state)
 {
     m_itemMode = state;
-    foreach(QGraphicsItem * item, items()) {
-        BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
+//    foreach(QGraphicsItem * item, items()) {
+//        BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
 
-        if (reportItem) {
-            reportItem->setItemMode(itemMode());
-        }
-    }
+//        if (reportItem) {
+//            reportItem->setItemMode(itemMode());
+//        }
+//    }
+    if (m_currentPage) m_currentPage->setItemMode(state);
 }
 
 BaseDesignIntf* PageDesignIntf::reportItemByName(const QString &name)
@@ -2507,7 +2512,8 @@ bool BandMoveFromToCommand::doIt()
 
 void BandMoveFromToCommand::undoIt()
 {
-    if (page()) page()->pageItem()->moveBandFromTo(to, from);
+    if (page() && page()->pageItem())
+        page()->pageItem()->moveBandFromTo(to, from);
 }
 
 }

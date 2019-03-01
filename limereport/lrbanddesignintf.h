@@ -72,6 +72,7 @@ private:
     QRectF m_rect;
     QColor m_color;
     BandDesignIntf* m_band;
+    QPointF m_oldBandPos;
 };
 
 class BandNameLabel : public QGraphicsItem{
