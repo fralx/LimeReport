@@ -155,12 +155,13 @@ QObject *ReportEnginePrivate::elementAt(const QString &, int index)
     return pageAt(index);
 }
 
-PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName)
+PageDesignIntf *ReportEnginePrivate::createPage(const QString &pageName, bool preview)
 {
     PageDesignIntf* page =new PageDesignIntf();
     page->setObjectName(pageName);
     page->pageItem()->setObjectName("Report"+pageName);
-    page->setReportEditor(this);
+    if (!preview)
+        page->setReportEditor(this);
     page->setReportSettings(&m_reportSettings);
     return page;
 }
@@ -185,7 +186,7 @@ bool ReportEnginePrivate::deletePage(PageDesignIntf *page){
 
 PageDesignIntf *ReportEnginePrivate::createPreviewPage()
 {
-    return createPage();
+    return createPage("preview",true);
 }
 
 int ReportEnginePrivate::elementsCount(const QString &)
