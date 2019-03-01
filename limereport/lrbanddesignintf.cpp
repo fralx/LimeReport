@@ -775,8 +775,7 @@ BandDesignIntf* BandDesignIntf::findParentBand()
 void BandDesignIntf::updateBandMarkerGeometry()
 {
     if (parentItem() && m_bandMarker){
-        QPointF sp = parentItem()->mapToScene(pos());
-        m_bandMarker->setPos((sp.x()-m_bandMarker->boundingRect().width()),sp.y());
+        m_bandMarker->setPos(pos().x()-m_bandMarker->width(),pos().y());
         m_bandMarker->setHeight(rect().height());
     }
 }
