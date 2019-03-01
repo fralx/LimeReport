@@ -778,7 +778,6 @@ void BaseDesignIntf::turnOnSelectionMarker(bool value)
         m_selectionMarker->setColor(selectionMarkerColor());
         updateSelectionMarker();
         m_selectionMarker->setVisible(true);
-        m_selectionMarker->setZValue(10000);
     } else {
         delete m_selectionMarker;
         m_selectionMarker = 0;
