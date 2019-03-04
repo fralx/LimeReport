@@ -128,6 +128,8 @@ public:
     void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);    
     void moveBandFromTo(int from, int to);
 
+    QList<BandDesignIntf *> createBandGroup(int beginIndex, int endIndex);
+
 protected slots:
     void bandDeleted(QObject* band);
     void bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos);
