@@ -2284,15 +2284,20 @@ CommandIf::Ptr BandMoveFromToCommand::create(PageDesignIntf* page, int from, int
 bool BandMoveFromToCommand::doIt()
 {
     if (page() && from != to) {
-        page()->pageItem()->moveBandFromTo(from, to);
-        return true;
+        BandDesignIntf* fromBand = page()->pageItem()->bandByIndex(from);
+        reverceTo = fromBand->minChildIndex();
+        if (fromBand){
+            page()->pageItem()->moveBandFromTo(from, to);
+            reverceFrom = fromBand->bandIndex();
+            return true;
+        }
     }
     return false;
 }
 
 void BandMoveFromToCommand::undoIt()
 {
-    if (page()) page()->pageItem()->moveBandFromTo(to, from);
+    if (page()) page()->pageItem()->moveBandFromTo(reverceFrom, reverceTo);
 }
 
 }
