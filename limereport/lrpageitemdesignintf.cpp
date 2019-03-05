@@ -771,47 +771,68 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
 
 }
 
+QList<BandDesignIntf*> PageItemDesignIntf::createBandGroup(int beginIndex, int endIndex)
+{
+    QList<BandDesignIntf*> result;
+    foreach(BandDesignIntf* curBand, m_bands){
+        if ( curBand->bandIndex() >= beginIndex && curBand->bandIndex() <= endIndex)
+            result.append(curBand);
+    }
+    qSort(result.begin(), result.end(), bandIndexLessThen);
+    return result;
+}
+
 void PageItemDesignIntf::moveBandFromTo(int from, int to)
 {
-    BandDesignIntf* firstBand = 0;
-    BandDesignIntf* secondBand = 0;
 
-    int firstIndex = std::min(from,to);
-    int secondIndex = std::max(from,to);
-    QList<BandDesignIntf*> bandsToMove;
-    int moveIndex = 0;
+    BandDesignIntf* fromBand = 0;
+    BandDesignIntf* toBand = 0;
 
     foreach(BandDesignIntf* band, bands()){
         if (band->bandIndex() == from){
-            firstBand = band;
+            fromBand = band->rootBand(band->parentBand());
         }
         if (band->bandIndex() == to){
-            secondBand = band;
-            bandsToMove.append(band);
+            toBand = band->rootBand(band->parentBand());
         }
+        if (fromBand && toBand) break;
     }
 
-    foreach(BandDesignIntf* curBand, m_bands){
-        if ( curBand->bandIndex() > firstIndex && curBand->bandIndex() < secondIndex &&
-            curBand->bandType() == firstBand->bandType() &&
-            curBand != firstBand
-        )
-            bandsToMove.append(curBand);
-    }
-    qSort(bandsToMove.begin(), bandsToMove.end(), bandIndexLessThen);
+    if (!fromBand || !toBand) return;
 
-
-    if (from > to){
-        firstBand->changeBandIndex(secondBand->minChildIndex(), true);
-        moveIndex = firstBand->maxChildIndex()+1;
+    int beginIndex = 0;
+    int endIndex = 0;
+    if (from < to){
+        beginIndex = fromBand->maxChildIndex()+1;
+        endIndex = toBand->maxChildIndex();
     } else {
-        moveIndex = firstBand->minChildIndex();
-        firstBand->changeBandIndex(secondBand->minChildIndex(), true);
+        beginIndex = toBand->minChildIndex();
+        endIndex = fromBand->minChildIndex()-1;
     }
 
-    foreach(BandDesignIntf* curBand, bandsToMove){
-       curBand->changeBandIndex(moveIndex,true);
-       moveIndex = curBand->maxChildIndex() + 1;
+    QList<BandDesignIntf*> firstGroup = createBandGroup(fromBand->minChildIndex(), fromBand->maxChildIndex());
+    QList<BandDesignIntf*> secondGroup = createBandGroup(beginIndex, endIndex);
+
+    if (from < to){
+        int currentIndex = fromBand->minChildIndex();
+        foreach(BandDesignIntf* band, secondGroup){
+            band->setBandIndex(currentIndex);
+            currentIndex++;
+        }
+        foreach(BandDesignIntf* band, firstGroup){
+            band->setBandIndex(currentIndex);
+            currentIndex++;
+        }
+    } else {
+        int currentIndex = toBand->minChildIndex();
+        foreach(BandDesignIntf* band, firstGroup){
+            band->setBandIndex(currentIndex);
+            currentIndex++;
+        }
+        foreach(BandDesignIntf* band, secondGroup){
+            band->setBandIndex(currentIndex);
+            currentIndex++;
+        }
     }
 
     relocateBands();

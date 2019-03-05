@@ -183,6 +183,9 @@ public:
     int maxChildIndex(BandDesignIntf::BandsType bandType) const;
     int maxChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>()) const;
 
+    int rootIndex(BandDesignIntf *parentBand);
+    BandDesignIntf* rootBand(BandDesignIntf *parentBand);
+
     BandDesignIntf* parentBand() const {return m_parentBand;}
 
     QList<BandDesignIntf*> childBands() const{return m_childBands;}

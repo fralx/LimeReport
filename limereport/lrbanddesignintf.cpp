@@ -425,10 +425,23 @@ int BandDesignIntf::maxChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands) 
     return curIndex;
 }
 
+int BandDesignIntf::rootIndex(BandDesignIntf* parentBand)
+{
+    return rootBand(parentBand)->bandIndex();
+}
+
+BandDesignIntf *BandDesignIntf::rootBand(BandDesignIntf* parentBand)
+{
+    BandDesignIntf* currentBand = this;
+    while (currentBand->parentBand() && currentBand->parentBand() != parentBand)
+        currentBand = currentBand->parentBand();
+    return currentBand;
+}
+
 int BandDesignIntf::minChildIndex(BandDesignIntf::BandsType bandType){
     int curIndex = bandIndex();
     foreach(BandDesignIntf* childBand, childBands()){
-        if (curIndex>childBand->bandIndex() && (childBand->bandType()>bandType)){
+        if (curIndex > childBand->bandIndex() && (childBand->bandType() > bandType)){
             curIndex = childBand->bandIndex();
         }
     }
@@ -440,7 +453,7 @@ int BandDesignIntf::minChildIndex(QSet<BandDesignIntf::BandsType> ignoredBands)
     int curIndex = bandIndex();
     foreach(BandDesignIntf* childBand, childBands()){
         if (!ignoredBands.contains(childBand->bandType()) && childBand->bandIndex() < bandIndex()){
-            curIndex = std::min(curIndex, childBand->maxChildIndex(ignoredBands));
+            curIndex = std::min(curIndex, childBand->minChildIndex(ignoredBands));
         }
     }
     return curIndex;

@@ -467,6 +467,8 @@ namespace LimeReport {
     private:
         int from;
         int to;
+        int reverceFrom;
+        int reverceTo;
     };
 
 
