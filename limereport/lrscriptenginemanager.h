@@ -165,6 +165,8 @@ private :
     QByteArray m_description;
 };
 
+typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
+
 class ScriptEngineContext : public QObject, public ICollectionContainer
 {
     Q_OBJECT
@@ -204,7 +206,9 @@ public:
     void setTableOfContents(TableOfContents* tableOfContents);
     void dropChanges(){ m_hasChanges = false;}
     bool hasChanges(){ return m_hasChanges;}
-#ifdef HAVE_UI_LOADER    
+    ReportPages* reportPages() const;
+    void setReportPages(ReportPages* value);
+#ifdef HAVE_UI_LOADER        
 signals:
     void    dialogNameChanged(QString dialogName);
     void    dialogDeleted(QString dialogName);
@@ -231,6 +235,7 @@ private:
     PageItemDesignIntf* m_currentPage;
     TableOfContents* m_tableOfContents;
     bool m_hasChanges;
+    ReportPages* m_reportPages;
 };
 
 class JSFunctionDesc{
@@ -366,6 +371,8 @@ public:
     Q_INVOKABLE QVariant getFieldByRowIndex(const QString& fieldName, int rowIndex);
     Q_INVOKABLE void     reopenDatasource(const QString& datasourceName);
     Q_INVOKABLE QVariant color(const QString& color){ return  QColor(color);}
+    Q_INVOKABLE void     addBookmark(const QString& uniqKey, const QString& content);
+    Q_INVOKABLE int      findPageIndexByBookmark(const QString &uniqKey);
     Q_INVOKABLE void     addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent = 0);
     Q_INVOKABLE void     clearTableOfContents();
     Q_INVOKABLE QFont    font(const QString& family, int pointSize = -1, bool bold = false, bool italic = false, bool underLine = false);
@@ -417,9 +424,12 @@ public:
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
     QVariant evaluateScript(const QString &script);
+    void    addBookMark(const QString &uniqKey, const QString &content);
+    int     findPageIndexByBookmark(const QString& uniqKey);
     void    addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent);
     void    clearTableOfContents();
     ScriptValueType moveQObjectToScript(QObject* object, const QString objectName);
+
 protected:
     void updateModel();
     bool containsFunction(const QString &functionName);
@@ -440,6 +450,8 @@ private:
     bool createGetFieldFunction();
     bool createGetFieldByKeyFunction();
     bool createGetFieldByRowIndex();
+    bool createAddBookmarkFunction();
+    bool createFindPageIndexByBookmark();
     bool createAddTableOfContentsItemFunction();
     bool createClearTableOfContentsFunction();
     bool createReopenDatasourceFunction();

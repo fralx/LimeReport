@@ -545,17 +545,38 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     return QVariant();
 }
 
-void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
-{
+void ScriptEngineManager::addBookMark(const QString& uniqKey, const QString& content){
     Q_ASSERT(m_context != 0);
     if (m_context){
         BandDesignIntf* currentBand = m_context->getCurrentBand();
-        m_context->tableOfContents()->setItem(uniqKey, content, 0, indent);
         if (currentBand)
             currentBand->addBookmark(uniqKey, content);
         else if (m_context->getCurrentPage()) {
             m_context->getCurrentPage()->addBookmark(uniqKey, content);
         }
+    }
+
+}
+
+int ScriptEngineManager::findPageIndexByBookmark(const QString &uniqKey)
+{
+    for (int i=0; i < m_context->reportPages()->size(); ++i){
+        if (m_context->reportPages()->at(i)->bookmarks().contains(uniqKey))
+            return i+1;
+        foreach(BandDesignIntf* band, m_context->reportPages()->at(i)->bands()){
+            if (band->bookmarks().contains(uniqKey))
+                return i+1;
+        }
+    }
+    return -1;
+}
+
+void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
+{
+    Q_ASSERT(m_context != 0);
+    if (m_context){
+        m_context->tableOfContents()->setItem(uniqKey, content, 0, indent);
+        addBookMark(uniqKey, content);
     }
 }
 
@@ -835,6 +856,36 @@ bool ScriptEngineManager::createGetFieldByRowIndex()
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createAddBookmarkFunction()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("addBookmark");
+    fd.setDescription("addBookmark(\""+tr("Unique identifier")+" \""+tr("Content")+"\")");
+    fd.setScriptWrapper(QString("function addBookmark(uniqKey, content){"
+                                "return %1.addBookmark(uniqKey, content);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createFindPageIndexByBookmark()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("findPageIndexByBookmark");
+    fd.setDescription("findPageIndexByBookmark(\""+tr("Unique identifier")+"\")");
+    fd.setScriptWrapper(QString("function findPageIndexByBookmark(uniqKey){"
+                                "return %1.findPageIndexByBookmark(uniqKey);}"
+                               ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
+                        );
+    return addFunction(fd);
+}
+
 bool ScriptEngineManager::createAddTableOfContentsItemFunction()
 {
     JSFunctionDesc fd;
@@ -916,6 +967,8 @@ ScriptEngineManager::ScriptEngineManager()
     QScriptValue fontConstructor = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
     m_scriptEngine->globalObject().setProperty("QFont", fontConstructor);
 #endif
+    createAddBookmarkFunction();
+    createFindPageIndexByBookmark();
     createAddTableOfContentsItemFunction();
     createClearTableOfContentsFunction();
     createReopenDatasourceFunction();
@@ -1202,6 +1255,16 @@ QObject* ScriptEngineContext::elementAt(const QString& collectionName, int index
 void ScriptEngineContext::collectionLoadFinished(const QString& collectionName)
 {
     Q_UNUSED(collectionName);
+}
+
+ReportPages* ScriptEngineContext::reportPages() const
+{
+    return m_reportPages;
+}
+
+void ScriptEngineContext::setReportPages(ReportPages *value)
+{
+    m_reportPages = value;
 }
 
 #ifdef HAVE_UI_LOADER
@@ -1620,6 +1683,16 @@ void ScriptFunctionsManager::reopenDatasource(const QString& datasourceName)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->reopenDatasource(datasourceName);
+}
+
+void ScriptFunctionsManager::addBookmark(const QString &uniqKey, const QString &content)
+{
+    scriptEngineManager()->addBookMark(uniqKey, content);
+}
+
+int ScriptFunctionsManager::findPageIndexByBookmark(const QString &uniqKey)
+{
+    return scriptEngineManager()->findPageIndexByBookmark(uniqKey);
 }
 
 void ScriptFunctionsManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)

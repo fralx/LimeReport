@@ -1191,6 +1191,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 
             activateLanguage(m_reportLanguage);
             emit renderStarted();
+            m_scriptEngineContext->setReportPages(&result);
 
             for(int i = 0; i < m_renderingPages.count(); ++i){
                 PageItemDesignIntf* page = m_renderingPages.at(i);
