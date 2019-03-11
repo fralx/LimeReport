@@ -291,6 +291,8 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
         if (curWidth<pageItem->width()) curWidth=pageItem->width();
     }
     setSceneRect(QRectF(0,0,curWidth,curHeight).adjusted(-10*Const::mmFACTOR,-10*Const::mmFACTOR,10*Const::mmFACTOR,10*Const::mmFACTOR));
+    if (m_reportPages.count()>0)
+        m_currentPage = m_reportPages.at(0).data();
 
 }
 
