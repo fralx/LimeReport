@@ -76,8 +76,8 @@ void LRVariableDialog::showEvent(QShowEvent *)
     ui->leName->setText(m_variableName);
     static int enumIndex = LimeReport::Enums::staticMetaObject.indexOfEnumerator("VariableDataType");
     QMetaEnum enumerator = LimeReport::Enums::staticMetaObject.enumerator(enumIndex);
-    if (!m_variableName.isEmpty()&&m_variablesContainer&&m_variablesContainer->containsVariable(m_variableName)){        
-        ui->leValue->setText(m_variablesContainer->variable(m_variableName).toString());
+    if (!m_variableName.isEmpty()&&m_variablesContainer&&m_variablesContainer->containsVariable(m_variableName)){
+        ui->leValue->setPlainText(m_variablesContainer->variable(m_variableName).toString());
 #ifdef HAVE_QT5
         ui->cbbType->setCurrentText(enumerator.valueToKey(m_variablesContainer->variableDataType(m_variableName)));
 #endif
@@ -120,5 +120,5 @@ void LRVariableDialog::accept()
 
 QVariant LRVariableDialog::value()
 {
-    return ui->leValue->text();
+    return ui->leValue->toPlainText();
 }
