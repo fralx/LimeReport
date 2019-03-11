@@ -36,6 +36,7 @@
 #include <QFileSystemWatcher>
 #include <QPluginLoader>
 #include <QFileDialog>
+#include <QGraphicsScene>
 
 #include "time.h"
 
@@ -593,6 +594,7 @@ PageDesignIntf* ReportEnginePrivate::createPreviewScene(QObject* parent){
         ReportPages pages = renderToPages();
         result = new PageDesignIntf(parent);
         result->setPageItems(pages);
+        result->setItemMode(PrintMode);
     } catch (ReportError &exception){
         saveError(exception.what());
         showError(exception.what());
@@ -719,7 +721,7 @@ void ReportEnginePrivate::cancelRender()
     m_reportRendering = false;
 }
 
-PageDesignIntf* ReportEngine::createPreviewScene(QObject* parent){
+QGraphicsScene* ReportEngine::createPreviewScene(QObject* parent){
     Q_D(ReportEngine);
     return d->createPreviewScene(parent);
 }

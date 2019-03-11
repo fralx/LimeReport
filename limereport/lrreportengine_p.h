@@ -147,7 +147,7 @@ public:
     }
 
     void    clearReport();
-    bool    printReport(QPrinter *printer=0);
+    bool    printReport(QPrinter* printer=0);
     bool    printReport(QMap<QString, QPrinter*>printers, bool printToAllPrinters);
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);

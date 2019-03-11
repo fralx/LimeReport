@@ -1767,17 +1767,21 @@ void PageDesignIntf::removeAllItems()
     m_commandsList.clear();
 }
 
-void PageDesignIntf::setItemMode(BaseDesignIntf::ItemMode state)
+void PageDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
 {
-    m_itemMode = state;
-//    foreach(QGraphicsItem * item, items()) {
-//        BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
-
-//        if (reportItem) {
-//            reportItem->setItemMode(itemMode());
-//        }
-//    }
-    if (m_currentPage) m_currentPage->setItemMode(state);
+    if (m_itemMode != mode){
+        m_itemMode = mode;
+        if (m_currentPage) {
+            m_currentPage->setItemMode(mode);
+        } else {
+            foreach(QGraphicsItem * item, items()) {
+                BaseDesignIntf *reportItem = dynamic_cast<BaseDesignIntf *>(item);
+                if (reportItem) {
+                    reportItem->setItemMode(itemMode());
+                }
+            }
+        }
+    }
 }
 
 BaseDesignIntf* PageDesignIntf::reportItemByName(const QString &name)
