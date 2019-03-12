@@ -1218,6 +1218,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::ObjectInspectorWidget</name>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::PDFExporter</name>
     <message>
         <source>Export to PDF</source>
@@ -1397,6 +1408,30 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Show toolbar</source>
         <translation>Показать панель инструментов</translation>
+    </message>
+    <message>
+        <source>toolBar_2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>InsertTextItem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new TextItem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Del</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1887,6 +1922,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>layoutSpacing</source>
         <translation>Интервал</translation>
+    </message>
+    <message>
+        <source>printerName</source>
+        <translation>Имя принтера</translation>
     </message>
 </context>
 <context>
@@ -2552,6 +2591,10 @@ This preview is no longer valid.</source>
     <message>
         <source>datasourceName</source>
         <translation>Имя источника данных</translation>
+    </message>
+    <message>
+        <source>RowIndex</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
