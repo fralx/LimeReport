@@ -61,6 +61,64 @@ private:
     int m_toPage;
 };
 
+class LIMEREPORT_EXPORT ItemGeometry{
+public:
+    enum Type{Milimeters, Pixels};
+    ItemGeometry(qreal x, qreal y, qreal width, qreal height, Type type = Milimeters)
+        :m_x(x), m_y(y), m_width(width), m_height(height), m_type(type){}
+    ItemGeometry(): m_x(0), m_y(0), m_width(0), m_height(0), m_type(Milimeters){}
+
+    qreal x() const;
+    void setX(const qreal &x);
+
+    qreal y() const;
+    void setY(const qreal &y);
+
+    qreal width() const;
+    void setWidth(const qreal &width);
+
+    qreal height() const;
+    void setHeight(const qreal &height);
+
+    Type type() const;
+    void setType(const Type &type);
+
+private:
+    qreal m_x;
+    qreal m_y;
+    qreal m_width;
+    qreal m_height;
+    Type m_type;
+};
+
+class LIMEREPORT_EXPORT WatermarkSetting{
+public:
+    WatermarkSetting(const QString& text, const ItemGeometry& geometry, const QFont& font)
+        : m_text(text), m_font(font), m_opacity(50), m_geomerty(geometry), m_color(QColor(Qt::black)){}
+    WatermarkSetting(): m_font(QFont()), m_opacity(50), m_geomerty(ItemGeometry()){}
+    QString text() const;
+    void setText(const QString &text);
+
+    QFont font() const;
+    void setFont(const QFont &font);
+
+    int opacity() const;
+    void setOpacity(const int &opacity);
+
+    ItemGeometry geomerty() const;
+    void setGeomerty(const ItemGeometry &geomerty);
+
+    QColor color() const;
+    void setColor(const QColor &color);
+
+private:
+    QString m_text;
+    QFont   m_font;
+    int   m_opacity;
+    ItemGeometry m_geomerty;
+    QColor m_color;
+};
+
 class DataSourceManager;
 class ReportEnginePrivate;
 class PageDesignIntf;
@@ -123,6 +181,8 @@ public:
     ScaleType previewScaleType();
     int  previewScalePercent();
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+    void addWatermark(const WatermarkSetting& watermarkSetting);
+    void clearWatermarks();
 signals:
     void cleared();
     void renderStarted();

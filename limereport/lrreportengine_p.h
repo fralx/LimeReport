@@ -217,6 +217,8 @@ public:
     ScaleType previewScaleType();
     int       previewScalePercent();
     void      setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+    void      addWatermark(const WatermarkSetting& watermarkSetting);
+    void      clearWatermarks();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -303,6 +305,8 @@ private:
     int m_previewScalePercent;
     int m_startTOCPage;
     QColor m_previewPageBackgroundColor;
+    QVector<WatermarkSetting> m_watermarks;
+    BaseDesignIntf *createWatermark(PageDesignIntf *page, WatermarkSetting watermarkSetting);
 };
 
 }

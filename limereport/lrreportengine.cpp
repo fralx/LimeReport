@@ -939,6 +939,16 @@ void ReportEnginePrivate::setPreviewScaleType(const ScaleType &scaleType, int pe
     m_previewScalePercent = percent;
 }
 
+void ReportEnginePrivate::addWatermark(const WatermarkSetting &watermarkSetting)
+{
+    m_watermarks.append(watermarkSetting);
+}
+
+void ReportEnginePrivate::clearWatermarks()
+{
+    m_watermarks.clear();
+}
+
 PageItemDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
 {
     foreach(PageItemDesignIntf* page, m_renderingPages){
@@ -1152,6 +1162,38 @@ void ReportEnginePrivate::paintByExternalPainter(const QString& objectName, QPai
     emit externalPaint(objectName, painter, options);
 }
 
+BaseDesignIntf* ReportEnginePrivate::createWatermark(PageDesignIntf* page, WatermarkSetting watermarkSetting)
+{
+    QPointF pos;
+    QSizeF size;
+    switch (watermarkSetting.geomerty().type()) {
+        case ItemGeometry::Milimeters:
+            pos.setX(watermarkSetting.geomerty().x() * LimeReport::Const::mmFACTOR);
+            pos.setY(watermarkSetting.geomerty().y() * LimeReport::Const::mmFACTOR);
+            size.setWidth(watermarkSetting.geomerty().width() * LimeReport::Const::mmFACTOR);
+            size.setHeight(watermarkSetting.geomerty().height() * LimeReport::Const::mmFACTOR);
+        break;
+        case ItemGeometry::Pixels:
+            pos.setX(watermarkSetting.geomerty().x());
+            pos.setY(watermarkSetting.geomerty().y());
+            size.setWidth(watermarkSetting.geomerty().width());
+            size.setHeight(watermarkSetting.geomerty().height());
+        break;
+    }
+
+    BaseDesignIntf* watermark = page->addReportItem("TextItem",pos,size);
+    if (watermark){
+        watermark->setProperty("content", watermarkSetting.text());
+        watermark->setProperty("font",watermark->font());
+        watermark->setProperty("watermark",true);
+        watermark->setProperty("itemLocation",1);
+        watermark->setProperty("foregroundOpacity", watermarkSetting.opacity());
+        watermark->setProperty("fontColor", watermarkSetting.color());
+    }
+    return watermark;
+
+}
+
 ReportPages ReportEnginePrivate::renderToPages()
 {
     int startTOCPage = -1;
@@ -1175,7 +1217,20 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRender->setScriptContext(scriptContext());
         m_renderingPages.clear();
         foreach (PageDesignIntf* page, m_pages) {
+
+            QVector<BaseDesignIntf*> watermarks;
+            if (!m_watermarks.isEmpty()){
+                foreach(WatermarkSetting watermarkSetting, m_watermarks){
+                    watermarks.append(createWatermark(page, watermarkSetting));
+                }
+            }
+
             PageItemDesignIntf* rp = createRenderingPage(page->pageItem());
+
+
+            qDeleteAll(watermarks.begin(),watermarks.end());
+            watermarks.clear();
+
             m_renderingPages.append(rp);
             scriptContext()->baseDesignIntfToScript(rp->objectName(), rp);
         }
@@ -1457,6 +1512,18 @@ void ReportEngine::setPreviewScaleType(const ScaleType &previewScaleType, int pe
     d->setPreviewScaleType(previewScaleType, percent);
 }
 
+void ReportEngine::addWatermark(const WatermarkSetting &watermarkSetting)
+{
+    Q_D(ReportEngine);
+    d->addWatermark(watermarkSetting);
+}
+
+void ReportEngine::clearWatermarks()
+{
+    Q_D(ReportEngine);
+    d->clearWatermarks();
+}
+
 
 void ReportEngine::setShowProgressDialog(bool value)
 {
@@ -1650,6 +1717,107 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         }
     }
 }
+
+qreal ItemGeometry::x() const
+{
+    return m_x;
+}
+
+void ItemGeometry::setX(const qreal &x)
+{
+    m_x = x;
+}
+
+qreal ItemGeometry::y() const
+{
+    return m_y;
+}
+
+void ItemGeometry::setY(const qreal &y)
+{
+    m_y = y;
+}
+
+qreal ItemGeometry::width() const
+{
+    return m_width;
+}
+
+void ItemGeometry::setWidth(const qreal &width)
+{
+    m_width = width;
+}
+
+qreal ItemGeometry::height() const
+{
+    return m_height;
+}
+
+void ItemGeometry::setHeight(const qreal &height)
+{
+    m_height = height;
+}
+
+ItemGeometry::Type ItemGeometry::type() const
+{
+    return m_type;
+}
+
+void ItemGeometry::setType(const Type &type)
+{
+    m_type = type;
+}
+
+QString WatermarkSetting::text() const
+{
+    return m_text;
+}
+
+void WatermarkSetting::setText(const QString &text)
+{
+    m_text = text;
+}
+
+QFont WatermarkSetting::font() const
+{
+    return m_font;
+}
+
+void WatermarkSetting::setFont(const QFont &font)
+{
+    m_font = font;
+}
+
+int WatermarkSetting::opacity() const
+{
+    return m_opacity;
+}
+
+void WatermarkSetting::setOpacity(const int &opacity)
+{
+    m_opacity = opacity;
+}
+
+ItemGeometry WatermarkSetting::geomerty() const
+{
+    return m_geomerty;
+}
+
+void WatermarkSetting::setGeomerty(const ItemGeometry &geomerty)
+{
+    m_geomerty = geomerty;
+}
+
+QColor WatermarkSetting::color() const
+{
+    return m_color;
+}
+
+void WatermarkSetting::setColor(const QColor &color)
+{
+    m_color = color;
+}
+
 
 }// namespace LimeReport
 
