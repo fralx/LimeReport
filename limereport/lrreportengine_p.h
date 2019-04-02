@@ -56,6 +56,24 @@ class PrintRange;
 class ReportDesignWindow;
 class ReportExporterInterface;
 
+
+class ItemGeometryHelper{
+public:
+    ItemGeometryHelper(const ItemGeometry& geometry)
+        : m_geometry(geometry){}
+    qreal sceneX();
+    qreal sceneY();
+    qreal sceneWidth();
+    qreal sceneHeight();
+    QPointF scenePos();
+    QSizeF  sceneSize();
+    QPointF mapToPage(const PageItemDesignIntf &page);
+private:
+    qreal valueToPixels(qreal value);
+private:
+    const ItemGeometry& m_geometry;
+};
+
 class ReportEnginePrivateInterface {
 public:
     virtual PageDesignIntf*         appendPage(const QString& pageName="") = 0;

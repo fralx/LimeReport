@@ -64,8 +64,8 @@ private:
 class LIMEREPORT_EXPORT ItemGeometry{
 public:
     enum Type{Milimeters, Pixels};
-    ItemGeometry(qreal x, qreal y, qreal width, qreal height, Type type = Milimeters)
-        :m_x(x), m_y(y), m_width(width), m_height(height), m_type(type){}
+    ItemGeometry(qreal x, qreal y, qreal width, qreal height, Qt::Alignment anchor, Type type = Milimeters)
+        :m_x(x), m_y(y), m_width(width), m_height(height), m_type(type), m_anchor(anchor){}
     ItemGeometry(): m_x(0), m_y(0), m_width(0), m_height(0), m_type(Milimeters){}
 
     qreal x() const;
@@ -83,12 +83,16 @@ public:
     Type type() const;
     void setType(const Type &type);
 
+    Qt::Alignment anchor() const;
+    void setAnchor(const Qt::Alignment &anchor);
+
 private:
     qreal m_x;
     qreal m_y;
     qreal m_width;
     qreal m_height;
     Type m_type;
+    Qt::Alignment m_anchor;
 };
 
 class LIMEREPORT_EXPORT WatermarkSetting{
@@ -118,6 +122,14 @@ private:
     ItemGeometry m_geomerty;
     QColor m_color;
 };
+
+class ItemBuilder{
+    virtual void setProperty(QString name, QVariant value) = 0;
+    virtual QVariant property(QString name) = 0;
+    virtual void setGeometry(ItemGeometry geometry) = 0;
+    virtual ItemGeometry geometry() = 0; 
+};
+
 
 class DataSourceManager;
 class ReportEnginePrivate;
