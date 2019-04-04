@@ -831,4 +831,118 @@ bool CallbackDatasource::checkIfEmpty(){
     }
 }
 
+QString CSVDesc::name() const
+{
+    return m_csvName;
+}
+
+void CSVDesc::setName(const QString &csvName)
+{
+    m_csvName = csvName;
+}
+
+QString CSVDesc::csvText() const
+{
+    return m_csvText;
+}
+
+void CSVDesc::setCsvText(const QString &csvText)
+{
+    m_csvText = csvText;
+    emit cvsTextChanged(m_csvName, m_csvText);
+}
+
+QString CSVDesc::separator() const
+{
+    return m_separator;
+}
+
+void CSVDesc::setSeparator(const QString &separator)
+{
+    m_separator = separator;
+}
+
+bool CSVDesc::firstRowIsHeader() const
+{
+    return m_firstRowIsHeader;
+}
+
+void CSVDesc::setFirstRowIsHeader(bool firstRowIsHeader)
+{
+    m_firstRowIsHeader = firstRowIsHeader;
+}
+
+void CSVHolder::updateModel()
+{
+    m_model.clear();
+    QString sep = (separator().compare("\\t") == 0) ? "\t" : separator();
+    bool firstRow = true;
+    QList<QStandardItem*> columns;
+    QStringList headers;
+    foreach(QString line, m_csvText.split('\n')){
+        columns.clear();
+        foreach(QString item, line.split(sep)){
+            columns.append(new QStandardItem(item));
+            if (firstRow && m_firstRowIsHeader) headers.append(item);
+        }
+
+        if (firstRow){
+            if (!headers.isEmpty()){
+                m_model.setHorizontalHeaderLabels(headers);
+                firstRow = false;
+            } else {
+                m_model.appendRow(columns);
+            }
+        } else {
+            m_model.appendRow(columns);
+        }
+
+    }
+
+
+}
+
+bool CSVHolder::firsRowIsHeader() const
+{
+    return m_firstRowIsHeader;
+}
+
+void CSVHolder::setFirsRowIsHeader(bool firstRowIsHeader)
+{
+    m_firstRowIsHeader = firstRowIsHeader;
+}
+
+CSVHolder::CSVHolder(const CSVDesc &desc, DataSourceManager *dataManager)
+    : m_csvText(desc.csvText()),
+      m_separator(desc.separator()),
+      m_dataManager(dataManager),
+      m_firstRowIsHeader(desc.firstRowIsHeader())
+{
+    m_dataSource = IDataSource::Ptr(new ModelToDataSource(&m_model, false));
+    updateModel();
+}
+
+void CSVHolder::setCSVText(QString csvText)
+{
+    m_csvText = csvText;
+    updateModel();
+}
+
+QString CSVHolder::separator() const
+{
+    return m_separator;
+}
+
+void CSVHolder::setSeparator(const QString &separator)
+{
+    m_separator = separator;
+    updateModel();
+}
+
+IDataSource *CSVHolder::dataSource(IDataSource::DatasourceMode mode)
+{
+    Q_UNUSED(mode);
+    return m_dataSource.data();
+}
+
 } //namespace LimeReport

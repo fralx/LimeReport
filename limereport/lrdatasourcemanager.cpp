@@ -179,7 +179,7 @@ DataNode* DataSourceModel::nodeFromIndex(const QModelIndex& index) const
 void DataSourceModel::fillFields(DataNode* parent)
 {
     foreach(QString name, m_dataManager->fieldNames(parent->name())){
-        parent->addChild(name,DataNode::Field,QIcon(":/report/images/field"));
+        parent->addChild(name, DataNode::Field,QIcon(":/report/images/field"));
     }
 }
 
@@ -537,7 +537,7 @@ void DataSourceManager::addSubQuery(const QString &name, const QString &sqlText,
     emit datasourcesChanged();
 }
 
-void DataSourceManager::addProxy(const QString &name, QString master, QString detail, QList<FieldsCorrelation> fields)
+void DataSourceManager::addProxy(const QString &name, const QString &master, const QString &detail, QList<FieldsCorrelation> fields)
 {
     ProxyDesc *proxyDesc = new ProxyDesc();
     proxyDesc->setName(name);
@@ -552,6 +552,15 @@ void DataSourceManager::addProxy(const QString &name, QString master, QString de
     emit datasourcesChanged();
 }
 
+void DataSourceManager::addCSV(const QString& name, const QString& csvText, const QString &separator, bool firstRowIsHeader)
+{
+    CSVDesc* csvDesc = new CSVDesc(name, csvText, separator, firstRowIsHeader);
+    putCSVDesc(csvDesc);
+    putHolder(name, new CSVHolder(*csvDesc, this));
+    m_hasChanges = true;
+    emit datasourcesChanged();
+}
+
 QString DataSourceManager::queryText(const QString &dataSourceName)
 {
     if (isQuery(dataSourceName)) return queryByName(dataSourceName)->queryText();
@@ -559,16 +568,16 @@ QString DataSourceManager::queryText(const QString &dataSourceName)
     else return QString();
 }
 
-QueryDesc *DataSourceManager::queryByName(const QString &dataSourceName)
+QueryDesc *DataSourceManager::queryByName(const QString &datasourceName)
 {
-    int queryIndex = queryIndexByName(dataSourceName);
+    int queryIndex = queryIndexByName(datasourceName);
     if (queryIndex!=-1) return m_queries.at(queryIndex);
     return 0;
 }
 
-SubQueryDesc* DataSourceManager::subQueryByName(const QString &dataSourceName)
+SubQueryDesc* DataSourceManager::subQueryByName(const QString &datasourceName)
 {
-    int queryIndex = subQueryIndexByName(dataSourceName);
+    int queryIndex = subQueryIndexByName(datasourceName);
     if (queryIndex!=-1) return m_subqueries.at(queryIndex);
     return 0;
 }
@@ -607,6 +616,15 @@ int DataSourceManager::proxyIndexByName(const QString &dataSourceName)
     return -1;
 }
 
+int DataSourceManager::csvIndexByName(const QString &dataSourceName)
+{
+    for(int i=0; i < m_csvs.count();++i){
+        CSVDesc* desc=m_csvs.at(i);
+        if (desc->name().compare(dataSourceName,Qt::CaseInsensitive)==0) return i;
+    }
+    return -1;
+}
+
 int DataSourceManager::connectionIndexByName(const QString &connectionName)
 {
     for(int i=0;i<m_connections.count();++i){
@@ -639,10 +657,17 @@ QString DataSourceManager::connectionName(const QString &dataSourceName)
     return QString();
 }
 
-ProxyDesc *DataSourceManager::proxyByName(QString datasourceName)
+ProxyDesc *DataSourceManager::proxyByName(const QString &datasourceName)
 {
     int proxyIndex = proxyIndexByName(datasourceName);
-    if (proxyIndex>-1) return m_proxies.at(proxyIndex);
+    if (proxyIndex > -1) return m_proxies.at(proxyIndex);
+    else return 0;
+}
+
+CSVDesc *DataSourceManager::csvByName(const QString &datasourceName)
+{
+    int csvIndex =  csvIndexByName(datasourceName);
+    if (csvIndex > -1) return m_csvs.at(csvIndex);
     else return 0;
 }
 
@@ -670,6 +695,11 @@ void DataSourceManager::removeDatasource(const QString &name)
         int proxyIndex=proxyIndexByName(name);
         delete m_proxies.at(proxyIndex);
         m_proxies.removeAt(proxyIndex);
+    }
+    if (isCSV(name)){
+        int csvIndex=csvIndexByName(name);
+        delete m_csvs.at(csvIndex);
+        m_csvs.removeAt(csvIndex);
     }
     m_hasChanges = true;
     emit datasourcesChanged();
@@ -761,6 +791,15 @@ void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
     if (!containsDatasource(proxyDesc->name())){
         m_proxies.append(proxyDesc);
     } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(proxyDesc->name()));
+}
+
+void DataSourceManager::putCSVDesc(CSVDesc *csvDesc)
+{
+    if (!containsDatasource(csvDesc->name())){
+        m_csvs.append(csvDesc);
+        connect(csvDesc, SIGNAL(cvsTextChanged(QString, QString)),
+                this, SLOT(slotCSVTextChanged(QString, QString)));
+    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(csvDesc->name()));
 }
 
 bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc){
@@ -933,17 +972,22 @@ bool DataSourceManager::containsDatasource(const QString &dataSourceName)
 
 bool DataSourceManager::isSubQuery(const QString &dataSourceName)
 {
-    return subQueryIndexByName(dataSourceName.toLower())!=-1;
+    return subQueryIndexByName(dataSourceName) != -1;
 }
 
 bool DataSourceManager::isProxy(const QString &dataSourceName)
 {
-    return proxyIndexByName(dataSourceName)!=-1;
+    return proxyIndexByName(dataSourceName) != -1;
+}
+
+bool DataSourceManager::isCSV(const QString &datasourceName)
+{
+    return csvIndexByName(datasourceName) != -1;
 }
 
 bool DataSourceManager::isConnection(const QString &connectionName)
 {
-    return connectionIndexByName(connectionName)!=-1;
+    return connectionIndexByName(connectionName) != -1;
 }
 
 bool DataSourceManager::isConnectionConnected(const QString &connectionName)
@@ -1045,7 +1089,7 @@ QStringList DataSourceManager::fieldNames(const QString &datasourceName)
     QStringList result;
     IDataSource* ds = dataSource(datasourceName);
     if (ds && !ds->isInvalid()){
-        for(int i=0;i<ds->columnCount();i++){
+        for(int i=0; i < ds->columnCount(); i++){
             result.append(ds->columnNameByIndex(i));
         }
         result.sort();
@@ -1089,6 +1133,12 @@ QObject *DataSourceManager::createElement(const QString& collectionName, const Q
         return var;
     }
 
+    if (collectionName=="csvs"){
+        CSVDesc* csvDesc = new CSVDesc;
+        m_csvs.append(csvDesc);
+        return  csvDesc;
+    }
+
     return 0;
 }
 
@@ -1109,6 +1159,9 @@ int DataSourceManager::elementsCount(const QString &collectionName)
     if (collectionName=="variables"){
         return m_reportVariables.variablesCount();
     }
+    if (collectionName=="csvs"){
+        return m_csvs.count();
+    }
     return 0;
 }
 
@@ -1128,6 +1181,9 @@ QObject* DataSourceManager::elementAt(const QString &collectionName, int index)
     }
     if (collectionName=="variables"){
         return m_reportVariables.variableAt(index);
+    }
+    if (collectionName=="csvs"){
+        return m_csvs.at(index);
     }
     return 0;
 }
@@ -1206,6 +1262,25 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
         m_tempVars.clear();
     }
     EASY_END_BLOCK;
+
+    if (collectionName.compare("csvs", Qt::CaseInsensitive) == 0){
+        QMutableListIterator<CSVDesc*> it(m_csvs);
+        while (it.hasNext()){
+            it.next();
+            if (!m_datasources.contains(it.value()->name().toLower())){
+                connect(it.value(), SIGNAL(cvsTextChanged(QString,QString)),
+                        this, SLOT(slotCSVTextChanged(QString,QString)));
+                putHolder(
+                    it.value()->name(),
+                    new CSVHolder(*it.value(), this)
+                );
+            } else {
+                delete it.value();
+                it.remove();
+            }
+        }
+    }
+
     if (designTime()){
         EASY_BLOCK("emit datasourcesChanged()");
         emit datasourcesChanged();
@@ -1326,6 +1401,14 @@ void DataSourceManager::slotVariableHasBeenChanged(const QString& variableName)
     invalidateQueriesContainsVariable(variableName);
     if (variableType(variableName) == VarDesc::Report)
         m_hasChanges = true;
+}
+
+void DataSourceManager::slotCSVTextChanged(const QString &csvName, const QString &csvText)
+{
+    CSVHolder* holder = dynamic_cast<CSVHolder*>(m_datasources.value(csvName));
+    if (holder){
+        holder->setCSVText(csvText);
+    }
 }
 
 void DataSourceManager::clear(ClearMethod method)

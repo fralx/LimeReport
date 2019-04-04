@@ -86,7 +86,7 @@ QSettings *SQLEditDialog::settings(){
 
 void SQLEditDialog::setSettings(QSettings *value, bool owned){
     if (m_settings && m_ownedSettings) delete m_settings;
-    m_settings=value;
+    m_settings = value;
     m_ownedSettings = owned;
 }
 
@@ -94,24 +94,29 @@ void SQLEditDialog::accept()
 {
     SQLEditResult result;
 
-    if (!ui->cbSubdetail->isChecked()){
+    if (ui->tabWidget->currentIndex() == 1){
+        result.resultMode = SQLEditResult::CSVText;
+    } else if (!ui->cbSubdetail->isChecked()){
         result.resultMode=SQLEditResult::Query;
     } else {
-        if (ui->rbSubQuery->isChecked()) result.resultMode=SQLEditResult::SubQuery;
+        if (ui->rbSubQuery->isChecked()) result.resultMode = SQLEditResult::SubQuery;
         else result.resultMode=SQLEditResult::SubProxy;
     }
 
     result.connectionName = ConnectionDesc::connectionNameForReport(ui->cbbConnection->currentText());
     result.datasourceName=ui->leDatasourceName->text();
-    result.sql=ui->textEditSQL->toPlainText();
-    result.dialogMode=m_dialogMode;
-    result.oldDatasourceName=m_oldDatasourceName;
+    result.sql = ui->sqlText->toPlainText();
+    result.csv = ui->csvText->toPlainText();
+    result.dialogMode = m_dialogMode;
+    result.oldDatasourceName = m_oldDatasourceName;
     result.subdetail = ui->cbSubdetail->isChecked();
     result.masterDatasource=ui->leMaster->text();
     result.childDataSource=ui->leChild->text();
+    result.separator = ui->leSeparator->text();
+    result.firstRowIsHeader = ui->cbUseFirstRowAsHeader->isChecked();
 
-    if (ui->fieldsMap->rowCount()>0){
-        for(int i=0;i<ui->fieldsMap->rowCount();++i){
+    if (ui->fieldsMap->rowCount() > 0){
+        for(int i=0; i< ui->fieldsMap->rowCount(); ++i){
             LimeReport::FieldsCorrelation fieldsCorrelation;
             fieldsCorrelation.master = ui->fieldsMap->item(i,0) ? ui->fieldsMap->item(i,0)->data(Qt::DisplayRole).toString() : "";
             fieldsCorrelation.detail = ui->fieldsMap->item(i,1) ? ui->fieldsMap->item(i,1)->data(Qt::DisplayRole).toString() : "";
@@ -148,7 +153,7 @@ void SQLEditDialog::hideEvent(QHideEvent *)
 void SQLEditDialog::check()
 {
     if (ui->leDatasourceName->text().isEmpty()) throw LimeReport::ReportError(tr("Datasource Name is empty!"));
-    if (ui->textEditSQL->toPlainText().isEmpty() && (!ui->rbProxy) ) throw LimeReport::ReportError(tr("SQL is empty!"));
+    if (ui->sqlText->toPlainText().isEmpty() && (!ui->rbProxy) ) throw LimeReport::ReportError(tr("SQL is empty!"));
     if (m_dialogMode==AddMode){
         if (m_datasources->containsDatasource(ui->leDatasourceName->text())){
             throw LimeReport::ReportError(QString(tr("Datasource with name: \"%1\" already exists!")).arg(ui->leDatasourceName->text()));
@@ -180,10 +185,12 @@ void SQLEditDialog::setDataSources(LimeReport::DataSourceManager *dataSources, Q
     m_datasources=dataSources;
     if (!datasourceName.isEmpty()){
         ui->cbSubdetail->setEnabled(true);
-        initQueryMode();
         m_oldDatasourceName=datasourceName;
         ui->leDatasourceName->setText(datasourceName);
-        ui->textEditSQL->setText(dataSources->queryText(datasourceName));
+        ui->sqlText->setText(dataSources->queryText(datasourceName));
+        if (dataSources->isQuery(datasourceName)){
+            initQueryMode();
+        }
         if (dataSources->isSubQuery(datasourceName)){
             initSubQueryMode();
             ui->leMaster->setText(dataSources->subQueryByName(datasourceName)->master());
@@ -200,6 +207,12 @@ void SQLEditDialog::setDataSources(LimeReport::DataSourceManager *dataSources, Q
                 ui->fieldsMap->setItem(curIndex,1,new QTableWidgetItem(fields->detail()));
                 curIndex++;
             }
+        }
+        if (dataSources->isCSV(datasourceName)){
+            ui->csvText->setPlainText(dataSources->csvByName(datasourceName)->csvText());
+            ui->leSeparator->setText(dataSources->csvByName(datasourceName)->separator());
+            ui->cbUseFirstRowAsHeader->setChecked(dataSources->csvByName(datasourceName)->firstRowIsHeader());
+            initCSVMode();
         }
     }
 }
@@ -254,6 +267,7 @@ void SQLEditDialog::on_pbAddField_clicked()
     ui->fieldsMap->setRowCount(ui->fieldsMap->rowCount()+1);
 }
 
+
 void SQLEditDialog::initQueryMode()
 {
     ui->gbSQL->setVisible(true);
@@ -264,6 +278,7 @@ void SQLEditDialog::initQueryMode()
     ui->cbSubdetail->setChecked(false);
     ui->leMaster->setVisible(false);
     ui->lbMaster->setVisible(false);
+    ui->tabWidget->removeTab(1);
 }
 
 void SQLEditDialog::initSubQueryMode()
@@ -278,6 +293,7 @@ void SQLEditDialog::initSubQueryMode()
     ui->leMaster->setVisible(true);
     ui->leMaster->setEnabled(true);
     ui->lbMaster->setVisible(true);
+    ui->tabWidget->removeTab(1);
 }
 
 void SQLEditDialog::initProxyMode()
@@ -293,6 +309,12 @@ void SQLEditDialog::initProxyMode()
     ui->leMaster->setEnabled(true);
     ui->lbMaster->setVisible(true);
     ui->cbSubdetail->setEnabled(false);
+    ui->tabWidget->removeTab(1);
+}
+
+void SQLEditDialog::initCSVMode()
+{
+    ui->tabWidget->removeTab(0);
 }
 
 void SQLEditDialog::slotPreviewData()
@@ -303,7 +325,7 @@ void SQLEditDialog::slotPreviewData()
     }
     m_previewModel = m_datasources->previewSQL(
                 ConnectionDesc::connectionNameForReport(ui->cbbConnection->currentText()),
-                ui->textEditSQL->toPlainText(),
+                ui->sqlText->toPlainText(),
                 ui->leMaster->text()
     );
     if (m_previewModel){

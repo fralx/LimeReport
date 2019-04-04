@@ -100,6 +100,7 @@ class DataSourceManager : public QObject, public ICollectionContainer, public IV
     Q_PROPERTY(ACollectionProperty subqueries READ fakeCollectionReader)
     Q_PROPERTY(ACollectionProperty subproxies READ fakeCollectionReader)
     Q_PROPERTY(ACollectionProperty variables READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty csvs READ fakeCollectionReader)
     friend class ReportEnginePrivate;
     friend class ReportRender;
 public:
@@ -112,7 +113,8 @@ public:
     bool checkConnectionDesc(ConnectionDesc *connection);
     void addQuery(const QString& name, const QString& sqlText, const QString& connectionName="");
     void addSubQuery(const QString& name, const QString& sqlText, const QString& connectionName, const QString& masterDatasource);
-    void addProxy(const QString& name, QString master, QString detail, QList<FieldsCorrelation> fields);
+    void addProxy(const QString& name, const QString& master, const QString& detail, QList<FieldsCorrelation> fields);
+    void addCSV(const QString& name, const QString& csvText, const QString& separator, bool firstRowIsHeader);
     bool addModel(const QString& name, QAbstractItemModel *model, bool owned);
     void removeModel(const QString& name);
     ICallbackDatasource* createCallbackDatasource(const QString &name);
@@ -143,18 +145,21 @@ public:
     bool containsDatasource(const QString& dataSourceName);
     bool isSubQuery(const QString& dataSourceName);
     bool isProxy(const QString& dataSourceName);
+    bool isCSV(const QString& datasourceName);
     bool isConnection(const QString& connectionName);
     bool isConnectionConnected(const QString& connectionName);
     bool connectConnection(const QString &connectionName);
     void connectAutoConnections();
     void disconnectConnection(const QString &connectionName);
-    QueryDesc* queryByName(const QString& dataSourceName);
-    SubQueryDesc* subQueryByName(const QString& dataSourceName);
-    ProxyDesc* proxyByName(QString datasourceName);
+    QueryDesc* queryByName(const QString& datasourceName);
+    SubQueryDesc* subQueryByName(const QString& datasourceName);
+    ProxyDesc* proxyByName(const QString& datasourceName);
+    CSVDesc* csvByName(const QString& datasourceName);
     ConnectionDesc *connectionByName(const QString& connectionName);
     int queryIndexByName(const QString& dataSourceName);
     int subQueryIndexByName(const QString& dataSourceName);
     int proxyIndexByName(const QString& dataSourceName);
+    int csvIndexByName(const QString& dataSourceName);
     int connectionIndexByName(const QString& connectionName);
 
     QList<ConnectionDesc *> &conections();
@@ -226,6 +231,7 @@ protected:
     void putQueryDesc(QueryDesc *queryDesc);
     void putSubQueryDesc(SubQueryDesc *subQueryDesc);
     void putProxyDesc(ProxyDesc *proxyDesc);
+    void putCSVDesc(CSVDesc* csvDesc);
     bool connectConnection(ConnectionDesc* connectionDesc);
     void clearReportVariables();
     QList<QString> childDatasources(const QString& datasourceName);
@@ -246,6 +252,7 @@ private slots:
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
     void slotVariableHasBeenAdded(const QString& variableName);
     void slotVariableHasBeenChanged(const QString& variableName);
+    void slotCSVTextChanged(const QString& csvName, const QString& csvText);
 private:
     explicit DataSourceManager(QObject *parent = 0);
     bool initAndOpenDB(QSqlDatabase &db, ConnectionDesc &connectionDesc);
@@ -256,6 +263,7 @@ private:
     QList<SubQueryDesc*> m_subqueries;
     QList<ProxyDesc*> m_proxies;
     QList<VarDesc*> m_tempVars;
+    QList<CSVDesc*> m_csvs;
 
     QMultiMap<QString,GroupFunction*> m_groupFunctions;
     GroupFunctionFactory m_groupFunctionFactory;
