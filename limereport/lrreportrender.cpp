@@ -335,7 +335,9 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
     if ( contentItem && contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}"))){
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            rx.setMinimal(true);
             QRegExp rxName(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName));
+            rxName.setMinimal(true);
             if (rx.indexIn(contentItem->content())>=0){
                 int pos = 0;
                 while ( (pos = rx.indexIn(contentItem->content(),pos)) != -1){
@@ -382,6 +384,7 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
         QString content = contentItem->content();
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            rx.setMinimal(true);
             if (rx.indexIn(content)>=0){
                 int pos = 0;
                 while ( (pos = rx.indexIn(content,pos))!= -1 ){
