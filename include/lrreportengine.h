@@ -98,8 +98,8 @@ private:
 class LIMEREPORT_EXPORT WatermarkSetting{
 public:
     WatermarkSetting(const QString& text, const ItemGeometry& geometry, const QFont& font)
-        : m_text(text), m_font(font), m_opacity(50), m_geomerty(geometry), m_color(QColor(Qt::black)){}
-    WatermarkSetting(): m_font(QFont()), m_opacity(50), m_geomerty(ItemGeometry()){}
+        : m_text(text), m_font(font), m_opacity(50), m_geometry(geometry), m_color(QColor(Qt::black)){}
+    WatermarkSetting(): m_font(QFont()), m_opacity(50), m_geometry(ItemGeometry()){}
     QString text() const;
     void setText(const QString &text);
 
@@ -109,8 +109,8 @@ public:
     int opacity() const;
     void setOpacity(const int &opacity);
 
-    ItemGeometry geomerty() const;
-    void setGeomerty(const ItemGeometry &geomerty);
+    ItemGeometry geometry() const;
+    void setGeometry(const ItemGeometry &geometry);
 
     QColor color() const;
     void setColor(const QColor &color);
@@ -119,7 +119,7 @@ private:
     QString m_text;
     QFont   m_font;
     int   m_opacity;
-    ItemGeometry m_geomerty;
+    ItemGeometry m_geometry;
     QColor m_color;
 };
 

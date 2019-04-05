@@ -1165,9 +1165,9 @@ void ReportEnginePrivate::paintByExternalPainter(const QString& objectName, QPai
 BaseDesignIntf* ReportEnginePrivate::createWatermark(PageDesignIntf* page, WatermarkSetting watermarkSetting)
 {
 
-    ItemGeometryHelper geometry(watermarkSetting.geomerty());
+    WatermarkHelper watermarkHelper(watermarkSetting);
 
-    BaseDesignIntf* watermark = page->addReportItem("TextItem", geometry.mapToPage(*page->pageItem()), geometry.sceneSize());
+    BaseDesignIntf* watermark = page->addReportItem("TextItem", watermarkHelper.mapToPage(*page->pageItem()), watermarkHelper.sceneSize());
     if (watermark){
         watermark->setProperty("content", watermarkSetting.text());
         watermark->setProperty("font",watermarkSetting.font());
@@ -1794,14 +1794,14 @@ void WatermarkSetting::setOpacity(const int &opacity)
     m_opacity = opacity;
 }
 
-ItemGeometry WatermarkSetting::geomerty() const
+ItemGeometry WatermarkSetting::geometry() const
 {
-    return m_geomerty;
+    return m_geometry;
 }
 
-void WatermarkSetting::setGeomerty(const ItemGeometry &geomerty)
+void WatermarkSetting::setGeometry(const ItemGeometry &geometry)
 {
-    m_geomerty = geomerty;
+    m_geometry = geometry;
 }
 
 QColor WatermarkSetting::color() const
@@ -1814,52 +1814,52 @@ void WatermarkSetting::setColor(const QColor &color)
     m_color = color;
 }
 
-qreal ItemGeometryHelper::sceneX()
+qreal WatermarkHelper::sceneX()
 {
-    return valueToPixels(m_geometry.x());
+    return valueToPixels(m_watermark.geometry().x());
 }
 
-qreal ItemGeometryHelper::sceneY()
+qreal WatermarkHelper::sceneY()
 {
-    return valueToPixels(m_geometry.y());
+    return valueToPixels(m_watermark.geometry().y());
 }
 
-qreal ItemGeometryHelper::sceneWidth()
+qreal WatermarkHelper::sceneWidth()
 {
-    return valueToPixels(m_geometry.width());
+    return valueToPixels(m_watermark.geometry().width());
 }
 
-qreal ItemGeometryHelper::sceneHeight()
+qreal WatermarkHelper::sceneHeight()
 {
-    return valueToPixels(m_geometry.height());
+    return valueToPixels(m_watermark.geometry().height());
 }
 
-QPointF ItemGeometryHelper::scenePos()
+QPointF WatermarkHelper::scenePos()
 {
     return (QPointF(sceneX(), sceneY()));
 }
 
-QSizeF ItemGeometryHelper::sceneSize()
+QSizeF WatermarkHelper::sceneSize()
 {
     return (QSizeF(sceneWidth(), sceneHeight()));
 }
 
-QPointF ItemGeometryHelper::mapToPage(const PageItemDesignIntf &page)
+QPointF WatermarkHelper::mapToPage(const PageItemDesignIntf &page)
 {
     qreal startX = 0;
     qreal startY = 0;
 
-    if ( m_geometry.anchor() & Qt::AlignLeft){
+    if ( m_watermark.geometry().anchor() & Qt::AlignLeft){
         startX = 0;
-    } else if (m_geometry.anchor() & Qt::AlignRight){
+    } else if ( m_watermark.geometry().anchor() & Qt::AlignRight){
         startX = page.geometry().width();
     } else {
         startX = page.geometry().width() / 2;
     }
 
-    if ( m_geometry.anchor() & Qt::AlignTop){
+    if ( m_watermark.geometry().anchor() & Qt::AlignTop){
         startY = 0;
-    } else if (m_geometry.anchor() & Qt::AlignBottom){
+    } else if (m_watermark.geometry().anchor() & Qt::AlignBottom){
         startY = page.geometry().height();
     } else {
         startY = page.geometry().height() / 2;
@@ -1868,9 +1868,9 @@ QPointF ItemGeometryHelper::mapToPage(const PageItemDesignIntf &page)
     return QPointF(startX + sceneX(), startY + sceneY());
 }
 
-qreal ItemGeometryHelper::valueToPixels(qreal value)
+qreal WatermarkHelper::valueToPixels(qreal value)
 {
-    switch (m_geometry.type()) {
+    switch (m_watermark.geometry().type()) {
     case LimeReport::ItemGeometry::Milimeters:
         return value * Const::mmFACTOR;
     case LimeReport::ItemGeometry::Pixels:

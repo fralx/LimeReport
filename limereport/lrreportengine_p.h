@@ -57,10 +57,10 @@ class ReportDesignWindow;
 class ReportExporterInterface;
 
 
-class ItemGeometryHelper{
+class WatermarkHelper{
 public:
-    ItemGeometryHelper(const ItemGeometry& geometry)
-        : m_geometry(geometry){}
+    WatermarkHelper(const WatermarkSetting& watermark)
+        : m_watermark(watermark){}
     qreal sceneX();
     qreal sceneY();
     qreal sceneWidth();
@@ -71,7 +71,7 @@ public:
 private:
     qreal valueToPixels(qreal value);
 private:
-    const ItemGeometry& m_geometry;
+    const WatermarkSetting& m_watermark;
 };
 
 class ReportEnginePrivateInterface {
