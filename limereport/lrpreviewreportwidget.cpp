@@ -59,7 +59,7 @@ void PreviewReportWidgetPrivate::setPages(ReportPages pages)
 
 PageItemDesignIntf::Ptr PreviewReportWidgetPrivate::currentPage()
 {
-    if (m_reportPages.count()>0 && m_reportPages.count()>=m_currentPage)
+    if (m_reportPages.count()>0 && m_reportPages.count() >= m_currentPage && m_currentPage > 0)
         return m_reportPages.at(m_currentPage-1);
     else return PageItemDesignIntf::Ptr(0);
 }
