@@ -126,6 +126,12 @@ public:
     bool isBusy();
     bool resultIsEditable() const;
     void setResultEditable(bool value);
+    bool saveToFileIsVisible() const;
+    void setSaveToFileVisible(bool value);
+    bool printToPdfIsVisible() const;
+    void setPrintToPdfVisible(bool value);
+    bool printIsVisible() const;
+    void setPrintVisible(bool value);
 
     void setPassPhrase(const QString &passPhrase);
     void reorderPages(const QList<PageDesignIntf *> &reorderedPages);
@@ -192,6 +198,9 @@ private:
     Qt::LayoutDirection m_previewLayoutDirection;
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
+    bool m_saveToFileVisible;
+    bool m_printToPdfVisible;
+    bool m_printVisible;
 };
 
 }
