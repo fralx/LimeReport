@@ -39,7 +39,7 @@
 namespace LimeReport{
 
 class ReportRender;
-class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
+class PageItemDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
     Q_ENUMS(Orientation)
@@ -158,6 +158,10 @@ public:
     QString printerName() const;
     void setPrinterName(const QString& printerName);
 
+    void placeTearOffBand();
+    BandDesignIntf *pageFooter() const;
+    void setPageFooter(BandDesignIntf *pageFooter);
+    
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -198,6 +202,7 @@ private:
     bool m_endlessHeight;
     bool m_printable;
     QString m_printerName;
+    BandDesignIntf* m_pageFooter;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;
