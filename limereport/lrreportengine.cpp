@@ -84,7 +84,9 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     m_fileWatcher( new QFileSystemWatcher( this ) ), m_reportLanguage(QLocale::AnyLanguage),
     m_previewLayoutDirection(Qt::LayoutDirectionAuto), m_designerFactory(0),
     m_previewScaleType(FitWidth), m_previewScalePercent(0), m_startTOCPage(0),
-    m_previewPageBackgroundColor(Qt::gray)
+    m_previewPageBackgroundColor(Qt::gray),
+    m_saveToFileVisible(true), m_printToPdfVisible(true),
+    m_printVisible(true)
 {
 #ifdef HAVE_STATIC_BUILD
     initResources();
@@ -532,8 +534,13 @@ void ReportEnginePrivate::previewReport(QPrinter *printer, PreviewHints hints)
                     w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
                     w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
                 }
-
+                
                 w->setHideResultEditButton(resultIsEditable());
+                w->setHidePrintButton(printIsVisible());
+                w->setHideSaveToFileButton(saveToFileIsVisible());
+                w->setHidePrintToPdfButton(printToPdfIsVisible());
+                w->setEnablePrintMenu(printIsVisible() || printToPdfIsVisible());
+
                 w->setStyleSheet(m_styleSheet);
                 m_activePreview = w;
 
@@ -1090,6 +1097,36 @@ void ReportEnginePrivate::setResultEditable(bool value)
     m_resultIsEditable = value;
 }
 
+bool ReportEnginePrivate::saveToFileIsVisible() const
+{
+    return m_saveToFileVisible;
+}
+
+void ReportEnginePrivate::setSaveToFileVisible(bool value)
+{
+    m_saveToFileVisible = value;
+}
+
+bool ReportEnginePrivate::printToPdfIsVisible() const
+{
+    return m_printToPdfVisible;
+}
+
+void ReportEnginePrivate::setPrintToPdfVisible(bool value)
+{
+    m_printToPdfVisible = value;
+}
+
+bool ReportEnginePrivate::printIsVisible() const
+{
+    return m_printVisible;
+}
+
+void ReportEnginePrivate::setPrintVisible(bool value)
+{
+    m_printVisible = value;
+}
+
 bool ReportEnginePrivate::suppressFieldAndVarError() const
 {
     return m_reportSettings.suppressAbsentFieldsAndVarsWarnings();
@@ -1430,6 +1467,42 @@ bool ReportEngine::resultIsEditable()
 {
     Q_D(ReportEngine);
     return d->resultIsEditable();
+}
+
+void ReportEngine::setSaveToFileVisible(bool value)
+{
+    Q_D(ReportEngine);
+    d->setSaveToFileVisible(value);
+}
+
+bool ReportEngine::saveToFileIsVisible()
+{
+    Q_D(ReportEngine);
+    return d->saveToFileIsVisible();
+}
+
+void ReportEngine::setPrintToPdfVisible(bool value)
+{
+    Q_D(ReportEngine);
+    d->setPrintToPdfVisible(value);
+}
+
+bool ReportEngine::printToPdfIsVisible()
+{
+    Q_D(ReportEngine);
+    return d->printToPdfIsVisible();
+}
+
+void ReportEngine::setPrintVisible(bool value)
+{
+    Q_D(ReportEngine);
+    d->setPrintVisible(value);
+}
+
+bool ReportEngine::printIsVisible()
+{
+    Q_D(ReportEngine);
+    return d->printIsVisible();
 }
 
 bool ReportEngine::isBusy()

@@ -72,6 +72,10 @@ public:
     void setStatusBarVisible(bool value);
     void setMenuVisible(bool value);
     void setHideResultEditButton(bool value);
+    void setHidePrintButton(bool value);
+    void setHideSaveToFileButton(bool value);
+    void setHidePrintToPdfButton(bool value);
+    void setEnablePrintMenu(bool value);
     QSettings* settings();
     ScaleType previewScaleType() const;
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);

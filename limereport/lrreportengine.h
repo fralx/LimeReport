@@ -182,6 +182,12 @@ public:
     void setPreviewPageBackgroundColor(QColor color);
     void setResultEditable(bool value);
     bool resultIsEditable();
+    void setSaveToFileVisible(bool value);
+    bool saveToFileIsVisible();
+    void setPrintToPdfVisible(bool value);
+    bool printToPdfIsVisible();
+    void setPrintVisible(bool value);
+    bool printIsVisible();
     bool isBusy();
     void setPassPharse(QString& passPharse);
     QList<QLocale::Language> aviableLanguages();

@@ -186,6 +186,26 @@ void PreviewReportWindow::setHideResultEditButton(bool value)
     ui->actionEdit_Mode->setVisible(value);
 }
 
+void PreviewReportWindow::setHidePrintButton(bool value)
+{
+    ui->actionPrint->setVisible(value);
+}
+
+void PreviewReportWindow::setHideSaveToFileButton(bool value)
+{
+    ui->actionSaveToFile->setVisible(value);
+}
+
+void PreviewReportWindow::setHidePrintToPdfButton(bool value)
+{
+    ui->actionPrint_To_PDF->setVisible(value);
+}
+
+void PreviewReportWindow::setEnablePrintMenu(bool value)
+{
+    ui->menuReport->setEnabled(value);
+}
+
 QSettings*PreviewReportWindow::settings()
 {
     if (m_settings){

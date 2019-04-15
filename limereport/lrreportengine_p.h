@@ -216,6 +216,12 @@ public:
     bool isBusy();
     bool resultIsEditable() const;
     void setResultEditable(bool value);
+    bool saveToFileIsVisible() const;
+    void setSaveToFileVisible(bool value);
+    bool printToPdfIsVisible() const;
+    void setPrintToPdfVisible(bool value);
+    bool printIsVisible() const;
+    void setPrintVisible(bool value);
 
     void setPassPhrase(const QString &passPhrase);
     bool addTranslationLanguage(QLocale::Language language);
@@ -325,6 +331,9 @@ private:
     QColor m_previewPageBackgroundColor;
     QVector<WatermarkSetting> m_watermarks;
     BaseDesignIntf *createWatermark(PageDesignIntf *page, WatermarkSetting watermarkSetting);
+    bool m_saveToFileVisible;
+    bool m_printToPdfVisible;
+    bool m_printVisible;
 };
 
 }
