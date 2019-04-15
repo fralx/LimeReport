@@ -630,13 +630,14 @@ void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
 {
     BandDesignIntf* band = patternPage->bandByType(BandDesignIntf::PageFooter);
     if (band){
-        BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(band->cloneItem(PreviewMode, m_renderPageItem,m_renderPageItem));
+        BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(band->cloneItem(PreviewMode, m_renderPageItem, m_renderPageItem));
         replaceGroupsFunction(bandClone);
         bandClone->updateItemSize(m_datasources);
         bandClone->setItemPos(m_patternPageItem->pageRect().x(),m_patternPageItem->pageRect().bottom()-bandClone->height());
         bandClone->setHeight(m_pageFooterHeight);
         for(int i=0;i<m_maxHeightByColumn.size();++i)
             m_maxHeightByColumn[i]+=m_pageFooterHeight;
+        m_renderPageItem->setPageFooter(bandClone);
         registerBand(bandClone);
         datasources()->clearGroupFunctionValues(band->objectName());
     }
@@ -981,7 +982,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
 
         }
 
-        foreach(QList<BandDesignIntf*>* list,m_childBands.values()){
+        foreach(QList<BandDesignIntf*>* list, m_childBands.values()){
             if (registerInChildren &&
                 band->bandType()!=BandDesignIntf::PageHeader &&
                 band->bandType()!=BandDesignIntf::PageFooter &&
@@ -1268,19 +1269,6 @@ BandDesignIntf* ReportRender::findEnclosingGroup()
     return result;
 }
 
-void ReportRender::moveTearOffBand(){
-    BandDesignIntf* tearOffBand = m_renderPageItem->bandByType(BandDesignIntf::TearOffBand);
-    if (tearOffBand){
-        BandDesignIntf* pageFooter = m_renderPageItem->bandByType(BandDesignIntf::PageFooter);
-        if (pageFooter){
-            tearOffBand->setItemPos(m_patternPageItem->pageRect().x(),
-                                    m_patternPageItem->pageRect().bottom()-(tearOffBand->height()+pageFooter->height()));
-        } else {
-            tearOffBand->setItemPos(m_patternPageItem->pageRect().x(),m_patternPageItem->pageRect().bottom()-tearOffBand->height());
-        }
-    }
-}
-
 void ReportRender::savePage(bool isLast)
 {
 
@@ -1325,7 +1313,7 @@ void ReportRender::savePage(bool isLast)
         }
     }
 
-    moveTearOffBand();
+    m_renderPageItem->placeTearOffBand();
     emit m_patternPageItem->afterRender();
 
 }

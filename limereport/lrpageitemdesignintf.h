@@ -39,7 +39,7 @@
 namespace LimeReport{
 
 class ReportRender;
-class PageItemDesignIntf : public LimeReport::ItemsContainerDesignInft
+class PageItemDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
     Q_ENUMS(Orientation)
@@ -82,6 +82,7 @@ public:
     virtual QColor selectionColor() const;
     virtual QColor pageBorderColor() const;
     virtual QColor gridColor() const;
+    void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
     void clear();
     const BandsList& childBands() const {return m_bands;}
     BandDesignIntf * bandByType(BandDesignIntf::BandsType bandType) const;
@@ -130,6 +131,10 @@ public:
 
     QList<BandDesignIntf *> createBandGroup(int beginIndex, int endIndex);
 
+    void placeTearOffBand();
+    BandDesignIntf *pageFooter() const;
+    void setPageFooter(BandDesignIntf *pageFooter);
+
 protected slots:
     void bandDeleted(QObject* band);
     void bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos);
@@ -159,6 +164,7 @@ private:
     bool m_fullPage;
     bool m_oldPrintMode;
     bool m_resetPageNumber;
+    BandDesignIntf* m_pageFooter;
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;

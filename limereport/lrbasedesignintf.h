@@ -203,7 +203,7 @@ public:
     void setItemPos(const QPointF &newPos);
     void setItemPos(qreal x, qreal y);
 
-    void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
+    virtual void setItemMode(LimeReport::BaseDesignIntf::ItemMode mode);
     ItemMode itemMode() const {return m_itemMode;}
 
     virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
