@@ -428,6 +428,7 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
     QCoreApplication::processEvents();
+    bool bandIsSliced = false;
     if (patternBand){
 
         if (patternBand->isHeader())
@@ -474,7 +475,8 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                 if (patternBand && patternBand->isHeader() && patternBand->reprintOnEachPage())
                     m_reprintableBands.removeOne(patternBand);
                 if (bandClone->canBeSplitted(m_maxHeightByColumn[m_currentColumn])){
-                    bandClone = sliceBand(bandClone,patternBand,isLast);
+                    bandClone = sliceBand(bandClone, patternBand, isLast);
+                    bandIsSliced = true;
                 } else {
                     qreal percent = (bandClone->height()-m_maxHeightByColumn[m_currentColumn])/(bandClone->height()/100);
                     if (bandClone->maxScalePercent()>=percent){
@@ -504,6 +506,10 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                             } else {
                                 savePage();
                                 startNewPage();
+                                if (!bandIsSliced){
+                                    delete bandClone;
+                                    bandClone = renderData(patternBand);
+                                }
                             }
                             if (!registerBand(bandClone)) {
                                 BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
