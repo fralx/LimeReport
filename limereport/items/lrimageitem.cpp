@@ -67,7 +67,6 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
                     m_picture =  data.value<QImage>();
                   } else {
                       switch (m_format) {
-                      default:
                       case Binary:
                           m_picture.loadFromData(data.toByteArray());
                           break;
@@ -76,13 +75,16 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
                           break;
                       case Base64:
                           m_picture.loadFromData(QByteArray::fromBase64(data.toByteArray()));
-                          break;
+                          break;    
                       }
+
                   }
 
               }
            }
        } else if (!m_resourcePath.isEmpty()){
+           m_resourcePath = expandUserVariables(m_resourcePath, pass, NoEscapeSymbols, dataManager);
+           m_resourcePath = expandDataFields(m_resourcePath, NoEscapeSymbols, dataManager);
            m_picture = QImage(m_resourcePath);
        }
    }
