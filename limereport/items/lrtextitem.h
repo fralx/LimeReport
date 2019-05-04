@@ -75,11 +75,12 @@ class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
     Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
     Q_PROPERTY(bool replaceCRwithBR READ isReplaceCarriageReturns WRITE setReplaceCarriageReturns)
     Q_PROPERTY(bool hideIfEmpty READ hideIfEmpty WRITE setHideIfEmpty)
+    Q_PROPERTY(int fontLetterSpacing READ fontLetterSpacing WRITE setFontLetterSpacing)
 public:
 
-    enum AutoWidth{NoneAutoWidth,MaxWordLength,MaxStringLength};
-    enum AngleType{Angle0,Angle90,Angle180,Angle270,Angle45,Angle315};
-    enum ValueType{Default,DateTime,Double};
+    enum AutoWidth{NoneAutoWidth, MaxWordLength, MaxStringLength};
+    enum AngleType{Angle0, Angle90, Angle180, Angle270, Angle45, Angle315};
+    enum ValueType{Default, DateTime, Double};
 
     void Init();
     TextItem(QObject* owner=0, QGraphicsItem* parent=0);
@@ -176,6 +177,9 @@ public:
     bool hideIfEmpty() const;
     void setHideIfEmpty(bool hideIfEmpty);
 
+    int fontLetterSpacing() const;
+    void setFontLetterSpacing(int fontLetterSpacing);
+
 protected:
     void updateLayout();
     bool isNeedExpandContent() const;
@@ -220,7 +224,7 @@ private:
     qreal m_textIndent;
     Qt::LayoutDirection m_textLayoutDirection;
     bool m_hideIfEmpty;
-
+    int m_fontLetterSpacing;
 };
 
 }
