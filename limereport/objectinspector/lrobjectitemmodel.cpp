@@ -157,6 +157,7 @@ void QObjectPropertyModel::translatePropertyName()
 	tr("useExternalPainter");
     tr("layoutSpacing");
     tr("printerName");
+    tr("fontLetterSpacing");
 }
 
 void QObjectPropertyModel::clearObjectsList()
