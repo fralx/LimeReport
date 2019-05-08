@@ -383,37 +383,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1179"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1178"/>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1181"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1180"/>
         <source>Cut</source>
         <translation>Wytnij</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1183"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1182"/>
         <source>Paste</source>
         <translation>Wklej</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1192"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1191"/>
         <source>Bring to top</source>
         <translation>Przenieś na górę</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1193"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1192"/>
         <source>Send to back</source>
         <translation>Przenieś na dół</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1195"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1194"/>
         <source>No borders</source>
         <translation>Bez obramowania</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1196"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1195"/>
         <source>All borders</source>
         <translation>Pełne obramowanie</translation>
     </message>
@@ -1164,7 +1164,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ImageItem</name>
     <message>
-        <location filename="../limereport/items/lrimageitem.cpp" line="265"/>
+        <location filename="../limereport/items/lrimageitem.cpp" line="262"/>
         <source>Image</source>
         <translation>Obraz</translation>
     </message>
@@ -1172,12 +1172,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
     <message>
-        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="52"/>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="51"/>
         <source>Band</source>
         <translation>Sekcja</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="53"/>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="52"/>
         <source>Page</source>
         <translation>Strona</translation>
     </message>
@@ -3080,7 +3080,7 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>wyrównanie</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrbarcodeitem.cpp" line="43"/>
+        <location filename="../limereport/items/lrbarcodeitem.cpp" line="42"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="127"/>
         <source>Barcode Item</source>
         <translation>Kod kreskowy</translation>
@@ -3092,7 +3092,7 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Układ poziomy</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrimageitem.cpp" line="45"/>
+        <location filename="../limereport/items/lrimageitem.cpp" line="43"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="137"/>
         <source>Image Item</source>
         <translation>Element obrazu</translation>
@@ -3104,7 +3104,7 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Kształt elementu</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="46"/>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="45"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="359"/>
         <source>itemLocation</source>
         <translation>Lokalizacja elementu</translation>
@@ -3167,17 +3167,17 @@ Ten podgląd nie jest już prawidłowy.</translation>
     <message>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="311"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="314"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="52"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="55"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="61"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="51"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="54"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="60"/>
         <source>datasource</source>
         <translation>Źródło danych</translation>
     </message>
     <message>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="317"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="329"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="58"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="64"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="57"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="63"/>
         <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="40"/>
         <source>field</source>
         <translation>Pole</translation>
