@@ -54,6 +54,12 @@ namespace{
     bool VARIABLE_IS_NOT_USED registredImageFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("field","LimeReport::ImageItem"),QObject::tr("field"),createFieldPropItem
     );
+    bool VARIABLE_IS_NOT_USED registredBarcodeDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("datasource","LimeReport::BarcodeItem"),QObject::tr("datasource"),createDatasourcePropItem
+    );
+    bool VARIABLE_IS_NOT_USED registredBarcodeFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("field","LimeReport::BarcodeItem"),QObject::tr("field"),createFieldPropItem
+    );
 }
 
 QWidget* LimeReport::DatasourcePropItem::createProperyEditor(QWidget *parent) const{
