@@ -40,6 +40,8 @@ class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_ENUMS(InputMode)
     Q_PROPERTY(QString content READ content WRITE setContent)
     Q_PROPERTY(BarcodeType barcodeType READ barcodeType WRITE setBarcodeType )
+    Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
+    Q_PROPERTY(QString field READ field WRITE setField)
     Q_PROPERTY(QString testValue READ designTestValue WRITE setDesignTestValue)
     Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -163,6 +165,10 @@ public:
     QString content() const {return m_content;}
     void setBarcodeType(BarcodeType value);
     BarcodeType barcodeType(){return m_barcodeType;}
+    QString datasource() const;
+    void setDatasource(const QString &datasource);
+    QString field() const;
+    void setField(const QString &field);
     void setDesignTestValue(QString value);
     QString designTestValue(){return m_designTestValue;}
     QColor foregroundColor(){return m_foregroundColor;}
@@ -188,6 +194,8 @@ public:
 
 private:
     QString m_content;
+    QString m_datasource;
+    QString m_field;
     QString m_designTestValue;
     BarcodeType m_barcodeType;
     QColor m_foregroundColor;

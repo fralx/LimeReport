@@ -115,6 +115,36 @@ void BarcodeItem::setContent(const QString &content)
     }
 }
 
+QString BarcodeItem::datasource() const
+{
+    return m_datasource;
+}
+
+void BarcodeItem::setDatasource(const QString &datasource)
+{
+    if (m_datasource != datasource){
+        QString oldValue = m_datasource;
+        m_datasource = datasource;
+        update();
+        notify("datasource", oldValue, datasource);
+    }
+}
+
+QString BarcodeItem::field() const
+{
+    return m_field;
+}
+
+void BarcodeItem::setField(const QString &field)
+{
+    if (m_field != field){
+        QString oldValue = m_field;
+        m_field = field;
+        update();
+        notify("field", oldValue, field);
+    }
+}
+
 void BarcodeItem::setBarcodeType(BarcodeItem::BarcodeType value)
 {
     if (m_barcodeType!=value){
@@ -268,12 +298,38 @@ void BarcodeItem::setHideText(bool hideText)
 
 void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-    switch(pass){
+    if (content().isEmpty())
+    {
+        if (!m_datasource.isEmpty() && !m_field.isEmpty())
+        {
+           IDataSource* ds = dataManager->dataSource(m_datasource);
+           if (ds)
+           {
+               QVariant data = ds->data(m_field);
+               if (data.isValid())
+               {
+                   switch(pass)
+                       {
+                       case FirstPass:
+                           setContent(expandUserVariables(data.toString(),pass,NoEscapeSymbols, dataManager));
+                           setContent(expandDataFields(data.toString(), NoEscapeSymbols, dataManager));
+                           break;
+                       default:;
+                       }
+               }
+           }
+        }
+    }
+    else
+    {
+    switch(pass)
+        {
     case FirstPass:
         setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
         setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
         break;
     default:;
+        }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
 }
