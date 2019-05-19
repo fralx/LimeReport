@@ -48,7 +48,8 @@ namespace LimeReport{
 BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
     : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
       m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
-      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE)
+      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE),
+      m_option3(0)
 {}
 
 BarcodeItem::~BarcodeItem()
@@ -74,6 +75,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     bc.setSecurityLevel(m_securityLevel);
     bc.setPdf417CodeWords(m_pdf417CodeWords);
     bc.setHideText(m_hideText);
+    bc.setOption3(m_option3);
 
     if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
 
@@ -291,7 +293,24 @@ void BarcodeItem::setHideText(bool hideText)
         m_hideText = hideText;
         if (!isLoading()){
             update();
-            notify("hideText",!m_hideText,m_hideText);
+            notify("hideText", !m_hideText, m_hideText);
+        }
+    }
+}
+
+int BarcodeItem::option3() const
+{
+    return m_option3;
+}
+
+void BarcodeItem::setOption3(int option3)
+{
+    if (m_option3 != option3){
+        int oldValue = m_option3;
+        m_option3 = option3;
+        if(!isLoading()){
+            update();
+            notify("option3", oldValue, m_option3);
         }
     }
 }
