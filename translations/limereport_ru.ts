@@ -1221,11 +1221,11 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::ObjectInspectorWidget</name>
     <message>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр</translation>
     </message>
 </context>
 <context>
@@ -1411,27 +1411,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование</translation>
     </message>
     <message>
         <source>InsertTextItem</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить текстовый элемент</translation>
     </message>
     <message>
         <source>Add new TextItem</source>
-        <translation type="unfinished"></translation>
+        <translation>Текстовый элемент</translation>
     </message>
     <message>
         <source>Selection Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим выбора</translation>
     </message>
     <message>
         <source>Delete Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить элемент</translation>
     </message>
     <message>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -1926,6 +1926,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>printerName</source>
         <translation>Имя принтера</translation>
+    </message>
+    <message>
+        <source>fontLetterSpacing</source>
+        <translation>Межсимвольный интервал</translation>
+    </message>
+    <message>
+        <source>hideText</source>
+        <translation>Скрывать текст</translation>
     </message>
 </context>
 <context>
@@ -2594,7 +2602,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>RowIndex</source>
-        <translation type="unfinished"></translation>
+        <translation>Индекс строки</translation>
     </message>
 </context>
 <context>
