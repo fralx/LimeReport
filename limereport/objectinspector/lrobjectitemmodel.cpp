@@ -158,6 +158,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("layoutSpacing");
     tr("printerName");
     tr("fontLetterSpacing");
+    tr("hideText");
+    tr("option3");
 }
 
 void QObjectPropertyModel::clearObjectsList()
