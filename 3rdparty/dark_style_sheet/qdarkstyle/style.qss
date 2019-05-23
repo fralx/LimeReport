@@ -1211,16 +1211,28 @@ QToolBox  {
 
 QToolBox::tab {
     color: #eff0f1;
+    font-weight: bold;
     background-color: #383838;
-    border: 1px solid #2b2b2b;
-    border-bottom: 1px transparent #383838;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+\\    background-color: #2b2b2b;
+    border: 1px solid #d0d0d0;
+    border-top: 1px transparent #383838;
+    border-left: 1px transparent #383838;
+    border-right: 1px transparent #383838;
+\\    border-bottom: 1px transparent #383838;
+\\    border-top-left-radius: 5px;
+\\    border-top-right-radius: 5px;
+}
+
+QToolBox::tab:hover{
+    background-color: #2b2b2b;
+    border-color: #7faa18;
 }
 
 QToolBox::tab:selected { /* italicize selected tabs */
-    font: italic;
-    background-color: #383838;
+\\    font: italic;
+    font-weight: bold;
+\\    background-color: #383838;
+    background-color: #2b2b2b;
     border-color: #7faa18;
  }
 
