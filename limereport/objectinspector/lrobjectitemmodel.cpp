@@ -136,6 +136,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("keepGroupTogether");
     tr("watermark");
     tr("replaceCRwithBR");
+    tr("hideText");
+    tr("option3");
 }
 
 void QObjectPropertyModel::clearObjectsList()
