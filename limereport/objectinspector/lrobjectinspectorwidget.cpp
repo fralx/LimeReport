@@ -189,7 +189,7 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     h->addWidget(pbClear);
     l->addLayout(h);
     l->addWidget(m_objectInspectorView);
-    l->setContentsMargins(2,2,2,2);
+    l->setMargin(Const::DOCKWIDGET_MARGINS);
     l->setSpacing(2);
     this->setLayout(l);
 }

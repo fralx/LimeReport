@@ -2,6 +2,7 @@
 #include "ui_lrsettingdialog.h"
 #include "lrglobal.h"
 #include <QFile>
+#include <QFileInfo>
 
 namespace LimeReport{
 
@@ -10,10 +11,14 @@ SettingDialog::SettingDialog(QWidget *parent) :
     ui(new Ui::SettingDialog)
 {
     ui->setupUi(this);
-    QFile theme(":/qdarkstyle/style.qss");
-    if (!theme.exists()){
-        ui->cbbUseDarkTheme->setVisible(false);
-    }
+    ui->toolBox->setCurrentIndex(0);
+//    ui->cbTheme->addItem(QObject::tr("Default"));
+//    if (isFileExists(":/qdarkstyle/style.qss")){
+//        ui->cbTheme->addItem(QObject::tr("Dark"));
+//    }
+//    if (isFileExists(":/qlightstyle/lightstyle.qss")){
+//        ui->cbTheme->addItem(QObject::tr("Light"));
+//    }
     ui->indentSize->setRange(0,10);
 }
 
@@ -51,9 +56,9 @@ int SettingDialog::tabIndention()
     return ui->indentSize->value();
 }
 
-bool SettingDialog::userDarkTheme()
+QString SettingDialog::theme()
 {
-    return ui->cbbUseDarkTheme->isChecked();
+    return ui->cbTheme->currentText();
 }
 
 bool SettingDialog::suppressAbsentFieldsAndVarsWarnings()
@@ -101,9 +106,13 @@ void SettingDialog::setScritpTabIndention(int size)
     ui->indentSize->setValue(size);
 }
 
-void SettingDialog::setUseDarkTheme(bool value)
+void SettingDialog::setTheme(const QString &theme)
 {
-    ui->cbbUseDarkTheme->setChecked(value);
+#ifdef HAVE_QT4
+    ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(theme));
+#else
+    ui->cbTheme->setCurrentText(theme);
+#endif
 }
 
 void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLocale::Language currentLanguage)
@@ -125,6 +134,17 @@ void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLo
     ui->designerLanguage->setCurrentIndex(ui->designerLanguage->findText(QLocale::languageToString(currentLanguage)));
 #else
     ui->designerLanguage->setCurrentText(QLocale::languageToString(currentLanguage));
+#endif
+}
+
+void SettingDialog::setDesignerThemes(QList<QString> themes, const QString &currentTheme)
+{
+    ui->cbTheme->clear();
+    ui->cbTheme->addItems(themes);
+#ifdef HAVE_QT4
+    ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(currentTheme));
+#else
+    ui->cbTheme->setCurrentText(currentTheme);
 #endif
 }
 
@@ -157,6 +177,12 @@ void SettingDialog::on_bbOkCancel_accepted()
         m_settings->setValue("TabIndention", ui->indentSize->value());
         m_settings->endGroup();
     }
+}
+
+bool SettingDialog::isFileExists(const QString &path)
+{
+    QFileInfo check_file(path);
+    return check_file.exists() && check_file.isFile();
 }
 
 } // namespace LimeReport

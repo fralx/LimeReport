@@ -57,7 +57,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
     m_dialogDesignerManager(new DialogDesignerManager(this)),
 #endif
     m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false),
-    m_dialogChanged(false), m_useDarkTheme(false), m_settings(settings)
+    m_dialogChanged(false), m_theme("Default"), m_settings(settings)
 {
 #ifdef HAVE_QT4
     m_tabWidget = new LimeReportTabWidget(this);
@@ -100,6 +100,10 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
     connect(m_dialogDesignerManager, SIGNAL(dialogNameChanged(QString,QString)),
             this, SLOT(slotDialogNameChanged(QString,QString)));
 #endif
+
+    m_themes.insert("Default","");
+    initThemeIfExist("Dark", ":/qdarkstyle/style.qss");
+    initThemeIfExist("Light", ":/qlightstyle/lightstyle.qss");
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION
@@ -185,7 +189,7 @@ void ReportDesignWidget::saveState()
     m_settings->setValue("vGridStep",m_verticalGridStep);
     m_settings->setValue("defaultFont",m_defaultFont);
     m_settings->setValue("useGrid",m_useGrid);
-    m_settings->setValue("useDarkTheme",m_useDarkTheme);
+    m_settings->setValue("theme",m_theme);
     m_settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
     m_settings->endGroup();
 }
@@ -196,16 +200,26 @@ void ReportDesignWidget::applySettings()
         m_report->pageAt(i)->pageItem()->setFont(m_defaultFont);
     }
     applyUseGrid();
-    if (m_useDarkTheme) {
-        QFile theme(":/qdarkstyle/style.qss");
-        theme.open(QIODevice::ReadOnly);
-        QString styleSheet = theme.readAll();
-        parentWidget()->setStyleSheet(styleSheet);
-        m_report->setStyleSheet(styleSheet);
+
+    if (m_themes.contains(m_theme)){
+        parentWidget()->setStyleSheet(m_themes.value(m_theme));
+        m_report->setStyleSheet(m_themes.value(m_theme));
     } else {
+        m_theme = "Default";
         parentWidget()->setStyleSheet("");
         m_report->setStyleSheet("");
     }
+
+//    if (m_theme.compare("Dark") == 0) {
+//        QFile theme(":/qdarkstyle/style.qss");
+//        theme.open(QIODevice::ReadOnly);
+//        QString styleSheet = theme.readAll();
+//        parentWidget()->setStyleSheet(styleSheet);
+//        m_report->setStyleSheet(styleSheet);
+//    } else {
+//        parentWidget()->setStyleSheet("");
+//        m_report->setStyleSheet("");
+//    }
 
     if (m_settings){
         m_settings->beginGroup("ScriptEditor");
@@ -244,9 +258,9 @@ void ReportDesignWidget::loadState()
         m_useGrid = v.toBool();
     }
 
-    v = m_settings->value("useDarkTheme");
+    v = m_settings->value("theme");
     if (v.isValid()){
-        m_useDarkTheme = v.toBool();
+        m_theme = v.toString();
     }
 
     v = m_settings->value("ScriptEditorState");
@@ -684,6 +698,17 @@ void ReportDesignWidget::prepareReport()
     report()->clearSelection();
 }
 
+void ReportDesignWidget::initThemeIfExist(const QString &themeName, const QString &path)
+{
+    QFile theme(path);
+    if (theme.exists()){
+        theme.open(QIODevice::ReadOnly);
+        QString styleSheet = theme.readAll();
+        m_themes.insert(themeName, styleSheet);
+        m_localToEng.insert(QObject::tr(themeName.toLatin1()), themeName);
+    }
+}
+
 void ReportDesignWidget::previewReport()
 {
     prepareReport();
@@ -749,14 +774,25 @@ void ReportDesignWidget::editSetting()
     setting.setHorizontalGridStep(m_horizontalGridStep);
     setting.setDefaultFont(m_defaultFont);
     setting.setSuppressAbsentFieldsAndVarsWarnings(m_report->suppressFieldAndVarError());
-    setting.setUseDarkTheme(m_useDarkTheme);
+
+    QStringList themes;
+    themes.append(QObject::tr("Default"));
+    foreach(QString theme, m_themes.keys())
+        if (!themes.contains(QObject::tr(theme.toLatin1())))
+            themes.append(QObject::tr(theme.toLatin1()));
+
+    setting.setDesignerThemes(themes, QObject::tr(m_theme.toLatin1()));
     setting.setDesignerLanguages(m_report->designerLanguages(), m_report->currentDesignerLanguage());
 
     if (setting.exec()){
         m_horizontalGridStep = setting.horizontalGridStep();
         m_verticalGridStep = setting.verticalGridStep();
         m_defaultFont = setting.defaultFont();
-        m_useDarkTheme = setting.userDarkTheme();
+        if (m_localToEng.contains(setting.theme())){
+            m_theme =  m_localToEng.value(setting.theme());
+        } else {
+            m_theme = "Default";
+        }
         m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
         if (m_report->currentDesignerLanguage() != setting.designerLanguage() ){
             m_report->setCurrentDesignerLanguage(setting.designerLanguage());

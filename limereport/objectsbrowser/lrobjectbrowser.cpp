@@ -40,7 +40,7 @@ ObjectBrowser::ObjectBrowser(QWidget *parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     setLayout(layout);
-    layout->setMargin(2);
+    layout->setMargin(Const::DOCKWIDGET_MARGINS);
     m_treeView = new QTreeWidget(this);
     layout->addWidget(m_treeView);
     m_treeView->headerItem()->setText(0,tr("Objects"));

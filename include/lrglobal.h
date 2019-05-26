@@ -90,7 +90,7 @@ namespace Const{
     const QString DATAFUNCTIONS_MANAGER_NAME = "DatasourceFunctions";
     const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
     const int DEFAULT_TAB_INDENTION = 4;
-
+    const int DOCKWIDGET_MARGINS = 4;
 }
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);

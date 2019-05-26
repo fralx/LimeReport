@@ -206,6 +206,7 @@ protected:
 private:
     bool eventFilter(QObject *target, QEvent *event);
     void prepareReport();
+    void initThemeIfExist(const QString& themeName, const QString& path);
 private:
     ReportEnginePrivateInterface* m_report;
     QGraphicsView *m_view;
@@ -228,8 +229,10 @@ private:
     bool m_useGrid;
     bool m_useMagnet;
     bool m_dialogChanged;
-    bool m_useDarkTheme;
+    QString m_theme;
     QSettings* m_settings;
+    QMap<QString, QString> m_themes;
+    QMap<QString, QString> m_localToEng;
 };
 
 } // namespace LimeReport

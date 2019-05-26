@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>419</width>
-    <height>362</height>
+    <height>378</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <item>
     <widget class="QToolBox" name="toolBox">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="geometry">
@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>401</width>
-        <height>218</height>
+        <height>250</height>
        </rect>
       </property>
       <attribute name="label">
@@ -148,11 +148,44 @@
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="cbbUseDarkTheme">
-         <property name="text">
-          <string>Use dark theme</string>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="lblTheme">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Theme</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbTheme">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -162,7 +195,7 @@
         <x>0</x>
         <y>0</y>
         <width>401</width>
-        <height>218</height>
+        <height>250</height>
        </rect>
       </property>
       <attribute name="label">
@@ -251,25 +284,34 @@
         <x>0</x>
         <y>0</y>
         <width>401</width>
-        <height>218</height>
+        <height>250</height>
        </rect>
       </property>
       <attribute name="label">
        <string>Report settings</string>
       </attribute>
-      <widget class="QCheckBox" name="cbSuppressWarnings">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>280</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Suppress absent fields and variables warning</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QCheckBox" name="cbSuppressWarnings">
+         <property name="text">
+          <string>Suppress absent fields and variables warning</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>204</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

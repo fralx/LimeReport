@@ -512,7 +512,7 @@ void ReportDesignWindow::createObjectInspector()
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
     l->addWidget(m_objectInspector);
-    l->setContentsMargins(2,2,2,2);
+    l->setMargin(0);
     w->setLayout(l);
     objectDoc->setWindowTitle(tr("Object Inspector"));
     objectDoc->setWidget(w);

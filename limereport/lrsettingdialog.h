@@ -23,7 +23,7 @@ public:
     QFont defaultFont();
     QFont scriptFont();
     int tabIndention();
-    bool userDarkTheme();
+    QString theme();
     bool suppressAbsentFieldsAndVarsWarnings();
     QLocale::Language designerLanguage();
     void setSuppressAbsentFieldsAndVarsWarnings(bool value);
@@ -32,12 +32,14 @@ public:
     void setDefaultFont(const QFont& value);
     void setScriptFont(const QFont& value);
     void setScritpTabIndention(int size);
-    void setUseDarkTheme(bool value);
+    void setTheme(const QString& theme);
     void setDesignerLanguages(QList<QLocale::Language> languages, QLocale::Language currentLanguage);
+    void setDesignerThemes(QList<QString> themes, const QString& currentTheme);
     void setSettings(QSettings* settings);
 private slots:
     void on_bbOkCancel_accepted();
-
+private:
+    bool isFileExists(const QString& path);
 private:
     Ui::SettingDialog *ui;
     QList<QLocale::Language> m_aviableLanguages;

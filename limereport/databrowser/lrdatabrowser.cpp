@@ -63,6 +63,8 @@ DataBrowser::DataBrowser(QWidget *parent) :
     connect(ui->changeConnection,SIGNAL(clicked()),this,SLOT(slotChangeConnection()));
     connect(ui->pbConnect,SIGNAL(clicked()),this,SLOT(slotChangeConnectionState()));
 
+    ui->verticalLayout_2->setMargin(Const::DOCKWIDGET_MARGINS);
+
     ui->dataTree->setHeaderLabel(tr("Datasources"));
     ui->pbConnect->setEnabled(false);
 }

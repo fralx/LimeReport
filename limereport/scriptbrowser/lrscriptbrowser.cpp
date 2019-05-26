@@ -43,6 +43,7 @@ ScriptBrowser::ScriptBrowser(QWidget *parent) :
     ui(new Ui::ScriptBrowser)
 {
     ui->setupUi(this);
+    ui->verticalLayout->setMargin(Const::DOCKWIDGET_MARGINS);
 #ifndef HAVE_UI_LOADER
     ui->tpDialogs->setVisible(false);
     ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->tpDialogs));

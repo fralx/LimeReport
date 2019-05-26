@@ -1935,6 +1935,10 @@ p, li { white-space: pre-wrap; }
         <source>hideText</source>
         <translation>Скрывать текст</translation>
     </message>
+    <message>
+        <source>option3</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -2428,6 +2432,22 @@ This preview is no longer valid.</source>
         <source>Datasource with name %1 already exist</source>
         <translation>Источник данных %1 уже существует</translation>
     </message>
+    <message>
+        <source>CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Separator</source>
+        <translation>Разделитель</translation>
+    </message>
+    <message>
+        <source>;</source>
+        <translation>;</translation>
+    </message>
+    <message>
+        <source>Use first row as header</source>
+        <translation>Первая строка как заголовок</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ScriptBrowser</name>
@@ -2636,10 +2656,6 @@ This preview is no longer valid.</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <source>Use dark theme</source>
-        <translation>Использовать Темную тему</translation>
-    </message>
-    <message>
         <source>Designer settings</source>
         <translation>Настройки дизайнера</translation>
     </message>
@@ -2658,6 +2674,10 @@ This preview is no longer valid.</source>
     <message>
         <source>Report settings</source>
         <translation>Настройки отчета</translation>
+    </message>
+    <message>
+        <source>Theme</source>
+        <translation>Тема</translation>
     </message>
 </context>
 <context>
@@ -3073,6 +3093,10 @@ This preview is no longer valid.</source>
     <message>
         <source>Export to PDF</source>
         <translation>Экспортировать в PDF</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>По умолчанию</translation>
     </message>
 </context>
 </TS>
