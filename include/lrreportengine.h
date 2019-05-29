@@ -140,6 +140,17 @@ class PreviewReportWidget;
 
 typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
 
+class LIMEREPORT_EXPORT IPreparedPages{
+public:
+    virtual ~IPreparedPages();
+    virtual bool loadFromFile(const QString& fileName) = 0;
+    virtual bool loadFromString(const QString data) = 0;
+    virtual bool loadFromByteArray(QByteArray* data) = 0;
+    virtual bool saveToFile(const QString& fileName) = 0;
+    virtual QString saveToString()  = 0;
+    virtual QByteArray  saveToByteArray() = 0;
+};
+
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
     friend class ReportDesignWidget;
@@ -201,6 +212,9 @@ public:
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
     void addWatermark(const WatermarkSetting& watermarkSetting);
     void clearWatermarks();
+    IPreparedPages* preparedPages();
+    bool showPreparedPages(PreviewHints hints = PreviewBarsUserSetting);
+    bool prepareReportPages();
 signals:
     void cleared();
     void renderStarted();

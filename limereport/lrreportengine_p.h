@@ -74,6 +74,7 @@ private:
     const WatermarkSetting& m_watermark;
 };
 
+
 class ReportEnginePrivateInterface {
 public:
     virtual PageDesignIntf*         appendPage(const QString& pageName="") = 0;
@@ -109,6 +110,24 @@ public:
     virtual QList<QLocale::Language> designerLanguages() = 0;
     virtual QLocale::Language       currentDesignerLanguage() = 0;
     virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
+};
+
+class PreparedPages: public IPreparedPages{
+public:
+    PreparedPages(ReportPages* pages):m_pages(pages){}
+    ~PreparedPages(){}
+// IPreviewPages interface
+private:
+    bool loadFromFile(const QString &fileName);
+    bool loadFromString(const QString data);
+    bool loadFromByteArray(QByteArray *data);
+    bool saveToFile(const QString &fileName);
+    QString saveToString();
+    QByteArray saveToByteArray();
+private:
+    bool readPages(ItemsReaderIntf::Ptr reader);
+    ReportPages* m_pages;
+
 };
 
 class PrintProcessor{
@@ -243,6 +262,9 @@ public:
     void      setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
     void      addWatermark(const WatermarkSetting& watermarkSetting);
     void      clearWatermarks();
+    IPreparedPages* preparedPages(){return &m_preparedPagesManager;}
+    bool showPreparedPages(PreviewHints hints);
+    bool prepareReportPages();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -267,6 +289,7 @@ public slots:
     void    cancelRender();
 protected:
     PageDesignIntf* createPage(const QString& pageName="", bool preview = false);
+    bool showPreviewWindow(ReportPages pages, PreviewHints hints);
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:
@@ -296,6 +319,8 @@ private:
 private:
     QList<PageDesignIntf*> m_pages;
     QList<PageItemDesignIntf*> m_renderingPages;
+    ReportPages m_preparedPages;
+    PreparedPages m_preparedPagesManager;
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
     ReportRender::Ptr m_reportRender;

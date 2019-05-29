@@ -76,7 +76,7 @@ namespace LimeReport{
 QSettings* ReportEngine::m_settings = 0;
 
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
-    QObject(parent), m_fileName(""), m_settings(0), m_ownedSettings(false),
+    QObject(parent), m_preparedPagesManager(PreparedPages(&m_preparedPages)), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
@@ -498,6 +498,48 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
     return false;
 }
 
+bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hints)
+{
+    if (pages.count()>0){
+        Q_Q(ReportEngine);
+        PreviewReportWindow* w = new PreviewReportWindow(q, 0, settings());
+        w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
+        w->setAttribute(Qt::WA_DeleteOnClose,true);
+        w->setWindowModality(Qt::ApplicationModal);
+        //w->setWindowIcon(QIcon(":/report/images/main.ico"));
+        w->setWindowIcon(m_previewWindowIcon);
+        w->setWindowTitle(m_previewWindowTitle);
+        w->setSettings(settings());
+        w->setPages(pages);
+        w->setLayoutDirection(m_previewLayoutDirection);
+
+        if (!dataManager()->errorsList().isEmpty()){
+            w->setErrorMessages(dataManager()->errorsList());
+        }
+
+        if (!hints.testFlag(PreviewBarsUserSetting)){
+            w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
+            w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
+            w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
+        }
+
+        w->setHideResultEditButton(resultIsEditable());
+        w->setHidePrintButton(printIsVisible());
+        w->setHideSaveToFileButton(saveToFileIsVisible());
+        w->setHidePrintToPdfButton(printToPdfIsVisible());
+        w->setEnablePrintMenu(printIsVisible() || printToPdfIsVisible());
+
+        m_activePreview = w;
+
+        w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
+
+        connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
+        w->exec();
+        return true;
+    }
+    return false;
+}
+
 void ReportEnginePrivate::previewReport(PreviewHints hints)
 { 
     previewReport(0, hints);
@@ -510,45 +552,7 @@ void ReportEnginePrivate::previewReport(QPrinter *printer, PreviewHints hints)
             dataManager()->setDesignTime(false);
             ReportPages pages = renderToPages();
             dataManager()->setDesignTime(true);
-            if (pages.count()>0){
-                Q_Q(ReportEngine);
-                PreviewReportWindow* w = new PreviewReportWindow(q,0,settings());
-                w->setPreviewPageBackgroundColor(m_previewPageBackgroundColor);
-                w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
-                w->setAttribute(Qt::WA_DeleteOnClose,true);
-                w->setWindowModality(Qt::ApplicationModal);
-                w->setDefaultPrinter(printer);
-                //w->setWindowIcon(QIcon(":/report/images/main.ico"));
-                w->setWindowIcon(m_previewWindowIcon);
-                w->setWindowTitle(m_previewWindowTitle);
-                w->setSettings(settings());
-                w->setPages(pages);
-                w->setLayoutDirection(m_previewLayoutDirection);
-
-                if (!dataManager()->errorsList().isEmpty()){
-                    w->setErrorMessages(dataManager()->errorsList());
-                }
-
-                if (!hints.testFlag(PreviewBarsUserSetting)){
-                    w->setMenuVisible(!hints.testFlag(HidePreviewMenuBar));
-                    w->setStatusBarVisible(!hints.testFlag(HidePreviewStatusBar));
-                    w->setToolBarVisible(!hints.testFlag(HidePreviewToolBar));
-                }
-                
-                w->setHideResultEditButton(resultIsEditable());
-                w->setHidePrintButton(printIsVisible());
-                w->setHideSaveToFileButton(saveToFileIsVisible());
-                w->setHidePrintToPdfButton(printToPdfIsVisible());
-                w->setEnablePrintMenu(printIsVisible() || printToPdfIsVisible());
-
-                w->setStyleSheet(m_styleSheet);
-                m_activePreview = w;
-
-                w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
-
-                connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
-                w->exec();
-            }
+            showPreviewWindow(pages, hints);
         } catch (ReportError &exception){
             saveError(exception.what());
             showError(exception.what());
@@ -963,6 +967,25 @@ PageItemDesignIntf* ReportEnginePrivate::getPageByName(const QString& pageName)
             return page;
     }
     return 0;
+}
+
+bool ReportEnginePrivate::showPreparedPages(PreviewHints hints)
+{
+    return showPreviewWindow(m_preparedPages, hints);
+}
+
+bool ReportEnginePrivate::prepareReportPages()
+{
+    try{
+        dataManager()->setDesignTime(false);
+        m_preparedPages = renderToPages();
+        dataManager()->setDesignTime(true);
+    } catch (ReportError &exception){
+        saveError(exception.what());
+        showError(exception.what());
+        return false;
+    }
+    return !m_preparedPages.isEmpty();
 }
 
 Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
@@ -1583,6 +1606,23 @@ void ReportEngine::clearWatermarks()
     d->clearWatermarks();
 }
 
+IPreparedPages *ReportEngine::preparedPages()
+{
+    Q_D(ReportEngine);
+    return d->preparedPages();
+}
+
+bool ReportEngine::showPreparedPages(PreviewHints hints)
+{
+    Q_D(ReportEngine);
+    return d->showPreparedPages(hints);
+}
+
+bool ReportEngine::prepareReportPages()
+{
+    Q_D(ReportEngine);
+    return d->prepareReportPages();
+}
 
 void ReportEngine::setShowProgressDialog(bool value)
 {
@@ -1746,6 +1786,80 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     }
     page->setPos(backupPagePos);
     return true;
+}
+
+IPreparedPages::~IPreparedPages(){}
+
+bool PreparedPages::loadFromFile(const QString &fileName)
+{
+    ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
+    return readPages(reader);
+}
+
+bool PreparedPages::loadFromString(const QString data)
+{
+    ItemsReaderIntf::Ptr reader = StringXMLreader::create(data);
+    return readPages(reader);
+}
+
+bool PreparedPages::loadFromByteArray(QByteArray *data)
+{
+    ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
+    return readPages(reader);
+}
+
+bool PreparedPages::saveToFile(const QString &fileName)
+{
+    if (!fileName.isEmpty()){
+        QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+        foreach (PageItemDesignIntf::Ptr page, *m_pages){
+            writer->putItem(page.data());
+        }
+        return writer->saveToFile(fileName);
+    }
+    return false;
+}
+
+QString PreparedPages::saveToString()
+{
+    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    foreach (PageItemDesignIntf::Ptr page, *m_pages){
+        writer->putItem(page.data());
+    }
+    return writer->saveToString();
+}
+
+QByteArray PreparedPages::saveToByteArray()
+{
+    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+    foreach (PageItemDesignIntf::Ptr page, *m_pages){
+        writer->putItem(page.data());
+    }
+    return writer->saveToByteArray();
+}
+
+bool PreparedPages::readPages(ItemsReaderIntf::Ptr reader)
+{
+    if (reader->first()){
+        PageItemDesignIntf::Ptr page = PageItemDesignIntf::create(0);
+        if (!reader->readItem(page.data()))
+            return false;
+        else {
+            m_pages->append(page);
+            while (reader->next()){
+                page = PageItemDesignIntf::create(0);
+                if (!reader->readItem(page.data())){
+                    m_pages->clear();
+                    return false;
+                } else {
+                    m_pages->append(page);
+                }
+            }
+        }
+
+        return true;
+    }
+    return false;
 }
 
 void PrintProcessor::initPrinter(PageItemDesignIntf* page)
