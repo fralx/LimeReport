@@ -50,6 +50,8 @@
 #include "lrpreviewreportwindow.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
+#include "lrpreparedpages.h"
+
 #ifdef HAVE_STATIC_BUILD
 #include "lrfactoryinitializer.h"
 #endif
@@ -58,12 +60,12 @@ namespace LimeReport{
 QSettings* ReportEngine::m_settings = 0;
 
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
-    QObject(parent), m_preparedPagesManager(PreparedPages(&m_preparedPages)), m_fileName(""), m_settings(0), m_ownedSettings(false),
+    QObject(parent), m_preparedPagesManager(new PreparedPages(&m_preparedPages)), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
     m_showProgressDialog(true), m_reportName(""), m_activePreview(0),
     m_previewWindowIcon(":/report/images/logo32"), m_previewWindowTitle(tr("Preview")),
     m_reportRendering(false), m_resultIsEditable(true), m_passPhrase("HjccbzHjlbyfCkjy"),
-    m_fileWatcher( new QFileSystemWatcher( this ) ), m_previewLayoutDirection(Qt::LayoutDirectionAuto),
+    m_fileWatcher( new QFileSystemWatcher(this) ), m_previewLayoutDirection(Qt::LayoutDirectionAuto),
     m_previewScaleType(FitWidth), m_previewScalePercent(0), m_saveToFileVisible(true), m_printToPdfVisible(true),
     m_printVisible(true)
 {
@@ -93,6 +95,7 @@ ReportEnginePrivate::~ReportEnginePrivate()
     foreach(PageDesignIntf* page,m_pages) delete page;
     m_pages.clear();
     if (m_ownedSettings&&m_settings) delete m_settings;
+    delete m_preparedPagesManager;
 }
 
 QObject* ReportEnginePrivate::createElement(const QString &, const QString &)
@@ -400,6 +403,8 @@ bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hint
         w->setPreviewScaleType(m_previewScaleType, m_previewScalePercent);
 
         connect(w,SIGNAL(destroyed(QObject*)), this, SLOT(slotPreviewWindowDestroyed(QObject*)));
+        connect(w, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)),
+                this, SIGNAL(onSavePreview(bool&, LimeReport::IPreparedPages*)));
         w->exec();
         return true;
     }
@@ -756,6 +761,10 @@ void ReportEnginePrivate::setPreviewScaleType(const ScaleType &scaleType, int pe
     m_previewScalePercent = percent;
 }
 
+IPreparedPages *ReportEnginePrivate::preparedPages(){
+    return m_preparedPagesManager;
+}
+
 bool ReportEnginePrivate::showPreparedPages(PreviewHints hints)
 {
     return showPreviewWindow(m_preparedPages, hints);
@@ -903,7 +912,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 
         foreach(PageDesignIntf* page , m_pages){
         	m_pages.at(0)->setReportSettings(&m_reportSettings);
-        	result.append(m_reportRender->renderPageToPages(page));
+            result.append(m_reportRender->renderPageToPages(page));
         }
 
         m_reportRender->secondRenderPass(result);
@@ -933,6 +942,8 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(onSave()), this, SIGNAL(onSave()));
     connect(d, SIGNAL(onLoad(bool&)), this, SIGNAL(onLoad(bool&)));
     connect(d, SIGNAL(saveFinished()), this, SIGNAL(saveFinished()));
+    connect(d, SIGNAL(onSavePreview(bool&, LimeReport::IPreparedPages*)),
+            this, SIGNAL(onSavePreview(bool&, LimeReport::IPreparedPages*)));
 }
 
 ReportEngine::~ReportEngine()
@@ -1216,80 +1227,6 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
-}
-
-IPreparedPages::~IPreparedPages(){}
-
-bool PreparedPages::loadFromFile(const QString &fileName)
-{
-    ItemsReaderIntf::Ptr reader = FileXMLReader::create(fileName);
-    return readPages(reader);
-}
-
-bool PreparedPages::loadFromString(const QString data)
-{
-    ItemsReaderIntf::Ptr reader = StringXMLreader::create(data);
-    return readPages(reader);
-}
-
-bool PreparedPages::loadFromByteArray(QByteArray *data)
-{
-    ItemsReaderIntf::Ptr reader = ByteArrayXMLReader::create(data);
-    return readPages(reader);
-}
-
-bool PreparedPages::saveToFile(const QString &fileName)
-{
-    if (!fileName.isEmpty()){
-        QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-        foreach (PageItemDesignIntf::Ptr page, *m_pages){
-            writer->putItem(page.data());
-        }
-        return writer->saveToFile(fileName);
-    }
-    return false;
-}
-
-QString PreparedPages::saveToString()
-{
-    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-    foreach (PageItemDesignIntf::Ptr page, *m_pages){
-        writer->putItem(page.data());
-    }
-    return writer->saveToString();
-}
-
-QByteArray PreparedPages::saveToByteArray()
-{
-    QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-    foreach (PageItemDesignIntf::Ptr page, *m_pages){
-        writer->putItem(page.data());
-    }
-    return writer->saveToByteArray();
-}
-
-bool PreparedPages::readPages(ItemsReaderIntf::Ptr reader)
-{
-    if (reader->first()){
-        PageItemDesignIntf::Ptr page = PageItemDesignIntf::create(0);
-        if (!reader->readItem(page.data()))
-            return false;
-        else {
-            m_pages->append(page);
-            while (reader->next()){
-                page = PageItemDesignIntf::create(0);
-                if (!reader->readItem(page.data())){
-                    m_pages->clear();
-                    return false;
-                } else {
-                    m_pages->append(page);
-                }
-            }
-        }
-
-        return true;
-    }
-    return false;
 }
 
 }

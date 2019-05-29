@@ -60,9 +60,14 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     m_previewReportWidget = new PreviewReportWidget(report,this);
     setCentralWidget(m_previewReportWidget);
     layout()->setContentsMargins(1,1,1,1);
-    connect(m_previewReportWidget,SIGNAL(pageChanged(int)), this,SLOT(slotPageChanged(int)) );
-    connect(m_previewReportWidget->d_ptr->m_previewPage,SIGNAL(selectionChanged()),this,SLOT(slotSelectionChanged()));
-    connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
+    connect(m_previewReportWidget, SIGNAL(pageChanged(int)),
+            this, SLOT(slotPageChanged(int)) );
+    connect(m_previewReportWidget->d_ptr->m_previewPage, SIGNAL(selectionChanged()),
+            this, SLOT(slotSelectionChanged()));
+    connect(m_pagesNavigator, SIGNAL(valueChanged(int)),
+            this, SLOT(slotPageNavigatorChanged(int)));
+    connect(m_previewReportWidget, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)),
+            this, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)));
 
     m_fontEditor = new FontEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
     m_fontEditor->setObjectName("fontTools");

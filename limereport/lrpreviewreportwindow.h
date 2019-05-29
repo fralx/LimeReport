@@ -40,6 +40,7 @@
 #include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
 #include "lrpreviewreportwidget.h"
+#include "lrpreparedpagesintf.h"
 
 #include "items/editors/lrfonteditorwidget.h"
 #include "items/editors/lrtextalignmenteditorwidget.h"
@@ -106,6 +107,8 @@ private slots:
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
+signals:
+    void onSave(bool& saved, LimeReport::IPreparedPages* pages);
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();

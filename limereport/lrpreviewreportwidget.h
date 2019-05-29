@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTimer>
 #include "lrglobal.h"
+#include "lrpreparedpagesintf.h"
 
 namespace LimeReport {
 
@@ -49,6 +50,7 @@ signals:
     void pageChanged(int page);
     void scalePercentChanged(int percent);
     void pagesSet(int pageCount);
+    void onSave(bool& saved, LimeReport::IPreparedPages* pages);
 private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);
