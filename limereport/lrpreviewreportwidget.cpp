@@ -12,6 +12,7 @@
 #include "lrreportengine_p.h"
 #include "lrpreviewreportwidget_p.h"
 #include "serializators/lrxmlwriter.h"
+#include "lrpreparedpages.h"
 
 #include "lrexportersfactory.h"
 
@@ -281,13 +282,18 @@ void PreviewReportWidget::pageNavigatorChanged(int value)
 
 void PreviewReportWidget::saveToFile()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Report file name"));
-    if (!fileName.isEmpty()){
-        QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
-        foreach (PageItemDesignIntf::Ptr page, d_ptr->m_reportPages){
-            writer->putItem(page.data());
+    bool saved = false;
+    PreparedPages pagesManager = PreparedPages(&d_ptr->m_reportPages);
+    emit onSave(saved, &pagesManager);
+    if (!saved){
+        QString fileName = QFileDialog::getSaveFileName(this,tr("Report file name"));
+        if (!fileName.isEmpty()){
+            QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
+            foreach (PageItemDesignIntf::Ptr page, d_ptr->m_reportPages){
+                writer->putItem(page.data());
+            }
+            writer->saveToFile(fileName);
         }
-        writer->saveToFile(fileName);
     }
 }
 

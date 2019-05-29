@@ -40,6 +40,7 @@
 #include "lrscriptenginemanagerintf.h"
 #include "lrpreviewreportwidget.h"
 #include "lrreportdesignwindowintrerface.h"
+#include "lrpreparedpagesintf.h"
 
 class QPrinter;
 class QGraphicsScene;
@@ -137,19 +138,9 @@ class PageDesignIntf;
 class PageItemDesignIntf;
 class ReportDesignWidget;
 class PreviewReportWidget;
+class PreparedPages;
 
 typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
-
-class LIMEREPORT_EXPORT IPreparedPages{
-public:
-    virtual ~IPreparedPages();
-    virtual bool loadFromFile(const QString& fileName) = 0;
-    virtual bool loadFromString(const QString data) = 0;
-    virtual bool loadFromByteArray(QByteArray* data) = 0;
-    virtual bool saveToFile(const QString& fileName) = 0;
-    virtual QString saveToString()  = 0;
-    virtual QByteArray  saveToByteArray() = 0;
-};
 
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
@@ -223,6 +214,7 @@ signals:
     void onSave(bool& saved);
     void onSaveAs(bool& saved);
     void onLoad(bool& loaded);
+    void onSavePreview(bool& saved, LimeReport::IPreparedPages* pages);
     void saveFinished();
     void loadFinished();
     void printedToPDF(QString fileName);

@@ -39,6 +39,7 @@
 #include <QPrinter>
 
 #include "serializators/lrxmlreader.h"
+#include "lrpreparedpagesintf.h"
 
 namespace LimeReport {
 
@@ -117,6 +118,8 @@ private slots:
     void on_actionShow_Toolbar_triggered();
     void slotCurrentPageChanged(int page);
     void slotItemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
+signals:
+    void onSave(bool& saved, LimeReport::IPreparedPages* pages);
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();

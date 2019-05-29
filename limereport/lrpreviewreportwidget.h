@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QPrinter>
 #include "lrglobal.h"
+#include "lrpreparedpagesintf.h"
 
 namespace LimeReport {
 
@@ -64,6 +65,7 @@ signals:
     void scalePercentChanged(int percent);
     void pagesSet(int pageCount);
     void itemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
+    void onSave(bool& saved, LimeReport::IPreparedPages* pages);
 private slots:
     void slotSliderMoved(int value);
     void reportEngineDestroyed(QObject* object);

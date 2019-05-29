@@ -67,7 +67,9 @@ SOURCES += \
     $$REPORT_PATH/items/lrchartitem.cpp \
     $$REPORT_PATH/items/lrchartitemeditor.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp \
-    $$REPORT_PATH/exporters/lrpdfexporter.cpp
+    $$REPORT_PATH/exporters/lrpdfexporter.cpp \
+    $$REPORT_PATH/lrpreparedpages.cpp
+
 
 contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
@@ -149,7 +151,10 @@ HEADERS += \
     $$REPORT_PATH/lrreportdesignwindowintrerface.h \
     $$REPORT_PATH/lrexporterintf.h \
     $$REPORT_PATH/lrexportersfactory.h \	
-    $$REPORT_PATH/exporters/lrpdfexporter.h 
+    $$REPORT_PATH/exporters/lrpdfexporter.h \
+    $$REPORT_PATH/lrpreparedpages.h \
+    $$REPORT_PATH/lrpreparedpagesintf.h 
+
 
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h

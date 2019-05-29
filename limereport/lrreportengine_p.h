@@ -112,24 +112,6 @@ public:
     virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
 };
 
-class PreparedPages: public IPreparedPages{
-public:
-    PreparedPages(ReportPages* pages):m_pages(pages){}
-    ~PreparedPages(){}
-// IPreviewPages interface
-private:
-    bool loadFromFile(const QString &fileName);
-    bool loadFromString(const QString data);
-    bool loadFromByteArray(QByteArray *data);
-    bool saveToFile(const QString &fileName);
-    QString saveToString();
-    QByteArray saveToByteArray();
-private:
-    bool readPages(ItemsReaderIntf::Ptr reader);
-    ReportPages* m_pages;
-
-};
-
 class PrintProcessor{
 public:
     explicit PrintProcessor(QPrinter* printer);
@@ -262,7 +244,7 @@ public:
     void      setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
     void      addWatermark(const WatermarkSetting& watermarkSetting);
     void      clearWatermarks();
-    IPreparedPages* preparedPages(){return &m_preparedPagesManager;}
+    IPreparedPages* preparedPages();
     bool showPreparedPages(PreviewHints hints);
     bool prepareReportPages();
 signals:
@@ -274,6 +256,7 @@ signals:
     void    renderPageFinished(int renderedPageCount);
     void    onSave(bool& saved);
     void    onSaveAs(bool& saved);
+    void    onSavePreview(bool& saved, LimeReport::IPreparedPages* pages);
     void    onLoad(bool& loaded);
     void    saveFinished();
     void    loadFinished();
@@ -320,7 +303,7 @@ private:
     QList<PageDesignIntf*> m_pages;
     QList<PageItemDesignIntf*> m_renderingPages;
     ReportPages m_preparedPages;
-    PreparedPages m_preparedPagesManager;
+    PreparedPages* m_preparedPagesManager;
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
     ReportRender::Ptr m_reportRender;
