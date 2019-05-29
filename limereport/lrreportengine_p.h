@@ -50,23 +50,6 @@ class PageDesignIntf;
 class PrintRange;
 class ReportDesignWindow;
 
-class PreparedPages: public IPreparedPages{
-public:
-    PreparedPages(ReportPages* pages):m_pages(pages){}
-    ~PreparedPages(){}
-// IPreviewPages interface
-private:
-    bool loadFromFile(const QString &fileName);
-    bool loadFromString(const QString data);
-    bool loadFromByteArray(QByteArray *data);
-    bool saveToFile(const QString &fileName);
-    QString saveToString();
-    QByteArray saveToByteArray();
-private:
-    bool readPages(ItemsReaderIntf::Ptr reader);
-    ReportPages* m_pages;
-};
-
 class ReportEnginePrivate : public QObject, public ICollectionContainer
 {
     Q_OBJECT
@@ -156,7 +139,7 @@ public:
     ScaleType previewScaleType();
     int       previewScalePercent();
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
-    IPreparedPages* preparedPages(){return &m_preparedPagesManager;}
+    IPreparedPages* preparedPages();
     bool showPreparedPages(PreviewHints hints);
     bool prepareReportPages();
 signals:
@@ -169,6 +152,7 @@ signals:
     void    onLoad(bool& loaded);
     void    onSave();
     void    saveFinished();
+    void    onSavePreview(bool& saved, LimeReport::IPreparedPages* pages);
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
@@ -193,7 +177,7 @@ private:
 private:
     QList<PageDesignIntf*> m_pages;
     ReportPages m_preparedPages;
-    PreparedPages m_preparedPagesManager;
+    PreparedPages* m_preparedPagesManager;
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
     ReportRender::Ptr m_reportRender;

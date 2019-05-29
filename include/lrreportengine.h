@@ -38,6 +38,7 @@
 #include "lrdatasourcemanagerintf.h"
 #include "lrscriptenginemanagerintf.h"
 #include "lrpreviewreportwidget.h"
+#include "lrpreparedpagesintf.h"
 
 class QPrinter;
 
@@ -62,19 +63,9 @@ class DataSourceManager;
 class ReportEnginePrivate;
 class PageDesignIntf;
 class PageItemDesignIntf;
+class PreparedPages;
 
 typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
-
-class LIMEREPORT_EXPORT IPreparedPages{
-public:
-    virtual ~IPreparedPages();
-    virtual bool loadFromFile(const QString& fileName) = 0;
-    virtual bool loadFromString(const QString data) = 0;
-    virtual bool loadFromByteArray(QByteArray* data) = 0;
-    virtual bool saveToFile(const QString& fileName) = 0;
-    virtual QString saveToString()  = 0;
-    virtual QByteArray  saveToByteArray() = 0;
-};
 
 class LIMEREPORT_EXPORT ReportEngine : public QObject{
     Q_OBJECT
@@ -133,6 +124,7 @@ signals:
     void renderPageFinished(int renderedPageCount);
     void onLoad(bool& loaded);
     void onSave();
+    void onSavePreview(bool& saved, LimeReport::IPreparedPages* pages);
     void saveFinished();
 public slots:
     void cancelRender();

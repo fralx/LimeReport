@@ -90,6 +90,7 @@ SOURCES += \
     $$REPORT_PATH/lraboutdialog.cpp \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.cpp \
+    $$REPORT_PATH/lrpreparedpages.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp
 
 contains(CONFIG, staticlib){
@@ -195,6 +196,8 @@ HEADERS += \
     $$REPORT_PATH/lrsettingdialog.h \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/scriptbrowser/lrscriptbrowser.h \ 
+    $$REPORT_PATH/lrpreparedpages.h \
+    $$REPORT_PATH/lrpreparedpagesintf.h \
     $$REPORT_PATH/lritemscontainerdesignitf.h
 
 contains(CONFIG, staticlib){

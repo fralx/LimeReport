@@ -42,6 +42,7 @@ EXTRA_FILES += \
     $$PWD/lrreportengine.h \
     $$PWD/lrscriptenginemanagerintf.h \
     $$PWD/lrcallbackdatasourceintf.h \
+    $$PWD/lrpreparedpagesintf.h \
     $$PWD/lrpreviewreportwidget.h
 
 include(limereport.pri)
