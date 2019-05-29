@@ -50,7 +50,22 @@ class PageDesignIntf;
 class PrintRange;
 class ReportDesignWindow;
 
-//TODO: Add on render callback
+class PreparedPages: public IPreparedPages{
+public:
+    PreparedPages(ReportPages* pages):m_pages(pages){}
+    ~PreparedPages(){}
+// IPreviewPages interface
+private:
+    bool loadFromFile(const QString &fileName);
+    bool loadFromString(const QString data);
+    bool loadFromByteArray(QByteArray *data);
+    bool saveToFile(const QString &fileName);
+    QString saveToString();
+    QByteArray saveToByteArray();
+private:
+    bool readPages(ItemsReaderIntf::Ptr reader);
+    ReportPages* m_pages;
+};
 
 class ReportEnginePrivate : public QObject, public ICollectionContainer
 {
@@ -141,7 +156,9 @@ public:
     ScaleType previewScaleType();
     int       previewScalePercent();
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
-
+    IPreparedPages* preparedPages(){return &m_preparedPagesManager;}
+    bool showPreparedPages(PreviewHints hints);
+    bool prepareReportPages();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);
@@ -157,6 +174,7 @@ public slots:
     void    cancelRender();
 protected:
     PageDesignIntf* createPage(const QString& pageName="");
+    bool showPreviewWindow(ReportPages pages, PreviewHints hints);
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:
@@ -174,6 +192,8 @@ private:
     QString renderToString();
 private:
     QList<PageDesignIntf*> m_pages;
+    ReportPages m_preparedPages;
+    PreparedPages m_preparedPagesManager;
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
     ReportRender::Ptr m_reportRender;
