@@ -2,47 +2,133 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
+    <name>$ClassName$</name>
+    <message>
+        <source>$ClassName$</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ChartItemEditor</name>
+    <message>
+        <source>Series</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Agregar</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>Values field</source>
+        <translation>Valores del campo</translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Labels field</source>
+        <translation>Etiquetas del campo</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <source>Series editor</source>
+        <translation>Editor de Series</translation>
+    </message>
+    <message>
+        <source>Series name</source>
+        <translation>Nombre de la Serie</translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
-        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="14"/>
         <source>Variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="53"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="63"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="76"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrvariabledialog.cpp" line="92"/>
         <source>Attention</source>
-        <translation type="unfinished"></translation>
+        <translation>Atención</translation>
+    </message>
+    <message>
+        <source>Mandatory</source>
+        <translation>Obligatorio</translation>
+    </message>
+</context>
+<context>
+    <name>LanguageSelectDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Dialogo</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Idioma</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::AboutDialog</name>
     <message>
-        <location filename="../limereport/lraboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../limereport/lraboutdialog.ui" line="24"/>
+        <source>Author</source>
+        <translation>Autor</translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation>Licencia</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
         <source>Lime Report</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lraboutdialog.ui" line="33"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Version 1.1.1</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -56,30 +142,21 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright 2015 Arin Alexander. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lraboutdialog.ui" line="53"/>
-        <source>Author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lraboutdialog.ui" line="62"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arin Alexander&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;arin_a@bk.ru&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/report/images/logo_100.png&quot; height=&quot;100&quot; style=&quot;float: left;&quot; /&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Motor de informes para el entorno de trabajo de &lt;/span&gt; &lt;span style = &quot;font-size: 12pt; font-weight: 600; color: # 7faa18;&quot;&gt; Qt &lt;/span&gt; &lt;span style = &quot;font-size: 12pt; font-weight : 600; &quot;&gt;&lt;/span&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot; &gt; &lt;span style = &quot;font-size: 11pt;&quot;&gt; LimeReport es una biblioteca de C ++ multiplataforma escrita para el entorno de trabajo de Qt y diseñada para desarrolladores de software que deseen agregar en su aplicación la capacidad para crear informes o imprimir formularios generados mediante plantillas. &lt; / span&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px; font-size: 11pt; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px; font-size: 11pt; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot; &gt; &lt;span style = &quot;font-size: 11pt;&quot;&gt; Sitio web oficial: &lt;/span&gt; &lt;a href=&quot;www.limereport.ru&quot;&gt; &lt;span style = &quot;font-size: 11pt; text-decoration: underline ; color: # 0000ff; &quot;&gt; www.limereport.ru &lt;/span&gt; &lt;/a&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; texto-sangría: 0px; fuente-tamaño: 11 puntos; texto-decoración: subrayado; color: # 0000ff; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot; &gt; &lt;span style = &quot;font-size: 10pt; font-weight: 600;&quot;&gt; Esta biblioteca se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA; sin ni siquiera la garantía implícita de COMERCIABILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. &lt;/span&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px; font-size: 10pt; font-weight: 600; color: # 000000; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p align = &quot;justify&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot; &gt; &lt;span style = &quot;font-size: 10pt;&quot;&gt;Derechos reservados 2015 Arin Alexander. Todos los derechos reservados.</translation>
     </message>
     <message>
-        <location filename="../limereport/lraboutdialog.ui" line="75"/>
-        <source>License</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lraboutdialog.ui" line="84"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -194,2986 +271,2945 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;; font-style:italic;&quot;&gt;signature of Ty Coon&lt;/span&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;, 1 April 1990&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;Ty Coon, President of Vice&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;That&apos;s all there is to it!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lraboutdialog.ui" line="223"/>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lraboutdialog.ui" line="232"/>
-        <source>Version 1.1.1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(c) 2015 Arin Alexander arin_a@bk.ru&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a name=&quot;SEC1&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;G&lt;/span&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;LICENCIA PUBLICA GENERAL DE MENORES DE NU&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Versión 2.1, febrero de 1999&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;Copyright (C) 1991, 1999 Free Software Foundation, Inc.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;Todos están autorizados a copiar y distribuir copias textuales.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;de este documento de licencia, pero no está permitido cambiarlo.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;monospace&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;[Esta es la primera versión lanzada de Lesser GPL. Tambien cuenta&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt; como el sucesor de la Licencia Pública de la Biblioteca GNU, versión 2, de ahí&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt; el número de versión 2.1.]&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:15px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a name=&quot;SEC2&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;reamble&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Las licencias para la mayoría de los programas están diseñadas para quitarle la libertad de compartir y cambiar. Por el contrario, las licencias públicas generales de GNU están destinadas a garantizar su libertad de compartir y cambiar el software libre, para garantizar que el software sea gratuito para todos sus usuarios. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Esta licencia, la Licencia de Público General Menor, se aplica a algunos paquetes de software especialmente designados, generalmente bibliotecas, de la Free Software Foundation y otros autores que deciden usarla. También puede usarlo, pero le sugerimos que primero piense detenidamente si esta licencia o la Licencia pública general es la mejor estrategia para usar en un caso particular, según las explicaciones a continuación. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Cuando hablamos de software libre, nos referimos a la libertad de uso, no al precio. Nuestras licencias públicas generales están diseñadas para garantizar que usted tenga la libertad de distribuir copias de software gratuito (y puede cobrar por este servicio si lo desea); que recibe el código fuente o puede obtenerlo si lo desea; que puede cambiar el software y usar partes de él en nuevos programas gratuitos; y que está informado de que puede hacer estas cosas. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Para proteger sus derechos, necesitamos hacer restricciones que prohíban a los distribuidores negarle estos derechos o pedirle que renuncie a estos derechos. Estas restricciones se traducen en ciertas responsabilidades para usted si distribuye copias de la biblioteca o si la modifica.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Por ejemplo, si distribuye copias de la biblioteca, ya sea de forma gratuita o por una tarifa, debe otorgar a los destinatarios todos los derechos que le otorgamos. Debe asegurarse de que ellos también reciban o puedan obtener el código fuente. Si vincula otro código con la biblioteca, debe proporcionar archivos de objetos completos a los destinatarios, para que puedan volver a vincularlos con la biblioteca después de realizar cambios en la biblioteca y volver a compilarla. Y debe mostrarles estos términos para que conozcan sus derechos. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Protegemos sus derechos con un método de dos pasos: (1) protegemos los derechos de autor de la biblioteca y (2) le ofrecemos esta licencia, que le da permiso legal para copiar, distribuir y / o modificar la biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Para proteger a cada distribuidor, queremos dejar muy claro que no hay garantía para la biblioteca gratuita. Además, si la biblioteca es modificada por alguien más y se transmite, los destinatarios deben saber que lo que tienen no es la versión original, por lo que la reputación del autor original no se verá afectada por problemas que puedan ser introducidos por otros. &lt;/ Span &gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Finalmente, las patentes de software representan una amenaza constante para la existencia de cualquier programa gratuito. Deseamos asegurarnos de que una empresa no pueda restringir efectivamente a los usuarios de un programa gratuito al obtener una licencia restrictiva de un titular de una patente. Por lo tanto, insistimos en que cualquier licencia de patente obtenida para una versión de la biblioteca debe ser consistente con la plena libertad de uso especificada en esta licencia. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; La mayoría del software GNU, incluidas algunas bibliotecas, está cubierto por la Licencia Pública General de GNU. Esta licencia, la licencia pública general menor de GNU, se aplica a ciertas bibliotecas designadas y es bastante diferente de la licencia pública general ordinaria. Utilizamos esta licencia para ciertas bibliotecas con el fin de permitir la vinculación de esas bibliotecas con programas no libres.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Cuando un programa está vinculado con una biblioteca, ya sea estáticamente o utilizando una biblioteca compartida, la combinación de los dos es legalmente una obra combinada, un derivado de la biblioteca original. Por lo tanto, la Licencia Pública General ordinaria permite dicha vinculación solo si la combinación completa cumple con sus criterios de libertad. La licencia pública general de Lesser permite criterios más laxos para vincular otro código con la biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Llamamos a esta licencia el &amp; quot; Lesser &amp; quot; Licencia pública general porque hace menos para proteger la libertad del usuario que la licencia pública general ordinaria. También proporciona a otros desarrolladores de software libre una ventaja menor sobre los programas no gratuitos de la competencia. Estas desventajas son la razón por la que usamos la Licencia Pública General ordinaria para muchas bibliotecas. Sin embargo, la licencia Lesser ofrece ventajas en ciertas circunstancias especiales. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Por ejemplo, en raras ocasiones, puede haber una necesidad especial de fomentar el uso más amplio posible de una determinada biblioteca, para que se convierta en un estándar de facto. Para lograr esto, se debe permitir que los programas no libres utilicen la biblioteca. Un caso más frecuente es que una biblioteca gratuita hace el mismo trabajo que las bibliotecas no libres ampliamente utilizadas. En este caso, hay poco que ganar al limitar la biblioteca gratuita únicamente al software libre, por lo que usamos la Licencia pública general menor. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; En otros casos, el permiso para usar una biblioteca particular en programas no libres permite que una mayor cantidad de personas utilicen una gran cantidad de software libre. Por ejemplo, el permiso para usar la Biblioteca GNU C en programas no libres permite que muchas más personas utilicen todo el sistema operativo GNU, así como su variante, el sistema operativo GNU / Linux.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Aunque la Licencia pública general menor protege menos la libertad de los usuarios, garantiza que el usuario de un programa vinculado a la Biblioteca tenga la libertad y los medios para ejecutar dicho programa utilizando una versión modificada de la Biblioteca. &lt;/ span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Los términos y condiciones precisos para la copia, distribución y modificación se encuentran a continuación. Preste mucha atención a la diferencia entre un trabajo basado en la biblioteca &amp; quot; y un &amp; quot; trabajo que utiliza la biblioteca &amp; quot ;. El primero contiene código derivado de la biblioteca, mientras que el último debe combinarse con la biblioteca para poder ejecutarse. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 15px; margin-bottom: 15px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;a name = &quot;SEC3&quot;&gt; &lt;/a&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600; color: # 333333;&quot;&gt; T &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600; color: # 333333; &quot;&gt; ERMS Y CONDICIONES PARA LA COPIA, DISTRIBUCIÓN Y MODIFICACIÓN &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 0. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Este Acuerdo de licencia se aplica a cualquier biblioteca de software u otro programa que contenga un aviso colocado por el titular de los derechos de autor u otra parte autorizada que indique que se puede distribuir de acuerdo con los términos de esta Licencia pública general menor (también denominada &quot;esta Licencia&quot;). Cada licenciatario se direcciona como &amp; quot; usted &amp; quot ;. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; A &amp; quot; library &amp; quot; significa una colección de funciones de software y / o datos preparados para estar convenientemente vinculados con programas de aplicación (que utilizan algunas de esas funciones y datos) para formar ejecutables. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; La &amp; quot; Biblioteca &amp; quot ;, a continuación, se refiere a cualquier biblioteca de software o trabajo que se haya distribuido bajo estos términos. Un &quot;trabajo basado en la Biblioteca&quot; significa la Biblioteca o cualquier trabajo derivado bajo la ley de derechos de autor: es decir, un trabajo que contiene la Biblioteca o una parte de ella, ya sea textualmente o con modificaciones y / o traducido directamente a otro idioma. (De aquí en adelante, la traducción se incluye sin limitación en el término &quot;modificación&quot;).&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;&amp; quot; Código fuente &amp; quot; para un trabajo significa la forma preferida del trabajo para hacer modificaciones al mismo. Para una biblioteca, el código fuente completo significa todo el código fuente de todos los módulos que contiene, más cualquier archivo de definición de interfaz asociado, además de los scripts utilizados para controlar la compilación e instalación de la biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Las actividades que no sean la copia, distribución y modificación no están cubiertas por esta Licencia; Están fuera de su alcance. El acto de ejecutar un programa utilizando la Biblioteca no está restringido, y la salida de dicho programa está cubierta solo si su contenido constituye un trabajo basado en la Biblioteca (independientemente del uso de la Biblioteca en una herramienta para escribirlo). Si eso es cierto, depende de lo que haga la Biblioteca y del programa que la utiliza. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 1. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Puede copiar y distribuir copias literales de el código fuente completo de la Biblioteca a medida que lo reciba, en cualquier medio, siempre que publique de forma visible y adecuada en cada copia un aviso de copyright y una renuncia de garantía adecuados; mantenga intactos todos los avisos que se refieren a esta Licencia ya la ausencia de cualquier garantía; y distribuya una copia de esta Licencia junto con la Biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Usted puede cobrar una tarifa por el acto físico de transferir una copia, y puede, a opción suya, ofrecer una garantía de protección a cambio de una tarifa.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;2.&lt;/span&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Puede modificar su copia o copias de la Biblioteca o cualquier parte de ella, formando así un trabajo basado en la Biblioteca, y copiar y distribuir dichas modificaciones o trabajos según los términos de la Sección 1 anterior, siempre que cumpla con todas estas condiciones : &lt;/span&gt; &lt;/p&gt;
+&lt;ul style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt; &lt;li style = &quot;font-family: &apos; sans-serif &apos;; &quot; style = &quot;margin-top: 19px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; a) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; El trabajo modificado debe ser una biblioteca de software. &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; b) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Debe hacer que los archivos modificados contengan avisos importantes que indiquen que cambió los archivos y fecha de cualquier cambio. &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; c) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Debe hacer que la totalidad del trabajo tenga licencia sin cargo para todos los terceros bajo los términos de esta Licencia. &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 19px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; d) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Si una instalación en la Biblioteca modificada se refiere a una función o una tabla de datos, suministrado por un programa de aplicación que utiliza la instalación, aparte de como un argumento pasado cuando se invoca la instalación, debe hacer un esfuerzo de buena fe para asegurarse de que, en el caso de que una aplicación no suministre dicha función o tabla, la instalación aún opera, y realiza cualquier parte de su propósito sigue siendo significativa. &lt;/span&gt; &lt;/li&gt; &lt;/ul&gt;
+&lt;p style = &quot;margin-top: 15px; margin-bottom: 15px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 1; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; (Por ejemplo, una función en una biblioteca para calcular raíces cuadradas tiene un propósito que está completamente bien definido independientemente de la aplicación. Por lo tanto, la Subsección 2d requiere que cualquier aplicación sea suministrada la función o tabla utilizada por esta función debe ser opcional: si la aplicación no la proporciona, la función de raíz cuadrada aún debe calcular las raíces cuadradas.)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Estos requisitos se aplican a la obra modificada en su conjunto. Si las secciones identificables de ese trabajo no se derivan de la Biblioteca, y pueden considerarse razonablemente trabajos independientes e independientes en sí mismas, entonces esta Licencia y sus términos no se aplican a esas secciones cuando los distribuye como trabajos separados. Pero cuando distribuye las mismas secciones como parte de un todo, que es un trabajo basado en la Biblioteca, la distribución del todo debe estar en los términos de esta Licencia, cuyos permisos para otros licenciatarios se extienden a todo el conjunto y, por lo tanto, a cada uno. y cada parte, independientemente de quién lo escribió. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Por lo tanto, no es la intención de esta sección reclamar derechos o impugnar sus derechos a trabajar escritos completamente por usted; más bien, la intención es ejercer el derecho de controlar la distribución de trabajos derivados o colectivos basados ​​en la Biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Además, la mera agregación de otro trabajo no basado en la Biblioteca con la Biblioteca (o con un trabajo basado en la Biblioteca) en un volumen de un medio de almacenamiento o distribución no lo hace ponga el otro trabajo bajo el alcance de esta Licencia. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 3. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Puede optar por aplicar los términos de la Licencia Pública General GNU ordinaria en lugar de esta Licencia a una copia dada de la Biblioteca. Para hacer esto, debe modificar todos los avisos que se refieren a esta Licencia, de modo que se refieran a la Licencia Pública General de GNU ordinaria, versión 2, en lugar de a esta Licencia. (Si ha aparecido una versión más nueva que la versión 2 de la Licencia Pública General de GNU ordinaria, puede especificar esa versión si lo desea). No haga ningún otro cambio en estos avisos. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Una vez que se realiza este cambio en una copia dada, es irreversible para esa copia, por lo que la Licencia Pública General GNU ordinaria se aplica a todas las copias subsiguientes y trabajos derivados realizados a partir de esa copia.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Esta opción es útil cuando desea copiar parte del código de la Biblioteca en un programa que no es una biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 4. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Puede copiar y distribuir la Biblioteca ( o una parte o derivado de él, en la Sección 2) en código objeto o en forma ejecutable bajo los términos de las Secciones 1 y 2 anteriores, siempre que lo acompañe con el código fuente completo legible por máquina correspondiente, que debe ser distribuido bajo los términos de Las secciones 1 y 2 anteriores en un medio utilizado habitualmente para el intercambio de software. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Si la distribución del código del objeto se realiza ofreciendo acceso a la copia desde un lugar designado, el acceso equivalente para copiar el código fuente desde el mismo lugar satisface el requisito de distribuir la fuente código, aunque los terceros no están obligados a copiar la fuente junto con el código objeto. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 5. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Un programa que no contiene ningún derivado La parte de la Biblioteca, pero está diseñada para trabajar con la Biblioteca al compilarse o vincularse con ella, se denomina trabajo que utiliza la Biblioteca &amp; quot ;. Tal trabajo, de forma aislada, no es un trabajo derivado de la Biblioteca y, por lo tanto, queda fuera del alcance de esta Licencia. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Sin embargo, al vincular un trabajo &amp; quot; que utiliza la Biblioteca &amp; quot; con la Biblioteca crea un ejecutable que es un derivado de la Biblioteca (porque contiene partes de la Biblioteca), en lugar de un trabajo que usa la biblioteca &amp; quot ;. El ejecutable está cubierto por esta Licencia. La Sección 6 establece los términos para la distribución de tales ejecutables.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Cuando un &amp; quot; trabajo que utiliza la Biblioteca &amp; quot; utiliza material de un archivo de encabezado que forma parte de la Biblioteca, el código objeto para el trabajo puede ser un trabajo derivado de la Biblioteca, aunque el código fuente no lo sea. Si esto es cierto es especialmente significativo si el trabajo se puede vincular sin la Biblioteca, o si el trabajo es en sí mismo una biblioteca. El umbral para que esto sea cierto no está definido con precisión por la ley. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Si tal archivo de objeto usa solo parámetros numéricos, estructuras de datos y elementos de acceso, y macros pequeñas y funciones en línea pequeñas (diez líneas o menos de longitud), entonces el uso de el archivo de objeto no está restringido, independientemente de si es legalmente un trabajo derivado. (Los archivos ejecutables que contienen este código de objeto más partes de la Biblioteca aún se incluirán en la Sección 6). &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; De lo contrario, si el trabajo es un derivado de la Biblioteca, puede distribuir el código objeto para el trabajo según los términos de la Sección 6. Cualquier archivo ejecutable que contenga ese trabajo también está incluido en la Sección 6, estén o no vinculados directamente con la propia Biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 6. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Como excepción a las Secciones anteriores, también puede combinar o vincular un trabajo &amp; quot; que utiliza la Biblioteca &amp; quot; con la Biblioteca para producir un trabajo que contenga partes de la Biblioteca, y distribuir ese trabajo según los términos que usted elija, siempre que los términos permitan la modificación del trabajo para el uso propio del cliente y la ingeniería inversa para depurar dichas modificaciones.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;Debe dar un aviso destacado con cada copia del trabajo que se utiliza en la Biblioteca y que la Biblioteca y su uso están cubiertos por esta Licencia. Debe proporcionar una copia de esta Licencia. Si el trabajo durante la ejecución muestra avisos de derechos de autor, debe incluir entre ellos el aviso de copyright de la Biblioteca, así como una referencia que indique al usuario la copia de esta Licencia. Además, debes hacer una de estas cosas: &lt;/span&gt; &lt;/p&gt;
+&lt;ul style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt; &lt;li style = &quot;font-family: &apos; sans-serif &apos;; &quot; style = &quot;margin-top: 19px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; a) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Acompañe el trabajo con el código fuente completo legible por máquina correspondiente para la Biblioteca, incluidos los cambios se utilizaron en el trabajo (que debe distribuirse en las Secciones 1 y 2 anteriores); y, si el trabajo es un ejecutable vinculado con la Biblioteca, con el trabajo completo &quot;legible por máquina&quot; que utiliza la Biblioteca como código de objeto y / o código fuente, para que el usuario pueda modificar la Biblioteca y luego volver a vincular para producir un ejecutable modificado que contiene la biblioteca modificada. (Se entiende que el usuario que cambia el contenido de los archivos de definiciones en la Biblioteca no necesariamente podrá recompilar la aplicación para usar las definiciones modificadas). &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; b) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Use un mecanismo de biblioteca compartida adecuado para enlazar con la Biblioteca. Un mecanismo adecuado es uno que (1) utiliza en tiempo de ejecución una copia de la biblioteca ya presente en el sistema informático del usuario, en lugar de copiar las funciones de la biblioteca en el ejecutable, y (2) funcionará correctamente con una versión modificada de la biblioteca, si el usuario instala uno, siempre que la versión modificada sea compatible con la interfaz con la versión con la que se realizó el trabajo. &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; c) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Acompañe el trabajo con una oferta por escrito, válida por al menos tres años, para dar el mismo usuario los materiales especificados en la subsección 6a, arriba, por un cargo que no supera el costo de realizar esta distribución.&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:&apos;sans-serif&apos;;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:38px; margin-right:19px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16px; font-weight:600;&quot;&gt;d)&lt;/span&gt;&lt;span style=&quot; font-size:16px;&quot;&gt; Si la distribución del trabajo se realiza ofreciendo acceso a la copia desde un lugar designado, ofrezca un acceso equivalente para copiar los materiales especificados anteriormente desde el mismo lugar. &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 19px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; e) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Verifique que el usuario ya haya recibido una copia de estos materiales o que ya haya enviado este usuario es una copia. &lt;/span&gt; &lt;/li&gt; &lt;/ul&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Para un ejecutable, la forma requerida del trabajo &amp; quot; que utiliza la Biblioteca &amp; quot; debe incluir todos los datos y programas de utilidad necesarios para reproducir el ejecutable desde él. Sin embargo, como excepción especial, los materiales a distribuir no necesitan incluir nada que se distribuya normalmente (en forma de fuente o binario) con los componentes principales (compilador, kernel, etc.) del sistema operativo en el que se ejecuta el ejecutable. , a menos que ese componente acompañe al ejecutable. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Puede suceder que este requisito contradiga las restricciones de licencia de otras bibliotecas propietarias que normalmente no acompañan al sistema operativo. Tal contradicción significa que no puede usarlos a ellos y a la Biblioteca juntos en un ejecutable que distribuya.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;7.&lt;/span&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt; Puede ubicar las instalaciones de la biblioteca que son un trabajo basado en la biblioteca lado a lado en una sola biblioteca junto con otras instalaciones de la biblioteca que no están cubiertas por esta Licencia, y distribuir dicha biblioteca combinada, siempre que la distribución separada del trabajo basada en la Biblioteca y de las demás instalaciones de la biblioteca están permitidas, y siempre que haga estas dos cosas: &lt;/span&gt; &lt;/p&gt;
+&lt;ul style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt; &lt;li style = &quot;font-family: &apos; sans-serif &apos;; &quot; style = &quot;margin-top: 19px; margin-bottom: 0px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; a) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Acompañe la biblioteca combinada con una copia del mismo trabajo basado en la Biblioteca, sin combinar Cualquier otra biblioteca. Esto debe distribuirse según los términos de las Secciones anteriores. &lt;/span&gt; &lt;/li&gt;
+&lt;li style = &quot;font-family: &apos;sans-serif&apos;;&quot; style = &quot;margin-top: 0px; margin-bottom: 19px; margin-left: 38px; margin-right: 19px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font -size: 16px; font-weight: 600; &quot;&gt; b) &lt;/span&gt; &lt;span style =&quot; font-size: 16px; &quot;&gt; Dé un aviso destacado a la biblioteca combinada sobre el hecho de que parte de ella se basa en el trabajo en la Biblioteca, y explicando dónde encontrar la forma no combinada que acompaña al mismo trabajo. &lt;/span&gt; &lt;/li&gt; &lt;/ul&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 8. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; No puede copiar, modificar, sublicenciar , haga un enlace o distribuya la Biblioteca, excepto lo dispuesto expresamente en esta Licencia. Cualquier intento de copiar, modificar, sublicenciar, vincular o distribuir la Biblioteca de otra manera será nulo y terminará automáticamente sus derechos bajo esta Licencia. Sin embargo, a las partes que hayan recibido copias o derechos de usted bajo esta Licencia no se les dará por terminadas sus licencias siempre y cuando dichas partes sigan cumpliendo con todos los requisitos.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;9.&lt;/span&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt; No está obligado a aceptar esta Licencia, ya que no la ha firmado. Sin embargo, nada más le otorga permiso para modificar o distribuir la Biblioteca o sus trabajos derivados. Estas acciones están prohibidas por la ley si no acepta esta Licencia. Por lo tanto, al modificar o distribuir la Biblioteca (o cualquier trabajo basado en la Biblioteca), usted indica que acepta esta Licencia para hacerlo, y todos sus términos y condiciones para copiar, distribuir o modificar la Biblioteca o los trabajos basados ​​en ella. &lt; / span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 10. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Cada vez que redistribuya la Biblioteca (o cualquier trabajo basado en la Biblioteca), el destinatario recibe automáticamente una licencia del licenciador original para copiar, distribuir, vincular o modificar la Biblioteca sujeto a estos términos y condiciones. No puede imponer restricciones adicionales al ejercicio de los derechos de los beneficiarios otorgados en este documento. Usted no es responsable de hacer cumplir el cumplimiento de esta Licencia por parte de terceros. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 11. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; If, como consecuencia de un tribunal Sentencia o alegación de infracción de patente o por cualquier otro motivo (no limitado a cuestiones de patentes), se le imponen condiciones (ya sea por orden judicial, acuerdo o de otra manera) que contradigan las condiciones de esta Licencia, no lo eximen de las condiciones. de esta Licencia. Si no puede realizar la distribución para satisfacer simultáneamente sus obligaciones bajo esta Licencia y cualquier otra obligación pertinente, como consecuencia, no podrá distribuir la Biblioteca en absoluto. Por ejemplo, si una licencia de patente no permitiera la redistribución de la Biblioteca de todos los que reciben copias directa o indirectamente a través de usted, la única forma en que podría satisfacerla y esta Licencia sería abstenerse totalmente de la distribución de la Biblioteca. Biblioteca. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Si alguna parte de esta sección se considera inválida o inaplicable en cualquier circunstancia particular, se pretende que el resto de la sección se aplique, y la sección en su totalidad se debe aplicar en otras circunstancias&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt;No es el propósito de esta sección inducirlo a infringir ninguna patente u otros reclamos de derechos de propiedad o impugnar la validez de dichos reclamos; Esta sección tiene el único propósito de proteger la integridad del sistema de distribución de software libre que se implementa mediante prácticas de licencia pública. Muchas personas han hecho contribuciones generosas a la amplia gama de software distribuido a través de ese sistema, confiando en la aplicación consistente de ese sistema; Depende del autor / donante decidir si está dispuesto a distribuir software a través de cualquier otro sistema y un licenciatario no puede imponer esa elección. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Esta sección pretende aclarar completamente lo que se cree que es una consecuencia del resto de esta Licencia. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 12. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Si la distribución y / o uso de la Biblioteca está restringida en ciertos países ya sea por patentes o por interfaces con derechos de autor, el titular original de los derechos de autor que coloca a la Biblioteca bajo esta Licencia puede agregar una limitación de distribución geográfica explícita excluyendo esos países, de modo que la distribución se permite solo en o entre países no excluidos. . En tal caso, esta Licencia incorpora la limitación como si estuviera escrita en el cuerpo de esta Licencia. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 13. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; La Free Software Foundation puede publicar revisados ​​y / o nuevas versiones de la Licencia Pública General Menor de vez en cuando. Estas nuevas versiones serán similares en espíritu a la versión actual, pero pueden diferir en detalle para abordar nuevos problemas o inquietudes. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; A cada versión se le asigna un número de versión distintivo. Si la Biblioteca especifica un número de versión de esta Licencia que se le aplica y &amp; quot; cualquier versión posterior &amp; quot ;, tiene la opción de seguir los términos y condiciones de esa versión o de cualquier versión posterior publicada por la Free Software Foundation. Si la Biblioteca no especifica un número de versión de licencia, puede elegir cualquier versión publicada por la Free Software Foundation.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:19px; margin-bottom:19px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600;&quot;&gt;14.&lt;/span&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;;&quot;&gt; Si desea incorporar partes de la Biblioteca a otros programas gratuitos cuyas condiciones de distribución son incompatibles con estos, escriba al autor para pedirle permiso. Para el software cuyo copyright es Free Software Foundation, escriba a Free Software Foundation; A veces hacemos excepciones para esto. Nuestra decisión se guiará por los dos objetivos de preservar el estado gratuito de todos los derivados de nuestro software libre y de promover el uso compartido y la reutilización del software en general. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; SIN GARANTÍA &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 15. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; PORQUE LA BIBLIOTECA TIENE LICENCIA GRATUITA , NO EXISTE GARANTÍA PARA LA BIBLIOTECA, HASTA EL GRADO PERMITIDO POR LA LEY APLICABLE. EXCEPTO CUANDO OTRA MANERA ESTABLECIDO EN ESCRIBIR LOS TITULARES DEL DERECHO DE AUTOR Y / O OTRAS PARTES PROPORCIONAN LA BIBLIOTECA &quot;COMO ESTÁ&quot; SIN GARANTÍA DE NINGÚN TIPO, YA SEA EXPRESA O IMPLÍCITA, INCLUYENDO, PERO NO LIMITADO A, LAS GARANTÍAS IMPLÍCITAS DE COMERCIABILIDAD Y ADECUACIÓN PARA UN PROPÓSITO PARTICULAR. TODO EL RIESGO EN CUANTO A LA CALIDAD Y EL RENDIMIENTO DE LA BIBLIOTECA ESTÁ CON USTED. DEBE QUE LA BIBLIOTECA PRUEBA DEFECTUOSO, USTED ASUME EL COSTO DE TODO EL SERVICIO, LA REPARACIÓN O LA CORRECCIÓN NECESARIOS. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600;&quot;&gt; 16. &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; EN NINGÚN CASO, A MENOS QUE ES NECESARIO LA LEY APLICABLE O ESTÁ DE ACUERDO EN ESCRIBIR CUALQUIER RESPONSABLE DE DERECHOS DE AUTOR, O CUALQUIER OTRA PARTE QUE PUEDE MODIFICAR Y / O REDISTRAR LA BIBLIOTECA PERMITIDA ANTERIORMENTE, SERÁ RESPONSABLE DE DAÑOS POR ARCHIVOS, INCLUYENDO DAÑOS GENERALES, ESPECIALES, INCIDENTALES O CONSEQUÍTICOS, DEFECTUIDOS EN EL ARTÍCULO NO SE PUEDE UTILIZAR LA BIBLIOTECA (INCLUYENDO PERO NO LIMITADA A LA PÉRDIDA DE DATOS O LOS DATOS QUE SE RENDIDOS NO PRECISO O PÉRDIDAS SOSTENIDAS POR USTED O TERCERAS PARTES O LA FALTA DE LA BIBLIOTECA PARA OPERAR CON CUALQUIER OTRO SOFTWARE), INCLUSO SI HAY ALGÚN VENDEDOR U OTRA PARTE. AVISO DE LA POSIBILIDAD DE DICHOS DAÑOS.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:15px; margin-bottom:15px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans-serif&apos;; font-weight:600; color:#333333;&quot;&gt;FIN DE LOS TÉRMINOS Y CONDICIONES &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 15px; margin-bottom: 15px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;a name = &quot;SEC4&quot;&gt; &lt;/a&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600; color: # 333333;&quot;&gt; H &lt;/span&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;; font-weight: 600; color: # 333333; &quot;&gt; Cómo aplicar estos términos a sus nuevas bibliotecas &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Si desarrolla una nueva biblioteca y desea que sea de la mayor utilidad posible para el público, le recomendamos que sea un software gratuito que todos puedan redistribuir y cambiar. Puede hacerlo permitiendo la redistribución bajo estos términos (o, alternativamente, bajo los términos de la Licencia Pública General ordinaria). &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; Para aplicar estos términos, adjunte los siguientes avisos a la biblioteca. Es más seguro adjuntarlos al inicio de cada archivo fuente para transmitir de manera más efectiva la exclusión de la garantía; y cada archivo debe tener al menos el &amp; quot; copyright &amp; quot; línea y un puntero donde se encuentra el aviso completo. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;; font-style: italic;&quot;&gt; una línea para dar el nombre de la biblioteca y una idea de lo que hace. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Copyright (C) &lt;/span&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;; font-style: italic;&quot;&gt; year &lt;/span&gt; &lt;span style = &quot; font-family: &apos;monospace&apos;; &quot;&gt; &lt;/span&gt; &lt;span style =&quot; font-family: &apos;monospace&apos;; font-style: italic; &quot;&gt; nombre del autor &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent : 0px; font-family: &apos;monospace&apos;; font-style: italic; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Esta biblioteca es software libre; puedes redistribuirlo y / o&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;modifíquelo bajo los términos del Público General Menor GNU &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt;&gt; licencia publicada por la Free Software Foundation; ya sea &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; versión 2.1 de la Licencia, o (a su elección) cualquier versión posterior. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent : 0px; font-family: &apos;monospace&apos;; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Esta biblioteca se distribuye con la esperanza de que sea útil, &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; pero SIN NINGUNA GARANTÍA; sin siquiera la garantía implícita de &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; MERCHANTABILITY o FITNESS PARA UN PROPÓSITO PARTICULAR. Ver el GNU &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Lesser General Public License para más detalles. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent : 0px; font-family: &apos;monospace&apos;; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Debería haber recibido una copia del Público General Menor de GNU&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;Licencia junto con esta biblioteca; si no, escriba al Software Libre &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 15px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 EE. UU. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; También agregue información sobre cómo contactarlo por correo electrónico y en papel. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; También debe hacer que su empleador (si trabaja como programador) o su escuela, si corresponde, firme un &amp; quot; renuncia de derechos de autor &amp; quot; para la biblioteca, si es necesario. Aquí hay una muestra; alterar los nombres: &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Yoyodyne, Inc., por la presente renuncia a todo interés de copyright en &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; la biblioteca `Frob &apos;(una biblioteca para ajustes de mandos) escrita &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; por James Random Hacker. &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;- qt -agraph-type: empty; margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent : 0px; font-family: &apos;monospace&apos;; &quot;&gt; &lt;br /&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;; font-style: italic;&quot;&gt; firma de Ty Coon &lt;/span&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt;, 1 de abril de 1990 &lt;/span&gt; &lt;/ p&gt;
+&lt;p style = &quot;margin-top: 0px; margin-bottom: 15px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;monospace&apos;;&quot;&gt; Ty Coon, Presidente de Vice &lt;/span&gt; &lt;/p&gt;
+&lt;p style = &quot;margin-top: 19px; margin-bottom: 19px; margin-left: 0px; margin-right: 0px; -qt-block-indent: 0; text-indent: 0px;&quot;&gt; &lt;span style = &quot;font-family: &apos;sans-serif&apos;;&quot;&gt; ¡Eso es todo!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::AlignmentPropItem</name>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="68"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="69"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="70"/>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="74"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centro</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="71"/>
         <source>Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Justificado</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="73"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Arriba</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="75"/>
         <source>Botom</source>
-        <translation type="unfinished"></translation>
+        <translation>Abajo</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="77"/>
         <source>horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation>horizontal</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="78"/>
         <source>vertical</source>
-        <translation type="unfinished"></translation>
+        <translation>vertical</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::BandDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="224"/>
-        <source>DataBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="225"/>
-        <source>DataHeaderBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="226"/>
-        <source>DataFooterBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="227"/>
-        <source>ReportHeader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="228"/>
-        <source>ReportFooter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="229"/>
-        <source>PageHeader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="230"/>
-        <source>PageFooter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="231"/>
-        <source>SubDetailBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="232"/>
-        <source>SubDetailHeaderBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="233"/>
-        <source>SubDetailFooterBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="234"/>
-        <source>GroupBandHeader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="235"/>
-        <source>GroupBandFooter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="236"/>
-        <source>TearOffBand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="247"/>
         <source> connected to </source>
-        <translation type="unfinished"></translation>
+        <translation>conectado a</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="471"/>
         <source>Bring to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Traer al frente</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="472"/>
         <source>Send to back</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar al fondo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="477"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="500"/>
         <source>Auto height</source>
-        <translation type="unfinished"></translation>
+        <translation>Alto automático</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="481"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="503"/>
         <source>Splittable</source>
-        <translation type="unfinished"></translation>
+        <translation>Separable</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="485"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="506"/>
+        <source>DataBand</source>
+        <translation>Banda de Datos</translation>
+    </message>
+    <message>
+        <source>DataHeaderBand</source>
+        <translation>Banda de datos Encabezado</translation>
+    </message>
+    <message>
+        <source>DataFooterBand</source>
+        <translation>Banda de datos Pie</translation>
+    </message>
+    <message>
+        <source>ReportHeader</source>
+        <translation>Encabezado del reporte</translation>
+    </message>
+    <message>
+        <source>ReportFooter</source>
+        <translation>Pie del reporte</translation>
+    </message>
+    <message>
+        <source>PageHeader</source>
+        <translation>Encabezado de Página</translation>
+    </message>
+    <message>
+        <source>PageFooter</source>
+        <translation>Pie de página</translation>
+    </message>
+    <message>
+        <source>SubDetailBand</source>
+        <translation>Banda de Sub detalle</translation>
+    </message>
+    <message>
+        <source>SubDetailHeaderBand</source>
+        <translation>Banda de sub detalle Encabezado</translation>
+    </message>
+    <message>
+        <source>SubDetailFooterBand</source>
+        <translation>Banda de sub detalle Pie</translation>
+    </message>
+    <message>
+        <source>GroupBandHeader</source>
+        <translation>Banda de grupo Encabezado</translation>
+    </message>
+    <message>
+        <source>GroupBandFooter</source>
+        <translation>Banda de grupo Pie</translation>
+    </message>
+    <message>
+        <source>TearOffBand</source>
+        <translation>Banda de cortado</translation>
+    </message>
+    <message>
         <source>Keep bottom space</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantener espacio inferior</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="489"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="512"/>
-        <source>Start from new page</source>
-        <translation type="unfinished"></translation>
+        <source>Cut</source>
+        <translation>Cortar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="493"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="509"/>
-        <source>Start new page</source>
-        <translation type="unfinished"></translation>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Print if empty</source>
+        <translation>Imprimir si está vacío</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1162"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1164"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Cortar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1166"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1175"/>
         <source>Bring to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Traer al frente</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1176"/>
         <source>Send to back</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar atras</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1178"/>
         <source>No borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin bordes</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1179"/>
         <source>All borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los bordes</translation>
+    </message>
+    <message>
+        <source>Create Horizontal Layout</source>
+        <translation>Crear diseño horizontal</translation>
+    </message>
+    <message>
+        <source>Create Vertical Layout</source>
+        <translation>Crear diseño vertical</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="378"/>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="383"/>
         <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión por defecto</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDialog</name>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="14"/>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="88"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="26"/>
         <source>Connection Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de conexión</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="42"/>
-        <source>Use default application connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="53"/>
-        <source>Driver</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="60"/>
         <source>Server </source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="67"/>
-        <source>Port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="74"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuario</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="81"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="88"/>
         <source>Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="141"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="154"/>
         <source>Auto connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto conectar</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="161"/>
-        <source>Dont keep credentals in lrxml</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="183"/>
         <source>Check connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Probar conexión</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="206"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="216"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="80"/>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="90"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="88"/>
         <source>Connection succsesfully established!</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión establecida satisfactoriamente!</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="96"/>
         <source>Connection Name is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>El Nombre de la conexión esta vacía</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="98"/>
+        <source>Driver</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Connection with name </source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión con nombre </translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="98"/>
-        <source> already exists! </source>
-        <translation type="unfinished"></translation>
+        <source>Use default application connection</source>
+        <translation>Utilice la conexión de aplicación predeterminada</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="156"/>
+        <source>Dont keep credentals in lrxml</source>
+        <translation>No mantener credentals en el lrxml</translation>
+    </message>
+    <message>
         <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión por defecto</translation>
+    </message>
+    <message>
+        <source> already exists! </source>
+        <translation>¡ya existe!</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Puerto</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataBand</name>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="72"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Datos</translation>
+    </message>
+    <message>
+        <source>Use alternate background color</source>
+        <translation>Usar color de fondo alternativo</translation>
+    </message>
+    <message>
+        <source>Keep footer together</source>
+        <translation>Mantener pie de página junto</translation>
+    </message>
+    <message>
+        <source>Keep subdetail together</source>
+        <translation>Mantener subdetalles juntos</translation>
+    </message>
+    <message>
+        <source>Slice last row</source>
+        <translation>Cortar la última fila</translation>
+    </message>
+    <message>
+        <source>Start from new page</source>
+        <translation>Empezar desde nueva página</translation>
+    </message>
+    <message>
+        <source>Start new page</source>
+        <translation>Inciar nueva página</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataBrowser</name>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="14"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="42"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="67"/>
-        <source>Datasources</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="65"/>
-        <source>Add database connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="68"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="91"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="114"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="137"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="173"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="199"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="225"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="251"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="277"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="360"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="389"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="415"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="441"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="170"/>
-        <source>Add new datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="196"/>
-        <source>View data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="222"/>
-        <source>Change datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="248"/>
-        <source>Delete datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="274"/>
-        <source>Show error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="334"/>
-        <source>Variables</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="357"/>
-        <source>Add new variable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="386"/>
-        <source>Edit variable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="412"/>
-        <source>Delete variable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="438"/>
-        <source>Grab variable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="133"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="397"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="565"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="769"/>
         <source>Attention</source>
-        <translation type="unfinished"></translation>
+        <translation>Atención</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="134"/>
-        <source>Do you really want to delete &quot;%1&quot; connection?</source>
-        <translation type="unfinished"></translation>
+        <source>Datasources</source>
+        <translation>Orígenes de Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="214"/>
-        <source>Report variables</source>
-        <translation type="unfinished"></translation>
+        <source>Add database connection</source>
+        <translation>Agregar conexion a base de datos</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="216"/>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Add new datasource</source>
+        <translation>Agregar origen de datos</translation>
+    </message>
+    <message>
+        <source>View data</source>
+        <translation>Ver datos</translation>
+    </message>
+    <message>
+        <source>Change datasource</source>
+        <translation>Cambiar origen de datos</translation>
+    </message>
+    <message>
+        <source>Delete datasource</source>
+        <translation>Eliminar origen de datos</translation>
+    </message>
+    <message>
+        <source>Show error</source>
+        <translation>Mostrar error</translation>
+    </message>
+    <message>
+        <source>Variables</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Add new variable</source>
+        <translation>Agregar variable</translation>
+    </message>
+    <message>
+        <source>Edit variable</source>
+        <translation>Editar variable</translation>
+    </message>
+    <message>
+        <source>Delete variable</source>
+        <translation>Borrarvariable</translation>
+    </message>
+    <message>
         <source>System variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Variables del sistema</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="218"/>
-        <source>External variables</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="398"/>
-        <source>Do you really want to delete &quot;%1&quot; datasource?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="769"/>
-        <source>Do you really want to delete variable &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="806"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Grab variable</source>
+        <translation>Capturar variable</translation>
+    </message>
+    <message>
+        <source>Report variables</source>
+        <translation>Variables de informe</translation>
+    </message>
+    <message>
+        <source>External variables</source>
+        <translation>Variables externas</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &quot;%1&quot; connection?</source>
+        <translation>Realmente quieres eliminar la conexión &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &quot;%1&quot; datasource?</source>
+        <translation>¿Realmente quieres eliminar el origen de datos &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete variable &quot;%1&quot;?</source>
+        <translation>¿Realmente quieres eliminar la variable &quot;%1&quot;?</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataFooterBand</name>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="102"/>
         <source>DataFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de datos</translation>
+    </message>
+    <message>
+        <source>Print always</source>
+        <translation>Imprimir siempre</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="95"/>
         <source>DataHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de datos</translation>
+    </message>
+    <message>
+        <source>Reprint on each page</source>
+        <translation>Re-imprimir en cada página</translation>
+    </message>
+    <message>
+        <source>Repeat on each row</source>
+        <translation>Repetir en cada fila</translation>
+    </message>
+    <message>
+        <source>Print always</source>
+        <translation>Imprimir simpre</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="393"/>
         <source>Connection &quot;%1&quot; is not open</source>
-        <translation type="unfinished"></translation>
+        <translation>La conexión &quot;%1&quot; no está abierta</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="426"/>
         <source>Variable &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡No se encontró la variable &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="599"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="966"/>
-        <source>Datasource &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="682"/>
-        <source>Connection with name &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="707"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="716"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="725"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="732"/>
-        <source>Datasource with name &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="763"/>
-        <source>Database &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="939"/>
         <source>invalid connection</source>
-        <translation type="unfinished"></translation>
+        <translation>conexión inválida</translation>
+    </message>
+    <message>
+        <source>Database &quot;%1&quot; not found</source>
+        <translation>No se encontró la base de datos &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Datasource &quot;%1&quot; not found!</source>
+        <translation>¡Fuente de datos &quot;%1&quot; no encontrada!</translation>
+    </message>
+    <message>
+        <source>Connection with name &quot;%1&quot; already exists!</source>
+        <translation>¡La conexión con el nombre &quot;%1&quot; ya existe!</translation>
+    </message>
+    <message>
+        <source>Datasource with name &quot;%1&quot; already exists!</source>
+        <translation>¡La fuente de datos con nombre &quot;%1&quot; ya existe!</translation>
+    </message>
+    <message>
+        <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
+        <translation>Se encontró un parámetro desconocido &quot;%1&quot; para la variable &quot;%2&quot;.</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::DataSourceModel</name>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="184"/>
         <source>Datasources</source>
-        <translation type="unfinished"></translation>
+        <translation>Orígenes de Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="208"/>
         <source>Variables</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="213"/>
         <source>External variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Variables externas</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::DialogDesignerManager</name>
+    <message>
+        <source>Edit Widgets</source>
+        <translation>Editar objeto</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>Caja de objeto</translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation>Inspector de objeto</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>Editor de propiedades</translation>
+    </message>
+    <message>
+        <source>Signals &amp;&amp; Slots Editor</source>
+        <translation>Editor de Señales y eventos</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>Editor de recursos</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>Editor de acciones</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::EnumPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="88"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Por defecto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="89"/>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Retrato</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="90"/>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Apaisado (Horizontal)</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="91"/>
         <source>NoneAutoWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin ancho automático</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="92"/>
         <source>MaxWordLength</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. largo palabra</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="93"/>
         <source>MaxStringLength</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Largo cadena</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="94"/>
         <source>TransparentMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo transparente</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="95"/>
         <source>OpaqueMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo opaco</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="96"/>
         <source>Angle0</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo 0</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="97"/>
         <source>Angle90</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo 90</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="98"/>
         <source>Angle180</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo 180</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="99"/>
         <source>Angle270</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo 270</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="100"/>
         <source>Angle45</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo 45</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="101"/>
         <source>Angle315</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo 315</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="102"/>
         <source>DateTime</source>
-        <translation type="unfinished"></translation>
+        <translation>FechaHora</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="103"/>
         <source>Double</source>
-        <translation type="unfinished"></translation>
+        <translation>Doble</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="104"/>
         <source>NoBrush</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin brocha</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="105"/>
         <source>SolidPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón sólido</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="106"/>
         <source>Dense1Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso1</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="107"/>
         <source>Dense2Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso2</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="108"/>
         <source>Dense3Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso3</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="109"/>
         <source>Dense4Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso4</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="110"/>
         <source>Dense5Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso5</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="111"/>
         <source>Dense6Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso6</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="112"/>
         <source>Dense7Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Denso7</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="113"/>
         <source>HorPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Horizontal</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="114"/>
         <source>VerPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Vertical</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="115"/>
         <source>CrossPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón cruzado</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="116"/>
         <source>BDiagPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Diag.B</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="117"/>
         <source>FDiagPattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Patrón Diag.F</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="118"/>
         <source>LeftToRight</source>
-        <translation type="unfinished"></translation>
+        <translation>Izquierda A Derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="119"/>
         <source>RightToLeft</source>
-        <translation type="unfinished"></translation>
+        <translation>Derecha A Izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="120"/>
         <source>LayoutDirectionAuto</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirección diseño automática</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="121"/>
         <source>LeftItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear objeto a la izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="122"/>
         <source>RightItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear objeto a la derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="123"/>
         <source>CenterItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrar objeto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="124"/>
         <source>ParentWidthItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear objeto con acho de padre</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="125"/>
         <source>DesignedItemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalizado</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="126"/>
         <source>HorizontalLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea horizontal</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="127"/>
         <source>VerticalLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea vertical</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="128"/>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Elipse</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="129"/>
         <source>Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rectangulo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="130"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Página</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="131"/>
         <source>Band</source>
-        <translation type="unfinished"></translation>
+        <translation>Banda</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="132"/>
         <source>Horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="133"/>
         <source>Vertical</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="134"/>
         <source>VerticalUniform</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertical uniforme</translation>
+    </message>
+    <message>
+        <source>Pie</source>
+        <translation>Pastel</translation>
+    </message>
+    <message>
+        <source>VerticalBar</source>
+        <translation>Barra vertical</translation>
+    </message>
+    <message>
+        <source>HorizontalBar</source>
+        <translation>Barra horizontal</translation>
+    </message>
+    <message>
+        <source>LegendAlignTop</source>
+        <translation>Alinear Leyenda Arriba</translation>
+    </message>
+    <message>
+        <source>LegendAlignCenter</source>
+        <translation>Centrar leyenda</translation>
+    </message>
+    <message>
+        <source>LegendAlignBottom</source>
+        <translation>Alinear Leyenda Abajo</translation>
+    </message>
+    <message>
+        <source>TitleAlignLeft</source>
+        <translation>Alinear titulo a la izquierda</translation>
+    </message>
+    <message>
+        <source>TitleAlignRight</source>
+        <translation>Alinear titulo a la derecha</translation>
+    </message>
+    <message>
+        <source>TitleAlignCenter</source>
+        <translation>Centrar titulo</translation>
+    </message>
+    <message>
+        <source>Layout</source>
+        <translation>Diseño</translation>
+    </message>
+    <message>
+        <source>Table</source>
+        <translation>Tabla</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="121"/>
         <source>NoLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin borde</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="122"/>
         <source>TopLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Borde superior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="123"/>
         <source>BottomLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Borde inferior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="124"/>
         <source>LeftLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Borde izquierdo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="125"/>
         <source>RightLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Borde derecho</translation>
+    </message>
+    <message>
+        <source>AllLines</source>
+        <translation>Todos los bordes</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::FontEditorWidget</name>
     <message>
-        <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="86"/>
         <source>Font bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Negrita</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="92"/>
         <source>Font Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursiva</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="98"/>
         <source>Font Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Subrayada</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::FontPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="54"/>
         <source>bold</source>
-        <translation type="unfinished"></translation>
+        <translation>negrita</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="55"/>
         <source>italic</source>
-        <translation type="unfinished"></translation>
+        <translation>cursiva</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="56"/>
         <source>underline</source>
-        <translation type="unfinished"></translation>
+        <translation>subrayada</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="57"/>
         <source>size</source>
-        <translation type="unfinished"></translation>
+        <translation>tamaño</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="58"/>
         <source>family</source>
-        <translation type="unfinished"></translation>
+        <translation>familia</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::GroupBandFooter</name>
     <message>
-        <location filename="../limereport/bands/lrgroupbands.cpp" line="205"/>
         <source>GroupFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de grupo</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::GroupBandHeader</name>
     <message>
-        <location filename="../limereport/bands/lrgroupbands.cpp" line="67"/>
         <source>GroupHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de grupo</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrgroupbands.cpp" line="142"/>
         <source>Group field not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Campo de grupo no encontrado</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrgroupbands.cpp" line="158"/>
         <source>Datasource &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Fuente de datos &quot;%1&quot; no encontrada!</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::GroupFunction</name>
     <message>
-        <location filename="../limereport/lrgroupfunctions.cpp" line="54"/>
         <source>Field &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Campo &quot;%1&quot; no encontrado</translation>
     </message>
     <message>
-        <location filename="../limereport/lrgroupfunctions.cpp" line="64"/>
         <source>Variable &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable &quot;%1&quot; no encontrada</translation>
     </message>
     <message>
-        <location filename="../limereport/lrgroupfunctions.cpp" line="74"/>
-        <source>Wrong script syntax &quot;%1&quot; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrgroupfunctions.cpp" line="85"/>
         <source>Item &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto &quot;%1&quot; no encontrado</translation>
+    </message>
+    <message>
+        <source>Wrong script syntax &quot;%1&quot; </source>
+        <translation>Sintaxis de la secuencia de comandos incorrecta &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ImageItem</name>
     <message>
-        <location filename="../limereport/items/lrimageitem.cpp" line="260"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagen</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation>Marca de agua</translation>
+    </message>
+    <message>
+        <source>Ext.</source>
+        <translation>Ext.</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
     <message>
-        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="51"/>
         <source>Band</source>
-        <translation type="unfinished"></translation>
+        <translation>Banda</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="52"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Página</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ItemsAlignmentEditorWidget</name>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="120"/>
         <source>Bring to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Traer al frente</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="125"/>
         <source>Send to back</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar al fondo</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="130"/>
         <source>Align to left</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear a la izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="135"/>
         <source>Align to right</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear a la derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="140"/>
         <source>Align to vertical center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrar verticalmente</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="145"/>
         <source>Align to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear arriba</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="150"/>
         <source>Align to bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear abajo</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="155"/>
         <source>Align to horizontal center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrar horizontalmente</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="160"/>
         <source>Set same height</source>
-        <translation type="unfinished"></translation>
+        <translation>Fijar mismo alto</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="165"/>
         <source>Set same width</source>
-        <translation type="unfinished"></translation>
+        <translation>Fijar mismo ancho</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ItemsBordersEditorWidget</name>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="94"/>
         <source>Top line</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea superior</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="100"/>
         <source>Bottom line</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea inferior</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="106"/>
         <source>Left line</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="112"/>
         <source>Right line</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="120"/>
         <source>No borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin bordes</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="125"/>
         <source>All borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los bordes</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="624"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
-        <translation type="unfinished"></translation>
+        <translation>Campo: &quot;%1&quot; no ha encontrado en la fuente de datos secundaria &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="637"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
-        <translation type="unfinished"></translation>
+        <translation>Campo: &quot;%1&quot; no encontrado en la fuente de datos maestra &quot;%2&quot;</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="339"/>
         <source>model is destroyed</source>
-        <translation type="unfinished"></translation>
+        <translation>modelo esta destruido</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ObjectBrowser</name>
     <message>
-        <location filename="../limereport/objectsbrowser/lrobjectbrowser.cpp" line="45"/>
         <source>Objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Objetos</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ObjectInspectorWidget</name>
+    <message>
+        <source>Clear</source>
+        <translation>Limpiar</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation>Filtrar</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::PDFExporter</name>
+    <message>
+        <source>Export to PDF</source>
+        <translation>Exportar a PDF</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PageFooter</name>
     <message>
-        <location filename="../limereport/bands/lrpagefooter.cpp" line="54"/>
         <source>Page Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de página</translation>
+    </message>
+    <message>
+        <source>Print on first page</source>
+        <translation>Imprimir en primera página</translation>
+    </message>
+    <message>
+        <source>Print on last page</source>
+        <translation>Imprimir en última página</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PageHeader</name>
     <message>
-        <location filename="../limereport/bands/lrpageheader.cpp" line="57"/>
         <source>Page Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de página</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="542"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar</translation>
+    </message>
+    <message>
+        <source>Page is TOC</source>
+        <translation>Página es TOC</translation>
+    </message>
+    <message>
+        <source>Reset page number</source>
+        <translation>Restablecer número de página</translation>
+    </message>
+    <message>
+        <source>Full page</source>
+        <translation>Página completa</translation>
+    </message>
+    <message>
+        <source>Set page size to printer</source>
+        <translation>Establecer el tamaño de página a la impresora</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PreviewReportWidget</name>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Desde</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="177"/>
-        <source>PDF file name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="207"/>
         <source>Report file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del archivo del reporte</translation>
+    </message>
+    <message>
+        <source>%1 file name</source>
+        <translation>%1 nombre de archivo</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::PreviewReportWindow</name>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="14"/>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista previa</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="43"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="52"/>
         <source>Report</source>
-        <translation type="unfinished"></translation>
+        <translation>Reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="63"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Barra herramientas</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="102"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="105"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="114"/>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>Acercar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="123"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Alejar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="132"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="135"/>
         <source>Prior Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Página anterior</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="144"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="147"/>
         <source>Next Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Página siguiente</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="156"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="159"/>
         <source>Close Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar vista previa</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="162"/>
-        <source>Esc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="174"/>
         <source>Edit Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo edición</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="183"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="186"/>
         <source>Save to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar en archivo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="198"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="201"/>
         <source>Show errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar errores</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="210"/>
         <source>First Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Primera página</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="213"/>
         <source>First page</source>
-        <translation type="unfinished"></translation>
+        <translation>Primera página</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="222"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="225"/>
         <source>Last Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Ultima página</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="234"/>
         <source>Print To PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir en PDF</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="243"/>
-        <source>Fit page width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="252"/>
-        <source>Fit page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="261"/>
-        <source>One to one</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="276"/>
-        <source>Show Toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="279"/>
-        <source>Show toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="54"/>
         <source>Page: </source>
-        <translation type="unfinished"></translation>
+        <translation>Página: </translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="67"/>
-        <source>Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="70"/>
-        <source>Text align</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="133"/>
         <source> of %1</source>
-        <translation type="unfinished"></translation>
+        <translation> de %1</translation>
+    </message>
+    <message>
+        <source>Fit page width</source>
+        <translation>Ajustar ancho de página</translation>
+    </message>
+    <message>
+        <source>Fit page</source>
+        <translation>Ajustar a página</translation>
+    </message>
+    <message>
+        <source>One to one</source>
+        <translation>Tamaño real</translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation>Fuente</translation>
+    </message>
+    <message>
+        <source>Text align</source>
+        <translation>Alinear texto</translation>
+    </message>
+    <message>
+        <source>Esc</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Show Toolbar</source>
+        <translation>Mostrar barra herramientas</translation>
+    </message>
+    <message>
+        <source>Show toolbar</source>
+        <translation>Mostrar barra herramientas</translation>
+    </message>
+    <message>
+        <source>toolBar_2</source>
+        <translation>barra herramientas_2</translation>
+    </message>
+    <message>
+        <source>InsertTextItem</source>
+        <translation>Insertar objeto de texto</translation>
+    </message>
+    <message>
+        <source>Add new TextItem</source>
+        <translation>Agregar nuevo objeto de texto</translation>
+    </message>
+    <message>
+        <source>Selection Mode</source>
+        <translation>Modo de selección</translation>
+    </message>
+    <message>
+        <source>Delete Item</source>
+        <translation>Eliminar objeto</translation>
+    </message>
+    <message>
+        <source>Del</source>
+        <translation>Supr</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="563"/>
         <source>Datasource has been invalidated</source>
-        <translation type="unfinished"></translation>
+        <translation>Fuente de datos ha sido invalidada</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::QObjectPropertyModel</name>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="40"/>
         <source>leftMargin</source>
-        <translation type="unfinished"></translation>
+        <translation>Margen izquierdo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="41"/>
         <source>rightMargin</source>
-        <translation type="unfinished"></translation>
+        <translation>Margen derecho</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="42"/>
         <source>topMargin</source>
-        <translation type="unfinished"></translation>
+        <translation>Margen superior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="43"/>
         <source>bottomMargin</source>
-        <translation type="unfinished"></translation>
+        <translation>Margen inferior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="44"/>
         <source>objectName</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del objeto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="45"/>
         <source>borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Bordes</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="46"/>
         <source>geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>geometria</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="47"/>
         <source>itemAlign</source>
-        <translation type="unfinished"></translation>
+        <translation>Alineación del objeto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="48"/>
         <source>pageOrientation</source>
-        <translation type="unfinished"></translation>
+        <translation>Orientación de la página</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="49"/>
         <source>pageSize</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño de página</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="50"/>
         <source>TopLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea superior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="51"/>
         <source>BottomLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea inferior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="52"/>
         <source>LeftLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="53"/>
         <source>RightLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Linea derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="54"/>
         <source>reprintOnEachPage</source>
-        <translation type="unfinished"></translation>
+        <translation>Re-imprimir en cada página</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="55"/>
         <source>borderLineSize</source>
-        <translation type="unfinished"></translation>
+        <translation>Grosor de borde</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="56"/>
         <source>autoHeight</source>
-        <translation type="unfinished"></translation>
+        <translation>Alto automático</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="57"/>
         <source>backgroundColor</source>
-        <translation type="unfinished"></translation>
+        <translation>Color de fondo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="58"/>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="93"/>
         <source>columnCount</source>
-        <translation type="unfinished"></translation>
+        <translation>Cantidad de columnas</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="59"/>
         <source>columnsFillDirection</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirección llenado columnas</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="60"/>
         <source>datasource</source>
-        <translation type="unfinished"></translation>
+        <translation>fuente de datos</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="61"/>
         <source>keepBottomSpace</source>
-        <translation type="unfinished"></translation>
+        <translation>Conservar espacio inferior</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="62"/>
         <source>keepFooterTogether</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantener pie junto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="63"/>
         <source>keepSubdetailTogether</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantener sub-detalle junto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="64"/>
         <source>printIfEmpty</source>
-        <translation type="unfinished"></translation>
+        <translation>imprimir si está vacío</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="65"/>
         <source>sliceLastRow</source>
-        <translation type="unfinished"></translation>
+        <translation>cortar la última fila</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="66"/>
         <source>splittable</source>
-        <translation type="unfinished"></translation>
+        <translation>Separable</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="67"/>
         <source>alignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Alineación</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="68"/>
         <source>angle</source>
-        <translation type="unfinished"></translation>
+        <translation>Angulo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="69"/>
         <source>autoWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Ancho automático</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="70"/>
         <source>backgroundMode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de fondo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="71"/>
         <source>backgroundOpacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Opacidad de fondo</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="72"/>
         <source>content</source>
-        <translation type="unfinished"></translation>
+        <translation>contenido</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="73"/>
         <source>font</source>
-        <translation type="unfinished"></translation>
+        <translation>fuente</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="74"/>
         <source>fontColor</source>
-        <translation type="unfinished"></translation>
+        <translation>Color de fuente</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="75"/>
         <source>foregroundOpacity</source>
-        <translation type="unfinished"></translation>
+        <translation>opacidad de primer plano</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="76"/>
         <source>itemLocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubicación del objeto</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="77"/>
         <source>margin</source>
-        <translation type="unfinished"></translation>
+        <translation>margen</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="78"/>
         <source>stretchToMaxHeight</source>
-        <translation type="unfinished"></translation>
+        <translation>estirar a la altura máxima</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="79"/>
         <source>trimValue</source>
-        <translation type="unfinished"></translation>
+        <translation>Recortar Valor</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="80"/>
         <source>lineWidth</source>
-        <translation type="unfinished"></translation>
+        <translation>Ancho de linea</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="81"/>
         <source>opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>opacidad</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="82"/>
         <source>penStyle</source>
-        <translation type="unfinished"></translation>
+        <translation>estilo de pluma</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="83"/>
         <source>shape</source>
-        <translation type="unfinished"></translation>
+        <translation>forma</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="84"/>
         <source>shapeBrush</source>
-        <translation type="unfinished"></translation>
+        <translation>forma del pincel</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="85"/>
         <source>shapeBrushColor</source>
-        <translation type="unfinished"></translation>
+        <translation>forma del pincel color</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="86"/>
-        <source>gridStep</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="87"/>
-        <source>fullPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="88"/>
-        <source>oldPrintMode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="89"/>
-        <source>borderColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="90"/>
-        <source>resetPageNumber</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="91"/>
-        <source>alternateBackgroundColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="92"/>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="99"/>
-        <source>backgroundBrushStyle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="94"/>
-        <source>startFromNewPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="95"/>
-        <source>startNewPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="96"/>
-        <source>adaptFontToSize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="97"/>
-        <source>allowHTML</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="98"/>
-        <source>allowHTMLInFields</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="100"/>
-        <source>followTo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="101"/>
-        <source>format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="102"/>
-        <source>lineSpacing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="103"/>
-        <source>textIndent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="104"/>
-        <source>textLayoutDirection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="105"/>
-        <source>underlineLineSize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="106"/>
-        <source>underlines</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="107"/>
-        <source>valueType</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="108"/>
-        <source>securityLevel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="109"/>
-        <source>testValue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="110"/>
-        <source>whitespace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="111"/>
-        <source>resourcePath</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="112"/>
-        <source>scale</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="113"/>
-        <source>cornerRadius</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="114"/>
-        <source>shapeColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="115"/>
-        <source>layoutType</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="116"/>
-        <source>barcodeType</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="117"/>
-        <source>barcodeWidth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="118"/>
-        <source>foregroundColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="119"/>
-        <source>inputMode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="120"/>
-        <source>pdf417CodeWords</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="121"/>
-        <source>autoSize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="122"/>
-        <source>center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="123"/>
-        <source>field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="124"/>
-        <source>image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="125"/>
-        <source>keepAspectRatio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="126"/>
-        <source>columnsCount</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="127"/>
-        <source>useAlternateBackgroundColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="128"/>
-        <source>printBeforePageHeader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="129"/>
-        <source>maxScalePercent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="130"/>
-        <source>printOnFirstPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="131"/>
-        <source>printOnLastPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="132"/>
-        <source>printAlways</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="133"/>
-        <source>repeatOnEachRow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="134"/>
-        <source>condition</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="135"/>
-        <source>groupFieldName</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="136"/>
-        <source>keepGroupTogether</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="230"/>
         <source>Property Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Propiedad</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="231"/>
         <source>Property value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="438"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia</translation>
+    </message>
+    <message>
+        <source>gridStep</source>
+        <translation>Distancia en rejilla</translation>
+    </message>
+    <message>
+        <source>fullPage</source>
+        <translation>Página completa</translation>
+    </message>
+    <message>
+        <source>oldPrintMode</source>
+        <translation>Modo de impresión viejo</translation>
+    </message>
+    <message>
+        <source>borderColor</source>
+        <translation>Color de borde</translation>
+    </message>
+    <message>
+        <source>resetPageNumber</source>
+        <translation>Restablecer número de página</translation>
+    </message>
+    <message>
+        <source>alternateBackgroundColor</source>
+        <translation>Color de fondo alternativo</translation>
+    </message>
+    <message>
+        <source>backgroundBrushStyle</source>
+        <translation>Estilo de bocha de fondo</translation>
+    </message>
+    <message>
+        <source>startFromNewPage</source>
+        <translation>Empezar desde nueva página</translation>
+    </message>
+    <message>
+        <source>startNewPage</source>
+        <translation>empezar nueva página</translation>
+    </message>
+    <message>
+        <source>adaptFontToSize</source>
+        <translation>adaptar fuente al tamaño</translation>
+    </message>
+    <message>
+        <source>allowHTML</source>
+        <translation>Permitir HTML</translation>
+    </message>
+    <message>
+        <source>allowHTMLInFields</source>
+        <translation>permitir HTML en campos</translation>
+    </message>
+    <message>
+        <source>followTo</source>
+        <translation>Permitir hasta</translation>
+    </message>
+    <message>
+        <source>format</source>
+        <translation>formato</translation>
+    </message>
+    <message>
+        <source>lineSpacing</source>
+        <translation>Espaciado entre líneas</translation>
+    </message>
+    <message>
+        <source>textIndent</source>
+        <translation>sangría de texto</translation>
+    </message>
+    <message>
+        <source>textLayoutDirection</source>
+        <translation>Dirección del diseño del texto</translation>
+    </message>
+    <message>
+        <source>underlineLineSize</source>
+        <translation>grosor del subrayado</translation>
+    </message>
+    <message>
+        <source>underlines</source>
+        <translation>subrayar</translation>
+    </message>
+    <message>
+        <source>valueType</source>
+        <translation>Tipo de valor</translation>
+    </message>
+    <message>
+        <source>securityLevel</source>
+        <translation>nivel seguridad</translation>
+    </message>
+    <message>
+        <source>testValue</source>
+        <translation>valor de prueba</translation>
+    </message>
+    <message>
+        <source>whitespace</source>
+        <translation>espacio en blanco</translation>
+    </message>
+    <message>
+        <source>resourcePath</source>
+        <translation>ruta de recursos</translation>
+    </message>
+    <message>
+        <source>scale</source>
+        <translation>escala</translation>
+    </message>
+    <message>
+        <source>cornerRadius</source>
+        <translation>radio de esquina</translation>
+    </message>
+    <message>
+        <source>shapeColor</source>
+        <translation>color de la forma</translation>
+    </message>
+    <message>
+        <source>layoutType</source>
+        <translation>tipo de diseño</translation>
+    </message>
+    <message>
+        <source>barcodeType</source>
+        <translation>tipo código barrras</translation>
+    </message>
+    <message>
+        <source>barcodeWidth</source>
+        <translation>ancho código barras</translation>
+    </message>
+    <message>
+        <source>foregroundColor</source>
+        <translation>color de primer plano</translation>
+    </message>
+    <message>
+        <source>inputMode</source>
+        <translation>modo de entrada</translation>
+    </message>
+    <message>
+        <source>pdf417CodeWords</source>
+        <translation>palabras del código pdf417</translation>
+    </message>
+    <message>
+        <source>autoSize</source>
+        <translation>tamaño automático</translation>
+    </message>
+    <message>
+        <source>center</source>
+        <translation>centrado</translation>
+    </message>
+    <message>
+        <source>field</source>
+        <translation>campo</translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation>imagen</translation>
+    </message>
+    <message>
+        <source>keepAspectRatio</source>
+        <translation>mantener la relación de aspecto</translation>
+    </message>
+    <message>
+        <source>columnsCount</source>
+        <translation>recuento de columnas</translation>
+    </message>
+    <message>
+        <source>useAlternateBackgroundColor</source>
+        <translation>usar color de fondo alternativo</translation>
+    </message>
+    <message>
+        <source>printBeforePageHeader</source>
+        <translation>imprimir antes del encabezado de página</translation>
+    </message>
+    <message>
+        <source>maxScalePercent</source>
+        <translation>porcentaje máximo de escala</translation>
+    </message>
+    <message>
+        <source>printOnFirstPage</source>
+        <translation>Imprimir en la primera página</translation>
+    </message>
+    <message>
+        <source>printOnLastPage</source>
+        <translation>Imprimir en la última página</translation>
+    </message>
+    <message>
+        <source>printAlways</source>
+        <translation>imprimir siempre</translation>
+    </message>
+    <message>
+        <source>repeatOnEachRow</source>
+        <translation>repetir en cada fila</translation>
+    </message>
+    <message>
+        <source>condition</source>
+        <translation>condición</translation>
+    </message>
+    <message>
+        <source>groupFieldName</source>
+        <translation>nombre del grupo de campos</translation>
+    </message>
+    <message>
+        <source>keepGroupTogether</source>
+        <translation>mantener grupo junto</translation>
+    </message>
+    <message>
+        <source>endlessHeight</source>
+        <translation>altura sin fin</translation>
+    </message>
+    <message>
+        <source>extendedHeight</source>
+        <translation>alto extendido</translation>
+    </message>
+    <message>
+        <source>isExtendedInDesignMode</source>
+        <translation>es el modo de diseño extendido</translation>
+    </message>
+    <message>
+        <source>pageIsTOC</source>
+        <translation>la página es TOC</translation>
+    </message>
+    <message>
+        <source>setPageSizeToPrinter</source>
+        <translation>ajsutar tamaño de página a la impresora</translation>
+    </message>
+    <message>
+        <source>fillInSecondPass</source>
+        <translation>completar segundo paso</translation>
+    </message>
+    <message>
+        <source>chartTitle</source>
+        <translation>Titulo del gráfico</translation>
+    </message>
+    <message>
+        <source>chartType</source>
+        <translation>tipo gráfico</translation>
+    </message>
+    <message>
+        <source>drawLegendBorder</source>
+        <translation>dibujar borde de leyenda</translation>
+    </message>
+    <message>
+        <source>labelsField</source>
+        <translation>campo de etiquetas</translation>
+    </message>
+    <message>
+        <source>legendAlign</source>
+        <translation>Alinear leyenda</translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation>series</translation>
+    </message>
+    <message>
+        <source>titleAlign</source>
+        <translation>alinear titulo</translation>
+    </message>
+    <message>
+        <source>watermark</source>
+        <translation>marca de agua</translation>
+    </message>
+    <message>
+        <source>keepTopSpace</source>
+        <translation>conservar espacio superior</translation>
+    </message>
+    <message>
+        <source>printable</source>
+        <translation>imprimible</translation>
+    </message>
+    <message>
+        <source>variable</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>replaceCRwithBR</source>
+        <translation>reemplazar CR con BR</translation>
+    </message>
+    <message>
+        <source>hideIfEmpty</source>
+        <translation>ocultar si está vacío</translation>
+    </message>
+    <message>
+        <source>hideEmptyItems</source>
+        <translation>ocultar objetos vacíos</translation>
+    </message>
+    <message>
+        <source>useExternalPainter</source>
+        <translation>utilizar pintor externo</translation>
+    </message>
+    <message>
+        <source>layoutSpacing</source>
+        <translation>espaciado de diseño</translation>
+    </message>
+    <message>
+        <source>printerName</source>
+        <translation>nombre impresora</translation>
+    </message>
+    <message>
+        <source>fontLetterSpacing</source>
+        <translation>espaciado entre letra y fuente</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="111"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="116"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="121"/>
         <source>width</source>
-        <translation type="unfinished"></translation>
+        <translation>ancho</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="112"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="117"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="122"/>
         <source>height</source>
-        <translation type="unfinished"></translation>
+        <translation>alto</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="83"/>
         <source>width</source>
-        <translation type="unfinished"></translation>
+        <translation>ancho</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="84"/>
         <source>height</source>
-        <translation type="unfinished"></translation>
+        <translation>alto</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="168"/>
-        <source>Script</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="291"/>
         <source>Report file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de archivo del reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="308"/>
+        <source>Script</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="308"/>
         <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato de archivo incorrecto</translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation>Traducciones</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="96"/>
-        <source>New Report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="101"/>
-        <source>New Report Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="105"/>
-        <source>Delete Report Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="110"/>
-        <source>Edit Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="116"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="122"/>
-        <source>Redo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="128"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="133"/>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="138"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="143"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="147"/>
-        <source>Use grid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="153"/>
-        <source>Use magnet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="160"/>
-        <source>Text Item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="165"/>
-        <source>Save Report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="170"/>
-        <source>Save Report As</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="175"/>
-        <source>Load Report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="180"/>
-        <source>Delete item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="185"/>
-        <source>Zoom In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="189"/>
-        <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="193"/>
-        <source>Render Report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="207"/>
-        <source>Edit layouts mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="212"/>
-        <source>Horizontal layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="216"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="220"/>
-        <source>Hide left panel</source>
-        <translation type="unfinished"></translation>
+        <source>New Report</source>
+        <translation>Nuevo Reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="226"/>
-        <source>Hide right panel</source>
-        <translation type="unfinished"></translation>
+        <source>Edit Mode</source>
+        <translation>Modo de edición</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="235"/>
+        <source>Undo</source>
+        <translation>Deshacer</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Rehacer</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Pegar</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Cortar</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Configuración</translation>
+    </message>
+    <message>
+        <source>Use grid</source>
+        <translation>Usar cuadricula</translation>
+    </message>
+    <message>
+        <source>Use magnet</source>
+        <translation>Usar Imán</translation>
+    </message>
+    <message>
+        <source>Text Item</source>
+        <translation>Elemento de texto</translation>
+    </message>
+    <message>
+        <source>Save Report</source>
+        <translation>Guardar Reporte</translation>
+    </message>
+    <message>
+        <source>Save Report As</source>
+        <translation>Guardar reporte como</translation>
+    </message>
+    <message>
+        <source>Load Report</source>
+        <translation>Cargar Reporte</translation>
+    </message>
+    <message>
+        <source>Delete item</source>
+        <translation>Eliminar elemento</translation>
+    </message>
+    <message>
+        <source>Zoom In</source>
+        <translation>Acercarse</translation>
+    </message>
+    <message>
+        <source>Zoom Out</source>
+        <translation>Alejarse</translation>
+    </message>
+    <message>
+        <source>Render Report</source>
+        <translation>Generar reporte</translation>
+    </message>
+    <message>
+        <source>Edit layouts mode</source>
+        <translation>Modo de edición de diseño</translation>
+    </message>
+    <message>
+        <source>Horizontal layout</source>
+        <translation>Diseño horizontal</translation>
+    </message>
+    <message>
         <source>Report Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Herramientas de reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="262"/>
         <source>Main Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Herramientas principales</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="295"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="299"/>
         <source>Text alignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Alineación del texto</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="303"/>
         <source>Items alignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Alineación de elementos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="310"/>
         <source>Borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Bordes</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="337"/>
         <source>Report bands</source>
-        <translation type="unfinished"></translation>
+        <translation>Bandas del reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="341"/>
         <source>Report Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado del reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="346"/>
         <source>Report Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie del Reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="351"/>
         <source>Page Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de página</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="356"/>
         <source>Page Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de página</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="361"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="366"/>
         <source>Data Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="372"/>
         <source>Data Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="378"/>
         <source>SubDetail</source>
-        <translation type="unfinished"></translation>
+        <translation>Sub-Detalle</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="384"/>
         <source>SubDetailHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de Sub-Detalle</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="390"/>
         <source>SubDetailFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de Sub-Detalle</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="396"/>
         <source>GroupHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de grupo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="402"/>
         <source>GroupFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de Grupo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="408"/>
-        <source>Tear-off Band</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="418"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="425"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="432"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Información</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="434"/>
         <source>Recent Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos recientes</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="485"/>
         <source>Object Inspector</source>
-        <translation type="unfinished"></translation>
+        <translation>Inspector de objectos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="494"/>
         <source>Report structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Estructura del reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="506"/>
         <source>Data Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Navegador de datos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="519"/>
-        <source>Script Browser</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="686"/>
-        <source>Report has been modified! Do you want save the report?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="909"/>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="922"/>
         <source>Report file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de archivo del reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1135"/>
         <source>Rendering report</source>
-        <translation type="unfinished"></translation>
+        <translation>Generando reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1135"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Abortar</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1144"/>
         <source> page rendered</source>
-        <translation type="unfinished"></translation>
+        <translation> página generada</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1221"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1221"/>
         <source>File &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡No se encontró el archivo &quot;%1&quot;!</translation>
+    </message>
+    <message>
+        <source>New Report Page</source>
+        <translation>Nueva página para el reporte</translation>
+    </message>
+    <message>
+        <source>Delete Report Page</source>
+        <translation>Eliminar página del reporte</translation>
+    </message>
+    <message>
+        <source>Script Browser</source>
+        <translation>Navegador de Script</translation>
+    </message>
+    <message>
+        <source>Tear-off Band</source>
+        <translation>Banda de corte</translation>
+    </message>
+    <message>
+        <source>Delete dialog</source>
+        <translation>Eliminar dialogo</translation>
+    </message>
+    <message>
+        <source>Add new dialog</source>
+        <translation>Agregar nuevo dialogo</translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation>Caja de Widget</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation>Editor de propiedades</translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation>Editor de acción</translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation>Editor de recursos</translation>
+    </message>
+    <message>
+        <source>SignalSlot Editor</source>
+        <translation>Editor de señales</translation>
+    </message>
+    <message>
+        <source>Dialog Designer Tools</source>
+        <translation>Herramientas de diseño de Dialogos</translation>
+    </message>
+    <message>
+        <source>Report has been modified! Do you want save the report?</source>
+        <translation>¡El reporte ha sido modificado! ¿Quieres guardar el reporte?</translation>
+    </message>
+    <message>
+        <source>Hide left panel | Alt+L</source>
+        <translation>Ocultar panel izquierdo | Alt + L</translation>
+    </message>
+    <message>
+        <source>Hide right panel | Alt+R</source>
+        <translation>Ocultar panel derecho | Alt + L</translation>
+    </message>
+    <message>
+        <source>Vertical layout</source>
+        <translation>Diseño vertical</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="64"/>
-        <source>Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportengine.cpp" line="162"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="474"/>
+        <source>Preview</source>
+        <translation>Vista previa</translation>
+    </message>
+    <message>
         <source>Report File Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Repore cambios en archivo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="475"/>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo del informe &quot;%1&quot; ha cambiado los nombres o se ha eliminado.
+
+Esta vista previa ya no es válida.</translation>
+    </message>
+    <message>
+        <source>Language %1 already exists</source>
+        <translation>El idioma %1 ya existe</translation>
+    </message>
+    <message>
+        <source>Designer not found!</source>
+        <translation>Diseñador no encontrado!</translation>
+    </message>
+    <message>
+        <source>%1 file name</source>
+        <translation>Nombre de archivo %1</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportFooter</name>
     <message>
-        <location filename="../limereport/bands/lrreportfooter.cpp" line="52"/>
         <source>Report Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie reporte</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportHeader</name>
     <message>
-        <location filename="../limereport/bands/lrreportheader.cpp" line="50"/>
         <source>Report Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado reporte</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ReportRender</name>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="175"/>
-        <location filename="../limereport/lrreportrender.cpp" line="190"/>
-        <location filename="../limereport/lrreportrender.cpp" line="203"/>
-        <location filename="../limereport/lrreportrender.cpp" line="243"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="282"/>
-        <source>page index out of range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrreportrender.cpp" line="352"/>
         <source>Databand &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Banda de datos &quot;%1&quot; no encontrada</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="359"/>
         <source>Wrong using function %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al utilizar la función %1</translation>
+    </message>
+    <message>
+        <source>page index out of range</source>
+        <translation>índice de página fuera de rango</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SQLEditDialog</name>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="14"/>
-        <source>Datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="29"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="55"/>
-        <source>Datasource Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="505"/>
-        <source>Subdetail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="514"/>
-        <source>Master datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="533"/>
-        <source>Subquery mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="543"/>
-        <source>Filter mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="552"/>
-        <source>SQL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="591"/>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="350"/>
-        <source>Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="598"/>
-        <source>Hide Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="636"/>
-        <source>Child datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="651"/>
-        <source>Fields map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="680"/>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="694"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="726"/>
-        <source>Data preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="768"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="778"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="127"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="150"/>
-        <source>Datasource Name is empty!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="151"/>
-        <source>SQL is empty!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="154"/>
-        <source>Datasource with name: &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="167"/>
-        <source>defaultConnection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="219"/>
-        <source>Datasource with name %1 already exist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="302"/>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="318"/>
         <source>Attention</source>
-        <translation type="unfinished"></translation>
+        <translation>Atención</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="302"/>
+        <source>Datasource</source>
+        <translation>Fuente de datos</translation>
+    </message>
+    <message>
+        <source>Datasource Name</source>
+        <translation>Nombre de fuente de datos</translation>
+    </message>
+    <message>
+        <source>Subdetail</source>
+        <translation>Sub-detalle</translation>
+    </message>
+    <message>
+        <source>Master datasource</source>
+        <translation>Fuente de datos primaria</translation>
+    </message>
+    <message>
+        <source>Subquery mode</source>
+        <translation>Modo de sub consulta</translation>
+    </message>
+    <message>
+        <source>Filter mode</source>
+        <translation>Modo de filtrado</translation>
+    </message>
+    <message>
+        <source>SQL</source>
+        <translation>SQL</translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation>Vista previa</translation>
+    </message>
+    <message>
+        <source>Hide Preview</source>
+        <translation>Ocultar vista previa</translation>
+    </message>
+    <message>
+        <source>Child datasource</source>
+        <translation>Fuente de datos hija</translation>
+    </message>
+    <message>
+        <source>Fields map</source>
+        <translation>Mapa de campos</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Data preview</source>
+        <translation>Vista previa de datos</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Datasource with name %1 already exist</source>
+        <translation>La fuente de datos con el nombre %1 ya existe</translation>
+    </message>
+    <message>
         <source>Connection is not specified</source>
-        <translation type="unfinished"></translation>
+        <translation>La conexión no está especificada</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="313"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Refrescar</translation>
+    </message>
+    <message>
+        <source>defaultConnection</source>
+        <translation>Conexión por defecto</translation>
+    </message>
+    <message>
+        <source>Datasource Name is empty!</source>
+        <translation>Nombre de la fuente de datos está vacío!</translation>
+    </message>
+    <message>
+        <source>SQL is empty!</source>
+        <translation>SQL está vacío!</translation>
+    </message>
+    <message>
+        <source>Datasource with name: &quot;%1&quot; already exists!</source>
+        <translation>Fuente de datos con nombre: &quot;%1&quot; ya existe!</translation>
+    </message>
+    <message>
+        <source>CSV</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Separator</source>
+        <translation>Separador</translation>
+    </message>
+    <message>
+        <source>;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use first row as header</source>
+        <translation>Usa la primera fila como encabezado</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptBrowser</name>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>De</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="42"/>
         <source>Functions</source>
-        <translation type="unfinished"></translation>
+        <translation>Funciones</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="68"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="88"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="108"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="182"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="202"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="222"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="156"/>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialogos</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="267"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="272"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="71"/>
         <source>NO CATEGORY</source>
-        <translation type="unfinished"></translation>
+        <translation>NO CATEGORIA</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="162"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="166"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="168"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="162"/>
         <source>Dialog with name: %1 already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Diálogo con nombre: %1 ya existe</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="166"/>
         <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo ui debe contener QDialog en lugar de QWidget o QMainWindow</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="168"/>
         <source>wrong file format</source>
-        <translation type="unfinished"></translation>
+        <translation>formato de archivo incorrecto</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ScriptEditor</name>
+    <message>
+        <source>Form</source>
+        <translation>De</translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation>Datos</translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation>Funciones</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="829"/>
         <source>Dialog with name: %1 can`t be created</source>
-        <translation type="unfinished"></translation>
+        <translation>Diálogo con nombre: %1 no puede ser creado</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="463"/>
-        <source>GROUP FUNCTIONS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="463"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="649"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="653"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="654"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="655"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="659"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="660"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="662"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="463"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="648"/>
         <source>BandName</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de banda</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="507"/>
-        <source>Variable %1 not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="648"/>
-        <source>SYSTEM</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="649"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="659"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="660"/>
-        <source>NUMBER</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="649"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="652"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="653"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="654"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="655"/>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="650"/>
         <source>Precision</source>
-        <translation type="unfinished"></translation>
+        <translation>Precisión</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="651"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="659"/>
         <source>Locale</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="652"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="653"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="654"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="655"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="656"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="657"/>
-        <source>DATE&amp;TIME</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="652"/>
-        <source>Seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="660"/>
         <source>CurrencySymbol</source>
-        <translation type="unfinished"></translation>
+        <translation>Símbolo de moneda</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="662"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="663"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="664"/>
-        <source>GENERAL</source>
-        <translation type="unfinished"></translation>
+        <source>Variable %1 not found</source>
+        <translation>Variable %1 no encontrada</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="662"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="663"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="664"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>GROUP FUNCTIONS</source>
+        <translation>Funciones de grupo</translation>
+    </message>
+    <message>
+        <source>FieldName</source>
+        <translation>Nombre campo</translation>
+    </message>
+    <message>
+        <source>Field %1 not found in %2!</source>
+        <translation>¡El campo %1 no se encuentra en %2!</translation>
+    </message>
+    <message>
+        <source>SYSTEM</source>
+        <translation>SISTEMA</translation>
+    </message>
+    <message>
+        <source>NUMBER</source>
+        <translation>NUMEROS</translation>
+    </message>
+    <message>
+        <source>DATE&amp;TIME</source>
+        <translation>FECHA Y HORA</translation>
+    </message>
+    <message>
+        <source>GENERAL</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Datasource</source>
+        <translation>Fuente datos</translation>
+    </message>
+    <message>
+        <source>ValueField</source>
+        <translation>Valor campo</translation>
+    </message>
+    <message>
+        <source>KeyField</source>
+        <translation>Campo clave</translation>
+    </message>
+    <message>
+        <source>KeyFieldValue</source>
+        <translation>Valor campo clave</translation>
+    </message>
+    <message>
+        <source>Unique identifier</source>
+        <translation>Identificador único</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>Contenido</translation>
+    </message>
+    <message>
+        <source>Indent</source>
+        <translation>Sangrar</translation>
+    </message>
+    <message>
+        <source>datasourceName</source>
+        <translation>Nombre de fuente de datos</translation>
+    </message>
+    <message>
+        <source>Function manager with name &quot;%1&quot; already exists!</source>
+        <translation>¡El administrador de funciones con el nombre &quot;%1&quot; ya existe!</translation>
+    </message>
+    <message>
+        <source>RowIndex</source>
+        <translation>Índice de fila</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="14"/>
         <source>Designer setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de diseñador</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="20"/>
-        <source>Designer Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="28"/>
         <source>Default font</source>
-        <translation type="unfinished"></translation>
+        <translation>Fuente predeterminada</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="60"/>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuadrícula</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="68"/>
         <source>Vertical grid step</source>
-        <translation type="unfinished"></translation>
+        <translation>Espaciado de rejilla vertical</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="82"/>
         <source>Horizontal grid step</source>
-        <translation type="unfinished"></translation>
+        <translation>Espaciado de rejilla horizontal</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="117"/>
-        <source>Report Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="123"/>
         <source>Suppress absent fields and variables warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Suprimir campos ausentes y variables de advertencia.</translation>
+    </message>
+    <message>
+        <source>Use dark theme</source>
+        <translation>Usar tema oscuro</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Idioma</translation>
+    </message>
+    <message>
+        <source>Designer settings</source>
+        <translation>Configuracion del diseñador</translation>
+    </message>
+    <message>
+        <source>Script editor settings</source>
+        <translation>Configuracion del editor de scripts</translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation>Fuente</translation>
+    </message>
+    <message>
+        <source>Indent size</source>
+        <translation>Tamaño de sangría</translation>
+    </message>
+    <message>
+        <source>Report settings</source>
+        <translation>Configuración de informes</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SubDetailBand</name>
     <message>
-        <location filename="../limereport/bands/lrsubdetailband.cpp" line="81"/>
         <source>SubDetail</source>
-        <translation type="unfinished"></translation>
+        <translation>Sub-Detalle</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::SubDetailHeaderBand</name>
     <message>
-        <location filename="../limereport/bands/lrsubdetailband.cpp" line="111"/>
         <source>SubDetailHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado sub-detalle</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TearOffBand</name>
     <message>
-        <location filename="../limereport/bands/lrtearoffband.cpp" line="23"/>
         <source>Tear-off Band</source>
-        <translation type="unfinished"></translation>
+        <translation>Banda de corte</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TextAlignmentEditorWidget</name>
     <message>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="69"/>
         <source>Text align left</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear texto a la izquierda</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="75"/>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="101"/>
         <source>Text align center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrar texto</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="81"/>
         <source>Text align right</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear texto a la derecha</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="87"/>
         <source>Text align justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Justificar texto</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="95"/>
         <source>Text align top</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear texto arriba</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="107"/>
         <source>Text align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinear texto abajo</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TextItem</name>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="86"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="112"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="92"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="115"/>
         <source>Auto height</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura automática</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="96"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="118"/>
         <source>Allow HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir HTML</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="100"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="121"/>
         <source>Allow HTML in fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir HTML en los campos</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="104"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="124"/>
         <source>Stretch to max height</source>
-        <translation type="unfinished"></translation>
+        <translation>Estirar a la altura máxima</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="568"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="578"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="569"/>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto de texto &quot;%1&quot; ya tiene el siguiente &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="579"/>
+        <source>Transparent</source>
+        <translation>Transparente</translation>
+    </message>
+    <message>
         <source>TextItem &quot; %1 &quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto de texto &quot;%1&quot; no encontrado!</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation>Marca de agua</translation>
+    </message>
+    <message>
+        <source>Hide if empty</source>
+        <translation>Ocultar si está vacío</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
     <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="17"/>
-        <source>Text Item Editor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="33"/>
-        <source>Content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="78"/>
-        <source>Data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="107"/>
-        <source>Functions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="138"/>
-        <source>Editor settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="146"/>
-        <source>Editor font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="183"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="213"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="216"/>
-        <source>Ctrl+Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="223"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="226"/>
+        <source>Text Item Editor</source>
+        <translation>Editor de objeto de texto</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>Contenido</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <source>Ctrl+Return</source>
+        <translation>Ctrl+Intro</translation>
+    </message>
+    <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::TranslationEditor</name>
+    <message>
+        <source>Form</source>
+        <translation>De</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation>Idiomas</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pages</source>
+        <translation>Páginas</translation>
+    </message>
+    <message>
+        <source>Strings</source>
+        <translation>Cadenas</translation>
+    </message>
+    <message>
+        <source>Source Text</source>
+        <translation>Texto fuente</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>Traducción</translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation>Revisada</translation>
+    </message>
+    <message>
+        <source>Report Item</source>
+        <translation>Objeto del reporte</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation>Propiedad</translation>
+    </message>
+    <message>
+        <source>Source text</source>
+        <translation>Texto fuente</translation>
     </message>
 </context>
 <context>
     <name>LimeReport::VariablesHolder</name>
     <message>
-        <location filename="../limereport/lrvariablesholder.cpp" line="66"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="81"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="100"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="148"/>
         <source>variable with name </source>
-        <translation type="unfinished"></translation>
+        <translation>variable con el nombre </translation>
     </message>
     <message>
-        <location filename="../limereport/lrvariablesholder.cpp" line="66"/>
         <source> already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation> ¡ya existe!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrvariablesholder.cpp" line="81"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="100"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="148"/>
         <source> does not exists!</source>
-        <translation type="unfinished"></translation>
+        <translation> no existe!</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="52"/>
-        <location filename="../limereport/lrbandsmanager.cpp" line="51"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="144"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="57"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="149"/>
         <source>DataHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado datos</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="62"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="154"/>
         <source>DataFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie datos</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrgroupbands.cpp" line="45"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="159"/>
         <source>GroupHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado grupo</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrgroupbands.cpp" line="55"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="164"/>
         <source>GroupFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie grupo</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrpagefooter.cpp" line="43"/>
-        <location filename="../limereport/lrbandsmanager.cpp" line="50"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="169"/>
         <source>Page Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de página</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrpageheader.cpp" line="47"/>
-        <location filename="../limereport/lrbandsmanager.cpp" line="49"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="174"/>
         <source>Page Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado de página</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrreportfooter.cpp" line="43"/>
-        <location filename="../limereport/lrbandsmanager.cpp" line="50"/>
         <source>Report Footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie de reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrreportheader.cpp" line="42"/>
-        <location filename="../limereport/lrbandsmanager.cpp" line="49"/>
         <source>Report Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Cabezado de reporte</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrsubdetailband.cpp" line="48"/>
-        <location filename="../limereport/lrbandsmanager.cpp" line="51"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="179"/>
         <source>SubDetail</source>
-        <translation type="unfinished"></translation>
+        <translation>Sub-Detalle</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrsubdetailband.cpp" line="58"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="185"/>
         <source>SubDetailHeader</source>
-        <translation type="unfinished"></translation>
+        <translation>Encabezado sub-detalle</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrsubdetailband.cpp" line="68"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="190"/>
         <source>SubDetailFooter</source>
-        <translation type="unfinished"></translation>
+        <translation>Pie sub-detalle</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrtearoffband.cpp" line="13"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="195"/>
-        <source>Tear-off Band</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lralignpropitem.cpp" line="44"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="356"/>
         <source>alignment</source>
-        <translation type="unfinished"></translation>
+        <translation>alineación</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrbarcodeitem.cpp" line="42"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="127"/>
         <source>Barcode Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto código barras</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrhorizontallayout.cpp" line="50"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="133"/>
         <source>HLayout</source>
-        <translation type="unfinished"></translation>
+        <translation>diseño horizontal</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrimageitem.cpp" line="43"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="137"/>
         <source>Image Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto Imagen</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrshapeitem.cpp" line="43"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="140"/>
         <source>Shape Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto de forma</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="45"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="359"/>
         <source>itemLocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubicación del objeto</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="54"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="121"/>
         <source>Text Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Objeto de texto</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="76"/>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="121"/>
         <source>Invalid connection! %1</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Conexión inválida! %1</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="426"/>
-        <source>Master datasource &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="534"/>
         <source>Master datasouce &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se encontró la fuente de datos maestra &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="535"/>
         <source>Child</source>
-        <translation type="unfinished"></translation>
+        <translation>Hijo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="535"/>
         <source> and child </source>
-        <translation type="unfinished"></translation>
+        <translation> y hijo</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="536"/>
         <source>datasouce &quot;%1&quot; not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>fuente de datos &quot;%1&quot; no encontrada!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="302"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrboolpropitem.cpp" line="45"/>
-        <source>bool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="305"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrcolorpropitem.cpp" line="40"/>
-        <source>QColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="308"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrcontentpropitem.cpp" line="13"/>
-        <source>content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="311"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="314"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="49"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="52"/>
-        <source>datasource</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="317"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="329"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="55"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="40"/>
-        <source>field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="320"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="42"/>
-        <source>enum</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="323"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="50"/>
-        <source>flags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="326"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="44"/>
-        <source>QFont</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="332"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="39"/>
-        <source>QImage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="335"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrintpropitem.cpp" line="41"/>
-        <source>int</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="338"/>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="341"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="41"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="42"/>
-        <source>qreal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="344"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="53"/>
-        <source>QRect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="347"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="54"/>
-        <source>QRectF</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="350"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="55"/>
-        <source>geometry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrfactoryinitializer.cpp" line="353"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrstringpropitem.cpp" line="44"/>
-        <source>QString</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1538"/>
         <source>Attention!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Atención!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1538"/>
         <source>Selected elements have different parent containers</source>
-        <translation type="unfinished"></translation>
+        <translation>Los elementos seleccionados tienen diferentes contenedores padre</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1272"/>
-        <source>Object with name %1 already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="359"/>
         <source>Function %1 not found or have wrong arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>La función %1 no se encuentra o tiene argumentos incorrectos</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="167"/>
+        <source>bool</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>QColor</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>content</source>
+        <translation>contenido</translation>
+    </message>
+    <message>
+        <source>datasource</source>
+        <translation>fuente datos</translation>
+    </message>
+    <message>
+        <source>field</source>
+        <translation>campo</translation>
+    </message>
+    <message>
+        <source>enum</source>
+        <translation>enumerar</translation>
+    </message>
+    <message>
+        <source>flags</source>
+        <translation>opciones</translation>
+    </message>
+    <message>
+        <source>QFont</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>QImage</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>int</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>qreal</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>QRect</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>QRectF</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>geometry</source>
+        <translation>geometria</translation>
+    </message>
+    <message>
         <source>mm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/serializators/lrxmlreader.cpp" line="216"/>
-        <source>Wrong file format</source>
-        <translation type="unfinished"></translation>
+        <source>QString</source>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/serializators/lrxmlreader.cpp" line="219"/>
         <source>File %1 not opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo %1 no abierto</translation>
     </message>
     <message>
-        <location filename="../limereport/serializators/lrxmlreader.cpp" line="228"/>
         <source>Content string is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>La cadena de contenido está vacía</translation>
     </message>
     <message>
-        <location filename="../limereport/serializators/lrxmlreader.cpp" line="236"/>
         <source>Content is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>El contenido esta vacio</translation>
+    </message>
+    <message>
+        <source>Wrong file format</source>
+        <translation>Formato de archivo incorrecto</translation>
+    </message>
+    <message>
+        <source>Tear-off Band</source>
+        <translation>Banda de corte</translation>
+    </message>
+    <message>
+        <source>Chart Item</source>
+        <translation>Objeto gráfico</translation>
+    </message>
+    <message>
+        <source>First</source>
+        <translation>Primero</translation>
+    </message>
+    <message>
+        <source>Second</source>
+        <translation>Segundo</translation>
+    </message>
+    <message>
+        <source>Thrid</source>
+        <translation>Tercero</translation>
+    </message>
+    <message>
+        <source>Master datasource &quot;%1&quot; not found!</source>
+        <translation>¡No se encontró la fuente de datos maestra &quot;%1&quot;!</translation>
+    </message>
+    <message>
+        <source>Object with name %1 already exists!</source>
+        <translation>¡El objeto con nombre %1 ya existe!</translation>
+    </message>
+    <message>
+        <source>Datasource manager not found</source>
+        <translation>Administrador de fuente de datos no encontrado</translation>
+    </message>
+    <message>
+        <source>Export to PDF</source>
+        <translation>Exportar a PDF</translation>
+    </message>
+    <message>
+        <source>VLayout</source>
+        <translation>Diseño vertical</translation>
     </message>
 </context>
 </TS>
