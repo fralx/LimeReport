@@ -61,8 +61,15 @@ unix{
     }
 }
 win32 {
-    ARCH_DIR       = $${OUT_PWD}/win32
-    ARCH_TYPE      = win32
+    !contains(QT_ARCH, x86_64) {
+        message("Compiling for 32bit system")
+        ARCH_DIR       = $${OUT_PWD}/win32
+        ARCH_TYPE      = win32
+    } else {
+        message("Compiling for 64bit system")
+        ARCH_DIR       = $${OUT_PWD}/win64
+        ARCH_TYPE      = win64
+    }
 }
 
 DEST_LIBS = $${BUILD_DIR}/$${ARCH_TYPE}/$${BUILD_TYPE}/lib
