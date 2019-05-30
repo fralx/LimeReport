@@ -2054,6 +2054,14 @@ p, li { white-space: pre-wrap; }
         <source>fontLetterSpacing</source>
         <translation>espaciado entre letra y fuente</translation>
     </message>
+    <message>
+        <source>hideText</source>
+        <translation>Ocultar texto</translation>
+    </message>
+    <message>
+        <source>option3</source>
+        <translation>Opción3</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -2770,7 +2778,7 @@ Esta vista previa ya no es válida.</translation>
     </message>
     <message>
         <source>Use dark theme</source>
-        <translation>Usar tema oscuro</translation>
+        <translation type="vanished">Usar tema oscuro</translation>
     </message>
     <message>
         <source>Language</source>
@@ -2795,6 +2803,10 @@ Esta vista previa ya no es válida.</translation>
     <message>
         <source>Report settings</source>
         <translation>Configuración de informes</translation>
+    </message>
+    <message>
+        <source>Theme</source>
+        <translation>Tema</translation>
     </message>
 </context>
 <context>
@@ -3210,6 +3222,10 @@ Esta vista previa ya no es válida.</translation>
     <message>
         <source>VLayout</source>
         <translation>Diseño vertical</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Por defecto</translation>
     </message>
 </context>
 </TS>
