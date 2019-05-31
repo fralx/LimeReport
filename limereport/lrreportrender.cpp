@@ -668,7 +668,7 @@ void ReportRender::renderPageFooter(PageItemDesignIntf *patternPage)
         BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(band->cloneItem(PreviewMode, m_renderPageItem, m_renderPageItem));
         replaceGroupsFunction(bandClone);
         bandClone->updateItemSize(m_datasources);
-        bandClone->setItemPos(m_patternPageItem->pageRect().x(),m_patternPageItem->pageRect().bottom()-bandClone->height());
+        bandClone->setItemPos(m_renderPageItem->pageRect().x(),m_renderPageItem->pageRect().bottom()-bandClone->height());
         bandClone->setHeight(m_pageFooterHeight);
         for(int i=0;i<m_maxHeightByColumn.size();++i)
             m_maxHeightByColumn[i]+=m_pageFooterHeight;
@@ -1115,7 +1115,6 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
     if (band->isEmpty()) {
         delete band;
         band = 0;
-
     }
 
     return band;
@@ -1239,13 +1238,12 @@ void ReportRender::startNewPage(bool isFirst)
     initRenderPage();
 
     m_scriptEngineContext->baseDesignIntfToScript(m_renderPageItem->patternName(), m_renderPageItem);
+    emit m_patternPageItem->beforeRender();
 
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
     m_maxHeightByColumn[m_currentColumn]=m_renderPageItem->pageRect().height();
     m_currentStartDataPos[m_currentColumn]=m_patternPageItem->topMargin()*Const::mmFACTOR;
     m_currentIndex=0;
-
-    emit m_patternPageItem->beforeRender();
 
     if (isFirst) {
         renderReportHeader(m_patternPageItem, BeforePageHeader);
