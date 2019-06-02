@@ -119,7 +119,7 @@ contains(CONFIG,build_translations){
         return($$result)
     }
 
-    TRANSLATIONS = $$prependAll(LANGUAGES, \"$$TRANSLATIONS_PATH/limereport_,.ts\")
+    TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
 
     qtPrepareTool(LUPDATE, lupdate)
 
@@ -133,7 +133,7 @@ lessThan(QT_MAJOR_VERSION, 5){
     qtPrepareTool(LRELEASE, lrelease)
     for(tsfile, TRANSLATIONS) {
         qmfile = $$tsfile
-        qmfile ~= s,".ts\"$",".qm\"",
+        qmfile ~= s,".ts$",".qm",
         qm.commands += $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         tmp_command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         TRANSLATIONS_FILES += $$qmfile
