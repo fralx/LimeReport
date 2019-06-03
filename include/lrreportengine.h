@@ -206,6 +206,7 @@ public:
     IPreparedPages* preparedPages();
     bool showPreparedPages(PreviewHints hints = PreviewBarsUserSetting);
     bool prepareReportPages();
+    bool printPreparedPages();
 signals:
     void cleared();
     void renderStarted();

@@ -247,6 +247,7 @@ public:
     IPreparedPages* preparedPages();
     bool showPreparedPages(PreviewHints hints);
     bool prepareReportPages();
+    bool printPreparedPages();
 signals:
     void    pagesLoadFinished();
     void    datasourceCollectionLoadFinished(const QString& collectionName);

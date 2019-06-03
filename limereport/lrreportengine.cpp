@@ -996,6 +996,11 @@ bool ReportEnginePrivate::prepareReportPages()
     return !m_preparedPages.isEmpty();
 }
 
+bool ReportEnginePrivate::printPreparedPages()
+{
+    return printPages(m_preparedPages, 0);
+}
+
 Qt::LayoutDirection ReportEnginePrivate::previewLayoutDirection()
 {
     return m_previewLayoutDirection;
@@ -1631,6 +1636,12 @@ bool ReportEngine::prepareReportPages()
 {
     Q_D(ReportEngine);
     return d->prepareReportPages();
+}
+
+bool ReportEngine::printPreparedPages()
+{
+    Q_D(ReportEngine);
+    return d->printPreparedPages();
 }
 
 void ReportEngine::setShowProgressDialog(bool value)
