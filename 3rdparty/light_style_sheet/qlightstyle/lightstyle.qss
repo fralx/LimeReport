@@ -349,6 +349,11 @@ QLineEdit
     color: #000;
 }
 
+QLineEdit[text=""]
+{
+    color:#000;
+}
+
 QLineEdit:disabled{
     color: #858585;
 }
@@ -1007,19 +1012,42 @@ QDockWidget {
     titlebar-normal-icon: url(:/qss_qlight_icons/rc/transparent.png);
 }
 
-QDockWidget::title{
+\\QDockWidget::title{
 \\    background: #f0f0f0;
-    background-color: #d2d2d2;
+\\    background-color: #d2d2d2;
+\\    padding-left: 5px;
+\\    padding-top: 4px;
+\\    margin-top: 4px;
+\\}
+
+QDockWidget::title{
+    background: #f0f0f0;
     padding-left: 5px;
     padding-top: 4px;
     margin-top: 4px;
+    icon-size: 16px;
 }
-
 
 QDockWidget::close-button, QDockWidget::float-button {
     border: 1px solid transparent;
     border-radius: 2px;
     background: transparent;
+}
+
+QDockWidget::close-button {
+    subcontrol-position: top right;
+    subcontrol-origin: margin;
+    position: absolute;
+    top: 4px; left: 0px; bottom: 0px; right: 2px;
+    width: 16px;
+}
+
+QDockWidget::float-button {
+    subcontrol-position: top right;
+    subcontrol-origin: margin;
+    position: absolute;
+    top: 4px; left: 0px; bottom: 0px; right: 18px;
+    width: 16px;
 }
 
 QDockWidget::close-button:hover, QDockWidget::float-button:hover {

@@ -349,6 +349,11 @@ QLineEdit
     color: #eff0f1;
 }
 
+QLineEdit[text=""]
+{
+    color: #fff;
+}
+
 QLineEdit:disabled{
     color: #858585;
 }
@@ -976,7 +981,6 @@ QTabBar QToolButton::right-arrow:disabled {
      image: url(:/qss_qdark_icons/rc/left_arrow_disabled.png);
 }
 
-
 QDockWidget {
     background: #383838;
     border: 1px solid #403F3F;
@@ -989,13 +993,29 @@ QDockWidget::title{
     padding-left: 5px;
     padding-top: 4px;
     margin-top: 4px;
+    icon-size: 16px;
 }
-
 
 QDockWidget::close-button, QDockWidget::float-button {
     border: 1px solid transparent;
     border-radius: 2px;
     background: transparent;
+}
+
+QDockWidget::close-button {
+    subcontrol-position: top right;
+    subcontrol-origin: margin;
+    position: absolute;
+    top: 4px; left: 0px; bottom: 0px; right: 2px;
+    width: 16px;
+}
+
+QDockWidget::float-button {
+    subcontrol-position: top right;
+    subcontrol-origin: margin;
+    position: absolute;
+    top: 4px; left: 0px; bottom: 0px; right: 18px;
+    width: 16px;
 }
 
 QDockWidget::close-button:hover, QDockWidget::float-button:hover {
