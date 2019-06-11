@@ -2004,7 +2004,7 @@ QPointF WatermarkHelper::mapToPage(const PageItemDesignIntf &page)
 qreal WatermarkHelper::valueToPixels(qreal value)
 {
     switch (m_watermark.geometry().type()) {
-    case LimeReport::ItemGeometry::Milimeters:
+    case LimeReport::ItemGeometry::Millimeters:
         return value * Const::mmFACTOR;
     case LimeReport::ItemGeometry::Pixels:
         return value;

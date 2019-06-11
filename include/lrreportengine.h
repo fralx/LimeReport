@@ -64,10 +64,10 @@ private:
 
 class LIMEREPORT_EXPORT ItemGeometry{
 public:
-    enum Type{Milimeters, Pixels};
-    ItemGeometry(qreal x, qreal y, qreal width, qreal height, Qt::Alignment anchor, Type type = Milimeters)
+    enum Type{Millimeters, Pixels};
+    ItemGeometry(qreal x, qreal y, qreal width, qreal height, Qt::Alignment anchor, Type type = Millimeters)
         :m_x(x), m_y(y), m_width(width), m_height(height), m_type(type), m_anchor(anchor){}
-    ItemGeometry(): m_x(0), m_y(0), m_width(0), m_height(0), m_type(Milimeters){}
+    ItemGeometry(): m_x(0), m_y(0), m_width(0), m_height(0), m_type(Millimeters){}
 
     qreal x() const;
     void setX(const qreal &x);
