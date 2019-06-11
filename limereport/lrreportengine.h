@@ -191,8 +191,8 @@ public:
     void setPrintVisible(bool value);
     bool printIsVisible();
     bool isBusy();
-    void setPassPharse(QString& passPharse);
-    QList<QLocale::Language> aviableLanguages();
+    void setPassPhrase(QString& passPhrase);
+    QList<QLocale::Language> availableLanguages();
     bool setReportLanguage(QLocale::Language language);
     Qt::LayoutDirection previewLayoutDirection();
     void setPreviewLayoutDirection(const Qt::LayoutDirection& previewLayoutDirection);
@@ -220,8 +220,8 @@ signals:
     void loadFinished();
     void printedToPDF(QString fileName);
 
-    void getAviableLanguages(QList<QLocale::Language>* languages);
-    void currentDefaulLanguageChanged(QLocale::Language);
+    void getAvailableLanguages(QList<QLocale::Language>* languages);
+    void currentDefaultLanguageChanged(QLocale::Language);
     QLocale::Language getCurrentDefaultLanguage();
 
     void  externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);

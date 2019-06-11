@@ -1080,7 +1080,7 @@ QList<QLocale::Language> ReportEnginePrivate::designerLanguages()
 {
 
     QList<QLocale::Language> result;
-    emit getAviableLanguages(&result);
+    emit getAvailableLanguages(&result);
     return result;
 }
 
@@ -1093,7 +1093,7 @@ QLocale::Language ReportEnginePrivate::currentDesignerLanguage()
 void ReportEnginePrivate::setCurrentDesignerLanguage(QLocale::Language language)
 {
     m_currentDesignerLanguage = language;
-    emit currentDefaulLanguageChanged(language);
+    emit currentDefaultLanguageChanged(language);
 }
 
 QString ReportEnginePrivate::styleSheet() const
@@ -1387,10 +1387,10 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(cleared()), this, SIGNAL(cleared()));
     connect(d, SIGNAL(printedToPDF(QString)), this, SIGNAL(printedToPDF(QString)));
     
-    connect(d, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
-            this, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)));
-    connect(d, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)),
-            this, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)));
+    connect(d, SIGNAL(getAvailableLanguages(QList<QLocale::Language>*)),
+            this, SIGNAL(getAvailableLanguages(QList<QLocale::Language>*)));
+    connect(d, SIGNAL(currentDefaultLanguageChanged(QLocale::Language)),
+            this, SIGNAL(currentDefaultLanguageChanged(QLocale::Language)));
     connect(d, SIGNAL(getCurrentDefaultLanguage()),
             this, SIGNAL(getCurrentDefaultLanguage()));
 
@@ -1548,13 +1548,13 @@ bool ReportEngine::isBusy()
     return d->isBusy();
 }
 
-void ReportEngine::setPassPharse(QString &passPharse)
+void ReportEngine::setPassPhrase(QString &passPhrase)
 {
     Q_D(ReportEngine);
-    d->setPassPhrase(passPharse);
+    d->setPassPhrase(passPhrase);
 }
 
-QList<QLocale::Language> ReportEngine::aviableLanguages()
+QList<QLocale::Language> ReportEngine::availableLanguages()
 {
     Q_D(ReportEngine);
     return d->aviableLanguages();

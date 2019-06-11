@@ -263,8 +263,8 @@ signals:
     void    loadFinished();
     void    printedToPDF(QString fileName);
 
-    void    getAviableLanguages(QList<QLocale::Language>* languages);
-    void    currentDefaulLanguageChanged(QLocale::Language);
+    void    getAvailableLanguages(QList<QLocale::Language>* languages);
+    void    currentDefaultLanguageChanged(QLocale::Language);
     QLocale::Language  getCurrentDefaultLanguage();
     void    externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);
 

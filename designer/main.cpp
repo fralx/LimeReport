@@ -38,14 +38,14 @@ int main(int argc, char *argv[])
     if (a.arguments().count()>1){
         report.loadFromFile(a.arguments().at(1));
     }
-    QObject::connect(&report, SIGNAL(getAviableLanguages(QList<QLocale::Language>*)),
-                     &manager, SLOT(getAviableLanguages(QList<QLocale::Language>*)));
+    QObject::connect(&report, SIGNAL(getAvailableLanguages(QList<QLocale::Language>*)),
+                     &manager, SLOT(getAvailableLanguages(QList<QLocale::Language>*)));
 
     QObject::connect(&report, SIGNAL(getCurrentDefaultLanguage()),
                      &manager, SLOT(getCurrentDefaultLanguage()));
 
-    QObject::connect(&report, SIGNAL(currentDefaulLanguageChanged(QLocale::Language)),
-                     &manager, SLOT(currentDefaulLanguageChanged(QLocale::Language)));
+    QObject::connect(&report, SIGNAL(currentDefaultLanguageChanged(QLocale::Language)),
+                     &manager, SLOT(currentDefaultLanguageChanged(QLocale::Language)));
 
     report.designReport();
     return a.exec();

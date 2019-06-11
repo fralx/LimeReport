@@ -11,7 +11,7 @@ DesignerSettingManager::~DesignerSettingManager()
     delete m_setting;
 }
 
-void DesignerSettingManager::getAviableLanguages(QList<QLocale::Language>* languages)
+void DesignerSettingManager::getAvailableLanguages(QList<QLocale::Language>* languages)
 {
     languages->append(QLocale::Russian);
     languages->append(QLocale::English);
@@ -33,7 +33,7 @@ QLocale::Language DesignerSettingManager::getCurrentDefaultLanguage()
     }
 }
 
-void DesignerSettingManager::currentDefaulLanguageChanged(QLocale::Language language)
+void DesignerSettingManager::currentDefaultLanguageChanged(QLocale::Language language)
 {
     QMessageBox::information(0, tr("Warning") , tr("The language will change after the application is restarted"));
     m_setting->beginGroup("ReportDesigner");
