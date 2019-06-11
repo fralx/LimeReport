@@ -263,9 +263,9 @@ signals:
     void    loadFinished();
     void    printedToPDF(QString fileName);
 
-    void    getAvailableLanguages(QList<QLocale::Language>* languages);
-    void    currentDefaultLanguageChanged(QLocale::Language);
-    QLocale::Language  getCurrentDefaultLanguage();
+    void    getAvailableDesignerLanguages(QList<QLocale::Language>* languages);
+    void    currentDefaultDesignerLanguageChanged(QLocale::Language);
+    QLocale::Language  getCurrentDefaultDesignerLanguage();
     void    externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);
 
 public slots:

@@ -1080,20 +1080,20 @@ QList<QLocale::Language> ReportEnginePrivate::designerLanguages()
 {
 
     QList<QLocale::Language> result;
-    emit getAvailableLanguages(&result);
+    emit getAvailableDesignerLanguages(&result);
     return result;
 }
 
 QLocale::Language ReportEnginePrivate::currentDesignerLanguage()
 {
-    QLocale::Language result = emit getCurrentDefaultLanguage();
+    QLocale::Language result = emit getCurrentDefaultDesignerLanguage();
     return result;
 }
 
 void ReportEnginePrivate::setCurrentDesignerLanguage(QLocale::Language language)
 {
     m_currentDesignerLanguage = language;
-    emit currentDefaultLanguageChanged(language);
+    emit currentDefaultDesignerLanguageChanged(language);
 }
 
 QString ReportEnginePrivate::styleSheet() const
@@ -1387,12 +1387,12 @@ ReportEngine::ReportEngine(QObject *parent)
     connect(d, SIGNAL(cleared()), this, SIGNAL(cleared()));
     connect(d, SIGNAL(printedToPDF(QString)), this, SIGNAL(printedToPDF(QString)));
     
-    connect(d, SIGNAL(getAvailableLanguages(QList<QLocale::Language>*)),
-            this, SIGNAL(getAvailableLanguages(QList<QLocale::Language>*)));
-    connect(d, SIGNAL(currentDefaultLanguageChanged(QLocale::Language)),
-            this, SIGNAL(currentDefaultLanguageChanged(QLocale::Language)));
-    connect(d, SIGNAL(getCurrentDefaultLanguage()),
-            this, SIGNAL(getCurrentDefaultLanguage()));
+    connect(d, SIGNAL(getAvailableDesignerLanguages(QList<QLocale::Language>*)),
+            this, SIGNAL(getAvailableDesignerLanguages(QList<QLocale::Language>*)));
+    connect(d, SIGNAL(currentDefaultDesignerLanguageChanged(QLocale::Language)),
+            this, SIGNAL(currentDefaultDesignerLanguageChanged(QLocale::Language)));
+    connect(d, SIGNAL(getCurrentDefaultDesignerLanguage()),
+            this, SIGNAL(getCurrentDefaultDesignerLanguage()));
 
     connect(d, SIGNAL(externalPaint(const QString&, QPainter*, const QStyleOptionGraphicsItem*)),
             this, SIGNAL(externalPaint(const QString&, QPainter*, const QStyleOptionGraphicsItem*)));
