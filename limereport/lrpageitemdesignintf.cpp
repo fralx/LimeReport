@@ -400,7 +400,7 @@ void PageItemDesignIntf::relocateBands()
 {
     if (isLoading()) return;
 
-    int bandSpace = (itemMode() & DesignMode)?4:0;
+    int bandSpace = (itemMode() & DesignMode) ? 0 : 0;
 
     QVector<qreal> posByColumn;
 
@@ -443,8 +443,8 @@ void PageItemDesignIntf::relocateBands()
                             m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
                             posByColumn[0] += m_bands[i+1]->height()+bandSpace;
                     } else {
-                        m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]+2);
-                        posByColumn[0] += m_bands[i+1]->height()+bandSpace+2;
+                        m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
+                        posByColumn[0] += m_bands[i+1]->height()+bandSpace;
                     }
                 } else {
                     m_bands[i+1]->setPos(m_bands[i+1]->pos().x(),posByColumn[m_bands[i+1]->columnIndex()]);
