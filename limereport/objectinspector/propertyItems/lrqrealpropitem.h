@@ -47,6 +47,4 @@ public:
 };
 
 }
-
-
 #endif // LRQREALPROPITEM_H

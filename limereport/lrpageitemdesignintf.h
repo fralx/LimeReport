@@ -61,6 +61,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool endlessHeight READ endlessHeight WRITE setEndlessHeight)
     Q_PROPERTY(bool printable READ isPrintable WRITE setPrintable)
     Q_PROPERTY(QString printerName READ printerName WRITE setPrinterName)
+    Q_PROPERTY(UnitType units READ unitType WRITE setUnitTypeProperty)
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
@@ -169,6 +170,7 @@ protected slots:
     void bandDeleted(QObject* band);
     void bandPositionChanged(QObject* object, QPointF newPos, QPointF oldPos);
     void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
+    void setUnitTypeProperty(BaseDesignIntf::UnitType value);
 protected:
     void    collectionLoadFinished(const QString& collectionName);
     QRectF& pageRect(){return m_pageRect;}

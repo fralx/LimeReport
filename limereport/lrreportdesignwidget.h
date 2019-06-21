@@ -64,6 +64,46 @@ class TranslationEditor;
 class ScriptEditor;
 
 
+class Ruler: public QWidget{
+public:
+    enum RulerType{Horizontal, Vertical};
+    Ruler(RulerType type, QWidget* parent = 0): QWidget(parent), m_page(0), m_type(type){}
+    void setPage(PageItemDesignIntf* page);
+    void setMousePos(QPoint mousePos){ m_mousePos = mousePos;}
+protected:
+    void paintEvent(QPaintEvent* event);
+    void drawItemWithChildren(QPainter *painter, BaseDesignIntf* item);
+    void drawItem(QPainter *painter, BaseDesignIntf* item);
+private:
+    PageItemDesignIntf* m_page;
+    RulerType m_type;
+    QPoint m_mousePos;
+};
+
+class PageView: public QGraphicsView{
+public:
+    PageView(QWidget *parent = nullptr): QGraphicsView(parent),
+        m_horizontalRuller(0), m_verticalRuller(0)
+    {
+        setViewportMargins(20,20,0,0);
+    }
+    PageView(QGraphicsScene *scene, QWidget *parent = nullptr):
+        QGraphicsView(scene, parent),
+        m_horizontalRuller(0), m_verticalRuller(0)
+    {
+        setViewportMargins(20,20,0,0);
+    }
+    void setPageItem(PageItemDesignIntf* pageItem);
+protected:
+//    void mouseMoveEvent(QMouseEvent *event);
+//    void resizeEvent(QResizeEvent *event);
+        bool viewportEvent(QEvent *event);
+private:
+    PageItemDesignIntf* m_pageItem;
+    Ruler* m_horizontalRuller;
+    Ruler* m_verticalRuller;
+};
+
 class ReportDesignWidget : public QWidget
 {
     Q_OBJECT

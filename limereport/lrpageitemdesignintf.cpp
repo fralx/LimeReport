@@ -544,8 +544,8 @@ void PageItemDesignIntf::relocateBands()
                             m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
                             posByColumn[0] += m_bands[i+1]->height()+bandSpace;
                     } else {
-                        m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]+2);
-                        posByColumn[0] += m_bands[i+1]->height()+bandSpace+2;
+                        m_bands[i+1]->setPos(pageRect().x(),posByColumn[0]);
+                        posByColumn[0] += m_bands[i+1]->height()+bandSpace;
                     }
                 } else {
                     m_bands[i+1]->setPos(m_bands[i+1]->pos().x(),posByColumn[m_bands[i+1]->columnIndex()]);
@@ -904,6 +904,18 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
     bandPositionChanged(object, newGeometry.topLeft(), oldGeometry.topLeft());
 }
 
+void PageItemDesignIntf::setUnitTypeProperty(BaseDesignIntf::UnitType value)
+{
+    if (unitType() != value){
+        UnitType oldValue = unitType();
+        setUnitType(value);
+        if (!isLoading()){
+            update();
+            notify("units", oldValue, value);
+        }
+    }
+}
+
 void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
 {
     if (collectionName.compare("children",Qt::CaseInsensitive)==0){
@@ -925,8 +937,12 @@ void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
 void PageItemDesignIntf::updateMarginRect()
 {
     m_pageRect = rect();
-    m_pageRect.adjust(m_leftMargin*mmFactor(),m_topMargin*mmFactor(),
-                         -m_rightMargin*mmFactor(),-m_bottomMargin*mmFactor());
+    m_pageRect.adjust( leftMargin() * Const::mmFACTOR,
+                       topMargin() * Const::mmFACTOR,
+                      -rightMargin() * Const::mmFACTOR,
+                       -bottomMargin() * Const::mmFACTOR
+    );
+
     foreach(BandDesignIntf* band,m_bands){
         band->setWidth(pageRect().width()/band->columnsCount());
         relocateBands();
@@ -944,20 +960,27 @@ void PageItemDesignIntf::paintGrid(QPainter *ppainter, QRectF rect)
     ppainter->save();
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(0.5);
-    for (int i=0;i<=(rect.height()-50)/100;i++){
-        ppainter->drawLine(rect.x(),(i*100)+rect.y()+50,rect.right(),i*100+rect.y()+50);
+    for (int i = 0; i <= (rect.height() - 5 * unitFactor()) / (10 * unitFactor()); ++i){
+        if (i * 10 * unitFactor() + 5 * unitFactor() >= topMargin() * Const::mmFACTOR)
+            ppainter->drawLine(rect.x(), (i * 10 * unitFactor()) + ( (rect.y() + 5 * unitFactor()) - (topMargin() * Const::mmFACTOR)),
+                           rect.right(), i * 10 * unitFactor() +( (rect.y() + 5 * unitFactor()) - (topMargin() * Const::mmFACTOR)));
     };
-    for (int i=0;i<=((rect.width()-50)/100);i++){
-        ppainter->drawLine(i*100+rect.x()+50,rect.y(),i*100+rect.x()+50,rect.bottom());
+    for (int i=0; i<=((rect.width() - 5 * unitFactor()) / (10 * unitFactor())); ++i){
+        if (i * 10 * unitFactor() + 5 * unitFactor() >= leftMargin() * Const::mmFACTOR)
+            ppainter->drawLine(i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * Const::mmFACTOR)), rect.y(),
+                           i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * Const::mmFACTOR)), rect.bottom());
     };
-
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(1);
-    for (int i=0;i<=(rect.width()/100);i++){
-        ppainter->drawLine(i*100+rect.x(),rect.y(),i*100+rect.x(),rect.bottom());
+    for (int i = 0; i <= (rect.width() / (10 * unitFactor())); ++i){
+        if (i * 10 * unitFactor() >= leftMargin() * Const::mmFACTOR)
+            ppainter->drawLine(i * 10 * unitFactor() + (rect.x() - (leftMargin() * Const::mmFACTOR)), rect.y(),
+                           i * 10 * unitFactor() + (rect.x() - (leftMargin() * Const::mmFACTOR)), rect.bottom());
     };
-    for (int i=0;i<=rect.height()/100;i++){
-        ppainter->drawLine(rect.x(),i*100+rect.y(),rect.right(),i*100+rect.y());
+    for (int i = 0; i <= rect.height() / (10 * unitFactor()); ++i){
+        if (i * 10 * unitFactor() >= topMargin() * Const::mmFACTOR)
+            ppainter->drawLine(rect.x(), i * 10 * unitFactor() + (rect.y() - (topMargin() * Const::mmFACTOR)),
+                           rect.right(), i * 10 * unitFactor() + (rect.y() - (topMargin() * Const::mmFACTOR)));
     };
     ppainter->drawRect(rect);
     ppainter->restore();

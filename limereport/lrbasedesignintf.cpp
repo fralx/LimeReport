@@ -60,7 +60,6 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_width(200),
     m_height(50),
     m_fontColor(Qt::black),
-    m_mmFactor(Const::mmFACTOR),
     m_fixedPos(false),
     m_borderLineSize(1),
     m_BGMode(OpaqueMode),
@@ -83,7 +82,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_hovered(false),
     m_joinMarkerOn(false),
     m_selectionMarker(0),
-    m_fillTransparentInDesignMode(true)
+    m_fillTransparentInDesignMode(true),
+    m_unitType(Millimeters)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -100,7 +100,6 @@ QRectF BaseDesignIntf::boundingRect() const
         qreal halfpw = pen().widthF() / 2;
         halfpw += 2;
         m_boundingRect = rect();
-        m_boundingRect.adjust(-halfpw, -halfpw, halfpw, halfpw);
     };
     return m_boundingRect;
 }
@@ -185,7 +184,7 @@ void BaseDesignIntf::setWidth(qreal width)
 
 QString BaseDesignIntf::setItemWidth(qreal width)
 {
-    setWidth(width * mmFactor());
+    setWidth(width * unitFactor());
     return QString();
 }
 
@@ -194,9 +193,9 @@ qreal BaseDesignIntf::height() const
     return rect().height();
 }
 
-QRectF BaseDesignIntf::geometry() const
+QRect BaseDesignIntf::geometry() const
 {
-    return QRectF(pos().x(), pos().y(), width(), height());
+    return QRect(pos().x(), pos().y(), width(), height());
 }
 
 void BaseDesignIntf::setHeight(qreal height)
@@ -206,28 +205,28 @@ void BaseDesignIntf::setHeight(qreal height)
 
 QString BaseDesignIntf::setItemHeight(qreal height)
 {
-    setHeight(height * mmFactor());
+    setHeight(height * unitFactor());
     return QString();
 }
 
 qreal BaseDesignIntf::getItemWidth()
 {
-    return width() / mmFactor();
+    return width() / unitFactor();
 }
 
 qreal BaseDesignIntf::getItemHeight()
 {
-    return height() / mmFactor();
+    return height() / unitFactor();
 }
 
 qreal BaseDesignIntf::getItemPosX()
 {
-    return x() / mmFactor();
+    return x() / unitFactor();
 }
 
 qreal BaseDesignIntf::getItemPosY()
 {
-    return y() / mmFactor();
+    return y() / unitFactor();
 }
 
 qreal BaseDesignIntf::getAbsolutePosX()
@@ -242,13 +241,13 @@ qreal BaseDesignIntf::getAbsolutePosY()
 
 QString BaseDesignIntf::setItemPosX(qreal xValue)
 {
-    setItemPos(xValue * mmFactor(),y());
+    setItemPos(xValue * unitFactor(),y());
     return QString();
 }
 
 QString BaseDesignIntf::setItemPosY(qreal yValue)
 {
-    setItemPos(x(),yValue * mmFactor());
+    setItemPos(x(),yValue * unitFactor());
     return QString();
 }
 
@@ -337,32 +336,46 @@ QSizeF BaseDesignIntf::size() const
 
 QSizeF BaseDesignIntf::sizeMM() const
 {
-    return QSizeF(width() / m_mmFactor, height() / m_mmFactor);
+    return QSizeF(width() / Const::mmFACTOR, height() / Const::mmFACTOR);
 }
 
 qreal BaseDesignIntf::widthMM() const
 {
-    return width() / m_mmFactor;
+    return width() / Const::mmFACTOR;
 }
 
 qreal BaseDesignIntf::heightMM() const
 {
-    return height() / m_mmFactor;
+    return height() / Const::mmFACTOR;
 }
 
-void BaseDesignIntf::setMMFactor(qreal mmFactor)
+//void BaseDesignIntf::setUnitFactor(qreal unitFactor)
+//{
+//    m_unitFactor = unitFactor;
+//}
+
+qreal BaseDesignIntf::unitFactor() const
 {
-    m_mmFactor = mmFactor;
+    if (m_unitType  == Millimeters)
+        return Const::mmFACTOR;
+    else return Const::mmFACTOR * 2.54;
 }
 
-qreal BaseDesignIntf::mmFactor() const
+void BaseDesignIntf::setUnitType(BaseDesignIntf::UnitType value)
 {
-    return m_mmFactor;
+    foreach(BaseDesignIntf* child, childBaseItems())
+        child->setUnitType(value);
+    m_unitType = value;
+}
+
+BaseDesignIntf::UnitType BaseDesignIntf::unitType()
+{
+    return m_unitType;
 }
 
 QPointF BaseDesignIntf::posMM() const
 {
-    return QPointF(pos().x() / m_mmFactor, pos().y() / m_mmFactor);
+    return QPointF(pos().x() / Const::mmFACTOR, pos().y() / Const::mmFACTOR);
 }
 
 QRectF BaseDesignIntf::rect() const
@@ -652,8 +665,8 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
     BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(parentItem());
     PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
     if (parent){
-        qreal leftBorder = parentPage?parentPage->leftMargin()*mmFactor():0;
-        qreal rightBorder = parentPage?parentPage->rightMargin()*mmFactor():0;
+        qreal leftBorder = parentPage ? parentPage->leftMargin() * Const::mmFACTOR : 0;
+        qreal rightBorder = parentPage ? parentPage->rightMargin() * Const::mmFACTOR : 0;
         qreal avaibleSpace = parent->width()-(leftBorder+rightBorder);
 
         switch(m_itemAlign){
@@ -694,10 +707,9 @@ void BaseDesignIntf::updateItemAlign(){
     PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
     m_changingItemAlign = true;
     if (parent){
-        qreal leftBorder = parentPage?parentPage->leftMargin()*mmFactor():0;
-        qreal rightBorder = parentPage?parentPage->rightMargin()*mmFactor():0;
+        qreal leftBorder = parentPage ? parentPage->leftMargin() * Const::mmFACTOR : 0;
+        qreal rightBorder = parentPage ? parentPage->rightMargin() * Const::mmFACTOR : 0;
         qreal aviableSpace = parent->width()-(leftBorder+rightBorder);
-
         setPos(modifyPosForAlignedItem(pos()));
         if (m_itemAlign == ParentWidthItemAlign)
             setWidth(aviableSpace);
@@ -730,6 +742,11 @@ bool BaseDesignIntf::fillTransparentInDesignMode() const
 void BaseDesignIntf::setFillTransparentInDesignMode(bool fillTransparentInDesignMode)
 {
     m_fillTransparentInDesignMode = fillTransparentInDesignMode;
+}
+
+void BaseDesignIntf::emitPosChanged(QPointF oldPos, QPointF newPos)
+{
+    emit posChanged(this, oldPos, newPos);
 }
 
 bool BaseDesignIntf::fillInSecondPass() const
@@ -1031,9 +1048,9 @@ void BaseDesignIntf::beforeDelete()
 
 }
 
-void BaseDesignIntf::setGeometryProperty(QRectF rect)
+void BaseDesignIntf::setGeometryProperty(QRect rect)
 {
-    if (rect!=geometry()){
+    if ( rect != m_itemGeometry ){
         QRectF oldValue = geometry();
         if ((rect.x() != geometry().x()) || (rect.y() != geometry().y()))
             setPos(rect.x(), rect.y());
@@ -1098,8 +1115,10 @@ void BaseDesignIntf::initMode(ItemMode mode)
 
 QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
+
     if (change == QGraphicsItem::ItemPositionHasChanged) {
         updateSelectionMarker();
+        emit geometryChanged(this, geometry(), geometry());
     }
 
     if (change == QGraphicsItem::ItemSelectedChange) {
