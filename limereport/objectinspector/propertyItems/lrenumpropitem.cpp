@@ -143,6 +143,8 @@ void EnumPropItem::translateEnumItemName()
     tr("TitleAlignCenter");
     tr("Layout");
     tr("Table");
+    tr("Millimeters");
+    tr("Inches");
 }
 
 void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const

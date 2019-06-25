@@ -1786,8 +1786,8 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     m_printer->getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
 
     QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
-    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * Const::mmFACTOR,
-                                 (printerPageRect.size().height() + bottomMargin +topMargin) * Const::mmFACTOR);
+    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
+                                 (printerPageRect.size().height() + bottomMargin +topMargin) * page->unitFactor());
 
     if (m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
         printerPageRect.width() < page->geometry().width())

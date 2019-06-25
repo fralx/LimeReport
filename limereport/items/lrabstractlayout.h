@@ -34,7 +34,7 @@ public:
     int  childrenCount();
     int layoutSpacing() const;
     void setLayoutSpacing(int layoutSpacing);
-    qreal layoutSpacingMM(){ return  m_layoutSpacing * mmFactor();}
+    qreal layoutSpacingMM(){ return  m_layoutSpacing * unitFactor();}
 protected:
     void beforeDelete();
     void childAddedEvent(BaseDesignIntf *child);

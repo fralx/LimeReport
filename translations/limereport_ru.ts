@@ -989,6 +989,14 @@ p, li { white-space: pre-wrap; }
         <source>TitleAlignCenter</source>
         <translation>Название по центру</translation>
     </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Миллиметры</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Дюймы</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -1939,9 +1947,13 @@ p, li { white-space: pre-wrap; }
         <source>option3</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>units</source>
+        <translation>Единицы измерения</translation>
+    </message>
 </context>
 <context>
-    <name>LimeReport::RectMMPropItem</name>
+    <name>LimeReport::RectPropItem</name>
     <message>
         <source>width</source>
         <translation>ширина</translation>
@@ -1952,7 +1964,7 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>LimeReport::RectPropItem</name>
+    <name>LimeReport::RectUnitPropItem</name>
     <message>
         <source>width</source>
         <translation>ширина</translation>
@@ -3097,6 +3109,14 @@ This preview is no longer valid.</source>
     <message>
         <source>Default</source>
         <translation>По умолчанию</translation>
+    </message>
+    <message>
+        <source>margin</source>
+        <translation>Поля</translation>
+    </message>
+    <message>
+        <source>&apos;&apos;</source>
+        <translation></translation>
     </message>
 </context>
 </TS>

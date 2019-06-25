@@ -88,7 +88,8 @@ class  BaseDesignIntf :
     Q_ENUMS(BrushStyle)
     Q_ENUMS(ItemAlign)
     Q_FLAGS(BorderLines)
-    Q_PROPERTY(QRectF geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
+    Q_ENUMS(UnitType)
+    Q_PROPERTY(QRect geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
     Q_PROPERTY(ACollectionProperty children READ fakeCollectionReader DESIGNABLE false)
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
@@ -137,6 +138,7 @@ public:
                     };
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
+    enum UnitType {Millimeters, Inches};
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)
@@ -183,12 +185,13 @@ public:
     bool isFixedPos(){return  m_fixedPos;}
     int resizeHandleSize() const;
 
-    void    setMMFactor(qreal mmFactor);
-    qreal   mmFactor() const;
-    virtual QRectF  geometry() const;
+    qreal    unitFactor() const;
+    void     setUnitType(UnitType unitType);
+    UnitType unitType();
+    virtual QRect  geometry() const;
     void    setGeometry(QRectF rect);
 
-    QRectF rect()const;
+    QRectF  rect() const;
     void    setupPainter(QPainter* painter) const;
     virtual QRectF boundingRect() const;
 
@@ -209,7 +212,7 @@ public:
     ItemMode itemMode() const {return m_itemMode;}
 
     virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
-    void setGeometryProperty(QRectF rect);
+    void setGeometryProperty(QRect rect);
     PageDesignIntf* page();
 
     BorderLines borderLines() const;
@@ -297,6 +300,7 @@ public:
 
     bool fillTransparentInDesignMode() const;
     void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
+    void emitPosChanged(QPointF oldPos, QPointF newPos);
 
 protected:
 
@@ -380,7 +384,6 @@ private:
     QPen    m_pen;
     QFont   m_font;
     QColor  m_fontColor;
-    qreal   m_mmFactor;
     bool    m_fixedPos;
     int     m_borderLineSize;
 
@@ -421,7 +424,9 @@ private:
     bool    m_joinMarkerOn;
     SelectionMarker* m_selectionMarker;
     Marker*          m_joinMarker;
-    bool    m_fillTransparentInDesignMode;
+    bool     m_fillTransparentInDesignMode;
+    QRect    m_itemGeometry;
+    UnitType m_unitType;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);

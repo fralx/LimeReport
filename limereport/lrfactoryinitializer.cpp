@@ -294,7 +294,7 @@ ObjectPropItem * createReqtItem(
 ObjectPropItem * createReqtMMItem(
     QObject*object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly
 ){
-    return new LimeReport::RectMMPropItem(object, objects, name, displayName, data, parent, readonly);
+    return new LimeReport::RectUnitPropItem(object, objects, name, displayName, data, parent, readonly);
 }
 
 ObjectPropItem * createStringPropItem(

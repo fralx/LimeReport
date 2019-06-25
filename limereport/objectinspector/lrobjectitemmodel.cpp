@@ -160,6 +160,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("fontLetterSpacing");
     tr("hideText");
     tr("option3");
+    tr("units");
 }
 
 void QObjectPropertyModel::clearObjectsList()

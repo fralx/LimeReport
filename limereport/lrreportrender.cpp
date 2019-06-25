@@ -1241,9 +1241,9 @@ void ReportRender::startNewPage(bool isFirst)
     emit m_patternPageItem->beforeRender();
 
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
-    m_maxHeightByColumn[m_currentColumn]=m_renderPageItem->pageRect().height();
-    m_currentStartDataPos[m_currentColumn]=m_patternPageItem->topMargin()*Const::mmFACTOR;
-    m_currentIndex=0;
+    m_maxHeightByColumn[m_currentColumn] = m_renderPageItem->pageRect().height();
+    m_currentStartDataPos[m_currentColumn] = m_patternPageItem->topMargin() * Const::mmFACTOR;
+    m_currentIndex = 0;
 
     if (isFirst) {
         renderReportHeader(m_patternPageItem, BeforePageHeader);
@@ -1254,7 +1254,7 @@ void ReportRender::startNewPage(bool isFirst)
 
     m_pageFooterHeight = calcPageFooterHeight(m_patternPageItem)+2;
     m_maxHeightByColumn[m_currentColumn] -= m_pageFooterHeight;
-    m_currentIndex=10;
+    m_currentIndex = 10;
     m_dataAreaSize = m_maxHeightByColumn[m_currentColumn];
     m_renderedDataBandCount = 0;
 
@@ -1473,7 +1473,8 @@ void ReportRender::savePage(bool isLast)
         foreach (BandDesignIntf* band, m_renderPageItem->bands()) {
             pageHeight += band->height();
         }
-        m_renderPageItem->setHeight(pageHeight+10+(m_patternPageItem->topMargin()+m_patternPageItem->bottomMargin())*Const::mmFACTOR);
+        m_renderPageItem->setHeight(pageHeight + 10 +
+           (m_patternPageItem->topMargin() + m_patternPageItem->bottomMargin()) * Const::mmFACTOR);
     }
 }
 

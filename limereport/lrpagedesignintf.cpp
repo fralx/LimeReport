@@ -268,7 +268,10 @@ void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
     }
     m_pageItem = pageItem;
     m_pageItem->setItemMode(itemMode());
-    setSceneRect(pageItem->rect().adjusted(-10*Const::mmFACTOR,-10*Const::mmFACTOR,10*Const::mmFACTOR,10*Const::mmFACTOR));
+    setSceneRect(pageItem->rect().adjusted(-10 * Const::mmFACTOR,
+                                           -10 * Const::mmFACTOR,
+                                           10 * Const::mmFACTOR,
+                                           10 * Const::mmFACTOR));
     addItem(m_pageItem.data());
     registerItem(m_pageItem.data());
 }
@@ -290,7 +293,10 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
         curHeight+=pageItem->height()+20;
         if (curWidth<pageItem->width()) curWidth=pageItem->width();
     }
-    setSceneRect(QRectF(0,0,curWidth,curHeight).adjusted(-10*Const::mmFACTOR,-10*Const::mmFACTOR,10*Const::mmFACTOR,10*Const::mmFACTOR));
+    setSceneRect(QRectF( 0, 0, curWidth,curHeight).adjusted( -10 * Const::mmFACTOR,
+                                                             -10 * Const::mmFACTOR,
+                                                             10 * Const::mmFACTOR,
+                                                             10 * Const::mmFACTOR));
     if (m_reportPages.count()>0)
         m_currentPage = m_reportPages.at(0).data();
 
@@ -500,6 +506,7 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
         BaseDesignIntf *reportItem = addReportItem(itemType, band, band);
         reportItem->setPos(placePosOnGrid(band->mapFromScene(pos)));
         reportItem->setSize(placeSizeOnGrid(size));
+        reportItem->setUnitType(pageItem()->unitType());
         return reportItem;
     } else {
         PageItemDesignIntf* page = pageItem() ? pageItem() : m_currentPage;
@@ -507,6 +514,7 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
             BaseDesignIntf *reportItem = addReportItem(itemType, page, page);
             reportItem->setPos(placePosOnGrid(page->mapFromScene(pos)));
             reportItem->setSize(placeSizeOnGrid(size));
+            reportItem->setUnitType(pageItem()->unitType());
             ItemDesignIntf* ii = dynamic_cast<ItemDesignIntf*>(reportItem);
             if (ii)
                 ii->setItemLocation(ItemDesignIntf::Page);
@@ -522,6 +530,7 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QObject *
     BaseDesignIntf *item = LimeReport::DesignElementsFactory::instance().objectCreator(itemType)((owner) ? owner : pageItem(), (parent) ? parent : pageItem());
     item->setObjectName(genObjectName(*item));
     item->setItemTypeName(itemType);
+    item->setUnitType(pageItem()->unitType());
     registerItem(item);
     return item;
 }
@@ -2087,7 +2096,11 @@ bool PosChangedCommand::doIt()
     for (int i = 0; i < m_newPos.count(); i++) {
         BaseDesignIntf *reportItem = page()->reportItemByName(m_newPos[i].objectName);
 
-        if (reportItem && (reportItem->pos() != m_newPos[i].pos)) reportItem->setPos(m_newPos[i].pos);
+        if (reportItem && (reportItem->pos() != m_newPos[i].pos)){
+            QPointF oldValue = reportItem->pos();
+            reportItem->setPos(m_newPos[i].pos);
+            emit reportItem->posChanged(reportItem, oldValue, reportItem->pos());
+        }
     }
 
     return true;
@@ -2098,7 +2111,11 @@ void PosChangedCommand::undoIt()
     for (int i = 0; i < m_oldPos.count(); i++) {
         BaseDesignIntf *reportItem = page()->reportItemByName(m_oldPos[i].objectName);
 
-        if (reportItem && (reportItem->pos() != m_oldPos[i].pos)) reportItem->setPos(m_oldPos[i].pos);
+        if (reportItem && (reportItem->pos() != m_oldPos[i].pos)){
+            QPointF oldValue = reportItem->pos();
+            reportItem->setPos(m_oldPos[i].pos);
+            reportItem->emitPosChanged(oldValue, reportItem->pos());
+        }
     }
 }
 

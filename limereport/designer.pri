@@ -27,6 +27,7 @@ SOURCES += \
     $$REPORT_PATH/objectinspector/propertyItems/lrdatasourcepropitem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrgroupfieldpropitem.cpp \
     $$REPORT_PATH/objectinspector/propertyItems/lrcontentpropitem.cpp \
+    $$REPORT_PATH/objectinspector/propertyItems/lrmarginpropitem.cpp \
     $$REPORT_PATH/objectinspector/editors/lrtextitempropertyeditor.cpp \
     $$REPORT_PATH/objectinspector/editors/lrcomboboxeditor.cpp \
     $$REPORT_PATH/objectinspector/editors/lrcheckboxeditor.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     $$REPORT_PATH/objectinspector/propertyItems/lrcontentpropitem.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrqrealpropitem.h \
     $$REPORT_PATH/objectinspector/propertyItems/lrcolorpropitem.h \
+    $$REPORT_PATH/objectinspector/propertyItems/lrmarginpropitem.h \
     $$REPORT_PATH/objectinspector/editors/lrtextitempropertyeditor.h \
     $$REPORT_PATH/objectinspector/editors/lrcomboboxeditor.h \
     $$REPORT_PATH/objectinspector/editors/lrcheckboxeditor.h \
