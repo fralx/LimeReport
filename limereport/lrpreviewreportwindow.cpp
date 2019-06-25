@@ -492,7 +492,6 @@ void PreviewReportWindow::slotScalePercentChanged(int percent)
 void PreviewReportWindow::on_actionShowMessages_toggled(bool value)
 {
    m_previewReportWidget->setErrorsMesagesVisible(value);
-   m_previewReportWidget->startInsertTextItem();
 }
 
 void PreviewReportWindow::on_actionShow_Toolbar_triggered()
