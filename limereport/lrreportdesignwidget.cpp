@@ -1175,20 +1175,20 @@ void Ruler::drawItem(QPainter* painter, BaseDesignIntf *item)
     int hStartPos = view->mapFromScene(0,0).x();
     int vStartPos = view->mapFromScene(0,0).y();
 
+    int itemWidth = view->mapFromScene(item->mapToScene(item->geometry().width(),0).x() - item->mapToScene(0,0).x(), 0).x() - hStartPos;
+    int itemHeight = view->mapFromScene(0, item->mapToScene(0, item->geometry().height()).y() - item->mapToScene(0,0).y()).y() - vStartPos;
+
     switch (m_type) {
     case Horizontal:
         if (item->isSelected())
-        painter->drawRect(view->mapFromScene(item->mapToScene(0,0)).x() - hStartPos, 0,
-                                 view->mapFromScene(item->geometry().bottomRight().x() - item->pos().x(), 0).x() - hStartPos, 20);
-
-
+         painter->drawRect(view->mapFromScene(item->mapToScene(0,0)).x() - (hStartPos > 0 ? hStartPos : 0)  , 0,
+                          itemWidth, 20);
         break;
     case Vertical:
         if (item->isSelected())
-            painter->drawRect(0, view->mapFromScene(item->mapToScene(0, 0)).y() - vStartPos,
-                             20, view->mapFromScene(0, item->geometry().bottomRight().y() - item->pos().y()).y() - vStartPos);
+            painter->drawRect(0, view->mapFromScene(item->mapToScene(0, 0)).y() - (vStartPos > 0 ? vStartPos : 0),
+                             20, itemHeight);
         break;
-
     }
 }
 
