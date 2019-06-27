@@ -90,6 +90,10 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(brush);
     painter->setBackground(QBrush(Qt::NoBrush));
     painter->setOpacity(qreal(m_opacity)/100);
+    QRectF rectangleRect = rect().adjusted((lineWidth() / 2),
+                                           (lineWidth() / 2),
+                                           -(lineWidth() / 2),
+                                           -(lineWidth() / 2));
 
     switch (m_shape){
     case HorizontalLine:
@@ -105,9 +109,9 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     case Rectangle:
         if (m_cornerRadius != 0){
             painter->setRenderHint(QPainter::Antialiasing);
-            painter->drawRoundedRect(rect(),m_cornerRadius,m_cornerRadius);
+            painter->drawRoundedRect(rectangleRect,m_cornerRadius,m_cornerRadius);
         } else {
-            painter->drawRect(rect());
+            painter->drawRect(rectangleRect);
         }
         break;
     }
