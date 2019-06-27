@@ -662,7 +662,6 @@ BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGrap
         }
     }
     upperPart->setHeight(height);
-    height = maxBottom;
     return upperPart;
 }
 

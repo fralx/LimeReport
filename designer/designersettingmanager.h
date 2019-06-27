@@ -18,7 +18,6 @@ public slots:
     QLocale::Language getCurrentDefaultLanguage();
     void currentDefaultLanguageChanged(QLocale::Language language);
 private:
-    QApplication* m_app;
     QSettings* m_setting;
 };
 

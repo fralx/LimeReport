@@ -901,7 +901,7 @@ void ReportRender::closeGroup(BandDesignIntf *band)
             bl->clear();
             delete bl;
         }
-        it++;
+        ++it;
     }
 
     m_childBands.remove(band);
@@ -931,7 +931,7 @@ void ReportRender::closeDataGroup(BandDesignIntf *band)
             if ((*it)->bandIndex()>band->bandIndex())
                 it = m_reprintableBands.erase(it);
             else
-                it++;
+                ++it;
         }
     }
     recalcIfNeeded(band);
@@ -1573,7 +1573,7 @@ void PagesRanges::addTOCPage()
         if (tocRange.firstPage == 0) {
             tocRange.firstPage = tocRange.lastPage == 0 ? 1 :  tocRange.lastPage;
             tocRange.lastPage = tocRange.lastPage == 0 ? 1 :  tocRange.lastPage;
-            if (tocRange.lastPage == 1 && tocRange.lastPage == 1)
+            if (tocRange.firstPage == 1 && tocRange.lastPage == 1)
                 shiftRangesNextToTOC();
         } else {
             tocRange.lastPage++;

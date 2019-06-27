@@ -134,8 +134,8 @@ BaseDesignIntf* VerticalLayout::cloneBottomPart(int height, QObject* owner, QGra
         }
     }
 
-    int currentHeight = 0;
     if (!bottomPart->isEmpty()){
+        int currentHeight = 0;
         foreach (BaseDesignIntf* item, bottomPart->childBaseItems()) {
             currentHeight+=item->height();
         }

@@ -718,10 +718,10 @@ QVariant CallbackDatasource::dataByRowIndex(const QString &columnName, int rowIn
 QVariant CallbackDatasource::dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData)
 {
     int backupCurrentRow = m_currentRow;
-    int currentRow = 0;
     QVariant result = QVariant();
     first();
     if (!checkIfEmpty()){
+        int currentRow = 0;
         do {
             QVariant key = callbackData(keyColumnName, currentRow);
             if (key == keyData){

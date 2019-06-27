@@ -485,8 +485,8 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
 QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
 {
     QRegExp rx(Const::FIELD_RX);
-    int curentAliasIndex=0;
     if (query.contains(rx)){
+        int curentAliasIndex=0;
         int pos;
         while ((pos=rx.indexIn(query))!=-1){
             QString field=rx.cap(0);
@@ -719,7 +719,7 @@ void DataSourceManager::removeConnection(const QString &connectionName)
             delete (*cit);
             cit = m_connections.erase(cit);
         } else {
-            cit++;
+            ++cit;
         }
     }
     m_hasChanges = true;

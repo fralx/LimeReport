@@ -118,9 +118,8 @@ QVariant GroupFunction::multiplication(QVariant value1, QVariant value2)
 }
 
 GroupFunction::GroupFunction(const QString &expression, const QString &dataBandName, DataSourceManager* dataManager)
-    :m_dataBandName(dataBandName), m_dataManager(dataManager),m_isValid(true), m_errorMessage("")
+    :m_data(expression), m_dataBandName(dataBandName), m_dataManager(dataManager), m_isValid(true), m_errorMessage("")
 {
-    m_data = expression;
     QRegExp rxField(Const::FIELD_RX,Qt::CaseInsensitive);
     QRegExp rxVariable(Const::VARIABLE_RX,Qt::CaseInsensitive);
     QRegExp rxScript(Const::SCRIPT_RX,Qt::CaseInsensitive);

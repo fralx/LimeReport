@@ -1119,7 +1119,7 @@ void Ruler::paintEvent(QPaintEvent *event){
                                          QString::number(i));
                 }
             }
-            painter.setPen(Qt::black);
+            painter.setPen(palette().foreground().color());
             painter.drawLine(m_mousePos.x() - (hStartPos > 0 ? hStartPos : 0) , 0,
                              m_mousePos.x() - (hStartPos > 0 ? hStartPos : 0) , 20);
             break;
@@ -1148,7 +1148,7 @@ void Ruler::paintEvent(QPaintEvent *event){
                     painter.drawLine(10, vs5, 20, vs5);
                 }
             }
-            painter.setPen(Qt::black);
+            painter.setPen(palette().foreground().color());
             painter.drawLine(0, m_mousePos.y() - (vStartPos > 0 ? vStartPos : 0),
                              20, m_mousePos.y() - (vStartPos > 0 ? vStartPos : 0));
             break;

@@ -1334,9 +1334,9 @@ BaseDesignIntf* PageDesignIntf::findDestObject(BaseDesignIntf* item){
 void PageDesignIntf::paste()
 {
     QClipboard *clipboard = QApplication::clipboard();
-    BaseDesignIntf* destItem = 0;
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
     if (reader->first() && reader->itemType() == "Object"){
+        BaseDesignIntf* destItem = 0;
         if (!selectedItems().isEmpty())
             destItem = findDestObject(dynamic_cast<BaseDesignIntf*>(selectedItems().at(0)));
         else

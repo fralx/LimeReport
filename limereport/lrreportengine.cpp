@@ -514,6 +514,7 @@ bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hint
         w->setSettings(settings());
         w->setPages(pages);
         w->setLayoutDirection(m_previewLayoutDirection);
+        w->setStyleSheet(styleSheet());
 
         if (!dataManager()->errorsList().isEmpty()){
             w->setErrorMessages(dataManager()->errorsList());

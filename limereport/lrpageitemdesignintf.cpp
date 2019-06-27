@@ -778,7 +778,6 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
     BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
 
     firstMoveBand->changeBandIndex(firstIndex, true);
-    moveIndex = firstMoveBand->maxChildIndex() + 1;
     moveIndex = firstIndex;
     qSort(bandToMove.begin(), bandToMove.end(), bandIndexLessThen);
 

@@ -515,15 +515,13 @@ void PieChart::paintChart(QPainter *painter, QRectF chartRect)
         }
         qreal onePercent = sum / 100;
         qreal currentDegree = 0;
-        int currentColor = 0;
-        for(int i=0; i<si->data()->values().count();++i){
+        for(int i=0; i<si->data()->values().count(); ++i){
             qreal value = si->data()->values().at(i);
             qreal sectorDegree = (value/onePercent)*3.6;
             painter->setBrush(si->data()->colors().at(i));
             painter->drawPie(chartRect,currentDegree*16,sectorDegree*16);
             drawPercent(painter, chartRect, currentDegree, sectorDegree);
             currentDegree += sectorDegree;
-            currentColor++;
         }
     } else {
         painter->setBrush(color_map[0]);
@@ -768,7 +766,6 @@ void VerticalBarChart::paintSerialLines(QPainter* painter, QRectF barsRect)
     qreal topShift = (delta - (maxValue()-minValue())) * vStep +barsRect.top();
 
     if (!m_chartItem->series().isEmpty() && !m_chartItem->series().at(0)->data()->labels().isEmpty()){
-        int curSeries = 0;
         foreach (SeriesItem* series, m_chartItem->series()) {
             if (series->preferredType() == SeriesItem::Line){
                 QPen pen(series->color());
@@ -791,7 +788,6 @@ void VerticalBarChart::paintSerialLines(QPainter* painter, QRectF barsRect)
 
                 }
             }
-            curSeries++;
         }
     }
     painter->restore();
@@ -803,7 +799,6 @@ void VerticalBarChart::paintLabels(QPainter *painter, QRectF labelsRect)
 {
     painter->save();
     qreal hStep = (labelsRect.width() / valuesCount());
-    int curLabel = 0;
 
     if (!m_chartItem->labels().isEmpty()){
         painter->rotate(270);
@@ -811,7 +806,6 @@ void VerticalBarChart::paintLabels(QPainter *painter, QRectF labelsRect)
         foreach (QString label, m_chartItem->labels()) {
             painter->drawText(QRectF(QPoint(0,0),
                                      QSize(labelsRect.height()-4,hStep)),Qt::AlignVCenter|Qt::AlignRight,label);
-            curLabel++;
             painter->translate(0,hStep);
         }
         painter->rotate(-270);

@@ -146,7 +146,6 @@ QWidget * LimeReport::RectUnitValuePropItem::createProperyEditor(QWidget *parent
     QDoubleSpinBox *editor= new QDoubleSpinBox(parent);
     editor->setMaximum(100000);
     editor->setSuffix(" "+unitShortName());
-    BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(object());
     return editor;
 }
 
