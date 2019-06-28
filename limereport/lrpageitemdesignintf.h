@@ -44,6 +44,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_OBJECT
     Q_ENUMS(Orientation)
     Q_ENUMS(PageSize)
+    Q_ENUMS(PrintBehavior)
     Q_PROPERTY(int topMargin READ topMargin WRITE setTopMargin)
     Q_PROPERTY(int bottomMargin READ bottomMargin WRITE setBottomMargin)
     Q_PROPERTY(int rightMargin READ rightMargin WRITE setRightMargin)
@@ -62,9 +63,11 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool printable READ isPrintable WRITE setPrintable)
     Q_PROPERTY(QString printerName READ printerName WRITE setPrinterName)
     Q_PROPERTY(UnitType units READ unitType WRITE setUnitTypeProperty)
+    Q_PROPERTY(PrintBehavior printBehavior READ printBehavior WRITE setPrintBehavior)
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
+    enum PrintBehavior {Scale, Split};
     enum PageSize {
         A4 = QPrinter::A4, B5 = QPrinter::B5, Letter = QPrinter::Letter,
         Legal = QPrinter::Legal, Executive = QPrinter::Executive,
@@ -163,6 +166,9 @@ public:
     BandDesignIntf *pageFooter() const;
     void setPageFooter(BandDesignIntf *pageFooter);
     
+    PrintBehavior printBehavior() const;
+    void setPrintBehavior(const PrintBehavior &printBehavior);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -205,6 +211,9 @@ private:
     bool m_printable;
     QString m_printerName;
     BandDesignIntf* m_pageFooter;
+    PrintBehavior m_printBehavior;
+
+
 };
 
 typedef QList<PageItemDesignIntf::Ptr> ReportPages;

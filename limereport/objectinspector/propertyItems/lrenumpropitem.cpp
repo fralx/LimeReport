@@ -145,6 +145,8 @@ void EnumPropItem::translateEnumItemName()
     tr("Table");
     tr("Millimeters");
     tr("Inches");
+    tr("Scale");
+    tr("Split");
 }
 
 void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const

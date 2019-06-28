@@ -1790,16 +1790,28 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
                                  (printerPageRect.size().height() + bottomMargin +topMargin) * page->unitFactor());
 
-    if (m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
+    if  (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
         printerPageRect.width() < page->geometry().width())
     {
         qreal pageWidth = page->geometry().width();
+        qreal pageHeight =  page->geometry().height();
         QRectF currentPrintingRect = printerPageRect;
-        while (pageWidth>0){
-            renderPage.render(m_painter, m_printer->pageRect(), currentPrintingRect);
-            currentPrintingRect.adjust(printerPageRect.size().width(),0,printerPageRect.size().width(),0);
-            pageWidth -= printerPageRect.size().width();
-            if (pageWidth>0) m_printer->newPage();
+        qreal curHeight = 0;
+        qreal curWidth = 0;
+        bool first = true;
+        while (pageHeight > 0){
+            while (curWidth < pageWidth){
+                if (!first) m_printer->newPage(); else first = false;
+                renderPage.render(m_painter, m_printer->pageRect(), currentPrintingRect);
+                currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
+                curWidth += printerPageRect.size().width();
+
+            }
+            pageHeight -= printerPageRect.size().height();
+            curHeight += printerPageRect.size().height();
+            currentPrintingRect = printerPageRect;
+            currentPrintingRect.adjust(0, curHeight, 0, curHeight);
+            curWidth = 0;
         }
 
     } else {

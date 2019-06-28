@@ -162,6 +162,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("option3");
     tr("units");
     tr("geometryLocked");
+    tr("printBehavior");
 }
 
 void QObjectPropertyModel::clearObjectsList()

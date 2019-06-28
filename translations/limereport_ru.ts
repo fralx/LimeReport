@@ -1001,6 +1001,14 @@ p, li { white-space: pre-wrap; }
         <source>Inches</source>
         <translation>Дюймы</translation>
     </message>
+    <message>
+        <source>Scale</source>
+        <translation>Масштабировать</translation>
+    </message>
+    <message>
+        <source>Split</source>
+        <translation>Разделять на части</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -1873,7 +1881,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>setPageSizeToPrinter</source>
-        <translation>Оправитьпараметры страницы в принтер</translation>
+        <translation>Отправить параметры страницы в принтер</translation>
     </message>
     <message>
         <source>fillInSecondPass</source>
@@ -1962,6 +1970,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>geometryLocked</source>
         <translation>Геометрия заблокирована</translation>
+    </message>
+    <message>
+        <source>printBehavior</source>
+        <translation>Режим печати</translation>
     </message>
 </context>
 <context>
