@@ -83,6 +83,8 @@ public:
     void setValidator(ValidatorIntf *validator);
     bool subclassesAsLevel();
     void setSubclassesAsLevel(bool value);
+    bool translateProperties();
+    void setTranslateProperties(bool value);
     void setObject(QObject* setObject);
     const QObject* object();
     void setMultiObjects(QList<QObject *>* list);
@@ -90,10 +92,13 @@ public:
     void updateProperty(const QString &propertyName);
 private slots:
     void slotFilterTextChanged(const QString& filter);
+    void slotTranslatePropertiesChecked(bool value);
 private:
     ObjectInspectorTreeView* m_objectInspectorView;
     QSortFilterProxyModel* m_filterModel;
     BaseDesignPropertyModel* m_propertyModel;
+    QAction* m_translateProperties;
+
 };
 
 } //namespace LimeReport

@@ -34,6 +34,7 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QToolButton>
+#include <QMenu>
 
 #include "lrglobal.h"
 #include "lrobjectinspectorwidget.h"
@@ -183,10 +184,25 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     connect(pbClear, SIGNAL(clicked()), le, SLOT(clear()));
     le->setPlaceholderText(tr("Filter"));
     connect(le, SIGNAL(textChanged(const QString&)), this, SLOT(slotFilterTextChanged(const QString&)));
+
+    QToolButton* settingButton = new QToolButton(this);
+    settingButton->setIcon(QIcon(":/items/images/settings.png"));
+    QMenu* settingMenu = new QMenu(settingButton);
+    m_translateProperties = settingMenu->addAction(tr("Translate properties"));
+    m_translateProperties->setCheckable(true);
+    m_translateProperties->setChecked(translateProperties());
+
+    connect(m_translateProperties, SIGNAL(toggled(bool)),
+            this, SLOT(slotTranslatePropertiesChecked(bool)));
+
+    settingButton->setMenu(settingMenu);
+    settingButton->setPopupMode(QToolButton::InstantPopup);
+
     QHBoxLayout* h = new QHBoxLayout();
     h->setSpacing(2);
     h->addWidget(le);
     h->addWidget(pbClear);
+    h->addWidget(settingButton);
     l->addLayout(h);
     l->addWidget(m_objectInspectorView);
     l->setMargin(Const::DOCKWIDGET_MARGINS);
@@ -246,6 +262,18 @@ void ObjectInspectorWidget::setSubclassesAsLevel(bool value)
     m_propertyModel->setSubclassesAsLevel(value);
 }
 
+bool ObjectInspectorWidget::translateProperties()
+{
+    return m_propertyModel->isTranslateProperties();
+}
+
+void ObjectInspectorWidget::setTranslateProperties(bool value)
+{
+    m_propertyModel->setTranslateProperties(value);
+    m_translateProperties->setChecked(value);
+    update();
+}
+
 const QObject *ObjectInspectorWidget::object(){
     return m_propertyModel->currentObject();
 }
@@ -274,6 +302,11 @@ void ObjectInspectorWidget::slotFilterTextChanged(const QString &filter)
 {
     if (m_filterModel)
         m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
+}
+
+void ObjectInspectorWidget::slotTranslatePropertiesChecked(bool value)
+{
+    setTranslateProperties(value);
 }
 
 } //namespace LimeReport

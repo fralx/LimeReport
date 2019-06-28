@@ -97,8 +97,8 @@ QString FlagsPropItem::displayValue() const
     {
         if ((propEnum.keyToValue(propEnum.key(i)) == 0) ? propertyValue().toInt() == 0 : (propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i))) == propEnum.keyToValue(propEnum.key(i)))
         {
-            if (result.isEmpty()) result+= tr(propEnum.key(i));
-            else result=result+" | "+tr(propEnum.key(i));
+            if (result.isEmpty()) result+= isTranslateProperty() ? tr(propEnum.key(i)) : propEnum.key(i);
+            else result=result+" | "+ (isTranslateProperty() ? tr(propEnum.key(i)) : propEnum.key(i));
         }
 
     }

@@ -44,7 +44,7 @@ VariablesHolder::~VariablesHolder()
     QMap<QString,VarDesc*>::iterator it = m_varNames.begin();
     while(it!=m_varNames.end()){
         delete *it;
-        it++;
+        ++it;
     }
     m_varNames.clear();
     m_userVariables.clear();

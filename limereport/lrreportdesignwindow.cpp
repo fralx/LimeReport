@@ -506,6 +506,7 @@ void ReportDesignWindow::createObjectInspector()
     m_validator = new ObjectNameValidator();
     m_objectInspector->setValidator(m_validator);
     m_objectInspector->setSubclassesAsLevel(false);
+    m_objectInspector->setTranslateProperties(true);
     m_objectInspector->setAlternatingRowColors(true);
     m_objectInspector->setRootIsDecorated(!m_objectInspector->subclassesAsLevel());
     QDockWidget *objectDoc = new QDockWidget(this);
@@ -696,6 +697,7 @@ void ReportDesignWindow::writeState()
     settings()->setValue("ScriptEditorsState",       m_editorsStates[ReportDesignWidget::Script]);
     settings()->setValue("TranslationEditorsState",  m_editorsStates[ReportDesignWidget::Translations]);
     settings()->setValue("InspectorFirsColumnWidth", m_objectInspector->columnWidth(0));
+    settings()->setValue("InspectorTranslateProperties", m_objectInspector->translateProperties());
     settings()->endGroup();
     settings()->beginGroup("RecentFiles");
     settings()->setValue("filesCount",m_recentFiles.count());
@@ -809,6 +811,11 @@ void ReportDesignWindow::restoreSetting()
     v = settings()->value("InspectorFirsColumnWidth");
     if (v.isValid()){
         m_objectInspector->setColumnWidth(0,v.toInt());
+    }
+
+    v = settings()->value("InspectorTranslateProperties");
+    if (v.isValid()){
+        m_objectInspector->setTranslateProperties(v.toBool());
     }
 
     settings()->endGroup();

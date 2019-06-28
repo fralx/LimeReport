@@ -95,9 +95,7 @@ public:
     }
     void setPageItem(PageItemDesignIntf* pageItem);
 protected:
-//    void mouseMoveEvent(QMouseEvent *event);
-//    void resizeEvent(QResizeEvent *event);
-        bool viewportEvent(QEvent *event);
+    bool viewportEvent(QEvent *event);
 private:
     PageItemDesignIntf* m_pageItem;
     Ruler* m_horizontalRuller;

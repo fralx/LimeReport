@@ -42,7 +42,8 @@ bool lesThen(ObjectPropItem* v1, ObjectPropItem* v2){
 
 ObjectPropItem::ObjectPropItem(QObject *object, ObjectsList* objects, const QString &name, const QString &displayName, ObjectPropItem *parent, bool isClass)
     :m_object(object), m_name(name), m_displayName(displayName), m_haveValue(false), m_parent(parent), m_colorIndex(-1),
-      m_readonly(true), m_model(0), m_isClass(isClass), m_changingValue(false)
+      m_readonly(true), m_model(0), m_isClass(isClass), m_changingValue(false),
+      m_translatePropperty(true)
 {
     if (parent) setModel(parent->model());
     m_index=QModelIndex();
@@ -60,7 +61,8 @@ ObjectPropItem::ObjectPropItem(QObject *object, ObjectsList* objects, const QStr
 ObjectPropItem::ObjectPropItem(QObject *object, ObjectsList* objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool readonly)
     :m_object(object), m_name(name), m_displayName(displayName), m_value(value),
      m_haveValue(true), m_parent(parent), m_colorIndex(-1),
-     m_readonly(readonly), m_model(0), m_isClass(false), m_changingValue(false)
+     m_readonly(readonly), m_model(0), m_isClass(false), m_changingValue(false),
+     m_translatePropperty(true)
 {
     if (parent) setModel(parent->model());
     m_index=QModelIndex();
@@ -109,6 +111,10 @@ void ObjectPropItem::setPropertyValue(QVariant value){
     }
 }
 
+QString ObjectPropItem::displayName() const {
+    return isTranslateProperty() ? m_displayName : propertyName();
+}
+
 int ObjectPropItem::row(){
     if (m_parent)
         return m_parent->m_childItems.indexOf(const_cast<ObjectPropItem*>(this));
@@ -153,6 +159,16 @@ void ObjectPropItem::setValueToObject(const QString &propertyName, QVariant prop
                 item->setProperty(propertyName.toLatin1(), propertyValue);
         }
     }
+}
+
+bool ObjectPropItem::isTranslateProperty() const
+{
+    return m_translatePropperty;
+}
+
+void ObjectPropItem::setTranslateProperty(bool translatePropperty)
+{
+    m_translatePropperty = translatePropperty;
 }
 
 ObjectPropItem * ObjectPropItem::findChild(const QString &name)

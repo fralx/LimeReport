@@ -1235,6 +1235,10 @@ p, li { white-space: pre-wrap; }
         <source>Filter</source>
         <translation>Фильтр</translation>
     </message>
+    <message>
+        <source>Translate properties</source>
+        <translation>Переводить имена свойств</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::PDFExporter</name>
