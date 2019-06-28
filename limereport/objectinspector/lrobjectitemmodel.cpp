@@ -161,6 +161,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("hideText");
     tr("option3");
     tr("units");
+    tr("geometryLocked");
 }
 
 void QObjectPropertyModel::clearObjectsList()

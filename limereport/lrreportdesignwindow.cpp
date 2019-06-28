@@ -256,6 +256,24 @@ void ReportDesignWindow::createActions()
     m_addNewDialogAction->setIcon(QIcon(":/report//images/addDialog"));
     connect(m_addNewDialogAction, SIGNAL(triggered()), this, SLOT(slotAddNewDialog()));
 #endif
+
+    m_lockSelectedItemsAction = new QAction(tr("Lock selected items"), this);
+    m_lockSelectedItemsAction->setIcon(QIcon(":/report/images/lock"));
+    m_lockSelectedItemsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    connect(m_lockSelectedItemsAction, SIGNAL(triggered()),
+            this, SLOT(slotLockSelectedItems()));
+
+    m_unlockSelectedItemsAction = new QAction(tr("Unlock selected items"), this);
+    m_unlockSelectedItemsAction->setIcon(QIcon(":/report/images/unlock"));
+    m_unlockSelectedItemsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_L));
+    connect(m_unlockSelectedItemsAction, SIGNAL(triggered()),
+            this, SLOT(slotUnlockSelectedItems()));
+
+    m_selectOneLevelItems = new QAction(tr("Select one level items"), this);
+    //m_unlockSelectedItemsAction->setIcon(QIcon(":/report/images/unlock"));
+    m_selectOneLevelItems->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+    connect(m_selectOneLevelItems, SIGNAL(triggered()),
+            this, SLOT(slotSelectOneLevelItems()));
 }
 
 void ReportDesignWindow::createReportToolBar()
@@ -465,6 +483,10 @@ void ReportDesignWindow::createMainMenu()
     m_editMenu->addAction(m_pasteAction);
     m_editMenu->addAction(m_cutAction);
     m_editMenu->addAction(m_settingsAction);
+    m_editMenu->addSeparator();
+    m_editMenu->addAction(m_lockSelectedItemsAction);
+    m_editMenu->addAction(m_unlockSelectedItemsAction);
+    m_editMenu->addAction(m_selectOneLevelItems);
     m_infoMenu = menuBar()->addMenu(tr("Info"));
     m_infoMenu->addAction(m_aboutAction);
     m_recentFilesMenu = m_fileMenu->addMenu(tr("Recent Files"));
@@ -783,10 +805,10 @@ void ReportDesignWindow::restoreSetting()
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
 
-        int x = screenWidth*0.1;
-        int y = screenHeight*0.1;
+        int x = screenWidth * 0.1;
+        int y = screenHeight * 0.1;
 
-        resize(screenWidth*0.8, screenHeight*0.8);
+        resize(screenWidth * 0.8, screenHeight * 0.8);
         move(x, y);
     }
     v = settings()->value("PageEditorsState");
@@ -1495,7 +1517,23 @@ void ReportDesignWindow::slotAddNewDialog()
 {
     m_reportDesignWidget->addNewDialog();
 }
+
 #endif
+
+void ReportDesignWindow::slotLockSelectedItems()
+{
+    m_reportDesignWidget->lockSelectedItems();
+}
+
+void ReportDesignWindow::slotUnlockSelectedItems()
+{
+    m_reportDesignWidget->unlockSelectedItems();
+}
+
+void ReportDesignWindow::slotSelectOneLevelItems()
+{
+    m_reportDesignWidget->selectOneLevelItems();
+}
 
 void ReportDesignWindow::closeEvent(QCloseEvent * event)
 {

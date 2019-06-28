@@ -152,6 +152,8 @@ void TextItem::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Hide if empty")) == 0){
         page()->setPropertyToSelectedItems("hideIfEmpty",action->isChecked());
     }
+
+    ContentItemDesignIntf::processPopUpAction(action);
 }
 
 void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, QWidget* widget) {

@@ -125,6 +125,9 @@ private slots:
     void slotDeleteDialog();
     void slotAddNewDialog();
 #endif
+    void slotLockSelectedItems();
+    void slotUnlockSelectedItems();
+    void slotSelectOneLevelItems();
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -232,6 +235,11 @@ private:
     QAction* m_deleteDialogAction;
     QAction* m_addNewDialogAction;
 #endif
+
+    QAction* m_lockSelectedItemsAction;
+    QAction* m_unlockSelectedItemsAction;
+    QAction* m_selectOneLevelItems;
+
     QMenu*   m_recentFilesMenu;
 
     QSignalMapper* m_bandsAddSignalsMap;

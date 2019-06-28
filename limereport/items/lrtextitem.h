@@ -41,7 +41,7 @@
 namespace LimeReport {
 
 class Tag;
-class TextItem : public LimeReport::ContentItemDesignIntf, IPageInit {
+class TextItem : public ContentItemDesignIntf, IPageInit {
     Q_OBJECT
     Q_ENUMS(AutoWidth)
     Q_ENUMS(AngleType)

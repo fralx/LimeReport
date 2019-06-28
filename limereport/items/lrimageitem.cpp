@@ -93,6 +93,7 @@ void ImageItem::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Watermark")) == 0){
         page()->setPropertyToSelectedItems("watermark",action->isChecked());
     }
+    ItemDesignIntf::processPopUpAction(action);
 }
 
 bool ImageItem::useExternalPainter() const

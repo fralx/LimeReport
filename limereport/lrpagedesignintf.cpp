@@ -1169,6 +1169,14 @@ void PageDesignIntf::activateItemToJoin(QRectF itemRect, QList<ItemProjections>&
     if (m_joinItem) m_joinItem->turnOnJoinMarker(true);
 }
 
+void PageDesignIntf::selectAllChildren(BaseDesignIntf *item)
+{
+    if (item)
+        foreach(BaseDesignIntf* child, item->childBaseItems()){
+            child->setSelected(true);
+        }
+}
+
 void PageDesignIntf::rectMoved(QRectF itemRect, BaseDesignIntf* container){
     if (!container){
         container = bandAt(QPointF(itemRect.topLeft()));
@@ -1770,6 +1778,34 @@ void PageDesignIntf::setTextAlign(const Qt::Alignment& alignment)
 void PageDesignIntf::setBorders(const BaseDesignIntf::BorderLines& border)
 {
     changeSelectedGroupProperty("borders", (int)border);
+}
+
+void PageDesignIntf::lockSelectedItems()
+{
+    foreach(QGraphicsItem* graphicItem, selectedItems()){
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(graphicItem);
+        if (item) item->setProperty("geometryLocked", true);
+    }
+}
+
+void PageDesignIntf::unlockSelectedItems()
+{
+    foreach(QGraphicsItem* graphicItem, selectedItems()){
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(graphicItem);
+        if (item) item->setProperty("geometryLocked", false);
+    }
+}
+
+
+void PageDesignIntf::selectOneLevelItems()
+{
+    foreach(QGraphicsItem* graphicItem, selectedItems()){
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(graphicItem->parentItem());
+        if (item)
+            selectAllChildren(item);
+        else
+            selectAllChildren(dynamic_cast<BaseDesignIntf*>(graphicItem));
+    }
 }
 
 void PageDesignIntf::removeAllItems()

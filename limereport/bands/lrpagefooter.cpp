@@ -87,6 +87,7 @@ void PageFooter::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Print on last page")) == 0){
         page()->setPropertyToSelectedItems("printOnLastPage",action->isChecked());
     }
+    BandDesignIntf::processPopUpAction(action);
 }
 
 bool PageFooter::printOnFirstPage() const

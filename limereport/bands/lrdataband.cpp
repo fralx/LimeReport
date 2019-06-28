@@ -142,7 +142,6 @@ void DataBand::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Start from new page")) == 0){
         setProperty("startFromNewPage",action->isChecked());
     }
-
 }
 
 BaseDesignIntf *DataBand::createSameTypeItem(QObject *owner, QGraphicsItem *parent)

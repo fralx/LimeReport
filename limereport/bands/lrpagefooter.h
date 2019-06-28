@@ -35,7 +35,7 @@
 #include <QObject>
 
 namespace LimeReport{
-class PageFooter : public LimeReport::BandDesignIntf
+class PageFooter : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool printOnFirstPage READ printOnFirstPage WRITE setPrintOnFirstPage)

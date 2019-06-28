@@ -252,6 +252,9 @@ namespace LimeReport {
         void setFont(const QFont &font);
         void setTextAlign(const Qt::Alignment& alignment);
         void setBorders(const BaseDesignIntf::BorderLines& border);
+        void lockSelectedItems();
+        void unlockSelectedItems();
+        void selectOneLevelItems();
     private slots:
         void slotPageGeometryChanged(QObject*, QRectF, QRectF );
         void slotItemPropertyChanged(QString propertyName,
@@ -277,6 +280,7 @@ namespace LimeReport {
                                         const QVariant& newPropertyValue);
         void changeSelectedGroupProperty(const QString& name,const QVariant& value);
         void activateItemToJoin(QRectF itemRect, QList<ItemProjections>& items);
+        void selectAllChildren(BaseDesignIntf* item);
     private:
         enum JoinType{Width, Height};
         LimeReport::PageItemDesignIntf::Ptr m_pageItem;

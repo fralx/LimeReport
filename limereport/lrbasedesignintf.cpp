@@ -83,7 +83,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_joinMarkerOn(false),
     m_selectionMarker(0),
     m_fillTransparentInDesignMode(true),
-    m_unitType(Millimeters)
+    m_unitType(Millimeters),
+    m_itemGeometryLocked(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -96,12 +97,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
 
 QRectF BaseDesignIntf::boundingRect() const
 {
-    if (m_boundingRect.isNull()) {
-        qreal halfpw = pen().widthF() / 2;
-        halfpw += 2;
-        m_boundingRect = rect();
-    };
-    return m_boundingRect;
+    return rect();
 }
 
 BaseDesignIntf::~BaseDesignIntf(void) {
@@ -734,6 +730,32 @@ void BaseDesignIntf::updatePossibleDirectionFlags(){
     }
 }
 
+bool BaseDesignIntf::isItemGeometryLocked() const
+{
+    return m_itemGeometryLocked;
+}
+
+void BaseDesignIntf::setItemGeometryLocked(bool itemLocked)
+{
+    if (m_itemGeometryLocked != itemLocked){
+        m_itemGeometryLocked = itemLocked;
+        if (itemLocked){
+            m_savedPossibleMoveDirectionFlags = m_possibleMoveDirectionFlags;
+            m_savedPossibleResizeDirectionFlags = m_possibleResizeDirectionFlags;
+            m_possibleMoveDirectionFlags = None;
+            m_possibleResizeDirectionFlags = Fixed;
+        } else {
+            m_possibleMoveDirectionFlags = m_savedPossibleMoveDirectionFlags;
+            m_possibleResizeDirectionFlags = m_savedPossibleResizeDirectionFlags;
+        }
+        if (!isLoading()){
+            update();
+            m_selectionMarker->update();
+            notify("geometryLocked", !itemLocked, itemLocked);
+        }
+    }
+}
+
 bool BaseDesignIntf::fillTransparentInDesignMode() const
 {
     return m_fillTransparentInDesignMode;
@@ -1287,6 +1309,13 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         this->setSelected(true);
     }
     QMenu menu(event->widget());
+
+    QAction* lockGeometryAction = menu.addAction(tr("Lock item geometry"));
+    lockGeometryAction->setCheckable(true);
+    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    lockGeometryAction->setChecked(isItemGeometryLocked());
+    menu.addSeparator();
+
     QAction* copyAction = menu.addAction(QIcon(":/report/images/copy"), tr("Copy"));
     copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
     QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));
@@ -1659,10 +1688,19 @@ void Marker::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
                              rect().bottom()-markerSize,markerSize*2,markerSize*2));
 }
 
+QColor Marker::color() const {
+    return m_color;
+}
+
 SelectionMarker::SelectionMarker(QGraphicsItem* parent, BaseDesignIntf* owner)
     : Marker(parent, owner)
 {
     setAcceptHoverEvents(true);
+}
+
+QColor SelectionMarker::color() const
+{
+    return owner()->isItemGeometryLocked() ? Qt::darkGray : Marker::color();
 }
 
 void SelectionMarker::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
@@ -1695,6 +1733,14 @@ void SelectionMarker::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "mouse move";
     if (owner()) owner()->mouseMoveEvent(event);
+}
+
+void BaseDesignIntf::processPopUpAction(QAction *action){
+    if (page()){
+        if (action->text().compare(tr("Lock item geometry")) == 0){
+            page()->setPropertyToSelectedItems("geometryLocked",action->isChecked());
+        }
+    }
 }
 
 } //namespace LimeReport

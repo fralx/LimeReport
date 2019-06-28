@@ -880,6 +880,24 @@ void ReportDesignWidget::slotDialogDeleted(QString dialogName)
     }
 }
 
+void ReportDesignWidget::lockSelectedItems()
+{
+    if (activePage())
+        activePage()->lockSelectedItems();
+}
+
+void ReportDesignWidget::unlockSelectedItems()
+{
+    if (activePage())
+        activePage()->unlockSelectedItems();
+}
+
+void ReportDesignWidget::selectOneLevelItems()
+{
+    if (activePage())
+        activePage()->selectOneLevelItems();
+}
+
 void ReportDesignWidget::slotDatasourceCollectionLoaded(const QString & /*collectionName*/)
 {
 }

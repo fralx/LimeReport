@@ -431,6 +431,10 @@ p, li { white-space: pre-wrap; }
         <source>Create Vertical Layout</source>
         <translation>Создать Вертикальную Компановку</translation>
     </message>
+    <message>
+        <source>Lock item geometry</source>
+        <translation>Блокировать изменения геометрии</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ConnectionDesc</name>
@@ -1949,11 +1953,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>option3</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>units</source>
         <translation>Единицы измерения</translation>
+    </message>
+    <message>
+        <source>geometryLocked</source>
+        <translation>Геометрия заблокирована</translation>
     </message>
 </context>
 <context>
@@ -2279,6 +2287,18 @@ p, li { white-space: pre-wrap; }
         <source>Dialog Designer Tools</source>
         <translation>Панель Инструментов</translation>
     </message>
+    <message>
+        <source>Lock selected items</source>
+        <translation>Заблокировать выбранные элементы</translation>
+    </message>
+    <message>
+        <source>Unlock selected items</source>
+        <translation>Разблокировать выбранные элементы</translation>
+    </message>
+    <message>
+        <source>Select one level items</source>
+        <translation>Выбрать все элементы одного уровня</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
@@ -2450,7 +2470,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>CSV</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Separator</source>

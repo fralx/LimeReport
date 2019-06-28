@@ -184,5 +184,7 @@
         <file alias="/images/object">images/object.png</file>
         <file alias="/images/vlayout">images/vlayuot_4_24.png</file>
         <file alias="/images/logo32">images/designer.png</file>
+        <file alias="/images/lock">images/lock.png</file>
+        <file>images/unlock.png</file>
     </qresource>
 </RCC>

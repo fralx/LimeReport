@@ -201,6 +201,9 @@ public slots:
     void deleteCurrentPage();
     void slotPagesLoadFinished();
     void slotDialogDeleted(QString dialogName);
+    void lockSelectedItems();
+    void unlockSelectedItems();
+    void selectOneLevelItems();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void addNewDialog();
 #endif

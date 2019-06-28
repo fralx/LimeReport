@@ -33,7 +33,7 @@
 
 namespace LimeReport{
 
-class ImageItem : public LimeReport::ItemDesignIntf, public IPainterProxy
+class ImageItem : public ItemDesignIntf, public IPainterProxy
 {
     Q_OBJECT
     Q_ENUMS(Format)

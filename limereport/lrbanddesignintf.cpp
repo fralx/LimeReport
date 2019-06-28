@@ -607,7 +607,7 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Print if empty")) == 0){
         setProperty("printIfEmpty",action->isChecked());
     }
-
+    ItemsContainerDesignInft::processPopUpAction(action);
 }
 
 void BandDesignIntf::recalcItems(DataSourceManager* dataManager)

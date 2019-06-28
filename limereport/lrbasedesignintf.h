@@ -57,7 +57,7 @@ public:
     void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
     void setColor(QColor color){m_color=color;}
     QRectF rect() const {return m_rect;}
-    QColor color() const {return  m_color;}
+    virtual QColor color() const;
     BaseDesignIntf* owner() const {return m_owner;}
 private:
     QRectF m_rect;
@@ -68,6 +68,7 @@ private:
 class SelectionMarker : public Marker{
 public:
     SelectionMarker(QGraphicsItem* parent=0, BaseDesignIntf* owner = 0);
+    QColor color() const;
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -97,6 +98,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(bool geometryLocked READ isItemGeometryLocked WRITE setItemGeometryLocked)
 
     friend class ReportRender;
 public:
@@ -124,7 +126,8 @@ public:
                        ResizeBottom = 8,
                        AllDirections = 15
                      };
-    enum MoveFlags  { LeftRight=1,
+    enum MoveFlags  { None = 0,
+                      LeftRight=1,
                       TopBotom=2,
                       All=3
                     };
@@ -302,6 +305,9 @@ public:
     void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
     void emitPosChanged(QPointF oldPos, QPointF newPos);
 
+    bool isItemGeometryLocked() const;
+    void setItemGeometryLocked(bool itemLocked);
+
 protected:
 
     //ICollectionContainer
@@ -361,7 +367,7 @@ protected:
     QVariant m_varValue;
 
     virtual void preparePopUpMenu(QMenu& menu){Q_UNUSED(menu)}
-    virtual void processPopUpAction(QAction* action){Q_UNUSED(action)}
+    virtual void processPopUpAction(QAction* action);
 
     void addChildItems(QList<BaseDesignIntf*>* list);
     qreal calcAbsolutePosY(qreal currentOffset, BaseDesignIntf* item);
@@ -378,6 +384,8 @@ private:
     int     m_selectionPenSize;
     int     m_possibleResizeDirectionFlags;
     int     m_possibleMoveDirectionFlags;
+    int     m_savedPossibleResizeDirectionFlags;
+    int     m_savedPossibleMoveDirectionFlags;
     int     m_resizeDirectionFlags;
     qreal   m_width;
     qreal   m_height;
@@ -427,6 +435,7 @@ private:
     bool     m_fillTransparentInDesignMode;
     QRect    m_itemGeometry;
     UnitType m_unitType;
+    bool     m_itemGeometryLocked;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
