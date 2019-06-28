@@ -315,6 +315,24 @@ void BarcodeItem::setOption3(int option3)
     }
 }
 
+bool BarcodeItem::hideIfEmpty() const
+{
+    return m_hideIfEmpty;
+}
+
+void BarcodeItem::setHideIfEmpty(bool hideIfEmpty)
+{
+    if (m_hideIfEmpty != hideIfEmpty){
+        m_hideIfEmpty = hideIfEmpty;
+        notify("hideIfEmpty",!m_hideIfEmpty, m_hideIfEmpty);
+    }
+}
+
+bool BarcodeItem::isEmpty() const
+{
+    return m_content.isEmpty();
+}
+
 void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     if (content().isEmpty())
@@ -338,19 +356,17 @@ void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass
                }
            }
         }
-    }
-    else
-    {
-    switch(pass)
-        {
-    case FirstPass:
-        setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
-        setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
-        break;
-    default:;
+    } else {
+        switch(pass){
+        case FirstPass:
+            setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
+            setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
+            break;
+        default:;
         }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
+    if (isEmpty() && hideIfEmpty()) setVisible(false);
 }
 
 bool BarcodeItem::isNeedUpdateSize(RenderPass pass) const
