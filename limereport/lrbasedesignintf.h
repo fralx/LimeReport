@@ -98,7 +98,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
-    Q_PROPERTY(bool geometryLocked READ isItemGeometryLocked WRITE setItemGeometryLocked)
+    Q_PROPERTY(bool geometryLocked READ isGeometryLocked WRITE setGeometryLocked)
 
     friend class ReportRender;
 public:
@@ -305,8 +305,8 @@ public:
     void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
     void emitPosChanged(QPointF oldPos, QPointF newPos);
 
-    bool isItemGeometryLocked() const;
-    void setItemGeometryLocked(bool itemLocked);
+    bool isGeometryLocked() const;
+    void setGeometryLocked(bool itemLocked);
 
 protected:
 

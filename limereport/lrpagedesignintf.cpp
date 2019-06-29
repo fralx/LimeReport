@@ -1464,7 +1464,7 @@ void PageDesignIntf::alignToLeft()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setPos(QPoint(m_firstSelectedItem->pos().x(), item->pos().y()));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1481,7 +1481,7 @@ void PageDesignIntf::alignToRigth()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setPos(QPoint(m_firstSelectedItem->geometry().right() - bdItem->width(), bdItem->pos().y()));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1498,7 +1498,7 @@ void PageDesignIntf::alignToVCenter()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setPos(QPoint((m_firstSelectedItem->geometry().right() - m_firstSelectedItem->width() / 2) - bdItem->width() / 2, bdItem->pos().y()));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1515,7 +1515,7 @@ void PageDesignIntf::alignToTop()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setPos(QPoint(bdItem->pos().x(), m_firstSelectedItem->pos().y()));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1532,7 +1532,7 @@ void PageDesignIntf::alignToBottom()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setPos(QPoint(bdItem->pos().x(), m_firstSelectedItem->geometry().bottom() - bdItem->height()));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1549,7 +1549,7 @@ void PageDesignIntf::alignToHCenter()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setPos(QPoint(bdItem->pos().x(), (m_firstSelectedItem->geometry().bottom() - m_firstSelectedItem->height() / 2) - bdItem->height() / 2));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1566,7 +1566,7 @@ void PageDesignIntf::sameWidth()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setWidth(m_firstSelectedItem->width());
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
@@ -1583,7 +1583,7 @@ void PageDesignIntf::sameHeight()
         CommandGroup::Ptr cm = CommandGroup::create();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem) {
+            if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 bdItem->setHeight(m_firstSelectedItem->height());
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());

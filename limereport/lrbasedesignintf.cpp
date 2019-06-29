@@ -730,12 +730,12 @@ void BaseDesignIntf::updatePossibleDirectionFlags(){
     }
 }
 
-bool BaseDesignIntf::isItemGeometryLocked() const
+bool BaseDesignIntf::isGeometryLocked() const
 {
     return m_itemGeometryLocked;
 }
 
-void BaseDesignIntf::setItemGeometryLocked(bool itemLocked)
+void BaseDesignIntf::setGeometryLocked(bool itemLocked)
 {
     if (m_itemGeometryLocked != itemLocked){
         m_itemGeometryLocked = itemLocked;
@@ -1313,7 +1313,7 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* lockGeometryAction = menu.addAction(tr("Lock item geometry"));
     lockGeometryAction->setCheckable(true);
     lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
-    lockGeometryAction->setChecked(isItemGeometryLocked());
+    lockGeometryAction->setChecked(isGeometryLocked());
     menu.addSeparator();
 
     QAction* copyAction = menu.addAction(QIcon(":/report/images/copy"), tr("Copy"));
@@ -1700,7 +1700,7 @@ SelectionMarker::SelectionMarker(QGraphicsItem* parent, BaseDesignIntf* owner)
 
 QColor SelectionMarker::color() const
 {
-    return owner()->isItemGeometryLocked() ? Qt::darkGray : Marker::color();
+    return owner()->isGeometryLocked() ? Qt::darkGray : Marker::color();
 }
 
 void SelectionMarker::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
