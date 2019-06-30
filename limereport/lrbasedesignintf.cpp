@@ -744,9 +744,12 @@ void BaseDesignIntf::setGeometryLocked(bool itemLocked)
             m_savedPossibleResizeDirectionFlags = m_possibleResizeDirectionFlags;
             m_possibleMoveDirectionFlags = None;
             m_possibleResizeDirectionFlags = Fixed;
+            m_savedFixedPos = m_fixedPos;
+            m_fixedPos = true;
         } else {
             m_possibleMoveDirectionFlags = m_savedPossibleMoveDirectionFlags;
             m_possibleResizeDirectionFlags = m_savedPossibleResizeDirectionFlags;
+            m_fixedPos = m_savedFixedPos;
         }
         if (!isLoading()){
             update();

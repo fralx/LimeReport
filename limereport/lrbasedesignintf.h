@@ -386,6 +386,7 @@ private:
     int     m_possibleMoveDirectionFlags;
     int     m_savedPossibleResizeDirectionFlags;
     int     m_savedPossibleMoveDirectionFlags;
+    int     m_savedFixedPos;
     int     m_resizeDirectionFlags;
     qreal   m_width;
     qreal   m_height;
