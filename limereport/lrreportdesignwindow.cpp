@@ -677,6 +677,7 @@ void ReportDesignWindow::startNewReport()
     m_reportDesignWidget->saveState();
     m_reportDesignWidget->clear();
     m_reportDesignWidget->createStartPage();
+    m_reportDesignWidget->createTabs();
     m_lblReportName->setText("");
     updateRedoUndo();
     m_reportDesignWidget->slotPagesLoadFinished();

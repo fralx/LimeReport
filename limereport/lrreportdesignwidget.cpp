@@ -57,7 +57,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
     m_dialogDesignerManager(new DialogDesignerManager(this)),
 #endif
     m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false),
-    m_dialogChanged(false), m_theme("Default"), m_settings(settings)
+    m_dialogChanged(false), m_theme("Default"), m_settings(settings), m_defaultUnits(BaseDesignIntf::Millimeters)
 {
 #ifdef HAVE_QT4
     m_tabWidget = new LimeReportTabWidget(this);
@@ -74,10 +74,19 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
     setLayout(mainLayout);
 
     m_report=report;
-    if (!m_report->pageCount()) m_report->appendPage("page1");
+
+    m_settings->beginGroup("DesignerWidget");
+    QVariant v = m_settings->value("DefaultUnits");
+    if (v.isValid()){
+        m_defaultUnits = static_cast<BaseDesignIntf::UnitType>(v.toInt());
+    }
+    m_settings->endGroup();
+
+    if (!m_report->pageCount()){
+        createStartPage();
+    }
 
     createTabs();
-
     connect(dynamic_cast<QObject*>(m_report), SIGNAL(pagesLoadFinished()),this,SLOT(slotPagesLoadFinished()));
     connect(dynamic_cast<QObject*>(m_report), SIGNAL(cleared()), this, SIGNAL(cleared()));
     connect(dynamic_cast<QObject*>(m_report), SIGNAL(loadFinished()), this, SLOT(slotReportLoaded()));
@@ -102,6 +111,8 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
 #endif
 
     m_themes.insert("Default","");
+    m_localToEng.insert(QObject::tr("Dark"), "Dark");
+    m_localToEng.insert(QObject::tr("Light"), "Light");
     initThemeIfExist("Dark", ":/qdarkstyle/style.qss");
     initThemeIfExist("Light", ":/qlightstyle/lightstyle.qss");
 }
@@ -135,8 +146,6 @@ QWidget *ReportDesignWidget::toolWindow(ReportDesignWidget::ToolWindowType windo
         return dialogDesignerManager()->resourcesEditor();
     case SignalSlotEditor:
         return dialogDesignerManager()->signalSlotEditor();
-    default:
-        return 0;
     }
 }
 
@@ -191,6 +200,7 @@ void ReportDesignWidget::saveState()
     m_settings->setValue("useGrid",m_useGrid);
     m_settings->setValue("theme",m_theme);
     m_settings->setValue("ScriptEditorState", m_scriptEditor->saveState());
+    m_settings->setValue("DefaultUnits", m_defaultUnits);
     m_settings->endGroup();
 }
 
@@ -264,8 +274,13 @@ void ReportDesignWidget::loadState()
     }
 
     v = m_settings->value("ScriptEditorState");
-    if (v.isValid()){
+    if (v.isValid() && m_scriptEditor){
         m_scriptEditor->restoreState(v.toByteArray());
+    }
+
+    v = m_settings->value("DefaultUnits");
+    if (v.isValid()){
+        m_defaultUnits = static_cast<BaseDesignIntf::UnitType>(v.toInt());
     }
 
     m_settings->endGroup();
@@ -276,17 +291,12 @@ void ReportDesignWidget::loadState()
 void ReportDesignWidget::createTabs(){
     m_tabWidget->clear();
     int pageIndex  = -1;
-    for (int i = 0; i<m_report->pageCount();++i){
-//        QGraphicsView* view = new QGraphicsView(qobject_cast<QWidget*>(this));
+    for (int i = 0; i < m_report->pageCount(); ++i){
         PageView* view = new PageView(qobject_cast<QWidget*>(this));
         view->setBackgroundBrush(QBrush(Qt::gray));
         view->setFrameShape(QFrame::NoFrame);
         view->setScene(m_report->pageAt(i));
         view->setPageItem(m_report->pageAt(i)->pageItem());
-
-//        foreach(QGraphicsItem* item, m_report->pageAt(i)->selectedItems()){
-//            item->setSelected(false);
-//        }
 
         m_report->pageAt(i)->clearSelection();
 
@@ -300,13 +310,6 @@ void ReportDesignWidget::createTabs(){
     }
 
     m_scriptEditor = new ScriptEditor(this);
-
-//    m_settings->beginGroup("DesignerWidget");
-//    QVariant v = m_settings->value("ScriptEditorState");
-//    if (v.isValid()){
-//        m_scriptEditor->restoreState(v.toByteArray());
-//    }
-//    m_settings->endGroup();
 
     connect(m_scriptEditor, SIGNAL(textChanged()), this, SLOT(slotScriptTextChanged()));
     m_scriptEditor->setReportEngine(m_report);
@@ -378,10 +381,12 @@ void ReportDesignWidget::connectPage(PageDesignIntf *page)
     emit activePageChanged();
 }
 
-void ReportDesignWidget::createStartPage()
+PageDesignIntf* ReportDesignWidget::createStartPage()
 {
-    m_report->appendPage("page1");
-    createTabs();
+    PageDesignIntf* page = m_report->appendPage("page1");
+    page->pageItem()->setUnitType(m_defaultUnits);
+//    createTabs();
+    return page;
 }
 
 void ReportDesignWidget::removeDatasource(const QString &datasourceName)
@@ -707,7 +712,6 @@ void ReportDesignWidget::initThemeIfExist(const QString &themeName, const QStrin
         theme.open(QIODevice::ReadOnly);
         QString styleSheet = theme.readAll();
         m_themes.insert(themeName, styleSheet);
-        m_localToEng.insert(QObject::tr(themeName.toLatin1()), themeName);
     }
 }
 
@@ -786,10 +790,22 @@ void ReportDesignWidget::editSetting()
     setting.setDesignerThemes(themes, QObject::tr(m_theme.toLatin1()));
     setting.setDesignerLanguages(m_report->designerLanguages(), m_report->currentDesignerLanguage());
 
+    QList<QString> unitTypes;
+    unitTypes << QObject::tr("Millimeters") << QObject::tr("Inches");
+    setting.setDesignerUnites(unitTypes,
+                              m_defaultUnits == BaseDesignIntf::Millimeters ?
+                                  QObject::tr("Millimeters")  :
+                                  QObject::tr("Inches"));
+
     if (setting.exec()){
         m_horizontalGridStep = setting.horizontalGridStep();
         m_verticalGridStep = setting.verticalGridStep();
         m_defaultFont = setting.defaultFont();
+        if (setting.reportUnits().compare(QObject::tr("Millimeters")) == 0)
+            m_defaultUnits = BaseDesignIntf::Millimeters;
+        else {
+            m_defaultUnits = BaseDesignIntf::Inches;
+        }
         if (m_localToEng.contains(setting.theme())){
             m_theme =  m_localToEng.value(setting.theme());
         } else {

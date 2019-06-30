@@ -75,6 +75,11 @@ QLocale::Language SettingDialog::designerLanguage()
     return QLocale().language();
 }
 
+QString SettingDialog::reportUnits()
+{
+    return ui->reportUnits->currentText();
+}
+
 void SettingDialog::setSuppressAbsentFieldsAndVarsWarnings(bool value){
     ui->cbSuppressWarnings->setChecked(value);
 }
@@ -145,6 +150,17 @@ void SettingDialog::setDesignerThemes(QList<QString> themes, const QString &curr
     ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(currentTheme));
 #else
     ui->cbTheme->setCurrentText(currentTheme);
+#endif
+}
+
+void SettingDialog::setDesignerUnites(QList<QString> unitTypes, const QString currentUnitType)
+{
+    ui->reportUnits->clear();
+    ui->reportUnits->addItems(unitTypes);
+#ifdef HAVE_QT4
+    ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(currentUnitType));
+#else
+    ui->reportUnits->setCurrentText(currentUnitType);
 #endif
 }
 

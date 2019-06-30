@@ -125,7 +125,8 @@ public:
     ReportDesignWidget(ReportEnginePrivateInterface* report, QSettings* settings,
                        QMainWindow *mainWindow, QWidget *parent = 0);
     ~ReportDesignWidget();
-    void createStartPage();
+    PageDesignIntf *createStartPage();
+    void createTabs();
     void clear();
     DataSourceManager* dataManager();
     ScriptEngineManager* scriptManager();
@@ -240,7 +241,6 @@ signals:
     void pageAdded(PageDesignIntf* page);
     void pageDeleted();
 protected:
-    void createTabs();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void createNewDialogTab(const QString& dialogName,const QByteArray& description);
 #endif
@@ -274,6 +274,7 @@ private:
     QSettings* m_settings;
     QMap<QString, QString> m_themes;
     QMap<QString, QString> m_localToEng;
+    BaseDesignIntf::UnitType m_defaultUnits;
 };
 
 } // namespace LimeReport

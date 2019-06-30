@@ -2727,6 +2727,10 @@ This preview is no longer valid.</source>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
+    <message>
+        <source>Report units</source>
+        <translation>Единицы измерения</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SubDetailBand</name>
@@ -3153,6 +3157,22 @@ This preview is no longer valid.</source>
     <message>
         <source>&apos;&apos;</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Миллиметры</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Дюймы</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>Темная</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Светлая</translation>
     </message>
 </context>
 </TS>
