@@ -640,24 +640,22 @@ bool ScriptEngineManager::createNumberFomatFunction()
 }
 
 bool ScriptEngineManager::createDateFormatFunction(){
-//    addFunction("dateFormat",dateFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("DATE&TIME"));
     fd.setName("dateFormat");
-    fd.setDescription("dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-    fd.setScriptWrapper(QString("function dateFormat(value, format){"
+    fd.setDescription("dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\", \""+tr("Locale")+"\")");
+    fd.setScriptWrapper(QString("function dateFormat(value, format, locale){"
                                 " if(typeof(format)==='undefined') format = \"dd.MM.yyyy\"; "
-                                "return %1.dateFormat(value,format);}"
+                                "return %1.dateFormat(value,format, locale);}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
 }
 
 bool ScriptEngineManager::createTimeFormatFunction(){
-//    addFunction("timeFormat",timeFormat,"DATE&TIME", "dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
@@ -674,17 +672,16 @@ bool ScriptEngineManager::createTimeFormatFunction(){
 }
 
 bool ScriptEngineManager::createDateTimeFormatFunction(){
-//    addFunction("dateTimeFormat", dateTimeFormat, "DATE&TIME", "dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("DATE&TIME"));
     fd.setName("dateTimeFormat");
-    fd.setDescription("dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
-    fd.setScriptWrapper(QString("function dateTimeFormat(value, format){"
+    fd.setDescription("dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\", \""+tr("Locale")+"\")");
+    fd.setScriptWrapper(QString("function dateTimeFormat(value, format, locale){"
                                 " if(typeof(format)==='undefined') format = \"dd.MM.yyyy hh:mm\"; "
-                                "return %1.dateTimeFormat(value,format);}"
+                                "return %1.dateTimeFormat(value, format, locale);}"
                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
                         );
     return addFunction(fd);
@@ -1583,13 +1580,14 @@ QVariant ScriptFunctionsManager::line(const QString &bandName)
 
 QVariant ScriptFunctionsManager::numberFormat(QVariant value, const char &format, int precision, const QString& locale)
 {
-    return (locale.isEmpty())?QString::number(value.toDouble(),format,precision):
-                              QLocale(locale).toString(value.toDouble(),format,precision);
+    return (locale.isEmpty()) ? QString::number(value.toDouble(),format,precision):
+                                QLocale(locale).toString(value.toDouble(),format,precision);
 }
 
-QVariant ScriptFunctionsManager::dateFormat(QVariant value, const QString &format)
+QVariant ScriptFunctionsManager::dateFormat(QVariant value, const QString &format, const QString& locale)
 {
-    return QLocale().toString(value.toDate(),format);
+    return (locale.isEmpty()) ?  QLocale().toString(value.toDate(),format) :
+                                 QLocale(locale).toString(value.toDate(),format);
 }
 
 QVariant ScriptFunctionsManager::timeFormat(QVariant value, const QString &format)
@@ -1597,9 +1595,10 @@ QVariant ScriptFunctionsManager::timeFormat(QVariant value, const QString &forma
     return QLocale().toString(value.toTime(),format);
 }
 
-QVariant ScriptFunctionsManager::dateTimeFormat(QVariant value, const QString &format)
+QVariant ScriptFunctionsManager::dateTimeFormat(QVariant value, const QString &format, const QString& locale)
 {
-    return QLocale().toString(value.toDateTime(),format);
+    return (locale.isEmpty()) ? QLocale().toString(value.toDateTime(),format) :
+                                QLocale(locale).toString(value.toDateTime(),format);
 }
 
 QVariant ScriptFunctionsManager::sectotimeFormat(QVariant value, const QString &format)
