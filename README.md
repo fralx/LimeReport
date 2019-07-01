@@ -1,4 +1,5 @@
 LimeReport v1.4.7    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc31412ea4814f30825b5ed3723e9a70)](https://app.codacy.com/app/fralx/LimeReport?utm_source=github.com&utm_medium=referral&utm_content=fralx/LimeReport&utm_campaign=Badge_Grade_Dashboard)
 -----------
 Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 -----------
