@@ -4,7 +4,7 @@ LimeReport v1.4.7    [![Build Status](https://api.travis-ci.org/fralx/LimeReport
 Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 -----------
 
-##Features
+## Features
 * Multi-platform support
 * Pure Qt4/Qt5 compatible code
 * Embedded report designer
@@ -22,7 +22,7 @@ Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 * PDF output
 
 
-##How to use it
+## How to use it
 1. Build limereport.pro. It will create a limereport shared library  
 2. In your project connect the limereport library then in source code add:
 
@@ -41,7 +41,7 @@ For more samples see a demo
 
 ## Change log
 
-###1.4.7
+### 1.4.7
 1. Multipage
 2. Dialogs
 3. Render events 
@@ -52,21 +52,21 @@ For more samples see a demo
 8. Editable report
 And many others minor fixes and improvements
 
-###1.3.11
+### 1.3.11
 1. LimeReport project structure has been changed
 2. Preview widget has been added
 3. New demo has been added
 4. Landscape page orientation has been fixed
 5. Other minor bugs has been fixed
 
-###1.3.10
+### 1.3.10
 1. Memory leak has been fixed
 2. Grid & Settings have been added
 3. Recent files menu has been added
 4. Magnet feature has been added
 5. Added ability to use variables in the connection settings
 
-###1.3.9
+### 1.3.9
 New functions:
 ```cpp
   QString::saveToString(),
@@ -85,7 +85,7 @@ Performance has been improved
 From this version the item "Text" by default does not use HTML.
 To enable HTML support you need to use the property allowHTML
 
-###1.3.1
+### 1.3.1
 Added:
 1. Columns
    Some bands can be divided into columns
@@ -101,7 +101,7 @@ Fixed:
 1. Postgresql connection
 2. The error that prevented normal run of more than one instance of LimeReport::ReportEngine
 
-###1.2.1
+### 1.2.1
 1. Added buttons to open / hide sidebars;
 2. Improved look-and-feel of report elements to clarify designing process;
 3. Printing to PDF added.  
