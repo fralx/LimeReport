@@ -131,6 +131,7 @@ void ButtonLineEditor::editingByEditorFinished()
 {
     setText(qobject_cast<TextItemPropertyEditor*>(sender())->text());
     m_lineEdit->setFocus();
+    emit editingFinished();
 }
 
 } //namespace LimeReport

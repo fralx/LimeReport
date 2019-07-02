@@ -34,6 +34,8 @@
 #include "lrreportengine_p.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
+#include "items/editors/lrfonteditorwidget.h"
+#include "items/editors/lrtextalignmenteditorwidget.h"
 
 #include <QPrinter>
 #include <QPrintDialog>
@@ -43,9 +45,10 @@
 
 namespace LimeReport{
 
-PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
+PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, QSettings *settings, Qt::WindowFlags flags) :
     QMainWindow(parent,flags),
-    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false), m_scalePercentChanging(false)
+    ui(new Ui::PreviewReportWindow), m_settings(settings), m_ownedSettings(false),
+    m_scalePercentChanging(false)
 {
     ui->setupUi(this);
     setWindowTitle("Lime Report Preview");
@@ -54,6 +57,7 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     m_pagesNavigator->setPrefix(tr("Page: "));
     m_pagesNavigator->setMinimumWidth(120);
     ui->toolBar->insertWidget(ui->actionNextPage,m_pagesNavigator);
+    ui->editModeTools->hide();
     ui->actionShowMessages->setVisible(false);
 
     connect(m_pagesNavigator,SIGNAL(valueChanged(int)),this,SLOT(slotPageNavigatorChanged(int)));
@@ -69,10 +73,10 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     connect(m_previewReportWidget, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)),
             this, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)));
 
-    m_fontEditor = new FontEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
+    m_fontEditor = new FontEditorWidgetForPage(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
     m_fontEditor->setObjectName("fontTools");
     m_fontEditor->setIconSize(ui->toolBar->iconSize());
-    m_textAlignmentEditor = new TextAlignmentEditorWidget(m_previewReportWidget->d_ptr->m_previewPage,tr("Text align"),this);
+    m_textAlignmentEditor = new TextAlignmentEditorWidgetForPage(m_previewReportWidget->d_ptr->m_previewPage,tr("Text align"),this);
     m_textAlignmentEditor->setObjectName("textAlignmentTools");
     m_textAlignmentEditor->setIconSize(ui->toolBar->iconSize());
     addToolBar(Qt::TopToolBarArea,m_fontEditor);
@@ -83,10 +87,13 @@ PreviewReportWindow::PreviewReportWindow(ReportEnginePrivate *report,QWidget *pa
     ui->toolBar->insertWidget(ui->actionZoomOut, m_scalePercent);
     initPercentCombobox();
     
-//    connect(ui->graphicsView->verticalScrollBar(),SIGNAL(valueChanged(int)), this, SLOT(slotSliderMoved(int)));
     connect(ui->actionShowMessages, SIGNAL(triggered()), this, SLOT(slotShowErrors()));
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+    connect(m_previewReportWidget, SIGNAL(pageChanged(int)), this, SLOT(slotCurrentPageChanged(int)));
+    connect(m_previewReportWidget, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
+            this, SLOT(slotItemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));
+
     restoreSetting();
     selectStateIcon();
 }
@@ -111,10 +118,13 @@ void PreviewReportWindow::restoreSetting()
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
 
-        int x = screenWidth*0.1;
-        int y = screenHeight*0.1;
+        int x = static_cast<int>(screenWidth*0.1);
+        int y = static_cast<int>(screenHeight*0.1);
 
-        resize(screenWidth*0.8, screenHeight*0.8);
+        resize(
+            static_cast<int>(screenWidth*0.8),
+            static_cast<int>(screenHeight*0.8)
+        );
         move(x, y);
     }
     v = settings()->value("State");
@@ -206,7 +216,7 @@ QSettings*PreviewReportWindow::settings()
     if (m_settings){
         return m_settings;
     } else {
-        m_settings = new QSettings("LimeReport",QApplication::applicationName());
+        m_settings = new QSettings("LimeReport",QCoreApplication::applicationName());
         m_ownedSettings = true;
         return m_settings;
     }
@@ -229,6 +239,11 @@ void PreviewReportWindow::setPages(ReportPages pages)
     if (!pages.isEmpty()){
         initPreview(pages.count());
     }
+}
+
+void PreviewReportWindow::setDefaultPrinter(QPrinter *printer)
+{
+    m_previewReportWidget->setDefaultPrinter(printer);
 }
 
 void PreviewReportWindow::exec()
@@ -277,6 +292,7 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 void PreviewReportWindow::showEvent(QShowEvent *)
 {
     m_fontEditor->setVisible(ui->actionEdit_Mode->isChecked());
+    ui->editModeTools->setVisible(false);
     m_textAlignmentEditor->setVisible(ui->actionEdit_Mode->isChecked());
     switch (m_previewScaleType) {
     case FitWidth:
@@ -343,7 +359,9 @@ void PreviewReportWindow::on_actionEdit_Mode_triggered(bool checked)
     m_previewReportWidget->d_ptr->m_previewPage->setItemMode((checked)?ItemModes(DesignMode):PreviewMode);
     m_textAlignmentEditor->setVisible(checked);
     m_fontEditor->setVisible(checked);
-    //m_reportPages.at(m_currentPage)->setItemMode((checked)?DesignMode:PreviewMode);
+    if (checked)
+        ui->editModeTools->show();
+    else ui->editModeTools->hide();
 }
 
 void PreviewReportWindow::slotSelectionChanged()
@@ -385,6 +403,16 @@ void PreviewReportWindow::setPreviewScaleType(const ScaleType &previewScaleType,
     m_previewReportWidget->setScaleType(previewScaleType, percent);
 }
 
+QColor PreviewReportWindow::previewPageBackgroundColor()
+{
+    return m_previewReportWidget->previewPageBackgroundColor();
+}
+
+void PreviewReportWindow::setPreviewPageBackgroundColor(QColor color)
+{
+    m_previewReportWidget->setPreviewPageBackgroundColor(color);
+}
+
 void PreviewReportWindow::on_actionSaveToFile_triggered()
 {
     m_previewReportWidget->saveToFile();
@@ -408,6 +436,24 @@ void PreviewReportWindow::slotPrintToPDF()
 void PreviewReportWindow::slotPageChanged(int pageIndex)
 {
     m_pagesNavigator->setValue(pageIndex);
+}
+
+void PreviewReportWindow::slotInsertNewTextItem()
+{
+    m_previewReportWidget->startInsertTextItem();
+    ui->actionSelection_Mode->setChecked(false);
+}
+
+void PreviewReportWindow::slotActivateItemSelectionMode()
+{
+    m_previewReportWidget->activateItemSelectionMode();
+    ui->actionSelection_Mode->setChecked(true);
+    ui->actionInsertTextItem->setChecked(false);
+}
+
+void PreviewReportWindow::slotDeleteSelectedItems()
+{
+    m_previewReportWidget->deleteSelectedItems();
 }
 
 void PreviewReportWindow::on_actionFit_page_width_triggered()
@@ -454,7 +500,15 @@ void PreviewReportWindow::on_actionShow_Toolbar_triggered()
     writeSetting();
 }
 
+void PreviewReportWindow::slotCurrentPageChanged(int page)
+{
+    slotActivateItemSelectionMode();
+}
+
+void PreviewReportWindow::slotItemInserted(PageDesignIntf *, QPointF, const QString&)
+{
+    slotActivateItemSelectionMode();
+}
+
 }// namespace LimeReport
-
-
 

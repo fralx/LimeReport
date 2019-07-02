@@ -43,23 +43,23 @@ namespace Ui {
 class TextItemEditor;
 }
 
-class CompleaterTextEditor :public QTextEdit
-{
-    Q_OBJECT
-public:
-    CompleaterTextEditor(QWidget* parent=0);
-    void setCompleter(QCompleter* value);
-    QCompleter* compleater() const{ return m_compleater;}
-protected:
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual void focusInEvent(QFocusEvent *e);
-private:
-    QString textUnderCursor() const;
-private slots:
-    void insertCompletion(const QString& completion);
-private:
-    QCompleter* m_compleater;
-};
+//class CompleaterTextEditor :public QTextEdit
+//{
+//    Q_OBJECT
+//public:
+//    CompleaterTextEditor(QWidget* parent=0);
+//    void setCompleter(QCompleter* value);
+//    QCompleter* compleater() const{ return m_compleater;}
+//protected:
+//    virtual void keyPressEvent(QKeyEvent *e);
+//    virtual void focusInEvent(QFocusEvent *e);
+//private:
+//    QString textUnderCursor() const;
+//private slots:
+//    void insertCompletion(const QString& completion);
+//private:
+//    QCompleter* m_compleater;
+//};
 
 class TextItemEditor : public QWidget
 {
@@ -69,37 +69,24 @@ public:
                              QSettings* settings=0, QWidget *parent = 0);
     ~TextItemEditor();
     void setSettings(QSettings* value);
-    QSettings* settings();
+    QSettings* settings(); 
 protected:
     void resizeEvent(QResizeEvent *);
     void moveEvent(QMoveEvent *);
+    void closeEvent(QCloseEvent *event);
     BandDesignIntf* findParentBand();
 private slots:
     void on_pbOk_clicked();
     void on_pbCancel_clicked();
-    void slotFieldSelected();
-    void on_twData_doubleClicked(const QModelIndex &index);
-    void on_twScriptEngine_doubleClicked(const QModelIndex &index);
-    void on_splitter_splitterMoved(int, int);
-    void on_editorFont_currentFontChanged(const QFont &f);
-    void on_editorFontSize_valueChanged(int arg1);
-    void on_toolButton_clicked(bool checked);
-    void on_twScriptEngine_activated(const QModelIndex &index);
-    void slotScriptItemsSelectionChanged(const QModelIndex &to, const QModelIndex);
+    void slotSplitterMoved(int, int);
 private:
     void initUI();
     void readSetting();
     void writeSetting();
-    QStringListModel* getDataSources();
-    QStringListModel* getPrefixes();
-    QStringListModel* getColumns(QString datasource);
 private:
     Ui::TextItemEditor *ui;
     LimeReport::TextItem* m_textItem;
     LimeReport::PageDesignIntf* m_page;
-    QMenu* m_datasourcesMenu;
-    CompleaterTextEditor* m_teContent;
-    QCompleter* m_completer;
     QSettings* m_settings;
     bool m_ownedSettings;
     bool m_isReadingSetting;

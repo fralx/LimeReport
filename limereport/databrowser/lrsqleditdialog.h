@@ -77,6 +77,7 @@ private slots:
     void initQueryMode();
     void initSubQueryMode();
     void initProxyMode();
+    void initCSVMode();
     void slotPreviewData();
     void slotHidePreview();
 private:
@@ -96,17 +97,20 @@ private:
 };
 
 struct SQLEditResult{
-    enum ResultMode{Query,SubQuery,SubProxy};
+    enum ResultMode{Query, SubQuery, SubProxy, CSVText, Undefined};
     QString connectionName;
     QString datasourceName;
     QString oldDatasourceName;
     QString sql;
+    QString csv;
     bool subdetail;
     ResultMode resultMode;
     QString masterDatasource;
     QString childDataSource;
     SQLEditDialog::SQLDialogMode dialogMode;
     QList<LimeReport::FieldsCorrelation> fieldMap;
+    QString separator;
+    bool firstRowIsHeader;
 };
 
 } // namespace LimeReport

@@ -43,28 +43,35 @@ public:
     QString displayValue() const;
 };
 
-class RectMMPropItem : public ObjectPropItem{
+class RectUnitPropItem : public ObjectPropItem{
     Q_OBJECT
 public:
-    RectMMPropItem():ObjectPropItem(){}
-    RectMMPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
+    RectUnitPropItem():ObjectPropItem(){}
+    RectUnitPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
     QString displayValue() const;
 public slots:
     void itemPosChanged(QObject* /*object*/, QPointF newPos, QPointF oldPos);
     void itemGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
 private:
-    void setValue(const QString& propertyName, qreal propertyValue);
+    void    setValue(const QString& propertyName, qreal propertyValue);
+    QRectF  rectInUnits(QRectF rect) const;
+    QString unitShortName() const;
 };
 
-class RectMMValuePropItem : public ObjectPropItem{
+class RectUnitValuePropItem : public ObjectPropItem{
     Q_OBJECT
 public:
-    RectMMValuePropItem():ObjectPropItem(){}
-    RectMMValuePropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly );
+    RectUnitValuePropItem():ObjectPropItem(){}
+    RectUnitValuePropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly );
     QString displayValue() const;
     QWidget* createProperyEditor(QWidget *) const;
     void setPropertyEditorData(QWidget *, const QModelIndex &) const;
     void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &);
+private:
+    qreal valueInUnits(qreal value) const;
+    qreal valueInReportUnits(qreal value) const;
+    QString unitShortName() const;
+
 };
 
 }

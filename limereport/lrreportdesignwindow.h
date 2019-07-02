@@ -43,6 +43,7 @@
 #include "items/editors/lritemsaligneditorwidget.h"
 #include "items/editors/lritemsborderseditorwidget.h"
 #include "lrobjectitemmodel.h"
+#include "lrreportdesignwindowintrerface.h"
 
 namespace LimeReport{
 
@@ -55,11 +56,11 @@ class BaseDesignIntf;
 class PageDesignIntf;
 class ObjectBrowser;
 
-class ReportDesignWindow : public QMainWindow
+class ReportDesignWindow : public ReportDesignWindowInterface
 {
     Q_OBJECT
 public:
-    explicit ReportDesignWindow(ReportEnginePrivate* report, QWidget *parent = 0, QSettings* settings=0);
+    explicit ReportDesignWindow(ReportEnginePrivateInterface *report, QWidget *parent = 0, QSettings* settings=0);
     ~ReportDesignWindow();
     static ReportDesignWindow* instance(){return m_instance;}
 
@@ -70,7 +71,6 @@ public:
     QSettings* settings();
     void restoreSetting();
     void setShowProgressDialog(bool value){m_showProgressDialog = value;}
-
 private slots:
     void slotNewReport();
     void slotNewPage();
@@ -92,6 +92,7 @@ private slots:
     void slotDelete();
     void slotEditLayoutMode();
     void slotHLayout();
+    void slotVLayout();
     void slotItemSelected(LimeReport::BaseDesignIntf *item);
     void slotItemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant &oldValue, const QVariant &newValue);
     void slotMultiItemSelected();
@@ -119,13 +120,25 @@ private slots:
     void slotLoadRecentFile(const QString fileName);
     void slotPageAdded(PageDesignIntf* );
     void slotPageDeleted();
+    void slotFilterTextChanged(const QString& filter);
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void slotDeleteDialog();
+    void slotAddNewDialog();
+#endif
+    void slotLockSelectedItems();
+    void slotUnlockSelectedItems();
+    void slotSelectOneLevelItems();
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
+    void showEvent(QShowEvent* event);
     void moveEvent(QMoveEvent *);
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
+    void setDocWidgetsVisibility(bool visible);
+
 private:
+    void initReportEditor(ReportEnginePrivate* report);
     void createActions();
     void createBandsButton();
     void createMainMenu();
@@ -134,9 +147,18 @@ private:
     void createItemsActions();
     void createObjectInspector();
     void createObjectsBrowser();
-    void initReportEditor(ReportEnginePrivate* report);
+    void initReportEditor(ReportEnginePrivateInterface* report);
     void createDataWindow();
     void createScriptWindow();
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    void createDialogWidgetBox();
+    void createDialogPropertyEditor();
+    void createDialogObjectInspector();
+    void createDialogActionEditor();
+    void createDialogResourceEditor();
+    void createDialogSignalSlotEditor();
+    void createDialogDesignerToolBar();
+#endif
     void updateRedoUndo();
     void updateAvaibleBands();
     void startNewReport();
@@ -146,6 +168,8 @@ private:
     void removeNotExistedRecentFiles();
     void removeNotExistedRecentFilesFromMenu(const QString& fileName);
     void addRecentFile(const QString& fileName);
+    void showDefaultToolBars();
+    void showDefaultEditors();
 private:
     static ReportDesignWindow* m_instance;
     QStatusBar* m_statusBar;
@@ -153,6 +177,9 @@ private:
     QToolBar* m_fontToolBar;
     QToolBar* m_reportToolBar;
     QToolBar* m_alignToolBar;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QToolBar* m_dialogDesignerToolBar;
+#endif
     QToolButton* m_newBandButton;
     QMenuBar* m_mainMenu;
     QMenu* m_fileMenu;
@@ -201,16 +228,24 @@ private:
     QAction* m_aboutAction;
     QAction* m_editLayoutMode;
     QAction* m_addHLayout;
+    QAction* m_addVLayout;
     QAction* m_hideLeftPanel;
     QAction* m_hideRightPanel;
+#ifdef HAVE_QTDESIGNER_INTEGRATION
+    QAction* m_deleteDialogAction;
+    QAction* m_addNewDialogAction;
+#endif
+
+    QAction* m_lockSelectedItemsAction;
+    QAction* m_unlockSelectedItemsAction;
+    QAction* m_selectOneLevelItems;
+
     QMenu*   m_recentFilesMenu;
 
     QSignalMapper* m_bandsAddSignalsMap;
     QSignalMapper* m_recentFilesSignalMap;
 
     ObjectInspectorWidget* m_objectInspector;
-    QObjectPropertyModel* m_propertyModel;
-
     ReportDesignWidget* m_reportDesignWidget;
     DataBrowser * m_dataBrowser;
     ScriptBrowser* m_scriptBrowser;
@@ -235,6 +270,17 @@ private:
     QProgressDialog* m_progressDialog;
     bool m_showProgressDialog;
     QMap<QString,QDateTime> m_recentFiles;
+    QVector<QDockWidget*> m_pageEditors;
+    QVector<QDockWidget*> m_dialogEditors;
+    QVector<QDockWidget*> m_docksToTabify;
+    ReportDesignWidget::EditorTabType m_editorTabType;
+    QByteArray         m_editorsStates[ReportDesignWidget::TabTypeCount];
+    QVector<QToolBar*> m_pageTools;
+    QVector<QToolBar*> m_dialogTools;
+    bool m_reportItemIsLocked;
+    QMap<QDockWidget*, bool> m_leftDocVisibleState;
+    QMap<QDockWidget*, bool> m_rightDocVisibleState;
+    QSortFilterProxyModel* m_filterModel;
 };
 
 class ObjectNameValidator : public ValidatorIntf{

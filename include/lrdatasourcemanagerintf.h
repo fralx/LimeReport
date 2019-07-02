@@ -31,6 +31,8 @@
 #define LRDATASOURCEMANAGERINTF_H
 
 #include "lrcallbackdatasourceintf.h"
+#include "lrglobal.h"
+#include "lrdatasourceintf.h"
 
 class QVariant;
 class QString;
@@ -39,12 +41,14 @@ namespace LimeReport{
 
 class IDbCredentialsProvider{
 public:
+    virtual ~IDbCredentialsProvider(){}
     virtual QString getUserName(const QString& connectionName) = 0;
     virtual QString getPassword(const QString& connectionName) = 0;
 };
 
 class IDataSourceManager{
 public:
+    virtual ~IDataSourceManager(){}
     virtual void setReportVariable(const QString& name, const QVariant& value) = 0;
     virtual void setDefaultDatabasePath(const QString &defaultDatabasePath) = 0;
     virtual void deleteVariable(const QString& name) = 0;
@@ -56,8 +60,14 @@ public:
     virtual void clearUserVariables()=0;
     virtual ICallbackDatasource* createCallbackDatasource(const QString& name) = 0;
     virtual void registerDbCredentialsProvider(IDbCredentialsProvider* provider) = 0;
-    //virtual void addCallbackDatasource(ICallbackDatasource* datasource, const QString& name) = 0;
+    virtual QStringList variableNames() = 0;
+    virtual bool variableIsMandatory(const QString& name) = 0;
+    virtual VariableDataType variableDataType(const QString& name) = 0;
+    virtual bool variableIsSystem(const QString& name) = 0;
+    virtual IDataSource* dataSource(const QString& name) = 0;
+    virtual IDataSourceHolder* dataSourceHolder(const QString& name) = 0;
 };
 
 }
 #endif // LRDATASOURCEMANAGERINTF_H
+

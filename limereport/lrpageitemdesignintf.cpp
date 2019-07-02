@@ -50,7 +50,8 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_pageFooter(0)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
+    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -63,7 +64,8 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_pageFooter(0)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
+    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -82,14 +84,24 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
 {
 
     if (itemMode() & DesignMode){
+        QRectF rect = pageRect();
+        if (isExtendedInDesignMode()) rect.adjust(0,0,0,m_extendedHeight);
         ppainter->save();
         ppainter->setOpacity(0.8);
         ppainter->fillRect(boundingRect(), pageBorderColor());
         ppainter->setOpacity(1);
-        ppainter->fillRect(pageRect(), Qt::white);
-        paintGrid(ppainter);
+        ppainter->fillRect(rect, Qt::white);
+        paintGrid(ppainter, rect);
         ppainter->setPen(gridColor());
         ppainter->drawRect(boundingRect());
+        if (m_isExtendedInDesignMode){
+            QPen pen;
+            pen.setColor(Qt::red);
+            pen.setStyle(Qt::DashLine);
+            pen.setWidth(2);
+            ppainter->setPen(pen);
+            ppainter->drawLine(pageRect().bottomLeft(),pageRect().bottomRight());
+        }
         ppainter->restore();
     }
 
@@ -98,8 +110,8 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         ppainter->fillRect(rect(), Qt::white);
         QPen pen;
         pen.setColor(Qt::gray);
-        pen.setWidth(2);
-        pen.setStyle(Qt::DotLine);
+        pen.setWidth(1);
+        pen.setStyle(Qt::SolidLine);
         ppainter->setPen(pen);
         QRectF tmpRect = rect();
         tmpRect.adjust(-4,-4,4,4);
@@ -137,6 +149,16 @@ QColor PageItemDesignIntf::pageBorderColor() const
 QColor PageItemDesignIntf::gridColor() const
 {
     return QColor(170,200,150);
+}
+
+QRectF PageItemDesignIntf::boundingRect() const
+{
+    if (!isExtendedInDesignMode())
+        return BaseDesignIntf::boundingRect();
+    else {
+        QRectF result = BaseDesignIntf::boundingRect();
+        return result.adjusted(0,0,0,m_extendedHeight);
+    }
 }
 
 void PageItemDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
@@ -322,6 +344,97 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+void PageItemDesignIntf::setPrintBehavior(const PrintBehavior &printBehavior)
+{
+    m_printBehavior = printBehavior;
+}
+
+PageItemDesignIntf::PrintBehavior PageItemDesignIntf::printBehavior() const
+{
+    return m_printBehavior;
+}
+
+QString PageItemDesignIntf::printerName() const
+{
+    return m_printerName;
+}
+
+void PageItemDesignIntf::setPrinterName(const QString& printerName)
+{
+    m_printerName = printerName;
+}
+
+bool PageItemDesignIntf::isPrintable() const
+{
+    return m_printable;
+}
+
+void PageItemDesignIntf::setPrintable(bool printable)
+{
+    m_printable = printable;
+}
+
+bool PageItemDesignIntf::endlessHeight() const
+{
+    return m_endlessHeight;
+}
+
+void PageItemDesignIntf::setEndlessHeight(bool endlessPage)
+{
+    m_endlessHeight = endlessPage;
+}
+
+bool PageItemDesignIntf::getSetPageSizeToPrinter() const
+{
+    return m_setPageSizeToPrinter;
+}
+
+void PageItemDesignIntf::setSetPageSizeToPrinter(bool setPageSizeToPrinter)
+{
+    if (m_setPageSizeToPrinter != setPageSizeToPrinter){
+        m_setPageSizeToPrinter = setPageSizeToPrinter;
+        notify("setPageSizeToPrinter", !setPageSizeToPrinter, setPageSizeToPrinter);
+    }
+}
+
+bool PageItemDesignIntf::isTOC() const
+{
+    return m_isTOC;
+}
+
+void PageItemDesignIntf::setIsTOC(bool isTOC)
+{
+    if (m_isTOC != isTOC){
+        m_isTOC = isTOC;
+        notify("pageIsTOC", !isTOC, isTOC);
+    }
+}
+
+int PageItemDesignIntf::extendedHeight() const
+{
+    return m_extendedHeight;
+}
+
+void PageItemDesignIntf::setExtendedHeight(int extendedHeight)
+{
+    m_extendedHeight = extendedHeight;
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
+    if (page) page->updatePageRect();
+    update();
+}
+
+bool PageItemDesignIntf::isExtendedInDesignMode() const
+{
+    return m_isExtendedInDesignMode;
+}
+
+void PageItemDesignIntf::setExtendedInDesignMode(bool pageIsExtended)
+{
+    m_isExtendedInDesignMode = pageIsExtended;
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(scene());
+    if (page) page->updatePageRect();
+    update();
+}
 
 BandDesignIntf *PageItemDesignIntf::pageFooter() const
 {
@@ -358,9 +471,7 @@ void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
 {
     if (m_resetPageNumber!=resetPageNumber){
         m_resetPageNumber = resetPageNumber;
-        if (!isLoading()){
-            notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
-        }
+        notify("resetPageNumber",!m_resetPageNumber,m_resetPageNumber);
     }
 }
 
@@ -400,7 +511,7 @@ void PageItemDesignIntf::relocateBands()
 {
     if (isLoading()) return;
 
-    int bandSpace = (itemMode() & DesignMode) ? 0 : 0;
+    int bandSpace = 0;
 
     QVector<qreal> posByColumn;
 
@@ -423,10 +534,10 @@ void PageItemDesignIntf::relocateBands()
         posByColumn[0]+=m_bands[bandIndex]->height()+bandSpace;
     }
 
-    if(m_bands.count()>0){
-        for(int i=0; i<(m_bands.count()-1); i++){
-            if (((m_bands[i+1]->bandType() != BandDesignIntf::PageFooter) &&
-                (m_bands[i+1]->bandType() != BandDesignIntf::TearOffBand)) || (itemMode() & DesignMode)){
+    if(m_bands.count()>1){
+        for(int i=0;i<(m_bands.count()-1);i++){
+            if (((m_bands[i+1]->bandType()!=BandDesignIntf::PageFooter) &&
+                (m_bands[i+1]->bandType()!=BandDesignIntf::TearOffBand)) || (itemMode() & DesignMode)){
                 if (m_bands[i+1]->columnsCount()>1 &&
                     m_bands[i]->columnsCount() != m_bands[i+1]->columnsCount())
                 {
@@ -593,6 +704,46 @@ void PageItemDesignIntf::preparePopUpMenu(QMenu &menu)
         if (action->text().compare(tr("Paste")) != 0)
             action->setVisible(false);
     }
+
+    menu.addSeparator();
+
+    QAction* action = menu.addAction(tr("Page is TOC"));
+    action->setCheckable(true);
+    action->setChecked(isTOC());
+
+    action = menu.addAction(tr("Reset page number"));
+    action->setCheckable(true);
+    action->setChecked(resetPageNumber());
+
+    action = menu.addAction(tr("Full page"));
+    action->setCheckable(true);
+    action->setChecked(fullPage());
+
+    action = menu.addAction(tr("Set page size to printer"));
+    action->setCheckable(true);
+    action->setChecked(getSetPageSizeToPrinter());
+
+//    action = menu.addAction(tr("Transparent"));
+//    action->setCheckable(true);
+//    action->setChecked(backgroundMode() == TransparentMode);
+
+}
+
+void PageItemDesignIntf::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Page is TOC")) == 0){
+        page()->setPropertyToSelectedItems("pageIsTOC",action->isChecked());
+    }
+    if (action->text().compare(tr("Reset page number")) == 0){
+        page()->setPropertyToSelectedItems("resetPageNumber",action->isChecked());
+    }
+    if (action->text().compare(tr("Full page")) == 0){
+        page()->setPropertyToSelectedItems("fullPage",action->isChecked());
+    }
+    if (action->text().compare(tr("Set page size to printer")) == 0){
+        page()->setPropertyToSelectedItems("setPageSizeToPrinter",action->isChecked());
+    }
+
 }
 void PageItemDesignIntf::initPageSize(const PageItemDesignIntf::PageSize &size)
 {
@@ -637,7 +788,6 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
     BandDesignIntf* firstMoveBand = (bandToSwap->bandIndex() > band->bandIndex()) ? bandToSwap: band;
 
     firstMoveBand->changeBandIndex(firstIndex, true);
-    moveIndex = firstMoveBand->maxChildIndex() + 1;
     moveIndex = firstIndex;
     qSort(bandToMove.begin(), bandToMove.end(), bandIndexLessThen);
 
@@ -763,6 +913,18 @@ void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry
     bandPositionChanged(object, newGeometry.topLeft(), oldGeometry.topLeft());
 }
 
+void PageItemDesignIntf::setUnitTypeProperty(BaseDesignIntf::UnitType value)
+{
+    if (unitType() != value){
+        UnitType oldValue = unitType();
+        setUnitType(value);
+        if (!isLoading()){
+            update();
+            notify("units", oldValue, value);
+        }
+    }
+}
+
 void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
 {
     if (collectionName.compare("children",Qt::CaseInsensitive)==0){
@@ -784,8 +946,12 @@ void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
 void PageItemDesignIntf::updateMarginRect()
 {
     m_pageRect = rect();
-    m_pageRect.adjust(m_leftMargin*mmFactor(),m_topMargin*mmFactor(),
-                         -m_rightMargin*mmFactor(),-m_bottomMargin*mmFactor());
+    m_pageRect.adjust( leftMargin() * Const::mmFACTOR,
+                       topMargin() * Const::mmFACTOR,
+                      -rightMargin() * Const::mmFACTOR,
+                       -bottomMargin() * Const::mmFACTOR
+    );
+
     foreach(BandDesignIntf* band,m_bands){
         band->setWidth(pageRect().width()/band->columnsCount());
         relocateBands();
@@ -798,27 +964,34 @@ void PageItemDesignIntf::updateMarginRect()
     update();
 }
 
-void PageItemDesignIntf::paintGrid(QPainter *ppainter)
+void PageItemDesignIntf::paintGrid(QPainter *ppainter, QRectF rect)
 {
     ppainter->save();
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(0.5);
-    for (int i=0;i<=(pageRect().height()-50)/100;i++){
-        ppainter->drawLine(pageRect().x(),(i*100)+pageRect().y()+50,pageRect().right(),i*100+pageRect().y()+50);
+    for (int i = 0; i <= (rect.height() - 5 * unitFactor()) / (10 * unitFactor()); ++i){
+        if (i * 10 * unitFactor() + 5 * unitFactor() >= topMargin() * Const::mmFACTOR)
+            ppainter->drawLine(rect.x(), (i * 10 * unitFactor()) + ( (rect.y() + 5 * unitFactor()) - (topMargin() * Const::mmFACTOR)),
+                           rect.right(), i * 10 * unitFactor() +( (rect.y() + 5 * unitFactor()) - (topMargin() * Const::mmFACTOR)));
     };
-    for (int i=0;i<=((pageRect().width()-50)/100);i++){
-        ppainter->drawLine(i*100+pageRect().x()+50,pageRect().y(),i*100+pageRect().x()+50,pageRect().bottom());
+    for (int i=0; i<=((rect.width() - 5 * unitFactor()) / (10 * unitFactor())); ++i){
+        if (i * 10 * unitFactor() + 5 * unitFactor() >= leftMargin() * Const::mmFACTOR)
+            ppainter->drawLine(i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * Const::mmFACTOR)), rect.y(),
+                           i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * Const::mmFACTOR)), rect.bottom());
     };
-
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(1);
-    for (int i=0;i<=(pageRect().width()/100);i++){
-        ppainter->drawLine(i*100+pageRect().x(),pageRect().y(),i*100+pageRect().x(),pageRect().bottom());
+    for (int i = 0; i <= (rect.width() / (10 * unitFactor())); ++i){
+        if (i * 10 * unitFactor() >= leftMargin() * Const::mmFACTOR)
+            ppainter->drawLine(i * 10 * unitFactor() + (rect.x() - (leftMargin() * Const::mmFACTOR)), rect.y(),
+                           i * 10 * unitFactor() + (rect.x() - (leftMargin() * Const::mmFACTOR)), rect.bottom());
     };
-    for (int i=0;i<=pageRect().height()/100;i++){
-        ppainter->drawLine(pageRect().x(),i*100+pageRect().y(),pageRect().right(),i*100+pageRect().y());
+    for (int i = 0; i <= rect.height() / (10 * unitFactor()); ++i){
+        if (i * 10 * unitFactor() >= topMargin() * Const::mmFACTOR)
+            ppainter->drawLine(rect.x(), i * 10 * unitFactor() + (rect.y() - (topMargin() * Const::mmFACTOR)),
+                           rect.right(), i * 10 * unitFactor() + (rect.y() - (topMargin() * Const::mmFACTOR)));
     };
-    ppainter->drawRect(pageRect());
+    ppainter->drawRect(rect);
     ppainter->restore();
 }
 

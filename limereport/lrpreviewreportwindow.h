@@ -34,16 +34,12 @@
 #include <QDomComment>
 #include <QSpinBox>
 #include <QComboBox>
+#include <QSettings>
+#include <QEventLoop>
+#include <QPrinter>
 
-#include "lrpagedesignintf.h"
-#include "lrreportrender.h"
-#include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
-#include "lrpreviewreportwidget.h"
 #include "lrpreparedpagesintf.h"
-
-#include "items/editors/lrfonteditorwidget.h"
-#include "items/editors/lrtextalignmenteditorwidget.h"
 
 namespace LimeReport {
 
@@ -51,14 +47,23 @@ namespace Ui {
 class PreviewReportWindow;
 }
 
+class PreviewReportWidget;
+class FontEditorWidget;
+class TextAlignmentEditorWidget;
+class ReportEngine;
+class PageItemDesignIntf;
+typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
+
+
 class PreviewReportWindow : public QMainWindow
 {
     Q_OBJECT   
 public:
-    explicit PreviewReportWindow(ReportEnginePrivate *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=0);
+    explicit PreviewReportWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=0);
     ~PreviewReportWindow();
     void setReportReader(ItemsReaderIntf::Ptr reader);
     void setPages(ReportPages pages);
+    void setDefaultPrinter(QPrinter* printer);
     void exec();
     void initPreview(int pagesCount);
     void reloadPreview();
@@ -75,7 +80,8 @@ public:
     QSettings* settings();
     ScaleType previewScaleType() const;
     void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
-
+    QColor previewPageBackgroundColor();
+    void setPreviewPageBackgroundColor(QColor color);
 protected:
     void writeSetting();
     void restoreSetting();
@@ -99,6 +105,9 @@ public slots:
     void slotLastPage();
     void slotPrintToPDF();
     void slotPageChanged(int pageIndex);
+    void slotInsertNewTextItem();
+    void slotActivateItemSelectionMode();
+    void slotDeleteSelectedItems();
 private slots:
     void on_actionFit_page_width_triggered();
     void on_actionFit_page_triggered();
@@ -107,6 +116,8 @@ private slots:
     void slotScalePercentChanged(int percent);    
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
+    void slotCurrentPageChanged(int page);
+    void slotItemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
 signals:
     void onSave(bool& saved, LimeReport::IPreparedPages* pages);
 private:
@@ -128,7 +139,6 @@ private:
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
     bool m_scalePercentChanging;
-
 };
 } //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

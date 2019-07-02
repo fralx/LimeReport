@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QMap>
 #include <QAbstractItemModel>
+#include <QStandardItemModel>
 #include <QtSql/QSqlQuery>
 #include <QDebug>
 #include <QSharedPointer>
@@ -40,45 +41,11 @@
 #include <QVariant>
 #include "lrcollection.h"
 #include "lrcallbackdatasourceintf.h"
+#include "lrdatasourceintf.h"
 
 namespace LimeReport{
 
 class DataSourceManager;
-
-class IDataSource {
-public:
-    enum DatasourceMode{DESIGN_MODE,RENDER_MODE};
-    typedef QSharedPointer<IDataSource> Ptr;
-    virtual ~IDataSource(){}
-    virtual bool next() = 0;
-    virtual bool hasNext() = 0;
-    virtual bool prior() = 0;
-    virtual void first() = 0;
-    virtual void last() = 0;
-    virtual bool bof() = 0;
-    virtual bool eof() = 0;
-    virtual QVariant data(const QString& columnName) = 0;
-    virtual int columnCount() = 0;
-    virtual QString columnNameByIndex(int columnIndex) = 0;
-    virtual int columnIndexByName(QString name) = 0;
-    virtual bool isInvalid() const = 0;
-    virtual QString lastError() = 0;
-    virtual QAbstractItemModel* model() = 0;
-};
-
-class IDataSourceHolder {
-public:
-    virtual IDataSource* dataSource(IDataSource::DatasourceMode mode = IDataSource::RENDER_MODE) = 0;
-    virtual QString lastError() const = 0;
-    virtual bool isInvalid() const = 0;
-    virtual bool isOwned() const = 0;
-    virtual bool isEditable() const = 0;
-    virtual bool isRemovable() const = 0;
-    virtual void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false) = 0;
-    virtual void update() = 0;
-    virtual void clearErrors() = 0;
-    virtual ~IDataSourceHolder(){}
-};
 
 class ModelHolder: public QObject, public IDataSourceHolder{
     Q_OBJECT
@@ -165,6 +132,64 @@ public:
     virtual QString lastError() const = 0;
 };
 
+class CSVDesc: public QObject{
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QString csvText READ csvText WRITE setCsvText)
+    Q_PROPERTY(QString separator READ separator WRITE setSeparator)
+    Q_PROPERTY(bool firstRowIsHeader READ firstRowIsHeader WRITE setFirstRowIsHeader)
+public:
+    CSVDesc(const QString name, const QString csvText, QString separator, bool firstRowIsHeader)
+        : m_csvName(name), m_csvText(csvText), m_separator(separator), m_firstRowIsHeader(firstRowIsHeader){}
+    explicit CSVDesc(QObject* parent = 0):QObject(parent) {}
+    QString name() const;
+    void setName(const QString &name);
+    QString csvText() const;
+    void setCsvText(const QString &csvText);
+    QString separator() const;
+    void setSeparator(const QString &separator);
+    bool firstRowIsHeader() const;
+    void setFirstRowIsHeader(bool firstRowIsHeader);
+signals:
+    void cvsTextChanged(const QString& cvsName, const QString& cvsText);
+private:
+    QString m_csvName;
+    QString m_csvText;
+    QString m_separator;
+    bool m_firstRowIsHeader;
+};
+
+class CSVHolder: public IDataSourceHolder{
+public:
+    CSVHolder(const CSVDesc& desc, DataSourceManager* dataManager);
+    void setCSVText(QString csvText);
+    QString csvText() { return m_csvText;}
+    QString separator() const;
+    void setSeparator(const QString &separator);
+    bool firsRowIsHeader() const;
+    void setFirsRowIsHeader(bool firstRowIsHeader);
+    // IDataSourceHolder interface
+public:
+    IDataSource *dataSource(IDataSource::DatasourceMode mode = IDataSource::RENDER_MODE);
+    QString lastError() const {return "";}
+    bool isInvalid() const {return false;}
+    bool isOwned() const {return true;}
+    bool isEditable() const {return true;}
+    bool isRemovable() const {return true;}
+    void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed){ updateModel();}
+    void update(){ updateModel(); }
+    void clearErrors(){}
+private:
+    void updateModel();
+private:
+    QString m_csvText;
+    QStandardItemModel m_model;
+    QString m_separator;
+    IDataSource::Ptr m_dataSource;
+    DataSourceManager* m_dataManager;
+    bool m_firstRowIsHeader;
+};
+
 class QueryDesc : public QObject{
     Q_OBJECT
     Q_PROPERTY(QString queryName READ queryName WRITE setQueryName)
@@ -174,11 +199,11 @@ public:
     QueryDesc(QString queryName, QString queryText, QString connection);
     explicit QueryDesc(QObject* parent=0):QObject(parent){}
     void    setQueryName(QString value){m_queryName=value;}
-    QString queryName(){return m_queryName;}
+    QString queryName() const {return m_queryName;}
     void    setQueryText(QString value){m_queryText=value; emit queryTextChanged(m_queryName, m_queryText);}
-    QString queryText(){return m_queryText;}
+    QString queryText() const {return m_queryText;}
     void    setConnectionName(QString value){m_connectionName=value;}
-    QString connectionName(){return m_connectionName;}
+    QString connectionName() const {return m_connectionName;}
 signals:
     void queryTextChanged(const QString& queryName, const QString& queryText);
 private:
@@ -336,7 +361,7 @@ public:
     void invalidate(IDataSource::DatasourceMode mode, bool dbWillBeClosed = false);
     void update(){}
     void clearErrors(){m_lastError = "";}
-    DataSourceManager* dataManager() const {return m_dataManger;}
+    DataSourceManager* dataManager() const {return m_dataManager;}
 private slots:
     void slotChildModelDestoroyed();
 private:
@@ -346,7 +371,7 @@ private:
     QString m_lastError;
     IDataSource::DatasourceMode m_mode;
     bool m_invalid;
-    DataSourceManager* m_dataManger;
+    DataSourceManager* m_dataManager;
 };
 
 class ModelToDataSource : public QObject, public IDataSource{
@@ -362,6 +387,8 @@ public:
     bool eof();
     bool bof();
     QVariant data(const QString& columnName);
+    QVariant dataByRowIndex(const QString &columnName, int rowIndex);
+    QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
     QString columnNameByIndex(int columnIndex);
     int columnIndexByName(QString name);
@@ -393,6 +420,8 @@ public:
     bool bof(){return m_currentRow == -1;}
     bool eof(){return m_eof;}
     QVariant data(const QString &columnName);
+    QVariant dataByRowIndex(const QString& columnName, int rowIndex);
+    QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
     QString columnNameByIndex(int columnIndex);
     int columnIndexByName(QString name);
@@ -410,6 +439,7 @@ private:
     int m_rowCount;
     QHash<QString, QVariant> m_valuesCache;
     bool m_getDataFromCache;
+    QVariant callbackData(const QString& columnName, int row);
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{

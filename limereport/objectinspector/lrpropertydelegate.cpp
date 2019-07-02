@@ -36,14 +36,22 @@
 #include "lrglobal.h"
 
 LimeReport::PropertyDelegate::PropertyDelegate(QObject *parent)
-    :QItemDelegate(parent), m_objectInspector(NULL), m_editingItem(0), m_isEditing(false)
+    :QStyledItemDelegate(parent), m_objectInspector(NULL), m_editingItem(0), m_isEditing(false)
 {}
 
 void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (!index.isValid()) return;
 
-    LimeReport::ObjectPropItem *node = static_cast<LimeReport::ObjectPropItem*>(index.internalPointer());
+#if QT_VERSION >= 0x050000
+    QStyleOptionViewItem opt = option;
+#else
+    QStyleOptionViewItemV4 opt = option;
+#endif
+
+    QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+
+    LimeReport::ObjectPropItem *node = qvariant_cast<LimeReport::ObjectPropItem*>(index.data(Qt::UserRole));
     if (node){
          if (!node->isHaveValue()){
             if (index.column()==0) {
@@ -54,31 +62,15 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
                 painter->save();
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
                 painter->setBackground(QBrush(option.palette.color(QPalette::Highlight)));
-                drawBackground(painter,option,index);
                 cellOpt.widget->style()->drawPrimitive(QStyle::PE_IndicatorBranch,&primitiveOpt,painter);
                 cellOpt.rect.adjust(primitiveOpt.rect.width(),0,0,0);
                 cellOpt.font.setBold(true);
                 cellOpt.palette.setColor(QPalette::Text,cellOpt.palette.color(QPalette::BrightText));
-                drawDisplay(painter,cellOpt,cellOpt.rect,LimeReport::extractClassName(node->propertyName()));
+                cellOpt.text = LimeReport::extractClassName(node->propertyName());
+                style->drawControl(QStyle::CE_ItemViewItem, &cellOpt, painter, cellOpt.widget);
                 painter->restore();
             }
-         } else
-         {
-             if (index.column()==0){
-                 QPointF start(
-                             option.rect.x()+option.rect.width()-1,
-                             option.rect.y()
-                             );
-                 QPointF end(
-                             option.rect.x()+option.rect.width()-1,
-                             option.rect.y()+option.rect.height()
-                             );
-                 painter->save();
-                 QColor color = static_cast<QRgb>(QApplication::style()->styleHint(QStyle::SH_Table_GridLineColor, &option));
-                 painter->setPen(color);
-                 painter->drawLine(start,end);
-                 painter->restore();
-             }
+         } else {
 
              StyleOptionViewItem so = option;
              if ((node->isValueReadonly())&&(!node->isHaveChildren())) {
@@ -98,14 +90,38 @@ void LimeReport::PropertyDelegate::paint(QPainter *painter, const QStyleOptionVi
              else
                 so.palette.setColor(QPalette::Text,Qt::black);
 
-             drawBackground(painter,option,index);
-             if (!node->paint(painter,so,index))
-                QItemDelegate::paint(painter, so, index);
+             opt.text = "";
+             opt.rect.setHeight(opt.rect.height()-1);
+             style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, opt.widget);
+
+             if (!node->paint(painter,so,index)){
+                 so.state &= ~QStyle::State_HasFocus;
+                 so.rect.adjust(0,0,0,-1);
+                 QStyledItemDelegate::paint(painter, so, index);
+             }
+
+             if (index.column()==0){
+                 QPointF start(
+                             option.rect.x()+option.rect.width()-1,
+                             option.rect.y()
+                             );
+                 QPointF end(
+                             option.rect.x()+option.rect.width()-1,
+                             option.rect.y()+option.rect.height()
+                             );
+                 painter->save();
+                 QColor color = static_cast<QRgb>(QApplication::style()->styleHint(QStyle::SH_Table_GridLineColor, &option));
+                 painter->setPen(color);
+                 painter->drawLine(start,end);
+                 painter->restore();
+             }
+
+
          }
     }
 }
 
-QSize LimeReport::PropertyDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const
+QSize LimeReport::PropertyDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QSize size=option.rect.size();
     size.setHeight(option.fontMetrics.height()+
@@ -113,13 +129,15 @@ QSize LimeReport::PropertyDelegate::sizeHint(const QStyleOptionViewItem &option,
 #ifdef Q_OS_MAC
                    +QApplication::style()->pixelMetric(QStyle::PM_FocusFrameVMargin)
 #endif
-                  +2);
-    return size;
+                  +4);
+    //return size;
+    QSize defaultSize = QStyledItemDelegate::sizeHint(option, index);
+    return size.height() > defaultSize.height() ? size : defaultSize;
 }
 
 QWidget * LimeReport::PropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    m_editingItem=static_cast<LimeReport::ObjectPropItem*>(index.internalPointer());
+    m_editingItem = qvariant_cast<LimeReport::ObjectPropItem*>(index.data(Qt::UserRole));
     connect(m_editingItem,SIGNAL(destroyed(QObject*)), this, SLOT(slotItemDeleted(QObject*)));
     QWidget *editor=m_editingItem->createProperyEditor(parent);
     if (editor){
@@ -155,7 +173,7 @@ void LimeReport::PropertyDelegate::updateEditorGeometry(QWidget *editor, const Q
     if (m_editingItem) m_editingItem->updateEditorGeometry(editor,option,index);
 }
 
-void LimeReport::PropertyDelegate::setObjectInspector(ObjectInspectorWidget* objectInspector)
+void LimeReport::PropertyDelegate::setObjectInspector(ObjectInspectorTreeView* objectInspector)
 {
     m_objectInspector=objectInspector;
 }

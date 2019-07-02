@@ -43,6 +43,7 @@ namespace LimeReport {
     class ReportEnginePrivate;
     class PropertyChangedCommand;
     class HorizontalLayout;
+    class VerticalLayout;
     class LayoutDesignIntf;
 
     class CommandIf {
@@ -102,10 +103,10 @@ namespace LimeReport {
     public:
         friend class PropertyChangedCommand;
         friend class InsertHLayoutCommand;
+        friend class InsertVLayoutCommand;
         explicit PageDesignIntf(QObject* parent = 0);
         ~PageDesignIntf();
         void updatePageRect();
-
         void startInsertMode(const QString& ItemType);
         void startEditMode();
 
@@ -127,6 +128,7 @@ namespace LimeReport {
         BaseDesignIntf::ItemMode itemMode(){return m_itemMode;}
         BaseDesignIntf* reportItemByName(const QString& name);
         QList<BaseDesignIntf *> reportItemsByName(const QString &name);
+        BandDesignIntf* bandAt(QPointF pos);
         BaseDesignIntf* addReportItem(const QString& itemType, QPointF pos, QSizeF size);
         BaseDesignIntf* addReportItem(const QString& itemType, QObject *owner=0, BaseDesignIntf *parent=0);
         BaseDesignIntf* createReportItem(const QString& itemType, QObject *owner=0, BaseDesignIntf *parent=0);
@@ -164,14 +166,21 @@ namespace LimeReport {
         bool isUpdating(){return m_updating;}
         void endUpdate();
 
+        void rectMoved(QRectF itemRect, BaseDesignIntf* container = 0);
         void itemMoved(BaseDesignIntf* item);
         bool magneticMovement() const;
         void setMagneticMovement(bool magneticMovement);
+
         ReportSettings *getReportSettings() const;
         void setReportSettings(ReportSettings *reportSettings);
+
         void setPropertyToSelectedItems(const char *name, const QVariant &value);
 
+        PageItemDesignIntf* getCurrentPage() const;
+        void setCurrentPage(PageItemDesignIntf* currentPage);
+
     protected:
+
         virtual void keyPressEvent(QKeyEvent *event);
         virtual void keyReleaseEvent(QKeyEvent *event);
         virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -193,6 +202,7 @@ namespace LimeReport {
         void objectLoadFinished();
 
         HorizontalLayout* internalAddHLayout();
+        VerticalLayout* internalAddVLayout();
         QPointF placePosOnGrid(QPointF point);
         QSizeF placeSizeOnGrid(QSizeF size);
     signals:
@@ -204,7 +214,10 @@ namespace LimeReport {
         void multiItemsSelected(QList<QObject*>* objectsList);
         void miltiItemsSelectionFinished();
         void commandHistoryChanged();
-        void itemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+        void itemPropertyChanged(const QString& objectName,
+                                 const QString& propertyName,
+                                 const QVariant& oldValue,
+                                 const QVariant& newValue);
         void itemAdded(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void itemRemoved(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void bandAdded(LimeReport::PageDesignIntf* page, LimeReport::BandDesignIntf* band);
@@ -235,12 +248,18 @@ namespace LimeReport {
         void sameWidth();
         void sameHeight();
         void addHLayout();
+        void addVLayout();
         void setFont(const QFont &font);
         void setTextAlign(const Qt::Alignment& alignment);
         void setBorders(const BaseDesignIntf::BorderLines& border);
+        void lockSelectedItems();
+        void unlockSelectedItems();
+        void selectOneLevelItems();
     private slots:
         void slotPageGeometryChanged(QObject*, QRectF, QRectF );
-        void slotItemPropertyChanged(QString propertyName, const QVariant &oldValue, const QVariant &newValue);
+        void slotItemPropertyChanged(QString propertyName,
+                                     const QVariant &oldValue,
+                                     const QVariant &newValue);
         void slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
         void bandDeleted(QObject* band);
         void slotPageItemLoaded(QObject *);
@@ -255,8 +274,13 @@ namespace LimeReport {
         void checkSizeOrPosChanges();
         CommandIf::Ptr createChangePosCommand();
         CommandIf::Ptr createChangeSizeCommand();
-        void saveChangeProppertyCommand(const QString& objectName, const QString& propertyName, const QVariant& oldPropertyValue, const QVariant& newPropertyValue);
+        void saveChangeProppertyCommand(const QString& objectName,
+                                        const QString& propertyName,
+                                        const QVariant& oldPropertyValue,
+                                        const QVariant& newPropertyValue);
         void changeSelectedGroupProperty(const QString& name,const QVariant& value);
+        void activateItemToJoin(QRectF itemRect, QList<ItemProjections>& items);
+        void selectAllChildren(BaseDesignIntf* item);
     private:
         enum JoinType{Width, Height};
         LimeReport::PageItemDesignIntf::Ptr m_pageItem;
@@ -296,6 +320,7 @@ namespace LimeReport {
         JoinType         m_joinType;
         bool             m_magneticMovement;
         ReportSettings*  m_reportSettings;
+        PageItemDesignIntf* m_currentPage;
     };
 
     class AbstractPageCommand : public CommandIf{
@@ -313,6 +338,19 @@ namespace LimeReport {
         void undoIt();
     private:
         InsertHLayoutCommand(){}
+    private:
+        QString m_layoutName;
+        QString m_oldParentName;
+        QMap<QString,QPointF> m_elements;
+    };
+
+    class InsertVLayoutCommand : public AbstractPageCommand{
+    public:
+        static CommandIf::Ptr create(PageDesignIntf* page);
+        bool doIt();
+        void undoIt();
+    private:
+        InsertVLayoutCommand(){}
     private:
         QString m_layoutName;
         QString m_oldParentName;

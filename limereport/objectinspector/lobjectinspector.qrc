@@ -6,5 +6,6 @@
         <file>images/uncheck.png</file>
         <file alias="checked.png">images/check_w.png</file>
         <file alias="unchecked.png">images/uncheck_w.png</file>
+        <file>images/settings.png</file>
     </qresource>
 </RCC>

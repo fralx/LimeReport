@@ -1,7 +1,12 @@
 include(../common.pri)
 QT += core gui
 
-TARGET = LRDemo_r1
+CONFIG(release, debug|release) {
+	TARGET = LRDemo_r1
+} else {
+	TARGET = LRDemo_r1d
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -26,7 +31,6 @@ macx{
 }
 
 unix:{
-
 	DESTDIR = $$DEST_DIR
 	#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
         QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
@@ -52,8 +56,14 @@ win32 {
 	REPORTS_DIR ~= s,/,\\,g
 
 	RC_FILE += mainicon.rc
-
-	QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+	
+	greaterThan(QT_MAJOR_VERSION, 4) {
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    }
+    lessThan(QT_MAJOR_VERSION, 5){
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    }
+	#QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
 	#QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
     }
 }
@@ -64,7 +74,7 @@ CONFIG(debug, debug|release) {
 } else {
     LIBS += -llimereport
 }
-
+message($$LIBS)
 
 !contains(CONFIG, static_build){
 	contains(CONFIG,zint){

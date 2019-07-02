@@ -30,6 +30,7 @@
 #include "lrpagefooter.h"
 #include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
+#include "lrpagedesignintf.h"
 
 const QString xmlTag ="PageFooter";
 
@@ -63,7 +64,30 @@ BaseDesignIntf *PageFooter::createSameTypeItem(QObject *owner, QGraphicsItem *pa
 
 QColor PageFooter::bandColor() const
 {
-   return QColor(246,120,12);
+    return QColor(246,120,12);
+}
+
+void PageFooter::preparePopUpMenu(QMenu &menu)
+{
+    QAction* action = menu.addAction(tr("Print on first page"));
+    action->setCheckable(true);
+    action->setChecked(printOnFirstPage());
+
+    action = menu.addAction(tr("Print on last page"));
+    action->setCheckable(true);
+    action->setChecked(printOnLastPage());
+
+}
+
+void PageFooter::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Print on first page")) == 0){
+        page()->setPropertyToSelectedItems("printOnFirstPage",action->isChecked());
+    }
+    if (action->text().compare(tr("Print on last page")) == 0){
+        page()->setPropertyToSelectedItems("printOnLastPage",action->isChecked());
+    }
+    BandDesignIntf::processPopUpAction(action);
 }
 
 bool PageFooter::printOnFirstPage() const
@@ -73,7 +97,12 @@ bool PageFooter::printOnFirstPage() const
 
 void PageFooter::setPrintOnFirstPage(bool printOnFirstPage)
 {
-    m_printOnFirstPage = printOnFirstPage;
+    if (m_printOnFirstPage != printOnFirstPage){
+        bool oldValue = m_printOnFirstPage;
+        m_printOnFirstPage = printOnFirstPage;
+        update();
+        notify("printOnFirstPage",oldValue,printOnFirstPage);
+    }
 }
 
 bool PageFooter::printOnLastPage() const
@@ -83,7 +112,12 @@ bool PageFooter::printOnLastPage() const
 
 void PageFooter::setPrintOnLastPage(bool printOnLastPage)
 {
-    m_printOnLastPage = printOnLastPage;
+    if (m_printOnLastPage != printOnLastPage){
+        bool oldValue = m_printOnLastPage;
+        m_printOnLastPage = printOnLastPage;
+        update();
+        notify("printOnLastPage",oldValue,printOnLastPage);
+    }
 }
 
 } // namespace LimeReport

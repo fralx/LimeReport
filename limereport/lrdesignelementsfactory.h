@@ -31,7 +31,6 @@
 #define LRDESIGNELEMENTSFACTORY_H
 
 #include "lrbanddesignintf.h"
-#include "lrpageheader.h"
 #include "lrattribsabstractfactory.h"
 #include "lrsimpleabstractfactory.h"
 #include "lrsingleton.h"

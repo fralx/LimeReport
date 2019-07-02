@@ -55,9 +55,9 @@ ItemsAlignmentEditorWidget::ItemsAlignmentEditorWidget(PageDesignIntf* page, QWi
     initEditor();
 }
 
-void ItemsAlignmentEditorWidget::slotBrinToFront()
+void ItemsAlignmentEditorWidget::slotBringToFront()
 {
-    if (m_reportEditor) m_reportEditor->brinToFront();
+    if (m_reportEditor) m_reportEditor->bringToFront();
     if (m_page) m_page->bringToFront();
 }
 
@@ -119,7 +119,7 @@ void ItemsAlignmentEditorWidget::initEditor()
 {
     m_bringToFront = new QAction(tr("Bring to top"),this);
     m_bringToFront->setIcon(QIcon(":/report/images/bringToTop"));
-    connect(m_bringToFront,SIGNAL(triggered()),this,SLOT(slotBrinToFront()));
+    connect(m_bringToFront,SIGNAL(triggered()),this,SLOT(slotBringToFront()));
     addAction(m_bringToFront);
 
     m_sendToBack = new QAction(tr("Send to back"),this);

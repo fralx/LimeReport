@@ -35,7 +35,7 @@
 #include <QObject>
 
 namespace LimeReport{
-class PageFooter : public LimeReport::BandDesignIntf
+class PageFooter : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool printOnFirstPage READ printOnFirstPage WRITE setPrintOnFirstPage)
@@ -50,7 +50,9 @@ public:
     void setPrintOnFirstPage(bool printOnFirstPage);
 
 protected:
-    QColor bandColor() const;
+    QColor  bandColor() const;
+    void    preparePopUpMenu(QMenu &menu);
+    void    processPopUpAction(QAction *action);
 private:
     bool m_printOnFirstPage;
     bool m_printOnLastPage;

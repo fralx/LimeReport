@@ -37,6 +37,15 @@
 #include <LRCallbackDS>
 #include <QDebug>
 #include <QStringListModel>
+#include <QPrinter>
+
+#ifdef BUILD_WITH_EASY_PROFILER
+#include "easy/profiler.h"
+#else
+# define EASY_BLOCK(...)
+# define EASY_END_BLOCK
+# define EASY_PROFILER_ENABLE
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -95,8 +104,8 @@ MainWindow::MainWindow(QWidget *parent) :
     report->dataManager()->addModel("string_list",stringListModel,true);
     QStringList strList;
     strList<<"value1"<<"value2";
-    QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
-    report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
+    //QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
+    //report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
 
 
 }
@@ -110,22 +119,43 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    EASY_PROFILER_ENABLE;
+    EASY_BLOCK("design report");
     report->dataManager()->clearUserVariables();
     if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
         report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
     }
     report->setShowProgressDialog(false);
     report->designReport();
+    EASY_END_BLOCK;
+#ifdef BUILD_WITH_EASY_PROFILER
+    profiler::dumpBlocksToFile("test.prof");
+#endif
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,"Select report file",QApplication::applicationDirPath()+"/demo_reports/","*.lrxml");
     if (!fileName.isEmpty()) {
+        EASY_PROFILER_ENABLE;
+        EASY_BLOCK("Load file");
         report->loadFromFile(fileName);
+        EASY_END_BLOCK;
+        EASY_BLOCK("Set report variable");
         if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
             report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
         }
+        EASY_END_BLOCK;
+#ifdef BUILD_WITH_EASY_PROFILER
+        profiler::dumpBlocksToFile("test.prof");
+#endif
+//        QPrinter* printer = new QPrinter;
+//        QPrintDialog dialog(printer);
+//        if (dialog.exec()){
+//            QMap<QString, QPrinter*> printers;
+//            printers.insert("default",printer);
+//            report->printReport(printers);
+//        }
         report->previewReport();
     }
 }

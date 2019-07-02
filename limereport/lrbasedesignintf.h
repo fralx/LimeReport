@@ -51,23 +51,24 @@ class  BaseDesignIntf;
 
 class Marker : public QGraphicsItem{
 public:
-    Marker(QGraphicsItem* parent=0):QGraphicsItem(parent),m_object(NULL){}
+    Marker(QGraphicsItem* parent = 0, BaseDesignIntf* owner = 0): QGraphicsItem(parent), m_owner(owner){}
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void setRect(QRectF rect){prepareGeometryChange();m_rect=rect;}
     void setColor(QColor color){m_color=color;}
-    QRectF rect() const;
-    QColor color() const;
-    BaseDesignIntf *object() const;
+    QRectF rect() const {return m_rect;}
+    virtual QColor color() const;
+    BaseDesignIntf* owner() const {return m_owner;}
 private:
     QRectF m_rect;
     QColor m_color;
-    BaseDesignIntf* m_object;
+    BaseDesignIntf* m_owner;
 };
 
 class SelectionMarker : public Marker{
 public:
-    SelectionMarker(QGraphicsItem* parent=0);
+    SelectionMarker(QGraphicsItem* parent=0, BaseDesignIntf* owner = 0);
+    QColor color() const;
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -88,7 +89,8 @@ class  BaseDesignIntf :
     Q_ENUMS(BrushStyle)
     Q_ENUMS(ItemAlign)
     Q_FLAGS(BorderLines)
-    Q_PROPERTY(QRectF geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
+    Q_ENUMS(UnitType)
+    Q_PROPERTY(QRect geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
     Q_PROPERTY(ACollectionProperty children READ fakeCollectionReader DESIGNABLE false)
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
@@ -96,6 +98,8 @@ class  BaseDesignIntf :
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(bool geometryLocked READ isGeometryLocked WRITE setGeometryLocked)
+
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
@@ -122,7 +126,8 @@ public:
                        ResizeBottom = 8,
                        AllDirections = 15
                      };
-    enum MoveFlags  { LeftRight=1,
+    enum MoveFlags  { None = 0,
+                      LeftRight=1,
                       TopBotom=2,
                       All=3
                     };
@@ -136,6 +141,7 @@ public:
                     };
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
+    enum UnitType {Millimeters, Inches};
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)
@@ -179,14 +185,16 @@ public:
     virtual QPainterPath shape() const;
 
     void setFixedPos(bool fixedPos);
+    bool isFixedPos(){return  m_fixedPos;}
     int resizeHandleSize() const;
 
-    void    setMMFactor(qreal mmFactor);
-    qreal   mmFactor() const;
-    virtual QRectF  geometry() const;
+    qreal    unitFactor() const;
+    void     setUnitType(UnitType unitType);
+    UnitType unitType();
+    virtual QRect  geometry() const;
     void    setGeometry(QRectF rect);
 
-    QRectF rect()const;
+    QRectF  rect() const;
     void    setupPainter(QPainter* painter) const;
     virtual QRectF boundingRect() const;
 
@@ -207,7 +215,7 @@ public:
     ItemMode itemMode() const {return m_itemMode;}
 
     virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
-    void setGeometryProperty(QRectF rect);
+    void setGeometryProperty(QRect rect);
     PageDesignIntf* page();
 
     BorderLines borderLines() const;
@@ -237,6 +245,7 @@ public:
     virtual void beforeDelete();
 
     QList<BaseDesignIntf*> childBaseItems();
+    QList<BaseDesignIntf*> allChildBaseItems();
     BaseDesignIntf* childByName(const QString& name);
 
     virtual QWidget *defaultEditor();
@@ -266,23 +275,38 @@ public:
     QColor borderColor() const;
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
-    virtual bool canContainChildren(){ return false;}
+    virtual bool canContainChildren() const { return false;}
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
     QString patternName() const;
     void setPatternName(const QString &patternName);
+    BaseDesignIntf* patternItem() const;
+    void setPatternItem(BaseDesignIntf* patternItem);
+    virtual QMap<QString, QString> getStringForTranslation();
+    bool fillInSecondPass() const;
+    void setFillInSecondPass(bool fillInSecondPass);
     bool isWatermark() const;
     virtual void setWatermark(bool watermark);
-
+    void updateSelectionMarker();
+    void turnOnSelectionMarker(bool value);
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
     Q_INVOKABLE qreal getItemHeight();
     Q_INVOKABLE qreal getItemPosX();
     Q_INVOKABLE qreal getItemPosY();
+    Q_INVOKABLE qreal getAbsolutePosX();
+    Q_INVOKABLE qreal getAbsolutePosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
+
+    bool fillTransparentInDesignMode() const;
+    void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
+    void emitPosChanged(QPointF oldPos, QPointF newPos);
+
+    bool isGeometryLocked() const;
+    void setGeometryLocked(bool itemLocked);
 
 protected:
 
@@ -296,10 +320,11 @@ protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent* event);
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    //void virtual   hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void  hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
     void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     virtual void geometryChangedEvent(QRectF newRect, QRectF oldRect);
@@ -322,7 +347,7 @@ protected:
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
     void drawRenderModeBorder(QPainter *painter, QRectF rect) const;
     void drawResizeZone(QPainter*);
-    void drawSelection(QPainter* painter, QRectF) const;
+    void drawMarker(QPainter* painter, QColor color) const;
     void drawPinArea(QPainter* painter) const;
 
     void initResizeZones();
@@ -342,27 +367,32 @@ protected:
     QVariant m_varValue;
 
     virtual void preparePopUpMenu(QMenu& menu){Q_UNUSED(menu)}
-    virtual void processPopUpAction(QAction* action){Q_UNUSED(action)}
+    virtual void processPopUpAction(QAction* action);
+
+    void addChildItems(QList<BaseDesignIntf*>* list);
+    qreal calcAbsolutePosY(qreal currentOffset, BaseDesignIntf* item);
+    qreal calcAbsolutePosX(qreal currentOffset, BaseDesignIntf* item);
+
 private:
-    void updateSelectionMarker();
     int resizeDirectionFlags(QPointF position);
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPossibleCursor(int cursorFlags);
     void updatePossibleDirectionFlags();
-    void turnOnSelectionMarker(bool value);
 private:
     QPointF m_startPos;
     int     m_resizeHandleSize;
     int     m_selectionPenSize;
     int     m_possibleResizeDirectionFlags;
     int     m_possibleMoveDirectionFlags;
+    int     m_savedPossibleResizeDirectionFlags;
+    int     m_savedPossibleMoveDirectionFlags;
+    int     m_savedFixedPos;
     int     m_resizeDirectionFlags;
     qreal   m_width;
     qreal   m_height;
     QPen    m_pen;
     QFont   m_font;
     QColor  m_fontColor;
-    qreal   m_mmFactor;
     bool    m_fixedPos;
     int     m_borderLineSize;
 
@@ -384,8 +414,6 @@ private:
     ItemMode m_itemMode;
 
     ObjectState m_objectState;
-    SelectionMarker* m_selectionMarker;
-    Marker* m_joinMarker;
 
     BrushStyle  m_backgroundBrushStyle;
     QColor      m_backgroundColor;
@@ -398,7 +426,17 @@ private:
     QColor  m_borderColor;
     ReportSettings* m_reportSettings;
     QString m_patternName;
-    bool m_watermark;
+    BaseDesignIntf* m_patternItem;
+    bool    m_fillInSecondPass;
+    bool    m_watermark;
+    bool    m_hovered;
+    bool    m_joinMarkerOn;
+    SelectionMarker* m_selectionMarker;
+    Marker*          m_joinMarker;
+    bool     m_fillTransparentInDesignMode;
+    QRect    m_itemGeometry;
+    UnitType m_unitType;
+    bool     m_itemGeometryLocked;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
@@ -416,6 +454,19 @@ signals:
     void beforeRender();
     void afterData();
     void afterRender();
+};
+
+class BookmarkContainerDesignIntf: public BaseDesignIntf{
+    Q_OBJECT
+public:
+    BookmarkContainerDesignIntf(const QString& storageTypeName, QObject* owner = 0, QGraphicsItem* parent = 0)
+        :BaseDesignIntf(storageTypeName, owner, parent){}
+    void addBookmark(const QString& key, const QVariant& value){ m_bookmarks.insert(key, value);}
+    QList<QString> bookmarks(){ return m_bookmarks.keys();}
+    QVariant getBookMark(const QString& key);
+    void copyBookmarks(BookmarkContainerDesignIntf* source);
+private:
+    QMap<QString,QVariant>  m_bookmarks;
 };
 
 } //namespace LimeReport

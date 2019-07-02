@@ -61,6 +61,7 @@ protected:
     void readProperty(QObject *item, QDomElement *node);
     void readQObject(QObject *item, QDomElement *node);
     void readCollection(QObject *item, QDomElement *node);
+    void readTranslation(QObject *item, QDomElement *node);
     QVariant getValue(QDomElement *node);
 
 protected:

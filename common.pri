@@ -13,21 +13,64 @@ message(TOP_BUILD_DIR: $$TOP_BUILD_DIR)
 !contains(CONFIG, no_build_translations){
     CONFIG += build_translations
 }
+#CONFIG *= easy_profiler
 
 !contains(CONFIG, no_zint){
-    CONFIG += zint
+    CONFIG *= zint
 }
 
-ZINT_PATH = $$PWD/3rdparty/zint-2.4.4
+INCLUDEPATH += $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
+DEPENDPATH += $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
+
+contains(CONFIG, easy_profiler){
+    message(EasyProfiler)
+    unix|win32: LIBS += -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler
+    greaterThan(QT_MAJOR_VERSION, 4){
+        DEFINES += BUILD_WITH_EASY_PROFILER
+    }
+}
+
+!contains(CONFIG, qtscriptengine){
+greaterThan(QT_MAJOR_VERSION, 4){
+greaterThan(QT_MINOR_VERSION, 5){
+    CONFIG *= qjsengine
+}
+lessThan(QT_MINOR_VERSION, 6){
+    CONFIG *= qtscriptengine
+}
+}
+lessThan(QT_MAJOR_VERSION, 5){
+    CONFIG *= qtscriptengine
+}
+}
+
+contains(CONFIG, qtscriptengine){
+    CONFIG -= qjsengine
+    QT *= script
+    DEFINES *= USE_QTSCRIPTENGINE
+    message(qtscriptengine)
+}
+
+!contains(CONFIG, no_formdesigner){
+    CONFIG *= dialogdesigner
+}
+
+!contains(CONFIG, no_embedded_designer){
+    CONFIG *= embedded_designer
+    DEFINES += HAVE_REPORT_DESIGNER
+}
+
+ZINT_PATH = $$PWD/3rdparty/zint-2.6.1
 contains(CONFIG,zint){
-    DEFINES += HAVE_ZINT
+    DEFINES *= HAVE_ZINT
 }
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += uitools
+    QT *= uitools
 }
+
 lessThan(QT_MAJOR_VERSION, 5){
-    CONFIG += uitools
+    CONFIG *= uitools
 }
 
 CONFIG(release, debug|release){
@@ -83,30 +126,35 @@ OBJECTS_DIR    = $${ARCH_DIR}/$${BUILD_TYPE}/obj
 RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
-LIMEREPORT_VERSION_MINOR = 4
-LIMEREPORT_VERSION_RELEASE = 136
+LIMEREPORT_VERSION_MINOR = 5
+LIMEREPORT_VERSION_RELEASE = 0
 
-LIMEREPORT_VERSION = '\\"$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}\\"'
-DEFINES += LIMEREPORT_VERSION_STR=\"$${LIMEREPORT_VERSION}\"
-DEFINES += LIMEREPORT_VERSION=$${LIMEREPORT_VERSION}
+LIMEREPORT_VERSION = '$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}'
+DEFINES *= LIMEREPORT_VERSION_STR=\\\"$${LIMEREPORT_VERSION}\\\"
 
-QT += script xml sql
+QT *= xml sql
+
 REPORT_PATH = $$PWD/limereport
 TRANSLATIONS_PATH = $$PWD/translations
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    DEFINES+=HAVE_QT5
-    QT+= printsupport widgets
+    DEFINES *= HAVE_QT5
+    QT *= printsupport widgets
     contains(QT,uitools){
         message(uitools)
-        DEFINES += HAVE_UI_LOADER
+        DEFINES *= HAVE_UI_LOADER
+    }
+    contains(CONFIG, qjsengine){
+        message(qjsengine)
+        DEFINES *= USE_QJSENGINE
+        QT *= qml
     }
 }
 
 lessThan(QT_MAJOR_VERSION, 5){
-    DEFINES+=HAVE_QT4
+    DEFINES *= HAVE_QT4
     CONFIG(uitools){
         message(uitools)
-        DEFINES += HAVE_UI_LOADER
+        DEFINES *= HAVE_UI_LOADER
     }
 }

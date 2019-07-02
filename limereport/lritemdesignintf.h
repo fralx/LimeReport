@@ -63,6 +63,7 @@ private:
 class Spacer :public ItemDesignIntf{
 public:
     Spacer(QObject* owner,QGraphicsItem* parent);
+    bool isEmpty() const {return true;}
 protected:
     BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent){
         return new Spacer(owner, parent);
@@ -74,9 +75,17 @@ class ContentItemDesignIntf : public ItemDesignIntf
     Q_OBJECT
 public:
     ContentItemDesignIntf(const QString& xmlTypeName, QObject* owner = 0,QGraphicsItem* parent = 0)
-        :ItemDesignIntf(xmlTypeName,owner,parent){}
+        :ItemDesignIntf(xmlTypeName,owner,parent), m_contentBackedUp(false){}
     virtual QString content() const = 0;
     virtual void setContent(const QString& value) = 0;
+    QMap<QString, QString> getStringForTranslation();
+    void backupContent(){ m_contentBackUp = content(); m_contentBackedUp = true;}
+    void restoreContent() {setContent(m_contentBackUp);}
+    bool isContentBackedUp() const;
+    void setContentBackedUp(bool contentBackedUp);
+private:
+    QString m_contentBackUp;
+    bool m_contentBackedUp;
 };
 
 class LayoutDesignIntf : public ItemDesignIntf{

@@ -16,5 +16,11 @@ SUBDIRS += \
         limereport \
         demo_r1 \
         demo_r2 \
+        console \
         designer
 
+!contains(CONFIG, embedded_designer){
+!contains(CONFIG, static_build){
+SUBDIRS += designer_plugin
+}
+}

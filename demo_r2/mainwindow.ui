@@ -17,14 +17,17 @@
    <iconset resource="../limereport/report.qrc">
     <normaloff>:/report/images/logo32</normaloff>:/report/images/logo32</iconset>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QGroupBox" name="groupBox">
@@ -107,7 +110,7 @@
              <number>5</number>
             </property>
             <item>
-             <widget class="QLabel" name="label_2">
+             <widget class="QLabel" name="limeReportLabel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -247,6 +250,9 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -302,7 +308,13 @@
      <normaloff>:/images/images/ZoomIn.png</normaloff>:/images/images/ZoomIn.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom In</string>
+    <string/>
+   </property>
+   <property name="iconText">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>Zoom in</string>
    </property>
   </action>
   <action name="actionZoom_Out">
@@ -311,7 +323,10 @@
      <normaloff>:/images/images/ZoomOut.png</normaloff>:/images/images/ZoomOut.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom Out</string>
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>Zoom out</string>
    </property>
   </action>
   <action name="actionOne_to_One">
@@ -347,6 +362,9 @@
      <normaloff>:/images/images/First.png</normaloff>:/images/images/First.png</iconset>
    </property>
    <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
     <string>First Page</string>
    </property>
   </action>
@@ -356,6 +374,9 @@
      <normaloff>:/images/images/Prev.png</normaloff>:/images/images/Prev.png</iconset>
    </property>
    <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
     <string>Prior Page</string>
    </property>
   </action>
@@ -365,6 +386,9 @@
      <normaloff>:/images/images/Next.png</normaloff>:/images/images/Next.png</iconset>
    </property>
    <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
     <string>Next Page</string>
    </property>
   </action>
@@ -374,14 +398,17 @@
      <normaloff>:/images/images/Last.png</normaloff>:/images/images/Last.png</iconset>
    </property>
    <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
     <string>Last Page</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../limereport/report.qrc"/>
   <include location="demo_r2.qrc"/>
+  <include location="../limereport/report.qrc"/>
  </resources>
  <connections/>
 </ui>

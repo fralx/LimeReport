@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pageNavigator = new QSpinBox(this);
 
     m_pageNavigator->setPrefix(tr("Page :"));
-    ui->toolBar->insertWidget(ui->actionZoomIn,m_scalePercent);
+    ui->toolBar->insertWidget(ui->actionZoom_Out,m_scalePercent);
     ui->toolBar->insertWidget(ui->actionNext_Page,m_pageNavigator);
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
     connect(m_pageNavigator, SIGNAL(valueChanged(int)), this, SLOT(slotPageNavigatorChanged(int)));
@@ -50,10 +50,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resize(screenWidth*0.8, screenHeight*0.8);
     move(x, y);
-    if (QFile::exists(QApplication::applicationDirPath()+"/demo_reports/categories.lrxml")){
-        m_report.loadFromFile(QApplication::applicationDirPath()+"/demo_reports/categories.lrxml");
-        m_preview->refreshPages();
+
+    if (ui->treeWidget->topLevelItemCount()>0){
+        int index = 0;
+        while (index<ui->treeWidget->topLevelItemCount()){
+            if (ui->treeWidget->topLevelItem(index)->childCount()>0)
+                ++index;
+            else {
+                m_report.loadFromFile(ui->treeWidget->topLevelItem(index)->data(0,Qt::UserRole).toString());
+                ui->treeWidget->setCurrentItem(ui->treeWidget->topLevelItem(index));
+                break;
+            }
+        }
+
     }
+        m_preview->refreshPages();
 
 }
 

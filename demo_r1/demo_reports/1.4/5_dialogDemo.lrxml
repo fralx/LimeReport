@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF8"?>
+<Report>
+  <object Type="Object" ClassName="LimeReport::ReportEnginePrivate">
+    <objectName Type="QString"></objectName>
+    <pages Type="Collection">
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page1</objectName>
+        <sceneRect x="-50" width="2200" Type="QRect" height="3070" y="-50"/>
+        <bspTreeDepth Value="5" Type="int"/>
+        <font italic="0" family="MS Shell Dlg 2" underline="0" Type="QFont" pointSize="8" stylename="" weight="50"/>
+        <sortCacheEnabled Value="0" Type="bool"/>
+        <stickyFocus Value="0" Type="bool"/>
+        <minimumRenderSize Value="0" Type="qreal"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">ReportPage1</objectName>
+          <geometry x="0" width="2100" Type="QRect" height="2970" y="0"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="TextItem">
+              <objectName Type="QString">TextItem1</objectName>
+              <geometry x="236" width="1216" Type="QRect" height="50" y="160"/>
+              <children Type="Collection"/>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">ReportPage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <itemLocation Value="1" Type="enumAndFlags"/>
+              <stretchToMaxHeight Value="0" Type="bool"/>
+              <itemAlign Value="4" Type="enumAndFlags"/>
+              <content Type="QString">$S{Dialog.lineEdit.text}</content>
+              <margin Value="4" Type="int"/>
+              <alignment Value="33" Type="enumAndFlags"/>
+              <autoWidth Value="0" Type="enumAndFlags"/>
+              <autoHeight Value="0" Type="bool"/>
+              <font italic="0" family="Arial" underline="0" Type="QFont" pointSize="10" stylename="" weight="50"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <backgroundMode Value="1" Type="enumAndFlags"/>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <fontColor Value="#000000" Type="QColor"/>
+              <angle Value="0" Type="enumAndFlags"/>
+              <foregroundOpacity Value="100" Type="int"/>
+              <underlines Value="0" Type="bool"/>
+              <adaptFontToSize Value="0" Type="bool"/>
+              <trimValue Value="1" Type="bool"/>
+              <lineSpacing Value="1" Type="int"/>
+              <underlineLineSize Value="1" Type="int"/>
+              <allowHTML Value="0" Type="bool"/>
+              <allowHTMLInFields Value="0" Type="bool"/>
+              <format Type="QString"></format>
+              <valueType Value="0" Type="enumAndFlags"/>
+            </item>
+          </children>
+          <zOrder Value="0" Type="qreal"/>
+          <borders Value="0" Type="enumAndFlags"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Value="1" Type="int"/>
+          <isVisible Value="1" Type="bool"/>
+          <borderColor Value="#000000" Type="QColor"/>
+          <topMargin Value="5" Type="int"/>
+          <bottomMargin Value="5" Type="int"/>
+          <rightMargin Value="5" Type="int"/>
+          <leftMargin Value="5" Type="int"/>
+          <pageOrientation Value="0" Type="enumAndFlags"/>
+          <pageSize Value="0" Type="enumAndFlags"/>
+          <gridStep Value="2" Type="int"/>
+          <fullPage Value="0" Type="bool"/>
+          <oldPrintMode Value="0" Type="bool"/>
+        </pageItem>
+      </item>
+    </pages>
+    <datasourcesManager Type="Object" ClassName="LimeReport::DataSourceManager">
+      <objectName Type="QString">datasources</objectName>
+      <connections Type="Collection"/>
+      <queries Type="Collection"/>
+      <subqueries Type="Collection"/>
+      <subproxies Type="Collection"/>
+      <variables Type="Collection"/>
+    </datasourcesManager>
+    <scriptContext Type="Object" ClassName="LimeReport::ScriptEngineContext">
+      <objectName Type="QString"></objectName>
+      <dialogs Type="Collection">
+        <item Type="Object" ClassName="LimeReport::DialogDescriber">
+          <objectName Type="QString"></objectName>
+          <name Type="QString">Dialog</name>
+          <description Value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjx1aSB2ZXJzaW9uPSI0LjAiPg0KIDxjbGFzcz5EaWFsb2c8L2NsYXNzPg0KIDx3aWRnZXQgY2xhc3M9IlFEaWFsb2ciIG5hbWU9IkRpYWxvZyI+DQogIDxwcm9wZXJ0eSBuYW1lPSJnZW9tZXRyeSI+DQogICA8cmVjdD4NCiAgICA8eD4wPC94Pg0KICAgIDx5PjA8L3k+DQogICAgPHdpZHRoPjQwMDwvd2lkdGg+DQogICAgPGhlaWdodD4zMDA8L2hlaWdodD4NCiAgIDwvcmVjdD4NCiAgPC9wcm9wZXJ0eT4NCiAgPHByb3BlcnR5IG5hbWU9IndpbmRvd1RpdGxlIj4NCiAgIDxzdHJpbmc+RGlhbG9nPC9zdHJpbmc+DQogIDwvcHJvcGVydHk+DQogIDxsYXlvdXQgY2xhc3M9IlFWQm94TGF5b3V0IiBuYW1lPSJ2ZXJ0aWNhbExheW91dF8yIj4NCiAgIDxpdGVtPg0KICAgIDxsYXlvdXQgY2xhc3M9IlFWQm94TGF5b3V0IiBuYW1lPSJ2ZXJ0aWNhbExheW91dCI+DQogICAgIDxpdGVtPg0KICAgICAgPGxheW91dCBjbGFzcz0iUUhCb3hMYXlvdXQiIG5hbWU9Imhvcml6b250YWxMYXlvdXQiPg0KICAgICAgIDxpdGVtPg0KICAgICAgICA8d2lkZ2V0IGNsYXNzPSJRTGFiZWwiIG5hbWU9ImxhYmVsIj4NCiAgICAgICAgIDxwcm9wZXJ0eSBuYW1lPSJ0ZXh0Ij4NCiAgICAgICAgICA8c3RyaW5nPk1lc3NhZ2U8L3N0cmluZz4NCiAgICAgICAgIDwvcHJvcGVydHk+DQogICAgICAgIDwvd2lkZ2V0Pg0KICAgICAgIDwvaXRlbT4NCiAgICAgICA8aXRlbT4NCiAgICAgICAgPHdpZGdldCBjbGFzcz0iUUxpbmVFZGl0IiBuYW1lPSJsaW5lRWRpdCIvPg0KICAgICAgIDwvaXRlbT4NCiAgICAgIDwvbGF5b3V0Pg0KICAgICA8L2l0ZW0+DQogICAgIDxpdGVtPg0KICAgICAgPHdpZGdldCBjbGFzcz0iUURpYWxvZ0J1dHRvbkJveCIgbmFtZT0iYnV0dG9uQm94Ij4NCiAgICAgICA8cHJvcGVydHkgbmFtZT0ib3JpZW50YXRpb24iPg0KICAgICAgICA8ZW51bT5RdDo6SG9yaXpvbnRhbDwvZW51bT4NCiAgICAgICA8L3Byb3BlcnR5Pg0KICAgICAgIDxwcm9wZXJ0eSBuYW1lPSJzdGFuZGFyZEJ1dHRvbnMiPg0KICAgICAgICA8c2V0PlFEaWFsb2dCdXR0b25Cb3g6OkNhbmNlbHxRRGlhbG9nQnV0dG9uQm94OjpPazwvc2V0Pg0KICAgICAgIDwvcHJvcGVydHk+DQogICAgICA8L3dpZGdldD4NCiAgICAgPC9pdGVtPg0KICAgIDwvbGF5b3V0Pg0KICAgPC9pdGVtPg0KICA8L2xheW91dD4NCiA8L3dpZGdldD4NCiA8cmVzb3VyY2VzLz4NCiA8Y29ubmVjdGlvbnM+DQogIDxjb25uZWN0aW9uPg0KICAgPHNlbmRlcj5idXR0b25Cb3g8L3NlbmRlcj4NCiAgIDxzaWduYWw+YWNjZXB0ZWQoKTwvc2lnbmFsPg0KICAgPHJlY2VpdmVyPkRpYWxvZzwvcmVjZWl2ZXI+DQogICA8c2xvdD5hY2NlcHQoKTwvc2xvdD4NCiAgIDxoaW50cz4NCiAgICA8aGludCB0eXBlPSJzb3VyY2VsYWJlbCI+DQogICAgIDx4PjI0ODwveD4NCiAgICAgPHk+MjU0PC95Pg0KICAgIDwvaGludD4NCiAgICA8aGludCB0eXBlPSJkZXN0aW5hdGlvbmxhYmVsIj4NCiAgICAgPHg+MTU3PC94Pg0KICAgICA8eT4yNzQ8L3k+DQogICAgPC9oaW50Pg0KICAgPC9oaW50cz4NCiAgPC9jb25uZWN0aW9uPg0KICA8Y29ubmVjdGlvbj4NCiAgIDxzZW5kZXI+YnV0dG9uQm94PC9zZW5kZXI+DQogICA8c2lnbmFsPnJlamVjdGVkKCk8L3NpZ25hbD4NCiAgIDxyZWNlaXZlcj5EaWFsb2c8L3JlY2VpdmVyPg0KICAgPHNsb3Q+cmVqZWN0KCk8L3Nsb3Q+DQogICA8aGludHM+DQogICAgPGhpbnQgdHlwZT0ic291cmNlbGFiZWwiPg0KICAgICA8eD4zMTY8L3g+DQogICAgIDx5PjI2MDwveT4NCiAgICA8L2hpbnQ+DQogICAgPGhpbnQgdHlwZT0iZGVzdGluYXRpb25sYWJlbCI+DQogICAgIDx4PjI4NjwveD4NCiAgICAgPHk+Mjc0PC95Pg0KICAgIDwvaGludD4NCiAgIDwvaGludHM+DQogIDwvY29ubmVjdGlvbj4NCiA8L2Nvbm5lY3Rpb25zPg0KPC91aT4NCg==" Type="QByteArray"/>
+        </item>
+      </dialogs>
+      <initScript Type="QString">Dialog.exec()==1</initScript>
+    </scriptContext>
+    <suppressFieldAndVarError Value="0" Type="bool"/>
+  </object>
+</Report>

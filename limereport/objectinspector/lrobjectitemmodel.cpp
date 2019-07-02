@@ -134,10 +134,35 @@ void QObjectPropertyModel::translatePropertyName()
     tr("condition");
     tr("groupFieldName");
     tr("keepGroupTogether");
+    tr("endlessHeight");
+    tr("extendedHeight");
+    tr("isExtendedInDesignMode");
+    tr("pageIsTOC");
+    tr("setPageSizeToPrinter");
+    tr("fillInSecondPass");
+    tr("chartTitle");
+    tr("chartType");
+    tr("drawLegendBorder");
+    tr("labelsField");
+    tr("legendAlign");
+    tr("series");
+    tr("titleAlign");
     tr("watermark");
+    tr("keepTopSpace");
+    tr("printable");
+    tr("variable");
     tr("replaceCRwithBR");
+    tr("hideIfEmpty");
+    tr("hideEmptyItems");
+	tr("useExternalPainter");
+    tr("layoutSpacing");
+    tr("printerName");
+    tr("fontLetterSpacing");
     tr("hideText");
     tr("option3");
+    tr("units");
+    tr("geometryLocked");
+    tr("printBehavior");
 }
 
 void QObjectPropertyModel::clearObjectsList()
@@ -146,7 +171,8 @@ void QObjectPropertyModel::clearObjectsList()
 }
 
 QObjectPropertyModel::QObjectPropertyModel(QObject *parent/*=0*/)
-    :QAbstractItemModel(parent),m_rootNode(0),m_object(0),m_dataChanging(false), m_subclassesAsLevel(true), m_validator(0)
+    :QAbstractItemModel(parent),m_rootNode(0), m_object(0), m_dataChanging(false),
+     m_subclassesAsLevel(true), m_validator(0), m_translateProperties(true)
 {}
 
 QObjectPropertyModel::~QObjectPropertyModel()
@@ -274,16 +300,19 @@ QVariant QObjectPropertyModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Qt::DisplayRole:
         if (!node) return QVariant();
+        node->setTranslateProperty(isTranslateProperties());
         if (index.column()==0){
             return node->displayName();
-        } else return node->displayValue();
-        break;
+        } else {
+            return node->displayValue();
+        }
     case Qt::DecorationRole :
         if (!node) return QIcon();
         if (index.column()==1){
             return node->iconValue();
-        }else return QIcon();
-        break;
+        } else return QIcon();
+    case Qt::UserRole:
+        return QVariant::fromValue(node);
     default:
         return QVariant();
     }
@@ -386,12 +415,22 @@ ObjectPropItem * QObjectPropertyModel::createPropertyItem(QMetaProperty prop, QO
                     0,
                     0,
                     QString(prop.name()),
-                    QString(prop.name()),
+                    QString(tr(prop.name())),
                     object->property(prop.name()),
                     parent
                  );
     }
     return propertyItem;
+}
+
+bool QObjectPropertyModel::isTranslateProperties() const
+{
+    return m_translateProperties;
+}
+
+void QObjectPropertyModel::setTranslateProperties(bool translateProperties)
+{
+    m_translateProperties = translateProperties;
 }
 ValidatorIntf *QObjectPropertyModel::validator() const
 {

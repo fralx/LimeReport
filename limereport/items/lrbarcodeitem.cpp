@@ -49,7 +49,7 @@ BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
     : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
       m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
       m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE),
-      m_option3(0)
+      m_hideText(false), m_option3(0), m_hideIfEmpty(false)
 {}
 
 BarcodeItem::~BarcodeItem()
@@ -102,7 +102,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
         break;
     }
 
-    bc.render(*ppainter,bcRect,Zint::QZint::KeepAspectRatio);
+    bc.render(*ppainter,bcRect);
     ppainter->restore();
     ItemDesignIntf::paint(ppainter,option,widget);
 }
@@ -315,6 +315,24 @@ void BarcodeItem::setOption3(int option3)
     }
 }
 
+bool BarcodeItem::hideIfEmpty() const
+{
+    return m_hideIfEmpty;
+}
+
+void BarcodeItem::setHideIfEmpty(bool hideIfEmpty)
+{
+    if (m_hideIfEmpty != hideIfEmpty){
+        m_hideIfEmpty = hideIfEmpty;
+        notify("hideIfEmpty",!m_hideIfEmpty, m_hideIfEmpty);
+    }
+}
+
+bool BarcodeItem::isEmpty() const
+{
+    return m_content.isEmpty();
+}
+
 void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     if (content().isEmpty())
@@ -338,19 +356,17 @@ void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass
                }
            }
         }
-    }
-    else
-    {
-    switch(pass)
-        {
-    case FirstPass:
-        setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
-        setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
-        break;
-    default:;
+    } else {
+        switch(pass){
+        case FirstPass:
+            setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
+            setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
+            break;
+        default:;
         }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
+    if (isEmpty() && hideIfEmpty()) setVisible(false);
 }
 
 bool BarcodeItem::isNeedUpdateSize(RenderPass pass) const

@@ -31,6 +31,7 @@
 #include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
+#include "lrpagedesignintf.h"
 
 namespace{
 
@@ -47,45 +48,89 @@ bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instanc
 namespace LimeReport{
 
 ImageItem::ImageItem(QObject* owner,QGraphicsItem* parent)
-    :ItemDesignIntf(xmlTag,owner,parent),m_autoSize(false), m_scale(true), m_keepAspectRatio(true), m_center(true), m_format(Binary){}
+    :ItemDesignIntf(xmlTag,owner,parent), m_useExternalPainter(false), m_externalPainter(0),
+     m_autoSize(false), m_scale(true),
+     m_keepAspectRatio(true), m_center(true), m_format(Binary){}
 
 BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
-    return new ImageItem(owner,parent);
+    ImageItem* result = new ImageItem(owner,parent);
+    result->setExternalPainter(m_externalPainter);
+    return result;
+}
+
+void ImageItem::loadPictureFromVariant(QVariant& data){
+    if (data.isValid()){
+        if (data.type()==QVariant::Image){
+          m_picture =  data.value<QImage>();
+        } else {
+            switch (m_format) {
+            default:
+            case Binary:
+                m_picture.loadFromData(data.toByteArray());
+                break;
+            case Hex:
+                m_picture.loadFromData(QByteArray::fromHex(data.toByteArray()));
+                break;
+            case Base64:
+                m_picture.loadFromData(QByteArray::fromBase64(data.toByteArray()));
+                break;
+            }
+        }
+
+    }
+}
+
+void ImageItem::preparePopUpMenu(QMenu &menu)
+{
+    QAction* action = menu.addAction(tr("Watermark"));
+    action->setCheckable(true);
+    action->setChecked(isWatermark());
+}
+
+void ImageItem::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Watermark")) == 0){
+        page()->setPropertyToSelectedItems("watermark",action->isChecked());
+    }
+    ItemDesignIntf::processPopUpAction(action);
+}
+
+bool ImageItem::useExternalPainter() const
+{
+    return m_useExternalPainter;
+}
+
+void ImageItem::setUseExternalPainter(bool value)
+{
+    if (m_useExternalPainter != value){
+        m_useExternalPainter = value;
+        notify("useExternalPainter",!value, value);
+        update();
+    }
 }
 
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
 
-   if (m_picture.isNull()){
-       if (!m_datasource.isEmpty() && !m_field.isEmpty()){
-           IDataSource* ds = dataManager->dataSource(m_datasource);
+    if (m_picture.isNull()){
+        if (!m_datasource.isEmpty() && !m_field.isEmpty()){
+            IDataSource* ds = dataManager->dataSource(m_datasource);
            if (ds) {
               QVariant data = ds->data(m_field);
-              if (data.isValid()){
-                  if (data.type()==QVariant::Image){
-                    m_picture =  data.value<QImage>();
-                  } else {
-                      switch (m_format) {
-                      case Binary:
-                          m_picture.loadFromData(data.toByteArray());
-                          break;
-                      case Hex:
-                          m_picture.loadFromData(QByteArray::fromHex(data.toByteArray()));
-                          break;
-                      case Base64:
-                          m_picture.loadFromData(QByteArray::fromBase64(data.toByteArray()));
-                          break;    
-                      }
-
-                  }
-
-              }
+              loadPictureFromVariant(data);
            }
        } else if (!m_resourcePath.isEmpty()){
            m_resourcePath = expandUserVariables(m_resourcePath, pass, NoEscapeSymbols, dataManager);
            m_resourcePath = expandDataFields(m_resourcePath, NoEscapeSymbols, dataManager);
            m_picture = QImage(m_resourcePath);
+       } else if (!m_variable.isEmpty()){
+           QVariant data = dataManager->variable(m_variable);
+           if (data.type() == QVariant::String){
+                m_picture = QImage(data.toString());
+           } else if (data.type() == QVariant::Image){
+                loadPictureFromVariant(data);
+           }
        }
    }
    if (m_autoSize){
@@ -111,6 +156,16 @@ qreal ImageItem::minHeight() const{
         return m_picture.height();
     } else {
         return 0;
+    }
+}
+
+void ImageItem::setVariable(const QString& content)
+{
+    if (m_variable!=content){
+        QString oldValue = m_variable;
+        m_variable=content;
+        update();
+        notify("variable", oldValue, m_variable);
     }
 }
 
@@ -259,10 +314,13 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
         ppainter->setPen(Qt::black);
         if (!datasource().isEmpty() && !field().isEmpty())
             text = datasource()+"."+field();
-        else text = tr("Image");
+        else  if (m_useExternalPainter) text = tr("Ext."); else text = tr("Image");
         ppainter->drawText(rect().adjusted(4,4,-4,-4), Qt::AlignCenter, text );
     } else {
-        ppainter->drawImage(point,img);
+        if (m_externalPainter && m_useExternalPainter)
+            m_externalPainter->paintByExternalPainter(this->patternName(), ppainter, option);
+        else
+            ppainter->drawImage(point,img);
     }
     ItemDesignIntf::paint(ppainter,option,widget);
     ppainter->restore();
