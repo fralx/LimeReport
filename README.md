@@ -45,7 +45,7 @@ For more samples see a demo
 ### 1.5.0
 
 1.  Added the ability to use QJSEngine instead of deprecated QtScript.
-2.  Emmbedded dialog designer has been added.
+2.  Embedded dialog designer has been added.
 3.  Script editor has been improved.
 4.  Added the ability to build only report generator without embedded visual report designer.
 5.  Report translation ability has been added
