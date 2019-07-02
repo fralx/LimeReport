@@ -1,5 +1,5 @@
 
-LimeReport v1.4.7    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
+LimeReport v1.5.0    [![Build Status](https://api.travis-ci.org/fralx/LimeReport.svg?branch=master)](https://travis-ci.org/fralx/LimeReport)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc31412ea4814f30825b5ed3723e9a70)](https://app.codacy.com/app/fralx/LimeReport?utm_source=github.com&utm_medium=referral&utm_content=fralx/LimeReport&utm_campaign=Badge_Grade_Dashboard)
 -----------
 Official LimeReport web site [http://limereport.ru](http://limereport.ru)
@@ -41,6 +41,26 @@ Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 For more samples see a demo
 
 ## Change log
+
+### 1.5.0
+
+1.  Added the ability to use QJSEngine instead deprecated QtScript.
+2.  Emmbedded dialog designer has been added.
+3.  Script editor has been improved.
+4.  Added the ability to build only report generator without embedded visual report designer.
+5.  Report translation ability has been added
+6.  Added report generation time events with the ability to process them in the report script
+7.  Added the ability to build a report table of contents
+8.  Vertical layout has been added
+9.  Added the ability to transfer an image to the report via a variable
+10.  Endless height has been added
+11.  Added the ability to print a report page on multiple pages of paper.
+12.  Added the ability to print on multiple printers
+13.  ChartItem has been added
+14.  Added the ability to use aggregate functions in headers
+15.  Subtotals 
+16.  Dark and Light themes have been added to report designer
+17.  Generation result editing mode has been improved
 
 ### 1.4.7
 1.  Multipage
