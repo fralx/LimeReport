@@ -45,43 +45,24 @@ For more samples see a demo
 ### 1.5.0
 
 1.  Added the ability to use QJSEngine instead of deprecated QtScript.
-
 2.  Report designer has been improved.
-
 3.  Inches support has been added. 
-
 4.  Embedded dialog designer has been added.
-
 5.  Script editor has been improved.
-
 6.  Added the ability to build only report generator without embedded visual report designer.
-
 7.  Report translation ability has been added.
-
 8.  Added report generation time events with the ability to process them in the report script.
-
 9.  Added the ability to build a report table of contents.
-
 10.  Vertical layout has been added.
-
 11.  Added the ability to transfer an image to the report via a variable.
-
 12.  Endless height has been added.
-
 13.  Added the ability to print a report page on multiple pages of paper.
-
 14.  Added the ability to print on multiple printers.
-
 15.  ChartItem has been added.
-
 16.  Added the ability to use aggregate functions in headers.
-
 17.  Subtotals. 
-
 18.  Dark and Light themes have been added to report designer.
-
 19.  Generation result editing mode has been improved.
-
 20.  And many others minor fixes and improvements.
 
 ### 1.4.7
