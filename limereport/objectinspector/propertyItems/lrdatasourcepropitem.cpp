@@ -48,11 +48,25 @@ namespace{
     bool VARIABLE_IS_NOT_USED registredDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("datasource","LimeReport::DataBandDesignIntf"),QObject::tr("datasource"),createDatasourcePropItem
     );
+    
     bool VARIABLE_IS_NOT_USED registredImageDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("datasource","LimeReport::ImageItem"),QObject::tr("datasource"),createDatasourcePropItem
     );
+    
     bool VARIABLE_IS_NOT_USED registredImageFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
         LimeReport::APropIdent("field","LimeReport::ImageItem"),QObject::tr("field"),createFieldPropItem
+    );
+    
+    bool VARIABLE_IS_NOT_USED registredChartDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("datasource","LimeReport::ChartItem"),QObject::tr("datasource"),createDatasourcePropItem
+	);
+	
+    bool VARIABLE_IS_NOT_USED registredBarcodeDatasouceProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("datasource","LimeReport::BarcodeItem"),QObject::tr("datasource"),createDatasourcePropItem
+    );
+    
+    bool VARIABLE_IS_NOT_USED registredBarcodeFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("field","LimeReport::BarcodeItem"),QObject::tr("field"),createFieldPropItem
     );
 }
 

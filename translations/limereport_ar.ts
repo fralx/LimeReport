@@ -2,136 +2,57 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ar">
 <context>
-    <name>AboutDialog</name>
+    <name>$ClassName$</name>
     <message>
-        <source>About</source>
-        <translation type="vanished">حول البرنامج</translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation type="vanished">المؤلف</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation type="vanished">إتفاقية الترخيص</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="vanished">إغلاق</translation>
-    </message>
-    <message>
-        <source>Version 1.1.1</source>
-        <translation type="vanished">الإصدار 1.1.1</translation>
+        <source>$ClassName$</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ConnectionDialog</name>
+    <name>ChartItemEditor</name>
     <message>
-        <source>Connection</source>
-        <translation type="vanished">إتصال بقاعدة بيانات</translation>
+        <source>Series</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connection Name</source>
-        <translation type="vanished">أسم الإتصال</translation>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Driver</source>
-        <translation type="vanished">المشغل</translation>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server </source>
-        <translation type="vanished">الخادم</translation>
+        <source>Name</source>
+        <translation type="unfinished">الأسم</translation>
     </message>
     <message>
-        <source>User</source>
-        <translation type="vanished">المستخدم</translation>
+        <source>Values field</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="vanished">كلمة المرور</translation>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Database</source>
-        <translation type="vanished">قاعدة البيانات</translation>
+        <source>Type</source>
+        <translation type="unfinished">النوع</translation>
     </message>
     <message>
-        <source>Auto connect</source>
-        <translation type="vanished">إتصال تلقائي</translation>
+        <source>Labels field</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Check connection</source>
-        <translation type="vanished">فحص الإتصال</translation>
+        <source>Ok</source>
+        <translation type="unfinished">موافق</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="vanished">إلغاء الأمر</translation>
+        <source>Series editor</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation type="vanished">خطأ</translation>
-    </message>
-    <message>
-        <source>Connection succsesfully established!</source>
-        <translation type="vanished">تم الإتصال بنجاح!!</translation>
-    </message>
-    <message>
-        <source>Connection Name is empty</source>
-        <translation type="vanished">أسم الإتصال فارغ</translation>
-    </message>
-    <message>
-        <source>Connection with name </source>
-        <translation type="vanished">إتصال بأسم</translation>
-    </message>
-    <message>
-        <source> already exists </source>
-        <translation type="vanished">موجود مسبقاً</translation>
-    </message>
-</context>
-<context>
-    <name>DataBrowser</name>
-    <message>
-        <source>Datasources</source>
-        <translation type="vanished">مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Add database connection</source>
-        <translation type="vanished">إضافة إتصال قاعدة بيانات</translation>
-    </message>
-    <message>
-        <source>Add new datasource</source>
-        <translation type="vanished">إضافة مصدر بيانات جديد</translation>
-    </message>
-    <message>
-        <source>View data</source>
-        <translation type="vanished">عرض البيانات</translation>
-    </message>
-    <message>
-        <source>Change datasource</source>
-        <translation type="vanished">تغيير مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Delete datasource</source>
-        <translation type="vanished">حذف مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Show error</source>
-        <translation type="vanished">عرض الأخطاء</translation>
-    </message>
-    <message>
-        <source>Variables</source>
-        <translation type="vanished">المتغيرات</translation>
-    </message>
-    <message>
-        <source>Add new variable</source>
-        <translation type="vanished">إضافة متغير</translation>
-    </message>
-    <message>
-        <source>Edit variable</source>
-        <translation type="vanished">تعديل متغير</translation>
-    </message>
-    <message>
-        <source>Delete variable</source>
-        <translation type="vanished">حذف متغير</translation>
+        <source>Series name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -156,20 +77,20 @@
         <source>Attention</source>
         <translation>Attention</translation>
     </message>
+    <message>
+        <source>Mandatory</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>LimeReport::AVariablesHolder</name>
+    <name>LanguageSelectDialog</name>
     <message>
-        <source>variable with name </source>
-        <translation type="vanished">متغير بأسم</translation>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> already exists !!</source>
-        <translation type="vanished">موجود مسبقاً !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="vanished">غير موجود !!</translation>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -462,6 +383,10 @@ p, li { white-space: pre-wrap; }
         <source>Start new page</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Keep top space</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -492,6 +417,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>All borders</source>
         <translation type="unfinished">محاط بإطار</translation>
+    </message>
+    <message>
+        <source>Create Horizontal Layout</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -560,10 +489,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">إتصال بأسم</translation>
     </message>
     <message>
-        <source> already exists </source>
-        <translation type="obsolete">موجود مسبقاً</translation>
-    </message>
-    <message>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -593,17 +518,14 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>LimeReport::ContentItemDesignIntf</name>
-    <message>
-        <source>Variable %1 not found</source>
-        <translation type="vanished">المتغير %1 غير موجود</translation>
-    </message>
-</context>
-<context>
     <name>LimeReport::DataBand</name>
     <message>
         <source>Data</source>
         <translation>بيانات</translation>
+    </message>
+    <message>
+        <source>Use alternate background color</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -657,26 +579,8 @@ p, li { white-space: pre-wrap; }
         <translation>Attention</translation>
     </message>
     <message>
-        <source>Do you really want to delete &quot;%1&quot; connection ?</source>
-        <oldsource>Do you really want delete &quot;%1&quot; connection ?</oldsource>
-        <translation type="vanished">هل ترغب في حذف الإتصال &quot;%1&quot; ?</translation>
-    </message>
-    <message>
-        <source>User variables</source>
-        <translation type="vanished">متغيرات المستخدم</translation>
-    </message>
-    <message>
         <source>System variables</source>
         <translation>متغيرات النظام</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete &quot;%1&quot; datasource ?</source>
-        <oldsource>Do you really want delete &quot;%1&quot; datasource ?</oldsource>
-        <translation type="vanished">هل ترغب في حذف مصدر البيانات &quot;%1&quot; ?</translation>
-    </message>
-    <message>
-        <source>Do you really want delete variable &quot;%1&quot; ?</source>
-        <translation type="vanished">هل ترغب في حذف المتغير &quot;%1&quot; ?</translation>
     </message>
     <message>
         <source>Error</source>
@@ -685,10 +589,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>...</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Do you really want to delete variable &quot;%1&quot; ?</source>
-        <translation type="obsolete">هل ترغب في حذف المتغير &quot;%1&quot; ?</translation>
     </message>
     <message>
         <source>Grab variable</source>
@@ -736,19 +636,6 @@ p, li { white-space: pre-wrap; }
         <translation>الإتصال &quot;%1&quot; غير مفتوح</translation>
     </message>
     <message>
-        <source>Datasource &quot;%1&quot; not found !</source>
-        <translation type="vanished">الإتصال &quot;%1&quot; غير موجود !</translation>
-    </message>
-    <message>
-        <source>connection with name &quot;%1&quot; already exists !</source>
-        <translation type="vanished">الإتصال بأسم &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
-        <source>datasource with name &quot;%1&quot; already exists !</source>
-        <oldsource>data source with name &quot;%1&quot; already exists !!</oldsource>
-        <translation type="vanished">مصدر البيانات بأسم &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
         <source>invalid connection</source>
         <translation>خطأ بالإتصال</translation>
     </message>
@@ -785,6 +672,37 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>External variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::DialogDesignerManager</name>
+    <message>
+        <source>Edit Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object Inspector</source>
+        <translation type="unfinished">فاحص الكائن</translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signals &amp;&amp; Slots Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -978,6 +896,42 @@ p, li { white-space: pre-wrap; }
         <source>VerticalUniform</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Pie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VerticalBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HorizontalBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignTop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignBottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignLeft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignRight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TitleAlignCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -1000,6 +954,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>RightLine</source>
         <translation type="unfinished">خط أيمن</translation>
+    </message>
+    <message>
+        <source>AllLines</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1086,6 +1044,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Image</source>
         <translation>صورة</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1195,21 +1157,18 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>LimeReport::PageDesignIntf</name>
-    <message>
-        <source>Warning</source>
-        <translation type="vanished">تحذير</translation>
-    </message>
-    <message>
-        <source>Multi band deletion not allowed</source>
-        <translation type="vanished">لا يمكن حذف فقرات متعددة</translation>
-    </message>
-</context>
-<context>
     <name>LimeReport::PageFooter</name>
     <message>
         <source>Page Footer</source>
         <translation>ذيل الصفحة</translation>
+    </message>
+    <message>
+        <source>Print on first page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print on last page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1224,6 +1183,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Paste</source>
         <translation type="unfinished">لصق</translation>
+    </message>
+    <message>
+        <source>Page is TOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset page number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set page size to printer</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1316,14 +1291,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"> من %1</translation>
     </message>
     <message>
-        <source>Report file name</source>
-        <translation type="obsolete">أسم التقرير</translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
-        <translation type="obsolete">أسم ملف PDF</translation>
-    </message>
-    <message>
         <source>Preview</source>
         <translation type="unfinished">معاينة</translation>
     </message>
@@ -1392,10 +1359,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>topMargin</source>
         <translation>الهامش العلوي</translation>
-    </message>
-    <message>
-        <source>الهامش السفلي</source>
-        <translation type="vanished">Отступ нижний</translation>
     </message>
     <message>
         <source>objectName</source>
@@ -1769,6 +1732,74 @@ p, li { white-space: pre-wrap; }
         <source>keepGroupTogether</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>endlessHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>extendedHeight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>isExtendedInDesignMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pageIsTOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>setPageSizeToPrinter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fillInSecondPass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chartTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chartType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>drawLegendBorder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>labelsField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>legendAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>titleAlign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>watermark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>keepTopSpace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>variable</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectMMPropItem</name>
@@ -1808,6 +1839,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wrong file format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1880,26 +1915,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Render Report</source>
         <translation>إنشاء التقرير</translation>
-    </message>
-    <message>
-        <source>نمط تعديل النسق</source>
-        <translation type="vanished">Режим редактирования группировок</translation>
-    </message>
-    <message>
-        <source>نسق أفقي</source>
-        <translation type="vanished">Горизонтальная группировка</translation>
-    </message>
-    <message>
-        <source>حول البرنامج</source>
-        <translation type="vanished">О программе</translation>
-    </message>
-    <message>
-        <source>Hide left panel</source>
-        <translation type="vanished">إخفاء المقطع الأيسر</translation>
-    </message>
-    <message>
-        <source>Hide right panel</source>
-        <translation type="vanished">إخفاء المقطع الأيمن</translation>
     </message>
     <message>
         <source>Report Tools</source>
@@ -2002,10 +2017,6 @@ p, li { white-space: pre-wrap; }
         <translation>إستعراض البيانات</translation>
     </message>
     <message>
-        <source>Report has been modified ! Do you want save the report ?</source>
-        <translation type="vanished">تم تعديل التقرير ! هل تريد حفظ التعديلات ?</translation>
-    </message>
-    <message>
         <source>Report file name</source>
         <translation>أسم التقرير</translation>
     </message>
@@ -2066,6 +2077,38 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Delete dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Widget Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Action Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resource Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SignalSlot Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog Designer Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Report has been modified! Do you want save the report?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2096,6 +2139,14 @@ p, li { white-space: pre-wrap; }
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language %1 already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Designer not found!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2191,18 +2242,6 @@ This preview is no longer valid.</source>
         <translation type="unfinished">خطأ</translation>
     </message>
     <message>
-        <source>Datasource Name is empty !</source>
-        <translation type="obsolete">أسم مصدر البيانات فارغ !</translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation type="obsolete">SQL فارغة !</translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="obsolete">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
         <source>Datasource with name %1 already exist</source>
         <translation type="unfinished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً</translation>
     </message>
@@ -2295,9 +2334,28 @@ This preview is no longer valid.</source>
     </message>
 </context>
 <context>
+    <name>LimeReport::ScriptEditor</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">نموذج</translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Functions</source>
+        <translation type="unfinished">الدوال</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
         <source>Dialog with name: %1 can`t be created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2305,7 +2363,7 @@ This preview is no longer valid.</source>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
         <source>FieldName</source>
-        <translation type="vanished">Имя поля</translation>
+        <translation>Имя поля</translation>
     </message>
     <message>
         <source>BandName</source>
@@ -2344,6 +2402,10 @@ This preview is no longer valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Field %1 not found in %2!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>SYSTEM</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2360,7 +2422,39 @@ This preview is no longer valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Seconds</source>
+        <source>Datasource</source>
+        <translation type="unfinished">مصدر البيانات</translation>
+    </message>
+    <message>
+        <source>ValueField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KeyField</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KeyFieldValue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unique identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished">المحتوى</translation>
+    </message>
+    <message>
+        <source>Indent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>datasourceName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Function manager with name &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2396,6 +2490,14 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Suppress absent fields and variables warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use dark theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2478,7 +2580,15 @@ This preview is no longer valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Transparent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>TextItem &quot; %1 &quot; not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2493,10 +2603,6 @@ This preview is no longer valid.</source>
         <translation type="unfinished">المحتوى</translation>
     </message>
     <message>
-        <source>Functions</source>
-        <translation type="unfinished">الدوال</translation>
-    </message>
-    <message>
         <source>Editor settings</source>
         <translation type="unfinished">إعدادات المحرر</translation>
     </message>
@@ -2507,10 +2613,6 @@ This preview is no longer valid.</source>
     <message>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>...</source>
@@ -2530,18 +2632,57 @@ This preview is no longer valid.</source>
     </message>
 </context>
 <context>
+    <name>LimeReport::TranslationEditor</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">نموذج</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Strings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::VariablesHolder</name>
     <message>
         <source>variable with name </source>
         <translation type="unfinished">متغير بأسم</translation>
-    </message>
-    <message>
-        <source> already exists !!</source>
-        <translation type="obsolete">موجود مسبقاً !!</translation>
-    </message>
-    <message>
-        <source> does not exists !!</source>
-        <translation type="obsolete">غير موجود !!</translation>
     </message>
     <message>
         <source> already exists!</source>
@@ -2550,93 +2691,6 @@ This preview is no longer valid.</source>
     <message>
         <source> does not exists!</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PreviewReportWindow</name>
-    <message>
-        <source>Preview</source>
-        <translation type="vanished">معاينة</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="vanished">عرض</translation>
-    </message>
-    <message>
-        <source>Report</source>
-        <translation type="vanished">تقرير</translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation type="vanished">شريط الأدوات</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">طباعة</translation>
-    </message>
-    <message>
-        <source>Zoom In</source>
-        <translation type="vanished">تكبير</translation>
-    </message>
-    <message>
-        <source>Zoom Out</source>
-        <translation type="vanished">تصغير</translation>
-    </message>
-    <message>
-        <source>Prior Page</source>
-        <translation type="vanished">الصفحة السابقة</translation>
-    </message>
-    <message>
-        <source>Next Page</source>
-        <translation type="vanished">الصفحة التالية</translation>
-    </message>
-    <message>
-        <source>Close Preview</source>
-        <translation type="vanished">أغلاق</translation>
-    </message>
-    <message>
-        <source>Edit Mode</source>
-        <translation type="vanished">وضع التعديل</translation>
-    </message>
-    <message>
-        <source>Save to file</source>
-        <translation type="vanished">حفظ إلى ملف</translation>
-    </message>
-    <message>
-        <source>Show errors</source>
-        <translation type="vanished">عرض الأخطاء</translation>
-    </message>
-    <message>
-        <source>First Page</source>
-        <translation type="vanished">الصفحة الأولى</translation>
-    </message>
-    <message>
-        <source>First page</source>
-        <translation type="vanished">الصفحة الأولى</translation>
-    </message>
-    <message>
-        <source>Last Page</source>
-        <translation type="vanished">الصفحة الأخيرة</translation>
-    </message>
-    <message>
-        <source>Print To PDF</source>
-        <translation type="vanished">تحويل إلى PDF</translation>
-    </message>
-    <message>
-        <source>Page: </source>
-        <translation type="vanished">صفحة: </translation>
-    </message>
-    <message>
-        <source> of %1</source>
-        <translation type="vanished"> من %1</translation>
-    </message>
-    <message>
-        <source>Report file name</source>
-        <translation type="vanished">أسم التقرير</translation>
-    </message>
-    <message>
-        <source>PDF file name</source>
-        <translation type="vanished">أسم ملف  PDF</translation>
     </message>
 </context>
 <context>
@@ -2746,10 +2800,6 @@ This preview is no longer valid.</source>
         <translation>العناصر المحددة مختلفة البنية</translation>
     </message>
     <message>
-        <source>Object with name %1 already exists</source>
-        <translation type="vanished">أسم الكائن %1 уже موجود مسبقاً</translation>
-    </message>
-    <message>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>الدالة %1 غير موجودة او الباريميترات خاطئة</translation>
     </message>
@@ -2780,22 +2830,6 @@ This preview is no longer valid.</source>
     <message>
         <source>File %1 not opened</source>
         <translation>الحقل %1 غير مفتوح</translation>
-    </message>
-    <message>
-        <source>TopLine</source>
-        <translation type="vanished">خط علوي</translation>
-    </message>
-    <message>
-        <source>BottomLine</source>
-        <translation type="vanished">خط سفلي</translation>
-    </message>
-    <message>
-        <source>LeftLine</source>
-        <translation type="vanished">خط أيسر</translation>
-    </message>
-    <message>
-        <source>RightLine</source>
-        <translation type="vanished">خط أيمن</translation>
     </message>
     <message>
         <source>content</source>
@@ -2858,152 +2892,28 @@ This preview is no longer valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Chart Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Second</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Object with name %1 already exists!</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>SQLEditDialog</name>
     <message>
-        <source>Datasource</source>
-        <translation type="vanished">مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation type="vanished">الإتصال</translation>
-    </message>
-    <message>
-        <source>Datasource Name</source>
-        <translation type="vanished">أسم مصدر البيانات</translation>
-    </message>
-    <message>
-        <source>Subdetail</source>
-        <translation type="vanished">البيانات الفرعية</translation>
-    </message>
-    <message>
-        <source>Master datasource</source>
-        <translation type="vanished">مصدر البيانات الرئيسي</translation>
-    </message>
-    <message>
-        <source>Subquery mode</source>
-        <translation type="vanished">وضع الاستعلام الفرعي</translation>
-    </message>
-    <message>
-        <source>Filter mode</source>
-        <translation type="vanished">وضع التصفية</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="vanished">معاينة</translation>
-    </message>
-    <message>
-        <source>Hide Preview</source>
-        <translation type="vanished">إخفاء المعاينة</translation>
-    </message>
-    <message>
-        <source>Child datasource</source>
-        <translation type="vanished">مصدر البيانات الفرعي</translation>
-    </message>
-    <message>
-        <source>Data preview</source>
-        <translation type="vanished">معاينة البيانات</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="vanished">خطأ</translation>
-    </message>
-    <message>
-        <source>Datasource Name is empty !</source>
-        <translation type="vanished">أسم مصدر البيانات فارغ !</translation>
-    </message>
-    <message>
-        <source>SQL is empty !</source>
-        <translation type="vanished">SQL فارغة !</translation>
-    </message>
-    <message>
-        <source>Datasource with name: &quot;%1&quot; already exists !</source>
-        <translation type="vanished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً !</translation>
-    </message>
-    <message>
-        <source>Datasource with name %1 already exist</source>
-        <translation type="vanished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً</translation>
-    </message>
-    <message>
-        <source>Connection is not specified</source>
-        <translation type="vanished">إتصال غير محدد</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation type="vanished">تحديث</translation>
-    </message>
-</context>
-<context>
-    <name>SettingDialog</name>
-    <message>
-        <source>Designer setting</source>
-        <translation type="vanished">إعدادات</translation>
-    </message>
-    <message>
-        <source>Default font</source>
-        <translation type="vanished">الخط الإفتراضي</translation>
-    </message>
-    <message>
-        <source>Grid</source>
-        <translation type="vanished">شبكة</translation>
-    </message>
-    <message>
-        <source>Vertical grid step</source>
-        <translation type="vanished">تباعد الشبكة العمودي</translation>
-    </message>
-    <message>
-        <source>Horizontal grid step</source>
-        <translation type="vanished">تباعد الشبكة الأفقي</translation>
-    </message>
-</context>
-<context>
-    <name>TextItemEditor</name>
-    <message>
-        <source>Text Item Editor</source>
-        <translation type="vanished">محرر النص</translation>
-    </message>
-    <message>
-        <source>Content</source>
-        <translation type="vanished">المحتوى</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">جدول البيانات</translation>
-    </message>
-    <message>
-        <source>Functions</source>
-        <translation type="vanished">الدوال</translation>
-    </message>
-    <message>
-        <source>Editor settings</source>
-        <translation type="vanished">إعدادات المحرر</translation>
-    </message>
-    <message>
-        <source>Editor font</source>
-        <translation type="vanished">محرر الخطوط</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">إلغاء الأمر</translation>
-    </message>
-</context>
-<context>
-    <name>WaitForm</name>
-    <message>
-        <source>Wait</source>
-        <translation type="vanished">انتظر</translation>
-    </message>
-    <message>
-        <source>Please wait ...</source>
-        <translation type="vanished">يرجى الإنتظار ...</translation>
+        <source>Datasource manager not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

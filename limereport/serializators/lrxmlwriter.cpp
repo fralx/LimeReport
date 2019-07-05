@@ -31,6 +31,7 @@
 #include "lrbasedesignintf.h"
 #include "serializators/lrxmlserializatorsfactory.h"
 #include "lrcollection.h"
+#include "lrreporttranslation.h"
 #include <QDebug>
 
 namespace LimeReport{
@@ -137,7 +138,9 @@ void XMLWriter::saveProperty(QString name, QObject* item, QDomElement *node)
         typeName = item->property(name.toLatin1()).typeName();
 
     CreateSerializator creator=0;
-    if (isCollection(name,item)) { saveCollection(name,item,node); return;}
+    if (isCollection(name, item)) { saveCollection(name,item,node); return; }
+    if (isTranslation(name, item)) { saveTranslation(name, item, node); return; }
+
     if (isQObject(name,item)) {
         if (qvariant_cast<QObject *>(item->property(name.toLatin1())))
             putQObjectProperty(name,qvariant_cast<QObject *>(item->property(name.toLatin1())),node);
@@ -193,9 +196,15 @@ bool XMLWriter::isCollection(QString propertyName, QObject* item)
     return QMetaType::type(prop.typeName())==COLLECTION_TYPE_ID;
 }
 
+bool XMLWriter::isTranslation(QString propertyName, QObject* item)
+{
+    QMetaProperty prop=item->metaObject()->property(item->metaObject()->indexOfProperty(propertyName.toLatin1()));
+    return QMetaType::type(prop.typeName())==TRANSLATION_TYPE_ID;
+}
+
 void XMLWriter::saveCollection(QString propertyName, QObject *item, QDomElement *node)
 {
-    ICollectionContainer * collection=dynamic_cast<ICollectionContainer*>(item);
+    ICollectionContainer * collection = dynamic_cast<ICollectionContainer*>(item);
     QDomElement collectionNode=m_doc->createElement(propertyName);
     collectionNode.setAttribute("Type","Collection");
 
@@ -204,6 +213,42 @@ void XMLWriter::saveCollection(QString propertyName, QObject *item, QDomElement 
     }
 
     node->appendChild(collectionNode);
+}
+
+void XMLWriter::saveTranslation(QString propertyName, QObject* item, QDomElement* node)
+{
+    ITranslationContainer* translationsContainer = dynamic_cast<ITranslationContainer*>(item);
+    if (translationsContainer){
+        QDomElement translationsNode=m_doc->createElement(propertyName);
+        translationsNode.setAttribute("Type","Translation");
+        Translations* translations = translationsContainer->translations();
+        foreach(QLocale::Language language, translations->keys()){
+            QDomElement languageNode = m_doc->createElement(QLocale::languageToString(language));
+            languageNode.setAttribute("Value",QString::number(language));
+            translationsNode.appendChild(languageNode);
+            ReportTranslation* curTranslation = translations->value(language);
+            foreach(PageTranslation* page, curTranslation->pagesTranslation()){
+                QDomElement pageNode = m_doc->createElement(page->pageName);
+                languageNode.appendChild(pageNode);
+                foreach(ItemTranslation* item, page->itemsTranslation){
+                    QDomElement itemNode = m_doc->createElement(item->itemName);
+                    foreach(PropertyTranslation* property, item->propertyesTranslation){
+                        if (property->sourceValue.compare(property->value) != 0){
+                            QDomElement propertyNode = m_doc->createElement(property->propertyName);
+                            propertyNode.setAttribute("Value",property->value);
+                            propertyNode.setAttribute("SourceValue", property->sourceValue);
+                            propertyNode.setAttribute("Checked", property->checked ? "Y":"N");
+                            itemNode.appendChild(propertyNode);
+                        }
+                    }
+                    if (!itemNode.childNodes().isEmpty())
+                        pageNode.appendChild(itemNode);
+                }
+            }
+        }
+        node->appendChild(translationsNode);
+    }
+
 }
 
 bool XMLWriter::isQObject(QString propertyName, QObject *item)

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF8"?>
+<Report>
+  <object ClassName="LimeReport::ReportEnginePrivate" Type="Object">
+    <objectName Type="QString"></objectName>
+    <pages Type="Collection">
+      <item ClassName="LimeReport::PageDesignIntf" Type="Object">
+        <objectName Type="QString">page1</objectName>
+        <sceneRect y="-50" height="3070" width="2200" x="-50" Type="QRect"/>
+        <bspTreeDepth Value="5" Type="int"/>
+        <font family="MS Shell Dlg 2" weight="50" italic="0" underline="0" Type="QFont" pointSize="8"/>
+        <sortCacheEnabled Value="0" Type="bool"/>
+        <stickyFocus Value="0" Type="bool"/>
+        <minimumRenderSize Value="0" Type="qreal"/>
+        <pageItem ClassName="PageItem" Type="Object">
+          <objectName Type="QString">Reportpage1</objectName>
+          <geometry y="0" height="2970" width="2100" x="0" Type="QRect"/>
+          <children Type="Collection">
+            <item ClassName="TextItem" Type="Object">
+              <objectName Type="QString">TextItem1</objectName>
+              <geometry y="124" height="50" width="200" x="138" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Value="0" Type="qreal"/>
+              <borders Value="0" Type="enumAndFlags"/>
+              <parentName Type="QString">Reportpage1</parentName>
+              <borderLineSize Value="1" Type="int"/>
+              <isVisible Value="1" Type="bool"/>
+              <borderColor Value="#000000" Type="QColor"/>
+              <itemLocation Value="1" Type="enumAndFlags"/>
+              <stretchToMaxHeight Value="0" Type="bool"/>
+              <itemAlign Value="4" Type="enumAndFlags"/>
+              <content Type="QString">Test</content>
+              <margin Value="4" Type="int"/>
+              <alignment Value="33" Type="enumAndFlags"/>
+              <autoWidth Value="0" Type="enumAndFlags"/>
+              <autoHeight Value="0" Type="bool"/>
+              <font family="Arial" weight="50" italic="0" underline="0" Type="QFont" pointSize="10"/>
+              <backgroundOpacity Value="100" Type="int"/>
+              <backgroundMode Value="1" Type="enumAndFlags"/>
+              <backgroundColor Value="#ffffff" Type="QColor"/>
+              <fontColor Value="#000000" Type="QColor"/>
+              <angle Value="0" Type="enumAndFlags"/>
+              <foregroundOpacity Value="100" Type="int"/>
+              <underlines Value="0" Type="bool"/>
+              <adaptFontToSize Value="0" Type="bool"/>
+              <trimValue Value="1" Type="bool"/>
+              <lineSpacing Value="1" Type="int"/>
+              <underlineLineSize Value="1" Type="int"/>
+              <allowHTML Value="0" Type="bool"/>
+              <allowHTMLInFields Value="0" Type="bool"/>
+              <format Type="QString"></format>
+              <valueType Value="0" Type="enumAndFlags"/>
+              <followTo Type="QString"></followTo>
+              <backgroundBrushStyle Value="1" Type="enumAndFlags"/>
+              <textIndent Value="0" Type="qreal"/>
+              <textLayoutDirection Value="2" Type="enumAndFlags"/>
+              <fillInSecondPass Value="0" Type="bool"/>
+              <watermark Value="0" Type="bool"/>
+              <replaceCRwithBR Value="0" Type="bool"/>
+              <hideIfEmpty Value="0" Type="bool"/>
+            </item>
+          </children>
+          <zOrder Value="0" Type="qreal"/>
+          <borders Value="0" Type="enumAndFlags"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Value="1" Type="int"/>
+          <isVisible Value="1" Type="bool"/>
+          <borderColor Value="#000000" Type="QColor"/>
+          <topMargin Value="5" Type="int"/>
+          <bottomMargin Value="5" Type="int"/>
+          <rightMargin Value="5" Type="int"/>
+          <leftMargin Value="5" Type="int"/>
+          <pageOrientation Value="0" Type="enumAndFlags"/>
+          <pageSize Value="0" Type="enumAndFlags"/>
+          <gridStep Value="2" Type="int"/>
+          <fullPage Value="0" Type="bool"/>
+          <oldPrintMode Value="0" Type="bool"/>
+          <resetPageNumber Value="0" Type="bool"/>
+          <isExtendedInDesignMode Value="0" Type="bool"/>
+          <extendedHeight Value="1000" Type="int"/>
+          <pageIsTOC Value="0" Type="bool"/>
+          <setPageSizeToPrinter Value="0" Type="bool"/>
+          <endlessHeight Value="0" Type="bool"/>
+          <printable Value="1" Type="bool"/>
+        </pageItem>
+      </item>
+    </pages>
+    <datasourcesManager ClassName="LimeReport::DataSourceManager" Type="Object">
+      <objectName Type="QString">datasources</objectName>
+      <connections Type="Collection"/>
+      <queries Type="Collection"/>
+      <subqueries Type="Collection"/>
+      <subproxies Type="Collection"/>
+      <variables Type="Collection"/>
+    </datasourcesManager>
+    <scriptContext ClassName="LimeReport::ScriptEngineContext" Type="Object">
+      <objectName Type="QString"></objectName>
+      <dialogs Type="Collection">
+        <item ClassName="LimeReport::DialogDescriber" Type="Object">
+          <objectName Type="QString"></objectName>
+          <name Type="QString">Dialog</name>
+          <description Value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHVpIHZlcnNpb249IjQuMCI+CiA8Y2xhc3M+RGlhbG9nPC9jbGFzcz4KIDx3aWRnZXQgY2xhc3M9IlFEaWFsb2ciIG5hbWU9IkRpYWxvZyI+CiAgPHByb3BlcnR5IG5hbWU9Imdlb21ldHJ5Ij4KICAgPHJlY3Q+CiAgICA8eD4wPC94PgogICAgPHk+MDwveT4KICAgIDx3aWR0aD40MDA8L3dpZHRoPgogICAgPGhlaWdodD4xMTI8L2hlaWdodD4KICAgPC9yZWN0PgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IG5hbWU9IndpbmRvd1RpdGxlIj4KICAgPHN0cmluZz5TZWxlY3QgTGFuZ3VhZ2U8L3N0cmluZz4KICA8L3Byb3BlcnR5PgogIDxsYXlvdXQgY2xhc3M9IlFWQm94TGF5b3V0IiBuYW1lPSJ2ZXJ0aWNhbExheW91dCI+CiAgIDxpdGVtPgogICAgPHNwYWNlciBuYW1lPSJ2ZXJ0aWNhbFNwYWNlciI+CiAgICAgPHByb3BlcnR5IG5hbWU9Im9yaWVudGF0aW9uIj4KICAgICAgPGVudW0+UXQ6OlZlcnRpY2FsPC9lbnVtPgogICAgIDwvcHJvcGVydHk+CiAgICAgPHByb3BlcnR5IG5hbWU9InNpemVIaW50IiBzdGRzZXQ9IjAiPgogICAgICA8c2l6ZT4KICAgICAgIDx3aWR0aD4yMDwvd2lkdGg+CiAgICAgICA8aGVpZ2h0PjExPC9oZWlnaHQ+CiAgICAgIDwvc2l6ZT4KICAgICA8L3Byb3BlcnR5PgogICAgPC9zcGFjZXI+CiAgIDwvaXRlbT4KICAgPGl0ZW0+CiAgICA8bGF5b3V0IGNsYXNzPSJRSEJveExheW91dCIgbmFtZT0iaG9yaXpvbnRhbExheW91dCI+CiAgICAgPGl0ZW0+CiAgICAgIDx3aWRnZXQgY2xhc3M9IlFMYWJlbCIgbmFtZT0ibGFiZWwiPgogICAgICAgPHByb3BlcnR5IG5hbWU9InNpemVQb2xpY3kiPgogICAgICAgIDxzaXplcG9saWN5IGhzaXpldHlwZT0iRml4ZWQiIHZzaXpldHlwZT0iUHJlZmVycmVkIj4KICAgICAgICAgPGhvcnN0cmV0Y2g+MDwvaG9yc3RyZXRjaD4KICAgICAgICAgPHZlcnN0cmV0Y2g+MDwvdmVyc3RyZXRjaD4KICAgICAgICA8L3NpemVwb2xpY3k+CiAgICAgICA8L3Byb3BlcnR5PgogICAgICAgPHByb3BlcnR5IG5hbWU9InRleHQiPgogICAgICAgIDxzdHJpbmc+U2VsZWN0IExhbmd1YWdlPC9zdHJpbmc+CiAgICAgICA8L3Byb3BlcnR5PgogICAgICA8L3dpZGdldD4KICAgICA8L2l0ZW0+CiAgICAgPGl0ZW0+CiAgICAgIDx3aWRnZXQgY2xhc3M9IlFDb21ib0JveCIgbmFtZT0iY29tYm9Cb3giLz4KICAgICA8L2l0ZW0+CiAgICA8L2xheW91dD4KICAgPC9pdGVtPgogICA8aXRlbT4KICAgIDxzcGFjZXIgbmFtZT0idmVydGljYWxTcGFjZXJfMiI+CiAgICAgPHByb3BlcnR5IG5hbWU9Im9yaWVudGF0aW9uIj4KICAgICAgPGVudW0+UXQ6OlZlcnRpY2FsPC9lbnVtPgogICAgIDwvcHJvcGVydHk+CiAgICAgPHByb3BlcnR5IG5hbWU9InNpemVIaW50IiBzdGRzZXQ9IjAiPgogICAgICA8c2l6ZT4KICAgICAgIDx3aWR0aD4yMDwvd2lkdGg+CiAgICAgICA8aGVpZ2h0PjEyPC9oZWlnaHQ+CiAgICAgIDwvc2l6ZT4KICAgICA8L3Byb3BlcnR5PgogICAgPC9zcGFjZXI+CiAgIDwvaXRlbT4KICAgPGl0ZW0+CiAgICA8bGF5b3V0IGNsYXNzPSJRSEJveExheW91dCIgbmFtZT0iaG9yaXpvbnRhbExheW91dF8yIj4KICAgICA8aXRlbT4KICAgICAgPHNwYWNlciBuYW1lPSJob3Jpem9udGFsU3BhY2VyIj4KICAgICAgIDxwcm9wZXJ0eSBuYW1lPSJvcmllbnRhdGlvbiI+CiAgICAgICAgPGVudW0+UXQ6Okhvcml6b250YWw8L2VudW0+CiAgICAgICA8L3Byb3BlcnR5PgogICAgICAgPHByb3BlcnR5IG5hbWU9InNpemVIaW50IiBzdGRzZXQ9IjAiPgogICAgICAgIDxzaXplPgogICAgICAgICA8d2lkdGg+NDA8L3dpZHRoPgogICAgICAgICA8aGVpZ2h0PjIwPC9oZWlnaHQ+CiAgICAgICAgPC9zaXplPgogICAgICAgPC9wcm9wZXJ0eT4KICAgICAgPC9zcGFjZXI+CiAgICAgPC9pdGVtPgogICAgIDxpdGVtPgogICAgICA8d2lkZ2V0IGNsYXNzPSJRUHVzaEJ1dHRvbiIgbmFtZT0icHVzaEJ1dHRvbiI+CiAgICAgICA8cHJvcGVydHkgbmFtZT0idGV4dCI+CiAgICAgICAgPHN0cmluZz5Pazwvc3RyaW5nPgogICAgICAgPC9wcm9wZXJ0eT4KICAgICAgPC93aWRnZXQ+CiAgICAgPC9pdGVtPgogICAgIDxpdGVtPgogICAgICA8d2lkZ2V0IGNsYXNzPSJRUHVzaEJ1dHRvbiIgbmFtZT0icHVzaEJ1dHRvbl8yIj4KICAgICAgIDxwcm9wZXJ0eSBuYW1lPSJ0ZXh0Ij4KICAgICAgICA8c3RyaW5nPkNhbmNlbDwvc3RyaW5nPgogICAgICAgPC9wcm9wZXJ0eT4KICAgICAgPC93aWRnZXQ+CiAgICAgPC9pdGVtPgogICAgPC9sYXlvdXQ+CiAgIDwvaXRlbT4KICA8L2xheW91dD4KIDwvd2lkZ2V0PgogPHJlc291cmNlcy8+CiA8Y29ubmVjdGlvbnM+CiAgPGNvbm5lY3Rpb24+CiAgIDxzZW5kZXI+cHVzaEJ1dHRvbjwvc2VuZGVyPgogICA8c2lnbmFsPmNsaWNrZWQoKTwvc2lnbmFsPgogICA8cmVjZWl2ZXI+RGlhbG9nPC9yZWNlaXZlcj4KICAgPHNsb3Q+YWNjZXB0KCk8L3Nsb3Q+CiAgIDxoaW50cz4KICAgIDxoaW50IHR5cGU9InNvdXJjZWxhYmVsIj4KICAgICA8eD4xNjQ8L3g+CiAgICAgPHk+MjMxPC95PgogICAgPC9oaW50PgogICAgPGhpbnQgdHlwZT0iZGVzdGluYXRpb25sYWJlbCI+CiAgICAgPHg+MTYzPC94PgogICAgIDx5PjE1ODwveT4KICAgIDwvaGludD4KICAgPC9oaW50cz4KICA8L2Nvbm5lY3Rpb24+CiAgPGNvbm5lY3Rpb24+CiAgIDxzZW5kZXI+cHVzaEJ1dHRvbl8yPC9zZW5kZXI+CiAgIDxzaWduYWw+Y2xpY2tlZCgpPC9zaWduYWw+CiAgIDxyZWNlaXZlcj5EaWFsb2c8L3JlY2VpdmVyPgogICA8c2xvdD5yZWplY3QoKTwvc2xvdD4KICAgPGhpbnRzPgogICAgPGhpbnQgdHlwZT0ic291cmNlbGFiZWwiPgogICAgIDx4PjI2MTwveD4KICAgICA8eT4yMzU8L3k+CiAgICA8L2hpbnQ+CiAgICA8aGludCB0eXBlPSJkZXN0aW5hdGlvbmxhYmVsIj4KICAgICA8eD4yODE8L3g+CiAgICAgPHk+MTYxPC95PgogICAgPC9oaW50PgogICA8L2hpbnRzPgogIDwvY29ubmVjdGlvbj4KIDwvY29ubmVjdGlvbnM+CjwvdWk+Cg==" Type="QByteArray"/>
+        </item>
+      </dialogs>
+      <initScript Type="QString">function OnAccept(){
+   engine.setReportTranslation(Dialog.comboBox.currentText);	
+}
+Dialog.accepted.connect(OnAccept);
+
+var comboBox = LimeReport.createWrapper(Dialog.comboBox);
+comboBox.addItems(engine.aviableReportTranslations());
+
+Dialog.exec() == 1;
+</initScript>
+    </scriptContext>
+    <suppressFieldAndVarError Value="0" Type="bool"/>
+    <translation Type="Translation">
+      <Default Value="0">
+        <Reportpage1/>
+      </Default>
+      <Russian Value="96">
+        <Reportpage1>
+          <TextItem1>
+            <content SourceValue="Test" Checked="Y" Value="Проверка"/>
+          </TextItem1>
+        </Reportpage1>
+      </Russian>
+    </translation>
+  </object>
+</Report>

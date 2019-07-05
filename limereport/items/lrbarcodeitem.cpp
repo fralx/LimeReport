@@ -48,7 +48,8 @@ namespace LimeReport{
 BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
     : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
       m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
-      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE)
+      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE),
+      m_hideText(false), m_option3(0), m_hideIfEmpty(false)
 {}
 
 BarcodeItem::~BarcodeItem()
@@ -74,6 +75,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     bc.setSecurityLevel(m_securityLevel);
     bc.setPdf417CodeWords(m_pdf417CodeWords);
     bc.setHideText(m_hideText);
+    bc.setOption3(m_option3);
 
     if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
 
@@ -100,7 +102,7 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
         break;
     }
 
-    bc.render(*ppainter,bcRect,Zint::QZint::KeepAspectRatio);
+    bc.render(*ppainter,bcRect);
     ppainter->restore();
     ItemDesignIntf::paint(ppainter,option,widget);
 }
@@ -112,6 +114,36 @@ void BarcodeItem::setContent(const QString &content)
         m_content=content;
         update();
         notify("content",oldValue,m_content);
+    }
+}
+
+QString BarcodeItem::datasource() const
+{
+    return m_datasource;
+}
+
+void BarcodeItem::setDatasource(const QString &datasource)
+{
+    if (m_datasource != datasource){
+        QString oldValue = m_datasource;
+        m_datasource = datasource;
+        update();
+        notify("datasource", oldValue, datasource);
+    }
+}
+
+QString BarcodeItem::field() const
+{
+    return m_field;
+}
+
+void BarcodeItem::setField(const QString &field)
+{
+    if (m_field != field){
+        QString oldValue = m_field;
+        m_field = field;
+        update();
+        notify("field", oldValue, field);
     }
 }
 
@@ -261,21 +293,80 @@ void BarcodeItem::setHideText(bool hideText)
         m_hideText = hideText;
         if (!isLoading()){
             update();
-            notify("hideText",!m_hideText,m_hideText);
+            notify("hideText", !m_hideText, m_hideText);
         }
     }
 }
 
+int BarcodeItem::option3() const
+{
+    return m_option3;
+}
+
+void BarcodeItem::setOption3(int option3)
+{
+    if (m_option3 != option3){
+        int oldValue = m_option3;
+        m_option3 = option3;
+        if(!isLoading()){
+            update();
+            notify("option3", oldValue, m_option3);
+        }
+    }
+}
+
+bool BarcodeItem::hideIfEmpty() const
+{
+    return m_hideIfEmpty;
+}
+
+void BarcodeItem::setHideIfEmpty(bool hideIfEmpty)
+{
+    if (m_hideIfEmpty != hideIfEmpty){
+        m_hideIfEmpty = hideIfEmpty;
+        notify("hideIfEmpty",!m_hideIfEmpty, m_hideIfEmpty);
+    }
+}
+
+bool BarcodeItem::isEmpty() const
+{
+    return m_content.isEmpty();
+}
+
 void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-    switch(pass){
-    case FirstPass:
-        setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
-        setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
-        break;
-    default:;
+    if (content().isEmpty())
+    {
+        if (!m_datasource.isEmpty() && !m_field.isEmpty())
+        {
+           IDataSource* ds = dataManager->dataSource(m_datasource);
+           if (ds)
+           {
+               QVariant data = ds->data(m_field);
+               if (data.isValid())
+               {
+                   switch(pass)
+                       {
+                       case FirstPass:
+                           setContent(expandUserVariables(data.toString(),pass,NoEscapeSymbols, dataManager));
+                           setContent(expandDataFields(data.toString(), NoEscapeSymbols, dataManager));
+                           break;
+                       default:;
+                       }
+               }
+           }
+        }
+    } else {
+        switch(pass){
+        case FirstPass:
+            setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
+            setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
+            break;
+        default:;
+        }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
+    if (isEmpty() && hideIfEmpty()) setVisible(false);
 }
 
 bool BarcodeItem::isNeedUpdateSize(RenderPass pass) const

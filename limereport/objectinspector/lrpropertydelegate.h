@@ -39,14 +39,14 @@
 
 namespace LimeReport{
 
-class ObjectInspectorWidget;
-class PropertyDelegate : public QItemDelegate
-//class PropertyDelegate : public QStyledItemDelegate
+class ObjectInspectorTreeView;
+//class PropertyDelegate : public QItemDelegate
+class PropertyDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
     PropertyDelegate(QObject *parent=0);
-    void setObjectInspector(ObjectInspectorWidget* objectInspector);
+    void setObjectInspector(ObjectInspectorTreeView* objectInspector);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -60,7 +60,7 @@ private slots:
     void slotEditorDeleted();
     void slotItemDeleted(QObject* item);
 private:
-    LimeReport::ObjectInspectorWidget* m_objectInspector;
+    LimeReport::ObjectInspectorTreeView* m_objectInspector;
     mutable LimeReport::ObjectPropItem* m_editingItem;
     mutable bool m_isEditing;
 };

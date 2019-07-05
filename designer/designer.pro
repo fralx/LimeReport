@@ -1,13 +1,24 @@
 include(../common.pri)
 QT += core gui
 
-TARGET = LRDesigner
+contains(CONFIG,release) {
+	TARGET = LRDesigner
+} else {
+	TARGET = LRDesignerd
+}
 TEMPLATE = app
 
-SOURCES += main.cpp
+HEADERS += \
+    designersettingmanager.h
+
+SOURCES += main.cpp \
+    designersettingmanager.cpp
 
 INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
+
+RESOURCES += $$PWD/../3rdparty/dark_style_sheet/qdarkstyle/style.qrc
+RESOURCES += $$PWD/../3rdparty/light_style_sheet/qlightstyle/lightstyle.qrc
 
 DEST_DIR       = $${DEST_BINS}
 REPORTS_DIR    = $${DEST_DIR}
@@ -17,22 +28,6 @@ macx{
 }
 
 unix:{
-    LIBS += -L$${DEST_LIBS}
-    CONFIG(debug, debug|release) {
-        LIBS += -llimereportd
-    } else {
-        LIBS += -llimereport
-    }
-    !contains(CONFIG, static_build){
-		contains(CONFIG,zint){
-			LIBS += -L$${DEST_LIBS}
-			CONFIG(debug, debug|release) {
-				LIBS += -lQtZintd
-			} else {
-				LIBS += -lQtZint
-			}
-		}
-	}
     DESTDIR = $$DEST_DIR
 linux{
     #Link share lib to ../lib rpath
@@ -52,22 +47,21 @@ win32 {
 
     DESTDIR = $$DEST_DIR
     RC_FILE += mainicon.rc
-    !contains(CONFIG, static_build){
-		contains(CONFIG,zint){
-			LIBS += -L$${DEST_LIBS}
-			CONFIG(debug, debug|release) {
-				LIBS += -lQtZintd
-			} else {
-				LIBS += -lQtZint
-			}
-		}
-    }
-	
-    LIBS += -L$${DEST_LIBS}
-    CONFIG(debug, debug|release) {
-        LIBS += -llimereportd
-    } else {
-        LIBS += -llimereport
-    }
 }
 
+LIBS += -L$${DEST_LIBS}
+CONFIG(debug, debug|release) {
+        LIBS += -llimereportd
+} else {
+        LIBS += -llimereport
+}
+
+!contains(CONFIG, static_build){
+    contains(CONFIG,zint){
+        CONFIG(debug, debug|release) {
+            LIBS += -L$${DEST_LIBS} -lQtZintd
+        } else {
+            LIBS += -L$${DEST_LIBS} -lQtZint
+        }
+    }
+}

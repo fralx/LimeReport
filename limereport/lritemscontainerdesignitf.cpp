@@ -93,14 +93,25 @@ void ItemsContainerDesignInft::arrangeSubItems(RenderPass pass, DataSourceManage
 
 qreal ItemsContainerDesignInft::findMaxBottom() const
 {
-    qreal maxBottom=0;
+    qreal maxBottom = 0;
     foreach(QGraphicsItem* item,childItems()){
         BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
         if(subItem)
            if ( subItem->isVisible() && (subItem->geometry().bottom()>maxBottom) )
-               maxBottom=subItem->geometry().bottom();
+               maxBottom = subItem->geometry().bottom();
     }
     return maxBottom;
+}
+
+qreal ItemsContainerDesignInft::findMinTop() const{
+    qreal minTop = height();
+    foreach(QGraphicsItem* item,childItems()){
+        BaseDesignIntf* subItem = dynamic_cast<BaseDesignIntf *>(item);
+        if(subItem)
+           if ( subItem->isVisible() && (subItem->geometry().top()<minTop) )
+               minTop = subItem->geometry().top();
+    }
+    return minTop > 0 ? minTop : 0;
 }
 
 qreal ItemsContainerDesignInft::findMaxHeight() const

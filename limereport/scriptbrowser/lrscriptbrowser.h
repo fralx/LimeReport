@@ -48,8 +48,8 @@ class ScriptBrowser : public QWidget
 public:
     explicit ScriptBrowser(QWidget *parent = 0);
     ~ScriptBrowser();
-    void setReportEditor(LimeReport::ReportDesignWidget* report);
-    inline ReportDesignWidget* reportEditor(){return m_report;}
+    void setReportEditor(LimeReport::ReportDesignWidget* designerWidget);
+    inline ReportDesignWidget* reportEditor(){return m_designerWidget;}
     void updateFunctionTree();
 #ifdef HAVE_UI_LOADER
     void updateDialogsTree();
@@ -63,6 +63,7 @@ private slots:
     void slotClear();
     void slotUpdate();
 #ifdef HAVE_UI_LOADER
+    void slotDialogAdded(QString);
     void on_tbAddDialog_clicked();
     void on_tbRunDialog_clicked();
     void on_tbDeleteDialog_clicked();
@@ -70,7 +71,7 @@ private slots:
 
 private:
     Ui::ScriptBrowser *ui;
-    ReportDesignWidget*  m_report;
+    ReportDesignWidget*  m_designerWidget;
 };
 
 } // namespace LimeReport

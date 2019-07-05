@@ -1,7 +1,12 @@
 include(../common.pri)
 QT += core gui
 
-TARGET = LRDemo_r2
+CONFIG(release, debug|release){
+	TARGET = LRDemo_r2
+} else {
+	TARGET = LRDemo_r2d
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -16,6 +21,7 @@ DEPENDPATH  += $$PWD/../include
 
 RESOURCES += \
     demo_r2.qrc
+
 
 EXTRA_DIR     += $$PWD/demo_reports
 DEST_DIR       = $${DEST_BINS}
@@ -49,8 +55,13 @@ win32 {
 	REPORTS_DIR ~= s,/,\\,g
 
 	RC_FILE += mainicon.rc
-
-	QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+	greaterThan(QT_MAJOR_VERSION, 4) {
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$EXTRA_DIR\\*) $$shell_quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    }
+    lessThan(QT_MAJOR_VERSION, 5){
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    }
+	#QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
     }
 }
 

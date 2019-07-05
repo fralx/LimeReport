@@ -28,11 +28,14 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrcoloreditor.h"
+#include "lrglobal.h"
 
 #include <QHBoxLayout>
 #include <QColorDialog>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QApplication>
+#include <QStyle>
 
 namespace LimeReport{
 
@@ -94,17 +97,23 @@ void ColorEditor::slotClicked()
     emit(editingFinished());
 }
 
-
 void ColorIndicator::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
+
+    QStyle* style = QApplication::style();
     painter.save();
     painter.setBrush(m_color);
-    painter.setPen(Qt::gray);
-    QRect rect = event->rect().adjusted(3,3,-4,-4);
-    rect.setWidth(rect.height());
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.drawEllipse(rect);
+    QColor penColor = isColorDark(m_color) ? Qt::transparent : Qt::darkGray;
+
+    painter.setPen(penColor);
+    int border = (event->rect().height() - style->pixelMetric(QStyle::PM_IndicatorWidth))/2;
+
+    QRect rect(event->rect().x()+border, event->rect().y()+border,
+               style->pixelMetric(QStyle::PM_IndicatorWidth),
+               style->pixelMetric(QStyle::PM_IndicatorWidth));// = option.rect.adjusted(4,4,-4,-6);
+
+    painter.drawRect(rect);
     painter.restore();
 }
 

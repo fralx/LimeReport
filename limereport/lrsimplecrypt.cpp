@@ -73,7 +73,7 @@ private:
     void RC5_SETUP(const char *K);
     void RC5_ENCRYPT(WORD *pt, WORD *ct);
     void RC5_DECRYPT(WORD *ct, WORD *pt);
-    WORD S[26];
+    WORD S[26] = {0};
     bool m_prepared;
 };
 

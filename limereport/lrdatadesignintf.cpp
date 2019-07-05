@@ -77,10 +77,8 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         return false;
     }
 
-    if (!m_prepared){
-        extractParams();
-        if (!m_prepared) return false;
-    }
+    extractParams();
+    if (!m_prepared) return false;
 
     query.prepare(m_preparedSQL);
     fillParams(&query);
@@ -152,35 +150,13 @@ void QueryHolder::fillParams(QSqlQuery *query)
 
 void QueryHolder::extractParams()
 {
-    m_preparedSQL = replaceVariables(m_queryText);
+    m_preparedSQL =  dataManager()->replaceVariables(m_queryText, m_aliasesToParam);
     m_prepared = true;
 }
 
 QString QueryHolder::replaceVariables(QString query)
 {
-    QRegExp rx(Const::VARIABLE_RX);
-    int curentAliasIndex = 0;
-    if (query.contains(rx)){
-        int pos = -1;
-        while ((pos=rx.indexIn(query))!=-1){
-
-            QString variable=rx.cap(0);
-            variable.remove("$V{");
-            variable.remove("}");
-
-            if (m_aliasesToParam.contains(variable)){
-                curentAliasIndex++;
-                m_aliasesToParam.insert(variable+"_alias"+QString::number(curentAliasIndex),variable);
-                variable += "_alias"+QString::number(curentAliasIndex);
-            } else {
-                m_aliasesToParam.insert(variable,variable);
-            }
-
-            query.replace(pos,rx.cap(0).length(),":"+variable);
-
-        }
-    }
-    return query;
+    return dataManager()->replaceVariables(query, m_aliasesToParam);
 }
 
 QString QueryHolder::queryText()
@@ -280,6 +256,23 @@ QVariant ModelToDataSource::data(const QString &columnName)
 {
     if (isInvalid()) return QVariant();
     return m_model->data(m_model->index(currentRow(),columnIndexByName(columnName)));
+}
+
+QVariant ModelToDataSource::dataByRowIndex(const QString &columnName, int rowIndex)
+{
+    if (m_model->rowCount() > rowIndex)
+        return m_model->data(m_model->index(rowIndex, columnIndexByName(columnName)));
+    return QVariant();
+}
+
+QVariant ModelToDataSource::dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData)
+{
+   for( int i=0; i < m_model->rowCount(); ++i ){
+      if (m_model->data(m_model->index(i, columnIndexByName(keyColumnName))) == keyData){
+          return m_model->data(m_model->index(i, columnIndexByName(columnName)));
+      }
+   }
+   return QVariant();
 }
 
 int ModelToDataSource::columnCount()
@@ -440,32 +433,7 @@ QString SubQueryHolder::extractField(QString source)
 
 QString SubQueryHolder::replaceFields(QString query)
 {
-    QRegExp rx(Const::FIELD_RX);
-    int curentAliasIndex=0;
-    if (query.contains(rx)){
-        int pos;
-        while ((pos=rx.indexIn(query))!=-1){
-            QString field=rx.cap(0);
-            field.remove("$D{");
-            field.remove("}");
-
-            if (!m_aliasesToParam.contains(field)){
-                if (field.contains("."))
-                    m_aliasesToParam.insert(field,field);
-                else
-                    m_aliasesToParam.insert(field,m_masterDatasource+"."+field);
-            } else {
-                curentAliasIndex++;
-                if (field.contains("."))
-                    m_aliasesToParam.insert(field+"_alias"+QString::number(curentAliasIndex),field);
-                else
-                    m_aliasesToParam.insert(field+"_alias"+QString::number(curentAliasIndex),m_masterDatasource+"."+field);
-                field+="_alias"+QString::number(curentAliasIndex);
-            }
-            query.replace(pos,rx.cap(0).length(),":"+extractField(field));
-        }
-    }
-    return query;
+    return dataManager()->replaceFields(query, m_aliasesToParam);
 }
 
 SubQueryDesc::SubQueryDesc(QString queryName, QString queryText, QString connection, QString masterDatasourceName)
@@ -497,7 +465,7 @@ QObject *ProxyDesc::elementAt(const QString &collectionName, int index)
 
 ProxyHolder::ProxyHolder(ProxyDesc* desc, DataSourceManager* dataManager)
     :m_model(0), m_desc(desc), m_lastError(""), m_mode(IDataSource::RENDER_MODE),
-     m_invalid(false), m_dataManger(dataManager)
+     m_invalid(false), m_dataManager(dataManager)
 {}
 
 QString ProxyHolder::masterDatasource()
@@ -707,20 +675,67 @@ void CallbackDatasource::first(){
     else m_eof = !result;
 }
 
+QVariant CallbackDatasource::callbackData(const QString& columnName, int row)
+{
+    CallbackInfo info;
+    QVariant result;
+    info.dataType = CallbackInfo::ColumnData;
+    info.columnName = columnName;
+    info.index = row;
+    emit getCallbackData(info, result);
+    return result;
+}
+
 QVariant CallbackDatasource::data(const QString& columnName)
 {
     QVariant result;
     if (!bof())
     {
         if (!m_getDataFromCache){
-            CallbackInfo info;
-            info.dataType = CallbackInfo::ColumnData;
-            info.columnName = columnName;
-            info.index = m_currentRow;
-            emit getCallbackData(info,result);
+            result = callbackData(columnName, m_currentRow);
         } else {
             result = m_valuesCache[columnName];
         }
+    }
+    return result;
+}
+
+QVariant CallbackDatasource::dataByRowIndex(const QString &columnName, int rowIndex)
+{
+    int backupCurrentRow = m_currentRow;
+    QVariant result = QVariant();
+    first();
+    for (int i = 0; i < rowIndex && !eof(); ++i, next()){}
+    if (!eof()) result = callbackData(columnName, rowIndex);
+    first();
+    if (backupCurrentRow != -1){
+        for (int i = 0; i < backupCurrentRow; ++i)
+            next();
+    }
+    return result;
+}
+
+QVariant CallbackDatasource::dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData)
+{
+    int backupCurrentRow = m_currentRow;
+    QVariant result = QVariant();
+    first();
+    if (!checkIfEmpty()){
+        int currentRow = 0;
+        do {
+            QVariant key = callbackData(keyColumnName, currentRow);
+            if (key == keyData){
+                result = callbackData(columnName, currentRow);
+                break;
+            }
+            currentRow++;
+        } while (next());
+    }
+
+    first();
+    if (backupCurrentRow != -1){
+        for (int i = 0; i < backupCurrentRow; ++i)
+            next();
     }
     return result;
 }
@@ -786,7 +801,7 @@ int CallbackDatasource::columnIndexByName(QString name)
 bool CallbackDatasource::checkNextRecord(int recordNum){
     if (bof()) checkIfEmpty();
     if (m_rowCount > 0) {
-        return (m_currentRow < (m_rowCount-1));
+        return (recordNum < (m_rowCount-1));
     } else {
         QVariant result = false;
         CallbackInfo info;
@@ -814,6 +829,120 @@ bool CallbackDatasource::checkIfEmpty(){
         emit getCallbackData(info,isEmpty);
         return isEmpty.toBool();
     }
+}
+
+QString CSVDesc::name() const
+{
+    return m_csvName;
+}
+
+void CSVDesc::setName(const QString &csvName)
+{
+    m_csvName = csvName;
+}
+
+QString CSVDesc::csvText() const
+{
+    return m_csvText;
+}
+
+void CSVDesc::setCsvText(const QString &csvText)
+{
+    m_csvText = csvText;
+    emit cvsTextChanged(m_csvName, m_csvText);
+}
+
+QString CSVDesc::separator() const
+{
+    return m_separator;
+}
+
+void CSVDesc::setSeparator(const QString &separator)
+{
+    m_separator = separator;
+}
+
+bool CSVDesc::firstRowIsHeader() const
+{
+    return m_firstRowIsHeader;
+}
+
+void CSVDesc::setFirstRowIsHeader(bool firstRowIsHeader)
+{
+    m_firstRowIsHeader = firstRowIsHeader;
+}
+
+void CSVHolder::updateModel()
+{
+    m_model.clear();
+    QString sep = (separator().compare("\\t") == 0) ? "\t" : separator();
+    bool firstRow = true;
+    QList<QStandardItem*> columns;
+    QStringList headers;
+    foreach(QString line, m_csvText.split('\n')){
+        columns.clear();
+        foreach(QString item, line.split(sep)){
+            columns.append(new QStandardItem(item));
+            if (firstRow && m_firstRowIsHeader) headers.append(item);
+        }
+
+        if (firstRow){
+            if (!headers.isEmpty()){
+                m_model.setHorizontalHeaderLabels(headers);
+                firstRow = false;
+            } else {
+                m_model.appendRow(columns);
+            }
+        } else {
+            m_model.appendRow(columns);
+        }
+
+    }
+
+
+}
+
+bool CSVHolder::firsRowIsHeader() const
+{
+    return m_firstRowIsHeader;
+}
+
+void CSVHolder::setFirsRowIsHeader(bool firstRowIsHeader)
+{
+    m_firstRowIsHeader = firstRowIsHeader;
+}
+
+CSVHolder::CSVHolder(const CSVDesc &desc, DataSourceManager *dataManager)
+    : m_csvText(desc.csvText()),
+      m_separator(desc.separator()),
+      m_dataManager(dataManager),
+      m_firstRowIsHeader(desc.firstRowIsHeader())
+{
+    m_dataSource = IDataSource::Ptr(new ModelToDataSource(&m_model, false));
+    updateModel();
+}
+
+void CSVHolder::setCSVText(QString csvText)
+{
+    m_csvText = csvText;
+    updateModel();
+}
+
+QString CSVHolder::separator() const
+{
+    return m_separator;
+}
+
+void CSVHolder::setSeparator(const QString &separator)
+{
+    m_separator = separator;
+    updateModel();
+}
+
+IDataSource *CSVHolder::dataSource(IDataSource::DatasourceMode mode)
+{
+    Q_UNUSED(mode);
+    return m_dataSource.data();
 }
 
 } //namespace LimeReport

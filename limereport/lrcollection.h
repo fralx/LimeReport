@@ -45,7 +45,7 @@ Q_DECLARE_METATYPE(ACollectionProperty)
 
 namespace LimeReport{
 
-const int VARIABLE_IS_NOT_USED COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
+const int COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
 class ICollectionContainer{
 public:
     virtual QObject* createElement(const QString& collectionName,const QString& elementType)=0;

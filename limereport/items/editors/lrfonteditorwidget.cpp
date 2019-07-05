@@ -31,23 +31,9 @@
 
 namespace LimeReport{
 
-FontEditorWidget::FontEditorWidget(ReportDesignWidget *reportEditor, const QString &title, QWidget *parent)
-    : ItemEditorWidget(reportEditor,title,parent), m_ignoreSlots(false) {
-    initEditor();
-}
-
-FontEditorWidget::FontEditorWidget(ReportDesignWidget *reportEditor, QWidget *parent)
-    :ItemEditorWidget(reportEditor,parent), m_ignoreSlots(false) {
-    initEditor();
-}
-
-FontEditorWidget::FontEditorWidget(PageDesignIntf *page, const QString &title, QWidget *parent)
-    :ItemEditorWidget(page,title,parent), m_ignoreSlots(false) {
-    initEditor();
-}
-
-FontEditorWidget::FontEditorWidget(LimeReport::PageDesignIntf *page, QWidget *parent)
-    :ItemEditorWidget(page,parent), m_ignoreSlots(false){
+FontEditorWidget::FontEditorWidget(const QString& title, QWidget* parent)
+    :ItemEditorWidget(title, parent), m_ignoreSlots(false)
+{
     initEditor();
 }
 
@@ -101,10 +87,6 @@ void FontEditorWidget::initEditor()
     connect(m_fontUnderline,SIGNAL(toggled(bool)),this,SLOT(slotFontAttribsChanged(bool)));
     addAction(m_fontUnderline);
 
-    if (reportEditor()){
-        connect(reportEditor(),SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
-                this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
-    }
 }
 
 void FontEditorWidget::updateValues(const QFont& font)
@@ -118,35 +100,32 @@ void FontEditorWidget::updateValues(const QFont& font)
     m_ignoreSlots=false;
 }
 
-
-void FontEditorWidget::slotFontChanged(const QFont &font)
+bool FontEditorWidget::ignoreSlots() const
 {
-    if (reportEditor() && !m_ignoreSlots) reportEditor()->setFont(font);
-    if (page()) page()->setFont(font);
+    return m_ignoreSlots;
+}
+
+
+void FontEditorWidget::slotFontChanged(const QFont& /*font*/)
+{
+     //if (page()) page()->setFont(font);
 }
 
 void FontEditorWidget::slotFontSizeChanged(const QString &value)
 {
     if (m_ignoreSlots) return;
-
-    QFont resFont(fontNameEditor()->currentFont());
-    resFont.setPointSize(value.toInt());
-
-    if (reportEditor()) reportEditor()->setFont(resFont);
-    if (page()) page()->setFont(resFont);
+    m_resFont = fontNameEditor()->currentFont();
+    m_resFont.setPointSize(value.toInt());
 }
 
 void FontEditorWidget::slotFontAttribsChanged(bool)
 {
     if (m_ignoreSlots) return;
-
-    QFont resFont(m_fontNameEditor->currentFont());
-    resFont.setBold(m_fontBold->isChecked());
-    resFont.setItalic(m_fontItalic->isChecked());
-    resFont.setUnderline(m_fontUnderline->isChecked());
-    if (reportEditor()) reportEditor()->setFont(resFont);
-    if (page()) page()->setFont(resFont);
-
+    m_resFont = m_fontNameEditor->currentFont();
+    m_resFont.setPointSize(m_fontSizeEditor->currentText().toInt());
+    m_resFont.setBold(m_fontBold->isChecked());
+    m_resFont.setItalic(m_fontItalic->isChecked());
+    m_resFont.setUnderline(m_fontUnderline->isChecked());
 }
 
 void FontEditorWidget::slotPropertyChanged(const QString &objectName, const QString &property, const QVariant& oldValue, const QVariant& newValue)
@@ -157,6 +136,59 @@ void FontEditorWidget::slotPropertyChanged(const QString &objectName, const QStr
         updateValues(item()->property("font").value<QFont>());
     }
 }
+
+
+void FontEditorWidgetForPage::slotFontChanged(const QFont& font)
+{
+    if (!ignoreSlots())
+        m_page->setFont(font);
+}
+
+void FontEditorWidgetForPage::slotFontSizeChanged(const QString& value)
+{
+    if (!ignoreSlots()){
+        FontEditorWidget::slotFontSizeChanged(value);
+        m_page->setFont(resFont());
+    }
+}
+
+void FontEditorWidgetForPage::slotFontAttribsChanged(bool value)
+{
+    if (!ignoreSlots()){
+        FontEditorWidget::slotFontAttribsChanged(value);
+        m_page->setFont(resFont());
+    }
+}
+
+#ifdef HAVE_REPORT_DESIGNER
+void FontEditorWidgetForDesigner::initEditor()
+{
+    connect(m_reportEditor,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),
+            this,SLOT(slotPropertyChanged(QString,QString,QVariant,QVariant)));
+}
+
+void FontEditorWidgetForDesigner::slotFontChanged(const QFont& font)
+{
+    if (!ignoreSlots()) m_reportEditor->setFont(font);
+}
+
+void FontEditorWidgetForDesigner::slotFontSizeChanged(const QString& value)
+{
+    if (!ignoreSlots()){
+        FontEditorWidget::slotFontSizeChanged(value);
+        m_reportEditor->setFont(resFont());
+    }
+}
+
+void FontEditorWidgetForDesigner::slotFontAttribsChanged(bool value)
+{
+    if (!ignoreSlots()){
+        FontEditorWidget::slotFontAttribsChanged(value);
+        m_reportEditor->setFont(resFont());
+    }
+}
+
+#endif
 
 
 } //namespace LimeReport

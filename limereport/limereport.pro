@@ -1,12 +1,8 @@
-#TARGET = limereport
-
-
-CONFIG(debug, debug|release) {
+CONFIG(debug, debug|release){
     TARGET = limereportd
 } else {
     TARGET = limereport
 }
-
 
 TEMPLATE = lib
 
@@ -38,11 +34,14 @@ contains(CONFIG, staticlib){
 
 EXTRA_FILES += \
     $$PWD/lrglobal.h \
+    $$PWD/lrdatasourceintf.h \
     $$PWD/lrdatasourcemanagerintf.h \
     $$PWD/lrreportengine.h \
     $$PWD/lrscriptenginemanagerintf.h \
     $$PWD/lrcallbackdatasourceintf.h \
-    $$PWD/lrpreviewreportwidget.h
+    $$PWD/lrpreviewreportwidget.h \
+    $$PWD/lrreportdesignwindowintrerface.h \
+    $$PWD/lrpreparedpagesintf.h
 
 include(limereport.pri)
 
@@ -87,18 +86,15 @@ win32 {
 
 contains(CONFIG,zint){
     message(zint)
-    INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
-    DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt4
-    LIBS += -L$${DEST_LIBS}
-
-    CONFIG(debug, debug|release) {
-        LIBS += -lQtZintd
-    } else {
-        LIBS += -lQtZint
-    }
-
+    INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
+    DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
+	LIBS += -L$${DEST_LIBS}
+        CONFIG(release, debug|release){
+		LIBS += -lQtZint
+	} else {
+		LIBS += -lQtZintd
+	}
 }
-
 
 #### Install mkspecs, headers and libs to QT_INSTALL_DIR
 
@@ -113,11 +109,10 @@ INSTALLS += mkspecs
 target.path = $$[QT_INSTALL_LIBS]
 INSTALLS += target
 
-#######
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es_ES ar fr zh
+    LANGUAGES = ru es ar fr zh pl
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3
@@ -127,13 +122,18 @@ contains(CONFIG,build_translations){
     TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
 
     qtPrepareTool(LUPDATE, lupdate)
-    ts.commands = $$LUPDATE $$PWD -ts $$TRANSLATIONS
 
+greaterThan(QT_MAJOR_VERSION, 4) {
+    ts.commands = $$LUPDATE $$shell_quote($$PWD) -noobsolete -ts $$TRANSLATIONS
+}
+lessThan(QT_MAJOR_VERSION, 5){
+    ts.commands = $$LUPDATE $$quote($$PWD) -noobsolete -ts $$TRANSLATIONS
+}
     TRANSLATIONS_FILES =
     qtPrepareTool(LRELEASE, lrelease)
     for(tsfile, TRANSLATIONS) {
         qmfile = $$tsfile
-        qmfile ~= s,.ts$,.qm,
+        qmfile ~= s,".ts$",".qm",
         qm.commands += $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         tmp_command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         TRANSLATIONS_FILES += $$qmfile

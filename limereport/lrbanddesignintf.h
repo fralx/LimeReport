@@ -62,12 +62,17 @@ public:
     qreal width(){return m_rect.width();}
     qreal height(){return m_rect.height();}
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void  mousePressEvent(QGraphicsSceneMouseEvent *event);
     void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+    void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+    void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 private:
     QRectF m_rect;
     QColor m_color;
     BandDesignIntf* m_band;
+    QPointF m_oldBandPos;
 };
 
 class BandNameLabel : public QGraphicsItem{
@@ -101,6 +106,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight )
     Q_PROPERTY(int bandIndex READ bandIndex WRITE setBandIndex DESIGNABLE false )
     Q_PROPERTY(bool keepBottomSpace READ keepBottomSpaceOption WRITE setKeepBottomSpaceOption )
+    Q_PROPERTY(bool keepTopSpace READ keepTopSpace WRITE setKeepTopSpace)
     Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
@@ -141,7 +147,10 @@ public:
     virtual QString bandTitle() const;
     virtual QIcon bandIcon() const;
     virtual bool isUnique() const;
+    void setItemMode(BaseDesignIntf::ItemMode mode);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
+    void restoreItems();
+    void recalcItems(DataSourceManager* dataManager);
     void updateBandNameLabel();
 
     virtual QColor selectionColor() const;
@@ -155,6 +164,9 @@ public:
 
     void setKeepBottomSpaceOption(bool value);
     bool keepBottomSpaceOption() const {return m_keepBottomSpace;}
+
+    bool keepTopSpace() const;
+    void setKeepTopSpace(bool value);
 
     void addChildBand(BandDesignIntf* band);
     bool hasChildren(){return !m_childBands.isEmpty();}
@@ -171,6 +183,8 @@ public:
     int maxChildIndex(BandDesignIntf::BandsType bandType) const;
     int maxChildIndex(QSet<BandsType> ignoredBands = QSet<BandDesignIntf::BandsType>()) const;
 
+    int rootIndex(BandDesignIntf *parentBand);
+    BandDesignIntf* rootBand(BandDesignIntf *parentBand);
 
     BandDesignIntf* parentBand() const {return m_parentBand;}
 
@@ -230,20 +244,27 @@ public:
 
     bool startFromNewPage() const;
     void setStartFromNewPage(bool startFromNewPage);
-    bool canContainChildren(){ return true;}
+    bool canContainChildren() const{ return true;}
     bool printAlways() const;
     void setPrintAlways(bool printAlways);
     bool repeatOnEachRow() const;
     void setRepeatOnEachRow(bool repeatOnEachRow);
     QColor alternateBackgroundColor() const;
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
+    bool useAlternateBackgroundColor() const;
+    void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
+    void replaceGroupsFunction(BandDesignIntf *band);
     qreal bottomSpace() const;
     void setBackgroundModeProperty(BGMode value);
     void setBackgroundOpacity(int value);
     int bootomSpace() const;
     void setBootomSpace(int bootomSpace);
+    void updateBandMarkerGeometry();
+
 signals:
     void bandRendered(BandDesignIntf* band);
+    void preparedForRender();
+    void bandRegistred();
 protected:
     void  trimToMaxHeight(int maxHeight);
     void  setBandTypeText(const QString& value);
@@ -265,6 +286,7 @@ protected:
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
     QString translateBandName(const BaseDesignIntf *item) const;
+
 private slots:
     void childBandDeleted(QObject* band);
     void slotPropertyObjectNameChanged(const QString&,const QString&);
@@ -275,6 +297,7 @@ private:
     QString                     m_dataSourceName;
     bool                        m_autoHeight;
     bool                        m_keepBottomSpace;
+    bool                        m_keepTopSpace;
     BandDesignIntf*             m_parentBand;
     QString                     m_parentBandName;
     QList<BandDesignIntf*>      m_childBands;
@@ -297,7 +320,9 @@ private:
     bool                        m_repeatOnEachRow;
     QMap<QString,BaseDesignIntf*> m_slicedItems;
     QColor 						m_alternateBackgroundColor;
-    int                         m_bottomSpace;
+    bool                        m_useAlternateBackgroundColor;
+    int 						m_bottomSpace;
+    QMap<QString,QVariant>      m_bookmarks;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{
