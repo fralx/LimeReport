@@ -97,7 +97,7 @@
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.cpp" line="117"/>
         <source>Attention</source>
-        <translation></translation>
+        <translation>Erreur</translation>
     </message>
 </context>
 <context>
@@ -338,106 +338,116 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BandDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="251"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="282"/>
         <source>DataBand</source>
         <translation>bande de données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="252"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="283"/>
         <source>DataHeaderBand</source>
         <translation>En-tête de données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="253"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="284"/>
         <source>DataFooterBand</source>
         <translation>Pied de données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="254"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="285"/>
         <source>ReportHeader</source>
         <translation>En-tête de rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="255"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="286"/>
         <source>ReportFooter</source>
         <translation>Pied de rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="256"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="287"/>
         <source>PageHeader</source>
         <translation>En-tête de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="257"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="288"/>
         <source>PageFooter</source>
         <translation>Pied de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="258"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="289"/>
         <source>SubDetailBand</source>
         <translation>Sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="259"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="290"/>
         <source>SubDetailHeaderBand</source>
         <translation>En-tête de sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="260"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="291"/>
         <source>SubDetailFooterBand</source>
         <translation>Pied de sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="261"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="292"/>
         <source>GroupBandHeader</source>
         <translation>Groupe d&apos;en-tête</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="262"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="293"/>
         <source>GroupBandFooter</source>
         <translation>Groupe de pieds</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="263"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="294"/>
         <source>TearOffBand</source>
         <translation>Bande détachable</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="274"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="305"/>
         <source> connected to </source>
         <translation> Connecté à </translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="502"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="566"/>
         <source>Bring to top</source>
         <translation>Placer au premier-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="503"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="567"/>
         <source>Send to back</source>
         <translation>Placer en arrière-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="508"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="529"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="568"/>
+        <source>Cut</source>
+        <translation>Couper</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="569"/>
+        <source>Copy</source>
+        <translation>Copier</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="576"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="597"/>
         <source>Auto height</source>
         <translation>Hauteur automatique</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="512"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="532"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="580"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="600"/>
         <source>Splittable</source>
         <translation>Divisible</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="517"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="535"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="585"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="603"/>
         <source>Keep bottom space</source>
         <translation>Conserver l&apos;espace inférieur</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="521"/>
-        <location filename="../limereport/lrbanddesignintf.cpp" line="539"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="589"/>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="607"/>
         <source>Print if empty</source>
         <translation>Imprimer si vide</translation>
     </message>
@@ -445,47 +455,53 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1223"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1316"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1743"/>
+        <source>Lock item geometry</source>
+        <translation>Verrouiller la géométrie d&apos;un élément</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1322"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1225"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1324"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1227"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1326"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1237"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1336"/>
         <source>Bring to top</source>
         <translation>Placer au premier-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1238"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1337"/>
         <source>Send to back</source>
         <translation>Placer en arrière-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1241"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1340"/>
         <source>Create Horizontal Layout</source>
         <translation>Créer une disposition horizontale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1245"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1344"/>
         <source>Create Vertical Layout</source>
         <translation>Créer une disposition verticale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1248"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1347"/>
         <source>No borders</source>
         <translation>Aucune bordure</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1249"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1348"/>
         <source>All borders</source>
         <translation>Toutes les bordures</translation>
     </message>
@@ -493,8 +509,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="387"/>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="392"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="370"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="375"/>
         <source>defaultConnection</source>
         <translation>Connexion par défaut</translation>
     </message>
@@ -565,7 +581,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="183"/>
         <source>Check connection</source>
-        <translation>Vérifier la connexion</translation>
+        <translation>Tester la connexion</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="206"/>
@@ -596,17 +612,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="98"/>
         <source>Connection with name </source>
-        <translation></translation>
+        <translation>Le nom de la connexion </translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="98"/>
         <source> already exists! </source>
-        <translation> existe déja! </translation>
+        <translation> existe déjà! </translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="156"/>
         <source>defaultConnection</source>
-        <translation></translation>
+        <translation>Connexion par défaut</translation>
     </message>
 </context>
 <context>
@@ -620,7 +636,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/bands/lrdataband.cpp" line="91"/>
         <location filename="../limereport/bands/lrdataband.cpp" line="134"/>
         <source>Use alternate background color</source>
-        <translation>Utiliser les Couleurs de fond alternative</translation>
+        <translation>Utiliser les Couleurs de fond alternatives</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrdataband.cpp" line="95"/>
@@ -638,19 +654,19 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/bands/lrdataband.cpp" line="103"/>
         <location filename="../limereport/bands/lrdataband.cpp" line="130"/>
         <source>Slice last row</source>
-        <translation>Couper la dernière rangée</translation>
+        <translation>Couper la dernière ligne</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrdataband.cpp" line="107"/>
         <location filename="../limereport/bands/lrdataband.cpp" line="142"/>
         <source>Start from new page</source>
-        <translation>Démarrer depuis une nouvelle page</translation>
+        <translation>Commencer sur une nouvelle page</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrdataband.cpp" line="111"/>
         <location filename="../limereport/bands/lrdataband.cpp" line="138"/>
         <source>Start new page</source>
-        <translation>Démarrer une nouvelle page</translation>
+        <translation>Commencer une nouvelle page</translation>
     </message>
 </context>
 <context>
@@ -658,7 +674,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="14"/>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="42"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="67"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="68"/>
         <source>Datasources</source>
         <translation>Source de données</translation>
     </message>
@@ -697,7 +713,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="222"/>
         <source>Change datasource</source>
-        <translation>Modifier la source de données</translation>
+        <translation>Changer la source de données</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="248"/>
@@ -735,45 +751,45 @@ p, li { white-space: pre-wrap; }
         <translation>Saisir une variable</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="112"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="376"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="544"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="792"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="113"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="377"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="545"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="836"/>
         <source>Attention</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="113"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="114"/>
         <source>Do you really want to delete &quot;%1&quot; connection?</source>
         <translation>Voulez-vous vraiment supprimer la connexion %1?</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="193"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="194"/>
         <source>Report variables</source>
         <translation>Variables du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="195"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="196"/>
         <source>System variables</source>
         <translation>Variables système</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="197"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="198"/>
         <source>External variables</source>
         <translation>Variables externe</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="377"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="378"/>
         <source>Do you really want to delete &quot;%1&quot; datasource?</source>
         <translation>Vouz-vous vraiment supprimer la source de donnée &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="792"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="836"/>
         <source>Do you really want to delete variable &quot;%1&quot;?</source>
         <translation>Vouz-vous vraiment supprimer la variable &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="829"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="873"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -781,13 +797,13 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataFooterBand</name>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="195"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="194"/>
         <source>DataFooter</source>
         <translation>Pied de données</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="202"/>
-        <location filename="../limereport/bands/lrdataband.cpp" line="210"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="201"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="209"/>
         <source>Print always</source>
         <translation>Toujours imprimé</translation>
     </message>
@@ -795,25 +811,25 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="156"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="155"/>
         <source>DataHeader</source>
         <translation>En-tête de données</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="163"/>
-        <location filename="../limereport/bands/lrdataband.cpp" line="179"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="162"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="178"/>
         <source>Reprint on each page</source>
         <translation>Imprimer dans chaque page</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="167"/>
-        <location filename="../limereport/bands/lrdataband.cpp" line="183"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="166"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="182"/>
         <source>Repeat on each row</source>
         <translation>Répéter dans chaque ligne</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrdataband.cpp" line="171"/>
-        <location filename="../limereport/bands/lrdataband.cpp" line="187"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="170"/>
+        <location filename="../limereport/bands/lrdataband.cpp" line="186"/>
         <source>Print always</source>
         <translation>Toujours imprimé</translation>
     </message>
@@ -821,41 +837,48 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="401"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="402"/>
         <source>Connection &quot;%1&quot; is not open</source>
         <translation>La connexion &quot;%1&quot; n&apos;est pas ouverte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="435"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="436"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="477"/>
         <source>Variable &quot;%1&quot; not found!</source>
         <translation>Variable &quot;%1&quot; introuvable!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="608"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="975"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="471"/>
+        <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
+        <translation>Paramètre inconnu %1 pour la variable %2 !</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="645"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1041"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation>Source de donnée &quot;%1&quot; introuvable!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="691"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="743"/>
         <source>Connection with name &quot;%1&quot; already exists!</source>
-        <translation>La connexion avec le nom &quot;%1&quot; existe déja!</translation>
+        <translation>La connexion avec le nom &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="716"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="725"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="734"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="741"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="768"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="777"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="786"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="793"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="802"/>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
-        <translation>La source de donnée avec le nom &quot;%1&quot; existe déja!</translation>
+        <translation>La source de donnée avec le nom &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="772"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="833"/>
         <source>Database &quot;%1&quot; not found</source>
         <translation>Base de données &quot;%1 introuvable</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="948"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1014"/>
         <source>invalid connection</source>
         <translation>Connexion invalide</translation>
     </message>
@@ -893,7 +916,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="72"/>
         <source>Object Inspector</source>
-        <translation>Explorateur d&apos;objets</translation>
+        <translation>Inspecteur d&apos;objets</translation>
     </message>
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="79"/>
@@ -913,7 +936,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="99"/>
         <source>Action Editor</source>
-        <translation>Editeur d&apos;action</translation>
+        <translation>Editeur d&apos;actions</translation>
     </message>
 </context>
 <context>
@@ -951,7 +974,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="94"/>
         <source>TransparentMode</source>
-        <translation>Mode transparence</translation>
+        <translation>Mode transparent</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="95"/>
@@ -961,32 +984,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="96"/>
         <source>Angle0</source>
-        <translation></translation>
+        <translation>Angle 0°</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="97"/>
         <source>Angle90</source>
-        <translation></translation>
+        <translation>Angle 90°</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="98"/>
         <source>Angle180</source>
-        <translation></translation>
+        <translation>Angle 180°</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="99"/>
         <source>Angle270</source>
-        <translation></translation>
+        <translation>Angle 270°</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="100"/>
         <source>Angle45</source>
-        <translation></translation>
+        <translation>Angle 45°</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="101"/>
         <source>Angle315</source>
-        <translation></translation>
+        <translation>Angle 315°</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="102"/>
@@ -1061,12 +1084,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="116"/>
         <source>BDiagPattern</source>
-        <translation></translation>
+        <translation>Motif Diagonal B</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="117"/>
         <source>FDiagPattern</source>
-        <translation></translation>
+        <translation>Motif diagonale F</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="118"/>
@@ -1086,7 +1109,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="121"/>
         <source>LeftItemAlign</source>
-        <translation>Aligner l&apos;élement à gauche</translation>
+        <translation>Aligner à gauche</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="122"/>
@@ -1096,7 +1119,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="123"/>
         <source>CenterItemAlign</source>
-        <translation>Aligner l&apos;élement au centre</translation>
+        <translation>Aligner au centre</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="124"/>
@@ -1207,6 +1230,26 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="145"/>
         <source>Table</source>
         <translation>Tableau</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="146"/>
+        <source>Millimeters</source>
+        <translation>Millimètres</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="147"/>
+        <source>Inches</source>
+        <translation>Pouces</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="148"/>
+        <source>Scale</source>
+        <translation>Échèlle</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="149"/>
+        <source>Split</source>
+        <translation>Diviser</translation>
     </message>
 </context>
 <context>
@@ -1340,15 +1383,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ImageItem</name>
     <message>
-        <location filename="../limereport/items/lrimageitem.cpp" line="82"/>
-        <location filename="../limereport/items/lrimageitem.cpp" line="89"/>
+        <location filename="../limereport/items/lrimageitem.cpp" line="86"/>
+        <location filename="../limereport/items/lrimageitem.cpp" line="93"/>
         <source>Watermark</source>
         <translation>Filigrane</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrimageitem.cpp" line="292"/>
+        <location filename="../limereport/items/lrimageitem.cpp" line="317"/>
         <source>Image</source>
         <translation>Image</translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrimageitem.cpp" line="317"/>
+        <source>Ext.</source>
+        <translation>Externe.</translation>
     </message>
 </context>
 <context>
@@ -1453,12 +1501,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="633"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="591"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
         <translation>Le champ: &quot;%1&quot;est introuvable dans la source de donnée enfant &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="646"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="605"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
         <translation>Le champ: &quot;%1&quot;est introuvable dans la source de donnée principale &quot;%2&quot;</translation>
     </message>
@@ -1466,7 +1514,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="348"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="331"/>
         <source>model is destroyed</source>
         <translation>Le modèle a été supprimé</translation>
     </message>
@@ -1477,6 +1525,24 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/objectsbrowser/lrobjectbrowser.cpp" line="46"/>
         <source>Objects</source>
         <translation>Objets</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::ObjectInspectorWidget</name>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="182"/>
+        <source>Clear</source>
+        <translation>Effacer</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="185"/>
+        <source>Filter</source>
+        <translation>Filtrer</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="191"/>
+        <source>Translate properties</source>
+        <translation>Traduire les popriétés</translation>
     </message>
 </context>
 <context>
@@ -1495,14 +1561,14 @@ p, li { white-space: pre-wrap; }
         <translation>Pied de page</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrpagefooter.cpp" line="71"/>
-        <location filename="../limereport/bands/lrpagefooter.cpp" line="83"/>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="72"/>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="84"/>
         <source>Print on first page</source>
         <translation>Imprimer dans la première page</translation>
     </message>
     <message>
-        <location filename="../limereport/bands/lrpagefooter.cpp" line="75"/>
-        <location filename="../limereport/bands/lrpagefooter.cpp" line="86"/>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="76"/>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="87"/>
         <source>Print on last page</source>
         <translation>Imprimer dans la dernière page</translation>
     </message>
@@ -1518,31 +1584,31 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="636"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="704"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="642"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="666"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="710"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="734"/>
         <source>Page is TOC</source>
         <translation>Table de contenus</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="646"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="669"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="714"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="737"/>
         <source>Reset page number</source>
         <translation>Réinitialiser le numéro de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="650"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="672"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="718"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="740"/>
         <source>Full page</source>
         <translation>Page entière</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="654"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="675"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="722"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="743"/>
         <source>Set page size to printer</source>
         <translation>Adapterr la taille de la page à l&apos;imprimante</translation>
     </message>
@@ -1555,12 +1621,12 @@ p, li { white-space: pre-wrap; }
         <translation>Formulaire</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="109"/>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="129"/>
         <source>%1 file name</source>
         <translation>%1 nom de fichier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="242"/>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="289"/>
         <source>Report file name</source>
         <translation>Nom du fichier du rapport</translation>
     </message>
@@ -1588,128 +1654,158 @@ p, li { white-space: pre-wrap; }
         <translation>Barre d&apos;outils</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="102"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="101"/>
+        <source>toolBar_2</source>
+        <translation>Barre d&apos;élements</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="120"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="105"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="123"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="114"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="132"/>
         <source>Zoom In</source>
         <translation>Zoom avant</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="123"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="141"/>
         <source>Zoom Out</source>
         <translation>Zoom arrière</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="132"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="135"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="150"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="153"/>
         <source>Prior Page</source>
         <translation>Page prioritaire</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="144"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="147"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="162"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="165"/>
         <source>Next Page</source>
         <translation>Page suivante</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="156"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="159"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="174"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="177"/>
         <source>Close Preview</source>
         <translation>Fermer l&apos;aperçu</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="162"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="180"/>
         <source>Esc</source>
         <translation>Echap</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="174"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="192"/>
         <source>Edit Mode</source>
         <translation>Mode d&apos;édition</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="183"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="186"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="201"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="204"/>
         <source>Save to file</source>
         <translation>Enregistrer dans un fichier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="198"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="201"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="216"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="219"/>
         <source>Show errors</source>
         <translation>Afficher les erreurs</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="210"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="228"/>
         <source>First Page</source>
         <translation>Première page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="213"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="231"/>
         <source>First page</source>
         <translation>Première page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="222"/>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="225"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="240"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="243"/>
         <source>Last Page</source>
         <translation>Dernière page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="234"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="252"/>
         <source>Print To PDF</source>
         <translation>Enregistrer en format PDF</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="243"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="261"/>
         <source>Fit page width</source>
         <translation>Ajuster la largeur de la page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="252"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="270"/>
         <source>Fit page</source>
         <translation>Ajuster la page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="261"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="279"/>
         <source>One to one</source>
         <translation>Page par Page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="276"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="294"/>
         <source>Show Toolbar</source>
         <translation>Afficher la barre d&apos;outils</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.ui" line="279"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="297"/>
         <source>Show toolbar</source>
         <translation>Afficher la barre d&apos;outils</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="56"/>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="309"/>
+        <source>InsertTextItem</source>
+        <translation>Insérer un élément texte</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="312"/>
+        <source>Add new TextItem</source>
+        <translation>Ajouter un élément texte</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="327"/>
+        <source>Selection Mode</source>
+        <translation>Mode sélection</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="336"/>
+        <source>Delete Item</source>
+        <translation>Supprimer un élément</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="339"/>
+        <source>Del</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="57"/>
         <source>Page: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="69"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="76"/>
         <source>Font</source>
         <translation>Police</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="72"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="79"/>
         <source>Text align</source>
         <translation>Alignement de texte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="135"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="148"/>
         <source> of %1</source>
         <translation> de %1</translation>
     </message>
@@ -1717,7 +1813,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="572"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="530"/>
         <source>Datasource has been invalidated</source>
         <translation>La source de donnée n&apos;a pas été validée</translation>
     </message>
@@ -2302,47 +2398,92 @@ p, li { white-space: pre-wrap; }
         <translation>Masquer les éléments vides</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="250"/>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="157"/>
+        <source>useExternalPainter</source>
+        <translation>Utiliser un dessin externe</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="158"/>
+        <source>layoutSpacing</source>
+        <translation>Espacement disposition</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="159"/>
+        <source>printerName</source>
+        <translation>Nom de l&apos;imprimante</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="160"/>
+        <source>fontLetterSpacing</source>
+        <translation>Interlettre</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="161"/>
+        <source>hideText</source>
+        <translation>Masquer le texte</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="162"/>
+        <source>option3</source>
+        <translation>Option 3</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="163"/>
+        <source>units</source>
+        <translation>Unités</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="164"/>
+        <source>geometryLocked</source>
+        <translation>Fixer la géométrie</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="165"/>
+        <source>printBehavior</source>
+        <translation>Méthode d&apos;impression</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="260"/>
         <source>Property Name</source>
         <translation>Propriété</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="251"/>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="261"/>
         <source>Property value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="458"/>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="481"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
 </context>
 <context>
-    <name>LimeReport::RectMMPropItem</name>
+    <name>LimeReport::RectPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="111"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="116"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="121"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="82"/>
         <source>width</source>
         <translation>Largeur</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="112"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="117"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="122"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="83"/>
         <source>height</source>
         <translation>Hauteur</translation>
     </message>
 </context>
 <context>
-    <name>LimeReport::RectPropItem</name>
+    <name>LimeReport::RectUnitPropItem</name>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="83"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="109"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="114"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="119"/>
         <source>width</source>
         <translation>Largeur</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="84"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="110"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="115"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="120"/>
         <source>height</source>
         <translation>Hauteur</translation>
     </message>
@@ -2350,27 +2491,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="273"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="316"/>
         <source>Script</source>
         <translation>Script</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="287"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="330"/>
         <source>Translations</source>
         <translation>Traductions</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="448"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="493"/>
         <source>Report file name</source>
         <translation>Nom du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="474"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="519"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="474"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="519"/>
         <source>Wrong file format</source>
         <translation>Format de fichier incorrect</translation>
     </message>
@@ -2378,349 +2519,364 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="108"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="115"/>
         <source>New Report</source>
         <translation>Nouveau rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="113"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="120"/>
         <source>New Report Page</source>
         <translation>Nouvelle page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="117"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="124"/>
         <source>Delete Report Page</source>
         <translation>Supprimer une page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="122"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="129"/>
         <source>Edit Mode</source>
         <translation>Mode d&apos;édition</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="129"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="136"/>
         <source>Undo</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="135"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="142"/>
         <source>Redo</source>
         <translation>Répéter</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="141"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="148"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="146"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="153"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="151"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="158"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="156"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="163"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="160"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="167"/>
         <source>Use grid</source>
         <translation>Utiliser la grille</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="166"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="173"/>
         <source>Use magnet</source>
         <translation>Utiliser l&apos;aimant</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="173"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="180"/>
         <source>Text Item</source>
         <translation>Elément de texte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="178"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="185"/>
         <source>Save Report</source>
         <translation>Enregistrer le rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="183"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="190"/>
         <source>Save Report As</source>
         <translation>Enregistrer le rapport sous</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="188"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="195"/>
         <source>Load Report</source>
         <translation>Ouvrir un rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="193"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="200"/>
         <source>Delete item</source>
         <translation>Supprimer élément</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="198"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="205"/>
         <source>Zoom In</source>
         <translation>Zoom avant</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="202"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="209"/>
         <source>Zoom Out</source>
         <translation>Zoom arrière</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="206"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="213"/>
         <source>Render Report</source>
         <translation>Afficher l&apos;aperçu du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="215"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="222"/>
         <source>Edit layouts mode</source>
         <translation>Modifier le mode de mise en forme</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="220"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="227"/>
         <source>Horizontal layout</source>
         <translation>Mise en page horizontale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="224"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="231"/>
         <source>Vertical layout</source>
         <translation>Disposition verticale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="228"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="235"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="232"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="239"/>
         <source>Hide left panel | Alt+L</source>
         <translation>Masquer le volet gauche</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="238"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="245"/>
         <source>Hide right panel | Alt+R</source>
         <translation>Masquer le volet droite</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="244"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="251"/>
         <source>Delete dialog</source>
         <translation>Supprimer la boite du dialogue</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="248"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="255"/>
         <source>Add new dialog</source>
         <translation>Ajouter une boite de dialogue</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="256"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="260"/>
+        <source>Lock selected items</source>
+        <translation>Verrouiller les éléments sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="266"/>
+        <source>Unlock selected items</source>
+        <translation>Déverrouiller les éléments sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="272"/>
+        <source>Select one level items</source>
+        <translation>Sélectionner un niveau d&apos;éléments</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="281"/>
         <source>Report Tools</source>
         <translation>Outils de rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="283"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="308"/>
         <source>Main Tools</source>
         <translation>Outils principales</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="319"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="344"/>
         <source>Font</source>
         <translation>Police</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="323"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="348"/>
         <source>Text alignment</source>
         <translation>Alignement de texte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="327"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="352"/>
         <source>Items alignment</source>
         <translation>Alignement des éléments</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="334"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="359"/>
         <source>Borders</source>
         <translation>Bordures</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="366"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="391"/>
         <source>Report bands</source>
         <translation>Bandesde rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="370"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="395"/>
         <source>Report Header</source>
         <translation>En-tête du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="375"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="400"/>
         <source>Report Footer</source>
         <translation>Pied de rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="380"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="405"/>
         <source>Page Header</source>
         <translation>En-tête de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="385"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="410"/>
         <source>Page Footer</source>
         <translation>Pied de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="390"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="415"/>
         <source>Data</source>
         <translation>Données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="395"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="420"/>
         <source>Data Header</source>
         <translation>En-tête de données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="401"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="426"/>
         <source>Data Footer</source>
         <translation>Pied de données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="407"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="432"/>
         <source>SubDetail</source>
         <translation>Sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="413"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="438"/>
         <source>SubDetailHeader</source>
         <translation>En-tête de sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="419"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="444"/>
         <source>SubDetailFooter</source>
         <translation>Pied de sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="425"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="450"/>
         <source>GroupHeader</source>
         <translation>En-tête de groupe</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="431"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="456"/>
         <source>GroupFooter</source>
         <translation>Pied de groupe</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="437"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="462"/>
         <source>Tear-off Band</source>
         <translation>Bande détachable</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="447"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="472"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="454"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="479"/>
         <source>Edit</source>
         <translation>Edition</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="461"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="490"/>
         <source>Info</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="463"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="492"/>
         <source>Recent Files</source>
         <translation>Fichiers récents</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="513"/>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="558"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="540"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="585"/>
         <source>Object Inspector</source>
         <translation>Inspecteur d&apos;objets</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="523"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="550"/>
         <source>Report structure</source>
         <translation>Structure du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="538"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="565"/>
         <source>Widget Box</source>
         <translation>Boite de Widget</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="548"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="575"/>
         <source>Property Editor</source>
         <translation>Editeur de propriété</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="568"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="595"/>
         <source>Action Editor</source>
         <translation>Editeur d&apos;action</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="579"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="606"/>
         <source>Resource Editor</source>
         <translation>Editeur de ressource</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="590"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="617"/>
         <source>SignalSlot Editor</source>
         <translation>Editeur de Signaux &amp; Slots</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="600"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="627"/>
         <source>Dialog Designer Tools</source>
         <translation>Boite à outils du Designer</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="615"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="643"/>
         <source>Data Browser</source>
         <translation>Navigateur de données</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="629"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="657"/>
         <source>Script Browser</source>
         <translation>Navigateur de script</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="830"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="868"/>
         <source>Report has been modified! Do you want save the report?</source>
         <translation>Le rapport a été modifié! Voulez-vous l&apos;enregistrer?</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1065"/>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1080"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1104"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1119"/>
         <source>Report file name</source>
         <translation>Nom du fichier du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1342"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1381"/>
         <source>Rendering report</source>
         <translation>Afficher l&apos;aperçu du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1342"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1381"/>
         <source>Abort</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1351"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1390"/>
         <source> page rendered</source>
         <translation> du rendu de la page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1450"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1489"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1450"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1489"/>
         <source>File &quot;%1&quot; not found!</source>
         <translation>Fichier &quot;%1&quot; introuvable!</translation>
     </message>
@@ -2728,27 +2884,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="81"/>
+        <location filename="../limereport/lrreportengine.cpp" line="83"/>
         <source>Preview</source>
         <translation>Aperçu avant impression</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="213"/>
+        <location filename="../limereport/lrreportengine.cpp" line="221"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="492"/>
+        <location filename="../limereport/lrreportengine.cpp" line="484"/>
         <source>%1 file name</source>
         <translation>%1 nom de fichier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="665"/>
+        <location filename="../limereport/lrreportengine.cpp" line="681"/>
         <source>Report File Change</source>
         <translation>Nom du fichier changé</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="666"/>
+        <location filename="../limereport/lrreportengine.cpp" line="682"/>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
@@ -2757,12 +2913,12 @@ This preview is no longer valid.</source>
 Cet aperçu n&apos;est plus valide.</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="743"/>
+        <location filename="../limereport/lrreportengine.cpp" line="760"/>
         <source>Designer not found!</source>
         <translation>Designer introuvable!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="968"/>
+        <location filename="../limereport/lrreportengine.cpp" line="1049"/>
         <source>Language %1 already exists</source>
         <translation>La langue %1 existe déja</translation>
     </message>
@@ -2786,24 +2942,24 @@ Cet aperçu n&apos;est plus valide.</translation>
 <context>
     <name>LimeReport::ReportRender</name>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="173"/>
-        <location filename="../limereport/lrreportrender.cpp" line="186"/>
-        <location filename="../limereport/lrreportrender.cpp" line="223"/>
+        <location filename="../limereport/lrreportrender.cpp" line="174"/>
+        <location filename="../limereport/lrreportrender.cpp" line="187"/>
+        <location filename="../limereport/lrreportrender.cpp" line="219"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="269"/>
+        <location filename="../limereport/lrreportrender.cpp" line="256"/>
         <source>page index out of range</source>
         <translation>Indice de la page dépassé</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="367"/>
+        <location filename="../limereport/lrreportrender.cpp" line="356"/>
         <source>Databand &quot;%1&quot; not found</source>
         <translation>Bande de données &quot;%1 introuvable</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="374"/>
+        <location filename="../limereport/lrreportrender.cpp" line="363"/>
         <source>Wrong using function %1</source>
         <translation>Utilisation incorrecte de la fonction &quot;%1&quot;</translation>
     </message>
@@ -2816,125 +2972,146 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation>Source de donnée</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="29"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="491"/>
         <source>Connection</source>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="55"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="31"/>
         <source>Datasource Name</source>
         <translation>Nom de source de donnée</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="505"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="515"/>
         <source>Subdetail</source>
         <translation>Sous-détails</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="514"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="524"/>
         <source>Master datasource</source>
         <translation>Banse de donnée principale</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="533"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="543"/>
         <source>Subquery mode</source>
         <translation>Mode de sous-requêtes</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="543"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="553"/>
         <source>Filter mode</source>
         <translation>Mode filtre</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="552"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="483"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="562"/>
         <source>SQL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="591"/>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="349"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="601"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="371"/>
         <source>Preview</source>
         <translation>Aperçu</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="598"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="608"/>
         <source>Hide Preview</source>
         <translation>Masquer l&apos;aperçu</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="636"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="646"/>
         <source>Child datasource</source>
         <translation>Source de donnée fille</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="651"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="661"/>
         <source>Fields map</source>
         <translation>Champs</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="680"/>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="694"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="690"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="704"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="726"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="736"/>
         <source>Data preview</source>
         <translation>Aperçu de données</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="768"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="764"/>
+        <source>CSV</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="772"/>
+        <source>Separator</source>
+        <translation>Séparateur</translation>
+    </message>
+    <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="791"/>
+        <source>;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="798"/>
+        <source>Use first row as header</source>
+        <translation>La première ligne est le nom des colonnes</translation>
+    </message>
+    <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="842"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="778"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="852"/>
         <source>Ok</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="127"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="132"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="150"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="155"/>
         <source>Datasource Name is empty!</source>
         <translation>Nom de source de donnée est vide!</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="151"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="156"/>
         <source>SQL is empty!</source>
         <translation>SQL est vide!</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="154"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="159"/>
         <source>Datasource with name: &quot;%1&quot; already exists!</source>
         <translation>La source de donnée avec le nom &quot;%1&quot; existe déja!</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="167"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="172"/>
         <source>defaultConnection</source>
         <translation>Connexion par défaut</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="219"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="232"/>
         <source>Datasource with name %1 already exist</source>
-        <translation>La source de donnée avec le nom &quot;%1&quot; existe déja!</translation>
+        <translation>La source de donnée avec le nom &quot;%1&quot; existe déja</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="301"/>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="317"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="323"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="339"/>
         <source>Attention</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="301"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="323"/>
         <source>Connection is not specified</source>
         <translation>La connexion n&apos;est pas spécifiée</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="312"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="334"/>
         <source>Refresh</source>
         <translation>Actualiser</translation>
     </message>
@@ -2977,29 +3154,29 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="74"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="75"/>
         <source>NO CATEGORY</source>
         <translation>AUCUNE CATEGORIE</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="171"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="175"/>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="177"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="172"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="176"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="178"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="171"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="172"/>
         <source>Dialog with name: %1 already exists</source>
         <translation>Le dialogue avec le nom &quot;%1&quot; existe déja</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="175"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="176"/>
         <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
         <translation>Le fichier ui doit contenir un QDialog au lieu de QWidget ou QMainWindow</translation>
     </message>
     <message>
-        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="177"/>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="178"/>
         <source>wrong file format</source>
         <translation>Format de fichier incorrect</translation>
     </message>
@@ -3025,13 +3202,13 @@ Cet aperçu n&apos;est plus valide.</translation>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1080"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1161"/>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>Le dialogue avec le nom &quot;%1&quot; ne peut pas être crée</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1358"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1366"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1447"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1455"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -3039,150 +3216,164 @@ Cet aperçu n&apos;est plus valide.</translation>
 <context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="344"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="345"/>
         <source>GROUP FUNCTIONS</source>
         <translation>Fonctions de groupe</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="593"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="615"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="632"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="628"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="649"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="666"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="716"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="733"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="750"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="665"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="681"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="698"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="748"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="765"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="782"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="345"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="578"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="346"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="613"/>
         <source>BandName</source>
         <translation>Nom de la bande</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="265"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="266"/>
         <source>Function manager with name &quot;%1&quot; already exists!</source>
-        <translation>la fonction avec le nom \&quot;%1\&quot; existe déja</translation>
+        <translation>la fonction avec le nom \&quot;%1\&quot; existe déja!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="345"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="346"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="846"/>
         <source>FieldName</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="395"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="396"/>
         <source>Variable %1 not found</source>
         <translation>Variable &quot;%1&quot; introuvable</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="446"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="447"/>
         <source>Field %1 not found in %2!</source>
         <translation>Champ &quot;%1 introuvable dans %2!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="576"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="611"/>
         <source>SYSTEM</source>
         <translation>Système</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="591"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="714"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="731"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="626"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="746"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="763"/>
         <source>NUMBER</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="593"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="615"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="632"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="628"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="649"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="666"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="665"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="681"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="698"/>
         <source>Format</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="594"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="629"/>
         <source>Precision</source>
         <translation>Précision</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="595"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="716"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="630"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="649"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="681"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="748"/>
         <source>Locale</source>
         <translation>Local</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="613"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="630"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="647"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="664"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="681"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="698"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="663"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="679"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="696"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="713"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="730"/>
         <source>DATE&amp;TIME</source>
         <translation>Date&amp;Heure</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="733"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="765"/>
         <source>CurrencySymbol</source>
         <translation>Symbolde de la monnaie</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="748"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="763"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="778"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="793"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="812"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="827"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="842"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="780"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="795"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="810"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="825"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="844"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="861"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="876"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="891"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="906"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="921"/>
         <source>GENERAL</source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="750"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="765"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="780"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="782"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="797"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="812"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="795"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="827"/>
         <source>Datasource</source>
         <translation>Source de donnée</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="796"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="828"/>
         <source>ValueField</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="797"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="829"/>
         <source>KeyField</source>
         <translation>Clé</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="798"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="830"/>
         <source>KeyFieldValue</source>
         <translation>Valeur de la clé</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="814"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="847"/>
+        <source>RowIndex</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="863"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="878"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="893"/>
         <source>Unique identifier</source>
         <translation>Identifiant unique</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="814"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="863"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="893"/>
         <source>Content</source>
         <translation>Contenu</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="814"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="893"/>
         <source>Indent</source>
         <translation>Indenter</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="844"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="923"/>
         <source>datasourceName</source>
         <translation>Nom de source de donnée</translation>
     </message>
@@ -3192,50 +3383,70 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="20"/>
         <source>Designer setting</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="38"/>
+        <source>Designer settings</source>
         <translation>Paramètres du Designer</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="29"/>
-        <source>Designer Setting</source>
-        <translation>Paramètres du Designer</translation>
-    </message>
-    <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="37"/>
+        <location filename="../limereport/lrsettingdialog.ui" line="46"/>
         <source>Default font</source>
         <translation>Police par défaut</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="69"/>
+        <location filename="../limereport/lrsettingdialog.ui" line="78"/>
         <source>Grid</source>
         <translation>Grille</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="77"/>
+        <location filename="../limereport/lrsettingdialog.ui" line="86"/>
         <source>Vertical grid step</source>
         <translation>Grille verticale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="91"/>
+        <location filename="../limereport/lrsettingdialog.ui" line="100"/>
         <source>Horizontal grid step</source>
         <translation>Grille horizontale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="125"/>
+        <location filename="../limereport/lrsettingdialog.ui" line="134"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="144"/>
-        <source>Use dark theme</source>
-        <translation>Utiliser le thème sombre</translation>
+        <location filename="../limereport/lrsettingdialog.ui" line="161"/>
+        <source>Theme</source>
+        <translation>Thème</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="154"/>
-        <source>Report Setting</source>
+        <location filename="../limereport/lrsettingdialog.ui" line="182"/>
+        <source>Report units</source>
+        <translation>Unité du rapport</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="223"/>
+        <source>Script editor settings</source>
+        <translation>Éditeur de script</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="231"/>
+        <source>Font</source>
+        <translation>Police</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="265"/>
+        <source>Indent size</source>
+        <translation>Taille d&apos;indentation</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="312"/>
+        <source>Report settings</source>
         <translation>Paramètres du rapport</translation>
     </message>
     <message>
-        <location filename="../limereport/lrsettingdialog.ui" line="160"/>
+        <location filename="../limereport/lrsettingdialog.ui" line="318"/>
         <source>Suppress absent fields and variables warning</source>
         <translation>Effacer les messages d&apos;absences de champs et d&apos;avertissement de variables</translation>
     </message>
@@ -3301,66 +3512,66 @@ Cet aperçu n&apos;est plus valide.</translation>
 <context>
     <name>LimeReport::TextItem</name>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="89"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="127"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="86"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="124"/>
         <source>Edit</source>
         <translation>Edition</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="95"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="130"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="92"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="128"/>
         <source>Auto height</source>
         <translation>Hauteur automatique</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="99"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="133"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="96"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="131"/>
         <source>Allow HTML</source>
         <translation>Interpréter HTML</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="103"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="136"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="100"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="134"/>
         <source>Allow HTML in fields</source>
         <translation>Interpréter HTML dans les champs</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="107"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="139"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="104"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="137"/>
         <source>Stretch to max height</source>
         <translation>Etirer à la hauteur maximale</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="111"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="142"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="108"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="141"/>
         <source>Transparent</source>
         <translation>Transparent</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="115"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="149"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="112"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="148"/>
         <source>Watermark</source>
         <translation>Filigrane</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="119"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="153"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="116"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="152"/>
         <source>Hide if empty</source>
         <translation>Masquer si vide</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="640"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="650"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="658"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="668"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="641"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="659"/>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
         <translation>L&apos;élément texte &quot; %1 &quot; a toujours un copain &quot; %2 &quot; </translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="651"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="669"/>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>Elément &quot;%1&quot; introuvable!</translation>
     </message>
@@ -3378,37 +3589,22 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation>Contenu</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="64"/>
-        <source>Editor settings</source>
-        <translation>Paramètres de l&apos;éditeur</translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="72"/>
-        <source>Editor font</source>
-        <translation>Police</translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="109"/>
-        <source>...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="139"/>
+        <location filename="../limereport/items/lrtextitemeditor.ui" line="79"/>
         <source>Ok</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="142"/>
+        <location filename="../limereport/items/lrtextitemeditor.ui" line="82"/>
         <source>Ctrl+Return</source>
         <translation>Ctrl+Arrière</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="149"/>
+        <location filename="../limereport/items/lrtextitemeditor.ui" line="89"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitemeditor.ui" line="152"/>
+        <location filename="../limereport/items/lrtextitemeditor.ui" line="92"/>
         <source>Esc</source>
         <translation>Echap</translation>
     </message>
@@ -3442,17 +3638,17 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation>Chaînes de caractère</translation>
     </message>
     <message>
-        <location filename="../limereport/translationeditor/translationeditor.ui" line="164"/>
+        <location filename="../limereport/translationeditor/translationeditor.ui" line="168"/>
         <source>Source Text</source>
         <translation>Texte source</translation>
     </message>
     <message>
-        <location filename="../limereport/translationeditor/translationeditor.ui" line="173"/>
+        <location filename="../limereport/translationeditor/translationeditor.ui" line="177"/>
         <source>Translation</source>
         <translation>Traduction</translation>
     </message>
     <message>
-        <location filename="../limereport/translationeditor/translationeditor.ui" line="200"/>
+        <location filename="../limereport/translationeditor/translationeditor.ui" line="204"/>
         <source>Checked</source>
         <translation>Vérifié</translation>
     </message>
@@ -3616,39 +3812,39 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="56"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="53"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="135"/>
         <source>Text Item</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/lrdatadesignintf.cpp" line="76"/>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="120"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="118"/>
         <source>Invalid connection! %1</source>
         <translation>Connexion invalidé %1</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="435"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="418"/>
         <source>Master datasource &quot;%1&quot; not found!</source>
         <translation>Source de donnée principale &quot;%1&quot; introuvable!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="543"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="501"/>
         <source>Master datasouce &quot;%1&quot; not found!</source>
         <translation>Source de donnée principale &quot;%1&quot; introuvable!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="544"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="502"/>
         <source>Child</source>
         <translation>Enfant</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="544"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="502"/>
         <source> and child </source>
         <translation> est enfant </translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="545"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="503"/>
         <source>datasouce &quot;%1&quot; not found!</source>
         <translation>Source de donnée &quot;%1&quot; introuvable!</translation>
     </message>
@@ -3674,15 +3870,17 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="330"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="333"/>
         <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="49"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="52"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="58"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="53"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="61"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="65"/>
         <source>datasource</source>
         <translation>Source de donnée</translation>
     </message>
     <message>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="336"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="348"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="55"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="57"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="69"/>
         <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="40"/>
         <source>field</source>
         <translation>Champ</translation>
@@ -3720,8 +3918,8 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="357"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="360"/>
-        <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="41"/>
         <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="42"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="43"/>
         <source>qreal</source>
         <translation></translation>
     </message>
@@ -3750,36 +3948,64 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1539"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1581"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1629"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1671"/>
         <source>Attention!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1539"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1581"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1629"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1671"/>
         <source>Selected elements have different parent containers</source>
         <translation>Les éléments sélectionnés ont un parent différent</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1528"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1588"/>
         <source>Object with name %1 already exists!</source>
         <translation>L&apos;objet avec le nom &quot;%1&quot; existe déja!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1467"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1559"/>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>La fonction %1 est introuvable ou contient des paramètres incorrects</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1470"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1562"/>
         <source>Datasource manager not found</source>
         <translation>Gestionnaire de source de donnée introuvable</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="167"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="14"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="18"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="22"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="26"/>
+        <source>margin</source>
+        <translation>Marge</translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="40"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="96"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="192"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="268"/>
         <source>mm</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="43"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="98"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="194"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="270"/>
+        <source>&apos;&apos;</source>
+        <translation type="unfinished" variants="yes">
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+            <lengthvariant></lengthvariant>
+        </translation>
     </message>
     <message>
         <location filename="../limereport/serializators/lrxmlreader.cpp" line="264"/>
@@ -3832,6 +4058,34 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="457"/>
         <source>Export to PDF</source>
         <translation>Exporter au format PDF</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="114"/>
+        <source>Dark</source>
+        <translation>Sombre</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="115"/>
+        <source>Light</source>
+        <translation>Clair</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="785"/>
+        <source>Default</source>
+        <translation>par défaut</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="794"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="797"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="804"/>
+        <source>Millimeters</source>
+        <translation>Millimètres</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="794"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="798"/>
+        <source>Inches</source>
+        <translation>Pouces</translation>
     </message>
 </context>
 </TS>
