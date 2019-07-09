@@ -60,7 +60,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>MainToolBar</string>
    </property>
    <property name="iconSize">
     <size>
@@ -98,7 +98,7 @@
     <bool>true</bool>
    </property>
    <property name="windowTitle">
-    <string>toolBar_2</string>
+    <string>EditModeTools</string>
    </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
