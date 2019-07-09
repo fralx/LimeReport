@@ -189,6 +189,10 @@ void PreviewReportWindow::setMenuVisible(bool value)
 void PreviewReportWindow::setHideResultEditButton(bool value)
 {
     ui->actionEdit_Mode->setVisible(value);
+    if (!value && ui->editModeTools) {
+        delete ui->editModeTools;
+        ui->editModeTools = 0;
+    }
 }
 
 void PreviewReportWindow::setHidePrintButton(bool value)
@@ -292,7 +296,8 @@ void PreviewReportWindow::moveEvent(QMoveEvent* e)
 void PreviewReportWindow::showEvent(QShowEvent *)
 {
     m_fontEditor->setVisible(ui->actionEdit_Mode->isChecked());
-    ui->editModeTools->setVisible(false);
+    if (ui->editModeTools)
+        ui->editModeTools->setVisible(false);
     m_textAlignmentEditor->setVisible(ui->actionEdit_Mode->isChecked());
     switch (m_previewScaleType) {
     case FitWidth:
@@ -500,7 +505,7 @@ void PreviewReportWindow::on_actionShow_Toolbar_triggered()
     writeSetting();
 }
 
-void PreviewReportWindow::slotCurrentPageChanged(int page)
+void PreviewReportWindow::slotCurrentPageChanged(int /*page*/)
 {
     slotActivateItemSelectionMode();
 }
