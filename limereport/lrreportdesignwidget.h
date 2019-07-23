@@ -241,6 +241,7 @@ signals:
     void pageAdded(PageDesignIntf* page);
     void pageDeleted();
 protected:
+    PageView *createPageView(PageDesignIntf *page);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void createNewDialogTab(const QString& dialogName,const QByteArray& description);
 #endif
@@ -275,6 +276,7 @@ private:
     QMap<QString, QString> m_themes;
     QMap<QString, QString> m_localToEng;
     BaseDesignIntf::UnitType m_defaultUnits;
+
 };
 
 } // namespace LimeReport
