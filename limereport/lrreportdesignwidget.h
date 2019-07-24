@@ -216,6 +216,7 @@ private slots:
     void slotCurrentTabChanged(int index);
     void slotReportLoaded();
     void slotScriptTextChanged();
+    void slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void slotDialogChanged(QString);
     void slotDialogNameChanged(QString oldName, QString newName);

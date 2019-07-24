@@ -224,9 +224,11 @@ void ReportEnginePrivate::showError(QString message)
 void ReportEnginePrivate::updateTranslations()
 {
     foreach(ReportTranslation* translation, m_translations.values()){
+        translation->invalidatePages();
         foreach(PageDesignIntf* page, m_pages){
             translation->updatePageTranslation(page);
         }
+        translation->clearInvalidPages();
     }
 }
 
@@ -500,7 +502,7 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
     return false;
 }
 
-bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hints)
+bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hints, QPrinter* printer)
 {
     if (pages.count()>0){
         Q_Q(ReportEngine);
@@ -515,6 +517,7 @@ bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hint
         w->setPages(pages);
         w->setLayoutDirection(m_previewLayoutDirection);
         w->setStyleSheet(styleSheet());
+//        w->setDefaultPrinter()
 
         if (!dataManager()->errorsList().isEmpty()){
             w->setErrorMessages(dataManager()->errorsList());
@@ -550,14 +553,13 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
     previewReport(0, hints);
 }
 
-void ReportEnginePrivate::previewReport(QPrinter *printer, PreviewHints hints)
+void ReportEnginePrivate::previewReport(QPrinter* printer, PreviewHints hints)
 {
-    //    QTime start = QTime::currentTime();
         try{
             dataManager()->setDesignTime(false);
             ReportPages pages = renderToPages();
             dataManager()->setDesignTime(true);
-            showPreviewWindow(pages, hints);
+            showPreviewWindow(pages, hints, printer);
         } catch (ReportError &exception){
             saveError(exception.what());
             showError(exception.what());
@@ -980,7 +982,12 @@ IPreparedPages *ReportEnginePrivate::preparedPages(){
 
 bool ReportEnginePrivate::showPreparedPages(PreviewHints hints)
 {
-    return showPreviewWindow(m_preparedPages, hints);
+    return showPreparedPages(0, hints);
+}
+
+bool ReportEnginePrivate::showPreparedPages(QPrinter* defaultPrinter, PreviewHints hints)
+{
+    return showPreviewWindow(m_preparedPages, hints, defaultPrinter);
 }
 
 bool ReportEnginePrivate::prepareReportPages()

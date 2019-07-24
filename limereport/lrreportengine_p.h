@@ -246,6 +246,7 @@ public:
     void      clearWatermarks();
     IPreparedPages* preparedPages();
     bool showPreparedPages(PreviewHints hints);
+    bool showPreparedPages(QPrinter *defaultPrinter, PreviewHints hints);
     bool prepareReportPages();
     bool printPreparedPages();
 signals:
@@ -273,7 +274,7 @@ public slots:
     void    cancelRender();
 protected:
     PageDesignIntf* createPage(const QString& pageName="", bool preview = false);
-    bool showPreviewWindow(ReportPages pages, PreviewHints hints);
+    bool showPreviewWindow(ReportPages pages, PreviewHints hints, QPrinter *printer);
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:

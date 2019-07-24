@@ -360,26 +360,29 @@ QGraphicsView* ReportDesignWidget::activeView(){
 
 void ReportDesignWidget::connectPage(PageDesignIntf *page)
 {
-    connect(page,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)),this,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)));
-    connect(page,SIGNAL(itemInsertCanceled(QString)),this,SIGNAL(itemInsertCanceled(QString)));
-    connect(page,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),this,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)));
-    connect(page,SIGNAL(selectionChanged()),this,SLOT(slotSelectionChanged()));
-    connect(page,SIGNAL(insertModeStarted()),this,SIGNAL(insertModeStarted()));
-    connect(page,SIGNAL(commandHistoryChanged()),this,SIGNAL(commandHistoryChanged()));
-    connect(page,SIGNAL(sceneRectChanged(QRectF)),this,SLOT(slotSceneRectChanged(QRectF)));
-
-    connect(page,SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
-            this, SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-    connect(page,SIGNAL(itemRemoved(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
-            this,SIGNAL(itemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-    connect(page,SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
-            this, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
-    connect(page, SIGNAL(bandRemoved(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
-            this, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
+    connect(page, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
+            this, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));
+    connect(page, SIGNAL(itemInsertCanceled(QString)),this,SIGNAL(itemInsertCanceled(QString)));
+    connect(page, SIGNAL(itemPropertyChanged(QString, QString, QVariant, QVariant)),
+            this, SIGNAL(itemPropertyChanged(QString, QString, QVariant, QVariant)));
+    connect(page, SIGNAL(itemPropertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotItemPropertyObjectNameChanged(QString, QString)));
+    connect(page, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
+    connect(page, SIGNAL(insertModeStarted()), this, SIGNAL(insertModeStarted()));
+    connect(page, SIGNAL(commandHistoryChanged()), this, SIGNAL(commandHistoryChanged()));
+    connect(page, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(slotSceneRectChanged(QRectF)));
+    connect(page, SIGNAL(itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)),
+            this, SIGNAL(itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)));
+    connect(page, SIGNAL(itemRemoved(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)),
+            this, SIGNAL(itemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)));
+    connect(page, SIGNAL(bandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)),
+            this, SIGNAL(bandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)));
+    connect(page, SIGNAL(bandRemoved(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)),
+            this, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)));
     connect(page, SIGNAL(pageUpdateFinished(LimeReport::PageDesignIntf*)),
             this, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)));
-    connect(page->pageItem(), SIGNAL(propertyObjectNameChanged(QString,QString)),
-            this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
+    connect(page->pageItem(), SIGNAL(propertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotPagePropertyObjectNameChanged(QString, QString)));
     emit activePageChanged();
 }
 
@@ -964,6 +967,18 @@ void ReportDesignWidget::slotScriptTextChanged()
     m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
 }
 
+void ReportDesignWidget::slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName)
+{
+    PageDesignIntf* page = qobject_cast<PageDesignIntf*>(sender());
+    if (page){
+        ITranslationContainer* tc = dynamic_cast<ITranslationContainer*>(report());
+        for (int i = 0; i < tc->translations()->values().count(); ++i){
+            PageTranslation* pt = tc->translations()->values().at(i)->findPageTranslation(page->pageItem()->objectName());
+            if (pt) pt->renameItem(oldName, newName);
+        }
+    }
+}
+
 #ifdef HAVE_QTDESIGNER_INTEGRATION
 
 void ReportDesignWidget::addNewDialog()
@@ -995,6 +1010,11 @@ void ReportDesignWidget::slotDialogNameChanged(QString oldName, QString newName)
 
 void ReportDesignWidget::slotPagePropertyObjectNameChanged(const QString &oldValue, const QString &newValue)
 {
+    ITranslationContainer* tc = dynamic_cast<ITranslationContainer*>(report());
+    foreach(ReportTranslation* translation, tc->translations()->values()){
+        translation->renamePage(oldValue, newValue);
+    }
+
     for (int i = 0; i < m_tabWidget->count(); ++i ){
         if (m_tabWidget->tabText(i).compare(oldValue) == 0){
             QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->widget(i));
