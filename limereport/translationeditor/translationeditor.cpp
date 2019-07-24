@@ -11,7 +11,8 @@ namespace LimeReport {
 TranslationEditor::TranslationEditor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TranslationEditor), m_translationContainer(0),
-    m_currentReportTranslation(0), m_currentPageTranslation(0), m_currentPropertyTranslation(0)
+    m_currentReportTranslation(0), m_currentPageTranslation(0),
+    m_currentPropertyTranslation(0), m_translationChanging(false)
 {
     ui->setupUi(this);
     ui->splitter_3->setStretchFactor(1,10);
@@ -78,11 +79,10 @@ void TranslationEditor::updateUi()
                     ui->lvLanguages->addItem(QLocale::languageToString(language));
             }
             if (!translations->keys().isEmpty()){
-                if (ui->lvLanguages->count()!=0){
+                if (ui->lvLanguages->count() != 0){
                     ui->lvLanguages->item(0)->setSelected(true);
                     activateLanguage(getLanguageByName(ui->lvLanguages->item(0)->text()));
                 } else {
-                    //activateLanguage(QLocale::AnyLanguage);
                     ui->twPages->clear();
                     ui->tbStrings->setRowCount(0);
                 }
@@ -93,7 +93,9 @@ void TranslationEditor::updateUi()
 
 void TranslationEditor::activateLanguage(QLocale::Language language)
 {
+    m_translationChanging = true;
     ui->teTranslation->setEnabled(false);
+    ui->teTranslation->setPlainText("");
     ui->cbChecked->setEnabled(false);
     ui->twPages->clear();
     Translations* translations = m_translationContainer->translations();
@@ -113,6 +115,7 @@ void TranslationEditor::activateLanguage(QLocale::Language language)
             activatePage(m_currentReportTranslation->findPageTranslation(ui->twPages->topLevelItem(0)->text(0)));
         }
     }
+    m_translationChanging = false;
 }
 
 void TranslationEditor::activatePage(PageTranslation* pageTranslation)
@@ -171,13 +174,13 @@ void TranslationEditor::activateTranslation(const QString& itemName, const QStri
 
 void TranslationEditor::on_tbStrings_itemSelectionChanged()
 {
-    if (m_currentPageTranslation)
+    if (m_currentPageTranslation && !m_translationChanging)
         activateTranslation(ui->tbStrings->item(ui->tbStrings->currentRow(),1)->text(), ui->tbStrings->item(ui->tbStrings->currentRow(),2)->text());
 }
 
 void TranslationEditor::on_teTranslation_textChanged()
 {
-    if (m_currentPropertyTranslation)
+    if (m_currentPropertyTranslation && !m_translationChanging)
         m_currentPropertyTranslation->value = ui->teTranslation->toPlainText();
 }
 
@@ -200,16 +203,23 @@ void TranslationEditor::on_tbAddLanguage_clicked()
 {
     LanguageSelectDialog dialog;
     if (dialog.exec()){
+        m_translationChanging = true;
         m_translationContainer->addTranslationLanguage(dialog.getSelectedLanguage());
         updateUi();
         activateLanguage(dialog.getSelectedLanguage());
+        foreach (QListWidgetItem* item, ui->lvLanguages->findItems(QLocale::languageToString(dialog.getSelectedLanguage()), Qt::MatchExactly)){
+            item->setSelected(true);
+        }
+        m_translationChanging = false;
     }
 }
 
 void TranslationEditor::on_tbDeleteLanguage_clicked()
 {
+    m_translationChanging = true;
     m_translationContainer->removeTranslationLanguage(m_currentReportTranslation->language());
     updateUi();
+    m_translationChanging = false;
 }
 
 void TranslationEditor::slotItemChecked()

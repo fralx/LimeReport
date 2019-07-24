@@ -218,6 +218,7 @@ namespace LimeReport {
                                  const QString& propertyName,
                                  const QVariant& oldValue,
                                  const QVariant& newValue);
+        void itemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
         void itemAdded(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void itemRemoved(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void bandAdded(LimeReport::PageDesignIntf* page, LimeReport::BandDesignIntf* band);

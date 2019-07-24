@@ -816,6 +816,7 @@ void PageDesignIntf::slotItemPropertyObjectNameChanged(const QString &oldName, c
     if (oldName.compare(newName)!=0 && !m_executingCommand){
         CommandIf::Ptr command = PropertyObjectNameChangedCommand::create(this, oldName, newName);
         saveCommand(command, false);
+        emit itemPropertyObjectNameChanged(oldName, newName);
     }
 }
 

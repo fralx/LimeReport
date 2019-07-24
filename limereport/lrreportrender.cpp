@@ -189,7 +189,7 @@ void ReportRender::initDatasource(const QString& name){
     }
 }
 
-void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
+void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool /*isFirst*/, bool /*resetPageNumbers*/)
 {
     m_currentNameIndex = 0;
     m_patternPageItem = patternPage;
