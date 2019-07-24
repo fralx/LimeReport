@@ -45,6 +45,7 @@ private:
     ReportTranslation* m_currentReportTranslation;
     PageTranslation* m_currentPageTranslation;
     PropertyTranslation* m_currentPropertyTranslation;
+    bool m_translationChanging;
 };
 
 } //namespace LimeReport

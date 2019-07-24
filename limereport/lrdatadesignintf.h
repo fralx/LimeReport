@@ -176,7 +176,7 @@ public:
     bool isOwned() const {return true;}
     bool isEditable() const {return true;}
     bool isRemovable() const {return true;}
-    void invalidate(IDataSource::DatasourceMode mode, bool /*dbWillBeClosed*/){ updateModel();}
+    void invalidate(IDataSource::DatasourceMode /*mode*/, bool /*dbWillBeClosed*/){ updateModel();}
     void update(){ updateModel(); }
     void clearErrors(){}
 private:

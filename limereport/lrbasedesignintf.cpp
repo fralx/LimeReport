@@ -500,7 +500,7 @@ void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
     update();
 }
 
-void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent /**event*/)
 {
     m_hovered = true;
     update();

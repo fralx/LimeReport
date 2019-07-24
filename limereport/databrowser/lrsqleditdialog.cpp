@@ -278,7 +278,8 @@ void SQLEditDialog::initQueryMode()
     ui->cbSubdetail->setChecked(false);
     ui->leMaster->setVisible(false);
     ui->lbMaster->setVisible(false);
-    ui->tabWidget->removeTab(1);
+    //ui->tabWidget->removeTab(1);
+    ui->tabWidget->addTab(ui->csvTab, tr("CSV"));
 }
 
 void SQLEditDialog::initSubQueryMode()
@@ -314,7 +315,7 @@ void SQLEditDialog::initProxyMode()
 
 void SQLEditDialog::initCSVMode()
 {
-    ui->tabWidget->removeTab(0);
+    ui->tabWidget->setCurrentWidget(ui->csvTab);
 }
 
 void SQLEditDialog::slotPreviewData()

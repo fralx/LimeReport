@@ -116,7 +116,7 @@ private:
     void    initGroups();
     void    clearPageMap();
 
-    void    renderPage(PageItemDesignIntf *patternPage, bool isTOC = false, bool isFirst = false, bool resetPageNumbers = false);
+    void    renderPage(PageItemDesignIntf *patternPage, bool isTOC = false, bool isFirst = false, bool = false);
     BandDesignIntf*    renderBand(BandDesignIntf *patternBand, BandDesignIntf *bandData, DataRenderMode mode = NotStartNewPage, bool isLast = false);
     void    renderDataBand(BandDesignIntf* dataBand);
     void    renderPageHeader(PageItemDesignIntf* patternPage);
