@@ -105,7 +105,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_OBJECT
     Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight )
     Q_PROPERTY(int bandIndex READ bandIndex WRITE setBandIndex DESIGNABLE false )
-    Q_PROPERTY(bool keepBottomSpace READ keepBottomSpaceOption WRITE setKeepBottomSpaceOption )
+    Q_PROPERTY(bool keepBottomSpace READ keepBottomSpace WRITE setKeepBottomSpace )
     Q_PROPERTY(bool keepTopSpace READ keepTopSpace WRITE setKeepTopSpace)
     Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -162,8 +162,8 @@ public:
     QString datasourceName();
     void setDataSourceName(const QString& datasourceName);
 
-    void setKeepBottomSpaceOption(bool value);
-    bool keepBottomSpaceOption() const {return m_keepBottomSpace;}
+    void setKeepBottomSpace(bool value);
+    bool keepBottomSpace() const {return m_keepBottomSpace;}
 
     bool keepTopSpace() const;
     void setKeepTopSpace(bool value);
