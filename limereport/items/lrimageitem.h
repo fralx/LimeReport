@@ -61,8 +61,8 @@ public:
     ImageItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setImage(QImage value);
-    QImage image(){return m_picture;}
-    void setResourcePath(const QString &value){m_resourcePath=value;}
+    QImage image();
+    void setResourcePath(const QString &value);
     QString resourcePath() const;
     QString datasource() const;
     void setDatasource(const QString &datasource);

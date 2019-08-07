@@ -340,6 +340,21 @@ void ImageItem::setImage(QImage value)
     }
 }
 
+QImage ImageItem::image(){
+    if (m_picture.isNull() && !resourcePath().isEmpty() && itemMode() == DesignMode){
+        QFileInfo fileInfo(m_resourcePath);
+        if (fileInfo.exists()){
+            return  QImage(m_resourcePath);
+        }
+    }
+    return m_picture;
+}
+
+void ImageItem::setResourcePath(const QString &value){
+    m_resourcePath=value;
+    update();
+}
+
 ImageItem::Format ImageItem::format() const
 {
     return m_format;
