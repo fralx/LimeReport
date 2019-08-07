@@ -32,6 +32,7 @@
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
 #include "lrpagedesignintf.h"
+#include "lrimageitemeditor.h"
 
 namespace{
 
@@ -83,9 +84,15 @@ void ImageItem::loadPictureFromVariant(QVariant& data){
 
 void ImageItem::preparePopUpMenu(QMenu &menu)
 {
+    QAction* editAction = menu.addAction(QIcon(":/report/images/edit_pecil2.png"),tr("Edit"));
+    menu.insertAction(menu.actions().at(0),editAction);
+    menu.insertSeparator(menu.actions().at(1));
+
+    menu.addSeparator();
     QAction* action = menu.addAction(tr("Watermark"));
     action->setCheckable(true);
     action->setChecked(isWatermark());
+
 }
 
 void ImageItem::processPopUpAction(QAction *action)
@@ -93,7 +100,24 @@ void ImageItem::processPopUpAction(QAction *action)
     if (action->text().compare(tr("Watermark")) == 0){
         page()->setPropertyToSelectedItems("watermark",action->isChecked());
     }
+    if (action->text().compare(tr("Edit")) == 0){
+        this->showEditorDialog();
+    }
     ItemDesignIntf::processPopUpAction(action);
+}
+
+QImage getFileByResourcePath(QString resourcePath){
+    QFileInfo resourceFile(resourcePath);
+    if (resourceFile.exists())
+        return QImage(resourcePath);
+    return QImage();
+}
+
+QImage ImageItem::drawImage()
+{
+    if (image().isNull())
+        return getFileByResourcePath(m_resourcePath);
+    return image();
 }
 
 bool ImageItem::useExternalPainter() const
@@ -108,6 +132,13 @@ void ImageItem::setUseExternalPainter(bool value)
         notify("useExternalPainter",!value, value);
         update();
     }
+}
+
+QWidget *ImageItem::defaultEditor()
+{
+    ImageItemEditor* editor = new ImageItemEditor(this);
+    editor->setAttribute(Qt::WA_DeleteOnClose);
+    return editor;
 }
 
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
@@ -220,8 +251,8 @@ void ImageItem::setAutoSize(bool autoSize)
     if (m_autoSize != autoSize){
         m_autoSize = autoSize;
         if (m_autoSize && !m_picture.isNull()){
-            setWidth(image().width());
-            setHeight(image().height());
+            setWidth(drawImage().width());
+            setHeight(drawImage().height());
             setPossibleResizeDirectionFlags(Fixed);
         } else {
             setPossibleResizeDirectionFlags(AllDirections);
@@ -271,10 +302,10 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
     QPointF point = rect().topLeft();
     QImage img;
 
-    if (m_scale && !image().isNull()){
-        img = image().scaled(rect().width(), rect().height(), keepAspectRatio() ? Qt::KeepAspectRatio : Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    if (m_scale && !drawImage().isNull()){
+        img = drawImage().scaled(rect().width(), rect().height(), keepAspectRatio() ? Qt::KeepAspectRatio : Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     } else {
-        img = image();
+        img = drawImage();
     }
 
     qreal shiftHeight = rect().height() - img.height();
@@ -328,9 +359,9 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
 
 void ImageItem::setImage(QImage value)
 {
-    if (m_picture!=value){
+    if (m_picture != value){
         QImage oldValue = m_picture;
-        m_picture=value;
+        m_picture = value;
         if (m_autoSize){
             setWidth(m_picture.width());
             setHeight(m_picture.height());
@@ -341,18 +372,16 @@ void ImageItem::setImage(QImage value)
 }
 
 QImage ImageItem::image(){
-    if (m_picture.isNull() && !resourcePath().isEmpty() && itemMode() == DesignMode){
-        QFileInfo fileInfo(m_resourcePath);
-        if (fileInfo.exists()){
-            return  QImage(m_resourcePath);
-        }
-    }
     return m_picture;
 }
 
 void ImageItem::setResourcePath(const QString &value){
-    m_resourcePath=value;
-    update();
+    if (m_resourcePath != value){
+        QString oldValue = m_resourcePath;
+        m_resourcePath = value;
+        update();
+        notify("resourcePath", oldValue, value);
+    }
 }
 
 ImageItem::Format ImageItem::format() const
