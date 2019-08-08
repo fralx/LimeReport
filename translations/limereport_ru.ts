@@ -56,6 +56,29 @@
     </message>
 </context>
 <context>
+    <name>ImageItemEditor</name>
+    <message>
+        <source>Image Item Editor</source>
+        <translation>Редакор изображения</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation>Изображение</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>Resource path</source>
+        <translation>Путь к русурсам</translation>
+    </message>
+    <message>
+        <source>Select image file</source>
+        <translation>Выбрать файл изображения</translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
@@ -392,6 +415,10 @@ p, li { white-space: pre-wrap; }
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
+    <message>
+        <source>Keep top space</source>
+        <translation>Сохранять отступ сверху</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -433,7 +460,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Lock item geometry</source>
-        <translation>Блокировать изменения геометрии</translation>
+        <translation>Заблокировать геометрию элемента</translation>
     </message>
 </context>
 <context>
@@ -1003,11 +1030,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Scale</source>
-        <translation>Масштабировать</translation>
+        <translation>Масштаб</translation>
     </message>
     <message>
         <source>Split</source>
-        <translation>Разделять на части</translation>
+        <translation>Разделить</translation>
     </message>
 </context>
 <context>
@@ -1130,6 +1157,10 @@ p, li { white-space: pre-wrap; }
         <source>Watermark</source>
         <translation>Водный знак</translation>
     </message>
+    <message>
+        <source>Edit</source>
+        <translation>Правка</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
@@ -1249,7 +1280,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Translate properties</source>
-        <translation>Переводить имена свойств</translation>
+        <translation>Свойства перевода</translation>
     </message>
 </context>
 <context>
@@ -1328,10 +1359,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Report</source>
         <translation>Отчет</translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation>Панель инструментов</translation>
     </message>
     <message>
         <source>Print</source>
@@ -1434,10 +1461,6 @@ p, li { white-space: pre-wrap; }
         <translation>Показать панель инструментов</translation>
     </message>
     <message>
-        <source>toolBar_2</source>
-        <translation>Редактирование</translation>
-    </message>
-    <message>
         <source>InsertTextItem</source>
         <translation>Вставить текстовый элемент</translation>
     </message>
@@ -1456,6 +1479,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Del</source>
         <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>MainToolBar</source>
+        <translation>Основная панель инструментов</translation>
+    </message>
+    <message>
+        <source>EditModeTools</source>
+        <translation>Панель инструментов редактирования</translation>
     </message>
 </context>
 <context>
@@ -1881,7 +1912,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>setPageSizeToPrinter</source>
-        <translation>Отправить параметры страницы в принтер</translation>
+        <translation>Оправитьпараметры страницы в принтер</translation>
     </message>
     <message>
         <source>fillInSecondPass</source>
@@ -1961,11 +1992,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>option3</source>
-        <translation></translation>
+        <translation>Опция 3</translation>
     </message>
     <message>
         <source>units</source>
-        <translation>Единицы измерения</translation>
+        <translation>Еденицы измерения</translation>
     </message>
     <message>
         <source>geometryLocked</source>
@@ -1973,7 +2004,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>printBehavior</source>
-        <translation>Режим печати</translation>
+        <translation>Поведение при печати</translation>
     </message>
 </context>
 <context>
@@ -2301,15 +2332,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Lock selected items</source>
-        <translation>Заблокировать выбранные элементы</translation>
+        <translation>Заблокировать выделенные элементы</translation>
     </message>
     <message>
         <source>Unlock selected items</source>
-        <translation>Разблокировать выбранные элементы</translation>
+        <translation>Разблокировать выделенные элементы</translation>
     </message>
     <message>
         <source>Select one level items</source>
-        <translation>Выбрать все элементы одного уровня</translation>
+        <translation>Выделить элементы одного уровня</translation>
     </message>
 </context>
 <context>
@@ -2482,7 +2513,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>CSV</source>
-        <translation></translation>
+        <translation>CSV</translation>
     </message>
     <message>
         <source>Separator</source>
@@ -2494,7 +2525,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Use first row as header</source>
-        <translation>Первая строка как заголовок</translation>
+        <translation>Использовать первую строку в качестве заголовка</translation>
     </message>
 </context>
 <context>
@@ -2729,7 +2760,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Report units</source>
-        <translation>Единицы измерения</translation>
+        <translation>Еденицы измерения</translation>
     </message>
 </context>
 <context>
@@ -3147,16 +3178,16 @@ This preview is no longer valid.</source>
         <translation>Экспортировать в PDF</translation>
     </message>
     <message>
+        <source>Dark</source>
+        <translation>Темная</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Светаля</translation>
+    </message>
+    <message>
         <source>Default</source>
         <translation>По умолчанию</translation>
-    </message>
-    <message>
-        <source>margin</source>
-        <translation>Поля</translation>
-    </message>
-    <message>
-        <source>&apos;&apos;</source>
-        <translation></translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -3167,12 +3198,12 @@ This preview is no longer valid.</source>
         <translation>Дюймы</translation>
     </message>
     <message>
-        <source>Dark</source>
-        <translation>Темная</translation>
+        <source>margin</source>
+        <translation>Поля</translation>
     </message>
     <message>
-        <source>Light</source>
-        <translation>Светлая</translation>
+        <source>&apos;&apos;</source>
+        <translation>&apos;&apos;</translation>
     </message>
 </context>
 </TS>
