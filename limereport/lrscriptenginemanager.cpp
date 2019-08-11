@@ -1930,7 +1930,7 @@ bool DatasourceFunctions::isEOF(const QString &datasourceName)
 bool DatasourceFunctions::invalidate(const QString& datasourceName)
 {
     if (m_dataManager && m_dataManager->dataSource(datasourceName)){
-        m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::DatasourceMode::RENDER_MODE);
+        m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
         return true;
     }
     return false;

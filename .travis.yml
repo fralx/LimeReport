@@ -1,27 +1,548 @@
-language: cpp
+matrix:
+    include:         
+      - env: Qt4.8.5_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            packages:
+              - qt4-default
+            
+        script:
+          - qmake -r limereport.pro
+          - make
+          - make check
 
-compiler:
-  - gcc
+      - env: Qt4.8.5_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            packages:
+              - qt4-default
+            
+        script:
+          - qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.1.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt511-trusty'
+            packages:
+              - qt51base
+              - qt51script
+              - qt51tools
+            
+        script:
+          - source /opt/qt51/bin/qt51-env.sh
+          - /opt/qt51/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.1.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt511-trusty'
+            packages:
+              - qt51base
+              - qt51script
+              - qt51tools
+            
+        script:
+          - source /opt/qt51/bin/qt51-env.sh
+          - /opt/qt51/bin/qmake -r limereport.pro
+          - make
+          - make check
 
-sudo: required
-dist: trusty
+      - env: Qt5.2.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt521-trusty'
+            packages:
+              - qt52base
+              - qt52script
+              - qt52tools
+            
+        script:
+          - source /opt/qt52/bin/qt52-env.sh
+          - /opt/qt52/bin/qmake -r limereport.pro
+          - make
+          - make check
 
-env:
-  - QT_BASE=56
+      - env: Qt5.2.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt521-trusty'
+            packages:
+              - qt52base
+              - qt52script
+              - qt52tools
+            
+        script:
+          - source /opt/qt52/bin/qt52-env.sh
+          - /opt/qt52/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.3.2_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt532-trusty'
+            packages:
+              - qt53base
+              - qt53script
+              - qt53tools
+            
+        script:
+          - source /opt/qt53/bin/qt53-env.sh
+          - /opt/qt53/bin/qmake -r limereport.pro
+          - make
+          - make check
 
-before_install:
-  - if [ "$QT_BASE" = "56" ]; then sudo add-apt-repository ppa:beineri/opt-qt562-trusty -y; fi
-  - sudo apt-get update -qq
+      - env: Qt5.3.2_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt532-trusty'
+            packages:
+              - qt53base
+              - qt53script
+              - qt53tools
+            
+        script:
+          - source /opt/qt53/bin/qt53-env.sh
+          - /opt/qt53/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.4.2_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt542-trusty'
+            packages:
+              - qt54base
+              - qt54script
+              - qt54tools
+            
+        script:
+          - source /opt/qt54/bin/qt54-env.sh
+          - /opt/qt54/bin/qmake -r limereport.pro
+          - make
+          - make check
 
-install:
-  - if [ "$QT_BASE" = "56" ]; then sudo apt-get install -qq qt56base qt56script qt56tools ; source /opt/qt56/bin/qt56-env.sh; fi
-  
+      - env: Qt5.4.2_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt542-trusty'
+            packages:
+              - qt54base
+              - qt54script
+              - qt54tools
+            
+        script:
+          - source /opt/qt54/bin/qt54-env.sh
+          - /opt/qt54/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.5.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt551-trusty'
+            packages:
+              - qt55base
+              - qt55script
+              - qt55tools
+            
+        script:
+          - source /opt/qt55/bin/qt55-env.sh
+          - /opt/qt55/bin/qmake -r limereport.pro
+          - make
+          - make check          
 
-script:
-  - qmake -r limereport.pro
-  - make
-  - make check
+      - env: Qt5.5.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt551-trusty'
+            packages:
+              - qt55base
+              - qt55script
+              - qt55tools
+            
+        script:
+          - source /opt/qt55/bin/qt55-env.sh
+          - /opt/qt55/bin/qmake -r limereport.pro
+          - make
+          - make check  
+          
+      - env: Qt5.6.3_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt563-trusty'
+            packages:
+              - qt56base
+              - qt56script
+              - qt56tools
+            
+        script:
+          - source /opt/qt56/bin/qt56-env.sh
+          - /opt/qt56/bin/qmake -r limereport.pro
+          - make
+          - make check
 
+      - env: Qt5.6.3_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt563-trusty'
+            packages:
+              - qt56base
+              - qt56script
+              - qt56tools
+            
+        script:
+          - source /opt/qt56/bin/qt56-env.sh
+          - /opt/qt56/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.7.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt571-trusty'
+            packages:
+              - qt57base
+              - qt57script
+              - qt57tools
+            
+        script:
+          - source /opt/qt57/bin/qt57-env.sh
+          - /opt/qt57/bin/qmake -r limereport.pro
+          - make
+          - make check
+
+      - env: Qt5.7.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt571-trusty'
+            packages:
+              - qt57base
+              - qt57script
+              - qt57tools
+            
+        script:
+          - source /opt/qt57/bin/qt57-env.sh
+          - /opt/qt57/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.8.0_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt58-trusty'
+            packages:
+              - qt58base
+              - qt58script
+              - qt58tools
+            
+        script:
+          - source /opt/qt58/bin/qt58-env.sh
+          - /opt/qt58/bin/qmake -r limereport.pro
+          - make
+          - make check
+
+      - env: Qt5.8.0_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt58-trusty'
+            packages:
+              - qt58base
+              - qt58script
+              - qt58tools
+            
+        script:
+          - source /opt/qt58/bin/qt58-env.sh
+          - /opt/qt58/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.9.7_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt597-trusty'
+            packages:
+              - qt59base
+              - qt59script
+              - qt59tools
+            
+        script:
+          - source /opt/qt59/bin/qt59-env.sh
+          - /opt/qt59/bin/qmake -r limereport.pro
+          - make
+          - make check
+
+      - env: Qt5.9.7_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt597-trusty'
+            packages:
+              - qt59base
+              - qt59script
+              - qt59tools
+            
+        script:
+          - source /opt/qt59/bin/qt59-env.sh
+          - /opt/qt59/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.10.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
+            packages:
+              - qt510base
+              - qt510script
+              - qt510tools
+            
+        script:
+          - source /opt/qt510/bin/qt510-env.sh
+          - /opt/qt510/bin/qmake -r limereport.pro
+          - make
+          - make check
+
+      - env: Qt5.10.1_Ubuntu_14.04
+        os: linux
+        dist: trusty
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
+            packages:
+              - qt510base
+              - qt510script
+              - qt510tools
+            
+        script:
+          - source /opt/qt510/bin/qt510-env.sh
+          - /opt/qt510/bin/qmake -r limereport.pro
+          - make
+          - make check
+
+      - env: Qt5.11.3_Ubuntu_18.04
+        os: linux
+        dist: bionic
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.11.3-bionic'
+            packages:
+              - qt511base
+              - qt511script
+              - qt511tools
+              - mesa-common-dev
+              - libgl1-mesa-dev
+            
+        script:
+          - source /opt/qt511/bin/qt511-env.sh
+          - /opt/qt511/bin/qmake -r limereport.pro
+          - make
+          - make check
+
+      - env: Qt5.11.3_Ubuntu_18.04
+        os: linux
+        dist: bionic
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.11.3-bionic'
+            packages:
+              - qt511base
+              - qt511script
+              - qt511tools
+              - mesa-common-dev
+              - libgl1-mesa-dev
+              
+        script:
+          - source /opt/qt511/bin/qt511-env.sh
+          - /opt/qt511/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.12.3_Ubuntu_18.04
+        os: linux
+        dist: bionic
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.12.3-bionic'
+            packages:
+              - qt512base
+              - qt512script
+              - qt512tools
+              - mesa-common-dev
+              - libgl1-mesa-dev
+              
+        script:
+          - source /opt/qt512/bin/qt512-env.sh
+          - /opt/qt512/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.12.3_Ubuntu_18.04
+        os: linux
+        dist: bionic
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.12.3-bionic'
+            packages:
+              - qt512base
+              - qt512script
+              - qt512tools
+              - mesa-common-dev
+              - libgl1-mesa-dev
+              
+        script:
+          - source /opt/qt512/bin/qt512-env.sh
+          - /opt/qt512/bin/qmake -r limereport.pro
+          - make
+          - make check          
+          
 notifications:
   email: false
-

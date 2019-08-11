@@ -176,7 +176,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
         if (parentItem) setWidth(parentItem->width());
     }
 
-    setBackgroundMode(BGMode::TransparentMode);
+    setBackgroundMode(BaseDesignIntf::TransparentMode);
     setFillTransparentInDesignMode(false);
     setHeight(100);
     setFixedPos(true);

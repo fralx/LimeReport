@@ -16,7 +16,7 @@ class ImageItemEditor : public QWidget
     Q_OBJECT
 
 public:
-    explicit ImageItemEditor(LimeReport::ImageItem* item, QWidget *parent = nullptr);
+    explicit ImageItemEditor(LimeReport::ImageItem* item, QWidget *parent = NULL);
     ~ImageItemEditor();
 private:
     void updateImage();
