@@ -11,7 +11,7 @@ class PDFExporter : public QObject, public ReportExporterInterface
 {
     Q_OBJECT
 public:
-    explicit PDFExporter(ReportEnginePrivate *parent = nullptr);
+    explicit PDFExporter(ReportEnginePrivate *parent = NULL);
     // ReportExporterInterface interface
     bool exportPages(ReportPages pages, const QString &fileName, const QMap<QString, QVariant> &params);
     QString exporterName()

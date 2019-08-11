@@ -99,7 +99,7 @@ namespace LimeReport{
 #endif
     private:
         bool m_valid;
-        void invalidate(){m_object=0; m_objects=0; m_valid = false; m_name = ""; m_value=QVariant(), m_isClass=false;}
+        void invalidate(){m_object=0; m_objects=0; m_valid = false; m_name = ""; m_value=QVariant(); m_isClass=false;}
 
     protected:
         void beginChangeValue(){ m_changingValue = true; }
@@ -140,4 +140,7 @@ namespace LimeReport{
     };
 
 }
+
+Q_DECLARE_METATYPE(LimeReport::ObjectPropItem*)
+
 #endif // LROBJECTPROPITEM_H

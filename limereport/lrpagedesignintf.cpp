@@ -2136,7 +2136,7 @@ bool PosChangedCommand::doIt()
         if (reportItem && (reportItem->pos() != m_newPos[i].pos)){
             QPointF oldValue = reportItem->pos();
             reportItem->setPos(m_newPos[i].pos);
-            emit reportItem->posChanged(reportItem, oldValue, reportItem->pos());
+            reportItem->emitPosChanged(oldValue, reportItem->pos());
         }
     }
 

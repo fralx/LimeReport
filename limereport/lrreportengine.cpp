@@ -299,7 +299,7 @@ void ReportEnginePrivate::printReport(ItemsReaderIntf::Ptr reader, QPrinter& pri
 void ReportEnginePrivate::printReport(ReportPages pages, QPrinter &printer)
 {
     int currenPage = 1;
-    QMap<QString, QSharedPointer<PrintProcessor>> printProcessors;
+    QMap<QString, QSharedPointer<PrintProcessor> > printProcessors;
     printProcessors.insert("default",QSharedPointer<PrintProcessor>(new PrintProcessor(&printer)));
     foreach(PageItemDesignIntf::Ptr page, pages){
         if (
@@ -320,7 +320,7 @@ void ReportEnginePrivate::printReport(ReportPages pages, QMap<QString, QPrinter*
 {
     if (printers.values().isEmpty()) return;
     int currenPage = 1;
-    QMap<QString, QSharedPointer<PrintProcessor>> printProcessors;
+    QMap<QString, QSharedPointer<PrintProcessor> > printProcessors;
     for (int i = 0; i < printers.keys().count(); ++i) {
         printProcessors.insert(printers.keys()[i],QSharedPointer<PrintProcessor>(new PrintProcessor(printers[printers.keys()[i]])));
     }
