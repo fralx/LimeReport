@@ -1812,7 +1812,6 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
                 renderPage.render(m_painter, m_printer->pageRect(), currentPrintingRect);
                 currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
                 curWidth += printerPageRect.size().width();
-
             }
             pageHeight -= printerPageRect.size().height();
             curHeight += printerPageRect.size().height();
@@ -1822,7 +1821,10 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
         }
 
     } else {
-       renderPage.render(m_painter);
+        QRectF source = page->geometry();
+        QSizeF inchSize = source.size() / (100 * 2.54);
+        QRectF target = QRectF(QPoint(0,0), inchSize  * m_printer->resolution());
+        renderPage.render(m_painter, target, source);
     }
     page->setPos(backupPagePos);
     return true;
@@ -1843,6 +1845,7 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
     } else {
         m_printer->setFullPage(page->fullPage());
+        m_printer->setPageMargins(0,0,0,0, QPrinter::Millimeter);
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         if (page->pageSize()==PageItemDesignIntf::Custom){
             QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?

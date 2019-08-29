@@ -681,8 +681,8 @@ QSizeF PageItemDesignIntf::getRectByPageSize(const PageSize& size)
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOrientation((QPrinter::Orientation)pageOrientation());
         printer.setPaperSize((QPrinter::PageSize)size);
-        return QSizeF(printer.paperSize(QPrinter::Millimeter).width() * 10,
-                      printer.paperSize(QPrinter::Millimeter).height() * 10);
+        return QSizeF(printer.paperSize(QPrinter::Millimeter).width() * LimeReport::Const::mmFACTOR,
+                      printer.paperSize(QPrinter::Millimeter).height() * LimeReport::Const::mmFACTOR);
     }
 
     else {
