@@ -1845,7 +1845,13 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
     } else {
         m_printer->setFullPage(page->fullPage());
-        m_printer->setPageMargins(0,0,0,0, QPrinter::Millimeter);
+        if (page->changePrinterMargins()){
+            m_printer->setPageMargins(page->printerMarginLeft(),
+                                      page->printerMarginTop(),
+                                      page->printerMarginRight(),
+                                      page->printerMarginBottom(),
+                                      QPrinter::Millimeter);
+        }
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         if (page->pageSize()==PageItemDesignIntf::Custom){
             QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?

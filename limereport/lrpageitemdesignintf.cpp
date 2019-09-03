@@ -51,7 +51,9 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
-    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split)
+    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split),
+    m_printerMarginTop(0), m_printerMarginRight(0), m_printerMarginBottom(0), m_printerMarginLeft(0),
+    m_changePrinterMargins(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -65,7 +67,9 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
-    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split)
+    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split),
+    m_printerMarginTop(0), m_printerMarginRight(0), m_printerMarginBottom(0), m_printerMarginLeft(0),
+    m_changePrinterMargins(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -342,6 +346,56 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     for(int i=0;i<columnCount;++i){
         posByColumns.append(pos);
     }
+}
+
+bool PageItemDesignIntf::changePrinterMargins() const
+{
+    return m_changePrinterMargins;
+}
+
+void PageItemDesignIntf::setChangePrinterMargins(bool value)
+{
+    m_changePrinterMargins = value;
+}
+
+int PageItemDesignIntf::printerMarginLeft() const
+{
+    return m_printerMarginLeft;
+}
+
+void PageItemDesignIntf::setPrinterMarginLeft(int printerMarginLeft)
+{
+    m_printerMarginLeft = printerMarginLeft;
+}
+
+int PageItemDesignIntf::printerMarginBottom() const
+{
+    return m_printerMarginBottom;
+}
+
+void PageItemDesignIntf::setPrinterMarginBottom(int printerMarginBottom)
+{
+    m_printerMarginBottom = printerMarginBottom;
+}
+
+int PageItemDesignIntf::printerMarginRight() const
+{
+    return m_printerMarginRight;
+}
+
+void PageItemDesignIntf::setPrinterMarginRight(int printerMarginRight)
+{
+    m_printerMarginRight = printerMarginRight;
+}
+
+int PageItemDesignIntf::printerMarginTop() const
+{
+    return m_printerMarginTop;
+}
+
+void PageItemDesignIntf::setPrinterMarginTop(int printerMarginTop)
+{
+    m_printerMarginTop = printerMarginTop;
 }
 
 void PageItemDesignIntf::setPrintBehavior(const PrintBehavior &printBehavior)
