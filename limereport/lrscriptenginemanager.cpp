@@ -513,9 +513,9 @@ QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue,
 #else
         if (!se->hasUncaughtException()) {
             varValue = value.toVariant();
-            context.replace(scriptTree->children()[i]->script(), value.toString());
+            context.replace(item->script(), value.toString());
         } else {
-            context.replace(scriptTree->children()[i]->script(), se->uncaughtException().toString());
+            context.replace(item->script(), se->uncaughtException().toString());
         }
 #endif
     }
