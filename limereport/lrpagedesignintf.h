@@ -282,6 +282,7 @@ namespace LimeReport {
         void changeSelectedGroupProperty(const QString& name,const QVariant& value);
         void activateItemToJoin(QRectF itemRect, QList<ItemProjections>& items);
         void selectAllChildren(BaseDesignIntf* item);
+        bool selectionContainsBand();
     private:
         enum JoinType{Width, Height};
         LimeReport::PageItemDesignIntf::Ptr m_pageItem;
@@ -322,6 +323,7 @@ namespace LimeReport {
         bool             m_magneticMovement;
         ReportSettings*  m_reportSettings;
         PageItemDesignIntf* m_currentPage;
+
     };
 
     class AbstractPageCommand : public CommandIf{
