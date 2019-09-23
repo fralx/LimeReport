@@ -278,6 +278,7 @@ void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
 
 void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
 {
+    m_currentPage = 0;
     if (!m_pageItem.isNull()) {
         removeItem(m_pageItem.data());
         m_pageItem.clear();
