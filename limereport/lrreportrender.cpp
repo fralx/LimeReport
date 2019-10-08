@@ -214,6 +214,7 @@ void ReportRender::analizeContainer(BaseDesignIntf* item, BandDesignIntf* band){
 }
 
 void ReportRender::analizePage(PageItemDesignIntf* patternPage){
+    m_groupfunctionItems.clear();
     foreach(BandDesignIntf* band, patternPage->bands()){
         if (band->isFooter() || band->isHeader()){
             analizeContainer(band,band);
