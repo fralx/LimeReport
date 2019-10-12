@@ -1741,6 +1741,12 @@ void ReportEngine::cancelRender()
     d->cancelRender();
 }
 
+void ReportEngine::cancelPrinting()
+{
+    Q_D(ReportEngine);
+    d->cancelPrinting();
+}
+
 ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     :QObject(parent),d_ptr(&dd)
 {
