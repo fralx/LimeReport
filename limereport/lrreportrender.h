@@ -82,6 +82,7 @@ private:
     int m_TOCRangeIndex;
 };
 
+
 class ReportRender: public QObject
 {
     Q_OBJECT
@@ -109,6 +110,10 @@ signals:
 public slots:
     void    cancelRender();
 private:
+    void    analizeContainer(BaseDesignIntf *item, BandDesignIntf *band);
+    void    analizeItem(ContentItemDesignIntf *item, BandDesignIntf *band);
+    void    analizePage(PageItemDesignIntf *patternPage);
+
     void    initDatasources();
     void    initDatasource(const QString &name);
     void    initRenderPage();
@@ -193,7 +198,7 @@ private:
     QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
     QList<BandDesignIntf*> m_reprintableBands;
     QList<BandDesignIntf*> m_recalcBands;
-
+    QMap<QString, QVector<QString>> m_groupfunctionItems;
     int m_currentIndex;
     int m_pageCount;
 
@@ -216,6 +221,7 @@ private:
     unsigned long long m_currentNameIndex;
     bool            m_newPageStarted;
     bool            m_lostHeadersMoved;
+
 
 };
 } // namespace LimeReport

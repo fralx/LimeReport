@@ -52,6 +52,7 @@ namespace LimeReport {
 
 
 namespace Const{
+    int const DEFAULT_GRID_STEP = 1;
     int const RESIZE_HANDLE_SIZE = 5;
     int const SELECTION_PEN_SIZE = 1;
     int const MINIMUM_ITEM_WIDTH = 2*RESIZE_HANDLE_SIZE;

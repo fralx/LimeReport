@@ -212,6 +212,11 @@ signals:
     void renderStarted();
     void renderFinished();
     void renderPageFinished(int renderedPageCount);
+
+    void printingStarted(int pageCount);
+    void printingFinished();
+    void pagePrintingFinished(int index);
+
     void onSave(bool& saved);
     void onSaveAs(bool& saved);
     void onLoad(bool& loaded);

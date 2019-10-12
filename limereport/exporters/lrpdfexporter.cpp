@@ -27,7 +27,7 @@ bool PDFExporter::exportPages(ReportPages pages, const QString &fileName, const 
         printer.setOutputFileName(fileName);
         printer.setOutputFormat(QPrinter::PdfFormat);
         if (!pages.isEmpty()){
-            m_reportEngine->printReport(pages, printer);
+            m_reportEngine->printPages(pages, &printer);
         }
         m_reportEngine->emitPrintedToPDF(fileName);
         return true;
