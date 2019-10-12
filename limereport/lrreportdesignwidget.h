@@ -82,12 +82,12 @@ private:
 
 class PageView: public QGraphicsView{
 public:
-    PageView(QWidget *parent = nullptr): QGraphicsView(parent),
+    PageView(QWidget *parent = NULL): QGraphicsView(parent),
         m_horizontalRuller(0), m_verticalRuller(0)
     {
         setViewportMargins(20,20,0,0);
     }
-    PageView(QGraphicsScene *scene, QWidget *parent = nullptr):
+    PageView(QGraphicsScene *scene, QWidget *parent = NULL):
         QGraphicsView(scene, parent),
         m_horizontalRuller(0), m_verticalRuller(0)
     {

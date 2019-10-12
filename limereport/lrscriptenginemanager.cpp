@@ -465,15 +465,13 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
 
     if (context.contains(rx)){
 
-        if (ScriptEngineManager::instance().dataManager()!=dataManager())
+        if (ScriptEngineManager::instance().dataManager() != dataManager())
             ScriptEngineManager::instance().setDataManager(dataManager());
 
         ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
         if (reportItem){
-
             ScriptValueType svThis;
-
 #ifdef USE_QJSENGINE
             svThis = getJSValue(*se, reportItem);
             se->globalObject().setProperty("THIS",svThis);
@@ -490,29 +488,37 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
 
         ScriptExtractor scriptExtractor(context);
         if (scriptExtractor.parse()){
-            for(int i=0; i<scriptExtractor.count();++i){
-                QString scriptBody = expandDataFields(scriptExtractor.bodyAt(i),EscapeSymbols, varValue, reportItem);
-                scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
-                ScriptValueType value = se->evaluate(scriptBody);
-#ifdef USE_QJSENGINE
-                if (!value.isError()){
-                    varValue = value.toVariant();
-                    context.replace(scriptExtractor.scriptAt(i),value.toString());
-                } else {
-                    context.replace(scriptExtractor.scriptAt(i),value.toString());
-                }
-#else
-                if (!se->hasUncaughtException()) {
-                    varValue = value.toVariant();
-                    context.replace(scriptExtractor.scriptAt(i),value.toString());
-                } else {
-                    context.replace(scriptExtractor.scriptAt(i),se->uncaughtException().toString());
-                }
-#endif
-            }
+            context = replaceScripts(context, varValue, reportItem, se, scriptExtractor.scriptTree());
         }
-    }
 
+    }
+    return context;
+}
+
+QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue, QObject *reportItem, ScriptEngineType* se, ScriptNode *scriptTree)
+{
+    foreach(ScriptNode* item, scriptTree->children()){
+        QString scriptBody = expandDataFields(item->body(), EscapeSymbols, varValue, reportItem);
+        if (item->children().size() > 0)
+            scriptBody = replaceScripts(scriptBody, varValue, reportItem, se, item);
+        scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
+        ScriptValueType value = se->evaluate(scriptBody);
+#ifdef USE_QJSENGINE
+        if (!value.isError()){
+            varValue = value.toVariant();
+            context.replace(item->script(), value.toString());
+        } else {
+            context.replace(item->script(), value.toString());
+        }
+#else
+        if (!se->hasUncaughtException()) {
+            varValue = value.toVariant();
+            context.replace(item->script(), value.toString());
+        } else {
+            context.replace(item->script(), se->uncaughtException().toString());
+        }
+#endif
+    }
     return context;
 }
 
@@ -530,7 +536,7 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
 
         ScriptExtractor scriptExtractor(script);
         if (scriptExtractor.parse()){
-            QString scriptBody = expandDataFields(scriptExtractor.bodyAt(0),EscapeSymbols, varValue, 0);
+            QString scriptBody = expandDataFields(scriptExtractor.scriptTree()[0].body(), EscapeSymbols, varValue, 0);
             scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
             ScriptValueType value = se->evaluate(scriptBody);
 #ifdef USE_QJSENGINE
@@ -976,12 +982,11 @@ ScriptEngineManager::ScriptEngineManager()
 bool ScriptExtractor::parse()
 {
     int currentPos = 0;
-    parse(currentPos,None);
-    return m_scriptsBody.count()>0;
-
+    parse(currentPos, None, m_scriptTree);
+    return m_scriptTree->children().count() > 0;
 }
 
-bool ScriptExtractor::parse(int &curPos,const State& state)
+bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode* scriptNode)
 {
     while (curPos<m_context.length()){
         switch (state) {
@@ -990,13 +995,13 @@ bool ScriptExtractor::parse(int &curPos,const State& state)
                 return true;
             } else {
                 if (m_context[curPos]=='{')
-                   extractBracket(curPos);
+                   extractBracket(curPos, scriptNode);
             }
         case None:
             if (m_context[curPos]=='$'){
                 int startPos = curPos;
                 if (isStartScriptLexem(curPos))
-                    extractScript(curPos,substring(m_context,startPos,curPos));
+                    extractScript(curPos, substring(m_context,startPos,curPos), scriptNode->createChildNode());
                 if (isStartFieldLexem(curPos) || isStartVariableLexem(curPos))
                     skipField(curPos);
             }
@@ -1008,13 +1013,13 @@ bool ScriptExtractor::parse(int &curPos,const State& state)
     return false;
 }
 
-void ScriptExtractor::extractScript(int &curPos, const QString& startStr)
+void ScriptExtractor::extractScript(int &curPos, const QString& startStr, ScriptNode* scriptNode)
 {
     int startPos = curPos;
-    if (extractBracket(curPos)){
+    if (extractBracket(curPos, scriptNode)){
         QString scriptBody = substring(m_context,startPos+1,curPos);
-        m_scriptsBody.push_back(scriptBody);
-        m_scriptsStartLex.push_back(startStr+'{');
+        scriptNode->setBody(scriptBody);
+        scriptNode->setStartLex(startStr+'{');
     }
 }
 
@@ -1028,10 +1033,10 @@ void ScriptExtractor::skipField(int &curPos){
     }
 }
 
-bool ScriptExtractor::extractBracket(int &curPos)
+bool ScriptExtractor::extractBracket(int &curPos, ScriptNode* scriptNode)
 {
     curPos++;
-    return parse(curPos,OpenBracketFound);
+    return parse(curPos,OpenBracketFound, scriptNode);
 }
 
 bool ScriptExtractor::isStartLexem(int& curPos, QChar value){
@@ -1064,16 +1069,16 @@ bool ScriptExtractor::isStartLexem(int& curPos, QChar value){
 
 bool ScriptExtractor::isStartScriptLexem(int& curPos)
 {
-    return isStartLexem(curPos, SCRIPT_SIGN);
+    return isStartLexem(curPos, Const::SCRIPT_SIGN);
 }
 
 bool ScriptExtractor::isStartFieldLexem(int& curPos){
-    return isStartLexem(curPos, FIELD_SIGN);
+    return isStartLexem(curPos, Const::FIELD_SIGN);
 }
 
 bool ScriptExtractor::isStartVariableLexem(int &curPos)
 {
-    return isStartLexem(curPos, VARIABLE_SIGN);
+    return isStartLexem(curPos, Const::VARIABLE_SIGN);
 }
 
 
@@ -1930,7 +1935,7 @@ bool DatasourceFunctions::isEOF(const QString &datasourceName)
 bool DatasourceFunctions::invalidate(const QString& datasourceName)
 {
     if (m_dataManager && m_dataManager->dataSource(datasourceName)){
-        m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::DatasourceMode::RENDER_MODE);
+        m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
         return true;
     }
     return false;

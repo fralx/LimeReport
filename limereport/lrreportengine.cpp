@@ -304,7 +304,7 @@ void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printe
 {
     m_cancelPrinting = false;
     int currenPage = 1;
-    QMap<QString, QSharedPointer<PrintProcessor>> printProcessors;
+    QMap<QString, QSharedPointer<PrintProcessor> > printProcessors;
     printProcessors.insert("default",QSharedPointer<PrintProcessor>(new PrintProcessor(&printer)));
     emit printingStarted(printer.toPage() - printer.fromPage());
     foreach(PageItemDesignIntf::Ptr page, pages){

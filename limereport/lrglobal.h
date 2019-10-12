@@ -92,6 +92,10 @@ namespace Const{
     const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
     const int DEFAULT_TAB_INDENTION = 4;
     const int DOCKWIDGET_MARGINS = 4;
+
+    const char SCRIPT_SIGN = 'S';
+    const char FIELD_SIGN = 'D';
+    const char VARIABLE_SIGN = 'V';
 }
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);

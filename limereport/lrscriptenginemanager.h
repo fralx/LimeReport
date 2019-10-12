@@ -396,6 +396,47 @@ private:
     QMap<QString, IWrapperCreator*> m_wrappersFactory;
 };
 
+class ScriptNode{
+public:
+    QString body(){return m_body;}
+    void setBody(const QString& body){ m_body = body;}
+    void setStartLex(const QString startLex){ m_startLex = startLex;}
+    QString script(){return m_startLex + m_body + '}';}
+    ScriptNode* createChildNode(){
+        ScriptNode* result = new ScriptNode();
+        m_children.append(result);
+        return result;
+    }
+    QVector<ScriptNode*> children() const {return m_children;}
+private:
+    QVector<ScriptNode*> m_children;
+    QString m_body;
+    QString m_startLex;
+};
+
+class ScriptExtractor
+{
+public:
+    enum State{None,BuksFound,SFound,StartScriptFound,OpenBracketFound,CloseBracketFound,DFound,VFound, SignFound};
+    explicit ScriptExtractor(const QString& value):
+        m_context(value), m_scriptTree(new ScriptNode()){}
+    bool parse();
+    ScriptNode* scriptTree(){return m_scriptTree;}
+private:
+    bool isStartLexem(int &curPos, QChar value);
+    bool parse(int& curPos, const State &state, ScriptNode *scriptNode);
+    void skipField(int &curPos);
+    void extractScript(int& curPos, const QString &startStr, ScriptNode *scriptNode);
+    bool extractBracket(int& curPos, ScriptNode *scriptNode);
+    bool isStartScriptLexem(int &curPos);
+    bool isStartFieldLexem(int &curPos);
+    bool isStartVariableLexem(int &curPos);
+    QString substring(const QString& value, int start, int end);
+private:
+    QString m_context;
+    ScriptNode* m_scriptTree;
+};
+
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager
 {    
     Q_OBJECT
@@ -423,6 +464,9 @@ public:
     QString expandUserVariables(QString context, RenderPass pass, ExpandType expandType, QVariant &varValue);
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
+
+    QString replaceScripts(QString context, QVariant& varValue, QObject *reportItem, ScriptEngineType *se, ScriptNode* scriptTree);
+
     QVariant evaluateScript(const QString &script);
     void    addBookMark(const QString &uniqKey, const QString &content);
     int     findPageIndexByBookmark(const QString& uniqKey);
@@ -466,36 +510,6 @@ private:
     ScriptFunctionsManager* m_functionManager;
 };
 
-class ScriptExtractor
-{
-public:
-    enum State{None,BuksFound,SFound,StartScriptFound,OpenBracketFound,CloseBracketFound,DFound,VFound, SignFound};
-    explicit ScriptExtractor(const QString& value):m_context(value){}
-    bool parse();
-    int count(){return m_scriptsBody.count();}
-    QString bodyAt(int index){return m_scriptsBody[index];}
-    QString scriptAt(int index){return m_scriptsStartLex[index]+m_scriptsBody[index]+'}';}
-
-private:
-    static const char SCRIPT_SIGN = 'S';
-    static const char FIELD_SIGN = 'D';
-    static const char VARIABLE_SIGN = 'V';
-
-    bool isStartLexem(int &curPos, QChar value);
-    bool parse(int& curPos, const State &state);
-    void skipField(int &curPos);
-    void extractScript(int& curPos, const QString &startStr);
-    bool extractBracket(int& curPos);
-    bool isStartScriptLexem(int &curPos);
-    bool isStartFieldLexem(int &curPos);
-    bool isStartVariableLexem(int &curPos);
-    QString substring(const QString& value, int start, int end);
-private:
-    QString m_context;
-    QVector<QString> m_scriptsBody;
-    QVector<QString> m_scriptsStartLex;
-
-};
 
 #ifdef USE_QTSCRIPTENGINE
 class QFontPrototype : public QObject, public QScriptable {

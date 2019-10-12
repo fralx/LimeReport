@@ -36,6 +36,7 @@ SOURCES += \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.cpp \
     $$REPORT_PATH/items/lrsimpletagparser.cpp \
     $$REPORT_PATH/items/lrimageitem.cpp \
+    $$REPORT_PATH/items/lrimageitemeditor.cpp \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
     $$REPORT_PATH/items/lrshapeitem.cpp \
     $$REPORT_PATH/items/lrtextitem.cpp \
@@ -108,6 +109,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrtextitemeditor.h \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
+    $$REPORT_PATH/items/lrimageitemeditor.h \
     $$REPORT_PATH/items/lrsimpletagparser.h \
     $$REPORT_PATH/items/lrverticallayout.h \
     $$REPORT_PATH/items/lrlayoutmarker.h \
@@ -171,6 +173,7 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/items/lrchartitemeditor.ui \
+    $$REPORT_PATH/items/lrimageitemeditor.ui \
     $$REPORT_PATH/scripteditor/lrscripteditor.ui
 
 RESOURCES += \
