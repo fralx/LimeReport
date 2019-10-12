@@ -590,15 +590,11 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
 
     currAction = menu.addAction(tr("Keep top space"));
     currAction->setCheckable(true);
-    currAction->setChecked(keepBottomSpaceOption());
+    currAction->setChecked(keepTopSpace());
 
     currAction = menu.addAction(tr("Keep bottom space"));
     currAction->setCheckable(true);
     currAction->setChecked(keepBottomSpace());
-
-    currAction = menu.addAction(tr("Keep top space"));
-    currAction->setCheckable(true);
-    currAction->setChecked(keepTopSpace());
 
     currAction = menu.addAction(tr("Print if empty"));
     currAction->setCheckable(true);
@@ -1138,7 +1134,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     arrangeSubItems(pass, dataManager); 
     if (autoHeight()){
         if (!keepTopSpace()) {
-            qreal minTop = findMinTop() + m_shiftItems - spaceBorder;
+            qreal minTop = findMinTop() + m_shiftItems;
             foreach (BaseDesignIntf* item, childBaseItems()) {
                 item->setY(item->y() - minTop);
             }
