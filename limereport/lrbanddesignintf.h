@@ -113,6 +113,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
     Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
     Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
+    Q_PROPERTY(int shiftItems READ shiftItems WRITE setShiftItems)
     Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
     friend class BandNameLabel;
@@ -142,6 +143,7 @@ public:
     ~BandDesignIntf();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QRectF boundingRect() const;
     void translateBandsName();
     virtual BandsType bandType() const;
     virtual QString bandTitle() const;
@@ -260,6 +262,8 @@ public:
     int bootomSpace() const;
     void setBootomSpace(int bootomSpace);
     void updateBandMarkerGeometry();
+    int shiftItems() const;
+    void setShiftItems(int shiftItems);
 
 signals:
     void bandRendered(BandDesignIntf* band);
@@ -323,6 +327,7 @@ private:
     bool                        m_useAlternateBackgroundColor;
     int 						m_bottomSpace;
     QMap<QString,QVariant>      m_bookmarks;
+    int                         m_shiftItems;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

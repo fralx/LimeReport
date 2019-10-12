@@ -222,9 +222,9 @@ void PreviewReportWidget::lastPage()
 void PreviewReportWidget::printPages(QPrinter* printer)
 {
     if (!d_ptr->m_reportPages.isEmpty())
-        ReportEnginePrivate::printReport(
+        d_ptr->m_report->printPages(
             d_ptr->m_reportPages,
-            *printer
+            printer
         );
     foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
         d_ptr->m_previewPage->reactivatePageItem(pageItem);

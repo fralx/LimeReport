@@ -1011,7 +1011,7 @@ void PageItemDesignIntf::setGridStep(int value)
 int PageItemDesignIntf::gridStep()
 {
     if (page()) return page()->horizontalGridStep();
-    else return 2;
+    else return Const::DEFAULT_GRID_STEP;
 }
 
 void PageItemDesignIntf::objectLoadFinished()
