@@ -198,7 +198,7 @@ private:
     QMultiMap< BandDesignIntf*, GroupBandsHolder* > m_childBands;
     QList<BandDesignIntf*> m_reprintableBands;
     QList<BandDesignIntf*> m_recalcBands;
-    QMap<QString, QVector<QString>> m_groupfunctionItems;
+    QMap<QString, QVector<QString> > m_groupfunctionItems;
     int m_currentIndex;
     int m_pageCount;
 
