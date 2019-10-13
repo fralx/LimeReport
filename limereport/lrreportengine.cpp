@@ -332,7 +332,7 @@ void ReportEnginePrivate::printPages(ReportPages pages, QMap<QString, QPrinter*>
     if (printers.values().isEmpty()) return;
     m_cancelPrinting = false;
 
-    QMap<QString, QSharedPointer<PrintProcessor>> printProcessors;
+    QMap<QString, QSharedPointer<PrintProcessor> > printProcessors;
     for (int i = 0; i < printers.keys().count(); ++i) {
         printProcessors.insert(printers.keys()[i],QSharedPointer<PrintProcessor>(new PrintProcessor(printers[printers.keys()[i]])));
     }
