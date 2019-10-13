@@ -233,6 +233,7 @@ signals:
 
 public slots:
     void cancelRender();
+    void cancelPrinting();
 protected:
     ReportEnginePrivate * const d_ptr;
     ReportEngine(ReportEnginePrivate &dd, QObject * parent=0);
