@@ -113,6 +113,7 @@ namespace LimeReport {
         PageItemDesignIntf *pageItem();
         void setPageItem(PageItemDesignIntf::Ptr pageItem);
         void setPageItems(QList<PageItemDesignIntf::Ptr> pages);
+        void removePageItem(PageItemDesignIntf::Ptr pageItem);
         QList<PageItemDesignIntf::Ptr> pageItems(){return m_reportPages;}
 
         bool isItemInsertMode();
