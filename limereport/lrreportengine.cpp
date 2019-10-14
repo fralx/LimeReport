@@ -1772,6 +1772,7 @@ PrintProcessor::PrintProcessor(QPrinter* printer)
 bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
     if (!m_firstPage && !m_painter->isActive()) return false;
+    PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
     //LimeReport::PageDesignIntf m_renderPage;
     //m_renderPage.setItemMode(PrintMode);
@@ -1825,6 +1826,8 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
        m_renderPage.render(m_painter);
     }
     page->setPos(backupPagePos);
+    m_renderPage.removePageItem(page);
+    if (backupPage) backupPage->reactivatePageItem(page);
     return true;
 }
 
