@@ -280,7 +280,8 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
 {
     m_currentPage = 0;
     if (!m_pageItem.isNull()) {
-        removeItem(m_pageItem.data());
+        if (m_pageItem->scene() == this)
+            removeItem(m_pageItem.data());
         m_pageItem.clear();
     }
     int curHeight = 0;
@@ -301,6 +302,14 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
     if (m_reportPages.count()>0)
         m_currentPage = m_reportPages.at(0).data();
 
+}
+
+void PageDesignIntf::removePageItem(PageItemDesignIntf::Ptr pageItem)
+{
+    if (m_pageItem == pageItem){
+        removeItem(m_pageItem.data());
+        m_pageItem.clear();
+    }
 }
 
 void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
