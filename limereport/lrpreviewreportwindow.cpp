@@ -42,6 +42,9 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QDesktopWidget>
+#include <QLabel>
+#include <QMessageBox>
+#include <QToolButton>
 
 namespace LimeReport{
 
@@ -51,6 +54,25 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     m_scalePercentChanging(false)
 {
     ui->setupUi(this);
+
+    m_progressWidget = new QWidget(ui->statusbar);
+    QHBoxLayout* progressLayout = new QHBoxLayout();
+    progressLayout->setMargin(0);
+    progressLayout->addWidget(new QLabel(tr("Printing")));
+    m_progressBar = new QProgressBar(ui->statusbar);
+    m_progressBar->setMaximumWidth(100);
+    m_progressBar->setMaximumHeight(ui->statusbar->fontMetrics().height());
+    progressLayout->addWidget(m_progressBar);
+    QToolButton* tbCancel = new QToolButton();
+    tbCancel->setIcon(QIcon(":/report/images/closebox"));
+    tbCancel->setAutoRaise(true);
+    connect(tbCancel, SIGNAL(clicked(bool)), this, SLOT(slotCancelPrinting(bool)));
+    progressLayout->addWidget(tbCancel);
+    progressLayout->setSizeConstraint(QLayout::SetFixedSize);
+    m_progressWidget->setLayout(progressLayout);
+    m_progressWidget->setVisible(false);
+    ui->statusbar->addPermanentWidget(m_progressWidget);
+
     setWindowTitle("Lime Report Preview");
     m_pagesNavigator = new QSpinBox(this);
     m_pagesNavigator->setMaximum(10000000);
@@ -72,6 +94,10 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
             this, SLOT(slotPageNavigatorChanged(int)));
     connect(m_previewReportWidget, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)),
             this, SIGNAL(onSave(bool&, LimeReport::IPreparedPages*)));
+
+    connect(m_previewReportWidget->d_ptr->m_report, SIGNAL(printingStarted(int)), this, SLOT(slotPrintingStarted(int)));
+    connect(m_previewReportWidget->d_ptr->m_report, SIGNAL(pagePrintingFinished(int)), this, SLOT(slotPagePrintingFinished(int)));
+    connect(m_previewReportWidget->d_ptr->m_report, SIGNAL(printingFinished()), this, SLOT(slotPrintingFinished()));
 
     m_fontEditor = new FontEditorWidgetForPage(m_previewReportWidget->d_ptr->m_previewPage,tr("Font"),this);
     m_fontEditor->setObjectName("fontTools");
@@ -260,8 +286,12 @@ void PreviewReportWindow::exec()
     if (deleteOnClose) delete this;
 }
 
-void PreviewReportWindow::closeEvent(QCloseEvent *)
+void PreviewReportWindow::closeEvent(QCloseEvent* e)
 {
+    if (m_progressBar->isVisible()){
+        QMessageBox::critical(this, tr("Attention"), tr("The printing is in process"));
+        e->setAccepted(false);
+    }
 #ifdef Q_OS_WIN
     writeSetting();
 #endif
@@ -513,6 +543,28 @@ void PreviewReportWindow::slotCurrentPageChanged(int /*page*/)
 void PreviewReportWindow::slotItemInserted(PageDesignIntf *, QPointF, const QString&)
 {
     slotActivateItemSelectionMode();
+}
+
+void PreviewReportWindow::slotPrintingStarted(int pageCount)
+{
+    m_progressBar->setMinimum(1);
+    m_progressBar->setMaximum(pageCount);
+    m_progressWidget->setVisible(true);
+}
+
+void PreviewReportWindow::slotPagePrintingFinished(int pageIndex)
+{
+    m_progressBar->setValue(pageIndex);
+}
+
+void PreviewReportWindow::slotPrintingFinished()
+{
+    m_progressWidget->setVisible(false);
+}
+
+void PreviewReportWindow::slotCancelPrinting(bool)
+{
+    m_previewReportWidget->d_ptr->m_report->cancelPrinting();
 }
 
 }// namespace LimeReport

@@ -128,6 +128,8 @@ private slots:
     void slotLockSelectedItems();
     void slotUnlockSelectedItems();
     void slotSelectOneLevelItems();
+    void slotCancelRendering(bool);
+
 protected:
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QResizeEvent *);
@@ -281,6 +283,12 @@ private:
     QMap<QDockWidget*, bool> m_leftDocVisibleState;
     QMap<QDockWidget*, bool> m_rightDocVisibleState;
     QSortFilterProxyModel* m_filterModel;
+
+    QWidget* m_progressWidget;
+    QProgressBar* m_progressBar;
+    QLabel* m_progressLabel;
+
+    void createProgressBar();
 };
 
 class ObjectNameValidator : public ValidatorIntf{

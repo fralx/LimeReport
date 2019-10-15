@@ -110,6 +110,9 @@ public:
     virtual QList<QLocale::Language> designerLanguages() = 0;
     virtual QLocale::Language       currentDesignerLanguage() = 0;
     virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
+    virtual void                    cancelRender() = 0;
+    virtual void                    setShowProgressDialog(bool value) = 0;
+    virtual bool                    isShowProgressDialog() const = 0;
 };
 
 class PrintProcessor{
@@ -179,6 +182,7 @@ public:
     void    designReport();
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
+    bool    isShowProgressDialog() const {return m_showProgressDialog;}
     QSettings*  settings();
     bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange);
     bool    loadFromByteArray(QByteArray *data, const QString& name = "");

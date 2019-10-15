@@ -37,6 +37,7 @@
 #include <QSettings>
 #include <QEventLoop>
 #include <QPrinter>
+#include <QProgressBar>
 
 #include "serializators/lrxmlreader.h"
 #include "lrpreparedpagesintf.h"
@@ -118,6 +119,10 @@ private slots:
     void on_actionShow_Toolbar_triggered();
     void slotCurrentPageChanged(int page);
     void slotItemInserted(LimeReport::PageDesignIntf* report, QPointF pos, const QString& ItemType);
+    void slotPrintingStarted(int pageCount);
+    void slotPagePrintingFinished(int pageIndex);
+    void slotPrintingFinished();
+    void slotCancelPrinting(bool);
 signals:
     void onSave(bool& saved, LimeReport::IPreparedPages* pages);
 private:
@@ -139,6 +144,8 @@ private:
     ScaleType m_previewScaleType;
     int m_previewScalePercent;
     bool m_scalePercentChanging;
+    QProgressBar* m_progressBar;
+    QWidget* m_progressWidget;
 };
 } //namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

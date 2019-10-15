@@ -726,7 +726,10 @@ void ReportDesignWidget::previewReport()
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
 #endif
+    bool showProgressDialog = report()->isShowProgressDialog();
+    report()->setShowProgressDialog(false);
     report()->previewReport();
+    report()->setShowProgressDialog(showProgressDialog);
 }
 
 void ReportDesignWidget::printReport()
