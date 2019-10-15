@@ -525,6 +525,7 @@ void DataSourceManager::addQuery(const QString &name, const QString &sqlText, co
     putQueryDesc(queryDecs);
     putHolder(name,new QueryHolder(sqlText, connectionName, this));
     m_hasChanges = true;
+    m_varToDataSource.clear();
     emit datasourcesChanged();
 }
 
@@ -534,6 +535,7 @@ void DataSourceManager::addSubQuery(const QString &name, const QString &sqlText,
     putSubQueryDesc(subQueryDesc);
     putHolder(name,new SubQueryHolder(sqlText, connectionName, masterDatasource, this));
     m_hasChanges = true;
+    m_varToDataSource.clear();
     emit datasourcesChanged();
 }
 
@@ -1373,18 +1375,31 @@ void DataSourceManager::slotQueryTextChanged(const QString &queryName, const QSt
     if (holder){
         holder->setQueryText(queryText);
     }
+    m_varToDataSource.clear();
 }
 
 void DataSourceManager::invalidateQueriesContainsVariable(const QString& variableName)
 {
     if (!variableIsSystem(variableName)){
-        foreach (const QString& datasourceName, dataSourceNames()){
-            QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
-            if (holder){
-                QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
-                if  (holder->queryText().contains(rx))
-                    holder->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+
+        if (m_varToDataSource.contains(variableName)){
+            foreach(QString datasourceName, m_varToDataSource.value(variableName)){
+                QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
+                if (holder) holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
             }
+        } else {
+            QVector<QString> datasources;
+            foreach (const QString& datasourceName, dataSourceNames()){
+                QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
+                if (holder){
+                    QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+                    if  (holder->queryText().contains(rx)){
+                        holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
+                        datasources.append(datasourceName);
+                    }
+                }
+            }
+            m_varToDataSource.insert(variableName, datasources);
         }
     }
 }
@@ -1413,6 +1428,8 @@ void DataSourceManager::slotCSVTextChanged(const QString &csvName, const QString
 
 void DataSourceManager::clear(ClearMethod method)
 {
+    m_varToDataSource.clear();
+
     DataSourcesMap::iterator dit;
     for( dit = m_datasources.begin(); dit != m_datasources.end(); ){
         bool owned = (*dit)->isOwned() && (*dit)->isRemovable();
