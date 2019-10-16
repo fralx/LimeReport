@@ -1488,6 +1488,18 @@ p, li { white-space: pre-wrap; }
         <source>EditModeTools</source>
         <translation>Панель инструментов редактирования</translation>
     </message>
+    <message>
+        <source>Printing</source>
+        <translation>Печатается</translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation>Внимание</translation>
+    </message>
+    <message>
+        <source>The printing is in process</source>
+        <translation>Отчет находится в процессе печати</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ProxyHolder</name>
@@ -2006,6 +2018,10 @@ p, li { white-space: pre-wrap; }
         <source>printBehavior</source>
         <translation>Поведение при печати</translation>
     </message>
+    <message>
+        <source>shiftItems</source>
+        <translation>Смещение элементов</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
@@ -2259,18 +2275,6 @@ p, li { white-space: pre-wrap; }
         <translation>Файл отчета</translation>
     </message>
     <message>
-        <source>Rendering report</source>
-        <translation>Создается отчет</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>Прервать</translation>
-    </message>
-    <message>
-        <source> page rendered</source>
-        <translation> создается страница</translation>
-    </message>
-    <message>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
@@ -2341,6 +2345,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Select one level items</source>
         <translation>Выделить элементы одного уровня</translation>
+    </message>
+    <message>
+        <source>Rendered %1 pages</source>
+        <translation>Сформировано %1 страниц</translation>
+    </message>
+    <message>
+        <source>Cancel report rendering</source>
+        <translation>Отменить построение отчета</translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation>Внимание</translation>
+    </message>
+    <message>
+        <source>The rendering is in process</source>
+        <translation>Отчет находится в процессе создания</translation>
     </message>
 </context>
 <context>
