@@ -164,6 +164,7 @@ public:
     void    designReport();
     ReportDesignWindowInterface* getDesignerWindow();
     void    setShowProgressDialog(bool value);
+    bool    isShowProgressDialog();
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();
     bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange = false);

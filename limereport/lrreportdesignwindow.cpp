@@ -65,6 +65,38 @@ namespace LimeReport{
 
 ReportDesignWindow* ReportDesignWindow::m_instance=0;
 
+void ReportDesignWindow::createProgressBar()
+{
+    m_progressWidget = new QWidget(m_statusBar);
+    QHBoxLayout* progressLayout = new QHBoxLayout();
+    progressLayout->setMargin(0);
+    m_progressLabel = new QLabel(tr("Rendered %1 pages").arg(0));
+    progressLayout->addWidget(m_progressLabel);
+    m_progressBar = new QProgressBar(m_statusBar);
+    m_progressBar->setFormat("%v pages");
+    m_progressBar->setAlignment(Qt::AlignCenter);
+    m_progressBar->setMaximumWidth(100);
+    m_progressBar->setMaximumHeight(m_statusBar->fontMetrics().height());
+    m_progressBar->setMinimum(0);
+    m_progressBar->setMaximum(0);
+    m_progressBar->setTextVisible(true);
+    progressLayout->addWidget(m_progressBar);
+    QToolButton* tbCancel = new QToolButton();
+    tbCancel->setToolTip(tr("Cancel report rendering"));
+    tbCancel->setIcon(QIcon(":/report/images/closebox"));
+    tbCancel->setAutoRaise(true);
+    connect(tbCancel, SIGNAL(clicked(bool)), this, SLOT(slotCancelRendering(bool)));
+    progressLayout->addWidget(tbCancel);
+    progressLayout->setSizeConstraint(QLayout::SetFixedSize);
+    m_progressWidget->setLayout(progressLayout);
+    m_progressWidget->setVisible(false);
+    m_statusBar->addPermanentWidget(m_progressWidget);
+
+    connect(dynamic_cast<QObject*>(m_reportDesignWidget->report()), SIGNAL(renderStarted()), this, SLOT(renderStarted()));
+    connect(dynamic_cast<QObject*>(m_reportDesignWidget->report()), SIGNAL(renderPageFinished(int)), this, SLOT(renderPageFinished(int)));
+    connect(dynamic_cast<QObject*>(m_reportDesignWidget->report()), SIGNAL(renderFinished()), this, SLOT(renderFinished()));
+}
+
 ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWidget *parent, QSettings* settings) :
     ReportDesignWindowInterface(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
     m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page), m_reportItemIsLocked(false)
@@ -77,6 +109,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     createDataWindow();
     createScriptWindow();
     createObjectsBrowser();
+
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     createDialogWidgetBox();
     createDialogPropertyEditor();
@@ -100,7 +133,8 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     showDefaultToolBars();
     restoreSetting();
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
-    m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));    
+    m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
+    createProgressBar();
 }
 
 ReportDesignWindow::~ReportDesignWindow()
@@ -515,9 +549,6 @@ void ReportDesignWindow::initReportEditor(ReportEnginePrivateInterface* report)
             this, SLOT(slotBandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
     connect(m_reportDesignWidget, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
             this, SLOT(slotBandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
-    connect(dynamic_cast<QObject*>(report), SIGNAL(renderStarted()), this, SLOT(renderStarted()));
-    connect(dynamic_cast<QObject*>(report), SIGNAL(renderPageFinished(int)), this, SLOT(renderPageFinished(int)));
-    connect(dynamic_cast<QObject*>(report), SIGNAL(renderFinished()), this, SLOT(renderFinished()));
     connect(m_reportDesignWidget, SIGNAL(pageAdded(PageDesignIntf*)), this, SLOT(slotPageAdded(PageDesignIntf*)));
     connect(m_reportDesignWidget, SIGNAL(pageDeleted()), this, SLOT(slotPageDeleted()));
 }
@@ -1377,26 +1408,17 @@ void ReportDesignWindow::slotActivePageChanged()
 
 void ReportDesignWindow::renderStarted()
 {
-    if (m_showProgressDialog){
-        m_progressDialog = new QProgressDialog(tr("Rendering report"),tr("Abort"),0,0,this);
-        m_progressDialog->open(dynamic_cast<QObject*>(m_reportDesignWidget->report()), SLOT(cancelRender()));
-        QApplication::processEvents();
-    }
+    m_progressWidget->setVisible(true);
 }
 
 void ReportDesignWindow::renderPageFinished(int renderedPageCount)
 {
-    if (m_progressDialog)
-        m_progressDialog->setLabelText(QString::number(renderedPageCount)+tr(" page rendered"));
+    m_progressLabel->setText(tr("Rendered %1 pages").arg(renderedPageCount));
 }
 
 void ReportDesignWindow::renderFinished()
 {
-    if (m_progressDialog){
-        m_progressDialog->close();
-        delete m_progressDialog;
-    }
-    m_progressDialog = 0;
+    m_progressWidget->setVisible(false);
 }
 
 void ReportDesignWindow::slotShowAbout()
@@ -1536,8 +1558,18 @@ void ReportDesignWindow::slotSelectOneLevelItems()
     m_reportDesignWidget->selectOneLevelItems();
 }
 
+void ReportDesignWindow::slotCancelRendering(bool)
+{
+    m_reportDesignWidget->report()->cancelRender();
+}
+
 void ReportDesignWindow::closeEvent(QCloseEvent * event)
 {
+    if (m_progressWidget->isVisible()){
+        QMessageBox::critical(this, tr("Attention"), tr("The rendering is in process"));
+        event->ignore();
+        return;
+    }
     if (checkNeedToSave()){    
         m_dataBrowser->closeAllDataWindows();
         writeState();

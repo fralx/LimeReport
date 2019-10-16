@@ -302,11 +302,16 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
 
 void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printer)
 {
-    m_cancelPrinting = false;
     int currenPage = 1;
+    m_cancelPrinting = false;
     QMap<QString, QSharedPointer<PrintProcessor> > printProcessors;
     printProcessors.insert("default",QSharedPointer<PrintProcessor>(new PrintProcessor(&printer)));
-    emit printingStarted(printer.toPage() - printer.fromPage());
+
+    int pageCount = (printer.printRange() == QPrinter::AllPages) ?
+                pages.size() :
+                printer.toPage() - printer.fromPage();
+
+    emit printingStarted(pageCount);
     foreach(PageItemDesignIntf::Ptr page, pages){
         if (    !m_cancelPrinting &&
                 ((printer.printRange() == QPrinter::AllPages) ||
@@ -708,7 +713,7 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
             }
             EASY_END_BLOCK;
             return true;
-        };
+        }
     }
     m_lastError = reader->lastError();
     EASY_END_BLOCK;
@@ -1650,6 +1655,12 @@ void ReportEngine::setShowProgressDialog(bool value)
 {
     Q_D(ReportEngine);
     d->setShowProgressDialog(value);
+}
+
+bool ReportEngine::isShowProgressDialog()
+{
+    Q_D(ReportEngine);
+    return d->isShowProgressDialog();
 }
 
 IDataSourceManager *ReportEngine::dataManager()

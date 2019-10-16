@@ -280,6 +280,9 @@ private:
     QHash<QString,int> m_groupFunctionsExpressionsMap;
     QVector<QString> m_groupFunctionsExpressions;
     IDbCredentialsProvider* m_dbCredentialsProvider;
+
+    QMap< QString, QVector<QString> > m_varToDataSource;
+
     bool m_hasChanges;
 };
 
