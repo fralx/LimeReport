@@ -163,6 +163,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("units");
     tr("geometryLocked");
     tr("printBehavior");
+    tr("shiftItems");
 }
 
 void QObjectPropertyModel::clearObjectsList()
