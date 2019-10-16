@@ -281,7 +281,7 @@ private:
     QVector<QString> m_groupFunctionsExpressions;
     IDbCredentialsProvider* m_dbCredentialsProvider;
 
-    QMap<QString, QVector<QString>> m_varToDataSource;
+    QMap< QString, QVector<QString> > m_varToDataSource;
 
     bool m_hasChanges;
 };
