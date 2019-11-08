@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QFile>
 #include <QCommandLineParser>
+#include <QPrinterInfo>
 
 #ifdef _WIN32
   #include <io.h>
@@ -34,6 +35,10 @@ int main(int argc, char *argv[])
                QCoreApplication::translate("main", "Report parameter (can be more than one)"),
                QCoreApplication::translate("main", "param_name=param_value"));
     parser.addOption(variablesOption);
+    QCommandLineOption typeOption(QStringList() << "t" << "type",
+               QCoreApplication::translate("main", "Output type (Printer | PDF)"),
+               QCoreApplication::translate("main", "type"));
+    parser.addOption(typeOption);
     parser.process(a);
 
     LimeReport::ReportEngine report;
@@ -56,10 +61,31 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (parser.value(destinationOption).isEmpty()){
-        report.printToPDF(QFileInfo(parser.value(sourceOption)).baseName());
+    bool printToPDF = true;
+    if (!parser.value(typeOption).isEmpty()){
+        printToPDF = !(parser.value(typeOption).compare("Printer",Qt::CaseInsensitive) == 0);
+    }
+
+    if (printToPDF){
+        if (parser.value(destinationOption).isEmpty()){
+            report.printToPDF(QFileInfo(parser.value(sourceOption)).baseName());
+        } else {
+            report.printToPDF(parser.value(destinationOption));
+        }
     } else {
-        report.printToPDF(parser.value(destinationOption));
+        QPrinterInfo pi;
+        QPrinter printer;
+        if (parser.value(destinationOption).isEmpty()){
+            if (!pi.defaultPrinterName().isEmpty()){
+                printer.setPrinterName(pi.defaultPrinterName());
+                report.printReport(&printer);
+            } else {
+               std::cerr<<"Error! Default printer not found on system";
+            }
+        } else {
+            printer.setPrinterName(parser.value(destinationOption));
+            report.printReport(&printer);
+        }
     }
 #else
     std::cerr<<"This demo intended for Qt 5.2 and higher\n";
