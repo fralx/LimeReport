@@ -1,0 +1,3 @@
+[submodule "3rdparty/qtxlsx"]
+	path = 3rdparty/qtxlsx
+	url = https://gitlab.com/fralx/qtxlsx.git
