@@ -1,5 +1,10 @@
 include(../common.pri)
 
+contains(CONFIG, qtxlsx){
+    DEFINES += HAVE_QTXLSX
+    include($$PWD/../3rdparty/qtxlsx/src/xlsx/qtxlsx.pri)
+}
+
 contains(CONFIG, embedded_designer){
     include(designer.pri)
 }
@@ -69,8 +74,8 @@ SOURCES += \
     $$REPORT_PATH/items/lrchartitemeditor.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp \
     $$REPORT_PATH/exporters/lrpdfexporter.cpp \
+    $$REPORT_PATH/exporters/lrhtmlexporter.cpp \
     $$REPORT_PATH/lrpreparedpages.cpp
-
 
 contains(CONFIG, staticlib){
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
@@ -78,6 +83,11 @@ contains(CONFIG, staticlib){
     
 contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
+}
+
+contains(CONFIG, qtxlsx){
+    message(QtXLSX)
+    SOURCES += $$REPORT_PATH/exporters/lrexcelexporter.cpp
 }
 
 HEADERS += \
@@ -154,9 +164,9 @@ HEADERS += \
     $$REPORT_PATH/lrexporterintf.h \
     $$REPORT_PATH/lrexportersfactory.h \	
     $$REPORT_PATH/exporters/lrpdfexporter.h \
+    $$REPORT_PATH/exporters/lrhtmlexporter.h \
     $$REPORT_PATH/lrpreparedpages.h \
     $$REPORT_PATH/lrpreparedpagesintf.h 
-
 
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
@@ -164,6 +174,10 @@ contains(CONFIG, staticlib){
 
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
+}
+
+contains(CONFIG, qtxlsx){
+    HEADERS += $$REPORT_PATH/exporters/lrexcelexporter.h
 }
 
 FORMS += \

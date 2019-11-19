@@ -105,6 +105,7 @@ public slots:
     void slotFirstPage();
     void slotLastPage();
     void slotPrintToPDF();
+    void slotPrintToExcel();
     void slotPageChanged(int pageIndex);
     void slotInsertNewTextItem();
     void slotActivateItemSelectionMode();

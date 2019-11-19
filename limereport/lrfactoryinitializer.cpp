@@ -45,6 +45,10 @@
 #include "lrexporterintf.h"
 #include "exporters/lrpdfexporter.h"
 
+#ifdef HAVE_QTXLSX
+#include "exporters/lrexcelexporter.h"
+#endif
+
 void initResources(){
     Q_INIT_RESOURCE(report);
 #ifdef HAVE_REPORT_DESIGNER
@@ -450,6 +454,12 @@ LimeReport::ReportExporterInterface* createPDFExporter(ReportEnginePrivate* pare
     return new LimeReport::PDFExporter(parent);
 }
 
+#ifdef HAVE_QTXLSX
+LimeReport::ReportExporterInterface* createExcelExporter(ReportEnginePrivate* parent){
+    return new LimeReport::ExcelExporter(parent);
+}
+#endif
+
 void initExporters()
 {
     ExportersFactory::instance().registerCreator(
@@ -457,6 +467,14 @@ void initExporters()
                 LimeReport::ExporterAttribs(QObject::tr("Export to PDF"), "PDFExporter"),
                 createPDFExporter
     );
+
+#ifdef HAVE_QTXLSX
+    ExportersFactory::instance().registerCreator(
+        "XLSX",
+        LimeReport::ExporterAttribs(QObject::tr("Export to xlsx"),"ExcelExporter"),
+        createExcelExporter
+    );
+#endif
 }
 
 } //namespace LimeReport

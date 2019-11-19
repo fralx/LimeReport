@@ -468,6 +468,11 @@ void PreviewReportWindow::slotPrintToPDF()
     m_previewReportWidget->printToPDF();
 }
 
+void PreviewReportWindow::slotPrintToExcel()
+{
+    m_previewReportWidget->printToExcel();
+}
+
 void PreviewReportWindow::slotPageChanged(int pageIndex)
 {
     m_pagesNavigator->setValue(pageIndex);

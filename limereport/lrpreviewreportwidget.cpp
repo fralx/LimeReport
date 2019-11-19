@@ -258,6 +258,16 @@ void PreviewReportWidget::print()
 
 }
 
+void PreviewReportWidget::printToExcel()
+{
+    if (!d_ptr->m_reportPages.isEmpty()){
+        exportReport("XLSX");
+        foreach(PageItemDesignIntf::Ptr pageItem, d_ptr->m_reportPages){
+            d_ptr->m_previewPage->reactivatePageItem(pageItem);
+        }
+    }
+}
+
 void PreviewReportWidget::printToPDF()
 {
     if (!d_ptr->m_reportPages.isEmpty()){

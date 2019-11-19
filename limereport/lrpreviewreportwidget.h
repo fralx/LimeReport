@@ -53,6 +53,7 @@ public slots:
 
     void print();
     void printToPDF();
+    void printToExcel();
     void pageNavigatorChanged(int value);
     void saveToFile();
     void setScalePercent(int percent);

@@ -40,8 +40,7 @@ EXTRA_FILES += \
     $$PWD/lrscriptenginemanagerintf.h \
     $$PWD/lrcallbackdatasourceintf.h \
     $$PWD/lrpreviewreportwidget.h \
-    $$PWD/lrreportdesignwindowintrerface.h \
-    $$PWD/lrpreparedpagesintf.h
+    $$PWD/lrreportdesignwindowintrerface.h
 
 include(limereport.pri)
 
@@ -112,14 +111,14 @@ INSTALLS += target
 ####Automatically build required translation files (*.qm)
 
 contains(CONFIG,build_translations){
-    LANGUAGES = ru es ar fr zh pl
+    LANGUAGES = ru es_ES ar fr zh
 
     defineReplace(prependAll) {
         for(a,$$1):result += $$2$${a}$$3
         return($$result)
     }
 
-    TRANSLATIONS = $$prependAll(LANGUAGES, $$TRANSLATIONS_PATH/limereport_,.ts)
+    TRANSLATIONS = $$prependAll(LANGUAGES, \"$$TRANSLATIONS_PATH/limereport_,.ts\")
 
     qtPrepareTool(LUPDATE, lupdate)
 
@@ -133,7 +132,7 @@ lessThan(QT_MAJOR_VERSION, 5){
     qtPrepareTool(LRELEASE, lrelease)
     for(tsfile, TRANSLATIONS) {
         qmfile = $$tsfile
-        qmfile ~= s,".ts$",".qm",
+        qmfile ~= s,".ts\"$",".qm\"",
         qm.commands += $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         tmp_command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile $$escape_expand(\\n\\t)
         TRANSLATIONS_FILES += $$qmfile
