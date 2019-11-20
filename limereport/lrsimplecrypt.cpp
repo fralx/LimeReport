@@ -67,13 +67,15 @@ namespace LimeReport {
 class ChipperPrivate{
     friend class Chipper;
 public:
-    ChipperPrivate():m_prepared(false){}
+    ChipperPrivate():m_prepared(false) {
+        memset(S, 0, sizeof (S));
+    }
     bool isPrepared(){ return m_prepared;}
 private:
     void RC5_SETUP(const char *K);
     void RC5_ENCRYPT(WORD *pt, WORD *ct);
     void RC5_DECRYPT(WORD *ct, WORD *pt);
-    WORD S[26] = {0};
+    WORD S[26];
     bool m_prepared;
 };
 
