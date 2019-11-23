@@ -56,6 +56,29 @@
     </message>
 </context>
 <context>
+    <name>ImageItemEditor</name>
+    <message>
+        <source>Image Item Editor</source>
+        <translation>图像组件编辑</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation>图像</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>Resource path</source>
+        <translation>资源路径</translation>
+    </message>
+    <message>
+        <source>Select image file</source>
+        <translation>选择图像文件</translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
@@ -398,6 +421,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Print if empty</source>
         <translation>为空时打印</translation>
+    </message>
+    <message>
+        <source>Keep top space</source>
+        <translation>保持顶部距离</translation>
     </message>
 </context>
 <context>
@@ -1137,6 +1164,10 @@ p, li { white-space: pre-wrap; }
         <source>Ext.</source>
         <translation>扩展名.</translation>
     </message>
+    <message>
+        <source>Edit</source>
+        <translation>编辑</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
@@ -1341,10 +1372,6 @@ p, li { white-space: pre-wrap; }
         <translation>报表</translation>
     </message>
     <message>
-        <source>toolBar</source>
-        <translation>工具栏</translation>
-    </message>
-    <message>
         <source>Print</source>
         <translation>打印</translation>
     </message>
@@ -1441,10 +1468,6 @@ p, li { white-space: pre-wrap; }
         <translation> / %1</translation>
     </message>
     <message>
-        <source>toolBar_2</source>
-        <translation>工具条</translation>
-    </message>
-    <message>
         <source>InsertTextItem</source>
         <translation>插入文本组件</translation>
     </message>
@@ -1463,6 +1486,26 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Del</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>MainToolBar</source>
+        <translation>工具条</translation>
+    </message>
+    <message>
+        <source>EditModeTools</source>
+        <translation>编辑工具</translation>
+    </message>
+    <message>
+        <source>Printing</source>
+        <translation>正在打印</translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation>注意</translation>
+    </message>
+    <message>
+        <source>The printing is in process</source>
+        <translation>打印正在处理</translation>
     </message>
 </context>
 <context>
@@ -1982,6 +2025,10 @@ p, li { white-space: pre-wrap; }
         <source>printBehavior</source>
         <translation>打印行为</translation>
     </message>
+    <message>
+        <source>shiftItems</source>
+        <translation>偏移组件</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
@@ -2251,18 +2298,6 @@ p, li { white-space: pre-wrap; }
         <translation>报表文件名</translation>
     </message>
     <message>
-        <source>Rendering report</source>
-        <translation>生成报表</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>关于</translation>
-    </message>
-    <message>
-        <source> page rendered</source>
-        <translation> 报表生成</translation>
-    </message>
-    <message>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
@@ -2317,6 +2352,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Select one level items</source>
         <translation>选择一级组件</translation>
+    </message>
+    <message>
+        <source>Rendered %1 pages</source>
+        <translation>已处理%1页</translation>
+    </message>
+    <message>
+        <source>Cancel report rendering</source>
+        <translation>取消打印</translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation>注意</translation>
+    </message>
+    <message>
+        <source>The rendering is in process</source>
+        <translation>正在处理中</translation>
     </message>
 </context>
 <context>
