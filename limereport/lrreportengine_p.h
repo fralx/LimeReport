@@ -110,6 +110,9 @@ public:
     virtual QList<QLocale::Language> designerLanguages() = 0;
     virtual QLocale::Language       currentDesignerLanguage() = 0;
     virtual void                    setCurrentDesignerLanguage(QLocale::Language language) = 0;
+    virtual void                    cancelRender() = 0;
+    virtual void                    setShowProgressDialog(bool value) = 0;
+    virtual bool                    isShowProgressDialog() const = 0;
 };
 
 class PrintProcessor{
@@ -122,6 +125,7 @@ private:
 private:
     QPrinter* m_printer;
     QPainter* m_painter;
+    LimeReport::PageDesignIntf m_renderPage;
     bool m_firstPage;
 };
 
@@ -141,9 +145,8 @@ class ReportEnginePrivate : public QObject,
 
     friend class PreviewReportWidget;
 public:
-    static void printReport(ItemsReaderIntf::Ptr reader, QPrinter &printer);
-    static void printReport(ReportPages pages, QPrinter &printer);
-    static void printReport(ReportPages pages, QMap<QString,QPrinter*>printers, bool printToAllPrinters = false);
+    bool printPages(ReportPages pages, QPrinter *printer);
+    void printPages(ReportPages pages, QMap<QString,QPrinter*>printers, bool printToAllPrinters = false);
     Q_INVOKABLE QStringList aviableReportTranslations();
     Q_INVOKABLE void setReportTranslation(const QString& languageName);
 public:
@@ -168,7 +171,7 @@ public:
     void    clearReport();
     bool    printReport(QPrinter* printer=0);
     bool    printReport(QMap<QString, QPrinter*>printers, bool printToAllPrinters);
-    bool    printPages(ReportPages pages, QPrinter *printer);
+
     void    printToFile(const QString& fileName);
     bool    printToPDF(const QString& fileName);
     bool    exportReport(QString exporterName, const QString &fileName = "", const QMap<QString, QVariant>& params = QMap<QString, QVariant>());
@@ -179,6 +182,7 @@ public:
     void    designReport();
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
+    bool    isShowProgressDialog() const {return m_showProgressDialog;}
     QSettings*  settings();
     bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange);
     bool    loadFromByteArray(QByteArray *data, const QString& name = "");
@@ -246,6 +250,7 @@ public:
     void      clearWatermarks();
     IPreparedPages* preparedPages();
     bool showPreparedPages(PreviewHints hints);
+    bool showPreparedPages(QPrinter *defaultPrinter, PreviewHints hints);
     bool prepareReportPages();
     bool printPreparedPages();
 signals:
@@ -267,13 +272,18 @@ signals:
     void    currentDefaultDesignerLanguageChanged(QLocale::Language);
     QLocale::Language  getCurrentDefaultDesignerLanguage();
     void    externalPaint(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem*);
+    void    printingStarted(int pageCount);
+    void    printingFinished();
+    void    pagePrintingFinished(int index);
 
 public slots:
     bool    slotLoadFromFile(const QString& fileName);
     void    cancelRender();
+    void    cancelPrinting();
 protected:
     PageDesignIntf* createPage(const QString& pageName="", bool preview = false);
-    bool showPreviewWindow(ReportPages pages, PreviewHints hints);
+    bool showPreviewWindow(ReportPages pages, PreviewHints hints, QPrinter *printer);
+    void internalPrintPages(ReportPages pages, QPrinter &printer);
 protected slots:
     void    slotDataSourceCollectionLoaded(const QString& collectionName);
 private slots:
@@ -343,6 +353,7 @@ private:
     bool m_saveToFileVisible;
     bool m_printToPdfVisible;
     bool m_printVisible;
+    bool m_cancelPrinting;
 };
 
 }

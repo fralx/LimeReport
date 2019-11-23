@@ -66,7 +66,8 @@ HEADERS +=  $$PWD/../backend/aztec.h \
             $$PWD/../backend/sjis.h \
             $$PWD/../backend/stdint_msvc.h \
             $$PWD/../backend/zint.h \
-            $$PWD/qzint.h
+            $$PWD/qzint.h \
+            $$PWD/qzint_global.h
 
 SOURCES += $$PWD/../backend/2of5.c \
            $$PWD/../backend/auspost.c \

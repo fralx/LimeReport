@@ -158,6 +158,7 @@ void AbstractLayout::beforeDelete()
 #endif
         BaseDesignIntf *bi = dynamic_cast<BaseDesignIntf*>(item);
         if (bi) {
+            bi->disconnect(this);
             bi->setParentItem(parentItem());
             bi->setParent(parent());
             bi->setVisible(true);

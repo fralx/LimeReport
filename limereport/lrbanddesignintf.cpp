@@ -166,7 +166,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_printAlways(false),
     m_repeatOnEachRow(false),
     m_useAlternateBackgroundColor(false),
-    m_bottomSpace(0)
+    m_bottomSpace(0),
+    m_shiftItems(0)
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -176,7 +177,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
         if (parentItem) setWidth(parentItem->width());
     }
 
-    setBackgroundMode(BGMode::TransparentMode);
+    setBackgroundMode(BaseDesignIntf::TransparentMode);
     setFillTransparentInDesignMode(false);
     setHeight(100);
     setFixedPos(true);
@@ -277,6 +278,11 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     BaseDesignIntf::paint(painter,option,widget);
 }
 
+QRectF BandDesignIntf::boundingRect() const
+{
+    return ItemsContainerDesignInft::boundingRect().adjusted(0,-4,0,4);
+}
+
 void BandDesignIntf::translateBandsName()
 {
     tr("DataBand");
@@ -356,7 +362,7 @@ void BandDesignIntf::setDataSourceName(const QString &datasource){
     m_dataSourceName=datasource;
 }
 
-void BandDesignIntf::setKeepBottomSpaceOption(bool value){
+void BandDesignIntf::setKeepBottomSpace(bool value){
     if (m_keepBottomSpace!=value){
         m_keepBottomSpace=value;
         if (!isLoading())
@@ -582,9 +588,13 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
     currAction->setCheckable(true);
     currAction->setChecked(isSplittable());
 
+    currAction = menu.addAction(tr("Keep top space"));
+    currAction->setCheckable(true);
+    currAction->setChecked(keepTopSpace());
+
     currAction = menu.addAction(tr("Keep bottom space"));
     currAction->setCheckable(true);
-    currAction->setChecked(keepBottomSpaceOption());
+    currAction->setChecked(keepBottomSpace());
 
     currAction = menu.addAction(tr("Print if empty"));
     currAction->setCheckable(true);
@@ -595,17 +605,26 @@ void BandDesignIntf::preparePopUpMenu(QMenu &menu)
 void BandDesignIntf::processPopUpAction(QAction *action)
 {
     if (action->text().compare(tr("Auto height")) == 0){
-        setProperty("autoHeight",action->isChecked());
+        setProperty("autoHeight", action->isChecked());
     }
+
     if (action->text().compare(tr("Splittable")) == 0){
-        setProperty("splittable",action->isChecked());
+        setProperty("splittable", action->isChecked());
     }
+
+    if (action->text().compare(tr("Keep top space")) == 0){
+        setProperty("keepTopSpace", action->isChecked());
+    }
+
     if (action->text().compare(tr("Keep bottom space")) == 0){
-        setProperty("keepBottomSpace",action->isChecked());
+        setProperty("keepBottomSpace", action->isChecked());
+    }
+    if (action->text().compare(tr("Keep top space")) == 0){
+        setProperty("keepTopSpace",action->isChecked());
     }
 
     if (action->text().compare(tr("Print if empty")) == 0){
-        setProperty("printIfEmpty",action->isChecked());
+        setProperty("printIfEmpty", action->isChecked());
     }
     ItemsContainerDesignInft::processPopUpAction(action);
 }
@@ -903,6 +922,16 @@ void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QStrin
         m_bandNameLabel->updateLabel(newName);
 }
 
+int BandDesignIntf::shiftItems() const
+{
+    return m_shiftItems;
+}
+
+void BandDesignIntf::setShiftItems(int shiftItems)
+{
+    m_shiftItems = shiftItems;
+}
+
 bool BandDesignIntf::keepTopSpace() const
 {
     return m_keepTopSpace;
@@ -1090,10 +1119,10 @@ void BandDesignIntf::setKeepFooterTogether(bool value)
 
 void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-    qreal spaceBorder=0;
-    if (keepBottomSpaceOption()) spaceBorder = bottomSpace();
+    qreal spaceBorder = 0;
+    if (keepBottomSpace()) spaceBorder = bottomSpace();
     spaceBorder = spaceBorder > 0 ? spaceBorder : 0;
-    if (borderLines()!=0){
+    if (borderLines() != 0){
         spaceBorder += borderLineSize();
     }
 
@@ -1105,14 +1134,14 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     arrangeSubItems(pass, dataManager); 
     if (autoHeight()){
         if (!keepTopSpace()) {
-            qreal minTop = findMinTop();
+            qreal minTop = findMinTop() + m_shiftItems;
             foreach (BaseDesignIntf* item, childBaseItems()) {
                 item->setY(item->y() - minTop);
             }
         }
-        setHeight(findMaxBottom()+spaceBorder);
+        setHeight(findMaxBottom() + spaceBorder);
     }
-    if ((maxHeight>0)&&(height()>maxHeight)){
+    if ((maxHeight > 0) && (height() > maxHeight)){
         trimToMaxHeight(maxHeight);
         setHeight(maxHeight);
     }

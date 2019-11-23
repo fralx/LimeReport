@@ -97,7 +97,9 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
 
 QRectF BaseDesignIntf::boundingRect() const
 {
-    return rect();
+    qreal halfpw = pen().widthF() / 2;
+            halfpw += 2;
+    return rect().adjusted(-halfpw, -halfpw, halfpw, halfpw);
 }
 
 BaseDesignIntf::~BaseDesignIntf(void) {
@@ -500,7 +502,7 @@ void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
     update();
 }
 
-void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent /**event*/)
 {
     m_hovered = true;
     update();

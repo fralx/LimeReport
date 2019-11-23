@@ -31,6 +31,7 @@ struct PropertyTranslation{
 
 struct ItemTranslation{
     QString itemName;
+    bool checked;
     PropertyTranslation* findProperty(const QString& propertyName);
     ~ItemTranslation();
     QList<PropertyTranslation*> propertyesTranslation;
@@ -38,8 +39,10 @@ struct ItemTranslation{
 
 struct PageTranslation{
     QString pageName;
+    bool checked;
     ~PageTranslation();
-    QHash<QString,ItemTranslation*> itemsTranslation;
+    void renameItem(const QString& oldName, const QString& newName);
+    QHash<QString, ItemTranslation*> itemsTranslation;
 };
 
 class ReportTranslation{
@@ -49,12 +52,15 @@ public:
     ReportTranslation(const ReportTranslation& reportTranslation);
     ~ReportTranslation();
     QLocale::Language language() const;
-    QList<PageTranslation*> pagesTranslation() const;
+    QList<PageTranslation *> &pagesTranslation();
     PageTranslation* createEmptyPageTranslation();
     void updatePageTranslation(PageDesignIntf* page);
-    PageTranslation* findPageTranslation(const QString& page_name);
-    void createItemTranslation(BaseDesignIntf* item, PageTranslation* pageTranslation);
+    PageTranslation* findPageTranslation(const QString& pageName);
+    void renamePage(const QString& oldName, const QString& newName);
+    void invalidatePages();
+    void clearInvalidPages();
 private:
+    void createItemTranslation(BaseDesignIntf* item, PageTranslation* pageTranslation);
     PageTranslation* createPageTranslation(PageDesignIntf* page);
 private:
     QLocale::Language m_language;

@@ -52,6 +52,7 @@ namespace LimeReport {
 
 
 namespace Const{
+    int const DEFAULT_GRID_STEP = 1;
     int const RESIZE_HANDLE_SIZE = 5;
     int const SELECTION_PEN_SIZE = 1;
     int const MINIMUM_ITEM_WIDTH = 2*RESIZE_HANDLE_SIZE;
@@ -91,6 +92,10 @@ namespace Const{
     const QString EOW("~!@#$%^&*()+{}|:\"<>?,/;'[]\\-=");
     const int DEFAULT_TAB_INDENTION = 4;
     const int DOCKWIDGET_MARGINS = 4;
+
+    const char SCRIPT_SIGN = 'S';
+    const char FIELD_SIGN = 'D';
+    const char VARIABLE_SIGN = 'V';
 }
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);

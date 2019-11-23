@@ -262,7 +262,7 @@ public:
 
     QString itemTypeName() const;
     void setItemTypeName(const QString &itemTypeName);
-    void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
+
     int borderLineSize() const;
     void setBorderLineSize(int value);
     void showEditorDialog();
@@ -303,7 +303,9 @@ public:
 
     bool fillTransparentInDesignMode() const;
     void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
+
     void emitPosChanged(QPointF oldPos, QPointF newPos);
+    void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
 
     bool isGeometryLocked() const;
     void setGeometryLocked(bool itemLocked);
@@ -320,7 +322,7 @@ protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent* event);
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void  hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void  hoverEnterEvent(QGraphicsSceneHoverEvent);
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);

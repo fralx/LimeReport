@@ -287,30 +287,31 @@ void ReportDesignWidget::loadState()
     applySettings();
 }
 
+PageView* ReportDesignWidget::createPageView(PageDesignIntf* page){
+    PageView* view = new PageView(this);
+    view->setBackgroundBrush(QBrush(Qt::gray));
+    view->setFrameShape(QFrame::NoFrame);
+    view->setScene(page);
+    view->setPageItem(page->pageItem());
+    view->scale(0.5, 0.5);
+    view->centerOn(0, 0);
+    return view;
+}
 
 void ReportDesignWidget::createTabs(){
     m_tabWidget->clear();
     int pageIndex  = -1;
+
     for (int i = 0; i < m_report->pageCount(); ++i){
-        PageView* view = new PageView(qobject_cast<QWidget*>(this));
-        view->setBackgroundBrush(QBrush(Qt::gray));
-        view->setFrameShape(QFrame::NoFrame);
-        view->setScene(m_report->pageAt(i));
-        view->setPageItem(m_report->pageAt(i)->pageItem());
-
-        m_report->pageAt(i)->clearSelection();
-
-        view->centerOn(0,0);
-        view->scale(0.5,0.5);
-        connectPage(m_report->pageAt(i));
-        pageIndex = m_tabWidget->addTab(view,QIcon(),m_report->pageAt(i)->pageItem()->objectName());
+        PageDesignIntf* page = m_report->pageAt(i);
+        page->clearSelection();
+        connectPage(page);
+        PageView* view = createPageView(page);
+        int pageIndex = m_tabWidget->addTab(view, QIcon(), page->pageItem()->objectName());
         m_tabWidget->setTabWhatsThis(pageIndex, "page");
-        connect(m_report->pageAt(i)->pageItem(), SIGNAL(propertyObjectNameChanged(QString,QString)),
-                this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
     }
 
     m_scriptEditor = new ScriptEditor(this);
-
     connect(m_scriptEditor, SIGNAL(textChanged()), this, SLOT(slotScriptTextChanged()));
     m_scriptEditor->setReportEngine(m_report);
     pageIndex = m_tabWidget->addTab(m_scriptEditor,QIcon(),tr("Script"));
@@ -359,25 +360,29 @@ QGraphicsView* ReportDesignWidget::activeView(){
 
 void ReportDesignWidget::connectPage(PageDesignIntf *page)
 {
-    connect(page,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)),this,SIGNAL(itemInserted(LimeReport::PageDesignIntf*,QPointF,QString)));
-    connect(page,SIGNAL(itemInsertCanceled(QString)),this,SIGNAL(itemInsertCanceled(QString)));
-    connect(page,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)),this,SIGNAL(itemPropertyChanged(QString,QString,QVariant,QVariant)));
-    connect(page,SIGNAL(selectionChanged()),this,SLOT(slotSelectionChanged()));
-    connect(page,SIGNAL(insertModeStarted()),this,SIGNAL(insertModeStarted()));
-    connect(page,SIGNAL(commandHistoryChanged()),this,SIGNAL(commandHistoryChanged()));
-    connect(page,SIGNAL(sceneRectChanged(QRectF)),this,SLOT(slotSceneRectChanged(QRectF)));
-
-    connect(page,SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
-            this, SIGNAL(itemAdded(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-    connect(page,SIGNAL(itemRemoved(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)),
-            this,SIGNAL(itemDeleted(LimeReport::PageDesignIntf*,LimeReport::BaseDesignIntf*)));
-    connect(page,SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
-            this, SIGNAL(bandAdded(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
-    connect(page, SIGNAL(bandRemoved(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)),
-            this, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*,LimeReport::BandDesignIntf*)));
+    connect(page, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
+            this, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));
+    connect(page, SIGNAL(itemInsertCanceled(QString)),this,SIGNAL(itemInsertCanceled(QString)));
+    connect(page, SIGNAL(itemPropertyChanged(QString, QString, QVariant, QVariant)),
+            this, SIGNAL(itemPropertyChanged(QString, QString, QVariant, QVariant)));
+    connect(page, SIGNAL(itemPropertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotItemPropertyObjectNameChanged(QString, QString)));
+    connect(page, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
+    connect(page, SIGNAL(insertModeStarted()), this, SIGNAL(insertModeStarted()));
+    connect(page, SIGNAL(commandHistoryChanged()), this, SIGNAL(commandHistoryChanged()));
+    connect(page, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(slotSceneRectChanged(QRectF)));
+    connect(page, SIGNAL(itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)),
+            this, SIGNAL(itemAdded(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)));
+    connect(page, SIGNAL(itemRemoved(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)),
+            this, SIGNAL(itemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*)));
+    connect(page, SIGNAL(bandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)),
+            this, SIGNAL(bandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)));
+    connect(page, SIGNAL(bandRemoved(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)),
+            this, SIGNAL(bandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*)));
     connect(page, SIGNAL(pageUpdateFinished(LimeReport::PageDesignIntf*)),
             this, SIGNAL(activePageUpdated(LimeReport::PageDesignIntf*)));
-
+    connect(page->pageItem(), SIGNAL(propertyObjectNameChanged(QString, QString)),
+            this, SLOT(slotPagePropertyObjectNameChanged(QString, QString)));
     emit activePageChanged();
 }
 
@@ -721,7 +726,10 @@ void ReportDesignWidget::previewReport()
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
 #endif
+    bool showProgressDialog = report()->isShowProgressDialog();
+    report()->setShowProgressDialog(false);
     report()->previewReport();
+    report()->setShowProgressDialog(showProgressDialog);
 }
 
 void ReportDesignWidget::printReport()
@@ -737,19 +745,13 @@ void ReportDesignWidget::printReport()
 
 void ReportDesignWidget::addPage()
 {
-    QGraphicsView* view = new QGraphicsView(qobject_cast<QWidget*>(this));
-    view->setBackgroundBrush(QBrush(Qt::gray));
-    view->setFrameShape(QFrame::NoFrame);
     PageDesignIntf* page = m_report->appendPage("page"+QString::number(m_report->pageCount()+1));
-    view->setScene(page);
-    int index = m_report->pageCount()-1;
-    m_tabWidget->insertTab(index,view,QIcon(),page->pageItem()->objectName());
-    m_tabWidget->setCurrentIndex(index);
-    connect(page->pageItem(), SIGNAL(propertyObjectNameChanged(QString,QString)),
-            this, SLOT(slotPagePropertyObjectNameChanged(QString,QString)));
     connectPage(page);
-    view->scale(0.5,0.5);
-    view->centerOn(0,0);
+    PageView* view = createPageView(page);
+    int index = m_report->pageCount()-1;
+    m_tabWidget->insertTab(index, view, QIcon(), page->pageItem()->objectName());
+    m_tabWidget->setTabWhatsThis(index, "page");
+    m_tabWidget->setCurrentIndex(index);
     applyUseGrid();
     emit pageAdded(page);
 }
@@ -821,9 +823,9 @@ void ReportDesignWidget::editSetting()
 
 void ReportDesignWidget::applyUseGrid()
 {
-    int hGridStep = m_useGrid?m_horizontalGridStep:2;
-    int vGridStep = m_useGrid?m_verticalGridStep:2;
-    for(int i=0;i<m_report->pageCount();++i){
+    int hGridStep = m_useGrid ? m_horizontalGridStep : Const::DEFAULT_GRID_STEP;
+    int vGridStep = m_useGrid ? m_verticalGridStep : Const::DEFAULT_GRID_STEP;
+    for(int i = 0; i < m_report->pageCount(); ++i){
        m_report->pageAt(i)->setVerticalGridStep(hGridStep);
        m_report->pageAt(i)->setHorizontalGridStep(vGridStep);
     }
@@ -968,6 +970,18 @@ void ReportDesignWidget::slotScriptTextChanged()
     m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());
 }
 
+void ReportDesignWidget::slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName)
+{
+    PageDesignIntf* page = qobject_cast<PageDesignIntf*>(sender());
+    if (page){
+        ITranslationContainer* tc = dynamic_cast<ITranslationContainer*>(report());
+        for (int i = 0; i < tc->translations()->values().count(); ++i){
+            PageTranslation* pt = tc->translations()->values().at(i)->findPageTranslation(page->pageItem()->objectName());
+            if (pt) pt->renameItem(oldName, newName);
+        }
+    }
+}
+
 #ifdef HAVE_QTDESIGNER_INTEGRATION
 
 void ReportDesignWidget::addNewDialog()
@@ -999,6 +1013,11 @@ void ReportDesignWidget::slotDialogNameChanged(QString oldName, QString newName)
 
 void ReportDesignWidget::slotPagePropertyObjectNameChanged(const QString &oldValue, const QString &newValue)
 {
+    ITranslationContainer* tc = dynamic_cast<ITranslationContainer*>(report());
+    foreach(ReportTranslation* translation, tc->translations()->values()){
+        translation->renamePage(oldValue, newValue);
+    }
+
     for (int i = 0; i < m_tabWidget->count(); ++i ){
         if (m_tabWidget->tabText(i).compare(oldValue) == 0){
             QGraphicsView* view = dynamic_cast<QGraphicsView*>(m_tabWidget->widget(i));
@@ -1071,14 +1090,16 @@ bool PageView::viewportEvent(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::MouseMove:
-        m_horizontalRuller->setMousePos(dynamic_cast<QMouseEvent*>(event)->pos());
-        m_verticalRuller->setMousePos(dynamic_cast<QMouseEvent*>(event)->pos());
-        m_horizontalRuller->update();
-        m_verticalRuller->update();
+        if (m_horizontalRuller && m_verticalRuller){
+            m_horizontalRuller->setMousePos(dynamic_cast<QMouseEvent*>(event)->pos());
+            m_verticalRuller->setMousePos(dynamic_cast<QMouseEvent*>(event)->pos());
+            m_horizontalRuller->update();
+            m_verticalRuller->update();
+        }
         break;
     //case QEvent::Resize:
     case QEvent::Paint:
-        if (m_horizontalRuller){
+        if (m_horizontalRuller && m_verticalRuller){
             int x = mapFromScene(m_pageItem->boundingRect().x(),m_pageItem->boundingRect().y()).x();
             int y = mapFromScene(m_pageItem->boundingRect().x(),m_pageItem->boundingRect().y()).y();
             int width = mapFromScene(m_pageItem->boundingRect().bottomRight().x(),m_pageItem->boundingRect().bottomRight().y()).x();

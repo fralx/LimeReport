@@ -83,8 +83,8 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_executingGroupCommand(false),
     m_settings(0),
     m_selectionRect(0),
-    m_verticalGridStep(2),
-    m_horizontalGridStep(2),
+    m_verticalGridStep(Const::DEFAULT_GRID_STEP),
+    m_horizontalGridStep(Const::DEFAULT_GRID_STEP),
     m_updating(false),
     m_currentObjectIndex(1),
     m_multiSelectStarted(false),
@@ -278,8 +278,10 @@ void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
 
 void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
 {
+    m_currentPage = 0;
     if (!m_pageItem.isNull()) {
-        removeItem(m_pageItem.data());
+        if (m_pageItem->scene() == this)
+            removeItem(m_pageItem.data());
         m_pageItem.clear();
     }
     int curHeight = 0;
@@ -300,6 +302,14 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
     if (m_reportPages.count()>0)
         m_currentPage = m_reportPages.at(0).data();
 
+}
+
+void PageDesignIntf::removePageItem(PageItemDesignIntf::Ptr pageItem)
+{
+    if (m_pageItem == pageItem){
+        removeItem(m_pageItem.data());
+        m_pageItem.clear();
+    }
 }
 
 void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -816,6 +826,7 @@ void PageDesignIntf::slotItemPropertyObjectNameChanged(const QString &oldName, c
     if (oldName.compare(newName)!=0 && !m_executingCommand){
         CommandIf::Ptr command = PropertyObjectNameChangedCommand::create(this, oldName, newName);
         saveCommand(command, false);
+        emit itemPropertyObjectNameChanged(oldName, newName);
     }
 }
 
@@ -1458,15 +1469,24 @@ void PageDesignIntf::sendToBack()
     }
 }
 
+bool PageDesignIntf::selectionContainsBand(){
+    foreach(QGraphicsItem * item,selectedItems()){
+        BandDesignIntf *band = dynamic_cast<BandDesignIntf *>(item);
+        if (band) return true;
+    }
+    return false;
+}
+
 void PageDesignIntf::alignToLeft()
 {
     if ((selectedItems().count() > 0) && m_firstSelectedItem) {
         CommandGroup::Ptr cm = CommandGroup::create();
+        bool moveInBand = selectionContainsBand();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
             if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
-                bdItem->setPos(QPoint(m_firstSelectedItem->pos().x(), item->pos().y()));
+                bdItem->setPos(QPointF(moveInBand ? 0 : m_firstSelectedItem->pos().x(), item->pos().y()));
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
                 cm->addCommand(command, false);
             }
@@ -1479,11 +1499,19 @@ void PageDesignIntf::alignToRigth()
 {
     if ((selectedItems().count() > 0) && m_firstSelectedItem) {
         CommandGroup::Ptr cm = CommandGroup::create();
+        bool moveInBand = selectionContainsBand();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem && !bdItem->isGeometryLocked()) {
+            if (bdItem && !bdItem->isGeometryLocked() && !bdItem->isBand()) {
                 QRectF oldGeometry = bdItem->geometry();
-                bdItem->setPos(QPoint(m_firstSelectedItem->geometry().right() - bdItem->width(), bdItem->pos().y()));
+                if (moveInBand && dynamic_cast<BandDesignIntf*>(bdItem->parent()))
+                {
+                    bdItem->setPos(QPointF(dynamic_cast<BandDesignIntf*>(bdItem->parent())->geometry().width() - bdItem->width(),
+                                          bdItem->pos().y()));
+                } else {
+                    qreal x = m_firstSelectedItem->geometry().right() - bdItem->width();
+                    bdItem->setPos(QPointF(x+1, bdItem->pos().y()));
+                }
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
                 cm->addCommand(command, false);
             }
@@ -1496,11 +1524,18 @@ void PageDesignIntf::alignToVCenter()
 {
     if ((selectedItems().count() > 0) && m_firstSelectedItem) {
         CommandGroup::Ptr cm = CommandGroup::create();
+        bool moveInBand = selectionContainsBand();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem && !bdItem->isGeometryLocked()) {
+            if (bdItem && !bdItem->isGeometryLocked() && !bdItem->isBand()) {
                 QRectF oldGeometry = bdItem->geometry();
-                bdItem->setPos(QPoint((m_firstSelectedItem->geometry().right() - m_firstSelectedItem->width() / 2) - bdItem->width() / 2, bdItem->pos().y()));
+                if (moveInBand && dynamic_cast<BandDesignIntf*>(bdItem->parent())){
+                    bdItem->setPos(QPointF((dynamic_cast<BandDesignIntf*>(bdItem->parent())->geometry().width() / 2) - bdItem->width() / 2,
+                                          bdItem->pos().y()));
+                } else {
+                    qreal x = (m_firstSelectedItem->geometry().right() - m_firstSelectedItem->width() / 2) - bdItem->width() / 2;
+                    bdItem->setPos(QPointF(x+1, bdItem->pos().y()));
+                }
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
                 cm->addCommand(command, false);
             }
@@ -1513,11 +1548,16 @@ void PageDesignIntf::alignToTop()
 {
     if ((selectedItems().count() > 0) && m_firstSelectedItem) {
         CommandGroup::Ptr cm = CommandGroup::create();
+        bool moveInBand = selectionContainsBand();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem && !bdItem->isGeometryLocked()) {
+            if (bdItem && !bdItem->isGeometryLocked() && !bdItem->isBand()) {
                 QRectF oldGeometry = bdItem->geometry();
-                bdItem->setPos(QPoint(bdItem->pos().x(), m_firstSelectedItem->pos().y()));
+                if (moveInBand){
+                    bdItem->setPos(QPointF(0, m_firstSelectedItem->pos().y()));
+                } else {
+                    bdItem->setPos(QPointF(bdItem->pos().x(), m_firstSelectedItem->pos().y()));
+                }
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
                 cm->addCommand(command, false);
             }
@@ -1530,11 +1570,17 @@ void PageDesignIntf::alignToBottom()
 {
     if ((selectedItems().count() > 0) && m_firstSelectedItem) {
         CommandGroup::Ptr cm = CommandGroup::create();
+        bool moveInBand = selectionContainsBand();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem && !bdItem->isGeometryLocked()) {
+            if (bdItem && !bdItem->isGeometryLocked() && !bdItem->isBand()) {
                 QRectF oldGeometry = bdItem->geometry();
-                bdItem->setPos(QPoint(bdItem->pos().x(), m_firstSelectedItem->geometry().bottom() - bdItem->height()));
+                if (moveInBand && dynamic_cast<BandDesignIntf*>(bdItem->parent())){
+                   bdItem->setPos(QPointF(bdItem->pos().x(), dynamic_cast<BandDesignIntf*>(bdItem->parent())->height() - bdItem->height()));
+                } else {
+                    qreal y = m_firstSelectedItem->geometry().bottom() - bdItem->height();
+                    bdItem->setPos(QPointF(bdItem->pos().x(), y+1));
+                }
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
                 cm->addCommand(command, false);
             }
@@ -1547,11 +1593,17 @@ void PageDesignIntf::alignToHCenter()
 {
     if ((selectedItems().count() > 0) && m_firstSelectedItem) {
         CommandGroup::Ptr cm = CommandGroup::create();
+        bool moveInBand = selectionContainsBand();
         foreach(QGraphicsItem * item, selectedItems()) {
             BaseDesignIntf *bdItem = dynamic_cast<BaseDesignIntf *>(item);
-            if (bdItem && !bdItem->isGeometryLocked()) {
+            if (bdItem && !bdItem->isGeometryLocked() && !bdItem->isBand()) {
                 QRectF oldGeometry = bdItem->geometry();
-                bdItem->setPos(QPoint(bdItem->pos().x(), (m_firstSelectedItem->geometry().bottom() - m_firstSelectedItem->height() / 2) - bdItem->height() / 2));
+                if (moveInBand && dynamic_cast<BandDesignIntf*>(bdItem->parent())){
+                    bdItem->setPos(QPointF(bdItem->pos().x(), (dynamic_cast<BandDesignIntf*>(bdItem->parent())->height() / 2) - bdItem->height() / 2));
+                } else {
+                    qreal y = (m_firstSelectedItem->geometry().bottom() - m_firstSelectedItem->height() / 2) - bdItem->height() / 2;
+                    bdItem->setPos(QPointF(bdItem->pos().x(), y+1));
+                }
                 CommandIf::Ptr command = PropertyChangedCommand::create(this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
                 cm->addCommand(command, false);
             }
@@ -2135,7 +2187,7 @@ bool PosChangedCommand::doIt()
         if (reportItem && (reportItem->pos() != m_newPos[i].pos)){
             QPointF oldValue = reportItem->pos();
             reportItem->setPos(m_newPos[i].pos);
-            emit reportItem->posChanged(reportItem, oldValue, reportItem->pos());
+            reportItem->emitPosChanged(oldValue, reportItem->pos());
         }
     }
 

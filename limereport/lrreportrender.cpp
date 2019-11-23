@@ -189,10 +189,45 @@ void ReportRender::initDatasource(const QString& name){
     }
 }
 
-void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool isFirst, bool resetPageNumbers)
+void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
+    if (contentItem){
+        QString content = contentItem->content();
+        QVector<QString> functions;
+        foreach(const QString &functionName, m_datasources->groupFunctionNames()){
+            QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            rx.setMinimal(true);
+            if (rx.indexIn(content)>=0){
+                functions.append(functionName);
+            }
+        }
+        if (functions.size()>0)
+            m_groupfunctionItems.insert(contentItem->patternName(), functions);
+    }
+}
+
+void ReportRender::analizeContainer(BaseDesignIntf* item, BandDesignIntf* band){
+    foreach(BaseDesignIntf* child, item->childBaseItems()){
+        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(child);
+        if (contentItem) analizeItem(contentItem, band);
+        else analizeContainer(child, band);
+    }
+}
+
+void ReportRender::analizePage(PageItemDesignIntf* patternPage){
+    m_groupfunctionItems.clear();
+    foreach(BandDesignIntf* band, patternPage->bands()){
+        if (band->isFooter() || band->isHeader()){
+            analizeContainer(band,band);
+        }
+    }
+}
+
+void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool /*isFirst*/, bool /*resetPageNumbers*/)
 {
     m_currentNameIndex = 0;
     m_patternPageItem = patternPage;
+
+    analizePage(patternPage);
 
     if (m_patternPageItem->resetPageNumber() && m_pageCount>0 && !isTOC) {
         resetPageNumber(PageReset);
@@ -380,33 +415,34 @@ void ReportRender::extractGroupFunctions(BandDesignIntf *band)
     extractGroupFunctionsFromContainer(band, band);
 }
 
-
 void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
     if (contentItem){
-        QString content = contentItem->content();
-        foreach(const QString &functionName, m_datasources->groupFunctionNames()){
-            QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
-            rx.setMinimal(true);
-            if (rx.indexIn(content)>=0){
-                int pos = 0;
-                while ( (pos = rx.indexIn(content,pos))!= -1 ){
-                    QVector<QString> captures = normalizeCaptures(rx);
-                    if (captures.size() >= 3){
-                        QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
-                        if (captures.size()<5){
-                            content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
-                        } else {
-                            content.replace(captures.at(0),QString("%1(%2,%3,%4)")
-                                            .arg(functionName)
-                                            .arg('"'+expressionIndex+'"')
-                                            .arg('"'+band->objectName()+'"')
-                                            .arg(captures.at(4)));
+        if (m_groupfunctionItems.contains(contentItem->patternName())){
+            QString content = contentItem->content();
+            foreach(QString functionName, m_groupfunctionItems.value(contentItem->patternName())){
+                QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+                rx.setMinimal(true);
+                if (rx.indexIn(content)>=0){
+                    int pos = 0;
+                    while ( (pos = rx.indexIn(content,pos))!= -1 ){
+                        QVector<QString> captures = normalizeCaptures(rx);
+                        if (captures.size() >= 3){
+                            QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
+                            if (captures.size()<5){
+                                content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                            } else {
+                                content.replace(captures.at(0),QString("%1(%2,%3,%4)")
+                                                .arg(functionName)
+                                                .arg('"'+expressionIndex+'"')
+                                                .arg('"'+band->objectName()+'"')
+                                                .arg(captures.at(4)));
+                            }
                         }
+                        pos += rx.matchedLength();
                     }
-                    pos += rx.matchedLength();
                 }
-                contentItem->setContent(content);
             }
+            contentItem->setContent(content);
         }
     }
 }

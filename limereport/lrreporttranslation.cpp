@@ -32,6 +32,7 @@ ReportTranslation::~ReportTranslation()
 PageTranslation* ReportTranslation::createPageTranslation(PageDesignIntf* page)
 {
     PageTranslation* pageTranslation = new PageTranslation;
+    pageTranslation->checked = true;
     pageTranslation->pageName = page->pageItem()->objectName();
     foreach(BaseDesignIntf* item, page->pageItem()->allChildBaseItems()){
         createItemTranslation(item, pageTranslation);
@@ -43,6 +44,7 @@ void ReportTranslation::createItemTranslation(BaseDesignIntf* item, PageTranslat
     QMap<QString,QString> stringsForTranslation = item->getStringForTranslation();
     if (!stringsForTranslation.isEmpty()){
         ItemTranslation* itemTranslation = new ItemTranslation;
+        itemTranslation->checked = true;
         itemTranslation->itemName = item->objectName();
         foreach(QString propertyName, stringsForTranslation.keys()){
             PropertyTranslation* propertyTranslation = new PropertyTranslation;
@@ -57,14 +59,40 @@ void ReportTranslation::createItemTranslation(BaseDesignIntf* item, PageTranslat
     }
 }
 
-PageTranslation* ReportTranslation::findPageTranslation(const QString& page_name)
+PageTranslation* ReportTranslation::findPageTranslation(const QString& pageName)
 {
     foreach(PageTranslation* page, m_pagesTranslation){
-        if (page->pageName.compare(page_name) == 0){
+        if (page->pageName.compare(pageName) == 0){
             return page;
         }
     }
     return 0;
+}
+
+void ReportTranslation::renamePage(const QString &oldName, const QString &newName)
+{
+    PageTranslation* page = findPageTranslation(oldName);
+    if (page){
+        page->pageName = newName;
+    }
+}
+
+void ReportTranslation::invalidatePages()
+{
+    foreach(PageTranslation* page, m_pagesTranslation){
+        page->checked = false;
+    }
+}
+
+void ReportTranslation::clearInvalidPages()
+{
+    QList<PageTranslation*>::Iterator it = m_pagesTranslation.begin();
+    while (it != m_pagesTranslation.end()){
+        if (!(*it)->checked){
+            delete *it;
+            it = m_pagesTranslation.erase(it);
+        } else ++it;
+    }
 }
 
 void ReportTranslation::updatePageTranslation(PageDesignIntf* page)
@@ -75,6 +103,10 @@ void ReportTranslation::updatePageTranslation(PageDesignIntf* page)
        m_pagesTranslation.append(pageTranslation);
     }
     if (pageTranslation){
+        pageTranslation->checked = true;
+        foreach(ItemTranslation* item, pageTranslation->itemsTranslation){
+            item->checked = false;
+        }
         foreach(BaseDesignIntf* item, page->pageItem()->allChildBaseItems()){
             QMap<QString,QString> stringsForTranslation = item->getStringForTranslation();
             if (!stringsForTranslation.isEmpty()){
@@ -90,15 +122,23 @@ void ReportTranslation::updatePageTranslation(PageDesignIntf* page)
                         propertyTranslation->sourceValue = stringsForTranslation.value(propertyName);
                         if (!translated) propertyTranslation->value = propertyTranslation->sourceValue;
                     }
+                    itemTranslation->checked = true;
                 } else {
                    createItemTranslation(item, pageTranslation);
                 }
             }
         }
+        QHash<QString, ItemTranslation*>::Iterator it = pageTranslation->itemsTranslation.begin();
+        while( it != pageTranslation->itemsTranslation.end()){
+            if (!it.value()->checked) {
+                delete it.value();
+                it = pageTranslation->itemsTranslation.erase(it);
+            } else ++it;
+        }
     }
 }
 
-QList<PageTranslation*> ReportTranslation::pagesTranslation() const
+QList<PageTranslation*>& ReportTranslation::pagesTranslation()
 {
     return m_pagesTranslation;
 }
@@ -136,6 +176,16 @@ PageTranslation::~PageTranslation()
 {
     foreach(ItemTranslation* item, itemsTranslation){
         delete item;
+    }
+}
+
+void PageTranslation::renameItem(const QString &oldName, const QString &newName)
+{
+    ItemTranslation* item = itemsTranslation.value(oldName);
+    if (item){
+        itemsTranslation.remove(oldName);
+        item->itemName = newName;
+        itemsTranslation[newName] = item;
     }
 }
 

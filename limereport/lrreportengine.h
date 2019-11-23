@@ -164,6 +164,7 @@ public:
     void    designReport();
     ReportDesignWindowInterface* getDesignerWindow();
     void    setShowProgressDialog(bool value);
+    bool    isShowProgressDialog();
     IDataSourceManager* dataManager();
     IScriptEngineManager* scriptManager();
     bool    loadFromFile(const QString& fileName, bool autoLoadPreviewOnChange = false);
@@ -212,6 +213,11 @@ signals:
     void renderStarted();
     void renderFinished();
     void renderPageFinished(int renderedPageCount);
+
+    void printingStarted(int pageCount);
+    void printingFinished();
+    void pagePrintingFinished(int index);
+
     void onSave(bool& saved);
     void onSaveAs(bool& saved);
     void onLoad(bool& loaded);
@@ -228,6 +234,7 @@ signals:
 
 public slots:
     void cancelRender();
+    void cancelPrinting();
 protected:
     ReportEnginePrivate * const d_ptr;
     ReportEngine(ReportEnginePrivate &dd, QObject * parent=0);

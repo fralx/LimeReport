@@ -105,7 +105,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_OBJECT
     Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight )
     Q_PROPERTY(int bandIndex READ bandIndex WRITE setBandIndex DESIGNABLE false )
-    Q_PROPERTY(bool keepBottomSpace READ keepBottomSpaceOption WRITE setKeepBottomSpaceOption )
+    Q_PROPERTY(bool keepBottomSpace READ keepBottomSpace WRITE setKeepBottomSpace )
     Q_PROPERTY(bool keepTopSpace READ keepTopSpace WRITE setKeepTopSpace)
     Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -113,6 +113,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
     Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
     Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
+    Q_PROPERTY(int shiftItems READ shiftItems WRITE setShiftItems)
     Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
     friend class BandNameLabel;
@@ -142,6 +143,7 @@ public:
     ~BandDesignIntf();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QRectF boundingRect() const;
     void translateBandsName();
     virtual BandsType bandType() const;
     virtual QString bandTitle() const;
@@ -162,8 +164,8 @@ public:
     QString datasourceName();
     void setDataSourceName(const QString& datasourceName);
 
-    void setKeepBottomSpaceOption(bool value);
-    bool keepBottomSpaceOption() const {return m_keepBottomSpace;}
+    void setKeepBottomSpace(bool value);
+    bool keepBottomSpace() const {return m_keepBottomSpace;}
 
     bool keepTopSpace() const;
     void setKeepTopSpace(bool value);
@@ -260,6 +262,8 @@ public:
     int bootomSpace() const;
     void setBootomSpace(int bootomSpace);
     void updateBandMarkerGeometry();
+    int shiftItems() const;
+    void setShiftItems(int shiftItems);
 
 signals:
     void bandRendered(BandDesignIntf* band);
@@ -323,6 +327,7 @@ private:
     bool                        m_useAlternateBackgroundColor;
     int 						m_bottomSpace;
     QMap<QString,QVariant>      m_bookmarks;
+    int                         m_shiftItems;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

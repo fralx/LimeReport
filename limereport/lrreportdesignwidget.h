@@ -82,12 +82,12 @@ private:
 
 class PageView: public QGraphicsView{
 public:
-    PageView(QWidget *parent = nullptr): QGraphicsView(parent),
+    PageView(QWidget *parent = NULL): QGraphicsView(parent),
         m_horizontalRuller(0), m_verticalRuller(0)
     {
         setViewportMargins(20,20,0,0);
     }
-    PageView(QGraphicsScene *scene, QWidget *parent = nullptr):
+    PageView(QGraphicsScene *scene, QWidget *parent = NULL):
         QGraphicsView(scene, parent),
         m_horizontalRuller(0), m_verticalRuller(0)
     {
@@ -216,6 +216,7 @@ private slots:
     void slotCurrentTabChanged(int index);
     void slotReportLoaded();
     void slotScriptTextChanged();
+    void slotItemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void slotDialogChanged(QString);
     void slotDialogNameChanged(QString oldName, QString newName);
@@ -241,6 +242,7 @@ signals:
     void pageAdded(PageDesignIntf* page);
     void pageDeleted();
 protected:
+    PageView *createPageView(PageDesignIntf *page);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void createNewDialogTab(const QString& dialogName,const QByteArray& description);
 #endif
@@ -275,6 +277,7 @@ private:
     QMap<QString, QString> m_themes;
     QMap<QString, QString> m_localToEng;
     BaseDesignIntf::UnitType m_defaultUnits;
+
 };
 
 } // namespace LimeReport

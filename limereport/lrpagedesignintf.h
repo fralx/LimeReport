@@ -113,6 +113,7 @@ namespace LimeReport {
         PageItemDesignIntf *pageItem();
         void setPageItem(PageItemDesignIntf::Ptr pageItem);
         void setPageItems(QList<PageItemDesignIntf::Ptr> pages);
+        void removePageItem(PageItemDesignIntf::Ptr pageItem);
         QList<PageItemDesignIntf::Ptr> pageItems(){return m_reportPages;}
 
         bool isItemInsertMode();
@@ -218,6 +219,7 @@ namespace LimeReport {
                                  const QString& propertyName,
                                  const QVariant& oldValue,
                                  const QVariant& newValue);
+        void itemPropertyObjectNameChanged(const QString& oldName, const QString& newName);
         void itemAdded(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void itemRemoved(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf* item);
         void bandAdded(LimeReport::PageDesignIntf* page, LimeReport::BandDesignIntf* band);
@@ -281,6 +283,7 @@ namespace LimeReport {
         void changeSelectedGroupProperty(const QString& name,const QVariant& value);
         void activateItemToJoin(QRectF itemRect, QList<ItemProjections>& items);
         void selectAllChildren(BaseDesignIntf* item);
+        bool selectionContainsBand();
     private:
         enum JoinType{Width, Height};
         LimeReport::PageItemDesignIntf::Ptr m_pageItem;
@@ -321,6 +324,7 @@ namespace LimeReport {
         bool             m_magneticMovement;
         ReportSettings*  m_reportSettings;
         PageItemDesignIntf* m_currentPage;
+
     };
 
     class AbstractPageCommand : public CommandIf{

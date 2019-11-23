@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
             int index = m_customers->record().indexOf("CustomerID");
             m_orders->bindValue(":id",m_customers->value(index));
             m_orders->exec();
-        };
+        }
     }
 
     LimeReport::ICallbackDatasource * callbackDatasource = report->dataManager()->createCallbackDatasource("master");
@@ -156,18 +156,21 @@ void MainWindow::on_pushButton_2_clicked()
 //            printers.insert("default",printer);
 //            report->printReport(printers);
 //        }
+        report->setShowProgressDialog(true);
         report->previewReport();
     }
 }
 
 void MainWindow::renderStarted()
 {
-    m_currentPage = 0;
-    m_progressDialog = new QProgressDialog(tr("Start render"),tr("Cancel"),0,0,this);
-    m_progressDialog->setWindowModality(Qt::WindowModal);
-    connect(m_progressDialog, SIGNAL(canceled()), report, SLOT(cancelRender()));
-    m_progressDialog->show();
-    QApplication::processEvents();
+    if (report->isShowProgressDialog()){
+        m_currentPage = 0;
+        m_progressDialog = new QProgressDialog(tr("Start render"),tr("Cancel"),0,0,this);
+        //m_progressDialog->setWindowModality(Qt::WindowModal);
+        connect(m_progressDialog, SIGNAL(canceled()), report, SLOT(cancelRender()));
+        QApplication::processEvents();
+        m_progressDialog->show();
+    }
 }
 
 void MainWindow::renderPageFinished(int renderedPageCount)
