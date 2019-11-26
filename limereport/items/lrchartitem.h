@@ -196,7 +196,7 @@ protected:
     void updateItemSize(DataSourceManager *dataManager, RenderPass, int);
     void fillLabels(IDataSource* dataSource);
     QWidget* defaultEditor();
-
+    bool isNeedUpdateSize(RenderPass pass) const;
 private:
     QList<SeriesItem*> m_series;
 //    QList< QPointer<SeriesItem> > m_series;
