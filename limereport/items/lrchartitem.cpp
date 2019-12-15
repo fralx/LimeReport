@@ -249,6 +249,11 @@ QWidget *ChartItem::defaultEditor()
     return editor;
 }
 
+bool ChartItem::isNeedUpdateSize(RenderPass pass) const
+{
+    return  pass == FirstPass;
+}
+
 QList<QString> ChartItem::labels() const
 {
     return m_labels;

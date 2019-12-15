@@ -124,9 +124,9 @@ bool PreviewReportWidget::exportReport(QString exporterName, const QMap<QString,
     if (ExportersFactory::instance().map().contains(exporterName)){
 
         ReportExporterInterface* e = ExportersFactory::instance().objectCreator(exporterName)(d_ptr->m_report);
-
+        QString defaultFileName = d_ptr->m_report->reportName().split(".")[0];
         QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
-        QString fileName = QFileDialog::getSaveFileName(this,tr("%1 file name").arg(e->exporterName()),"",filter);
+        QString fileName = QFileDialog::getSaveFileName(this,tr("%1 file name").arg(e->exporterName()), defaultFileName, filter);
         if (!fileName.isEmpty()){
             QFileInfo fi(fileName);
             if (fi.suffix().isEmpty())

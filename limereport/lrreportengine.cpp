@@ -470,8 +470,9 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
     if (ExportersFactory::instance().map().contains(exporterName)){
         ReportExporterInterface* e = ExportersFactory::instance().objectCreator(exporterName)(this);
         if (fn.isEmpty()){
+            QString defaultFileName = reportName().split(".")[0];
             QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
-            QString fn = QFileDialog::getSaveFileName(0,tr("%1 file name").arg(e->exporterName()),"",filter);
+            QString fn = QFileDialog::getSaveFileName(0, tr("%1 file name").arg(e->exporterName()), defaultFileName, filter);
         }
         if (!fn.isEmpty()){
             QFileInfo fi(fn);
