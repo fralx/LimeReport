@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *   This file is part of the Lime Report project                          *
  *   Copyright (C) 2015 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
@@ -636,10 +636,23 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
             bandDatasource->next();
 
             datasources()->setReportVariable(varName,datasources()->variable(varName).toInt()+1);
-            foreach (BandDesignIntf* band, dataBand->childrenByType(BandDesignIntf::GroupHeader)){
-                QString groupLineVar = QLatin1String("line_")+band->objectName().toLower();
-                if (datasources()->containsVariable(groupLineVar))
-                    datasources()->setReportVariable(groupLineVar,datasources()->variable(groupLineVar).toInt()+1);
+
+            QList<BandDesignIntf *> bandList;
+            QList<BandDesignIntf *> childList;
+
+            bandList = dataBand->childrenByType(BandDesignIntf::GroupHeader);
+            while (bandList.size() > 0)
+            {
+                childList.clear();
+                foreach (BandDesignIntf* band, bandList)
+                {
+                    childList.append(band->childrenByType(BandDesignIntf::GroupHeader));
+
+                    QString groupLineVar = QLatin1String("line_")+band->objectName().toLower();
+                    if (datasources()->containsVariable(groupLineVar))
+                        datasources()->setReportVariable(groupLineVar,datasources()->variable(groupLineVar).toInt()+1);
+                }
+                bandList = childList;
             }
 
             renderGroupHeader(dataBand, bandDatasource, false);
