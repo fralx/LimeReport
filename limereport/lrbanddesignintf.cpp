@@ -1123,7 +1123,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (keepBottomSpace()) spaceBorder = bottomSpace();
     spaceBorder = spaceBorder > 0 ? spaceBorder : 0;
     if (borderLines() != 0){
-        spaceBorder += borderLineSize();
+        spaceBorder += borderLineSize() + 2;
     }
 
     spaceBorder += m_bottomSpace;
