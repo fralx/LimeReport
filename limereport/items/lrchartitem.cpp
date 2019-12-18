@@ -85,6 +85,8 @@ SeriesItem *SeriesItem::clone()
 
 void SeriesItem::fillSeriesData(IDataSource *dataSource)
 {
+    m_data.clear();
+
     if (dataSource){
         dataSource->first();
         int currentColorIndex = 0;
@@ -724,7 +726,7 @@ void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
     }
 
     barSeriesCount = (m_chartItem->itemMode()==DesignMode) ? seriesCount() : barSeriesCount;
-
+    if (barSeriesCount < 1) return;
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,false);
 
@@ -770,7 +772,7 @@ void VerticalBarChart::paintSerialLines(QPainter* painter, QRectF barsRect)
     qreal hStep = (barsRect.width() / valuesCount());
     qreal topShift = (delta - (maxValue()-minValue())) * vStep +barsRect.top();
 
-    if (!m_chartItem->series().isEmpty() && !m_chartItem->series().at(0)->data()->labels().isEmpty()){
+    if (!m_chartItem->series().isEmpty()){
         foreach (SeriesItem* series, m_chartItem->series()) {
             if (series->preferredType() == SeriesItem::Line){
                 QPen pen(series->color());
@@ -859,7 +861,7 @@ qreal AbstractSeriesChart::minValue()
 int AbstractSeriesChart::valuesCount()
 {
     if (m_chartItem->itemMode()==DesignMode) return 3;
-    return (m_chartItem->series().isEmpty())?(0):(m_chartItem->series().at(0)->data()->labels().count());
+    return (m_chartItem->series().isEmpty())?(0):(m_chartItem->series().at(0)->data()->values().count());
 }
 
 int AbstractSeriesChart::seriesCount()
