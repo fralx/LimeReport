@@ -1183,7 +1183,7 @@ void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
 void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
     if (!m_scriptEngineContext->tableOfContents()->isEmpty()){
-        for(int i=0; i<renderedPages.count(); ++i){
+        for(int i = 0; i < renderedPages.count(); ++i){
             PageItemDesignIntf::Ptr page = renderedPages.at(i);
             updateTOC(page.data(), m_pagesRanges.findPageNumber(i));
             foreach(BaseDesignIntf* item, page->childBaseItems()){
@@ -1192,12 +1192,13 @@ void ReportRender::secondRenderPass(ReportPages renderedPages)
         }
     }
 
-    for(int i=0; i<renderedPages.count(); ++i){
+    for(int i = 0; i < renderedPages.count(); ++i){
         PageItemDesignIntf::Ptr page = renderedPages.at(i);
         m_datasources->setReportVariable("#PAGE",m_pagesRanges.findPageNumber(i));
         m_datasources->setReportVariable("#PAGE_COUNT",m_pagesRanges.findLastPageNumber(i));
         foreach(BaseDesignIntf* item, page->childBaseItems()){
-            item->updateItemSize(m_datasources, SecondPass);
+            if (item->isNeedUpdateSize(SecondPass))
+                item->updateItemSize(m_datasources, SecondPass);
         }
     }
 }

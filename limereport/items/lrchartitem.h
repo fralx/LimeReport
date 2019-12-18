@@ -16,6 +16,7 @@ public:
     QList<qreal>& values(){ return m_values;}
     QList<QString>& labels(){ return m_labels;}
     QList<QColor>& colors() { return m_colors;}
+    void clear(){ m_values.clear(); m_labels.clear(); m_colors.clear(); }
 private:
     QList<qreal> m_values;
     QList<QString> m_labels;
@@ -189,7 +190,7 @@ protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     //ICollectionContainer
-    QObject* createElement(const QString& collectionName,const QString& elementType);
+    QObject* createElement(const QString& collectionName, const QString& elementType);
     int elementsCount(const QString& collectionName);
     QObject* elementAt(const QString& collectionName,int index);
     void collectionLoadFinished(const QString& collectionName){Q_UNUSED(collectionName)}    
@@ -199,7 +200,6 @@ protected:
     bool isNeedUpdateSize(RenderPass pass) const;
 private:
     QList<SeriesItem*> m_series;
-//    QList< QPointer<SeriesItem> > m_series;
     QString m_datasource;
     QPixmap m_chartImage;
     QString m_title;
