@@ -13,6 +13,8 @@
   #include <fcntl.h>
 #endif
 
+enum PrintType{ Printer, PDF, Display};
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -61,20 +63,29 @@ int main(int argc, char *argv[])
         }
     }
 
-    bool printToPDF = true;
+
+    PrintType printType = PDF;
+
     if (!parser.value(typeOption).isEmpty()){
-        printToPDF = !(parser.value(typeOption).compare("Printer",Qt::CaseInsensitive) == 0);
+        if (parser.value(typeOption).compare("Printer",Qt::CaseInsensitive) == 0)
+            printType = Printer;
+        if (parser.value(typeOption).compare("Display",Qt::CaseInsensitive) == 0)
+            printType = Display;
     }
 
-    if (printToPDF){
+
+    QPrinterInfo pi;
+    QPrinter printer;
+
+    switch(printType){
+    case PDF:
         if (parser.value(destinationOption).isEmpty()){
             report.printToPDF(QFileInfo(parser.value(sourceOption)).baseName());
         } else {
             report.printToPDF(parser.value(destinationOption));
         }
-    } else {
-        QPrinterInfo pi;
-        QPrinter printer;
+        break;
+    case Printer:
         if (parser.value(destinationOption).isEmpty()){
             if (!pi.defaultPrinterName().isEmpty()){
                 printer.setPrinterName(pi.defaultPrinterName());
@@ -86,7 +97,12 @@ int main(int argc, char *argv[])
             printer.setPrinterName(parser.value(destinationOption));
             report.printReport(&printer);
         }
+        break;
+    case Display:
+        report.previewReport();
+        break;
     }
+
 #else
     std::cerr<<"This demo intended for Qt 5.2 and higher\n";
 #endif
