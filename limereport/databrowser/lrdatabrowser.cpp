@@ -723,7 +723,8 @@ void DataBrowser::addDatasource(SQLEditResult result)
 
 void DataBrowser::activateItem(const QString& name, DataBrowserTree::NodeType type){
     QTreeWidgetItem* item = findByNameAndType(name, type);
-    item->treeWidget()->setCurrentItem(item);
+    if (item)
+        item->treeWidget()->setCurrentItem(item);
 }
 
 void DataBrowser::addConnectionDesc(ConnectionDesc *connection)
