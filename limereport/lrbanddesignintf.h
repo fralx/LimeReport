@@ -263,7 +263,8 @@ public:
     void setBootomSpace(int bootomSpace);
     void updateBandMarkerGeometry();
     int shiftItems() const;
-    void setShiftItems(int shiftItems);
+    void setShiftItems(int shiftItems);    
+    bool isNeedUpdateSize(RenderPass) const;
 
 signals:
     void bandRendered(BandDesignIntf* band);

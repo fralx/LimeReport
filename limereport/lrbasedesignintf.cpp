@@ -1569,7 +1569,7 @@ void BaseDesignIntf::objectLoadFinished()
 void BaseDesignIntf::parentObjectLoadFinished()
 {}
 
-QList<BaseDesignIntf *> BaseDesignIntf::childBaseItems()
+QList<BaseDesignIntf *> BaseDesignIntf::childBaseItems() const
 {
     QList<BaseDesignIntf *> resList;
     foreach(QGraphicsItem * item, childItems()) {

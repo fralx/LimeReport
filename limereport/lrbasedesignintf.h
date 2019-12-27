@@ -244,7 +244,7 @@ public:
     virtual void parentObjectLoadFinished();
     virtual void beforeDelete();
 
-    QList<BaseDesignIntf*> childBaseItems();
+    QList<BaseDesignIntf*> childBaseItems() const;
     QList<BaseDesignIntf*> allChildBaseItems();
     BaseDesignIntf* childByName(const QString& name);
 
