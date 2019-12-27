@@ -241,6 +241,13 @@ void BandDesignIntf::setBackgroundOpacity(int value)
     }
 }
 
+bool BandDesignIntf::isNeedUpdateSize(RenderPass pass) const{
+    foreach(BaseDesignIntf* item, childBaseItems()){
+        if (item->isNeedUpdateSize(pass)) return true;
+    }
+    return false;
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     prepareRect(painter, option, widget);
