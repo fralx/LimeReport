@@ -800,22 +800,36 @@ void VerticalBarChart::paintSerialLines(QPainter* painter, QRectF barsRect)
     painter->restore();
 }
 
-
-
 void VerticalBarChart::paintLabels(QPainter *painter, QRectF labelsRect)
 {
     painter->save();
     qreal hStep = (labelsRect.width() / valuesCount());
-
-    if (!m_chartItem->labels().isEmpty()){
-        painter->rotate(270);
-        painter->translate(-(labelsRect.top()+labelsRect.height()),labelsRect.left());
-        foreach (QString label, m_chartItem->labels()) {
-            painter->drawText(QRectF(QPoint(0,0),
-                                     QSize(labelsRect.height()-4,hStep)),Qt::AlignVCenter|Qt::AlignRight,label);
-            painter->translate(0,hStep);
+    bool rotateLabels = false;
+    QFontMetrics fm = painter->fontMetrics();
+    foreach(QString label, m_chartItem->labels()){
+        if (fm.width(label) > hStep){
+            rotateLabels = true;
+            break;
         }
-        painter->rotate(-270);
+    }
+    if (!m_chartItem->labels().isEmpty()){
+        if (rotateLabels){
+            painter->rotate(270);
+            painter->translate( -(labelsRect.top()+labelsRect.height()), labelsRect.left() );
+            foreach (QString label, m_chartItem->labels()) {
+                painter->drawText(QRectF(QPoint(0,0),
+                                         QSize(labelsRect.height()-4, hStep)), Qt::AlignVCenter | Qt::AlignRight, label);
+                painter->translate(0,hStep);
+            }
+            painter->rotate(-270);
+        } else {
+            painter->translate( labelsRect.left(), labelsRect.top() );
+            foreach (QString label, m_chartItem->labels()) {
+                painter->drawText(QRectF(QPoint(0, 4),
+                                         QSize(hStep, labelsRect.height()-4)), Qt::AlignHCenter | Qt::AlignTop, label);
+                painter->translate(hStep, 0);
+            }
+        }
     }
     painter->restore();
 }

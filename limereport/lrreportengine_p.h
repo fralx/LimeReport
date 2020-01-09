@@ -179,7 +179,7 @@ public:
     void    previewReport(QPrinter* printer, PreviewHints hints = PreviewBarsUserSetting);
 
     ReportDesignWindowInterface* getDesignerWindow();
-    void    designReport();
+    void    designReport(bool showModal);
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
     bool    isShowProgressDialog() const {return m_showProgressDialog;}
