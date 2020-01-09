@@ -738,7 +738,7 @@ QGraphicsScene* ReportEngine::createPreviewScene(QObject* parent){
     return d->createPreviewScene(parent);
 }
 
-void ReportEnginePrivate::designReport()
+void ReportEnginePrivate::designReport(bool showModal)
 {
     ReportDesignWindowInterface* designerWindow = getDesignerWindow();
     if (designerWindow){
@@ -747,7 +747,7 @@ void ReportEnginePrivate::designReport()
 #ifdef Q_OS_WIN    
         designerWindow->setWindowModality(Qt::ApplicationModal);
 #endif
-        if (QApplication::activeWindow()==0){
+        if (!showModal){
             designerWindow->show();;
         } else {
             designerWindow->showModal();
@@ -1373,7 +1373,7 @@ QString ReportEnginePrivate::lastError()
 }
 
 ReportEngine::ReportEngine(QObject *parent)
-    : QObject(parent), d_ptr(new ReportEnginePrivate())
+    : QObject(parent), d_ptr(new ReportEnginePrivate()), m_showDesignerModal(true)
 {
     Q_D(ReportEngine);
     d->q_ptr=this;
@@ -1469,7 +1469,7 @@ void ReportEngine::designReport()
     Q_D(ReportEngine);
     if (m_settings)
         d->setSettings(m_settings);
-    d->designReport();
+    d->designReport(showDesignerModal());
 }
 
 ReportDesignWindowInterface* ReportEngine::getDesignerWindow()
@@ -1760,7 +1760,7 @@ void ReportEngine::cancelPrinting()
 }
 
 ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
-    :QObject(parent),d_ptr(&dd)
+    :QObject(parent), d_ptr(&dd), m_showDesignerModal(true)
 {
     Q_D(ReportEngine);
     d->q_ptr=this;
@@ -1768,6 +1768,16 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
+}
+
+bool ReportEngine::showDesignerModal() const
+{
+    return m_showDesignerModal;
+}
+
+void ReportEngine::setShowDesignerModal(bool showDesignerModal)
+{
+    m_showDesignerModal = showDesignerModal;
 }
 
 ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
