@@ -208,6 +208,9 @@ public:
     bool showPreparedPages(PreviewHints hints = PreviewBarsUserSetting);
     bool prepareReportPages();
     bool printPreparedPages();
+    bool showDesignerModal() const;
+    void setShowDesignerModal(bool showDesignerModal);
+
 signals:
     void cleared();
     void renderStarted();
@@ -241,6 +244,7 @@ protected:
 private:
     Q_DECLARE_PRIVATE(ReportEngine)
     static QSettings* m_settings;
+    bool m_showDesignerModal;
 };
 
 } // namespace LimeReport

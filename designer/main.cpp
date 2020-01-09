@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     QObject::connect(&report, SIGNAL(currentDefaultDesignerLanguageChanged(QLocale::Language)),
                      &manager, SLOT(currentDefaultLanguageChanged(QLocale::Language)));
 
+    report.setShowDesignerModal(false);
     report.designReport();
     return a.exec();
 }
