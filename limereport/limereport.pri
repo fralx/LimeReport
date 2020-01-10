@@ -43,6 +43,12 @@ SOURCES += \
     $$REPORT_PATH/items/lrverticallayout.cpp \
     $$REPORT_PATH/items/lrlayoutmarker.cpp \
     $$REPORT_PATH/items/lrabstractlayout.cpp \
+    $$REPORT_PATH/items/lrchartitem.cpp \
+    $$REPORT_PATH/items/lrchartitemeditor.cpp \
+    $$REPORT_PATH/items/charts/lrhorizontalbarchart.cpp \
+    $$REPORT_PATH/items/charts/lrlineschart.cpp \
+    $$REPORT_PATH/items/charts/lrpiechart.cpp \
+    $$REPORT_PATH/items/charts/lrverticalbarchart.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
     $$REPORT_PATH/lrpageitemdesignintf.cpp \
     $$REPORT_PATH/lrpagedesignintf.cpp \
@@ -65,8 +71,6 @@ SOURCES += \
     $$REPORT_PATH/lrsettingdialog.cpp \
     $$REPORT_PATH/lritemscontainerdesignitf.cpp \
     $$REPORT_PATH/lrcolorindicator.cpp \
-    $$REPORT_PATH/items/lrchartitem.cpp \
-    $$REPORT_PATH/items/lrchartitemeditor.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp \
     $$REPORT_PATH/exporters/lrpdfexporter.cpp \
     $$REPORT_PATH/lrpreparedpages.cpp
@@ -104,6 +108,8 @@ HEADERS += \
     $$REPORT_PATH/scripteditor/lrscripthighlighter.h \
     $$REPORT_PATH/items/editors/lritemeditorwidget.h \
     $$REPORT_PATH/items/editors/lrfonteditorwidget.h \
+    $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.h \
+    $$REPORT_PATH/items/editors/lritemsborderseditorwidget.h \
     $$REPORT_PATH/items/lrtextitem.h \
     $$REPORT_PATH/items/lrhorizontallayout.h \
     $$REPORT_PATH/items/lrtextitemeditor.h \
@@ -114,6 +120,12 @@ HEADERS += \
     $$REPORT_PATH/items/lrverticallayout.h \
     $$REPORT_PATH/items/lrlayoutmarker.h \
     $$REPORT_PATH/items/lrabstractlayout.h \
+    $$REPORT_PATH/items/lrchartitem.h \
+    $$REPORT_PATH/items/lrchartitemeditor.h \
+    $$REPORT_PATH/items/charts/lrhorizontalbarchart.h \
+    $$REPORT_PATH/items/charts/lrlineschart.h \
+    $$REPORT_PATH/items/charts/lrpiechart.h \
+    $$REPORT_PATH/items/charts/lrverticalbarchart.h \
     $$REPORT_PATH/lrbanddesignintf.h \
     $$REPORT_PATH/lrpageitemdesignintf.h \
     $$REPORT_PATH/lrbandsmanager.h \
@@ -145,10 +157,6 @@ HEADERS += \
     $$REPORT_PATH/lrpreviewreportwidget_p.h \
     $$REPORT_PATH/lritemscontainerdesignitf.h \
     $$REPORT_PATH/lrcolorindicator.h \
-    $$REPORT_PATH/items/lrchartitem.h \
-    $$REPORT_PATH/items/lrchartitemeditor.h \
-    $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.h \
-    $$REPORT_PATH/items/editors/lritemsborderseditorwidget.h \
     $$REPORT_PATH/lrreporttranslation.h \
     $$REPORT_PATH/lrreportdesignwindowintrerface.h \
     $$REPORT_PATH/lrexporterintf.h \
@@ -156,7 +164,6 @@ HEADERS += \
     $$REPORT_PATH/exporters/lrpdfexporter.h \
     $$REPORT_PATH/lrpreparedpages.h \
     $$REPORT_PATH/lrpreparedpagesintf.h 
-
 
 contains(CONFIG, staticlib){
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
