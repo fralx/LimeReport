@@ -81,56 +81,34 @@ protected:
     qreal minValue();
     int valuesCount();
     int seriesCount();
+    bool verticalLabels(QPainter* painter, QRectF labelsRect);
     QSizeF calcChartLegendSize(const QFont &font);
     qreal* designValues(){ return m_designValues;}
+    virtual qreal hPadding(QRectF chartRect);
+    virtual qreal vPadding(QRectF chartRect);
+    virtual void paintHorizontalLabels(QPainter *painter, QRectF labelsRect);
+    virtual void paintVerticalLabels(QPainter *painter, QRectF labelsRect);
+    virtual void paintHorizontalGrid(QPainter *painter, QRectF gridRect);
+    virtual void paintVerticalGrid(QPainter *painter, QRectF gridRect);
+    virtual void drawSegment(QPainter *painter, QPoint startPoint, QPoint endPoint, QColor color);
+    virtual qreal valuesHMargin(QPainter *painter);
+    virtual qreal valuesVMargin(QPainter *painter);
+    virtual QFont adaptLabelsFont(QRectF rect, QFont font);
+    virtual QFont adaptValuesFont(qreal width, QFont font);
+
 private:
     qreal m_designValues [9];
 };
 
-class PieChart : public AbstractChart{
-public:
-    PieChart(ChartItem* chartItem):AbstractChart(chartItem){}
-    QSizeF calcChartLegendSize(const QFont &font);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintChartLegend(QPainter *painter, QRectF legendRect);
-protected:
-    void drawPercent(QPainter *painter, QRectF chartRect, qreal startAngle, qreal angle);
-};
+int genNextValue(int value);
 
 class AbstractBarChart: public AbstractSeriesChart{
 public:
     AbstractBarChart(ChartItem* chartItem):AbstractSeriesChart(chartItem){}
-    qreal hPadding(QRectF chartRect);
-    qreal vPadding(QRectF chartRect);
     void paintChartLegend(QPainter *painter, QRectF legendRect);
-};
-
-class HorizontalBarChart: public AbstractBarChart{
-public:
-    HorizontalBarChart(ChartItem* chartItem):AbstractBarChart(chartItem){}
-    qreal valuesHMargin(QPainter *painter);
-    qreal valuesVMargin(QPainter *painter);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintHorizontalGrid(QPainter *painter, QRectF gridRect);
-    void paintHorizontalBars(QPainter *painter, QRectF barsRect);
-    QRectF labelsRect(QPainter* painter, QRectF labelsRect);
-    void paintLabels(QPainter *painter, QRectF labelsRect);    
 protected:
-    QFont adaptLabelsFont(QRectF rect, QFont font);
-    QFont adaptValuesFont(qreal width, QFont font);
-};
-
-class VerticalBarChart: public AbstractBarChart{
-public:
-    VerticalBarChart(ChartItem* chartItem):AbstractBarChart(chartItem){}
-    qreal valuesHMargin(QPainter *painter);
-    qreal valuesVMargin(QPainter *painter);
-    QRectF labelsRect(QPainter* painter, QRectF labelsRect);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintVerticalGrid(QPainter *painter, QRectF gridRect);
-    void paintVerticalBars(QPainter *painter, QRectF barsRect);
-    void paintSerialLines(QPainter *painter, QRectF barsRect);
-    void paintLabels(QPainter *painter, QRectF labelsRect);
+    QRectF verticalLabelsRect(QPainter* painter, QRectF horizontalLabelsRect);
+    virtual QRectF horizontalLabelsRect(QPainter* painter, QRectF horizontalLabelsRect);
 };
 
 class ChartItem : public LimeReport::ItemDesignIntf
@@ -152,7 +130,7 @@ public:
 
     enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
-    enum ChartType{Pie, VerticalBar, HorizontalBar};
+    enum ChartType{Pie, VerticalBar, HorizontalBar, Lines};
 
     ChartItem(QObject* owner, QGraphicsItem* parent);
     ~ChartItem();
