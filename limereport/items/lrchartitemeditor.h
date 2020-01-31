@@ -25,6 +25,10 @@ public:
 protected:
     void resizeEvent(QResizeEvent *);
     void moveEvent(QMoveEvent *);
+
+signals:
+    void editingFinished();
+
 private slots:
     void on_splitter_splitterMoved(int, int);
     void on_pbOk_clicked();

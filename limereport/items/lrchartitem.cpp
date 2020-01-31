@@ -251,7 +251,7 @@ QWidget *ChartItem::defaultEditor()
     QSettings* l_settings = (page()->settings() != 0) ?
                                  page()->settings() :
                                  (page()->reportEditor()!=0) ? page()->reportEditor()->settings() : 0;
-    QWidget* editor = new ChartItemEditor(this,page(),l_settings);
+    QWidget* editor = new ChartItemEditor(this, page(), l_settings);
     editor->setAttribute(Qt::WA_DeleteOnClose);
     return editor;
 }
