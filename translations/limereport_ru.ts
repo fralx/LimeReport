@@ -16,7 +16,7 @@
     </message>
     <message>
         <source>Series</source>
-        <translation>Ряд</translation>
+        <translation>Ряды данных</translation>
     </message>
     <message>
         <source>Add</source>
@@ -1952,7 +1952,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>series</source>
-        <translation>Ряд данных</translation>
+        <translation>Ряды данных</translation>
     </message>
     <message>
         <source>titleAlign</source>
@@ -3224,6 +3224,18 @@ This preview is no longer valid.</source>
     <message>
         <source>&apos;&apos;</source>
         <translation>&apos;&apos;</translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation>Изображение</translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation>Ряды данных</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation>Ряды данных</translation>
     </message>
 </context>
 </TS>
