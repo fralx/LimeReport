@@ -117,7 +117,7 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_ENUMS(LegendAlign)
     Q_ENUMS(TitleAlign)
     Q_ENUMS(ChartType)
-    Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader WRITE setSeries)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
     Q_PROPERTY(bool drawLegendBorder READ drawLegendBorder WRITE setDrawLegendBorder)
@@ -163,6 +163,7 @@ public:
 
     QList<QString> labels() const;
     void setLabels(const QList<QString> &labels);
+    QWidget* defaultEditor();
 
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
@@ -173,9 +174,9 @@ protected:
     QObject* elementAt(const QString& collectionName,int index);
     void collectionLoadFinished(const QString& collectionName){Q_UNUSED(collectionName)}    
     void updateItemSize(DataSourceManager *dataManager, RenderPass, int);
-    void fillLabels(IDataSource* dataSource);
-    QWidget* defaultEditor();
+    void fillLabels(IDataSource* dataSource);    
     bool isNeedUpdateSize(RenderPass pass) const;
+    void setSeries(ACollectionProperty series){Q_UNUSED(series)}
 private:
     QList<SeriesItem*> m_series;
     QString m_datasource;
