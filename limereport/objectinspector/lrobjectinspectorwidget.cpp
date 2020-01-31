@@ -95,13 +95,17 @@ void ObjectInspectorTreeView::mousePressEvent(QMouseEvent *event)
     if ((event->button()==Qt::LeftButton)){
         QModelIndex index=indexAt(event->pos());
         if (index.isValid()){
-            if (event->pos().x()<indentation()) {
+            if (event->pos().x() < indentation()) {
                 if (!nodeFromIndex(index)->isHaveValue())
                     setExpanded(index,!isExpanded(index));
             } else {
                 if ((index.column()==1)&&(!nodeFromIndex(index)->isHaveChildren())) {
                     setCurrentIndex(index);
-                    edit(index);
+
+                    Qt::ItemFlags flags = index.model()->flags(index);
+                    if ( !(((flags & Qt::ItemIsEditable) == 0) || ((flags & Qt::ItemIsEnabled) == 0)) )
+                        edit(index);
+
                     return ;
                 }
             }
