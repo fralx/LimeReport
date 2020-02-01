@@ -316,18 +316,17 @@ void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printe
         if (    !m_cancelPrinting &&
                 ((printer.printRange() == QPrinter::AllPages) ||
                 (   (printer.printRange()==QPrinter::PageRange) &&
-                    (currenPage>=printer.fromPage()) &&
-                    (currenPage<=printer.toPage())
+                    (currenPage >= printer.fromPage()) &&
+                    (currenPage <= printer.toPage())
                 ))
            )
         {
               printProcessors["default"]->printPage(page);
-              currenPage++;
               emit pagePrintingFinished(currenPage);
               QApplication::processEvents();
         }
 
-
+        currenPage++;
     }
     emit printingFinished();
 }
