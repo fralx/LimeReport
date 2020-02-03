@@ -1264,7 +1264,9 @@ void ReportDesignWindow::slotPrintReport()
 
 void ReportDesignWindow::slotPreviewReport()
 {
+    m_previewReportAction->setDisabled(true);
     m_reportDesignWidget->previewReport();
+    m_previewReportAction->setDisabled(false);
 }
 
 void ReportDesignWindow::slotItemActionCliked()
