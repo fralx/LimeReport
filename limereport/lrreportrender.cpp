@@ -261,11 +261,11 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     renderReportHeader(m_patternPageItem, AfterPageHeader);
 
     BandDesignIntf* lastRenderedBand = 0;
-    for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
+    for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled; i++){
         lastRenderedBand = m_patternPageItem->dataBandAt(i);
         initDatasource(lastRenderedBand->datasourceName());
         renderDataBand(lastRenderedBand);
-        if (i<m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
+        if (i < m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
     }
 
     if (reportFooter)
@@ -475,7 +475,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (bandData){
            bandClone = bandData;
         } else {
-            bandClone=renderData(patternBand);
+            bandClone = renderData(patternBand);
         }
 
         if (isLast) bandClone->setBootomSpace(1);
@@ -543,8 +543,10 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 savePage();
                                 startNewPage();
                                 if (!bandIsSliced){
+                                    BandDesignIntf* t = renderData(patternBand);
+                                    t->copyBookmarks(bandClone);
                                     delete bandClone;
-                                    bandClone = renderData(patternBand);
+                                    bandClone = t;
                                 }
                             }
                             if (!registerBand(bandClone)) {

@@ -468,7 +468,7 @@ public:
     QVariant getBookMark(const QString& key);
     void copyBookmarks(BookmarkContainerDesignIntf* source);
 private:
-    QMap<QString,QVariant>  m_bookmarks;
+    QHash<QString,QVariant>  m_bookmarks;
 };
 
 } //namespace LimeReport
