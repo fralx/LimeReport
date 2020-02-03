@@ -722,6 +722,7 @@ void ReportDesignWidget::initThemeIfExist(const QString &themeName, const QStrin
 
 void ReportDesignWidget::previewReport()
 {
+    if (report()->isBusy()) return;
     prepareReport();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();
@@ -734,6 +735,7 @@ void ReportDesignWidget::previewReport()
 
 void ReportDesignWidget::printReport()
 {
+    if (report()->isBusy()) return;
     prepareReport();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     updateDialogs();

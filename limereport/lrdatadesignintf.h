@@ -410,8 +410,8 @@ private:
 class CallbackDatasource :public ICallbackDatasource, public IDataSource {
     Q_OBJECT
 public:
-    CallbackDatasource(): m_currentRow(-1), m_eof(false), m_columnCount(-1),
-        m_rowCount(-1), m_getDataFromCache(false){}
+    CallbackDatasource():  m_currentRow(-1), m_eof(false), m_columnCount(-1),
+                           m_rowCount(-1), m_getDataFromCache(false), m_lastKeyRow(0){}
     bool next();
     bool hasNext(){ if (!m_eof) return checkNextRecord(m_currentRow); else return false;}
     bool prior();
@@ -431,6 +431,7 @@ public:
 private:
     bool checkNextRecord(int recordNum);
     bool checkIfEmpty();
+    QVariant callbackData(const QString& columnName, int row);
 private:
     QVector<QString> m_headers;
     int m_currentRow;
@@ -439,7 +440,7 @@ private:
     int m_rowCount;
     QHash<QString, QVariant> m_valuesCache;
     bool m_getDataFromCache;
-    QVariant callbackData(const QString& columnName, int row);
+    int m_lastKeyRow;
 };
 
 class CallbackDatasourceHolder :public QObject, public IDataSourceHolder{
