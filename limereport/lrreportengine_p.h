@@ -311,6 +311,7 @@ private:
     void initReport();
     void paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options);
     void dropChanges(){ m_datasources->dropChanges(); m_scriptEngineContext->dropChanges();}
+    void clearRenderingPages();
 private:
     QList<PageDesignIntf*> m_pages;
     QList<PageItemDesignIntf*> m_renderingPages;
