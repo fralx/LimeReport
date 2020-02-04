@@ -60,14 +60,18 @@ QScriptValue constructColor(QScriptContext *context, QScriptEngine *engine)
 
 namespace LimeReport{
 
+ScriptEngineNode::ScriptEngineNode(const QString &name, const QString &description,
+                                   ScriptEngineNode::NodeType type, ScriptEngineNode *parent, const QIcon &icon)
+    :m_name(name), m_description(description), m_icon(icon), m_type(type), m_parent(parent)
+{}
+
 ScriptEngineNode::~ScriptEngineNode()
 {
-    for (int i = 0; i<m_childs.count(); ++i){
-        delete m_childs[i];
-    }
+    qDeleteAll(m_childs.begin(), m_childs.end());
 }
 
-ScriptEngineNode*ScriptEngineNode::addChild(const QString& name, const QString& description,  ScriptEngineNode::NodeType type, const QIcon& icon)
+ScriptEngineNode*ScriptEngineNode::addChild(const QString& name, const QString& description,
+                                             ScriptEngineNode::NodeType type, const QIcon& icon)
 {
     ScriptEngineNode* res = new ScriptEngineNode(name, description, type,this,icon);
     m_childs.push_back(res);
@@ -213,26 +217,23 @@ ScriptEngineManager::~ScriptEngineManager()
 
 bool ScriptEngineManager::isFunctionExists(const QString &functionName) const
 {
-    foreach (ScriptFunctionDesc desc, m_functions) {
-        if (desc.name.compare(functionName,Qt::CaseInsensitive)==0){
-            return true;
-        }
-    }
-    return false;
+    return m_functions.contains(functionName);
+//    foreach (ScriptFunctionDesc desc, m_functions.values()) {
+//        if (desc.name.compare(functionName,Qt::CaseInsensitive)==0){
+//            return true;
+//        }
+//    }
+//    return false;
 }
 
 void ScriptEngineManager::deleteFunction(const QString &functionsName)
 {
-    QMutableListIterator<ScriptFunctionDesc> it(m_functions);
-    while(it.hasNext()){
-        if (it.next().name.compare(functionsName, Qt::CaseInsensitive)==0){
-            it.remove();
-        }
-    }
+    m_functions.remove(functionsName);
 }
 
 bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
 {
+    if (m_functions.contains(functionDescriber.name())) return false;
     ScriptValueType functionManager = scriptEngine()->globalObject().property(functionDescriber.managerName());
 #ifdef USE_QJSENGINE
     if (functionManager.isUndefined()){
@@ -254,7 +255,7 @@ bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
             funct.description = functionDescriber.description();
             funct.category = functionDescriber.category();
             funct.type = ScriptFunctionDesc::Native;
-            m_functions.append(funct);
+            m_functions.insert(funct.name, funct);
             if (m_model)
                 m_model->updateModel();
             return true;
@@ -267,15 +268,6 @@ bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
         return false;
     }
 
-}
-
-bool ScriptEngineManager::containsFunction(const QString& functionName){
-    foreach (ScriptFunctionDesc funct, m_functions) {
-        if (funct.name.compare(functionName)== 0){
-            return true;
-        }
-    }
-    return false;
 }
 
 #ifdef USE_QTSCRIPTENGINE
@@ -317,7 +309,7 @@ bool ScriptEngineManager::addFunction(const QString& name, const QString& script
         funct.category = category;
         funct.description = description;
         funct.type = ScriptFunctionDesc::Script;
-        m_functions.append(funct);
+        m_functions.insert(name, funct);
         m_model->updateModel();        
         return true;
     } else {
@@ -328,16 +320,17 @@ bool ScriptEngineManager::addFunction(const QString& name, const QString& script
 
 QStringList ScriptEngineManager::functionsNames()
 {
-    QStringList res;
-    foreach(ScriptFunctionDesc func, m_functions){
-        res<<func.name;
-    }
-    return res;
+    return m_functions.keys();
+//    QStringList res;
+//    foreach(ScriptFunctionDesc func, m_functions){
+//        res<<func.name;
+//    }
+//    return res;
 }
 
 void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
     if (dataManager && m_dataManager != dataManager){
-        m_dataManager =  dataManager;
+        m_dataManager = dataManager;
         if (m_dataManager){
             foreach(QString func, m_dataManager->groupFunctionNames()){
                 JSFunctionDesc describer(
