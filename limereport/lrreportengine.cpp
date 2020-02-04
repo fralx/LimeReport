@@ -1254,6 +1254,11 @@ BaseDesignIntf* ReportEnginePrivate::createWatermark(PageDesignIntf* page, Water
 
 }
 
+void ReportEnginePrivate::clearRenderingPages(){
+    qDeleteAll(m_renderingPages.begin(), m_renderingPages.end());
+    m_renderingPages.clear();
+}
+
 ReportPages ReportEnginePrivate::renderToPages()
 {
     int startTOCPage = -1;
@@ -1275,7 +1280,7 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRendering = true;
         m_reportRender->setDatasources(dataManager());
         m_reportRender->setScriptContext(scriptContext());
-        m_renderingPages.clear();
+        clearRenderingPages();
         foreach (PageDesignIntf* page, m_pages) {
 
             QVector<BaseDesignIntf*> watermarks;
@@ -1349,14 +1354,10 @@ ReportPages ReportEnginePrivate::renderToPages()
 
             emit renderFinished();
             m_reportRender.clear();
-
-            //foreach(PageItemDesignIntf* page, m_renderingPages){
-            //    delete page;
-            //}
-            m_renderingPages.clear();
+            clearRenderingPages();
         }
         m_reportRendering = false;
-        //activateLanguage(QLocale::AnyLanguage);
+
 #ifdef USE_QTSCRIPTENGINE
     ScriptEngineManager::instance().scriptEngine()->popContext();
 #endif
