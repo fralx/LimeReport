@@ -279,19 +279,19 @@ bool ScriptEngineManager::addFunction(const QString& name,
                                               const QString& category,
                                               const QString& description)
 {
-    if (!containsFunction(name)){
+    if (!isFunctionExists(name)){
         ScriptFunctionDesc funct;
         funct.name = name;
         funct.description = description;
         funct.category = category;
         funct.scriptValue = scriptEngine()->newFunction(function);
-        funct.scriptValue.setProperty("functionName",name);
+        funct.scriptValue.setProperty("functionName", name);
         funct.scriptValue.setData(m_scriptEngine->toScriptValue(this));
         funct.type = ScriptFunctionDesc::Native;
-        m_functions.append(funct);
+        m_functions.insert(name, funct);
         if (m_model)
             m_model->updateModel();
-        m_scriptEngine->globalObject().setProperty(funct.name,funct.scriptValue);
+        m_scriptEngine->globalObject().setProperty(funct.name, funct.scriptValue);
         return true;
     } else {
         return false;
