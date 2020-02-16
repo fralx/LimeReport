@@ -587,8 +587,7 @@ void ScriptEngineManager::clearTableOfContents(){
 }
 
 ScriptValueType ScriptEngineManager::moveQObjectToScript(QObject* object, const QString objectName)
-{
-
+{    
     ScriptValueType obj = scriptEngine()->globalObject().property(objectName);
     if (!obj.isNull()) delete obj.toQObject();
     ScriptValueType result = scriptEngine()->newQObject(object);
@@ -1934,7 +1933,7 @@ bool DatasourceFunctions::invalidate(const QString& datasourceName)
     return false;
 }
 
-QObject* DatasourceFunctions::createTableBuilder(BaseDesignIntf* horizontalLayout)
+QObject* DatasourceFunctions::createTableBuilder(QObject* horizontalLayout)
 {
     return new TableBuilder(dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout), dynamic_cast<DataSourceManager*>(m_dataManager));
 }
@@ -1987,14 +1986,16 @@ void TableBuilder::buildTable(const QString& datasourceName)
 {
     checkBaseLayout();
     m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
-    m_dataManager->dataSource(datasourceName)->first();
-    bool firstTime = true;
-    QObject* row = m_horizontalLayout;
-    while(!m_dataManager->dataSource(datasourceName)->eof()){
-        if (!firstTime) row =  addRow();
-        else firstTime = false;
-        fillInRowData(row);
-        m_dataManager->dataSource(datasourceName)->next();
+    IDataSource* ds = m_dataManager->dataSource(datasourceName);
+    if (ds){
+        bool firstTime = true;
+        QObject* row = m_horizontalLayout;
+        while(!ds->eof()){
+            if (!firstTime) row = addRow();
+            else firstTime = false;
+            fillInRowData(row);
+            ds->next();
+        }
     }
 }
 
