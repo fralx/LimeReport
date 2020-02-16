@@ -338,7 +338,7 @@ public:
     Q_INVOKABLE bool prior(const QString& datasourceName);
     Q_INVOKABLE bool isEOF(const QString& datasourceName);
     Q_INVOKABLE bool invalidate(const QString& datasourceName);
-    Q_INVOKABLE QObject *createTableBuilder(BaseDesignIntf* horizontalLayout);
+    Q_INVOKABLE QObject *createTableBuilder(QObject *horizontalLayout);
 private:
     IDataSourceManager* m_dataManager;
 };
