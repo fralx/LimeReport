@@ -117,6 +117,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_ENUMS(BandColumnsLayoutType)
     friend class BandMarker;
     friend class BandNameLabel;
+    friend class ReportRender;
 public:
 
     enum BandsType {
