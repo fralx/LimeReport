@@ -30,9 +30,9 @@ class SeriesItem : public QObject{
     Q_PROPERTY(QString labelsColumn READ labelsColumn WRITE setLabelsColumn )
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(SeriesItemPreferredType preferredType READ preferredType WRITE setPreferredType)
-    Q_ENUMS(SeriesItemPreferredType)
 public:
     enum SeriesItemPreferredType {Bar, Line};
+    Q_ENUM(SeriesItemPreferredType)
     SeriesItem(QObject* parent = 0) : QObject(parent), m_preferredType(Bar){}
     QString name() const;
     void setName(const QString &name);
@@ -114,9 +114,6 @@ protected:
 class ChartItem : public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
-    Q_ENUMS(LegendAlign)
-    Q_ENUMS(TitleAlign)
-    Q_ENUMS(ChartType)
     Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader WRITE setSeries)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
@@ -129,8 +126,11 @@ class ChartItem : public LimeReport::ItemDesignIntf
 public:
 
     enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
+    Q_ENUM(LegendAlign)
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
+    Q_ENUM(TitleAlign)
     enum ChartType{Pie, VerticalBar, HorizontalBar, Lines};
+    Q_ENUM(ChartType)
 
     ChartItem(QObject* owner, QGraphicsItem* parent);
     ~ChartItem();

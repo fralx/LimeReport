@@ -8,11 +8,11 @@ namespace LimeReport{
 class AbstractLayout: public LayoutDesignIntf
 {
     Q_OBJECT
-    Q_ENUMS(LayoutType)
     Q_PROPERTY(bool hideEmptyItems READ hideEmptyItems WRITE setHideEmptyItems)
     Q_PROPERTY(int layoutSpacing READ layoutSpacing WRITE setLayoutSpacing)
 public:
     enum LayoutType{Layout,Table};
+    Q_ENUM(LayoutType)
     AbstractLayout(QString xmlTag, QObject *owner = 0, QGraphicsItem *parent = 0);
     ~AbstractLayout();
     QList<BaseDesignIntf*>& layoutsChildren();

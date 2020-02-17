@@ -35,9 +35,6 @@ namespace LimeReport{
 
 class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_OBJECT
-    Q_ENUMS(BarcodeType)
-    Q_ENUMS(AngleType)
-    Q_ENUMS(InputMode)
     Q_PROPERTY(QString content READ content WRITE setContent)
     Q_PROPERTY(BarcodeType barcodeType READ barcodeType WRITE setBarcodeType )
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
@@ -144,7 +141,9 @@ public:
         UPNQR           =143
 
     };
+    Q_ENUM(BarcodeType)
     enum AngleType{Angle0,Angle90,Angle180,Angle270};
+    Q_ENUM(AngleType)
     enum InputMode{
         DATA_INPUT_MODE     = 0,
         UNICODE_INPUT_MODE  = 1,
@@ -152,6 +151,7 @@ public:
         KANJI_INPUT_MODE    = 3,
         SJIS_INPUT_MODE     = 4
     };
+    Q_ENUM(InputMode)
     BarcodeItem(QObject *owner, QGraphicsItem *parent);
     ~BarcodeItem();
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);

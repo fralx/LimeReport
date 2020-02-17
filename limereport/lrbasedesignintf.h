@@ -84,12 +84,7 @@ class  BaseDesignIntf :
         public QObject, public QGraphicsItem, public ICollectionContainer, public ObjectLoadingStateIntf {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
-    Q_ENUMS(BGMode)
-    Q_ENUMS(Qt::BrushStyle)
-    Q_ENUMS(BrushStyle)
-    Q_ENUMS(ItemAlign)
     Q_FLAGS(BorderLines)
-    Q_ENUMS(UnitType)
     Q_PROPERTY(QRect geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
     Q_PROPERTY(ACollectionProperty children READ fakeCollectionReader DESIGNABLE false)
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
@@ -103,6 +98,7 @@ class  BaseDesignIntf :
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
+    Q_ENUM(BGMode)
 
     enum BrushStyle{ NoBrush,
                      SolidPattern,
@@ -118,6 +114,7 @@ public:
                      CrossPattern,
                      BDiagPattern,
                      FDiagPattern };
+    Q_ENUM(BrushStyle)
 
     enum ResizeFlags { Fixed = 0,
                        ResizeLeft = 1,
@@ -126,11 +123,13 @@ public:
                        ResizeBottom = 8,
                        AllDirections = 15
                      };
+    Q_ENUM(ResizeFlags)
     enum MoveFlags  { None = 0,
                       LeftRight=1,
                       TopBotom=2,
                       All=3
                     };
+    Q_ENUM(MoveFlags)
     enum BorderSide {
                         NoLine = 0,
                         TopLine = 1,
@@ -139,9 +138,13 @@ public:
                         RightLine = 8,
                         AllLines = 15
                     };
+    Q_ENUM(BorderSide)
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
+    Q_ENUM(ObjectState)
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
+    Q_ENUM(ItemAlign)
     enum UnitType {Millimeters, Inches};
+    Q_ENUM(UnitType)
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)

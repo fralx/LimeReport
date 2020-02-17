@@ -36,7 +36,6 @@ namespace LimeReport{
 class ImageItem : public ItemDesignIntf, public IPainterProxy
 {
     Q_OBJECT
-    Q_ENUMS(Format)
     Q_PROPERTY(QImage image READ image WRITE setImage)
     Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
@@ -57,6 +56,7 @@ public:
         Hex     = 1,
         Base64  = 2
     };
+    Q_ENUM(Format)
 
     ImageItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
