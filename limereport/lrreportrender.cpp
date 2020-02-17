@@ -1264,7 +1264,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
         replaceGroupsFunction(bandClone);
     }
 
-    patternBand->preparedForRender();
+    emit(patternBand->preparedForRender());
     bandClone->updateItemSize(m_datasources);
 
     //m_scriptEngineContext->baseDesignIntfToScript(bandClone);
