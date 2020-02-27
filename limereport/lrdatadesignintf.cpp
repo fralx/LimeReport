@@ -190,8 +190,10 @@ ModelToDataSource::ModelToDataSource(QAbstractItemModel* model, bool owned)
 {
     Q_ASSERT(model);
     if (model){
-        while (model->canFetchMore(QModelIndex()))
+        while (model->canFetchMore(QModelIndex())){
             model->fetchMore(QModelIndex());
+            if (model->rowCount() <= 0) break;
+        }
         connect(model, SIGNAL(destroyed()), this, SLOT(slotModelDestroed()));
         connect(model, SIGNAL(modelReset()), this, SIGNAL(modelStateChanged()));
     }
