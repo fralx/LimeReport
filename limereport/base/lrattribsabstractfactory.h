@@ -54,11 +54,11 @@ private:
     friend class Singleton< AttribsAbstractFactory< AbstractProduct,IdentifierType,ProductCreator,Attribs > >;
 public:
     bool registerCreator(const IdentifierType& id, Attribs attribs, ProductCreator creator){
-        return (m_factoryMap.insert(id,creator).value()==creator)&&
-               (m_attribsMap.insert(id,attribs).value()==attribs);
+        return (m_factoryMap.insert(id,creator).value() == creator) &&
+               (m_attribsMap.insert(id,attribs).value() == attribs);
     }
     bool unregisterCreator(const IdentifierType& id){
-        return (m_factoryMap.remove(id)==1)&&(m_attribsMap.remove(id)==1);
+        return (m_factoryMap.remove(id) == 1) && (m_attribsMap.remove(id) == 1);
     }
     ProductCreator objectCreator(const IdentifierType& id){
         if (m_factoryMap.contains(id)){

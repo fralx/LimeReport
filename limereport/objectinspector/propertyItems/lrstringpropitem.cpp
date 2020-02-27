@@ -54,7 +54,7 @@ QWidget * StringPropItem::createProperyEditor(QWidget *parent) const
 
 void StringPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
 {
-    ButtonLineEditor *editor =qobject_cast<ButtonLineEditor *>(propertyEditor);
+    ButtonLineEditor *editor = qobject_cast<ButtonLineEditor *>(propertyEditor);
     editor->setText(propertyValue().toString());
 }
 

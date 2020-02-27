@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *   This file is part of the Lime Report project                          *
  *   Copyright (C) 2015 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
@@ -261,11 +261,11 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     renderReportHeader(m_patternPageItem, AfterPageHeader);
 
     BandDesignIntf* lastRenderedBand = 0;
-    for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled;i++){
+    for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled; i++){
         lastRenderedBand = m_patternPageItem->dataBandAt(i);
         initDatasource(lastRenderedBand->datasourceName());
         renderDataBand(lastRenderedBand);
-        if (i<m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
+        if (i < m_patternPageItem->dataBandCount()-1) closeFooterGroup(lastRenderedBand);
     }
 
     if (reportFooter)
@@ -475,7 +475,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (bandData){
            bandClone = bandData;
         } else {
-            bandClone=renderData(patternBand);
+            bandClone = renderData(patternBand);
         }
 
         if (isLast) bandClone->setBootomSpace(1);
@@ -543,8 +543,10 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 savePage();
                                 startNewPage();
                                 if (!bandIsSliced){
+                                    BandDesignIntf* t = renderData(patternBand);
+                                    t->copyBookmarks(bandClone);
                                     delete bandClone;
-                                    bandClone = renderData(patternBand);
+                                    bandClone = t;
                                 }
                             }
                             if (!registerBand(bandClone)) {
@@ -636,10 +638,23 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
             bandDatasource->next();
 
             datasources()->setReportVariable(varName,datasources()->variable(varName).toInt()+1);
-            foreach (BandDesignIntf* band, dataBand->childrenByType(BandDesignIntf::GroupHeader)){
-                QString groupLineVar = QLatin1String("line_")+band->objectName().toLower();
-                if (datasources()->containsVariable(groupLineVar))
-                    datasources()->setReportVariable(groupLineVar,datasources()->variable(groupLineVar).toInt()+1);
+
+            QList<BandDesignIntf *> bandList;
+            QList<BandDesignIntf *> childList;
+
+            bandList = dataBand->childrenByType(BandDesignIntf::GroupHeader);
+            while (bandList.size() > 0)
+            {
+                childList.clear();
+                foreach (BandDesignIntf* band, bandList)
+                {
+                    childList.append(band->childrenByType(BandDesignIntf::GroupHeader));
+
+                    QString groupLineVar = QLatin1String("line_")+band->objectName().toLower();
+                    if (datasources()->containsVariable(groupLineVar))
+                        datasources()->setReportVariable(groupLineVar,datasources()->variable(groupLineVar).toInt()+1);
+                }
+                bandList = childList;
             }
 
             renderGroupHeader(dataBand, bandDatasource, false);
@@ -1170,7 +1185,7 @@ void ReportRender::updateTOC(BaseDesignIntf* item, int pageNumber){
 void ReportRender::secondRenderPass(ReportPages renderedPages)
 {
     if (!m_scriptEngineContext->tableOfContents()->isEmpty()){
-        for(int i=0; i<renderedPages.count(); ++i){
+        for(int i = 0; i < renderedPages.count(); ++i){
             PageItemDesignIntf::Ptr page = renderedPages.at(i);
             updateTOC(page.data(), m_pagesRanges.findPageNumber(i));
             foreach(BaseDesignIntf* item, page->childBaseItems()){
@@ -1179,12 +1194,13 @@ void ReportRender::secondRenderPass(ReportPages renderedPages)
         }
     }
 
-    for(int i=0; i<renderedPages.count(); ++i){
+    for(int i = 0; i < renderedPages.count(); ++i){
         PageItemDesignIntf::Ptr page = renderedPages.at(i);
         m_datasources->setReportVariable("#PAGE",m_pagesRanges.findPageNumber(i));
         m_datasources->setReportVariable("#PAGE_COUNT",m_pagesRanges.findLastPageNumber(i));
         foreach(BaseDesignIntf* item, page->childBaseItems()){
-            item->updateItemSize(m_datasources, SecondPass);
+            if (item->isNeedUpdateSize(SecondPass))
+                item->updateItemSize(m_datasources, SecondPass);
         }
     }
 }
@@ -1248,6 +1264,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
         replaceGroupsFunction(bandClone);
     }
 
+    emit(patternBand->preparedForRender());
     bandClone->updateItemSize(m_datasources);
 
     //m_scriptEngineContext->baseDesignIntfToScript(bandClone);

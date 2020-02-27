@@ -113,6 +113,7 @@ public:
     virtual void                    cancelRender() = 0;
     virtual void                    setShowProgressDialog(bool value) = 0;
     virtual bool                    isShowProgressDialog() const = 0;
+    virtual bool                    isBusy() = 0;
 };
 
 class PrintProcessor{
@@ -179,7 +180,7 @@ public:
     void    previewReport(QPrinter* printer, PreviewHints hints = PreviewBarsUserSetting);
 
     ReportDesignWindowInterface* getDesignerWindow();
-    void    designReport();
+    void    designReport(bool showModal);
     void    setSettings(QSettings* value);
     void    setShowProgressDialog(bool value){m_showProgressDialog = value;}
     bool    isShowProgressDialog() const {return m_showProgressDialog;}
@@ -310,6 +311,7 @@ private:
     void initReport();
     void paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options);
     void dropChanges(){ m_datasources->dropChanges(); m_scriptEngineContext->dropChanges();}
+    void clearRenderingPages();
 private:
     QList<PageDesignIntf*> m_pages;
     QList<PageItemDesignIntf*> m_renderingPages;

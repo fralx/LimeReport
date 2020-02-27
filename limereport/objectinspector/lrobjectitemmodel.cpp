@@ -363,14 +363,14 @@ QModelIndex QObjectPropertyModel::parent(const QModelIndex &child) const
 
 Qt::ItemFlags QObjectPropertyModel::flags(const QModelIndex &index) const
 {
-    if ((index.column()==1)&&(!nodeFromIndex(index)->isValueReadonly())) return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+    if ((index.column() == 1) && (!nodeFromIndex(index)->isValueReadonly())) return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     else return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 CreatePropItem QObjectPropertyModel::propertyItemCreator(QMetaProperty prop)
 {
-    CreatePropItem creator=0;
-    creator=ObjectPropFactory::instance().objectCreator(APropIdent(prop.name(),prop.enclosingMetaObject()->className()));
+    CreatePropItem creator = 0;
+    creator = ObjectPropFactory::instance().objectCreator(APropIdent(prop.name(),prop.enclosingMetaObject()->className()));
     if (!creator){
         if (prop.isFlagType()){
             creator=ObjectPropFactory::instance().objectCreator(APropIdent("flags",""));
@@ -390,7 +390,7 @@ CreatePropItem QObjectPropertyModel::propertyItemCreator(QMetaProperty prop)
                 return 0;
             }
         }
-        creator=ObjectPropFactory::instance().objectCreator(APropIdent(prop.typeName(),""));
+        creator = ObjectPropFactory::instance().objectCreator(APropIdent(prop.typeName(),""));
         if (!creator) {qDebug()<<"Editor for propperty name = \""<<prop.name()<<"\" & property type =\""<<prop.typeName()<<"\" not found!";}
     }
     return creator;
@@ -409,7 +409,7 @@ ObjectPropItem * QObjectPropertyModel::createPropertyItem(QMetaProperty prop, QO
                 QString(tr(prop.name())),
                 object->property(prop.name()),
                 parent,
-                !(prop.isWritable()&&prop.isDesignable())
+                !(prop.isWritable() && prop.isDesignable())
              );
     } else {
         propertyItem=new ObjectPropItem(

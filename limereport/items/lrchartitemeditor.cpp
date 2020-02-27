@@ -189,9 +189,9 @@ void ChartItemEditor::on_splitter_splitterMoved(int , int )
 #endif
 }
 
-
 void ChartItemEditor::on_pbOk_clicked()
 {
+    emit editingFinished();
     close();
 }
 

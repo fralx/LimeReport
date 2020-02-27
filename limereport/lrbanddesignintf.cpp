@@ -241,6 +241,13 @@ void BandDesignIntf::setBackgroundOpacity(int value)
     }
 }
 
+bool BandDesignIntf::isNeedUpdateSize(RenderPass pass) const{
+    foreach(BaseDesignIntf* item, childBaseItems()){
+        if (item->isNeedUpdateSize(pass)) return true;
+    }
+    return false;
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     prepareRect(painter, option, widget);
@@ -1123,14 +1130,14 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     if (keepBottomSpace()) spaceBorder = bottomSpace();
     spaceBorder = spaceBorder > 0 ? spaceBorder : 0;
     if (borderLines() != 0){
-        spaceBorder += borderLineSize();
+        spaceBorder += borderLineSize() + 2;
     }
 
     spaceBorder += m_bottomSpace;
     restoreLinks();
     snapshotItemsLayout();
     BandDesignIntf* patternBand = dynamic_cast<BandDesignIntf*>(patternItem());
-    if (patternBand && pass == FirstPass) emit(patternBand->preparedForRender());
+
     arrangeSubItems(pass, dataManager); 
     if (autoHeight()){
         if (!keepTopSpace()) {

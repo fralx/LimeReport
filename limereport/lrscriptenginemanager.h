@@ -98,14 +98,15 @@ struct ScriptFunctionDesc{
 
 class ScriptEngineNode {
 public:
-    enum NodeType{Root,Category,Function,Dialog,DialogElement};
-    ScriptEngineNode(const QString& name="", const QString& description ="", NodeType type=Root, ScriptEngineNode* parent=0, const QIcon& icon=QIcon())
-        :m_name(name), m_description(description), m_icon(icon), m_type(type), m_parent(parent){}
+    enum NodeType{Root, Category, Function, Dialog, DialogElement};
+    ScriptEngineNode(const QString& name = "", const QString& description = "", NodeType type = Root,
+                     ScriptEngineNode* parent = 0, const QIcon& icon = QIcon());
     virtual ~ScriptEngineNode();
     int       childCount(){return m_childs.count();}
     ScriptEngineNode* child(int index){return m_childs[index];}
     ScriptEngineNode* parent(){return m_parent;}
-    ScriptEngineNode* addChild(const QString& name="", const QString &description="", NodeType type=Root, const QIcon& icon=QIcon());
+    ScriptEngineNode* addChild(const QString& name = "", const QString &description = "",
+                               NodeType type = Root, const QIcon& icon = QIcon());
     int       row();
     QString   name(){return m_name;}
     QString   description(){return m_description;}
@@ -337,7 +338,7 @@ public:
     Q_INVOKABLE bool prior(const QString& datasourceName);
     Q_INVOKABLE bool isEOF(const QString& datasourceName);
     Q_INVOKABLE bool invalidate(const QString& datasourceName);
-    Q_INVOKABLE QObject *createTableBuilder(BaseDesignIntf* horizontalLayout);
+    Q_INVOKABLE QObject *createTableBuilder(QObject *horizontalLayout);
 private:
     IDataSourceManager* m_dataManager;
 };
@@ -455,7 +456,7 @@ public:
                              const QString &category="", const QString &description="");
     const QString& lastError() const {return m_lastError;}
     QStringList functionsNames();
-    const QList<ScriptFunctionDesc>& functionsDescribers(){return m_functions;}
+    const QHash<QString,ScriptFunctionDesc>& functionsDescribers(){return m_functions;}
     ScriptEngineModel* model(){return m_model;}
     void setContext(ScriptEngineContext* context){m_context=context;}
     DataSourceManager* dataManager() const {return m_dataManager;}
@@ -473,10 +474,8 @@ public:
     void    addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent);
     void    clearTableOfContents();
     ScriptValueType moveQObjectToScript(QObject* object, const QString objectName);
-
 protected:
     void updateModel();
-    bool containsFunction(const QString &functionName);
 private:
     Q_DISABLE_COPY(ScriptEngineManager)
     bool createLineFunction();
@@ -503,7 +502,7 @@ private:
     ScriptEngineManager();
     ScriptEngineType*  m_scriptEngine;
     QString m_lastError;
-    QList<ScriptFunctionDesc> m_functions;
+    QHash<QString,ScriptFunctionDesc> m_functions;
     ScriptEngineModel* m_model;
     ScriptEngineContext* m_context;
     DataSourceManager* m_dataManager;

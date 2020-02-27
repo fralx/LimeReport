@@ -16,6 +16,7 @@ public:
     QList<qreal>& values(){ return m_values;}
     QList<QString>& labels(){ return m_labels;}
     QList<QColor>& colors() { return m_colors;}
+    void clear(){ m_values.clear(); m_labels.clear(); m_colors.clear(); }
 private:
     QList<qreal> m_values;
     QList<QString> m_labels;
@@ -80,56 +81,34 @@ protected:
     qreal minValue();
     int valuesCount();
     int seriesCount();
+    bool verticalLabels(QPainter* painter, QRectF labelsRect);
     QSizeF calcChartLegendSize(const QFont &font);
     qreal* designValues(){ return m_designValues;}
+    virtual qreal hPadding(QRectF chartRect);
+    virtual qreal vPadding(QRectF chartRect);
+    virtual void paintHorizontalLabels(QPainter *painter, QRectF labelsRect);
+    virtual void paintVerticalLabels(QPainter *painter, QRectF labelsRect);
+    virtual void paintHorizontalGrid(QPainter *painter, QRectF gridRect);
+    virtual void paintVerticalGrid(QPainter *painter, QRectF gridRect);
+    virtual void drawSegment(QPainter *painter, QPoint startPoint, QPoint endPoint, QColor color);
+    virtual qreal valuesHMargin(QPainter *painter);
+    virtual qreal valuesVMargin(QPainter *painter);
+    virtual QFont adaptLabelsFont(QRectF rect, QFont font);
+    virtual QFont adaptValuesFont(qreal width, QFont font);
+
 private:
     qreal m_designValues [9];
 };
 
-class PieChart : public AbstractChart{
-public:
-    PieChart(ChartItem* chartItem):AbstractChart(chartItem){}
-    QSizeF calcChartLegendSize(const QFont &font);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintChartLegend(QPainter *painter, QRectF legendRect);
-protected:
-    void drawPercent(QPainter *painter, QRectF chartRect, qreal startAngle, qreal angle);
-};
+int genNextValue(int value);
 
 class AbstractBarChart: public AbstractSeriesChart{
 public:
     AbstractBarChart(ChartItem* chartItem):AbstractSeriesChart(chartItem){}
-    qreal hPadding(QRectF chartRect);
-    qreal vPadding(QRectF chartRect);
     void paintChartLegend(QPainter *painter, QRectF legendRect);
-};
-
-class HorizontalBarChart: public AbstractBarChart{
-public:
-    HorizontalBarChart(ChartItem* chartItem):AbstractBarChart(chartItem){}
-    qreal valuesHMargin(QPainter *painter);
-    qreal valuesVMargin(QPainter *painter);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintHorizontalGrid(QPainter *painter, QRectF gridRect);
-    void paintHorizontalBars(QPainter *painter, QRectF barsRect);
-    QRectF labelsRect(QPainter* painter, QRectF labelsRect);
-    void paintLabels(QPainter *painter, QRectF labelsRect);    
 protected:
-    QFont adaptLabelsFont(QRectF rect, QFont font);
-    QFont adaptValuesFont(qreal width, QFont font);
-};
-
-class VerticalBarChart: public AbstractBarChart{
-public:
-    VerticalBarChart(ChartItem* chartItem):AbstractBarChart(chartItem){}
-    qreal valuesHMargin(QPainter *painter);
-    qreal valuesVMargin(QPainter *painter);
-    QRectF labelsRect(QPainter* painter, QRectF labelsRect);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintVerticalGrid(QPainter *painter, QRectF gridRect);
-    void paintVerticalBars(QPainter *painter, QRectF barsRect);
-    void paintSerialLines(QPainter *painter, QRectF barsRect);
-    void paintLabels(QPainter *painter, QRectF labelsRect);
+    QRectF verticalLabelsRect(QPainter* painter, QRectF horizontalLabelsRect);
+    virtual QRectF horizontalLabelsRect(QPainter* painter, QRectF horizontalLabelsRect);
 };
 
 class ChartItem : public LimeReport::ItemDesignIntf
@@ -138,7 +117,7 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_ENUMS(LegendAlign)
     Q_ENUMS(TitleAlign)
     Q_ENUMS(ChartType)
-    Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader)
+    Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader WRITE setSeries)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
     Q_PROPERTY(bool drawLegendBorder READ drawLegendBorder WRITE setDrawLegendBorder)
@@ -151,7 +130,7 @@ public:
 
     enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
-    enum ChartType{Pie, VerticalBar, HorizontalBar};
+    enum ChartType{Pie, VerticalBar, HorizontalBar, Lines};
 
     ChartItem(QObject* owner, QGraphicsItem* parent);
     ~ChartItem();
@@ -184,22 +163,22 @@ public:
 
     QList<QString> labels() const;
     void setLabels(const QList<QString> &labels);
+    QWidget* defaultEditor();
 
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     //ICollectionContainer
-    QObject* createElement(const QString& collectionName,const QString& elementType);
+    QObject* createElement(const QString& collectionName, const QString& elementType);
     int elementsCount(const QString& collectionName);
     QObject* elementAt(const QString& collectionName,int index);
     void collectionLoadFinished(const QString& collectionName){Q_UNUSED(collectionName)}    
     void updateItemSize(DataSourceManager *dataManager, RenderPass, int);
-    void fillLabels(IDataSource* dataSource);
-    QWidget* defaultEditor();
+    void fillLabels(IDataSource* dataSource);    
     bool isNeedUpdateSize(RenderPass pass) const;
+    void setSeries(ACollectionProperty series){Q_UNUSED(series)}
 private:
     QList<SeriesItem*> m_series;
-//    QList< QPointer<SeriesItem> > m_series;
     QString m_datasource;
     QPixmap m_chartImage;
     QString m_title;

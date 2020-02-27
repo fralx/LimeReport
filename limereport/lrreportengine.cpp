@@ -316,18 +316,17 @@ void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printe
         if (    !m_cancelPrinting &&
                 ((printer.printRange() == QPrinter::AllPages) ||
                 (   (printer.printRange()==QPrinter::PageRange) &&
-                    (currenPage>=printer.fromPage()) &&
-                    (currenPage<=printer.toPage())
+                    (currenPage >= printer.fromPage()) &&
+                    (currenPage <= printer.toPage())
                 ))
            )
         {
               printProcessors["default"]->printPage(page);
-              currenPage++;
               emit pagePrintingFinished(currenPage);
               QApplication::processEvents();
         }
 
-
+        currenPage++;
     }
     emit printingFinished();
 }
@@ -470,8 +469,9 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
     if (ExportersFactory::instance().map().contains(exporterName)){
         ReportExporterInterface* e = ExportersFactory::instance().objectCreator(exporterName)(this);
         if (fn.isEmpty()){
+            QString defaultFileName = reportName().split(".")[0];
             QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
-            QString fn = QFileDialog::getSaveFileName(0,tr("%1 file name").arg(e->exporterName()),"",filter);
+            QString fn = QFileDialog::getSaveFileName(0, tr("%1 file name").arg(e->exporterName()), defaultFileName, filter);
         }
         if (!fn.isEmpty()){
             QFileInfo fi(fn);
@@ -737,7 +737,7 @@ QGraphicsScene* ReportEngine::createPreviewScene(QObject* parent){
     return d->createPreviewScene(parent);
 }
 
-void ReportEnginePrivate::designReport()
+void ReportEnginePrivate::designReport(bool showModal)
 {
     ReportDesignWindowInterface* designerWindow = getDesignerWindow();
     if (designerWindow){
@@ -746,7 +746,7 @@ void ReportEnginePrivate::designReport()
 #ifdef Q_OS_WIN    
         designerWindow->setWindowModality(Qt::ApplicationModal);
 #endif
-        if (QApplication::activeWindow()==0){
+        if (!showModal){
             designerWindow->show();;
         } else {
             designerWindow->showModal();
@@ -1254,6 +1254,11 @@ BaseDesignIntf* ReportEnginePrivate::createWatermark(PageDesignIntf* page, Water
 
 }
 
+void ReportEnginePrivate::clearRenderingPages(){
+    qDeleteAll(m_renderingPages.begin(), m_renderingPages.end());
+    m_renderingPages.clear();
+}
+
 ReportPages ReportEnginePrivate::renderToPages()
 {
     int startTOCPage = -1;
@@ -1275,7 +1280,7 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRendering = true;
         m_reportRender->setDatasources(dataManager());
         m_reportRender->setScriptContext(scriptContext());
-        m_renderingPages.clear();
+        clearRenderingPages();
         foreach (PageDesignIntf* page, m_pages) {
 
             QVector<BaseDesignIntf*> watermarks;
@@ -1349,14 +1354,10 @@ ReportPages ReportEnginePrivate::renderToPages()
 
             emit renderFinished();
             m_reportRender.clear();
-
-            //foreach(PageItemDesignIntf* page, m_renderingPages){
-            //    delete page;
-            //}
-            m_renderingPages.clear();
+            clearRenderingPages();
         }
         m_reportRendering = false;
-        //activateLanguage(QLocale::AnyLanguage);
+
 #ifdef USE_QTSCRIPTENGINE
     ScriptEngineManager::instance().scriptEngine()->popContext();
 #endif
@@ -1372,7 +1373,7 @@ QString ReportEnginePrivate::lastError()
 }
 
 ReportEngine::ReportEngine(QObject *parent)
-    : QObject(parent), d_ptr(new ReportEnginePrivate())
+    : QObject(parent), d_ptr(new ReportEnginePrivate()), m_showDesignerModal(true)
 {
     Q_D(ReportEngine);
     d->q_ptr=this;
@@ -1468,7 +1469,7 @@ void ReportEngine::designReport()
     Q_D(ReportEngine);
     if (m_settings)
         d->setSettings(m_settings);
-    d->designReport();
+    d->designReport(showDesignerModal());
 }
 
 ReportDesignWindowInterface* ReportEngine::getDesignerWindow()
@@ -1759,7 +1760,7 @@ void ReportEngine::cancelPrinting()
 }
 
 ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
-    :QObject(parent),d_ptr(&dd)
+    :QObject(parent), d_ptr(&dd), m_showDesignerModal(true)
 {
     Q_D(ReportEngine);
     d->q_ptr=this;
@@ -1767,6 +1768,16 @@ ReportEngine::ReportEngine(ReportEnginePrivate &dd, QObject *parent)
     connect(d, SIGNAL(renderPageFinished(int)),
             this, SIGNAL(renderPageFinished(int)));
     connect(d, SIGNAL(renderFinished()), this, SIGNAL(renderFinished()));
+}
+
+bool ReportEngine::showDesignerModal() const
+{
+    return m_showDesignerModal;
+}
+
+void ReportEngine::setShowDesignerModal(bool showDesignerModal)
+{
+    m_showDesignerModal = showDesignerModal;
 }
 
 ScriptEngineManager*LimeReport::ReportEnginePrivate::scriptManager(){
