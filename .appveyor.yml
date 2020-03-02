@@ -1,7 +1,7 @@
 image:
   - Visual Studio 2017
 install:
-  - set QTDIR=C:\Qt\5.12\mingw730_64
+  - set QTDIR=C:\Qt\5.12\mingw73_64
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%
 build_script:
   - qmake LimeReport.pro
