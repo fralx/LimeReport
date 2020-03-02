@@ -54,7 +54,7 @@ win32 {
         DEST_DIR ~= s,/,\\,g
 	REPORTS_DIR ~= s,/,\\,g
 	RC_FILE += mainicon.rc
-        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR"\ \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
     }
 }
 
