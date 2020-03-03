@@ -36,7 +36,7 @@ public:
 #if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
     Q_ENUM(SeriesItemPreferredType)
 #else
-    Q_ENUM(SeriesItemPreferredType)
+    Q_ENUMS(SeriesItemPreferredType)
 #endif
     SeriesItem(QObject* parent = 0) : QObject(parent), m_preferredType(Bar){}
     QString name() const;
