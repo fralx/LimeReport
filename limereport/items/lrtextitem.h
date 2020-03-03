@@ -33,6 +33,7 @@
 #include <QtGui>
 #include <QLabel>
 #include <QTextDocument>
+#include <QtGlobal>
 
 #include "lritemdesignintf.h"
 #include "lritemdesignintf.h"
@@ -76,11 +77,17 @@ class TextItem : public ContentItemDesignIntf, IPageInit {
 public:
 
     enum AutoWidth{NoneAutoWidth, MaxWordLength, MaxStringLength};
-    Q_ENUM(AutoWidth)
     enum AngleType{Angle0, Angle90, Angle180, Angle270, Angle45, Angle315};
-    Q_ENUM(AngleType)
     enum ValueType{Default, DateTime, Double};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(AutoWidth)
+    Q_ENUM(AngleType)
     Q_ENUM(ValueType)
+#else
+    Q_ENUMS(AutoWidth)
+    Q_ENUMS(AngleType)
+    Q_ENUMS(ValueType)
+#endif
 
     void Init();
     TextItem(QObject* owner=0, QGraphicsItem* parent=0);

@@ -30,6 +30,7 @@
 #ifndef LRBARCODEITEM_H
 #define LRBARCODEITEM_H
 #include "lritemdesignintf.h"
+#include <QtGlobal>
 
 namespace LimeReport{
 
@@ -141,9 +142,9 @@ public:
         UPNQR           =143
 
     };
-    Q_ENUM(BarcodeType)
+
     enum AngleType{Angle0,Angle90,Angle180,Angle270};
-    Q_ENUM(AngleType)
+
     enum InputMode{
         DATA_INPUT_MODE     = 0,
         UNICODE_INPUT_MODE  = 1,
@@ -151,7 +152,15 @@ public:
         KANJI_INPUT_MODE    = 3,
         SJIS_INPUT_MODE     = 4
     };
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(BarcodeType)
+    Q_ENUM(AngleType)
     Q_ENUM(InputMode)
+#else
+    Q_ENUMS(BarcodeType)
+    Q_ENUMS(AngleType)
+    Q_ENUMS(InputMode)
+#endif
     BarcodeItem(QObject *owner, QGraphicsItem *parent);
     ~BarcodeItem();
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);

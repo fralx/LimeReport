@@ -98,7 +98,7 @@ class  BaseDesignIntf :
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
-    Q_ENUM(BGMode)
+
 
     enum BrushStyle{ NoBrush,
                      SolidPattern,
@@ -114,7 +114,7 @@ public:
                      CrossPattern,
                      BDiagPattern,
                      FDiagPattern };
-    Q_ENUM(BrushStyle)
+
 
     enum ResizeFlags { Fixed = 0,
                        ResizeLeft = 1,
@@ -123,13 +123,13 @@ public:
                        ResizeBottom = 8,
                        AllDirections = 15
                      };
-    Q_ENUM(ResizeFlags)
+
     enum MoveFlags  { None = 0,
                       LeftRight=1,
                       TopBotom=2,
                       All=3
                     };
-    Q_ENUM(MoveFlags)
+
     enum BorderSide {
                         NoLine = 0,
                         TopLine = 1,
@@ -138,13 +138,31 @@ public:
                         RightLine = 8,
                         AllLines = 15
                     };
-    Q_ENUM(BorderSide)
+
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
-    Q_ENUM(ObjectState)
+
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
-    Q_ENUM(ItemAlign)
+
     enum UnitType {Millimeters, Inches};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(BGMode)
+    Q_ENUM(BrushStyle)
+    Q_ENUM(ResizeFlags)
+    Q_ENUM(MoveFlags)
+    Q_ENUM(BorderSide)
+    Q_ENUM(ObjectState)
+    Q_ENUM(ItemAlign)
     Q_ENUM(UnitType)
+#else
+    Q_ENUMS(BGMode)
+    Q_ENUMS(BrushStyle)
+    Q_ENUMS(ResizeFlags)
+    Q_ENUMS(MoveFlags)
+    Q_ENUMS(BorderSide)
+    Q_ENUMS(ObjectState)
+    Q_ENUMS(ItemAlign)
+    Q_ENUMS(UnitType)
+#endif
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)

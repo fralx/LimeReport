@@ -64,9 +64,9 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
-    Q_ENUM(Orientation)
+
     enum PrintBehavior {Scale, Split};
-    Q_ENUM(PrintBehavior)
+
     enum PageSize {
         A4 = QPrinter::A4, B5 = QPrinter::B5, Letter = QPrinter::Letter,
         Legal = QPrinter::Legal, Executive = QPrinter::Executive,
@@ -79,7 +79,15 @@ public:
         Ledger = QPrinter::Ledger, Tabloid = QPrinter::Tabloid, Custom = QPrinter::Custom,
         NPageSize = Custom
     };
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(Orientation)
+    Q_ENUM(PrintBehavior)
     Q_ENUM(PageSize)
+#else
+    Q_ENUMS(Orientation)
+    Q_ENUMS(PrintBehavior)
+    Q_ENUMS(PageSize)
+#endif
     typedef QList<BandDesignIntf*> BandsList;
     typedef QList<BandDesignIntf*>::const_iterator BandsIterator;
     typedef QSharedPointer<PageItemDesignIntf> Ptr;

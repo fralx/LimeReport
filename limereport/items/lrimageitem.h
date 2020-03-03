@@ -30,6 +30,7 @@
 #ifndef LRIMAGEITEM_H
 #define LRIMAGEITEM_H
 #include "lritemdesignintf.h"
+#include <QtGlobal>
 
 namespace LimeReport{
 
@@ -56,7 +57,11 @@ public:
         Hex     = 1,
         Base64  = 2
     };
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
     Q_ENUM(Format)
+#else
+    Q_ENUMS(Format)
+#endif
 
     ImageItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
