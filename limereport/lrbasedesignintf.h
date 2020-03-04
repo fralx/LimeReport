@@ -84,12 +84,7 @@ class  BaseDesignIntf :
         public QObject, public QGraphicsItem, public ICollectionContainer, public ObjectLoadingStateIntf {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
-    Q_ENUMS(BGMode)
-    Q_ENUMS(Qt::BrushStyle)
-    Q_ENUMS(BrushStyle)
-    Q_ENUMS(ItemAlign)
     Q_FLAGS(BorderLines)
-    Q_ENUMS(UnitType)
     Q_PROPERTY(QRect geometry READ geometry WRITE setGeometryProperty NOTIFY geometryChanged)
     Q_PROPERTY(ACollectionProperty children READ fakeCollectionReader DESIGNABLE false)
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
@@ -103,6 +98,7 @@ class  BaseDesignIntf :
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
+
 
     enum BrushStyle{ NoBrush,
                      SolidPattern,
@@ -119,6 +115,7 @@ public:
                      BDiagPattern,
                      FDiagPattern };
 
+
     enum ResizeFlags { Fixed = 0,
                        ResizeLeft = 1,
                        ResizeRight = 2,
@@ -126,11 +123,13 @@ public:
                        ResizeBottom = 8,
                        AllDirections = 15
                      };
+
     enum MoveFlags  { None = 0,
                       LeftRight=1,
                       TopBotom=2,
                       All=3
                     };
+
     enum BorderSide {
                         NoLine = 0,
                         TopLine = 1,
@@ -139,9 +138,31 @@ public:
                         RightLine = 8,
                         AllLines = 15
                     };
+
     enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
+
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
+
     enum UnitType {Millimeters, Inches};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(BGMode)
+    Q_ENUM(BrushStyle)
+    Q_ENUM(ResizeFlags)
+    Q_ENUM(MoveFlags)
+    Q_ENUM(BorderSide)
+    Q_ENUM(ObjectState)
+    Q_ENUM(ItemAlign)
+    Q_ENUM(UnitType)
+#else
+    Q_ENUMS(BGMode)
+    Q_ENUMS(BrushStyle)
+    Q_ENUMS(ResizeFlags)
+    Q_ENUMS(MoveFlags)
+    Q_ENUMS(BorderSide)
+    Q_ENUMS(ObjectState)
+    Q_ENUMS(ItemAlign)
+    Q_ENUMS(UnitType)
+#endif
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
     Q_DECLARE_FLAGS(ItemMode,ItemModes)

@@ -2,6 +2,7 @@
 #define LRCHARTITEM_H
 #include "lritemdesignintf.h"
 #include "lrglobal.h"
+#include <QtGlobal>
 
 namespace LimeReport{
 
@@ -30,9 +31,13 @@ class SeriesItem : public QObject{
     Q_PROPERTY(QString labelsColumn READ labelsColumn WRITE setLabelsColumn )
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(SeriesItemPreferredType preferredType READ preferredType WRITE setPreferredType)
-    Q_ENUMS(SeriesItemPreferredType)
 public:
     enum SeriesItemPreferredType {Bar, Line};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(SeriesItemPreferredType)
+#else
+    Q_ENUMS(SeriesItemPreferredType)
+#endif
     SeriesItem(QObject* parent = 0) : QObject(parent), m_preferredType(Bar){}
     QString name() const;
     void setName(const QString &name);
@@ -114,9 +119,6 @@ protected:
 class ChartItem : public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
-    Q_ENUMS(LegendAlign)
-    Q_ENUMS(TitleAlign)
-    Q_ENUMS(ChartType)
     Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader WRITE setSeries)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
@@ -131,6 +133,15 @@ public:
     enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
     enum ChartType{Pie, VerticalBar, HorizontalBar, Lines};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(LegendAlign)
+    Q_ENUM(TitleAlign)
+    Q_ENUM(ChartType)
+#else
+    Q_ENUMS(LegendAlign)
+    Q_ENUMS(TitleAlign)
+    Q_ENUMS(ChartType)
+#endif
 
     ChartItem(QObject* owner, QGraphicsItem* parent);
     ~ChartItem();
