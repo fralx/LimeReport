@@ -30,13 +30,13 @@
 #ifndef LRSHAPEITEM_H
 #define LRSHAPEITEM_H
 #include "lritemdesignintf.h"
+#include <QtGlobal>
 
 namespace LimeReport{
 
 class ShapeItem: public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
-    Q_ENUMS(ShapeType)
     Q_PROPERTY(ShapeType shape READ shapeType WRITE setShapeType)
     Q_PROPERTY(QColor shapeColor READ shapeColor WRITE setShapeColor)
     Q_PROPERTY(QColor shapeBrushColor READ shapeBrushColor WRITE setShapeBrushColor)
@@ -47,6 +47,11 @@ class ShapeItem: public LimeReport::ItemDesignIntf
     Q_PROPERTY(int cornerRadius READ cornerRadius WRITE setCornerRadius)
 public:
     enum ShapeType{HorizontalLine,VerticalLine,Ellipse,Rectangle};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(ShapeType)
+#else
+    Q_ENUMS(ShapeType)
+#endif
     ShapeItem(QObject *owner, QGraphicsItem *parent);
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void    setShapeColor(QColor value);

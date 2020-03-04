@@ -33,6 +33,7 @@
 #include <stdexcept>
 #include <QString>
 #include <QStyleOptionViewItem>
+#include <QtGlobal>
 
 #if defined(LIMEREPORT_EXPORTS)
 #  define LIMEREPORT_EXPORT Q_DECL_EXPORT
@@ -157,7 +158,11 @@ namespace Const{
     {
     public:
         enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+        Q_ENUM(VariableDataType)
+#else
         Q_ENUMS(VariableDataType)
+#endif
     private:
         Enums(){}
         Q_GADGET

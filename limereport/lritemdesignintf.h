@@ -41,9 +41,13 @@ class ItemDesignIntf : public BaseDesignIntf
     Q_PROPERTY(LocationType itemLocation READ itemLocation WRITE setItemLocation)
     Q_PROPERTY(bool stretchToMaxHeight READ stretchToMaxHeight WRITE setStretchToMaxHeight)
     Q_PROPERTY(ItemAlign itemAlign READ itemAlign WRITE setItemAlign)
-    Q_ENUMS(LocationType)
 public:
     enum LocationType{Band,Page};
+#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+    Q_ENUM(LocationType)
+#else
+    Q_ENUMS(LocationType)
+#endif
     ItemDesignIntf(const QString& xmlTypeName, QObject* owner = 0,QGraphicsItem* parent = 0);
     LocationType itemLocation(){return m_itemLocation;}
     void setItemLocation(LocationType location);
