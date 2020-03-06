@@ -724,15 +724,8 @@ BaseDesignIntf *BandDesignIntf::cloneBottomPart(int height, QObject *owner, QGra
                         moveItemsDown(item->pos().y()+item->height(), sizeOffset + bottomOffset);
                     }
                 } else {
-                    if ((item->geometry().bottom()-height)>=height){
-                        BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
-                        tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
-                        tmpItem->setHeight((this->height()-height));
-                    } else {
-                        BaseDesignIntf* tmpItem = item->cloneEmpty((this->height()-height),bottomPart,bottomPart);
-                        if (tmpItem)
-                            tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
-                    }
+                    BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(),bottomPart,bottomPart);
+                    tmpItem->setPos(tmpItem->pos().x(),borderLineSize());
                 }
             }
         }
