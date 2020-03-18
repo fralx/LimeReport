@@ -293,11 +293,11 @@ void ImageItem::setDatasource(const QString &datasource)
 }
 
 
-void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void ImageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    ppainter->save();
-    if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
-    else ppainter->setOpacity(qreal(opacity())/100);
+    painter->save();
+    if (isSelected()) painter->setOpacity(Const::SELECTION_OPACITY);
+    else painter->setOpacity(qreal(opacity())/100);
 
     QPointF point = rect().topLeft();
     QImage img;
@@ -339,22 +339,23 @@ void ImageItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option
         }
     }
 
-    if (img.isNull() && itemMode()==DesignMode){
+    if (img.isNull() && itemMode() == DesignMode){
         QString text;
-        ppainter->setFont(transformToSceneFont(QFont("Arial",10)));
-        ppainter->setPen(Qt::black);
+        painter->setFont(transformToSceneFont(QFont("Arial",10)));
+        painter->setPen(Qt::black);
         if (!datasource().isEmpty() && !field().isEmpty())
             text = datasource()+"."+field();
         else  if (m_useExternalPainter) text = tr("Ext."); else text = tr("Image");
-        ppainter->drawText(rect().adjusted(4,4,-4,-4), Qt::AlignCenter, text );
+        painter->drawText(rect().adjusted(4,4,-4,-4), Qt::AlignCenter, text );
     } else {
         if (m_externalPainter && m_useExternalPainter)
-            m_externalPainter->paintByExternalPainter(this->patternName(), ppainter, option);
+            m_externalPainter->paintByExternalPainter(this->patternName(), painter, option);
         else
-            ppainter->drawImage(point,img);
+            painter->drawImage(point,img);
     }
-    ItemDesignIntf::paint(ppainter,option,widget);
-    ppainter->restore();
+
+    ItemDesignIntf::paint(painter,option,widget);
+    painter->restore();
 }
 
 void ImageItem::setImage(QImage value)

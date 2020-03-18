@@ -84,6 +84,10 @@ contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
 }
 
+contains(CONFIG, svg){
+   SOURCES += $$REPORT_PATH/items/lrsvgitem.cpp \
+}
+
 HEADERS += \
     $$REPORT_PATH/base/lrsingleton.h \
     $$REPORT_PATH/base/lrsimpleabstractfactory.h \
@@ -171,6 +175,10 @@ contains(CONFIG, staticlib){
 
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
+}
+
+contains(CONFIG, svg){
+    HEADERS += $$REPORT_PATH/items/lrsvgitem.h
 }
 
 FORMS += \

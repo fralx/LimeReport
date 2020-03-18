@@ -1,0 +1,44 @@
+#ifndef SVGITEM_H
+#define SVGITEM_H
+
+#include "lritemdesignintf.h"
+
+namespace LimeReport{
+class SVGItem: public ItemDesignIntf
+{
+    Q_OBJECT
+    Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
+    Q_PROPERTY(QByteArray image READ image WRITE setImage)
+    Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
+    Q_PROPERTY(QString field READ field WRITE setField)
+    Q_PROPERTY(int opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(QString variable READ variable WRITE setVariable)
+    Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
+public:
+    SVGItem(QObject *owner, QGraphicsItem *parent);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    QString resourcePath() const;
+    void setResourcePath(const QString &resourcePath);
+    QByteArray image() const;
+    void setImage(const QByteArray &image);
+    QString datasource() const;
+    void setDatasource(const QString &datasource);
+    QString field() const;
+    void setField(const QString &field);
+    QString variable() const;
+    void setVariable(const QString &variable);
+
+protected:
+    BaseDesignIntf *createSameTypeItem(QObject *owner, QGraphicsItem *parent);
+    void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
+    QByteArray imageFromResource(QString resourcePath);
+private:
+    QString m_resourcePath;
+    QByteArray m_image;
+    QString m_datasource;
+    QString m_field;
+    QString m_variable;
+};
+} // namespace LimeReport
+#endif // SVGITEM_H

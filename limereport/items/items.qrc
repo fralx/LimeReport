@@ -44,5 +44,6 @@
         <file alias="ChartItem">images/pie_chart2.png</file>
         <file alias="DataHeaderBand">images/DataHeaderBand.png</file>
         <file alias="DataFooterBand">images/DataFooterBand.png</file>
+        <file alias="SVGItem">images/SVGItem.png</file>
     </qresource>
 </RCC>
