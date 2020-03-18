@@ -91,6 +91,11 @@ contains(CONFIG, zint){
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
 }
 
+contains(CONFIG, svg){
+   SOURCES += $$REPORT_PATH/items/lrsvgitem.cpp \
+
+}
+
 greaterThan(QT_MAJOR_VERSION, 4) {
     SOURCES += $$REPORT_PATH/exporters/lrhtmlexporter.cpp
     contains(CONFIG, qtxlsx){
@@ -186,6 +191,10 @@ contains(CONFIG, staticlib){
 
 contains(CONFIG,zint){
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
+}
+
+contains(CONFIG, svg){
+    HEADERS += $$REPORT_PATH/items/lrsvgitem.h
 }
 
 greaterThan(QT_MAJOR_VERSION, 4) {
