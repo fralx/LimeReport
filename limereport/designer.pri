@@ -51,6 +51,12 @@ SOURCES += \
     $$REPORT_PATH/lrreportdesignwidget.cpp \
     $$REPORT_PATH/lrreportdesignwindow.cpp
 
+contains(CONFIG, svg){
+    SOURCES += \
+        $$REPORT_PATH/objectinspector/editors/lrsvgeditor.cpp \
+        $$REPORT_PATH/objectinspector/propertyItems/lrsvgpropitem.cpp
+}
+
 HEADERS += \
     $$REPORT_PATH/databrowser/lrdatabrowser.h \
     $$REPORT_PATH/databrowser/lrsqleditdialog.h \
@@ -93,6 +99,12 @@ HEADERS += \
     $$REPORT_PATH/items/lralignpropitem.h \
     $$REPORT_PATH/lrreportdesignwidget.h \
     $$REPORT_PATH/lrreportdesignwindow.h
+
+contains(CONFIG, svg){
+    HEADERS += \
+        $$REPORT_PATH/objectinspector/editors/lrsvgeditor.h \
+        $$REPORT_PATH/objectinspector/propertyItems/lrsvgpropitem.h
+}
 
 FORMS += \
     $$REPORT_PATH/databrowser/lrsqleditdialog.ui \

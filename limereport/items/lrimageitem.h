@@ -64,7 +64,7 @@ public:
 #endif
 
     ImageItem(QObject *owner, QGraphicsItem *parent);
-    virtual void paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setImage(QImage value);
     QImage image();
     void setResourcePath(const QString &value);
