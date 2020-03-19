@@ -1,5 +1,7 @@
 #include "lrsvgitem.h"
 #include "lrdesignelementsfactory.h"
+#include "lrimageitemeditor.h"
+#include "lrpagedesignintf.h"
 #include <QtSvg>
 
 namespace{
@@ -39,6 +41,51 @@ void SVGItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     }
     ItemDesignIntf::paint(painter,option,widget);
     painter->restore();
+}
+
+QByteArray SVGItem::imageAsByteArray() const
+{
+    return m_image;
+}
+
+void SVGItem::setImageAsByteArray(QByteArray image)
+{
+    setImage(image);
+}
+
+QString SVGItem::fileFilter() const
+{
+    return tr("SVG (*.svg)");
+}
+
+void SVGItem::preparePopUpMenu(QMenu &menu)
+{
+    QAction* editAction = menu.addAction(QIcon(":/report/images/edit_pecil2.png"),tr("Edit"));
+    menu.insertAction(menu.actions().at(0),editAction);
+    menu.insertSeparator(menu.actions().at(1));
+
+    menu.addSeparator();
+    QAction* action = menu.addAction(tr("Watermark"));
+    action->setCheckable(true);
+    action->setChecked(isWatermark());
+}
+
+void SVGItem::processPopUpAction(QAction *action)
+{
+    if (action->text().compare(tr("Watermark")) == 0){
+        page()->setPropertyToSelectedItems("watermark",action->isChecked());
+    }
+    if (action->text().compare(tr("Edit")) == 0){
+        this->showEditorDialog();
+    }
+    ItemDesignIntf::processPopUpAction(action);
+}
+
+QWidget *SVGItem::defaultEditor()
+{
+    ImageItemEditor* editor = new ImageItemEditor(this);
+    editor->setAttribute(Qt::WA_DeleteOnClose);
+    return editor;
 };
 
 BaseDesignIntf* SVGItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent){

@@ -30,11 +30,12 @@
 #ifndef LRIMAGEITEM_H
 #define LRIMAGEITEM_H
 #include "lritemdesignintf.h"
+#include "lreditableimageitemintf.h"
 #include <QtGlobal>
 
 namespace LimeReport{
 
-class ImageItem : public ItemDesignIntf, public IPainterProxy
+class ImageItem : public ItemDesignIntf, public IPainterProxy, public IEditableImageItem
 {
     Q_OBJECT
     Q_PROPERTY(QImage image READ image WRITE setImage)
@@ -95,6 +96,10 @@ public:
     void setUseExternalPainter(bool value);
 
     QWidget* defaultEditor();
+
+    QByteArray imageAsByteArray() const;
+    void setImageAsByteArray(QByteArray image);
+    QString fileFilter() const;
 protected:
     BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
@@ -117,6 +122,7 @@ private:
     bool    m_center;
     Format  m_format;
     QString m_variable;    
+
 };
 
 }

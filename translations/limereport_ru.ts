@@ -1161,6 +1161,10 @@ p, li { white-space: pre-wrap; }
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
+    <message>
+        <source>Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)</source>
+        <translation>Изображения (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;Все файлы(*.*)</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
@@ -2549,6 +2553,25 @@ This preview is no longer valid.</source>
     </message>
 </context>
 <context>
+    <name>LimeReport::SVGItem</name>
+    <message>
+        <source>SVG Image</source>
+        <translation>Изображение в формате SVG</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Правка</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation>Водный знак</translation>
+    </message>
+    <message>
+        <source>SVG (*.svg)</source>
+        <translation>SVG (*.svg)</translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ScriptBrowser</name>
     <message>
         <source>Functions</source>
@@ -2795,6 +2818,13 @@ This preview is no longer valid.</source>
     <message>
         <source>SubDetailHeader</source>
         <translation>Заголовок подчиненных данных</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::SvgEditor</name>
+    <message>
+        <source>Select image file</source>
+        <translation>Выбрать файл изображения</translation>
     </message>
 </context>
 <context>
@@ -3236,6 +3266,10 @@ This preview is no longer valid.</source>
     <message>
         <source>Series</source>
         <translation>Ряды данных</translation>
+    </message>
+    <message>
+        <source>SVG Item</source>
+        <translation>Элемент SVG избражение</translation>
     </message>
 </context>
 </TS>

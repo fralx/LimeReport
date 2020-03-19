@@ -2,6 +2,7 @@
 #define LRIMAGEITEMEDITOR_H
 
 #include <QWidget>
+#include "lreditableimageitemintf.h"
 
 namespace Ui {
 class ImageItemEditor;
@@ -16,15 +17,17 @@ class ImageItemEditor : public QWidget
     Q_OBJECT
 
 public:
-    explicit ImageItemEditor(LimeReport::ImageItem* item, QWidget *parent = NULL);
+    explicit ImageItemEditor(LimeReport::IEditableImageItem* item, QWidget *parent = NULL);
     ~ImageItemEditor();
 private:
     void updateImage();
 private:
     Ui::ImageItemEditor *ui;
-    LimeReport::ImageItem* m_item;
-    QPixmap m_image;
+    LimeReport::IEditableImageItem* m_item;
+
+    QByteArray m_image;
     QPixmap m_resourcePathImage;
+
 private slots:
     void on_tbLoadImage_clicked();
     void on_tbClearImage_clicked();

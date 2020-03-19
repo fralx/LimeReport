@@ -29,7 +29,7 @@ QByteArray SvgEditor::image()
 
 void SvgEditor::slotButtonClicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "", "SVG| *.svg");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select image file"), "", "SVG (*.svg)");
     if (!fileName.isEmpty()){
         QFile file(fileName);
         if (file.open(QIODevice::ReadOnly)){
