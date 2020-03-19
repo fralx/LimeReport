@@ -89,6 +89,7 @@ contains(CONFIG, svg){
 }
 
 HEADERS += \
+    $$PWD/items/lreditableimageitemintf.h \
     $$REPORT_PATH/base/lrsingleton.h \
     $$REPORT_PATH/base/lrsimpleabstractfactory.h \
     $$REPORT_PATH/base/lrattribsabstractfactory.h \

@@ -492,6 +492,7 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
 
 bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hints, QPrinter* printer)
 {
+    Q_UNUSED(printer)
     if (pages.count()>0){
         Q_Q(ReportEngine);
         PreviewReportWindow* w = new PreviewReportWindow(q, 0, settings());
@@ -2054,6 +2055,7 @@ qreal WatermarkHelper::valueToPixels(qreal value)
     case LimeReport::ItemGeometry::Pixels:
         return value;
     }
+    return -1;
 }
 
 

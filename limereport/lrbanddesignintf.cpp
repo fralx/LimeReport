@@ -137,6 +137,7 @@ void BandMarker::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void BandMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+    Q_UNUSED(event)
     m_band->posChanged(m_band, m_band->pos(), m_oldBandPos);
 }
 
@@ -1129,7 +1130,6 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     spaceBorder += m_bottomSpace;
     restoreLinks();
     snapshotItemsLayout();
-    BandDesignIntf* patternBand = dynamic_cast<BandDesignIntf*>(patternItem());
 
     arrangeSubItems(pass, dataManager); 
     if (autoHeight()){

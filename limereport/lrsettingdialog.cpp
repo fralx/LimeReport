@@ -7,18 +7,11 @@
 namespace LimeReport{
 
 SettingDialog::SettingDialog(QWidget *parent) :
-    QDialog(parent), m_settings(0),
-    ui(new Ui::SettingDialog)
+    QDialog(parent),
+    ui(new Ui::SettingDialog), m_settings(0)
 {
     ui->setupUi(this);
     ui->toolBox->setCurrentIndex(0);
-//    ui->cbTheme->addItem(QObject::tr("Default"));
-//    if (isFileExists(":/qdarkstyle/style.qss")){
-//        ui->cbTheme->addItem(QObject::tr("Dark"));
-//    }
-//    if (isFileExists(":/qlightstyle/lightstyle.qss")){
-//        ui->cbTheme->addItem(QObject::tr("Light"));
-//    }
     ui->indentSize->setRange(0,10);
 }
 
