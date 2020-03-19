@@ -141,6 +141,37 @@ QWidget *ImageItem::defaultEditor()
     return editor;
 }
 
+QByteArray ImageItem::imageAsByteArray() const
+{
+    QByteArray result;
+    QBuffer buffer(&result);
+    buffer.open(QIODevice::WriteOnly);
+    m_picture.save(&buffer,"PNG");
+
+    return result;
+}
+
+void ImageItem::setImageAsByteArray(QByteArray image)
+{
+    QImage value;
+    value.loadFromData(image);
+    if (m_picture != value){
+        QImage oldValue = m_picture;
+        m_picture = value;
+        if (m_autoSize){
+            setWidth(m_picture.width());
+            setHeight(m_picture.height());
+        }
+        update();
+        notify("image",oldValue,value);
+    }
+}
+
+QString ImageItem::fileFilter() const
+{
+    return tr("Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)");
+}
+
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
 

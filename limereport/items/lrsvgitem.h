@@ -2,9 +2,10 @@
 #define SVGITEM_H
 
 #include "lritemdesignintf.h"
+#include "lreditableimageitemintf.h"
 
 namespace LimeReport{
-class SVGItem: public ItemDesignIntf
+class SVGItem: public ItemDesignIntf, public IEditableImageItem
 {
     Q_OBJECT
     Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
@@ -17,6 +18,14 @@ class SVGItem: public ItemDesignIntf
 public:
     SVGItem(QObject *owner, QGraphicsItem *parent);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    QByteArray imageAsByteArray() const;
+    void setImageAsByteArray(QByteArray image);
+    QString fileFilter() const;
+
+    void preparePopUpMenu(QMenu &menu);
+    void processPopUpAction(QAction *action);
+    QWidget* defaultEditor();
 
     QString resourcePath() const;
     void setResourcePath(const QString &resourcePath);
@@ -39,6 +48,8 @@ private:
     QString m_datasource;
     QString m_field;
     QString m_variable;
+public:
+
 };
 } // namespace LimeReport
 #endif // SVGITEM_H

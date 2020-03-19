@@ -5,12 +5,12 @@
 #include <QFileInfo>
 #include <QFileDialog>
 
-ImageItemEditor::ImageItemEditor(LimeReport::ImageItem *item, QWidget *parent) :
+ImageItemEditor::ImageItemEditor(LimeReport::IEditableImageItem *item, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ImageItemEditor), m_item(item)
 {
     ui->setupUi(this);
-    m_image = QPixmap::fromImage(m_item->image());
+    m_image = item->imageAsByteArray();
     ui->resourcePath->setText(m_item->resourcePath());
     updateImage();
 }
@@ -22,30 +22,35 @@ ImageItemEditor::~ImageItemEditor()
 
 void ImageItemEditor::updateImage()
 {
-    ui->imageViewer->setPixmap(m_image);
-    if (m_image.isNull() && !ui->resourcePath->text().isEmpty()){
-        if (m_resourcePathImage.isNull())
-            m_resourcePathImage = QPixmap(ui->resourcePath->text());
-        ui->imageViewer->setPixmap(m_resourcePathImage);
+    QPixmap image;
+    if (m_image.isEmpty() && !ui->resourcePath->text().isEmpty()){
+        image.load(ui->resourcePath->text());
+    } else {
+        image.loadFromData(m_image);
     }
+    ui->imageViewer->setPixmap(image);
 }
 
 void ImageItemEditor::on_tbLoadImage_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select image file"));
-    m_image = QPixmap(fileName);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select image file"), "", m_item->fileFilter());
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadOnly)){
+        m_image = file.readAll();
+    }
     updateImage();
 }
 
 void ImageItemEditor::on_tbClearImage_clicked()
 {
-    m_image = QPixmap();
+    m_image.clear();
     updateImage();
 }
 
 void ImageItemEditor::on_buttonBox_accepted()
 {
-    m_item->setImage(m_image.toImage());
+    QImage image;
+    m_item->setImageAsByteArray(m_image);
     m_item->setResourcePath(ui->resourcePath->text());
     this->close();
 }

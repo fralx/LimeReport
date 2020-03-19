@@ -190,6 +190,7 @@ void ReportRender::initDatasource(const QString& name){
 }
 
 void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
+    Q_UNUSED(band)
     if (contentItem){
         QString content = contentItem->content();
         QVector<QString> functions;

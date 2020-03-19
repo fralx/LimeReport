@@ -105,6 +105,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 HEADERS += \
+    $$PWD/items/lreditableimageitemintf.h \
     $$REPORT_PATH/base/lrsingleton.h \
     $$REPORT_PATH/base/lrsimpleabstractfactory.h \
     $$REPORT_PATH/base/lrattribsabstractfactory.h \
