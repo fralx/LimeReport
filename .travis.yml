@@ -46,6 +46,7 @@ matrix:
               - qt51base
               - qt51script
               - qt51tools
+              - qt51svg
             
         script:
           - source /opt/qt51/bin/qt51-env.sh
@@ -67,6 +68,7 @@ matrix:
               - qt51base
               - qt51script
               - qt51tools
+              - qt51svg
             
         script:
           - source /opt/qt51/bin/qt51-env.sh
@@ -88,6 +90,7 @@ matrix:
               - qt52base
               - qt52script
               - qt52tools
+              - qt52svg
             
         script:
           - source /opt/qt52/bin/qt52-env.sh
@@ -109,6 +112,7 @@ matrix:
               - qt52base
               - qt52script
               - qt52tools
+              - qt52svg
             
         script:
           - source /opt/qt52/bin/qt52-env.sh
@@ -130,6 +134,7 @@ matrix:
               - qt53base
               - qt53script
               - qt53tools
+              - qt53svg
             
         script:
           - source /opt/qt53/bin/qt53-env.sh
@@ -151,6 +156,7 @@ matrix:
               - qt53base
               - qt53script
               - qt53tools
+              - qt53svg
             
         script:
           - source /opt/qt53/bin/qt53-env.sh
@@ -172,6 +178,7 @@ matrix:
               - qt54base
               - qt54script
               - qt54tools
+              - qt54svg
             
         script:
           - source /opt/qt54/bin/qt54-env.sh
@@ -193,6 +200,7 @@ matrix:
               - qt54base
               - qt54script
               - qt54tools
+              - qt54svg
             
         script:
           - source /opt/qt54/bin/qt54-env.sh
@@ -214,6 +222,7 @@ matrix:
               - qt55base
               - qt55script
               - qt55tools
+              - qt55svg
             
         script:
           - source /opt/qt55/bin/qt55-env.sh
@@ -235,6 +244,7 @@ matrix:
               - qt55base
               - qt55script
               - qt55tools
+              - qt55svg
             
         script:
           - source /opt/qt55/bin/qt55-env.sh
@@ -256,6 +266,7 @@ matrix:
               - qt56base
               - qt56script
               - qt56tools
+              - qt56svg
             
         script:
           - source /opt/qt56/bin/qt56-env.sh
@@ -277,6 +288,7 @@ matrix:
               - qt56base
               - qt56script
               - qt56tools
+              - qt56svg
             
         script:
           - source /opt/qt56/bin/qt56-env.sh
@@ -298,6 +310,7 @@ matrix:
               - qt57base
               - qt57script
               - qt57tools
+              - qt57svg
             
         script:
           - source /opt/qt57/bin/qt57-env.sh
@@ -319,6 +332,7 @@ matrix:
               - qt57base
               - qt57script
               - qt57tools
+              - qt57svg
             
         script:
           - source /opt/qt57/bin/qt57-env.sh
@@ -340,6 +354,7 @@ matrix:
               - qt58base
               - qt58script
               - qt58tools
+              - qt58svg
             
         script:
           - source /opt/qt58/bin/qt58-env.sh
@@ -361,6 +376,7 @@ matrix:
               - qt58base
               - qt58script
               - qt58tools
+              - qt58svg
             
         script:
           - source /opt/qt58/bin/qt58-env.sh
@@ -382,6 +398,7 @@ matrix:
               - qt59base
               - qt59script
               - qt59tools
+              - qt59svg
             
         script:
           - source /opt/qt59/bin/qt59-env.sh
@@ -403,6 +420,7 @@ matrix:
               - qt59base
               - qt59script
               - qt59tools
+              - qt59svg
             
         script:
           - source /opt/qt59/bin/qt59-env.sh
@@ -424,6 +442,7 @@ matrix:
               - qt510base
               - qt510script
               - qt510tools
+              - qt510svg
             
         script:
           - source /opt/qt510/bin/qt510-env.sh
@@ -445,6 +464,7 @@ matrix:
               - qt510base
               - qt510script
               - qt510tools
+              - qt510svg
             
         script:
           - source /opt/qt510/bin/qt510-env.sh
@@ -466,6 +486,7 @@ matrix:
               - qt511base
               - qt511script
               - qt511tools
+              - qt511svg
               - mesa-common-dev
               - libgl1-mesa-dev
             
@@ -489,6 +510,7 @@ matrix:
               - qt511base
               - qt511script
               - qt511tools
+              - qt511svg
               - mesa-common-dev
               - libgl1-mesa-dev
               
@@ -512,6 +534,7 @@ matrix:
               - qt512base
               - qt512script
               - qt512tools
+              - qt512svg
               - mesa-common-dev
               - libgl1-mesa-dev
               
@@ -535,6 +558,7 @@ matrix:
               - qt512base
               - qt512script
               - qt512tools
+              - qt512svg
               - mesa-common-dev
               - libgl1-mesa-dev
               
@@ -558,6 +582,7 @@ matrix:
               - qt513base
               - qt513script
               - qt513tools
+              - qt513svg
               - mesa-common-dev
               - libgl1-mesa-dev
               
@@ -581,6 +606,7 @@ matrix:
               - qt513base
               - qt513script
               - qt513tools
+              - qt513svg
               - mesa-common-dev
               - libgl1-mesa-dev
               
@@ -604,6 +630,7 @@ matrix:
               - qt514base
               - qt514script
               - qt514tools
+              - qt514svg
               - mesa-common-dev
               - libgl1-mesa-dev
              
@@ -627,6 +654,7 @@ matrix:
               - qt514base
               - qt514script
               - qt514tools
+              - qt514svg
               - mesa-common-dev
               - libgl1-mesa-dev
              
