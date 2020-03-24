@@ -40,6 +40,8 @@ DialogDesignerManager::DialogDesignerManager(QObject *parent) : QObject(parent)
     m_editWidgetsAction = new QAction(tr("Edit Widgets"), this);
     m_editWidgetsAction->setIcon(QIcon(":/images/images/widgettool.png"));
     m_editWidgetsAction->setEnabled(false);
+    m_editWidgetsAction->setCheckable(true);
+    m_editWidgetsAction->setChecked(true);
     connect(m_editWidgetsAction, SIGNAL(triggered()), this, SLOT(slotEditWidgets()));
     connect(m_formEditor->formWindowManager(), SIGNAL(activeFormWindowChanged(QDesignerFormWindowInterface*)),
             this, SLOT(slotActiveFormWindowChanged(QDesignerFormWindowInterface*)) );
@@ -258,6 +260,8 @@ void DialogDesignerManager::slotActiveFormWindowChanged(QDesignerFormWindowInter
 {
     if (formWindow){
         m_editWidgetsAction->setEnabled(true);
+        m_editWidgetsAction->trigger();
+        m_editWidgetsAction->setChecked(true);
         m_activeWindowName = formWindow->objectName();
     }
 }

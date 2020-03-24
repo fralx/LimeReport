@@ -55,7 +55,6 @@ ShapeItem::ShapeItem(QObject *owner, QGraphicsItem *parent)
       m_shapeBrushType(Qt::NoBrush),
       m_lineWidth(1),
       m_penStyle(Qt::SolidLine),
-      m_opacity(100),
       m_cornerRadius(0)
 {
 }
@@ -89,7 +88,7 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     brush.setTransform(painter->worldTransform().inverted());
     painter->setBrush(brush);
     painter->setBackground(QBrush(Qt::NoBrush));
-    painter->setOpacity(qreal(m_opacity)/100);
+    painter->setOpacity(qreal(opacity())/100);
     QRectF rectangleRect = rect().adjusted((lineWidth() / 2),
                                            (lineWidth() / 2),
                                            -(lineWidth() / 2),
@@ -190,27 +189,5 @@ void ShapeItem::setCornerRadius(int borderRadius)
         notify("cornerRadius",oldValue,m_cornerRadius);
     }
 }
-int ShapeItem::opacity() const
-{
-    return m_opacity;
-}
-
-void ShapeItem::setOpacity(int opacity)
-{
-    if (m_opacity!=opacity){
-        if (opacity < 0) {
-            m_opacity = 0;
-        }
-        else if (opacity > 100) {
-            m_opacity = 100;
-        }
-        else {
-            m_opacity =  opacity;
-        }
-        update();
-    }
-}
-
-
 
 }

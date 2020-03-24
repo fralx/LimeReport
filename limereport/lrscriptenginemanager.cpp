@@ -1408,11 +1408,13 @@ void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
 #ifdef HAVE_UI_LOADER
 
 #ifdef USE_QJSENGINE
-void registerChildObjects(ScriptEngineType* se, ScriptValueType* sv){
-    foreach(QObject* obj, sv->toQObject()->children()){
-        ScriptValueType child = se->newQObject(obj);
-        sv->setProperty(obj->objectName(),child);
-        registerChildObjects(se, &child);
+void registerChildObjects(ScriptEngineType* se, ScriptValueType* root, QObject* currObj){
+    foreach(QObject* obj, currObj->children()){
+        if (!obj->objectName().isEmpty()){
+            ScriptValueType child = se->newQObject(obj);
+            root->setProperty(obj->objectName(),child);
+        }
+        registerChildObjects(se, root, obj);
     }
 }
 #endif
@@ -1422,7 +1424,7 @@ void ScriptEngineContext::initDialogs(){
     foreach(DialogDescriber::Ptr dialog, dialogDescribers()){
         ScriptValueType sv = se->newQObject(getDialog(dialog->name()));
 #ifdef USE_QJSENGINE
-        registerChildObjects(se,&sv);
+        registerChildObjects(se, &sv, sv.toQObject());
 #endif
         se->globalObject().setProperty(dialog->name(),sv);
     }
