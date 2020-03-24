@@ -66,8 +66,6 @@ public:
     qreal   lineWidth() const {return m_lineWidth;}
     Qt::PenStyle penStyle() const;
     void setPenStyle(const Qt::PenStyle &value);
-    int opacity() const;
-    void setOpacity(int opacity);
     int cornerRadius() const;
     void setCornerRadius(int cornerRadius);
 
@@ -81,7 +79,7 @@ private:
     Qt::BrushStyle m_shapeBrushType;
     qreal m_lineWidth;
     Qt::PenStyle m_penStyle;
-    int m_opacity;
+//    int m_opacity;
     int m_cornerRadius;
 };
 
