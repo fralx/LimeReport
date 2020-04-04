@@ -10,6 +10,7 @@ find_package(Qt5Svg)
 find_package(Qt5Qml)
 find_package(Qt5PrintSupport)
 find_package(Qt5Script)
+find_package(Qt5UiTools)
 find_package(PNG REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -319,17 +320,20 @@ limereport/translationeditor/languageselectdialog.ui
 limereport/translationeditor/translationeditor.ui
 
 
-limereport/databrowser/lrdatabrowser.qrc
-limereport/items/items.qrc
-limereport/objectinspector/lobjectinspector.qrc
-limereport/report.qrc
-limereport/scriptbrowser/lrscriptbrowser.qrc)
+./limereport/databrowser/lrdatabrowser.qrc
+./limereport/dialogdesigner/dialogdesigner.qrc
+./limereport/items/items.qrc
+./limereport/objectinspector/lobjectinspector.qrc
+./limereport/report.qrc
+./limereport/scriptbrowser/lrscriptbrowser.qrc
+./limereport/translationeditor/translationeditor.qrc
+)
 
 add_library( limereport_static STATIC ${LIMEREPORT_SOURCES})
 add_library( limereport SHARED ${LIMEREPORT_SOURCES})
-target_link_libraries( limereport_static PNG::PNG Qt5::Core Qt5::Qml Qt5::Widgets Qt5::Xml Qt5::Sql Qt5::PrintSupport Qt5::Script Qt5::Svg)
-target_link_libraries( limereport PNG::PNG Qt5::Core Qt5::Widgets Qt5::Qml Qt5::Xml Qt5::Sql Qt5::PrintSupport Qt5::Script Qt5::Svg)
-target_compile_definitions( limereport_static PRIVATE -DHAVE_QT5 -DHAVE_STATIC_BUILD -DLIMEREPORT_VERSION_STR="dev" -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE )
-target_compile_definitions( limereport PRIVATE -DHAVE_QT5 -DLIMEREPORT_VERSION_STR="dev" -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE)
+target_link_libraries( limereport_static PNG::PNG Qt5::Core Qt5::Qml Qt5::Widgets Qt5::Xml Qt5::Sql Qt5::PrintSupport Qt5::Script Qt5::Svg Qt5::UiTools)
+target_link_libraries( limereport PNG::PNG Qt5::Core Qt5::Widgets Qt5::Qml Qt5::Xml Qt5::Sql Qt5::PrintSupport Qt5::Script Qt5::Svg Qt5::UiTools)
+target_compile_definitions( limereport_static PUBLIC -DHAVE_QT5 -DHAVE_STATIC_BUILD -DLIMEREPORT_VERSION_STR="dev" -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DHAVE_UI_LOADER )
+target_compile_definitions( limereport PUBLIC -DHAVE_QT5 -DLIMEREPORT_VERSION_STR="dev" -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DLIMEREPORT_EXPORTS -DHAVE_UI_LOADER)
 target_include_directories( limereport PRIVATE limereport/ limereport/base limereport/bands limereport/databrowser limereport/items/editors limereport/items limereport/objectinspector limereport/scriptbrowser limereport/serializators 3rdparty/zint-2.6.1/backend_qt 3rdparty/zint-2.6.1/backend limereport/scripteditor)
 target_include_directories( limereport_static PRIVATE limereport/ limereport/base limereport/bands limereport/databrowser limereport/items/editors limereport/items limereport/objectinspector limereport/scriptbrowser limereport/serializators 3rdparty/zint-2.6.1/backend_qt 3rdparty/zint-2.6.1/backend limereport/scripteditor )
