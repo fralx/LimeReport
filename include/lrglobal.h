@@ -51,8 +51,6 @@ namespace LimeReport {
 #define VARIABLE_IS_NOT_USED
 #endif
 
-Q_NAMESPACE
-
 namespace Const{
     int const DEFAULT_GRID_STEP = 1;
     int const RESIZE_HANDLE_SIZE = 5;
