@@ -51,7 +51,9 @@ namespace LimeReport {
 #define VARIABLE_IS_NOT_USED
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 Q_NAMESPACE
+#endif
 
 namespace Const{
     int const DEFAULT_GRID_STEP = 1;
@@ -152,9 +154,6 @@ namespace Const{
     typedef QStyleOptionViewItem StyleOptionViewItem;
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
-    Q_NAMESPACE
-#endif
     class Enums
     {
     public:
