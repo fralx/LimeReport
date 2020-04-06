@@ -609,6 +609,8 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
         while(!bandDatasource->eof() && !m_renderCanceled){
 
+            datasources()->updateChildrenData(dataBand->datasourceName());
+
             BandDesignIntf* rawData = renderData(dataBand);
 
             if (!rawData->isEmpty() || dataBand->printIfEmpty()){
@@ -624,7 +626,6 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
                 if (dataBand->keepFooterTogether() && !bandDatasource->hasNext())
                     openFooterGroup(dataBand);
 
-                datasources()->updateChildrenData(dataBand->datasourceName());
                 m_lastDataBand = dataBand;
 
                 if (header && !firstTime && header->repeatOnEachRow())
