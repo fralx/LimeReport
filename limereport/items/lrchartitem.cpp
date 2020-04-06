@@ -129,7 +129,8 @@ void SeriesItem::setPreferredType(const SeriesItemPreferredType& type)
 ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
     : ItemDesignIntf(xmlTag, owner, parent), m_legendBorder(true),
       m_legendAlign(LegendAlignCenter), m_titleAlign(TitleAlignCenter),
-      m_chartType(Pie), m_labelsField("")
+      m_chartType(Pie), m_labelsField(""), m_isEmpty(true),
+      m_showLegend(true)
 {
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
@@ -176,12 +177,15 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                         (maxTitleHeight)):0;
 
     QRectF titleRect = QRectF(borderMargin,borderMargin,rect().width()-borderMargin*2,titleOffset);
-    QRectF legendRect = m_chart->calcChartLegendRect(painter->font(), rect(), false, borderMargin, titleOffset);
+    QRectF legendRect = QRectF(0,0,0,0);
+    if (m_showLegend)
+        legendRect = m_chart->calcChartLegendRect(painter->font(), rect(), false, borderMargin, titleOffset);
     QRectF diagramRect = rect().adjusted(borderMargin,titleOffset+borderMargin,
                                          -(legendRect.width()+borderMargin*2),-borderMargin);
 
     paintChartTitle(painter, titleRect);
-    m_chart->paintChartLegend(painter,legendRect);
+    if (m_showLegend)
+        m_chart->paintChartLegend(painter,legendRect);
     m_chart->paintChart(painter,diagramRect);
 
     painter->restore();
@@ -224,11 +228,15 @@ QObject *ChartItem::elementAt(const QString &collectionName, int index)
 
 void ChartItem::updateItemSize(DataSourceManager *dataManager, RenderPass , int )
 {
+
+    m_isEmpty = false;
     if (dataManager && dataManager->dataSource(m_datasource)){
         IDataSource* ds =  dataManager->dataSource(m_datasource);
         foreach (SeriesItem* series, m_series) {
-            series->setLabelsColumn(m_labelsField);
-            series->fillSeriesData(ds);
+            if (series->isEmpty()){
+                series->setLabelsColumn(m_labelsField);
+                series->fillSeriesData(ds);
+            }
         }
         fillLabels(ds);
     }
@@ -258,7 +266,22 @@ QWidget *ChartItem::defaultEditor()
 
 bool ChartItem::isNeedUpdateSize(RenderPass pass) const
 {
-    return  pass == FirstPass;
+    return  pass == FirstPass && m_isEmpty;
+}
+
+bool ChartItem::showLegend() const
+{
+    return m_showLegend;
+}
+
+void ChartItem::setShowLegend(bool showLegend)
+{
+    if (m_showLegend != showLegend){
+        m_showLegend = showLegend;
+        notify("showLegend", !m_showLegend, m_showLegend);
+        update();
+    }
+    m_showLegend = showLegend;
 }
 
 QList<QString> ChartItem::labels() const

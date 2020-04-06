@@ -52,6 +52,7 @@ public:
     void setColor(const QColor &color);
     SeriesItemPreferredType preferredType() const;
     void setPreferredType(const SeriesItemPreferredType& preferredType);
+    bool isEmpty(){ return m_data.values().isEmpty();}
 private:
     QString m_name;
     QString m_valuesColumn;
@@ -127,6 +128,7 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(TitleAlign titleAlign READ titleAlign WRITE setTitleAlign)
     Q_PROPERTY(ChartType chartType READ chartType WRITE setChartType)
     Q_PROPERTY(QString labelsField READ labelsField WRITE setLabelsField)
+    Q_PROPERTY(bool showLegend READ showLegend WRITE setShowLegend)
     friend class AbstractChart;
 public:
 
@@ -176,6 +178,9 @@ public:
     void setLabels(const QList<QString> &labels);
     QWidget* defaultEditor();
 
+    bool showLegend() const;
+    void setShowLegend(bool showLegend);
+
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -200,6 +205,8 @@ private:
     ChartType   m_chartType;
     QString     m_labelsField;
     QList<QString> m_labels;
+    bool m_isEmpty;
+    bool m_showLegend;
 };
 
 } //namespace LimeReport
