@@ -216,6 +216,7 @@ void TranslationEditor::on_tbAddLanguage_clicked()
 
 void TranslationEditor::on_tbDeleteLanguage_clicked()
 {
+    if (!m_currentPageTranslation) return;
     m_translationChanging = true;
     m_translationContainer->removeTranslationLanguage(m_currentReportTranslation->language());
     updateUi();
