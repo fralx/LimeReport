@@ -149,7 +149,8 @@ void ReportRender::renameChildItems(BaseDesignIntf *item){
 ReportRender::ReportRender(QObject *parent)
     :QObject(parent), m_renderPageItem(0), m_pageCount(0),
     m_lastRenderedHeader(0), m_lastDataBand(0), m_lastRenderedFooter(0),
-    m_currentColumn(0), m_newPageStarted(false), m_lostHeadersMoved(false)
+    m_lastRenderedBand(0), m_currentColumn(0), m_newPageStarted(false),
+    m_lostHeadersMoved(false)
 {
     initColumns();
 }
@@ -1134,6 +1135,8 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
             emit m_lastDataBand->bandRegistred();
 #endif
         }
+        if (band->bandType() != BandDesignIntf::PageFooter)
+            m_lastRenderedBand = band;
         return true;
     } else return false;
 }
@@ -1505,8 +1508,6 @@ void ReportRender::savePage(bool isLast)
         m_datasources->setReportVariable("#PAGE",m_datasources->variable("#PAGE").toInt()+1);
     }
 
-    BandDesignIntf* pageFooter = m_renderPageItem->bandByType(BandDesignIntf::PageFooter);
-    if (pageFooter) pageFooter->setBandIndex(++m_currentIndex);
     m_renderedPages.append(PageItemDesignIntf::Ptr(m_renderPageItem));
     m_pageCount++;
     emit pageRendered(m_pageCount);
@@ -1518,7 +1519,14 @@ void ReportRender::savePage(bool isLast)
         }
     }
 
+    if (m_renderPageItem->pageFooter()){
+        m_renderPageItem->pageFooter()->setBandIndex(++m_currentIndex);
+        if (m_renderPageItem->pageFooter()->property("removeGap").toBool()){
+            m_renderPageItem->pageFooter()->setPos(m_lastRenderedBand->geometry().bottomLeft());
+        }
+    }
     m_renderPageItem->placeTearOffBand();
+
     m_scriptEngineContext->setCurrentPage(m_renderPageItem);
     emit m_patternPageItem->afterRender();
     if (isLast)
