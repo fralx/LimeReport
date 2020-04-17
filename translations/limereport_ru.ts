@@ -2026,6 +2026,10 @@ p, li { white-space: pre-wrap; }
         <source>shiftItems</source>
         <translation>Смещение элементов</translation>
     </message>
+    <message>
+        <source>removeGap</source>
+        <translation>Удалять разрыв</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>

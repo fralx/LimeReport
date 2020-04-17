@@ -181,7 +181,8 @@ BandDesignIntf *PageItemDesignIntf::bandByType(BandDesignIntf::BandsType bandTyp
     QList<BandDesignIntf*>::const_iterator it = childBands().constBegin();
     for(;it!=childBands().constEnd();++it){
         if ( (*it)->bandType()==bandType) return (*it);
-    }    return 0;
+    }
+    return 0;
 }
 
 bool PageItemDesignIntf::isBandExists(BandDesignIntf::BandsType bandType)

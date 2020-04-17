@@ -212,6 +212,7 @@ private:
     BandDesignIntf* m_lastRenderedHeader;
     BandDesignIntf* m_lastDataBand;
     BandDesignIntf* m_lastRenderedFooter;
+    BandDesignIntf* m_lastRenderedBand;
     bool            m_renderCanceled;
     QVector<qreal>  m_maxHeightByColumn;
     QVector<qreal>  m_currentStartDataPos;
