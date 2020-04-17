@@ -50,7 +50,7 @@ namespace LimeReport{
 
 PageFooter::PageFooter(QObject *owner, QGraphicsItem *parent)
     : BandDesignIntf(LimeReport::BandDesignIntf::PageFooter,xmlTag,owner,parent),
-      m_printOnFirstPage(true), m_printOnLastPage(true)
+      m_printOnFirstPage(true), m_printOnLastPage(true), m_removeGap(false)
 {
         setBandTypeText( tr("Page Footer") );
         setMarkerColor(bandColor());
@@ -88,6 +88,16 @@ void PageFooter::processPopUpAction(QAction *action)
         page()->setPropertyToSelectedItems("printOnLastPage",action->isChecked());
     }
     BandDesignIntf::processPopUpAction(action);
+}
+
+bool PageFooter::removeGap() const
+{
+    return m_removeGap;
+}
+
+void PageFooter::setRemoveGap(bool removeGap)
+{
+    m_removeGap = removeGap;
 }
 
 bool PageFooter::printOnFirstPage() const
