@@ -2030,6 +2030,10 @@ p, li { white-space: pre-wrap; }
         <source>removeGap</source>
         <translation>Удалять разрыв</translation>
     </message>
+    <message>
+        <source>showLegend</source>
+        <translation>Показывать легенду</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
