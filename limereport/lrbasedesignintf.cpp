@@ -84,7 +84,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_selectionMarker(0),
     m_fillTransparentInDesignMode(true),
     m_unitType(Millimeters),
-    m_itemGeometryLocked(false)
+    m_itemGeometryLocked(false),
+    m_isChangingPos(false)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -389,6 +390,7 @@ void BaseDesignIntf::setFixedPos(bool fixedPos)
 void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
+        m_isChangingPos = true;
         m_resizeDirectionFlags = resizeDirectionFlags(event->pos());
         m_startPos = pos();
         m_oldGeometry = geometry();
@@ -396,6 +398,17 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
         emit(itemSelected(this));
     }
     else QGraphicsItem::mousePressEvent(event);
+}
+
+void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QRectF newGeometry = geometry();
+    m_isChangingPos = false;
+    if (newGeometry != m_oldGeometry) {
+        geometryChangedEvent(newGeometry, m_oldGeometry);
+        emit posChanged(this, newGeometry.topLeft(), m_oldGeometry.topLeft());
+    }
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -730,6 +743,16 @@ void BaseDesignIntf::updatePossibleDirectionFlags(){
     case DesignedItemAlign:
        break;
     }
+}
+
+bool BaseDesignIntf::isChangingPos() const
+{
+    return m_isChangingPos;
+}
+
+void BaseDesignIntf::setIsChangingPos(bool isChangingPos)
+{
+    m_isChangingPos = isChangingPos;
 }
 
 bool BaseDesignIntf::isGeometryLocked() const
@@ -1257,15 +1280,6 @@ void BaseDesignIntf::setItemPos(const QPointF &newPos)
     emit posChanging(this, finalPos, oldPos);
 }
 
-void BaseDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    QRectF newGeometry = geometry();
-    if (newGeometry != m_oldGeometry) {
-        geometryChangedEvent(newGeometry, m_oldGeometry);
-        emit posChanged(this, newGeometry.topLeft(), m_oldGeometry.topLeft());
-    }
-    QGraphicsItem::mouseReleaseEvent(event);
-}
 
 QWidget* findRootWidget(QWidget* widget){
     while (widget->parentWidget()) {

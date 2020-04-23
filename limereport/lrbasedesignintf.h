@@ -331,6 +331,9 @@ public:
     bool isGeometryLocked() const;
     void setGeometryLocked(bool itemLocked);
 
+    bool isChangingPos() const;
+    void setIsChangingPos(bool isChangingPos);
+
 protected:
 
     //ICollectionContainer
@@ -460,6 +463,7 @@ private:
     QRect    m_itemGeometry;
     UnitType m_unitType;
     bool     m_itemGeometryLocked;
+    bool     m_isChangingPos;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
