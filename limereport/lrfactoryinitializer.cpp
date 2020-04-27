@@ -160,7 +160,7 @@ void initReportItems(){
 
     DesignElementsFactory::instance().registerCreator(
                 "HLayout",
-                LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::Const::bandTAG),
+                LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::Const::BAND_TAG),
                 createHLayout
     );
     DesignElementsFactory::instance().registerCreator(
@@ -183,58 +183,58 @@ void initReportItems(){
     );
     DesignElementsFactory::instance().registerCreator(
             "Data",
-            LimeReport::ItemAttribs(QObject::tr("Data"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("Data"),LimeReport::Const::BAND_TAG),
             createDataBand
     );
     DesignElementsFactory::instance().registerCreator(
                 "DataHeader",
-                LimeReport::ItemAttribs(QObject::tr("DataHeader"),LimeReport::Const::bandTAG),
+                LimeReport::ItemAttribs(QObject::tr("DataHeader"),LimeReport::Const::BAND_TAG),
                 createHeaderDataBand
     );
     DesignElementsFactory::instance().registerCreator(
                 "DataFooter",
-                LimeReport::ItemAttribs(QObject::tr("DataFooter"),LimeReport::Const::bandTAG),
+                LimeReport::ItemAttribs(QObject::tr("DataFooter"),LimeReport::Const::BAND_TAG),
                 createFooterDataBand
     );
     DesignElementsFactory::instance().registerCreator(
            "GroupHeader",
-            LimeReport::ItemAttribs(QObject::tr("GroupHeader"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("GroupHeader"),LimeReport::Const::BAND_TAG),
             createGroupHeaderBand
     );
     DesignElementsFactory::instance().registerCreator(
             "GroupFooter",
-            LimeReport::ItemAttribs(QObject::tr("GroupFooter"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("GroupFooter"),LimeReport::Const::BAND_TAG),
             createGroupFooterBand
     );
     DesignElementsFactory::instance().registerCreator(
             "PageFooter",
-            LimeReport::ItemAttribs(QObject::tr("Page Footer"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("Page Footer"),LimeReport::Const::BAND_TAG),
             createPageFooterBand
     );
     DesignElementsFactory::instance().registerCreator(
             "PageHeader",
-            LimeReport::ItemAttribs(QObject::tr("Page Header"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("Page Header"),LimeReport::Const::BAND_TAG),
             createPageHeaderBand
     );
     DesignElementsFactory::instance().registerCreator(
             "SubDetail",
-            LimeReport::ItemAttribs(QObject::tr("SubDetail"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("SubDetail"),LimeReport::Const::BAND_TAG),
             createSubDetailBand
     );
 
     DesignElementsFactory::instance().registerCreator(
            "SubDetailHeader",
-            LimeReport::ItemAttribs(QObject::tr("SubDetailHeader"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("SubDetailHeader"),LimeReport::Const::BAND_TAG),
             createSubDetailHeaderBand
     );
     DesignElementsFactory::instance().registerCreator(
             "SubDetailFooter",
-            LimeReport::ItemAttribs(QObject::tr("SubDetailFooter"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("SubDetailFooter"),LimeReport::Const::BAND_TAG),
             createSubDetailFooterBand
     );
     DesignElementsFactory::instance().registerCreator(
             "TearOffBand",
-            LimeReport::ItemAttribs(QObject::tr("Tear-off Band"),LimeReport::Const::bandTAG),
+            LimeReport::ItemAttribs(QObject::tr("Tear-off Band"),LimeReport::Const::BAND_TAG),
             createTearOffBand
     );
 

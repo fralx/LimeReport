@@ -38,7 +38,10 @@
 namespace LimeReport {
 
 BandMarker::BandMarker(BandDesignIntf *band, QGraphicsItem* parent)
-    :QGraphicsItem(parent),m_rect(0,0,30,30),m_band(band)
+    : QGraphicsItem(parent),
+      m_rect(0, 0, 3 * band->ppm(), 3 * band->ppm() ),
+      m_band(band),
+      m_isMoving(false)
 {
     setAcceptHoverEvents(true);
 }
@@ -51,27 +54,34 @@ QRectF BandMarker::boundingRect() const
 void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**option*/, QWidget* /*widget*/)
 {
     painter->save();
-    painter->setOpacity(Const::BAND_MARKER_OPACITY);
-    painter->fillRect(boundingRect(),m_color);
+    painter->setOpacity(Const::BAND_MARKER_SELECTED_OPACITY);
+    painter->fillRect(boundingRect(), m_color);
     painter->setOpacity(1);
     painter->setPen(QPen(QBrush(Qt::lightGray),2));
-    painter->fillRect(QRectF(
-                boundingRect().bottomLeft().x(),
-                boundingRect().bottomLeft().y()-4,
-                boundingRect().width(),4), Qt::lightGray
-    );
-
-    painter->setRenderHint(QPainter::Antialiasing);
-    qreal size = (boundingRect().width()<boundingRect().height()) ? boundingRect().width() : boundingRect().height();
-    QRectF r = QRectF(0,0,size,size);
-    painter->setBrush(Qt::white);
-    painter->setPen(Qt::white);
-    painter->drawEllipse(r.adjusted(5,5,-5,-5));
-    if (m_band->isSelected()){
-        painter->setBrush(LimeReport::Const::SELECTION_COLOR);
-        painter->drawEllipse(r.adjusted(7,7,-7,-7));
+    if (m_band->ppm() >= 5){
+        int startPos = (boundingRect().width() - 10) / 2;
+        for (int i = 0; i<3; i++){
+            painter->fillRect(QRectF(startPos, boundingRect().height() - 6, 2, 2), Qt::white);
+            startPos += 4;
+        }
+        painter->setPen(Qt::white);
+        painter->drawLine(0, boundingRect().height()-1, boundingRect().width(), boundingRect().height()-1);
+    } else {
+        painter->fillRect(QRectF(
+                    boundingRect().bottomLeft().x(),
+                    boundingRect().bottomLeft().y() - 2,
+                    boundingRect().width(),2), Qt::white
+        );
     }
 
+    if (m_band->isSelected()){
+        painter->setRenderHint(QPainter::Antialiasing);
+        qreal size = (boundingRect().width() < boundingRect().height()) ? boundingRect().width() : boundingRect().height();
+        QRectF r = QRectF(0,0,size,size);
+        painter->setBrush(Qt::white);
+        painter->setPen(Qt::white);
+        painter->drawEllipse(r.adjusted(3,3,-3,-3));
+    }
     painter->restore();
 }
 
@@ -106,6 +116,10 @@ void BandMarker::mousePressEvent(QGraphicsSceneMouseEvent *event)
             m_band->scene()->clearSelection();
         m_band->setSelected(true);
         m_oldBandPos = m_band->pos();
+        if (!hasCursor()){
+            m_isMoving = true;
+            m_band->setIsChangingPos(true);
+        }
         update(0,0,boundingRect().width(),boundingRect().width());
     }
 }
@@ -138,6 +152,8 @@ void BandMarker::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void BandMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event)
+    m_isMoving = false;
+    m_band->setIsChangingPos(false);
     m_band->posChanged(m_band, m_band->pos(), m_oldBandPos);
 }
 
@@ -168,7 +184,9 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_repeatOnEachRow(false),
     m_useAlternateBackgroundColor(false),
     m_bottomSpace(0),
-    m_shiftItems(0)
+    m_shiftItems(0),
+    m_paddingTop(0),
+    m_paddingBottom(0)
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -180,7 +198,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
 
     setBackgroundMode(BaseDesignIntf::TransparentMode);
     setFillTransparentInDesignMode(false);
-    setHeight(100);
+    setHeight(Const::DEFAULT_BAND_HEIGHT * Const::STORAGE_MM_FACTOR);
     setFixedPos(true);
     setFlag(QGraphicsItem::ItemClipsChildrenToShape);
     m_bandMarker = new BandMarker(this);
@@ -249,6 +267,12 @@ bool BandDesignIntf::isNeedUpdateSize(RenderPass pass) const{
     return false;
 }
 
+void BandDesignIntf::setPpm(int ppm)
+{
+    ItemsContainerDesignInft::setPpm(ppm);
+    updateBandMarkerGeometry(QRectF(pos(),size()));
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     prepareRect(painter, option, widget);
@@ -256,7 +280,7 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     if (itemMode() & DesignMode){
         painter->save();
         QString bandText = bandTitle();
-        QFont font("Arial", 7 * Const::fontFACTOR, -1, true);
+        QFont font("Arial", 6 * Const::FONT_FACTOR * ppm(), -1, true);
         QFontMetrics fontMetrics(font);
 
         QVector<QRectF> bandNameRects;
@@ -272,10 +296,10 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         for (int i=0;i<bandNameRects.count();i++){
             QRectF labelRect = bandNameRects[i].adjusted(-2,-2,2,2);
             if ((labelRect.height())<height() && (childBaseItems().isEmpty()) && !isSelected()){
-                painter->setRenderHint(QPainter::Antialiasing);
+                //painter->setRenderHint(QPainter::Antialiasing);
                 painter->setBrush(bandColor());
                 painter->setOpacity(Const::BAND_NAME_AREA_OPACITY);
-                painter->drawRoundedRect(labelRect,8,8);
+                painter->drawRect(labelRect);
                 painter->setOpacity(Const::BAND_NAME_TEXT_OPACITY);
                 painter->setPen(Qt::black);
                 painter->drawText(bandNameRects[i],Qt::AlignHCenter,bandText);
@@ -286,10 +310,10 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     BaseDesignIntf::paint(painter,option,widget);
 }
 
-QRectF BandDesignIntf::boundingRect() const
-{
-    return ItemsContainerDesignInft::boundingRect().adjusted(0,-4,0,4);
-}
+//QRectF BandDesignIntf::boundingRect() const
+//{
+//    return ItemsContainerDesignInft::boundingRect().adjusted(0,-4,0,4);
+//}
 
 void BandDesignIntf::translateBandsName()
 {
@@ -359,7 +383,7 @@ bool BandDesignIntf::isUnique() const
 void BandDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
 {
     ItemsContainerDesignInft::setItemMode(mode);
-    updateBandMarkerGeometry();
+    updateBandMarkerGeometry(QRectF(pos(),size()));
 }
 
 QString BandDesignIntf::datasourceName(){
@@ -741,10 +765,10 @@ void BandDesignIntf::parentObjectLoadFinished()
         setParentBand(findParentBand());
 }
 
-void BandDesignIntf::objectLoadFinished()
+void BandDesignIntf::finishLoading()
 {
     m_bandMarker->setHeight(height());
-    BaseDesignIntf::objectLoadFinished();
+    BaseDesignIntf::finishLoading();
 }
 
 void BandDesignIntf::emitBandRendered(BandDesignIntf* band)
@@ -804,18 +828,19 @@ BandDesignIntf* BandDesignIntf::findParentBand()
     return 0;
 }
 
-void BandDesignIntf::updateBandMarkerGeometry()
+void BandDesignIntf::updateBandMarkerGeometry(QRectF geometry)
 {
     if (parentItem() && m_bandMarker){
-        m_bandMarker->setPos(pos().x()-m_bandMarker->width(),pos().y());
-        m_bandMarker->setHeight(rect().height());
+        m_bandMarker->setWidth(3 * ppm());
+        m_bandMarker->setHeight(geometry.height());
+        m_bandMarker->setPos(geometry.x()-m_bandMarker->width(),geometry.y());
     }
 }
 
 void BandDesignIntf::geometryChangedEvent(QRectF, QRectF )
 {
     if (((itemMode()&DesignMode) || (itemMode()&EditMode))&&parentItem()){
-        updateBandMarkerGeometry();
+        updateBandMarkerGeometry(QRectF(pos(), size()));
     }
     foreach (BaseDesignIntf* item, childBaseItems()) {
         if (item->itemAlign()!=DesignedItemAlign){
@@ -827,10 +852,7 @@ void BandDesignIntf::geometryChangedEvent(QRectF, QRectF )
 QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if ((change==ItemPositionChange)&&((itemMode()&DesignMode)||(itemMode()&EditMode))){
-        if (m_bandMarker){
-            m_bandMarker->setPos((value.toPointF().x()-m_bandMarker->boundingRect().width()),
-                                 value.toPointF().y());
-        }
+        updateBandMarkerGeometry(QRectF(value.toPointF(),size()));
     }
     if (change==ItemSelectedChange){
         if (m_bandMarker){
@@ -921,6 +943,31 @@ void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QStrin
     update();
     if (m_bandNameLabel)
         m_bandNameLabel->updateLabel(newName);
+}
+
+int BandDesignIntf::paddingBottom() const
+{
+    return m_paddingBottom;
+}
+
+void BandDesignIntf::setPaddingBottom(int paddingBottom)
+{
+    m_paddingBottom = paddingBottom;
+}
+
+QRectF BandDesignIntf::boundingRect() const
+{
+    return  ItemsContainerDesignInft::boundingRect().adjusted(0,0,0,1);
+}
+
+int BandDesignIntf::paddingTop() const
+{
+    return m_paddingTop;
+}
+
+void BandDesignIntf::setPaddingTop(int paddingTop)
+{
+    m_paddingTop = paddingTop;
 }
 
 int BandDesignIntf::shiftItems() const
@@ -1120,7 +1167,7 @@ void BandDesignIntf::setKeepFooterTogether(bool value)
 
 void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-    qreal spaceBorder = 0;
+    qreal spaceBorder = m_paddingBottom+1;
     if (keepBottomSpace()) spaceBorder = bottomSpace();
     spaceBorder = spaceBorder > 0 ? spaceBorder : 0;
     if (borderLines() != 0){
@@ -1134,7 +1181,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     arrangeSubItems(pass, dataManager); 
     if (autoHeight()){
         if (!keepTopSpace()) {
-            qreal minTop = findMinTop() + m_shiftItems;
+            qreal minTop = findMinTop() + m_shiftItems - m_paddingTop;
             foreach (BaseDesignIntf* item, childBaseItems()) {
                 item->setY(item->y() - minTop);
             }
@@ -1183,14 +1230,14 @@ BandNameLabel::BandNameLabel(BandDesignIntf *band, QGraphicsItem *parent)
 void BandNameLabel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->save();
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->setFont(QFont("Arial",7*Const::fontFACTOR,-1,true));
+    //painter->setRenderHint(QPainter::Antialiasing);
+    painter->setFont(QFont("Arial", 6 * Const::FONT_FACTOR * m_band->ppm(), -1, true));
     painter->setOpacity(1);
     QPen pen(Const::BAND_NAME_BORDER_COLOR);
     //pen.setWidth(2);
     painter->setBrush(Qt::yellow);
     painter->setPen(pen);
-    painter->drawRoundedRect(m_rect,8,8);
+    painter->drawRect(m_rect);
     painter->setOpacity(0.8);
     painter->setPen(Qt::black);
     painter->drawText(m_rect,Qt::AlignCenter,m_band->bandTitle());
@@ -1206,13 +1253,13 @@ QRectF BandNameLabel::boundingRect() const
 
 void BandNameLabel::updateLabel(const QString& bandName)
 {
-    QFont font("Arial",7*Const::fontFACTOR,-1,true);
+    QFont font("Arial", 6 * Const::FONT_FACTOR * m_band->ppm(), -1, true);
     QFontMetrics fontMetrics(font);
     prepareGeometryChange();
     m_rect = QRectF(
-                m_band->pos().x()+10,
+                m_band->pos().x()+6,
                 m_band->pos().y()-(fontMetrics.height()+10),
-                fontMetrics.width(bandName)+20,fontMetrics.height()+10
+                fontMetrics.width(bandName)+40,fontMetrics.height()+10
                 );
     update();
 }

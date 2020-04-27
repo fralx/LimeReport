@@ -160,7 +160,6 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
     Q_UNUSED(widget);
     Q_UNUSED(style);
 
-
     TextPtr text = textDocument();
 
     painter->save();
@@ -975,9 +974,9 @@ BaseDesignIntf *TextItem::cloneEmpty(int height, QObject *owner, QGraphicsItem *
     return empty;
 }
 
-void TextItem::objectLoadFinished()
+void TextItem::finishLoading()
 {
-    ItemDesignIntf::objectLoadFinished();
+    ItemDesignIntf::finishLoading();
 //    if (itemMode() == DesignMode || !isNeedExpandContent()){
 //        if (autoHeight() && autoWidth())
 //            initTextSizes();

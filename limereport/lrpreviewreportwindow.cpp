@@ -420,7 +420,7 @@ ItemsReaderIntf *PreviewReportWindow::reader()
 
 void PreviewReportWindow::initPercentCombobox()
 {
-    for (int i = 10; i<310; i+=10){
+    for (int i = 20; i<320; i+=20){
         m_scalePercent->addItem(QString("%1%").arg(i));
     }
     m_scalePercent->setCurrentIndex(4);

@@ -85,7 +85,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_fillTransparentInDesignMode(true),
     m_unitType(Millimeters),
     m_itemGeometryLocked(false),
-    m_isChangingPos(false)
+    m_isChangingPos(false),
+    m_ppm(Const::STORAGE_MM_FACTOR)
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -98,13 +99,15 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
 
 QRectF BaseDesignIntf::boundingRect() const
 {
-    qreal halfpw = pen().widthF() / 2;
-            halfpw += 2;
-    return rect().adjusted(-halfpw, -halfpw, halfpw, halfpw);
+    //qreal halfpw = pen().widthF() / 2;
+    //        halfpw += 2;
+    //return rect().adjusted(-halfpw, -halfpw, halfpw, halfpw);
+    return rect();
 }
 
 BaseDesignIntf::~BaseDesignIntf(void) {
-
+    if (m_selectionMarker)
+        delete m_selectionMarker;
 }
 
 void BaseDesignIntf::setParentReportItem(const QString &value)
@@ -253,7 +256,7 @@ QString BaseDesignIntf::setItemPosY(qreal yValue)
 QFont BaseDesignIntf::transformToSceneFont(const QFont& value) const
 {
     QFont f = value;
-    f.setPixelSize(f.pointSize()*Const::fontFACTOR);
+    f.setPixelSize(f.pointSize() * Const::FONT_FACTOR * ppm());
     return f;
 }
 
@@ -287,7 +290,7 @@ void BaseDesignIntf::setupPainter(QPainter *painter) const
     if (!painter) {
         return;
     }
-    painter->setFont(m_font);
+    painter->setFont(transformToSceneFont(m_font));
     painter->setPen(m_fontColor);
 }
 
@@ -335,17 +338,17 @@ QSizeF BaseDesignIntf::size() const
 
 QSizeF BaseDesignIntf::sizeMM() const
 {
-    return QSizeF(width() / Const::mmFACTOR, height() / Const::mmFACTOR);
+    return QSizeF(width() / ppm(), height() / ppm());
 }
 
 qreal BaseDesignIntf::widthMM() const
 {
-    return width() / Const::mmFACTOR;
+    return width() / ppm();
 }
 
 qreal BaseDesignIntf::heightMM() const
 {
-    return height() / Const::mmFACTOR;
+    return height() / ppm();
 }
 
 //void BaseDesignIntf::setUnitFactor(qreal unitFactor)
@@ -356,8 +359,8 @@ qreal BaseDesignIntf::heightMM() const
 qreal BaseDesignIntf::unitFactor() const
 {
     if (m_unitType  == Millimeters)
-        return Const::mmFACTOR;
-    else return Const::mmFACTOR * 2.54;
+        return ppm();
+    else return ppm() * 2.54;
 }
 
 void BaseDesignIntf::setUnitType(BaseDesignIntf::UnitType value)
@@ -374,7 +377,7 @@ BaseDesignIntf::UnitType BaseDesignIntf::unitType()
 
 QPointF BaseDesignIntf::posMM() const
 {
-    return QPointF(pos().x() / Const::mmFACTOR, pos().y() / Const::mmFACTOR);
+    return QPointF(pos().x() / ppm(), pos().y() / ppm());
 }
 
 QRectF BaseDesignIntf::rect() const
@@ -515,7 +518,7 @@ void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
     update();
 }
 
-void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent /**event*/)
+void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent* /*event*/)
 {
     m_hovered = true;
     update();
@@ -676,8 +679,8 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
     BaseDesignIntf* parent = dynamic_cast<BaseDesignIntf*>(parentItem());
     PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
     if (parent){
-        qreal leftBorder = parentPage ? parentPage->leftMargin() * Const::mmFACTOR : 0;
-        qreal rightBorder = parentPage ? parentPage->rightMargin() * Const::mmFACTOR : 0;
+        qreal leftBorder = parentPage ? parentPage->leftMargin() * ppm() : 0;
+        qreal rightBorder = parentPage ? parentPage->rightMargin() * ppm() : 0;
         qreal avaibleSpace = parent->width()-(leftBorder+rightBorder);
 
         switch(m_itemAlign){
@@ -718,8 +721,8 @@ void BaseDesignIntf::updateItemAlign(){
     PageItemDesignIntf* parentPage = dynamic_cast<PageItemDesignIntf*>(parentItem());
     m_changingItemAlign = true;
     if (parent){
-        qreal leftBorder = parentPage ? parentPage->leftMargin() * Const::mmFACTOR : 0;
-        qreal rightBorder = parentPage ? parentPage->rightMargin() * Const::mmFACTOR : 0;
+        qreal leftBorder = parentPage ? parentPage->leftMargin() * ppm() : 0;
+        qreal rightBorder = parentPage ? parentPage->rightMargin() * ppm() : 0;
         qreal aviableSpace = parent->width()-(leftBorder+rightBorder);
         setPos(modifyPosForAlignedItem(pos()));
         if (m_itemAlign == ParentWidthItemAlign)
@@ -742,6 +745,19 @@ void BaseDesignIntf::updatePossibleDirectionFlags(){
     case CenterItemAlign:
     case DesignedItemAlign:
        break;
+    }
+}
+
+int BaseDesignIntf::ppm() const
+{
+    return m_ppm;
+}
+
+void BaseDesignIntf::setPpm(int ppm)
+{
+    if (m_ppm != ppm){
+        m_ppm = ppm;
+        update();
     }
 }
 
@@ -833,7 +849,7 @@ void BaseDesignIntf::updateSelectionMarker()
         if ((!m_selectionMarker->scene()) && scene()) scene()->addItem(m_selectionMarker);
         if (parentItem()) {
             m_selectionMarker->setRect(rect());
-            m_selectionMarker->setPos(0,0);
+            m_selectionMarker->setPos(mapToItem(parentItem(), QPoint(0,0)));
         }
     }
 }
@@ -841,11 +857,12 @@ void BaseDesignIntf::updateSelectionMarker()
 void BaseDesignIntf::turnOnSelectionMarker(bool value)
 {
     if (value && !m_selectionMarker){
-        m_selectionMarker = new SelectionMarker(this, this);
+        m_selectionMarker = new SelectionMarker(this->parentItem(), this);
         m_selectionMarker->setColor(selectionMarkerColor());
         updateSelectionMarker();
         m_selectionMarker->setVisible(true);
     } else {
+        scene()->removeItem(m_selectionMarker);
         delete m_selectionMarker;
         m_selectionMarker = 0;
     }
@@ -1079,9 +1096,9 @@ void BaseDesignIntf::setGeometry(QRectF rect)
     m_bottomRect = QRectF(0-resizeHandleSize(), height() - resizeHandleSize(),  width()+resizeHandleSize()*2, resizeHandleSize()*2);
     m_leftRect = QRectF(0-resizeHandleSize(), 0-resizeHandleSize(), resizeHandleSize()*2, height()+resizeHandleSize()*2);
     m_rightRect = QRectF(width() - resizeHandleSize(), 0-resizeHandleSize(), resizeHandleSize()*2, height()+resizeHandleSize()*2);
-    m_boundingRect = QRectF();
+    //m_boundingRect = QRectF();
     updateSelectionMarker();
-    if (!isLoading()){
+    if (!isLoading() && !isPpmChanging()){
         geometryChangedEvent(geometry(), m_oldGeometry);
         emit geometryChanged(this, geometry(), m_oldGeometry);
     }
@@ -1168,7 +1185,8 @@ QVariant BaseDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
 
     if (change == QGraphicsItem::ItemPositionHasChanged) {
         updateSelectionMarker();
-        emit geometryChanged(this, geometry(), geometry());
+        if (!isLoading() && !isPpmChanging())
+            emit geometryChanged(this, geometry(), geometry());
     }
 
     if (change == QGraphicsItem::ItemSelectedChange) {
@@ -1530,19 +1548,19 @@ BaseDesignIntf *BaseDesignIntf::cloneItemWOChild(ItemMode mode, QObject *owner, 
     BaseDesignIntf *clone = createSameTypeItem(owner, parent);
     clone->setObjectName(this->objectName());
     clone->setItemMode(mode);
-    clone->objectLoadStarted();
+    clone->startLoading();
     clone->setReportSettings(this->reportSettings());
     for (int i = 0; i < clone->metaObject()->propertyCount(); i++) {
         if (clone->metaObject()->property(i).isWritable())
             clone->setProperty(clone->metaObject()->property(i).name(), property(clone->metaObject()->property(i).name()));
     }
-    clone->objectLoadFinished();
+    clone->finishLoading();
     return clone;
 }
 
 void BaseDesignIntf::initFromItem(BaseDesignIntf *source)
 {
-    objectLoadStarted();
+    startLoading();
     for (int i = 0; i < metaObject()->propertyCount(); i++) {
         if (strcmp(metaObject()->property(i).name(),"objectName")!=0)
             if (source->property(metaObject()->property(i).name()).isValid()) {
@@ -1550,7 +1568,7 @@ void BaseDesignIntf::initFromItem(BaseDesignIntf *source)
                     setProperty(metaObject()->property(i).name(), source->property(metaObject()->property(i).name()));
             }
     }
-    objectLoadFinished();
+    finishLoading();
 }
 
 bool BaseDesignIntf::canBeSplitted(int height) const
@@ -1569,19 +1587,41 @@ BaseDesignIntf *BaseDesignIntf::cloneEmpty(int height, QObject *owner, QGraphics
 {Q_UNUSED(height); Q_UNUSED(owner); Q_UNUSED(parent); return 0;}
 
 
-void BaseDesignIntf::objectLoadStarted()
+void BaseDesignIntf::startLoading()
 {
     m_objectState = ObjectLoading;
 }
 
-void BaseDesignIntf::objectLoadFinished()
+void BaseDesignIntf::finishLoading()
 {
     m_objectState = ObjectLoaded;
     emit objectLoaded(this);
 }
 
+void BaseDesignIntf::startSaving()
+{
+    m_objectState = ObjectSaving;
+}
+
+void BaseDesignIntf::finishSaving()
+{
+    m_objectState = ObjectSaved;
+}
+
+void BaseDesignIntf::startChangingPpm()
+{
+    m_objectState = ObjectPpmChanging;
+}
+
+void BaseDesignIntf::finishChangingPpm()
+{
+    m_objectState = ObjectPpmChanged;
+}
+
 void BaseDesignIntf::parentObjectLoadFinished()
-{}
+{
+    m_objectState = ObjectLoaded;
+}
 
 QList<BaseDesignIntf *> BaseDesignIntf::childBaseItems() const
 {
@@ -1683,9 +1723,9 @@ QRectF Marker::boundingRect() const
 void Marker::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
     QPen pen;
-    const int markerSize = 5;
+    const int markerSize = 3;
     pen.setColor(color());
-    pen.setWidth(2);
+    pen.setWidth(1);
     pen.setStyle(Qt::DotLine);
     painter->setPen(pen);
     painter->setOpacity(Const::SELECTION_COLOR_OPACITY);
@@ -1750,7 +1790,6 @@ void SelectionMarker::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void SelectionMarker::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "mouse move";
     if (owner()) owner()->mouseMoveEvent(event);
 }
 

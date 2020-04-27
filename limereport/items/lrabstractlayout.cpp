@@ -218,10 +218,10 @@ void AbstractLayout::collectionLoadFinished(const QString& collectionName)
     }
 }
 
-void AbstractLayout::objectLoadFinished()
+void AbstractLayout::finishLoading()
 {
     layoutMarker()->setHeight(height());
-    LayoutDesignIntf::objectLoadFinished();
+    LayoutDesignIntf::finishLoading();
 }
 
 bool AbstractLayout::isNeedUpdateSize(RenderPass pass) const

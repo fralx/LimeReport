@@ -51,7 +51,7 @@ QStringList BandsManager::bandNames()
             <<QObject::tr("Data")<<QObject::tr("SubDetail");
 
     foreach(ItemAttribs attr,LimeReport::DesignElementsFactory::instance().attribsMap().values()){
-        if ((attr.m_tag==LimeReport::Const::bandTAG)&&(!bandsList.contains(attr.m_alias)))
+        if ((attr.m_tag==LimeReport::Const::BAND_TAG)&&(!bandsList.contains(attr.m_alias)))
             bandsList.append(attr.m_alias);
     }
 
@@ -60,7 +60,7 @@ QStringList BandsManager::bandNames()
 
 BandDesignIntf* BandsManager::createBand(const QString &type, QObject *owner, LimeReport::BaseDesignIntf *parent)
 {
-    QString identity = LimeReport::DesignElementsFactory::instance().attribsMap().key(LimeReport::ItemAttribs(type,LimeReport::Const::bandTAG));
+    QString identity = LimeReport::DesignElementsFactory::instance().attribsMap().key(LimeReport::ItemAttribs(type,LimeReport::Const::BAND_TAG));
     return dynamic_cast<LimeReport::BandDesignIntf*>(LimeReport::DesignElementsFactory::instance().objectCreator(identity)(owner,parent));
 }
 

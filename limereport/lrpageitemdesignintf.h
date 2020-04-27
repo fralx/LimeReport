@@ -136,7 +136,7 @@ public:
     QList<BandDesignIntf *>& bands();
     void setGridStep(int value);
     int gridStep();
-    void objectLoadFinished();
+    void finishLoading();
     bool fullPage() const;
     void setFullPage(bool fullPage);
 
@@ -177,6 +177,10 @@ public:
     PrintBehavior printBehavior() const;
     void setPrintBehavior(const PrintBehavior &printBehavior);
 
+    void setPpm(int ppm);
+    QRectF transformFromStorageToScenePpm(const QRectF& rect);
+    void zoomIn();
+    void zoomOut();
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -186,6 +190,7 @@ protected slots:
     void bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void setUnitTypeProperty(BaseDesignIntf::UnitType value);
 protected:
+    QRectF  changeRectPpm(const QRectF& rect, int oldPpm, int newPpm);
     void    collectionLoadFinished(const QString& collectionName);
     QRectF& pageRect(){return m_pageRect;}
     void    updateMarginRect();

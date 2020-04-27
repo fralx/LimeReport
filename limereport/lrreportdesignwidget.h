@@ -144,7 +144,10 @@ public:
     QGraphicsView* activeView();
     QList<QGraphicsItem *> selectedItems();
     QStringList datasourcesNames();
-    void scale( qreal sx, qreal sy);
+    //void scale( qreal sx, qreal sy);
+    void zoomIn();
+    void zoomOut();
+
     ReportEnginePrivateInterface* report(){return m_report;}
     QString reportFileName();
     bool isNeedToSave();

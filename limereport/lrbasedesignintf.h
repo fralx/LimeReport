@@ -81,7 +81,9 @@ class DataSourceManager;
 class ReportRender;
 
 class  BaseDesignIntf :
-        public QObject, public QGraphicsItem, public ICollectionContainer, public ObjectLoadingStateIntf {
+        public QObject, public QGraphicsItem, public ICollectionContainer,
+        public ObjectLoadingStateIntf, public ObjectSavingStateIntf
+{
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
     Q_FLAGS(BorderLines)
@@ -99,49 +101,65 @@ class  BaseDesignIntf :
 public:
     enum BGMode { TransparentMode, OpaqueMode};
 
+    enum BrushStyle{
+        NoBrush,
+        SolidPattern,
+        Dense1Pattern,
+        Dense2Pattern,
+        Dense3Pattern,
+        Dense4Pattern,
+        Dense5Pattern,
+        Dense6Pattern,
+        Dense7Pattern,
+        HorPattern,
+        VerPattern,
+        CrossPattern,
+        BDiagPattern,
+        FDiagPattern
+    };
 
-    enum BrushStyle{ NoBrush,
-                     SolidPattern,
-                     Dense1Pattern,
-                     Dense2Pattern,
-                     Dense3Pattern,
-                     Dense4Pattern,
-                     Dense5Pattern,
-                     Dense6Pattern,
-                     Dense7Pattern,
-                     HorPattern,
-                     VerPattern,
-                     CrossPattern,
-                     BDiagPattern,
-                     FDiagPattern };
+    enum ResizeFlags {
+        Fixed = 0,
+        ResizeLeft = 1,
+        ResizeRight = 2,
+        ResizeTop = 4,
+        ResizeBottom = 8,
+        AllDirections = 15
+    };
 
-
-    enum ResizeFlags { Fixed = 0,
-                       ResizeLeft = 1,
-                       ResizeRight = 2,
-                       ResizeTop = 4,
-                       ResizeBottom = 8,
-                       AllDirections = 15
-                     };
-
-    enum MoveFlags  { None = 0,
-                      LeftRight=1,
-                      TopBotom=2,
-                      All=3
-                    };
+    enum MoveFlags  {
+        None = 0,
+        LeftRight=1,
+        TopBotom=2,
+        All=3
+    };
 
     enum BorderSide {
-                        NoLine = 0,
-                        TopLine = 1,
-                        BottomLine = 2,
-                        LeftLine = 4,
-                        RightLine = 8,
-                        AllLines = 15
-                    };
+        NoLine = 0,
+        TopLine = 1,
+        BottomLine = 2,
+        LeftLine = 4,
+        RightLine = 8,
+        AllLines = 15
+    };
 
-    enum ObjectState {ObjectLoading, ObjectLoaded, ObjectCreated};
+    enum ObjectState {
+        ObjectLoading,
+        ObjectLoaded,
+        ObjectCreated,
+        ObjectSaving,
+        ObjectSaved,
+        ObjectPpmChanging,
+        ObjectPpmChanged
+    };
 
-    enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
+    enum ItemAlign {
+        LeftItemAlign,
+        RightItemAlign,
+        CenterItemAlign,
+        ParentWidthItemAlign,
+        DesignedItemAlign
+    };
 
     enum UnitType {Millimeters, Inches};
 #if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
@@ -258,10 +276,19 @@ public:
     virtual BaseDesignIntf* cloneBottomPart(int height, QObject* owner=0, QGraphicsItem* parent=0);
     virtual BaseDesignIntf* cloneEmpty(int height, QObject* owner=0, QGraphicsItem* parent=0);
 
-    bool isLoaded(){return m_objectState==ObjectLoaded;}
-    bool isLoading(){return m_objectState==ObjectLoading;}
-    void objectLoadStarted();
-    void objectLoadFinished();
+    bool isLoaded(){return m_objectState == ObjectLoaded;}
+    bool isLoading(){return m_objectState == ObjectLoading;}
+    bool isSaving(){return  m_objectState == ObjectSaving;}
+    bool isSaved(){return  m_objectState == ObjectSaved;}
+    bool isPpmChanging() {return m_objectState == ObjectPpmChanging;}
+
+    void startLoading();
+    void finishLoading();
+    void startSaving();
+    void finishSaving();
+    void startChangingPpm();
+    void finishChangingPpm();
+
     virtual void parentObjectLoadFinished();
     virtual void beforeDelete();
 
@@ -334,6 +361,9 @@ public:
     bool isChangingPos() const;
     void setIsChangingPos(bool isChangingPos);
 
+    int ppm() const;
+    virtual void setPpm(int ppm);
+
 protected:
 
     //ICollectionContainer
@@ -346,7 +376,7 @@ protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent* event);
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void  hoverEnterEvent(QGraphicsSceneHoverEvent);
+    void  hoverEnterEvent(QGraphicsSceneHoverEvent* );
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
@@ -423,7 +453,7 @@ private:
     int     m_borderLineSize;
 
     QRectF  m_rect;
-    mutable QRectF  m_boundingRect;
+    //mutable QRectF  m_boundingRect;
 
     QRectF  m_oldGeometry;
     BGMode  m_BGMode;
@@ -464,6 +494,7 @@ private:
     UnitType m_unitType;
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
+    int      m_ppm;
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);

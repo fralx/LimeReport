@@ -239,11 +239,16 @@ void PageDesignIntf::startInsertMode(const QString &ItemType)
     emit insertModeStarted();
     m_insertMode = true;
     m_insertItemType = ItemType;
-    m_itemInsertRect = this->addRect(0, 0, 200, 50);
-    m_itemInsertRect->setVisible(false);
+
     PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
-    if (page)
+    if (page){
+        m_itemInsertRect = this->addRect(0, 0,
+                                         Const::DEFAULT_ITEM_WIDTH * page->ppm(),
+                                         Const::DEFAULT_ITEM_HEIGHT * page->ppm()
+                                         );
+        m_itemInsertRect->setVisible(false);
         m_itemInsertRect->setParentItem(page);
+    }
 }
 
 void PageDesignIntf::startEditMode()
@@ -268,10 +273,10 @@ void PageDesignIntf::setPageItem(PageItemDesignIntf::Ptr pageItem)
     }
     m_pageItem = pageItem;
     m_pageItem->setItemMode(itemMode());
-    setSceneRect(pageItem->rect().adjusted(-10 * Const::mmFACTOR,
-                                           -10 * Const::mmFACTOR,
-                                           10 * Const::mmFACTOR,
-                                           10 * Const::mmFACTOR));
+    setSceneRect(pageItem->rect().adjusted(-10 * pageItem->ppm(),
+                                           -10 * pageItem->ppm(),
+                                           10 * pageItem->ppm(),
+                                           10 * pageItem->ppm()));
     addItem(m_pageItem.data());
     registerItem(m_pageItem.data());
 }
@@ -295,10 +300,11 @@ void PageDesignIntf::setPageItems(QList<PageItemDesignIntf::Ptr> pages)
         curHeight+=pageItem->height()+20;
         if (curWidth<pageItem->width()) curWidth=pageItem->width();
     }
-    setSceneRect(QRectF( 0, 0, curWidth,curHeight).adjusted( -10 * Const::mmFACTOR,
-                                                             -10 * Const::mmFACTOR,
-                                                             10 * Const::mmFACTOR,
-                                                             10 * Const::mmFACTOR));
+    if (!pages.isEmpty())
+        setSceneRect(QRectF( 0, 0, curWidth,curHeight).adjusted( -10 * pages.at(0)->ppm(),
+                                                             -10 * pages.at(0)->ppm(),
+                                                             10 * pages.at(0)->ppm(),
+                                                             10 * pages.at(0)->ppm()));
     if (m_reportPages.count()>0)
         m_currentPage = m_reportPages.at(0).data();
 
@@ -314,9 +320,19 @@ void PageDesignIntf::removePageItem(PageItemDesignIntf::Ptr pageItem)
 
 void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_insertMode) {
+    if (m_insertMode && pageItem()) {
         finalizeInsertMode();
-        CommandIf::Ptr command = InsertItemCommand::create(this, m_insertItemType, event->scenePos(), QSize(200, 50));
+        CommandIf::Ptr command = InsertItemCommand::create(
+            this, m_insertItemType,
+            QPointF(
+                (event->scenePos().x()/pageItem()->ppm())*Const::STORAGE_MM_FACTOR,
+                (event->scenePos().y()/pageItem()->ppm())*Const::STORAGE_MM_FACTOR
+            ),
+            QSize(
+                Const::DEFAULT_ITEM_WIDTH * Const::STORAGE_MM_FACTOR,
+                Const::DEFAULT_ITEM_HEIGHT * Const::STORAGE_MM_FACTOR
+            )
+        );
         saveCommand(command);
         emit itemInserted(this, event->scenePos(), m_insertItemType);
     }
@@ -470,6 +486,8 @@ BaseDesignIntf *PageDesignIntf::internalAddBand(T bandType)
 
     band->setObjectName(genObjectName(*band));
     band->setItemTypeName("Band");
+    band->setHeight((band->height()/Const::STORAGE_MM_FACTOR)*pageItem()->ppm());
+    band->setPpm(pageItem()->ppm());
 
     BandDesignIntf* pb = 0;
     if (selectedItems().count() > 0) {
@@ -721,12 +739,12 @@ bool PageDesignIntf::isLoading()
     return m_isLoading;
 }
 
-void PageDesignIntf::objectLoadStarted()
+void PageDesignIntf::startLoading()
 {
     m_isLoading=true;
 }
 
-void PageDesignIntf::objectLoadFinished()
+void PageDesignIntf::finishLoading()
 {
     m_isLoading=false;
 }
@@ -767,7 +785,8 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
              (event->mimeData()->text().indexOf("variable:")==0))
     ){
         bool isVar = event->mimeData()->text().indexOf("variable:")==0;
-        BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
+        BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(25 * Const::DESIGNER_MM_FACTOR, 5 * Const::DESIGNER_MM_FACTOR));
+        item->setPpm(pageItem()->ppm());
         TextItem* ti = dynamic_cast<TextItem*>(item);
         QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
@@ -1107,6 +1126,30 @@ void PageDesignIntf::setCurrentPage(PageItemDesignIntf* currentPage)
             m_currentPage->setItemMode(DesignMode);
         }
     }
+}
+
+void PageDesignIntf::setPpm(int ppm)
+{
+    int curHeight = 0;
+    int curWidth = 0;
+
+    foreach(PageItemDesignIntf::Ptr page, m_reportPages){
+        page->setPpm(ppm);
+        curHeight += page->height()+ 2 * ppm;
+        if (curWidth < page->width()) curWidth = page->width();
+
+    }
+
+    if (!m_reportPages.isEmpty())
+        setSceneRect(
+            QRectF( 0, 0, curWidth,curHeight)
+            .adjusted(
+                -10 * ppm,
+                -10 * ppm,
+                10 * ppm,
+                10 * ppm
+            )
+        );
 }
 
 ReportSettings *PageDesignIntf::getReportSettings() const
@@ -1931,7 +1974,9 @@ CommandIf::Ptr InsertItemCommand::create(PageDesignIntf *page, const QString &it
 
 bool InsertItemCommand::doIt()
 {
-    BaseDesignIntf *item = page()->addReportItem(m_itemType, m_pos, m_size);
+    QRectF rect = page()->pageItem()->transformFromStorageToScenePpm(QRectF(m_pos,m_size));
+    BaseDesignIntf *item = page()->addReportItem(m_itemType, QPoint(rect.x(),rect.y()), rect.size());
+    item->setPpm(page()->pageItem()->ppm());
     if (item) m_itemName = item->objectName();
     return item != 0;
 }
@@ -1942,21 +1987,16 @@ void InsertItemCommand::undoIt()
     if (item){
         page()->removeReportItem(item,false);
     }
-//    page()->removeItem(item);
-//    delete item;
 }
 
 CommandIf::Ptr DeleteItemCommand::create(PageDesignIntf *page, BaseDesignIntf *item)
 {
     DeleteItemCommand *command = new DeleteItemCommand();
-    //QScopedPointer<ItemsWriterIntf> writer(new XMLWriter());
-    //writer->putItem(item);
     command->setPage(page);
     command->setItem(item);
     LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item->parent());
     if (layout)
         command->m_layoutName = layout->objectName();
-    //command->m_itemXML = writer->saveToString();
     return CommandIf::Ptr(command);
 }
 

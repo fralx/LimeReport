@@ -350,6 +350,46 @@ void PageItemDesignIntf::setPrintBehavior(const PrintBehavior &printBehavior)
     m_printBehavior = printBehavior;
 }
 
+QRectF PageItemDesignIntf::transformFromStorageToScenePpm(const QRectF &rect)
+{
+    return changeRectPpm(rect, Const::STORAGE_MM_FACTOR, ppm());
+}
+
+void PageItemDesignIntf::zoomIn()
+{
+    setPpm(ppm()+1);
+}
+
+void PageItemDesignIntf::zoomOut()
+{
+    if (ppm() > 1)
+        setPpm(ppm()-1);
+}
+
+void PageItemDesignIntf::setPpm(int ppm)
+{
+    if (this->ppm() != ppm){
+        startChangingPpm();
+        QRectF rect = changeRectPpm(QRectF(this->pos(), this->size()), this->ppm(), ppm);
+        setPos(rect.topLeft());
+        setSize(rect.size());
+        foreach(QGraphicsItem * item, allChildBaseItems()) {
+            BaseDesignIntf *ri = dynamic_cast<BaseDesignIntf *>(item);
+            if (ri) {
+                rect = changeRectPpm(QRectF(ri->pos(), ri->size()), ri->ppm(), ppm);
+                ri->startChangingPpm();
+                ri->setPos(rect.topLeft());
+                ri->setSize(rect.size());
+                ri->setPpm(ppm);
+                ri->finishChangingPpm();
+            }
+        }
+        BaseDesignIntf::setPpm(ppm);
+        updateMarginRect();
+        finishChangingPpm();
+    }
+}
+
 PageItemDesignIntf::PrintBehavior PageItemDesignIntf::printBehavior() const
 {
     return m_printBehavior;
@@ -682,8 +722,8 @@ QSizeF PageItemDesignIntf::getRectByPageSize(const PageSize& size)
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOrientation((QPrinter::Orientation)pageOrientation());
         printer.setPaperSize((QPrinter::PageSize)size);
-        return QSizeF(printer.paperSize(QPrinter::Millimeter).width() * 10,
-                      printer.paperSize(QPrinter::Millimeter).height() * 10);
+        return QSizeF(printer.paperSize(QPrinter::Millimeter).width() * ppm(),
+                      printer.paperSize(QPrinter::Millimeter).height() * ppm());
     }
 
     else {
@@ -913,6 +953,8 @@ void PageItemDesignIntf::bandPositionChanged(QObject* object, QPointF newPos, QP
 void PageItemDesignIntf::bandGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry)
 {
     bandPositionChanged(object, newGeometry.topLeft(), oldGeometry.topLeft());
+    if (newGeometry.size() != oldGeometry.size())
+        relocateBands();
 }
 
 void PageItemDesignIntf::setUnitTypeProperty(BaseDesignIntf::UnitType value)
@@ -925,6 +967,16 @@ void PageItemDesignIntf::setUnitTypeProperty(BaseDesignIntf::UnitType value)
             notify("units", oldValue, value);
         }
     }
+}
+
+QRectF PageItemDesignIntf::changeRectPpm(const QRectF &rect, int oldPpm, int newPpm)
+{
+    return QRectF(
+      (rect.x()/oldPpm)*newPpm,
+      (rect.y()/oldPpm)*newPpm,
+      (rect.width()/oldPpm)*newPpm,
+      (rect.height()/oldPpm)*newPpm
+    );
 }
 
 void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
@@ -948,10 +1000,10 @@ void PageItemDesignIntf::collectionLoadFinished(const QString &collectionName)
 void PageItemDesignIntf::updateMarginRect()
 {
     m_pageRect = rect();
-    m_pageRect.adjust( leftMargin() * Const::mmFACTOR,
-                       topMargin() * Const::mmFACTOR,
-                      -rightMargin() * Const::mmFACTOR,
-                       -bottomMargin() * Const::mmFACTOR
+    m_pageRect.adjust( leftMargin() * ppm(),
+                       topMargin() * ppm(),
+                      -rightMargin() * ppm(),
+                       -bottomMargin() * ppm()
     );
 
     foreach(BandDesignIntf* band,m_bands){
@@ -972,26 +1024,26 @@ void PageItemDesignIntf::paintGrid(QPainter *ppainter, QRectF rect)
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(0.5);
     for (int i = 0; i <= (rect.height() - 5 * unitFactor()) / (10 * unitFactor()); ++i){
-        if (i * 10 * unitFactor() + 5 * unitFactor() >= topMargin() * Const::mmFACTOR)
-            ppainter->drawLine(rect.x(), (i * 10 * unitFactor()) + ( (rect.y() + 5 * unitFactor()) - (topMargin() * Const::mmFACTOR)),
-                           rect.right(), i * 10 * unitFactor() +( (rect.y() + 5 * unitFactor()) - (topMargin() * Const::mmFACTOR)));
+        if (i * 10 * unitFactor() + 5 * unitFactor() >= topMargin() * ppm())
+            ppainter->drawLine(rect.x(), (i * 10 * unitFactor()) + ( (rect.y() + 5 * unitFactor()) - (topMargin() * ppm())),
+                           rect.right(), i * 10 * unitFactor() +( (rect.y() + 5 * unitFactor()) - (topMargin() * ppm())));
     };
     for (int i=0; i<=((rect.width() - 5 * unitFactor()) / (10 * unitFactor())); ++i){
-        if (i * 10 * unitFactor() + 5 * unitFactor() >= leftMargin() * Const::mmFACTOR)
-            ppainter->drawLine(i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * Const::mmFACTOR)), rect.y(),
-                           i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * Const::mmFACTOR)), rect.bottom());
+        if (i * 10 * unitFactor() + 5 * unitFactor() >= leftMargin() * ppm())
+            ppainter->drawLine(i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * ppm())), rect.y(),
+                           i * 10 * unitFactor() + ((rect.x() + 5 * unitFactor()) - (leftMargin() * ppm())), rect.bottom());
     };
     ppainter->setPen(QPen(gridColor()));
     ppainter->setOpacity(1);
     for (int i = 0; i <= (rect.width() / (10 * unitFactor())); ++i){
-        if (i * 10 * unitFactor() >= leftMargin() * Const::mmFACTOR)
-            ppainter->drawLine(i * 10 * unitFactor() + (rect.x() - (leftMargin() * Const::mmFACTOR)), rect.y(),
-                           i * 10 * unitFactor() + (rect.x() - (leftMargin() * Const::mmFACTOR)), rect.bottom());
+        if (i * 10 * unitFactor() >= leftMargin() * ppm())
+            ppainter->drawLine(i * 10 * unitFactor() + (rect.x() - (leftMargin() * ppm())), rect.y(),
+                           i * 10 * unitFactor() + (rect.x() - (leftMargin() * ppm())), rect.bottom());
     };
     for (int i = 0; i <= rect.height() / (10 * unitFactor()); ++i){
-        if (i * 10 * unitFactor() >= topMargin() * Const::mmFACTOR)
-            ppainter->drawLine(rect.x(), i * 10 * unitFactor() + (rect.y() - (topMargin() * Const::mmFACTOR)),
-                           rect.right(), i * 10 * unitFactor() + (rect.y() - (topMargin() * Const::mmFACTOR)));
+        if (i * 10 * unitFactor() >= topMargin() * ppm())
+            ppainter->drawLine(rect.x(), i * 10 * unitFactor() + (rect.y() - (topMargin() * ppm())),
+                           rect.right(), i * 10 * unitFactor() + (rect.y() - (topMargin() * ppm())));
     };
     ppainter->drawRect(rect);
     ppainter->restore();
@@ -1016,9 +1068,9 @@ int PageItemDesignIntf::gridStep()
     else return Const::DEFAULT_GRID_STEP;
 }
 
-void PageItemDesignIntf::objectLoadFinished()
+void PageItemDesignIntf::finishLoading()
 {
-    BaseDesignIntf::objectLoadFinished();
+    BaseDesignIntf::finishLoading();
     updateMarginRect();
 }
 

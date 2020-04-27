@@ -42,7 +42,7 @@ LimeReport::BaseDesignIntf* createHeader(QObject* owner, LimeReport::BaseDesignI
 
 bool VARIABLE_IS_NOT_USED registredHeader = LimeReport::DesignElementsFactory::instance().registerCreator(
        xmlTagHeader,
-        LimeReport::ItemAttribs(QObject::tr("GroupHeader"),LimeReport::Const::bandTAG),
+        LimeReport::ItemAttribs(QObject::tr("GroupHeader"),LimeReport::Const::BAND_TAG),
         createHeader
     );
 
@@ -52,7 +52,7 @@ LimeReport::BaseDesignIntf * createFooter(QObject* owner, LimeReport::BaseDesign
 
 bool VARIABLE_IS_NOT_USED registredFooter = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTagFooter,
-        LimeReport::ItemAttribs(QObject::tr("GroupFooter"),LimeReport::Const::bandTAG),
+        LimeReport::ItemAttribs(QObject::tr("GroupFooter"),LimeReport::Const::BAND_TAG),
         createFooter
     );
 

@@ -1189,12 +1189,12 @@ void ReportDesignWindow::slotLoadReport()
 
 void ReportDesignWindow::slotZoomIn()
 {
-    m_reportDesignWidget->scale(1.2,1.2);
+    m_reportDesignWidget->zoomIn();
 }
 
 void ReportDesignWindow::slotZoomOut()
 {
-    m_reportDesignWidget->scale(1/1.2,1/1.2);
+    m_reportDesignWidget->zoomOut();
 }
 
 void ReportDesignWindow::slotEditMode()

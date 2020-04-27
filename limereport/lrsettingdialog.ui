@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>503</width>
-        <height>301</height>
+        <height>317</height>
        </rect>
       </property>
       <attribute name="label">
@@ -90,7 +90,7 @@
             <item row="0" column="1">
              <widget class="QSpinBox" name="verticalGridStep">
               <property name="value">
-               <number>10</number>
+               <number>5</number>
               </property>
              </widget>
             </item>
@@ -104,7 +104,7 @@
             <item row="1" column="1">
              <widget class="QSpinBox" name="horizontalGridStep">
               <property name="value">
-               <number>10</number>
+               <number>5</number>
               </property>
              </widget>
             </item>
@@ -216,7 +216,7 @@
         <x>0</x>
         <y>0</y>
         <width>503</width>
-        <height>301</height>
+        <height>317</height>
        </rect>
       </property>
       <attribute name="label">
@@ -305,7 +305,7 @@
         <x>0</x>
         <y>0</y>
         <width>503</width>
-        <height>301</height>
+        <height>317</height>
        </rect>
       </property>
       <attribute name="label">

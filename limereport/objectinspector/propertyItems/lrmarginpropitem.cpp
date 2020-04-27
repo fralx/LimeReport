@@ -39,7 +39,7 @@ QString MarginPropItem::displayValue() const
         return  QString("%1 %2").arg(propertyValue().toDouble(), 0, 'f', 2)
                                 .arg(QObject::tr("mm"));
     case LimeReport::BaseDesignIntf::Inches:
-        return QString("%1 %2").arg((propertyValue().toDouble() * Const::mmFACTOR) / (item->unitFactor() * 10), 0, 'f', 2)
+        return QString("%1 %2").arg((propertyValue().toDouble() * item->ppm()) / (item->unitFactor() * 10), 0, 'f', 2)
                                .arg(QObject::tr("''"));
     }
 }
@@ -72,7 +72,7 @@ qreal MarginPropItem::valueInUnits(qreal value) const
     case LimeReport::BaseDesignIntf::Millimeters:
         return value;
     case LimeReport::BaseDesignIntf::Inches:
-        return (value * Const::mmFACTOR) / (item->unitFactor() * 10);
+        return (value * item->ppm()) / (item->unitFactor() * 10);
     }
 }
 
@@ -83,8 +83,7 @@ qreal MarginPropItem::valueInReportUnits(qreal value) const
     case LimeReport::BaseDesignIntf::Millimeters:
         return value;
     case LimeReport::BaseDesignIntf::Inches:
-        return (value * (item->unitFactor() * 10)) / Const::mmFACTOR;
-
+        return (value * (item->unitFactor() * 10)) / item->ppm();
     }
 }
 

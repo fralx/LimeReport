@@ -687,6 +687,7 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
     reader->setPassPhrase(m_passPhrase);
     if (reader->first()){
         if (reader->readItem(this)){
+
             m_fileName=fileName;
             QFileInfo fi(fileName);
             m_reportName = fi.fileName();
@@ -706,6 +707,7 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
             EASY_BLOCK("Connect auto connections")
             dataManager()->connectAutoConnections();
             EASY_END_BLOCK;
+
             dropChanges();
 
             if ( hasActivePreview() )
@@ -1240,7 +1242,7 @@ void ReportEnginePrivate::paintByExternalPainter(const QString& objectName, QPai
 BaseDesignIntf* ReportEnginePrivate::createWatermark(PageDesignIntf* page, WatermarkSetting watermarkSetting)
 {
 
-    WatermarkHelper watermarkHelper(watermarkSetting);
+    WatermarkHelper watermarkHelper(watermarkSetting, page->pageItem()->ppm());
 
     BaseDesignIntf* watermark = page->addReportItem("TextItem", watermarkHelper.mapToPage(*page->pageItem()), watermarkHelper.sceneSize());
     if (watermark){
@@ -1283,7 +1285,6 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRender->setScriptContext(scriptContext());
         clearRenderingPages();
         foreach (PageDesignIntf* page, m_pages) {
-
             QVector<BaseDesignIntf*> watermarks;
             if (!m_watermarks.isEmpty()){
                 foreach(WatermarkSetting watermarkSetting, m_watermarks){
@@ -1291,14 +1292,17 @@ ReportPages ReportEnginePrivate::renderToPages()
                 }
             }
 
+            int savePpm = page->pageItem()->ppm();
+            page->pageItem()->setPpm(Const::STORAGE_MM_FACTOR);
             PageItemDesignIntf* rp = createRenderingPage(page->pageItem());
-
+            page->pageItem()->setPpm(savePpm);
 
             qDeleteAll(watermarks.begin(),watermarks.end());
             watermarks.clear();
 
             m_renderingPages.append(rp);
             scriptContext()->baseDesignIntfToScript(rp->objectName(), rp);
+
         }
 
         scriptContext()->qobjectToScript("engine",this);
@@ -1802,6 +1806,8 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 
     QPointF backupPagePos = page->pos();
     page->setPos(0,0);
+    int currentPpm = page->ppm();
+    page->setPpm(Const::STORAGE_MM_FACTOR);
     m_renderPage.setPageItem(page);
     m_renderPage.setSceneRect(m_renderPage.pageItem()->mapToScene(m_renderPage.pageItem()->rect()).boundingRect());
     initPrinter(m_renderPage.pageItem());
@@ -1849,6 +1855,7 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
        m_renderPage.render(m_painter);
     }
     page->setPos(backupPagePos);
+    page->setPpm(currentPpm);
     m_renderPage.removePageItem(page);
     if (backupPage) backupPage->reactivatePageItem(page);
     return true;
@@ -2051,7 +2058,7 @@ qreal WatermarkHelper::valueToPixels(qreal value)
 {
     switch (m_watermark.geometry().type()) {
     case LimeReport::ItemGeometry::Millimeters:
-        return value * Const::mmFACTOR;
+        return value * m_ppm;
     case LimeReport::ItemGeometry::Pixels:
         return value;
     }

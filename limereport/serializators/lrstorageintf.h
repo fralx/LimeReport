@@ -40,8 +40,15 @@ namespace LimeReport{
 class ObjectLoadingStateIntf{
 public:
     virtual bool isLoading() = 0;
-    virtual void objectLoadStarted() = 0;
-    virtual void objectLoadFinished() = 0;
+    virtual void startLoading() = 0;
+    virtual void finishLoading() = 0;
+};
+
+class ObjectSavingStateIntf{
+public:
+    virtual bool isSaving() = 0;
+    virtual void startSaving() = 0;
+    virtual void finishSaving() = 0;
 };
 
 class ItemsWriterIntf

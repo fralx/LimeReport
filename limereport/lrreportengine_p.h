@@ -59,8 +59,8 @@ class ReportExporterInterface;
 
 class WatermarkHelper{
 public:
-    WatermarkHelper(const WatermarkSetting& watermark)
-        : m_watermark(watermark){}
+    WatermarkHelper(const WatermarkSetting& watermark, int ppm)
+        : m_watermark(watermark), m_ppm(ppm){}
     qreal sceneX();
     qreal sceneY();
     qreal sceneWidth();
@@ -72,6 +72,7 @@ private:
     qreal valueToPixels(qreal value);
 private:
     const WatermarkSetting& m_watermark;
+    int m_ppm;
 };
 
 

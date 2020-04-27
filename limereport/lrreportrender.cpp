@@ -1300,7 +1300,7 @@ void ReportRender::startNewPage(bool isFirst)
 
     m_renderPageItem->setObjectName(QLatin1String("ReportPage")+QString::number(m_pageCount));
     m_maxHeightByColumn[m_currentColumn] = m_renderPageItem->pageRect().height();
-    m_currentStartDataPos[m_currentColumn] = m_patternPageItem->topMargin() * Const::mmFACTOR;
+    m_currentStartDataPos[m_currentColumn] = m_patternPageItem->topMargin() * m_patternPageItem->ppm();
     m_currentIndex = 0;
 
     if (isFirst) {
@@ -1537,7 +1537,7 @@ void ReportRender::savePage(bool isLast)
             pageHeight += band->height();
         }
         m_renderPageItem->setHeight(pageHeight + 10 +
-           (m_patternPageItem->topMargin() + m_patternPageItem->bottomMargin()) * Const::mmFACTOR);
+           (m_patternPageItem->topMargin() + m_patternPageItem->bottomMargin()) * m_patternPageItem->ppm());
     }
 }
 

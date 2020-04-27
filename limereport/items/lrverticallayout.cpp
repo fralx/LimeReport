@@ -13,7 +13,7 @@ LimeReport::BaseDesignIntf *createVLayout(QObject *owner, LimeReport::BaseDesign
 }
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
                      xmlTag,
-                     LimeReport::ItemAttribs(QObject::tr("VLayout"), LimeReport::Const::bandTAG),
+                     LimeReport::ItemAttribs(QObject::tr("VLayout"), LimeReport::Const::BAND_TAG),
                      createVLayout
                  );
 }

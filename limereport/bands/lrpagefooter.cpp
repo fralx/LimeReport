@@ -41,7 +41,7 @@ LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIn
 
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTag,
-        LimeReport::ItemAttribs(QObject::tr("Page Footer"),LimeReport::Const::bandTAG),
+        LimeReport::ItemAttribs(QObject::tr("Page Footer"),LimeReport::Const::BAND_TAG),
         createBand
     );
 }

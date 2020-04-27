@@ -121,7 +121,7 @@ public:
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent);
     BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     BaseDesignIntf* cloneEmpty(int height, QObject *owner, QGraphicsItem *parent);
-    void objectLoadFinished();
+    void finishLoading();
 
     void setTextItemFont(QFont value);
     QWidget* defaultEditor();

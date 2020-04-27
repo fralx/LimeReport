@@ -116,7 +116,7 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
 {
     EASY_BLOCK("readItemFromNode");
     ObjectLoadingStateIntf* lf = dynamic_cast<ObjectLoadingStateIntf*>(item);
-    if(lf) lf->objectLoadStarted();
+    if(lf) lf->startLoading();
     for (int i=0;i<node->childNodes().count();i++){
         QDomElement currentNode =node->childNodes().at(i).toElement();
         if (currentNode.attribute("Type")=="Object"){
@@ -128,7 +128,7 @@ void XMLReader::readItemFromNode(QObject* item,QDomElement *node)
             readTranslation(item,&currentNode);
         } else readProperty(item,&currentNode);
     }
-    if (lf) lf->objectLoadFinished();
+    if (lf) lf->finishLoading();
 
     BaseDesignIntf* baseObj = dynamic_cast<BaseDesignIntf*>(item);
     if(baseObj) {

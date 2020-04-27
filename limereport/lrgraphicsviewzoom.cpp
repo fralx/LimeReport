@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <qmath.h>
 
+#include "lrpagedesignintf.h"
+
 namespace LimeReport{
 
 GraphicsViewZoomer::GraphicsViewZoomer(QGraphicsView* view)
@@ -15,7 +17,13 @@ GraphicsViewZoomer::GraphicsViewZoomer(QGraphicsView* view)
 }
 
 void GraphicsViewZoomer::gentleZoom(double factor) {
-  m_view->scale(factor, factor);
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(m_view->scene());
+    if (page){
+        if(factor > 1)
+            page->pageItem()->zoomIn();
+        else
+            page->pageItem()->zoomOut();
+    }
   m_view->centerOn(m_targetScenePos);
   QPointF delta_viewport_pos = m_targetViewportPos - QPointF(m_view->viewport()->width() / 2.0,
                                                              m_view->viewport()->height() / 2.0);
@@ -25,7 +33,7 @@ void GraphicsViewZoomer::gentleZoom(double factor) {
 }
 
 void GraphicsViewZoomer::setModifiers(Qt::KeyboardModifiers modifiers) {
-  m_modifiers = modifiers;
+    m_modifiers = modifiers;
 }
 
 void GraphicsViewZoomer::setZoomFactorBase(double value) {

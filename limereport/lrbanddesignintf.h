@@ -53,6 +53,7 @@ class BandDesignIntf;
 
 class BandMarker : public QGraphicsItem{
 public:
+    friend BandDesignIntf;
     explicit BandMarker(BandDesignIntf* band, QGraphicsItem *parent=0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
@@ -64,7 +65,6 @@ public:
 protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent *event);
     void  contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
-
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -73,6 +73,7 @@ private:
     QColor m_color;
     BandDesignIntf* m_band;
     QPointF m_oldBandPos;
+    bool m_isMoving;
 };
 
 class BandNameLabel : public QGraphicsItem{
@@ -114,6 +115,8 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
     Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
     Q_PROPERTY(int shiftItems READ shiftItems WRITE setShiftItems)
+    Q_PROPERTY(int paddingTop READ paddingTop WRITE setPaddingTop)
+    Q_PROPERTY(int paddingBottom READ paddingBottom WRITE setPaddingBottom)
     friend class BandMarker;
     friend class BandNameLabel;
     friend class ReportRender;
@@ -148,7 +151,7 @@ public:
     ~BandDesignIntf();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    QRectF boundingRect() const;
+    //QRectF boundingRect() const;
     void translateBandsName();
     virtual BandsType bandType() const;
     virtual QString bandTitle() const;
@@ -214,7 +217,7 @@ public:
     BaseDesignIntf* cloneUpperPart(int height, QObject* owner=0, QGraphicsItem* parent=0);
     BaseDesignIntf* cloneBottomPart(int height, QObject *owner=0, QGraphicsItem *parent=0);
     void parentObjectLoadFinished();
-    void objectLoadFinished();
+    void finishLoading();
     void emitBandRendered(BandDesignIntf *band);
 
     bool isSplittable() const {return m_splitable;}
@@ -266,11 +269,18 @@ public:
     void setBackgroundOpacity(int value);
     int bootomSpace() const;
     void setBootomSpace(int bootomSpace);
-    void updateBandMarkerGeometry();
+    void updateBandMarkerGeometry(QRectF geometry);
     int shiftItems() const;
     void setShiftItems(int shiftItems);    
     bool isNeedUpdateSize(RenderPass) const;
+    void setPpm(int ppm);
 
+    int paddingTop() const;
+    void setPaddingTop(int paddingTop);
+    int paddingBottom() const;
+    void setPaddingBottom(int paddingBottom);
+
+    QRectF boundingRect() const;
 signals:
     void bandRendered(BandDesignIntf* band);
     void preparedForRender();
@@ -334,6 +344,8 @@ private:
     int 						m_bottomSpace;
     QMap<QString,QVariant>      m_bookmarks;
     int                         m_shiftItems;
+    int                         m_paddingTop;
+    int                         m_paddingBottom;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

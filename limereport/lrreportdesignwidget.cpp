@@ -293,7 +293,7 @@ PageView* ReportDesignWidget::createPageView(PageDesignIntf* page){
     view->setFrameShape(QFrame::NoFrame);
     view->setScene(page);
     view->setPageItem(page->pageItem());
-    view->scale(0.5, 0.5);
+    page->pageItem()->setPpm(5);
     view->centerOn(0, 0);
     return view;
 }
@@ -513,12 +513,6 @@ bool ReportDesignWidget::save()
 bool ReportDesignWidget::loadFromFile(const QString &fileName)
 {
     if (m_report->loadFromFile(fileName,false)){
-//        QByteArray editorState = m_scriptEditor->saveState();
-//        createTabs();
-//        m_scriptEditor->setPlainText(m_report->scriptContext()->initScript());
-//        m_scriptEditor->restoreState(editorState);
-//        emit loaded();
-//        m_dialogChanged = false;
         return true;
     } else {
         QMessageBox::critical(this,tr("Error"),tr("Wrong file format"));
@@ -526,10 +520,22 @@ bool ReportDesignWidget::loadFromFile(const QString &fileName)
     }
 }
 
-void ReportDesignWidget::scale(qreal sx, qreal sy)
+void ReportDesignWidget::zoomIn()
 {
-    //m_view->scale(sx,sy);
-    if (activeView()) activeView()->scale(sx,sy);
+    if (activeView()) {
+        PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(activeView()->scene());
+        if (page)
+            page->pageItem()->zoomIn();
+    }
+}
+
+void ReportDesignWidget::zoomOut()
+{
+    if (activeView()) {
+        PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(activeView()->scene());
+        if (page)
+            page->pageItem()->zoomOut();
+    }
 }
 
 QString ReportDesignWidget::reportFileName()
@@ -1058,8 +1064,10 @@ bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
     if (event->type() == QEvent::Wheel){
         QWheelEvent* we = dynamic_cast<QWheelEvent*>(event);
         if (QApplication::keyboardModifiers()==Qt::ControlModifier){
-            if(we->delta()<0) scale(1.2,1.2);
-            else scale(1/1.2,1/1.2);
+            //if(we->delta()<0) scale(1.2,1.2);
+            //else scale(1/1.2,1/1.2);
+            if (we->delta() < 0) zoomIn();
+            else zoomOut();
         }
     }
     return QWidget::eventFilter(target,event);

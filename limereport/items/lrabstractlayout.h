@@ -39,7 +39,7 @@ public:
     int  childrenCount();
     int layoutSpacing() const;
     void setLayoutSpacing(int layoutSpacing);
-    qreal layoutSpacingMM(){ return  m_layoutSpacing * Const::mmFACTOR;}
+    qreal layoutSpacingMM(){ return  m_layoutSpacing * ppm();}
 protected:
     void beforeDelete();
     void childAddedEvent(BaseDesignIntf *child);
@@ -47,7 +47,7 @@ protected:
     void initMode(ItemMode mode);
     void setBorderLinesFlags(BorderLines flags);
     void collectionLoadFinished(const QString &collectionName);
-    void objectLoadFinished();
+    void finishLoading();
     bool isNeedUpdateSize(RenderPass pass) const;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight);

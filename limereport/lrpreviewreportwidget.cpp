@@ -160,14 +160,14 @@ void PreviewReportWidget::setErrorsMesagesVisible(bool visible)
 
 void PreviewReportWidget::zoomIn()
 {
-    d_ptr->m_scalePercent =  (d_ptr->m_scalePercent / 10) * 10 + 10;
+    d_ptr->m_scalePercent = (d_ptr->m_scalePercent / 20) * 20 + Const::PPM_PERCENT_STEP;
     setScalePercent(d_ptr->m_scalePercent);
 }
 
 void PreviewReportWidget::zoomOut()
 {
-    if (d_ptr->m_scalePercent>0)
-        d_ptr->m_scalePercent = (d_ptr->m_scalePercent / 10) * 10 - 10;
+    if (d_ptr->m_scalePercent > 20)
+        d_ptr->m_scalePercent = (d_ptr->m_scalePercent / 20) * 20 - Const::PPM_PERCENT_STEP;
     setScalePercent(d_ptr->m_scalePercent);
 }
 
@@ -311,8 +311,21 @@ void PreviewReportWidget::setScalePercent(int percent)
 {
     ui->graphicsView->resetMatrix();
     d_ptr->m_scalePercent = percent;
-    qreal scaleSize = percent/100.0;
-    ui->graphicsView->scale(scaleSize, scaleSize);
+
+    PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
+    if ((percent % Const::PPM_PERCENT_STEP) == 0){
+        if (page){
+            ui->graphicsView->scale(1,1);
+            page->setPpm(percent / Const::PPM_PERCENT_STEP);
+        }
+    } else {
+        if (page){
+            page->setPpm(Const::DESIGNER_MM_FACTOR);
+        }
+        qreal scaleSize = percent/100.0;
+        ui->graphicsView->scale(scaleSize, scaleSize);
+    }
+
     emit scalePercentChanged(percent);
     if (percent == 100){
         m_scaleType = OneToOne;

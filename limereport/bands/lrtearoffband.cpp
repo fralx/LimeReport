@@ -10,7 +10,7 @@ LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIn
 }
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
         xmlTag,
-        LimeReport::ItemAttribs(QObject::tr("Tear-off Band"),LimeReport::Const::bandTAG),
+        LimeReport::ItemAttribs(QObject::tr("Tear-off Band"),LimeReport::Const::BAND_TAG),
         createBand
     );
 }

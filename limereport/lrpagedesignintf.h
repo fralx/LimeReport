@@ -179,7 +179,7 @@ namespace LimeReport {
 
         PageItemDesignIntf* getCurrentPage() const;
         void setCurrentPage(PageItemDesignIntf* currentPage);
-
+        void setPpm(int ppm);
     protected:
 
         virtual void keyPressEvent(QKeyEvent *event);
@@ -199,8 +199,8 @@ namespace LimeReport {
         bool isExistsObjectName (const QString& objectName, QList<QGraphicsItem *> &itemsList) const;
 
         bool isLoading();
-        void objectLoadStarted();
-        void objectLoadFinished();
+        void startLoading();
+        void finishLoading();
 
         HorizontalLayout* internalAddHLayout();
         VerticalLayout* internalAddVLayout();
