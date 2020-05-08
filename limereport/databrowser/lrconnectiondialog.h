@@ -60,6 +60,8 @@ private slots:
     void on_toolButton_clicked();
     void on_cbbUseDefaultConnection_toggled(bool checked);
 
+    void on_toolButton_2_toggled(bool checked);
+
 private:
     Ui::ConnectionDialog *ui;
     ConnectionDesc* m_connection;
