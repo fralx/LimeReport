@@ -808,12 +808,12 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
 
     bool connected = false;
 
-
     db.setHostName(replaceVariables(connectionDesc.host()));
     db.setUserName(replaceVariables(connectionDesc.userName()));
     db.setPassword(replaceVariables(connectionDesc.password()));
-    if (connectionDesc.port()!=-1)
-        db.setPort(connectionDesc.port());
+    db.setDatabaseName(replaceVariables(connectionDesc.databaseName()));
+    if (connectionDesc.port()!="")
+        db.setPort(replaceVariables(connectionDesc.port()).toInt());
 
     if (!connectionDesc.keepDBCredentials() && m_dbCredentialsProvider){
         if (!m_dbCredentialsProvider->getUserName(connectionDesc.name()).isEmpty())

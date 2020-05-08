@@ -118,7 +118,7 @@ ConnectionDesc *ConnectionDialog::uiToConnection(LimeReport::ConnectionDesc* con
     result ->setName(ConnectionDesc::connectionNameForReport(ui->leConnectionName->text()));
     result ->setHost(ui->leServerName->text());
     if (!ui->lePort->text().isEmpty())
-        result->setPort(ui->lePort->text().toInt());
+        result->setPort(ui->lePort->text());
     result ->setDriver(ui->cbbDrivers->currentText());
     result ->setUserName(ui->leUserName->text());
     result ->setPassword(ui->lePassword->text());
@@ -141,7 +141,7 @@ void ConnectionDialog::connectionToUI()
     ui->cbbDrivers->setCurrentIndex(ui->cbbDrivers->findText(m_connection->driver()));
     ui->cbAutoConnect->setChecked(m_connection->autoconnect());
     ui->cbbKeepCredentials->setChecked(!m_connection->keepDBCredentials());
-    ui->lePort->setText(m_connection->port()!=-1?QString::number(m_connection->port()):"");
+    ui->lePort->setText(m_connection->port());
 }
 
 void ConnectionDialog::on_toolButton_clicked()
@@ -160,8 +160,14 @@ void ConnectionDialog::on_cbbUseDefaultConnection_toggled(bool checked)
         ui->leConnectionName->setEnabled(true);
     }
 }
+void ConnectionDialog::on_toolButton_2_toggled(bool checked)
+{
+    ui->lePassword->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
+}
 
 } // namespace LimeReport
+
+
 
 
 
