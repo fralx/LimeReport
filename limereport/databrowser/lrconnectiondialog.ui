@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>323</height>
+    <height>363</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
@@ -114,14 +114,39 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lePassword">
-         <property name="text">
-          <string/>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>2</number>
          </property>
-         <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
-         </property>
-        </widget>
+         <item>
+          <widget class="QLineEdit" name="lePassword">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_2">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="lrdatabrowser.qrc">
+             <normaloff>:/databrowser/images/closed_eye.png</normaloff>
+             <normalon>:/databrowser/images/eye.png</normalon>:/databrowser/images/closed_eye.png</iconset>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -137,6 +162,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="toolButton">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -221,7 +249,23 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leConnectionName</tabstop>
+  <tabstop>cbbUseDefaultConnection</tabstop>
+  <tabstop>cbbDrivers</tabstop>
+  <tabstop>leServerName</tabstop>
+  <tabstop>lePort</tabstop>
+  <tabstop>leUserName</tabstop>
+  <tabstop>lePassword</tabstop>
+  <tabstop>leDataBase</tabstop>
+  <tabstop>cbAutoConnect</tabstop>
+  <tabstop>cbbKeepCredentials</tabstop>
+  <tabstop>pbCheckConnection</tabstop>
+  <tabstop>pbCancel</tabstop>
+  <tabstop>pbOk</tabstop>
+ </tabstops>
  <resources>
+  <include location="lrdatabrowser.qrc"/>
   <include location="lrdatabrowser.qrc"/>
  </resources>
  <connections>

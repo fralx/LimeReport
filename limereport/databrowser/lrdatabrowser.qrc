@@ -44,5 +44,7 @@
         <file alias="/images/value_edit">images/value_edit2.png</file>
         <file alias="/images/value">images/value1.png</file>
         <file alias="/images/varToReport">images/varToReport.png</file>
+        <file>images/eye.png</file>
+        <file>images/closed_eye.png</file>
     </qresource>
 </RCC>
