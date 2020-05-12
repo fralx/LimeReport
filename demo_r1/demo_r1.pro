@@ -33,7 +33,7 @@ macx{
 unix:{
 	DESTDIR = $$DEST_DIR
 	#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
-        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\" $$escape_expand(\n\t)
 		
 	linux{
 		#Link share lib to ../lib rpath
@@ -49,7 +49,7 @@ unix:{
 win32 {
     DESTDIR = $$DEST_DIR
     contains(QMAKE_HOST.os, Linux){
-        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\" $$escape_expand(\n\t)
     } else {
 	EXTRA_DIR ~= s,/,\\,g
         DEST_DIR ~= s,/,\\,g
