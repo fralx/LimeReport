@@ -47,6 +47,8 @@ void VerticalBarChart::paintChart(QPainter *painter, QRectF chartRect)
 void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
 {
 
+    if (valuesCount() == 0) return;
+
     int delta = int(maxValue() - minValue());
     delta = genNextValue(delta);
 
@@ -63,6 +65,8 @@ void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
     qreal vStep = barsRect.height() / delta;
     qreal hStep = (barsRect.width() / valuesCount()) / (barSeriesCount == 0 ? 1 : barSeriesCount);
     qreal topShift = (delta - (maxValue() - minValue())) * vStep + barsRect.top();
+
+    qDebug() << "vStep" << vStep << "hStep" << hStep;
 
     if (!m_chartItem->series().isEmpty() && (m_chartItem->itemMode() != DesignMode)){
         int curSeries = 0;
@@ -93,6 +97,8 @@ void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
 
 void VerticalBarChart::paintSerialLines(QPainter* painter, QRectF barsRect)
 {
+    if (valuesCount() == 0 ) return;
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,true);
     int delta = int(maxValue() - minValue());
