@@ -28,6 +28,8 @@ void HorizontalBarChart::paintChart(QPainter *painter, QRectF chartRect)
 
 void HorizontalBarChart::paintHorizontalBars(QPainter *painter, QRectF barsRect)
 {
+    if (seriesCount() == 0) return;
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,false);
     int delta = int(maxValue()-minValue());
