@@ -1850,7 +1850,7 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
                                       page->printerMarginTop(),
                                       page->printerMarginRight(),
                                       page->printerMarginBottom(),
-                                      QPrinter::Millimeter);
+                                      QPrinter::Point);
         }
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         if (page->pageSize()==PageItemDesignIntf::Custom){
