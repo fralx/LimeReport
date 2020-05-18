@@ -65,6 +65,8 @@ void LinesChart::drawDesignMode(QPainter* painter, qreal hStep, qreal vStep, qre
 
 void LinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)
 {
+    if (valuesCount() == 0) return;
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,true);
     int delta = int(maxValue() - minValue());
