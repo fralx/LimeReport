@@ -1797,9 +1797,6 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     if (!m_firstPage && !m_painter->isActive()) return false;
     PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
-    //LimeReport::PageDesignIntf m_renderPage;
-    //m_renderPage.setItemMode(PrintMode);
-
     QPointF backupPagePos = page->pos();
     page->setPos(0,0);
     m_renderPage.setPageItem(page);
@@ -1869,13 +1866,15 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
     } else {
         m_printer->setFullPage(page->fullPage());
+        if (page->dropPrinterMargins())
+            m_printer->setPageMargins(0, 0, 0, 0, QPrinter::Point);
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         if (page->pageSize()==PageItemDesignIntf::Custom){
             QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
                         QSizeF(page->sizeMM().height(),page->sizeMM().width()):
                         page->sizeMM();
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
-              m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
+              m_printer->setPaperSize(pageSize, QPrinter::Millimeter);
         } else {
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
               m_printer->setPaperSize(static_cast<QPrinter::PageSize>(page->pageSize()));
