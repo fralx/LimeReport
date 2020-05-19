@@ -61,6 +61,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(QString printerName READ printerName WRITE setPrinterName)
     Q_PROPERTY(UnitType units READ unitType WRITE setUnitTypeProperty)
     Q_PROPERTY(PrintBehavior printBehavior READ printBehavior WRITE setPrintBehavior)
+    Q_PROPERTY(bool dropPrinterMargins READ dropPrinterMargins WRITE setDropPrinterMargins)
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
@@ -177,6 +178,9 @@ public:
     PrintBehavior printBehavior() const;
     void setPrintBehavior(const PrintBehavior &printBehavior);
 
+    bool dropPrinterMargins() const;
+    void setDropPrinterMargins(bool dropPrinterMargins);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -220,6 +224,7 @@ private:
     QString m_printerName;
     BandDesignIntf* m_pageFooter;
     PrintBehavior m_printBehavior;
+    bool m_dropPrinterMargins;
 
 
 };
