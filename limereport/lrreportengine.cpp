@@ -1843,7 +1843,14 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
         }
 
     } else {
-       m_renderPage.render(m_painter);
+        if (page->getSetPageSizeToPrinter()){
+            QRectF source = page->geometry();
+            QSizeF inchSize = source.size() / (100 * 2.54);
+            QRectF target = QRectF(QPoint(0,0), inchSize  * m_printer->resolution());
+            m_renderPage.render(m_painter, target, source);
+        } else {
+            m_renderPage.render(m_painter);
+        }
     }
     page->setPos(backupPagePos);
     m_renderPage.removePageItem(page);
