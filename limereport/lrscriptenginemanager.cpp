@@ -1987,16 +1987,19 @@ void TableBuilder::fillInRowData(QObject* row)
 void TableBuilder::buildTable(const QString& datasourceName)
 {
     checkBaseLayout();
-    m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
-    IDataSource* ds = m_dataManager->dataSource(datasourceName);
-    if (ds){
-        bool firstTime = true;
-        QObject* row = m_horizontalLayout;
-        while(!ds->eof()){
-            if (!firstTime) row = addRow();
-            else firstTime = false;
-            fillInRowData(row);
-            ds->next();
+    IDataSourceHolder* dh = m_dataManager->dataSourceHolder(datasourceName);
+    if (dh) {
+        dh->invalidate(IDataSource::RENDER_MODE);
+        IDataSource* ds = m_dataManager->dataSource(datasourceName);
+        if (ds){
+            bool firstTime = true;
+            QObject* row = m_horizontalLayout;
+            while(!ds->eof()){
+                if (!firstTime) row = addRow();
+                else firstTime = false;
+                fillInRowData(row);
+                ds->next();
+            }
         }
     }
 }
