@@ -60,6 +60,7 @@ void PreparedPages::clear()
 
 bool PreparedPages::readPages(ItemsReaderIntf::Ptr reader)
 {
+    clear();
     if (reader->first()){
         PageItemDesignIntf::Ptr page = PageItemDesignIntf::create(0);
         if (!reader->readItem(page.data()))
