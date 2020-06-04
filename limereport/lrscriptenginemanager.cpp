@@ -1937,7 +1937,10 @@ bool DatasourceFunctions::invalidate(const QString& datasourceName)
 
 QObject* DatasourceFunctions::createTableBuilder(QObject* horizontalLayout)
 {
-    return new TableBuilder(dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout), dynamic_cast<DataSourceManager*>(m_dataManager));
+    LimeReport::HorizontalLayout* l = dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout);
+    if (l)
+        return new TableBuilder(l, m_dataManager);
+    return 0;
 }
 
 TableBuilder::TableBuilder(HorizontalLayout* layout, DataSourceManager* dataManager)
