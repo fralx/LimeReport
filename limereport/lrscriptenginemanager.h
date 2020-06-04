@@ -332,7 +332,7 @@ class DatasourceFunctions : public QObject{
     Q_OBJECT
 public:
     explicit DatasourceFunctions(IDataSourceManager* dataManager)
-        : m_dataManager(dataManager){}
+        : m_dataManager(dynamic_cast<DataSourceManager*>(dataManager)){}
     Q_INVOKABLE bool first(const QString& datasourceName);
     Q_INVOKABLE bool next(const QString& datasourceName);
     Q_INVOKABLE bool prior(const QString& datasourceName);
@@ -340,7 +340,7 @@ public:
     Q_INVOKABLE bool invalidate(const QString& datasourceName);
     Q_INVOKABLE QObject *createTableBuilder(QObject *horizontalLayout);
 private:
-    IDataSourceManager* m_dataManager;
+    DataSourceManager* m_dataManager;
 };
 
 class ScriptFunctionsManager : public QObject{
