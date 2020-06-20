@@ -1,5 +1,6 @@
 #include "lritemscontainerdesignitf.h"
 #include "lritemdesignintf.h"
+#include "lrbanddesignintf.h"
 
 namespace LimeReport {
 
@@ -37,11 +38,15 @@ bool itemSortContainerLessThen(const PItemSortContainer c1, const PItemSortConta
     else return c1->m_rect.y()<c2->m_rect.y();
 }
 
-void ItemsContainerDesignInft::snapshotItemsLayout()
+void ItemsContainerDesignInft::snapshotItemsLayout(SnapshotType type)
 {
     m_containerItems.clear();
-    foreach(BaseDesignIntf *childItem,childBaseItems()){
-          m_containerItems.append(PItemSortContainer(new ItemSortContainer(childItem)));
+    foreach(BaseDesignIntf *childItem, childBaseItems()){
+        if (type == IgnoreBands){
+            if (!dynamic_cast<BandDesignIntf*>(childItem))
+                m_containerItems.append(PItemSortContainer(new ItemSortContainer(childItem)));
+        } else
+            m_containerItems.append(PItemSortContainer(new ItemSortContainer(childItem)));
     }
     qSort(m_containerItems.begin(),m_containerItems.end(),itemSortContainerLessThen);
 }

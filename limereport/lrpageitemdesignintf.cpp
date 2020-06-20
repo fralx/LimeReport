@@ -131,7 +131,8 @@ BaseDesignIntf *PageItemDesignIntf::createSameTypeItem(QObject *owner, QGraphics
 void PageItemDesignIntf::geometryChangedEvent(QRectF newRect, QRectF)
 {
     Q_UNUSED(newRect)
-    updateMarginRect();
+    if (itemMode() == DesignMode || !endlessHeight())
+        updateMarginRect();
     PageSize oldSize = m_pageSize;
     if (!m_sizeChainging && !isLoading())
         m_pageSize = Custom;
@@ -490,8 +491,10 @@ void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
 
 void PageItemDesignIntf::updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager)
 {
-    snapshotItemsLayout();
-    arrangeSubItems(pass, dataManager);
+    if (!endlessHeight()){
+        snapshotItemsLayout(IgnoreBands);
+        arrangeSubItems(pass, dataManager);
+    }
 }
 
 bool PageItemDesignIntf::oldPrintMode() const
