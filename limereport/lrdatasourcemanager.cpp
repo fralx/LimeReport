@@ -1437,13 +1437,13 @@ void DataSourceManager::clear(ClearMethod method)
         case All:
             invalidateLinkedDatasources(dit.key());
             delete dit.value();
-            m_datasources.erase(dit++);
+            dit = m_datasources.erase(dit);
             break;
         default:
             if (owned){
                 invalidateLinkedDatasources(dit.key());
                 delete dit.value();
-                m_datasources.erase(dit++);
+                dit = m_datasources.erase(dit);
             } else {
                 ++dit;
             }
