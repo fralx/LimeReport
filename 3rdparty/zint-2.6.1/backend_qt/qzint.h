@@ -18,6 +18,7 @@
 #define BARCODERENDER_H
 #include <QColor>
 #include <QPainter>
+#include <QPainterPath>
 
 #include "qzint_global.h"
 #include "zint.h"
