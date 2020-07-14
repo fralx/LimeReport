@@ -752,6 +752,11 @@ void BandDesignIntf::emitBandRendered(BandDesignIntf* band)
     emit bandRendered(band);
 }
 
+void BandDesignIntf::emitBandReRendered(BandDesignIntf *oldBand, BandDesignIntf *newBand)
+{
+    emit bandReRendered(oldBand, newBand);
+}
+
 void BandDesignIntf::setSplittable(bool value){
     if (m_splitable!=value){
         bool oldValue = m_splitable;
