@@ -216,6 +216,7 @@ public:
     void parentObjectLoadFinished();
     void objectLoadFinished();
     void emitBandRendered(BandDesignIntf *band);
+    void emitBandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
 
     bool isSplittable() const {return m_splitable;}
     void setSplittable(bool value);
@@ -273,6 +274,7 @@ public:
 
 signals:
     void bandRendered(BandDesignIntf* band);
+    void bandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
     void preparedForRender();
     void bandRegistred();
 protected:
