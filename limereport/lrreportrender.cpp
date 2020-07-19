@@ -386,7 +386,10 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
                         if (dataBand){
                             GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
                             if (gf){
-                                connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
+                                connect(dataBand, SIGNAL(bandRendered(BandDesignIntf*)),
+                                        gf, SLOT(slotBandRendered(BandDesignIntf*)));
+                                connect(dataBand, SIGNAL(bandReRendered(BandDesignIntf*, BandDesignIntf*)),
+                                        gf, SLOT(slotBandReRendered(BandDesignIntf*, BandDesignIntf*)));
                             }
                         } else {
                             GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),captures.at(dsIndex));
@@ -547,6 +550,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 if (!bandIsSliced){
                                     BandDesignIntf* t = renderData(patternBand);
                                     t->copyBookmarks(bandClone);
+                                    patternBand->emitBandReRendered(bandClone, t);
                                     delete bandClone;
                                     bandClone = t;
                                 }
@@ -554,6 +558,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                             if (!registerBand(bandClone)) {
                                 BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
                                 registerBand(upperPart);
+                                patternBand->emitBandReRendered(bandClone, upperPart);
                                 delete bandClone;
                                 bandClone = NULL;
                             };
