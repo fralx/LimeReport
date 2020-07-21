@@ -51,7 +51,8 @@ namespace LimeReport{
 ImageItem::ImageItem(QObject* owner,QGraphicsItem* parent)
     :ItemDesignIntf(xmlTag,owner,parent), m_useExternalPainter(false), m_externalPainter(0),
      m_autoSize(false), m_scale(true),
-     m_keepAspectRatio(true), m_center(true), m_format(Binary){}
+     m_keepAspectRatio(true), m_center(true), m_format(Binary),
+     m_manager(new QNetworkAccessManager(this)) {}
 
 BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
@@ -106,10 +107,26 @@ void ImageItem::processPopUpAction(QAction *action)
     ItemDesignIntf::processPopUpAction(action);
 }
 
-QImage getFileByResourcePath(QString resourcePath){
+QImage ImageItem::getFileByResourcePath(QString resourcePath){
     QFileInfo resourceFile(resourcePath);
     if (resourceFile.exists())
         return QImage(resourcePath);
+    else {
+        QUrl url(resourcePath);
+
+        if (url.isValid()) {
+            QNetworkRequest request(url);
+            QNetworkReply *reply = m_manager->get(request);
+
+            QEventLoop loop;
+            connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+            loop.exec();
+
+            QImage img = QImage::fromData(reply->readAll());
+            reply->deleteLater();
+            return img;
+        }
+    }
     return QImage();
 }
 

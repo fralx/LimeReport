@@ -38,29 +38,32 @@ int main(int argc, char *argv[])
 
     LimeReport::ReportEngine report;
 
-    if (parser.value(sourceOption).isEmpty()){
-        std::cerr<<"Error! Report file is not specified !! \n";
-        return 1;
-    }
+    report.loadFromFile("test.lrxml");
+    report.printToPDF("hello.pdf");
 
-    if (!report.loadFromFile(parser.value(sourceOption))){
-        std::cerr<<"Error! Report file \""+parser.value(sourceOption).toStdString()+"\" not found \n";
-        return 1;
-    }
+//    if (parser.value(sourceOption).isEmpty()){
+//        std::cerr<<"Error! Report file is not specified !! \n";
+//        return 1;
+//    }
 
-    if (!parser.values(variablesOption).isEmpty()){
-        foreach(QString var, parser.values(variablesOption)){
-            QStringList varItem = var.split("=");
-            if (varItem.size() == 2)
-                report.dataManager()->setReportVariable(varItem.at(0),varItem.at(1));
-        }
-    }
+//    if (!report.loadFromFile(parser.value(sourceOption))){
+//        std::cerr<<"Error! Report file \""+parser.value(sourceOption).toStdString()+"\" not found \n";
+//        return 1;
+//    }
 
-    if (parser.value(destinationOption).isEmpty()){
-        report.printToPDF(QFileInfo(parser.value(sourceOption)).baseName());
-    } else {
-        report.printToPDF(parser.value(destinationOption));
-    }
+//    if (!parser.values(variablesOption).isEmpty()){
+//        foreach(QString var, parser.values(variablesOption)){
+//            QStringList varItem = var.split("=");
+//            if (varItem.size() == 2)
+//                report.dataManager()->setReportVariable(varItem.at(0),varItem.at(1));
+//        }
+//    }
+
+//    if (parser.value(destinationOption).isEmpty()){
+//        report.printToPDF(QFileInfo(parser.value(sourceOption)).baseName());
+//    } else {
+//        report.printToPDF(parser.value(destinationOption));
+//    }
 #else
     std::cerr<<"This demo intended for Qt 5.2 and higher\n";
 #endif

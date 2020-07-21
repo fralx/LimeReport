@@ -32,6 +32,9 @@
 #include "lritemdesignintf.h"
 #include "lreditableimageitemintf.h"
 #include <QtGlobal>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 namespace LimeReport{
 
@@ -109,6 +112,7 @@ protected:
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
     QImage drawImage();
+    QImage getFileByResourcePath(QString resourcePath);
 private:
     QImage  m_picture;
     bool m_useExternalPainter;
@@ -121,7 +125,8 @@ private:
     bool    m_keepAspectRatio;
     bool    m_center;
     Format  m_format;
-    QString m_variable;    
+    QString m_variable;
+    QNetworkAccessManager *m_manager;
 
 };
 
