@@ -35,6 +35,8 @@
 #include <QSqlError>
 #include <QSqlQueryModel>
 #include <QFileInfo>
+#include <QEventLoop>
+#include <QTimer>
 #include <stdexcept>
 
 #ifdef BUILD_WITH_EASY_PROFILER
@@ -852,6 +854,37 @@ ReportSettings *DataSourceManager::reportSettings() const
 void DataSourceManager::setReportSettings(ReportSettings *reportSettings)
 {
     m_reportSettings = reportSettings;
+}
+
+QByteArray DataSourceManager::getResource(const QString &path)
+{
+    QFile file(path);
+    if (file.exists()){
+        file.open(QIODevice::ReadOnly);
+        return file.readAll();
+    }
+
+    QUrl url(path);
+    if (url.isValid()){
+        QNetworkAccessManager manager;
+        QNetworkRequest request(url);
+        QNetworkReply *reply = manager.get(request);
+
+        QEventLoop loop;
+        QTimer::singleShot(20000, &loop, SLOT(quit()));
+        connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+
+        if (reply->error() == QNetworkReply::NoError){
+            QByteArray result = reply->readAll();
+            reply->deleteLater();
+            return result;
+        } else {
+            putError(reply->errorString());
+        }
+    }
+
+    return QByteArray();
 }
 
 bool DataSourceManager::checkConnection(QSqlDatabase db){

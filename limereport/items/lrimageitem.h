@@ -108,7 +108,6 @@ protected:
     void loadPictureFromVariant(QVariant& data);
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
-    QImage drawImage();
 private:
     QImage  m_picture;
     bool m_useExternalPainter;
@@ -121,8 +120,7 @@ private:
     bool    m_keepAspectRatio;
     bool    m_center;
     Format  m_format;
-    QString m_variable;    
-
+    QString m_variable;
 };
 
 }

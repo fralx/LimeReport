@@ -106,20 +106,6 @@ void ImageItem::processPopUpAction(QAction *action)
     ItemDesignIntf::processPopUpAction(action);
 }
 
-QImage getFileByResourcePath(QString resourcePath){
-    QFileInfo resourceFile(resourcePath);
-    if (resourceFile.exists())
-        return QImage(resourcePath);
-    return QImage();
-}
-
-QImage ImageItem::drawImage()
-{
-    if (image().isNull())
-        return getFileByResourcePath(m_resourcePath);
-    return image();
-}
-
 bool ImageItem::useExternalPainter() const
 {
     return m_useExternalPainter;
@@ -165,7 +151,6 @@ QString ImageItem::fileFilter() const
 
 void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-
     if (m_picture.isNull()){
         if (!m_datasource.isEmpty() && !m_field.isEmpty()){
             IDataSource* ds = dataManager->dataSource(m_datasource);
@@ -176,7 +161,7 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
        } else if (!m_resourcePath.isEmpty()){
            m_resourcePath = expandUserVariables(m_resourcePath, pass, NoEscapeSymbols, dataManager);
            m_resourcePath = expandDataFields(m_resourcePath, NoEscapeSymbols, dataManager);
-           m_picture = QImage(m_resourcePath);
+           m_picture = QImage::fromData(dataManager->getResource(m_resourcePath));
        } else if (!m_variable.isEmpty()){
            QVariant data = dataManager->variable(m_variable);
            if (data.type() == QVariant::String){
@@ -273,8 +258,8 @@ void ImageItem::setAutoSize(bool autoSize)
     if (m_autoSize != autoSize){
         m_autoSize = autoSize;
         if (m_autoSize && !m_picture.isNull()){
-            setWidth(drawImage().width());
-            setHeight(drawImage().height());
+            setWidth(image().width());
+            setHeight(image().height());
             setPossibleResizeDirectionFlags(Fixed);
         } else {
             setPossibleResizeDirectionFlags(AllDirections);
@@ -324,10 +309,10 @@ void ImageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     QPointF point = rect().topLeft();
     QImage img;
 
-    if (m_scale && !drawImage().isNull()){
-        img = drawImage().scaled(rect().width(), rect().height(), keepAspectRatio() ? Qt::KeepAspectRatio : Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    if (m_scale && !image().isNull()){
+        img = image().scaled(rect().width(), rect().height(), keepAspectRatio() ? Qt::KeepAspectRatio : Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     } else {
-        img = drawImage();
+        img = image();
     }
 
     qreal shiftHeight = rect().height() - img.height();
@@ -402,7 +387,8 @@ void ImageItem::setResourcePath(const QString &value){
     if (m_resourcePath != value){
         QString oldValue = m_resourcePath;
         m_resourcePath = value;
-        update();
+        //m_picture = getFileByResourcePath(value);
+        //update();
         notify("resourcePath", oldValue, value);
     }
 }

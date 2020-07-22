@@ -32,6 +32,9 @@
 
 #include <QObject>
 #include <QIcon>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+
 #include "lrdatadesignintf.h"
 #include "lrcollection.h"
 #include "lrglobal.h"
@@ -222,6 +225,7 @@ public:
 
     bool hasChanges(){ return m_hasChanges; }
     void dropChanges(){ m_hasChanges = false; }
+    QByteArray getResource(const QString& url);
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
@@ -281,8 +285,7 @@ private:
     QVector<QString> m_groupFunctionsExpressions;
     IDbCredentialsProvider* m_dbCredentialsProvider;
 
-    QMap< QString, QVector<QString> > m_varToDataSource;
-
+    QMap< QString, QVector<QString> > m_varToDataSource;    
     bool m_hasChanges;
 };
 
