@@ -876,6 +876,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
         }
     }
     dropChanges();
+    this->setReportName(fi.baseName());
     return saved;
 }
 
