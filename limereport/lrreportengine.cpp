@@ -206,7 +206,7 @@ void ReportEnginePrivate::collectionLoadFinished(const QString &)
         page->setReportSettings(&m_reportSettings);
         page->setSceneRect(-Const::SCENE_MARGIN,-Const::SCENE_MARGIN,
                            page->pageItem()->width()+Const::SCENE_MARGIN*2,
-                           page->pageItem()->height()+Const::SCENE_MARGIN*2);
+                           page->pageItem()->boundingRect().height()+Const::SCENE_MARGIN*2);
     }
     emit pagesLoadFinished();
 }
@@ -876,6 +876,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
         }
     }
     dropChanges();
+    this->setReportName(fi.baseName());
     return saved;
 }
 
