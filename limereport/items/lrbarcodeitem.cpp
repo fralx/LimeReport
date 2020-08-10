@@ -333,6 +333,13 @@ bool BarcodeItem::isEmpty() const
     return m_content.isEmpty();
 }
 
+void BarcodeItem::expandContent(QString data, DataSourceManager* dataManager, RenderPass pass)
+{
+    setContent(expandUserVariables(data, pass, NoEscapeSymbols, dataManager));
+    setContent(expandScripts(content(), dataManager));
+    setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
+}
+
 void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
     if (content().isEmpty())
@@ -346,21 +353,19 @@ void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass
                if (data.isValid())
                {
                    switch(pass)
-                       {
-                       case FirstPass:
-                           setContent(expandUserVariables(data.toString(),pass,NoEscapeSymbols, dataManager));
-                           setContent(expandDataFields(data.toString(), NoEscapeSymbols, dataManager));
-                           break;
-                       default:;
-                       }
+                   {
+                   case FirstPass:
+                       expandContent(data.toString(), dataManager, pass);
+                       break;
+                   default:;
+                   }
                }
            }
         }
     } else {
         switch(pass){
         case FirstPass:
-            setContent(expandUserVariables(content(),pass,NoEscapeSymbols, dataManager));
-            setContent(expandDataFields(content(), NoEscapeSymbols, dataManager));
+            expandContent(content(), dataManager, pass);
             break;
         default:;
         }

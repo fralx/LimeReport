@@ -191,19 +191,18 @@ public:
     void setSecurityLevel(int securityLevel);
     int pdf417CodeWords() const;
     void setPdf417CodeWords(int pdf417CodeWords);
-
     InputMode inputMode() const;
     void setInputMode(const InputMode &inputMode);
-
     bool hideText() const;
     void setHideText(bool hideText);
-
     int option3() const;
     void setOption3(int option3);
-
     bool hideIfEmpty() const;
     void setHideIfEmpty(bool hideIfEmpty);
     bool isEmpty() const;
+
+private:
+    void expandContent(QString data, DataSourceManager *dataManager, RenderPass pass);
 
 private:
     QString m_content;
