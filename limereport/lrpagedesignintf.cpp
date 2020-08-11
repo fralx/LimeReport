@@ -132,23 +132,6 @@ void PageDesignIntf::updatePageRect()
     emit sceneRectChanged(sceneRect());
 }
 
-//PageDesignIntf::Orientation PageDesignIntf::getOrientation()
-//{
-//    return m_orientation;
-//}
-
-//void PageDesignIntf::setPageSize(PageDesignIntf::PageSize sizeType, QSizeF sizeValue)
-//{
-//    m_pageSize = sizeType;
-//    m_pageSizeValue = sizeValue;
-//    updatePageRect();
-//}
-
-//PageDesignIntf::PageSize PageDesignIntf::pageSize() const
-//{
-//    return m_pageSize;
-//}
-
 void PageDesignIntf::keyPressEvent(QKeyEvent *event)
 {
     if (event->modifiers() == Qt::NoModifier ||
@@ -1342,9 +1325,9 @@ void PageDesignIntf::copy()
 }
 
 BaseDesignIntf* PageDesignIntf::findDestObject(BaseDesignIntf* item){
-    if (item && item->canContainChildren()) return item;
+    if (item && item->canAcceptPaste()) return item;
     BaseDesignIntf * curItem = item;
-    while (curItem && !curItem->canContainChildren()){
+    while (curItem && !curItem->canAcceptPaste()){
         curItem = dynamic_cast<BaseDesignIntf*>(curItem->parentItem());
     }
     return curItem;
@@ -2110,11 +2093,22 @@ bool PasteCommand::insertItem(ItemsReaderIntf::Ptr reader)
             if (page()->reportItemsByName(item->objectName()).size()>1){
                 item->setObjectName(objectName);
             }
+            foreach(QObject* child, item->children()){
+                changeName(page(), child);
+            };
             m_itemNames.push_back(item->objectName());
         }
         return true;
     }
     return false;
+}
+
+void PasteCommand::changeName(PageDesignIntf *page, QObject* item)
+{
+    item->setObjectName(page->genObjectName(*item));
+    foreach(QObject* child, item->children()){
+        changeName(page, child);
+    };
 }
 
 CommandIf::Ptr CutCommand::create(PageDesignIntf *page)
