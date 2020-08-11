@@ -253,6 +253,7 @@ public:
     bool startFromNewPage() const;
     void setStartFromNewPage(bool startFromNewPage);
     bool canContainChildren() const{ return true;}
+    bool canAcceptPaste() const{ return true;}
     bool printAlways() const;
     void setPrintAlways(bool printAlways);
     bool repeatOnEachRow() const;

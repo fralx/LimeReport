@@ -297,6 +297,7 @@ public:
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
     virtual bool canContainChildren() const { return false;}
+    virtual bool canAcceptPaste() const{ return false;}
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
@@ -311,6 +312,15 @@ public:
     virtual void setWatermark(bool watermark);
     void updateSelectionMarker();
     void turnOnSelectionMarker(bool value);
+    bool fillTransparentInDesignMode() const;
+    void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
+    void emitPosChanged(QPointF oldPos, QPointF newPos);
+    void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
+    bool isGeometryLocked() const;
+    void setGeometryLocked(bool itemLocked);
+    bool isChangingPos() const;
+    void setIsChangingPos(bool isChangingPos);
+
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
@@ -321,18 +331,6 @@ public:
     Q_INVOKABLE qreal getAbsolutePosY();
     Q_INVOKABLE QString setItemPosX(qreal xValue);
     Q_INVOKABLE QString setItemPosY(qreal yValue);
-
-    bool fillTransparentInDesignMode() const;
-    void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
-
-    void emitPosChanged(QPointF oldPos, QPointF newPos);
-    void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
-
-    bool isGeometryLocked() const;
-    void setGeometryLocked(bool itemLocked);
-
-    bool isChangingPos() const;
-    void setIsChangingPos(bool isChangingPos);
 
 protected:
 
@@ -404,6 +402,7 @@ private:
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPossibleCursor(int cursorFlags);
     void updatePossibleDirectionFlags();
+
 private:
     QPointF m_startPos;
     int     m_resizeHandleSize;
