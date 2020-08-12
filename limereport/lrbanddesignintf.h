@@ -272,7 +272,7 @@ public:
     int shiftItems() const;
     void setShiftItems(int shiftItems);    
     bool isNeedUpdateSize(RenderPass) const;
-
+    void copyBandAttributes(BandDesignIntf* source);
 signals:
     void bandRendered(BandDesignIntf* band);
     void bandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
