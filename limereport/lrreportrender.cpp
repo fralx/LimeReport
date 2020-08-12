@@ -466,6 +466,15 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
     replaceGroupFunctionsInContainer(band, band);
 }
 
+QColor ReportRender::makeBackgroundColor(BandDesignIntf* band){
+    if (band->useAlternateBackgroundColor()){
+        return datasources()->variable(QLatin1String("line_") + band->objectName().toLower()).toInt() %2 == 0 ?
+                    band->backgroundColor() :
+                    band->alternateBackgroundColor();
+    }
+    return band->backgroundColor();
+}
+
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
     QCoreApplication::processEvents();
@@ -493,15 +502,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (patternBand->isFooter())
             m_lastRenderedFooter = patternBand;
 
-        if (bandClone->useAlternateBackgroundColor()){
-            bandClone->setBackgroundColor(
-                        (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt() %2 == 0 ?
-                             bandClone->backgroundColor() :
-                             bandClone->alternateBackgroundColor()
-                        )
-            );
-        }
-
+        bandClone->setBackgroundColor(makeBackgroundColor(patternBand));
         patternBand->emitBandRendered(bandClone);
         m_scriptEngineContext->setCurrentBand(bandClone);
         emit(patternBand->afterRender());
@@ -549,7 +550,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 startNewPage();
                                 if (!bandIsSliced){
                                     BandDesignIntf* t = renderData(patternBand);
-                                    t->copyBookmarks(bandClone);
+                                    t->copyBandAttributes(bandClone);
                                     patternBand->emitBandReRendered(bandClone, t);
                                     delete bandClone;
                                     bandClone = t;
