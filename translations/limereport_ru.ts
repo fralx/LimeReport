@@ -541,10 +541,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ок</translation>
     </message>
     <message>
-        <source>Dont keep credentals in lrxml</source>
-        <translation>Не хранить учетные данные в lrxml</translation>
-    </message>
-    <message>
         <source>defaultConnection</source>
         <translation>Соединение по умолчанию</translation>
     </message>
@@ -555,6 +551,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Port</source>
         <translation>Порт</translation>
+    </message>
+    <message>
+        <source>Don&apos;t keep credentials in lrxml</source>
+        <translation>Не хранить учетные данные в lrxml</translation>
     </message>
 </context>
 <context>

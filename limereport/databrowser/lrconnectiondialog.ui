@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>363</height>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -186,7 +186,7 @@
    <item>
     <widget class="QCheckBox" name="cbbKeepCredentials">
      <property name="text">
-      <string>Dont keep credentals in lrxml</string>
+      <string>Don't keep credentials in lrxml</string>
      </property>
     </widget>
    </item>
