@@ -173,8 +173,6 @@ private:
     void    startNewColumn();
     void    startNewPage(bool isFirst = false);
     void    resetPageNumber(ResetPageNuberType resetType);
-    //int     findLastPageNumber(int currentPage);
-    //int     findPageNumber(int currentPage);
     void    savePage(bool isLast = false);
     QString toString();
     void initColumns();
@@ -187,8 +185,8 @@ private:
     void renameChildItems(BaseDesignIntf *item);
     void renderGroupFooterByHeader(BandDesignIntf *groupHeader);
     void updateTOC(BaseDesignIntf* item, int pageNumber);
-    //PagesRange& currentRange(bool isTOC = false){ return (isTOC) ? m_ranges.first(): m_ranges.last();}
     void placeBandOnPage(BandDesignIntf *band, int columnIndex);
+    QColor makeBackgroundColor(BandDesignIntf *band);
 private:
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
@@ -222,7 +220,6 @@ private:
     unsigned long long m_currentNameIndex;
     bool            m_newPageStarted;
     bool            m_lostHeadersMoved;
-
 
 };
 } // namespace LimeReport
