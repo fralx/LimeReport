@@ -56,6 +56,29 @@
     </message>
 </context>
 <context>
+    <name>ImageItemEditor</name>
+    <message>
+        <source>Image Item Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished">Imagen</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resource path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
@@ -515,6 +538,10 @@ p, li { white-space: pre-wrap; }
         <source>Print if empty</source>
         <translation>Imprimir si está vacío</translation>
     </message>
+    <message>
+        <source>Keep top space</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::BaseDesignIntf</name>
@@ -553,6 +580,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Create Vertical Layout</source>
         <translation>Crear diseño vertical</translation>
+    </message>
+    <message>
+        <source>Lock item geometry</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -633,10 +664,6 @@ p, li { white-space: pre-wrap; }
         <translation>Utilice la conexión de aplicación predeterminada</translation>
     </message>
     <message>
-        <source>Dont keep credentals in lrxml</source>
-        <translation>No mantener credentals en el lrxml</translation>
-    </message>
-    <message>
         <source>defaultConnection</source>
         <translation>Conexión por defecto</translation>
     </message>
@@ -647,6 +674,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Port</source>
         <translation>Puerto</translation>
+    </message>
+    <message>
+        <source>Don&apos;t keep credentials in lrxml</source>
+        <translation>No mantener credentals en el lrxml</translation>
     </message>
 </context>
 <context>
@@ -1112,6 +1143,22 @@ p, li { white-space: pre-wrap; }
         <source>Table</source>
         <translation>Tabla</translation>
     </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -1233,6 +1280,14 @@ p, li { white-space: pre-wrap; }
         <source>Ext.</source>
         <translation>Ext.</translation>
     </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Editar</translation>
+    </message>
+    <message>
+        <source>Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
@@ -1350,6 +1405,10 @@ p, li { white-space: pre-wrap; }
         <source>Filter</source>
         <translation>Filtrar</translation>
     </message>
+    <message>
+        <source>Translate properties</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::PDFExporter</name>
@@ -1431,10 +1490,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Report</source>
         <translation>Reporte</translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation>Barra herramientas</translation>
     </message>
     <message>
         <source>Print</source>
@@ -1533,10 +1588,6 @@ p, li { white-space: pre-wrap; }
         <translation>Mostrar barra herramientas</translation>
     </message>
     <message>
-        <source>toolBar_2</source>
-        <translation>barra herramientas_2</translation>
-    </message>
-    <message>
         <source>InsertTextItem</source>
         <translation>Insertar objeto de texto</translation>
     </message>
@@ -1555,6 +1606,26 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Del</source>
         <translation>Supr</translation>
+    </message>
+    <message>
+        <source>MainToolBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EditModeTools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation type="unfinished">Atención</translation>
+    </message>
+    <message>
+        <source>The printing is in process</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2062,16 +2133,29 @@ p, li { white-space: pre-wrap; }
         <source>option3</source>
         <translation>Opción3</translation>
     </message>
-</context>
-<context>
-    <name>LimeReport::RectMMPropItem</name>
     <message>
-        <source>width</source>
-        <translation>ancho</translation>
+        <source>units</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>height</source>
-        <translation>alto</translation>
+        <source>geometryLocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printBehavior</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>shiftItems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>showLegend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>removeGap</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2083,6 +2167,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>height</source>
         <translation>alto</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::RectUnitPropItem</name>
+    <message>
+        <source>width</source>
+        <translation type="unfinished">ancho</translation>
+    </message>
+    <message>
+        <source>height</source>
+        <translation type="unfinished">alto</translation>
     </message>
 </context>
 <context>
@@ -2303,18 +2398,6 @@ p, li { white-space: pre-wrap; }
         <translation>Nombre de archivo del reporte</translation>
     </message>
     <message>
-        <source>Rendering report</source>
-        <translation>Generando reporte</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>Abortar</translation>
-    </message>
-    <message>
-        <source> page rendered</source>
-        <translation> página generada</translation>
-    </message>
-    <message>
         <source>Warning</source>
         <translation>Advertencia</translation>
     </message>
@@ -2385,6 +2468,34 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Vertical layout</source>
         <translation>Diseño vertical</translation>
+    </message>
+    <message>
+        <source>Rendered %1 pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel report rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock selected items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlock selected items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select one level items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation type="unfinished">Atención</translation>
+    </message>
+    <message>
+        <source>The rendering is in process</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2572,6 +2683,25 @@ Esta vista previa ya no es válida.</translation>
     <message>
         <source>Use first row as header</source>
         <translation>Usa la primera fila como encabezado</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::SVGItem</name>
+    <message>
+        <source>SVG Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SVG (*.svg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Editar</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
+        <translation type="unfinished">Marca de agua</translation>
     </message>
 </context>
 <context>
@@ -2777,10 +2907,6 @@ Esta vista previa ya no es válida.</translation>
         <translation>Suprimir campos ausentes y variables de advertencia.</translation>
     </message>
     <message>
-        <source>Use dark theme</source>
-        <translation type="vanished">Usar tema oscuro</translation>
-    </message>
-    <message>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
@@ -2808,6 +2934,10 @@ Esta vista previa ya no es válida.</translation>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
+    <message>
+        <source>Report units</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SubDetailBand</name>
@@ -2821,6 +2951,13 @@ Esta vista previa ya no es válida.</translation>
     <message>
         <source>SubDetailHeader</source>
         <translation>Encabezado sub-detalle</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::SvgEditor</name>
+    <message>
+        <source>Select image file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3226,6 +3363,46 @@ Esta vista previa ya no es válida.</translation>
     <message>
         <source>Default</source>
         <translation>Por defecto</translation>
+    </message>
+    <message>
+        <source>SVG Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation type="unfinished">imagen</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>margin</source>
+        <translation type="unfinished">margen</translation>
+    </message>
+    <message>
+        <source>&apos;&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation type="unfinished">series</translation>
+    </message>
+    <message>
+        <source>Series</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
