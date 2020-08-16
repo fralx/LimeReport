@@ -675,8 +675,6 @@ CSVDesc *DataSourceManager::csvByName(const QString &datasourceName)
 
 void DataSourceManager::removeDatasource(const QString &name)
 {
-    invalidateLinkedDatasources(name);
-
     if (m_datasources.contains(name)){
         IDataSourceHolder *holder;
         holder=m_datasources.value(name);
@@ -703,6 +701,7 @@ void DataSourceManager::removeDatasource(const QString &name)
         delete m_csvs.at(csvIndex);
         m_csvs.removeAt(csvIndex);
     }
+    invalidateLinkedDatasources(name);
     m_hasChanges = true;
     emit datasourcesChanged();
 }
@@ -1348,12 +1347,12 @@ void DataSourceManager::invalidateLinkedDatasources(QString datasourceName)
 {
     foreach(QString name, dataSourceNames()){
         if (isSubQuery(name)){
-           if (subQueryByName(name)->master() == datasourceName)
+           if (subQueryByName(name)->master().compare(datasourceName) == 0)
                dataSourceHolder(name)->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
         }
         if (isProxy(name)){
             ProxyDesc* proxy = proxyByName(name);
-            if ((proxy->master() == datasourceName) || (proxy->child() == datasourceName))
+            if ((proxy->master().compare(datasourceName) == 0) || (proxy->child().compare(datasourceName) == 0))
                 dataSourceHolder(name)->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
 
         }
