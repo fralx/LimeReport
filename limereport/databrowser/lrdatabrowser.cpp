@@ -677,7 +677,7 @@ SQLEditResult::ResultMode DataBrowser::currentDatasourceType(const QString& data
 
 void DataBrowser::applyChanges(SQLEditResult result)
 {
-    if (result.resultMode == currentDatasourceType(result.datasourceName)){
+    if (result.resultMode == currentDatasourceType(result.oldDatasourceName)){
         switch(result.resultMode){
             case SQLEditResult::Query:
                 changeQuery(result);
@@ -694,7 +694,7 @@ void DataBrowser::applyChanges(SQLEditResult result)
             default: break;
         }
     } else {
-        removeDatasource(result.datasourceName);
+        removeDatasource(result.oldDatasourceName);
         addDatasource(result);
     }
     activateItem(result.datasourceName, DataBrowserTree::Table);
