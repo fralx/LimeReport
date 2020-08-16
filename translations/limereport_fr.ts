@@ -72,12 +72,12 @@
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="20"/>
         <source>Image Item Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Éditeur d&apos;image</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="36"/>
         <source>Image</source>
-        <translation type="unfinished">Image</translation>
+        <translation>Image</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="44"/>
@@ -85,18 +85,18 @@
         <location filename="../limereport/items/lrimageitemeditor.ui" line="121"/>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="135"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="111"/>
         <source>Resource path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin de ressources</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.cpp" line="36"/>
         <location filename="../limereport/items/lrimageitemeditor.cpp" line="65"/>
         <source>Select image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner une image</translation>
     </message>
 </context>
 <context>
@@ -476,7 +476,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrbanddesignintf.cpp" line="629"/>
         <location filename="../limereport/lrbanddesignintf.cpp" line="636"/>
         <source>Keep top space</source>
-        <translation type="unfinished"></translation>
+        <translation>Conserver l&apos;espace supérieur</translation>
     </message>
     <message>
         <location filename="../limereport/lrbanddesignintf.cpp" line="609"/>
@@ -1425,7 +1425,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/items/lrimageitem.cpp" line="87"/>
         <location filename="../limereport/items/lrimageitem.cpp" line="103"/>
         <source>Edit</source>
-        <translation type="unfinished">Edition</translation>
+        <translation>Edition</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitem.cpp" line="92"/>
@@ -1436,7 +1436,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/items/lrimageitem.cpp" line="163"/>
         <source>Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitem.cpp" line="370"/>
@@ -1701,12 +1701,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="63"/>
         <source>MainToolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>Barre d&apos;outils principale</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="101"/>
         <source>EditModeTools</source>
-        <translation type="unfinished"></translation>
+        <translation>Outils d&apos;édition</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="120"/>
@@ -1842,7 +1842,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrpreviewreportwindow.cpp" line="61"/>
         <source>Printing</source>
-        <translation type="unfinished"></translation>
+        <translation>Impression en cours</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.cpp" line="79"/>
@@ -1867,12 +1867,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrpreviewreportwindow.cpp" line="292"/>
         <source>Attention</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Attention</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.cpp" line="292"/>
         <source>The printing is in process</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;impresion est en cours</translation>
     </message>
 </context>
 <context>
@@ -2510,17 +2510,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="166"/>
         <source>shiftItems</source>
-        <translation type="unfinished"></translation>
+        <translation>Décaler les éléments</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="167"/>
         <source>showLegend</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la légende</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="168"/>
         <source>removeGap</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer l&apos;espace</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="263"/>
@@ -2602,12 +2602,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrreportdesignwindow.cpp" line="73"/>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="1420"/>
         <source>Rendered %1 pages</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 pages préparées</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="85"/>
         <source>Cancel report rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler la préparation</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="149"/>
@@ -2949,12 +2949,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="1573"/>
         <source>Attention</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Attention</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="1573"/>
         <source>The rendering is in process</source>
-        <translation type="unfinished"></translation>
+        <translation>La préparation du rapport est en cours</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="1515"/>
@@ -3208,24 +3208,24 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="34"/>
         <source>SVG Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Image SVG</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="58"/>
         <source>SVG (*.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="63"/>
         <location filename="../limereport/items/lrsvgitem.cpp" line="78"/>
         <source>Edit</source>
-        <translation type="unfinished">Edition</translation>
+        <translation>Edition</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="68"/>
         <location filename="../limereport/items/lrsvgitem.cpp" line="75"/>
         <source>Watermark</source>
-        <translation type="unfinished">Filigrane</translation>
+        <translation>Filigrane</translation>
     </message>
 </context>
 <context>
@@ -3581,7 +3581,7 @@ Cet aperçu n&apos;est plus valide.</translation>
     <message>
         <location filename="../limereport/objectinspector/editors/lrsvgeditor.cpp" line="32"/>
         <source>Select image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner une image</translation>
     </message>
 </context>
 <context>
@@ -4036,7 +4036,7 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="10"/>
         <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="22"/>
         <source>image</source>
-        <translation type="unfinished">Image</translation>
+        <translation>Image</translation>
     </message>
     <message>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="394"/>
@@ -4211,17 +4211,17 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/items/lrsvgitem.cpp" line="13"/>
         <location filename="../limereport/lrfactoryinitializer.cpp" line="169"/>
         <source>SVG Item</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrseriespropitem.cpp" line="15"/>
         <source>series</source>
-        <translation type="unfinished">Séries</translation>
+        <translation>Séries</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrseriespropitem.cpp" line="27"/>
         <source>Series</source>
-        <translation type="unfinished">Séries</translation>
+        <translation>Séries</translation>
     </message>
 </context>
 </TS>
