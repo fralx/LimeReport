@@ -2093,7 +2093,7 @@ bool PasteCommand::insertItem(ItemsReaderIntf::Ptr reader)
             if (page()->reportItemsByName(item->objectName()).size()>1){
                 item->setObjectName(objectName);
             }
-            foreach(QObject* child, item->children()){
+            foreach (BaseDesignIntf* child, item->childBaseItems()){
                 changeName(page(), child);
             };
             m_itemNames.push_back(item->objectName());
@@ -2103,10 +2103,10 @@ bool PasteCommand::insertItem(ItemsReaderIntf::Ptr reader)
     return false;
 }
 
-void PasteCommand::changeName(PageDesignIntf *page, QObject* item)
+void PasteCommand::changeName(PageDesignIntf *page, BaseDesignIntf* item)
 {
     item->setObjectName(page->genObjectName(*item));
-    foreach(QObject* child, item->children()){
+    foreach(BaseDesignIntf* child, item->childBaseItems()){
         changeName(page, child);
     };
 }

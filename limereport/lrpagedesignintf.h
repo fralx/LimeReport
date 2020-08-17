@@ -430,7 +430,7 @@ namespace LimeReport {
         void setItemsXML(const QString& itemsXML);
         void setParent(BaseDesignIntf* parent){m_parentItemName = parent->objectName();}
         bool insertItem(ItemsReaderIntf::Ptr reader);
-        void changeName(PageDesignIntf* page, QObject *item);
+        void changeName(PageDesignIntf* page, BaseDesignIntf *item);
     private:
         QString m_itemsXML;
         QString m_parentItemName;
