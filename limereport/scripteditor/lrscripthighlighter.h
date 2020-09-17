@@ -43,6 +43,8 @@ protected:
     QTextCharFormat m_formats[FormatsCount];
     bool isKeyWord(const QString& word);
     void createParentheisisInfo(const char& literal, TextBlockData *data, const QString& text);
+private:
+    QSet<QString> m_keywords;
 };
 
 
