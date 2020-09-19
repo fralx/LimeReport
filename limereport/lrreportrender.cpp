@@ -838,7 +838,7 @@ void ReportRender::recalcIfNeeded(BandDesignIntf* band){
 void ReportRender::renderDataHeader(BandDesignIntf *header)
 {
     recalcIfNeeded(header);
-    BandDesignIntf* renderedHeader = renderBand(header, 0);
+    BandDesignIntf* renderedHeader = renderBand(header, 0, StartNewPageAsNeeded);
     if (containsGroupFunctions(header))
         m_recalcBands.append(renderedHeader);
 }
