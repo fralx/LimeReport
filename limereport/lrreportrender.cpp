@@ -1483,15 +1483,19 @@ BandDesignIntf* ReportRender::findEnclosingGroup()
 
 void ReportRender::savePage(bool isLast)
 {
-    if (m_renderPageItem->isTOC())
-        m_pagesRanges.addTOCPage();
-    else
-        m_pagesRanges.addPage();
 
     m_datasources->setReportVariable("#IS_LAST_PAGEFOOTER",isLast);
     m_datasources->setReportVariable("#IS_FIRST_PAGEFOOTER",m_datasources->variable("#PAGE").toInt()==1);
 
     renderPageItems(m_patternPageItem);
+
+    if (m_renderPageItem->isEmpty() and m_renderPageItem->notPrintIfEmpty()) return;
+
+    if (m_renderPageItem->isTOC())
+        m_pagesRanges.addTOCPage();
+    else
+        m_pagesRanges.addPage();
+
     checkFooterGroup(m_lastDataBand);
     cutGroups();
     rearrangeColumnsItems();
