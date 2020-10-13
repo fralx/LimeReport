@@ -87,6 +87,7 @@ class DataFooterBand : public BandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
+    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
     Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)	
     Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
