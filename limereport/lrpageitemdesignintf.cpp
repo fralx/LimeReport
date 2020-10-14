@@ -244,8 +244,7 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     } else {
         int maxChildIndex = 0;
         foreach(BandDesignIntf* band, m_bands){
-            if (band->bandType() == BandDesignIntf::Data)
-                maxChildIndex = std::max(maxChildIndex, band->maxChildIndex());
+            maxChildIndex = std::max(maxChildIndex, band->maxChildIndex());
         }
         bandIndex = std::max(bandIndex, maxChildIndex + 1);
     }
