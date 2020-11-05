@@ -2,6 +2,7 @@
 #define LRSCRIPTHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QSet>
 
 namespace LimeReport{
 
