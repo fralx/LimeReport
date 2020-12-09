@@ -905,31 +905,31 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/lrdatasourcemanager.cpp" line="647"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="1044"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1043"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation>Źródło danych %1&quot; nie znalezione!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="745"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="744"/>
         <source>Connection with name &quot;%1&quot; already exists!</source>
         <translation>Połączenie o nazwie &quot;%1&quot; już istnieje!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="770"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="779"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="788"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="795"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="804"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="769"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="778"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="787"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="794"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="803"/>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation>Źródło danych o nazwie &quot;%1&quot; już istnieje!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="835"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="834"/>
         <source>Database &quot;%1&quot; not found</source>
         <translation>Baza danych &quot;%1&quot; nie znaleziona</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="1016"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1015"/>
         <source>invalid connection</source>
         <translation>Nieprawidłowe połączenie</translation>
     </message>
@@ -1646,31 +1646,31 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="720"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="719"/>
         <source>Paste</source>
         <translation>Wklej</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="726"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="750"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="725"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="749"/>
         <source>Page is TOC</source>
         <translation>Strona to spis treści</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="730"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="753"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="729"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="752"/>
         <source>Reset page number</source>
         <translation>Zresetuj numer strony</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="734"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="756"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="733"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="755"/>
         <source>Full page</source>
         <translation>Cała strona</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="738"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="759"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="737"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="758"/>
         <source>Set page size to printer</source>
         <translation>Ustaw rozmiar strony na drukarkę</translation>
     </message>
