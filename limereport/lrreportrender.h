@@ -187,6 +187,9 @@ private:
     void updateTOC(BaseDesignIntf* item, int pageNumber);
     void placeBandOnPage(BandDesignIntf *band, int columnIndex);
     QColor makeBackgroundColor(BandDesignIntf *band);
+
+    DataRenderMode getDataRenderMode(int &currentRowIndex, const int maxNumRowPerPages, bool isFirstRow);
+
 private:
     DataSourceManager* m_datasources;
     ScriptEngineContext* m_scriptEngineContext;
