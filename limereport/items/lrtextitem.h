@@ -200,7 +200,7 @@ protected:
 private:
     void initTextSizes() const;
     void setTextFont(TextPtr text, const QFont &value) const;
-    void adaptFontSize(TextPtr text) const;
+    QFont adaptFontSize(TextPtr text) const;
     QString formatDateTime(const QDateTime &value);
     QString formatNumber(const double value);
     QString formatFieldValue();
@@ -232,6 +232,7 @@ private:
     Qt::LayoutDirection m_textLayoutDirection;
     bool m_hideIfEmpty;
     int m_fontLetterSpacing;
+    mutable QFont* m_adaptedFont;
 };
 
 }

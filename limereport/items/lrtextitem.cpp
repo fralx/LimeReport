@@ -59,7 +59,7 @@ namespace LimeReport{
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
       m_allowHTMLInFields(false), m_replaceCarriageReturns(false), m_followTo(""), m_follower(0), m_textIndent(0),
-      m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false), m_fontLetterSpacing(0)
+      m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false), m_fontLetterSpacing(0), m_adaptedFont(0)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -75,7 +75,7 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     Init();
 }
 
-TextItem::~TextItem(){}
+TextItem::~TextItem(){if (m_adaptedFont) delete m_adaptedFont;}
 
 int TextItem::fakeMarginSize() const{
     return marginSize()+5;
@@ -385,7 +385,7 @@ void TextItem::setTextFont(TextPtr text, const QFont& value) const {
     }
 }
 
-void TextItem::adaptFontSize(TextPtr text) const{
+QFont TextItem::adaptFontSize(TextPtr text) const{
     QFont _font = transformToSceneFont(font());
     do{
         setTextFont(text,_font);
@@ -393,6 +393,7 @@ void TextItem::adaptFontSize(TextPtr text) const{
             _font.setPixelSize(_font.pixelSize()-1);
         else break;
     } while(text->size().height()>this->height() || text->size().width()>(this->width()) - fakeMarginSize() * 2);
+    return _font;
 }
 
 int TextItem::underlineLineSize() const
@@ -522,7 +523,14 @@ TextItem::TextPtr TextItem::textDocument() const
 
     QFont _font = transformToSceneFont(font());
     if (m_adaptFontToSize && (!(m_autoHeight || m_autoWidth))){
-        adaptFontSize(text);
+        if (!m_adaptedFont){
+            m_adaptedFont = new QFont(adaptFontSize(text));
+        } else {
+            setTextFont(text,*m_adaptedFont);
+            if (text->size().height()>this->height() || text->size().width()>(this->width())){
+               m_adaptedFont = new QFont(adaptFontSize(text));
+            }
+        }
     } else {
         setTextFont(text,_font);
     }
