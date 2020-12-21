@@ -135,6 +135,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
     m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
     createProgressBar();
+    m_deletePageAction->setEnabled(report->pageCount()>1);
 }
 
 ReportDesignWindow::~ReportDesignWindow()
