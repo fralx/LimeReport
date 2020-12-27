@@ -475,6 +475,16 @@ QColor ReportRender::makeBackgroundColor(BandDesignIntf* band){
     return band->backgroundColor();
 }
 
+ReportRender::DataRenderMode ReportRender::getDataRenderMode(int &currentRowIndex, const int maxNumRowPerPages, bool isFirstTime)
+{
+    /// in normally.
+    if(maxNumRowPerPages == -1) return StartNewPageAsNeeded;
+
+    /// if property named maxRowItems was setting at any postive integer value but not -1.
+    DataRenderMode _mode = (isFirstTime)?(StartNewPageAsNeeded):((currentRowIndex == 0)?(ForcedStartPage):(StartNewPageAsNeeded));
+    return _mode;
+}
+
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
     QCoreApplication::processEvents();
@@ -613,6 +623,8 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
         bool firstTime = true;
 
+        int nDisplayedRowIndex = 0;
+        int nMaxNumRowPerPages = dataBand->maxRowItems();
 
         while(!bandDatasource->eof() && !m_renderCanceled){
 
@@ -638,7 +650,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
                 if (header && !firstTime && header->repeatOnEachRow())
                     renderBand(header, 0, StartNewPageAsNeeded);
 
-                renderBand(dataBand, rawData, StartNewPageAsNeeded, !bandDatasource->hasNext());
+                renderBand(dataBand, rawData, getDataRenderMode(nDisplayedRowIndex, nMaxNumRowPerPages,firstTime), !bandDatasource->hasNext());
                 m_newPageStarted = false;
                 renderChildBands(dataBand);
 
