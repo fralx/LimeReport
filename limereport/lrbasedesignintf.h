@@ -403,6 +403,9 @@ private:
     Qt::CursorShape getPossibleCursor(int cursorFlags);
     void updatePossibleDirectionFlags();
 
+private slots:
+    void onChangeGeometryTimeOut();
+
 private:
     QPointF m_startPos;
     int     m_resizeHandleSize;
@@ -463,6 +466,9 @@ private:
     UnitType m_unitType;
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
+    bool     m_isMoveable;
+    QTimer   m_timer;
+
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
