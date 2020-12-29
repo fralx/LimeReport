@@ -274,8 +274,8 @@ public:
     bool isNeedUpdateSize(RenderPass) const;
     void copyBandAttributes(BandDesignIntf* source);
 signals:
-    void bandRendered(BandDesignIntf* band);
-    void bandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
+    void bandRendered(LimeReport::BandDesignIntf* band);
+    void bandReRendered(LimeReport::BandDesignIntf* oldBand, LimeReport::BandDesignIntf* newBand);
     void preparedForRender();
     void bandRegistred();
 protected:

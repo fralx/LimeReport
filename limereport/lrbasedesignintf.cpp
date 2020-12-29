@@ -401,9 +401,9 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
         m_startPos = pos();
         m_oldGeometry = geometry();
         QGraphicsItem::mousePressEvent(event);
-        emit(itemSelected(this));
+        emit itemSelected(this);
         m_isMoveable = false;
-        m_timer.singleShot(200, this, SLOT(onChangeGeometryTimeOut()));
+        QTimer::singleShot(200, this, SLOT(onChangeGeometryTimeOut()));
     }
     else QGraphicsItem::mousePressEvent(event);
 }
@@ -523,7 +523,7 @@ void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
     update();
 }
 
-void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent /**event*/)
+void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent * /*event*/)
 {
     m_hovered = true;
     update();

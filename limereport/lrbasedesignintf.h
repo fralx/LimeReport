@@ -344,7 +344,7 @@ protected:
     void  mousePressEvent(QGraphicsSceneMouseEvent* event);
     void  hoverMoveEvent(QGraphicsSceneHoverEvent* event);
     void  hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void  hoverEnterEvent(QGraphicsSceneHoverEvent);
+    void  hoverEnterEvent(QGraphicsSceneHoverEvent* );
     void  mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     void  mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void  mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
@@ -467,22 +467,21 @@ private:
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
     bool     m_isMoveable;
-    QTimer   m_timer;
 
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
     void itemSelected(LimeReport::BaseDesignIntf *item);
-    void itemSelectedHasBeenChanged(BaseDesignIntf *item, bool value);
+    void itemSelectedHasBeenChanged(LimeReport::BaseDesignIntf *item, bool value);
     void loadCollectionFinished(const QString& collectionName);
     void objectLoaded(QObject* object);
     void objectChanged(QObject* object);
     void propertyChanged(const QString& propertName, const QVariant& oldValue,const QVariant& newValue);
     void propertyObjectNameChanged(const QString& oldValue, const QString& newValue);
     void propertyesChanged(QVector<QString> propertyNames);
-    void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
-    void itemVisibleHasChanged(BaseDesignIntf* item);
+    void itemAlignChanged(LimeReport::BaseDesignIntf* item, const LimeReport::BaseDesignIntf::ItemAlign& oldValue, const LimeReport::BaseDesignIntf::ItemAlign& newValue);
+    void itemVisibleHasChanged(LimeReport::BaseDesignIntf* item);
     void beforeRender();
     void afterData();
     void afterRender();
