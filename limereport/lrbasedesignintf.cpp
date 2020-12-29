@@ -85,7 +85,9 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_fillTransparentInDesignMode(true),
     m_unitType(Millimeters),
     m_itemGeometryLocked(false),
-    m_isChangingPos(false)
+    m_isChangingPos(false),
+    m_isMoveable(false)
+
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
     if (BaseDesignIntf *item = dynamic_cast<BaseDesignIntf *>(parent)) {
@@ -387,6 +389,10 @@ void BaseDesignIntf::setFixedPos(bool fixedPos)
     m_fixedPos = fixedPos;
 }
 
+void BaseDesignIntf::onChangeGeometryTimeOut(){
+    m_isMoveable = true;
+}
+
 void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -396,6 +402,8 @@ void BaseDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
         m_oldGeometry = geometry();
         QGraphicsItem::mousePressEvent(event);
         emit(itemSelected(this));
+        m_isMoveable = false;
+        m_timer.singleShot(200, this, SLOT(onChangeGeometryTimeOut()));
     }
     else QGraphicsItem::mousePressEvent(event);
 }
@@ -524,6 +532,7 @@ void BaseDesignIntf::hoverEnterEvent(QGraphicsSceneHoverEvent /**event*/)
 
 void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!m_isMoveable) return;
     if (!isSelected()){
         QGraphicsItem::mouseMoveEvent(event);
         return;
