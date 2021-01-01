@@ -32,8 +32,6 @@
 #include "objectinspector/editors/lrcomboboxeditor.h"
 #include "lrtextitem.h"
 
-#include <QtDebug>
-
 namespace{
     LimeReport::ObjectPropItem * createAlignItem(
         QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly
@@ -162,8 +160,6 @@ QString AlignmentItemEditor::displayValue() const
 
 void AlignmentItemEditor::setPropertyValue(QVariant value)
 {
-    //ObjectPropItem::setPropertyValue(extractAcceptableValue(value.toInt())[0]);
-    qDebug()<<"value "<<value;
     QVector<int> _accpepttableValueList= extractAcceptableValue(value.toInt());
     if(_accpepttableValueList.isEmpty()) return;
 
