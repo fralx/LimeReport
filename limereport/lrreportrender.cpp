@@ -480,6 +480,7 @@ ReportRender::DataRenderMode ReportRender::getDataRenderMode(int &currentRowInde
     /// in normally.
     if(maxNumRowPerPages == -1) return StartNewPageAsNeeded;
 
+    currentRowIndex = ++currentRowIndex % maxNumRowPerPages;
     /// if property named maxRowItems was setting at any postive integer value but not -1.
     DataRenderMode _mode = (isFirstTime)?(StartNewPageAsNeeded):((currentRowIndex == 0)?(ForcedStartPage):(StartNewPageAsNeeded));
     return _mode;
