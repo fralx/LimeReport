@@ -505,7 +505,6 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         bandClone->setBackgroundColor(makeBackgroundColor(patternBand));
         patternBand->emitBandRendered(bandClone);
         m_scriptEngineContext->setCurrentBand(bandClone);
-        emit(patternBand->afterRender());
 
         if ( isLast && bandClone->keepFooterTogether() && bandClone->sliceLastRow() ){
             if (m_maxHeightByColumn[m_currentColumn] < (bandClone->height()+m_reportFooterHeight))
@@ -549,7 +548,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 savePage();
                                 startNewPage();
                                 if (!bandIsSliced){
-                                    BandDesignIntf* t = renderData(patternBand);
+                                    BandDesignIntf* t = renderData(patternBand, false);
                                     t->copyBandAttributes(bandClone);
                                     patternBand->emitBandReRendered(bandClone, t);
                                     delete bandClone;
@@ -577,6 +576,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
 
         if (patternBand->isFooter())
             datasources()->clearGroupFunctionValues(patternBand->objectName());
+        emit(patternBand->afterRender());
         return bandClone;
     }
     return 0;
@@ -1259,13 +1259,14 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
     return bottomBandPart;
 }
 
-BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
+BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand, bool emitBeforeRender)
 {
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
 
     m_scriptEngineContext->baseDesignIntfToScript(patternBand->parent()->objectName(), bandClone);
     m_scriptEngineContext->setCurrentBand(bandClone);
-    emit(patternBand->beforeRender());
+    if (emitBeforeRender)
+        emit(patternBand->beforeRender());
 
     if (patternBand->isFooter()){
         replaceGroupsFunction(bandClone);

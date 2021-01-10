@@ -480,8 +480,8 @@ signals:
     void propertyChanged(const QString& propertName, const QVariant& oldValue,const QVariant& newValue);
     void propertyObjectNameChanged(const QString& oldValue, const QString& newValue);
     void propertyesChanged(QVector<QString> propertyNames);
-    void itemAlignChanged(LimeReport::BaseDesignIntf* item, const LimeReport::BaseDesignIntf::ItemAlign& oldValue, const LimeReport::BaseDesignIntf::ItemAlign& newValue);
-    void itemVisibleHasChanged(LimeReport::BaseDesignIntf* item);
+    void itemAlignChanged(BaseDesignIntf* item, const BaseDesignIntf::ItemAlign& oldValue, const BaseDesignIntf::ItemAlign& newValue);
+    void itemVisibleHasChanged(BaseDesignIntf* item);
     void beforeRender();
     void afterData();
     void afterRender();
