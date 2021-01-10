@@ -169,7 +169,7 @@ private:
     BandDesignIntf *sliceBand(BandDesignIntf* band, BandDesignIntf *patternBand, bool isLast);
 
     BandDesignIntf* saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf *patternBand);
-    BandDesignIntf* renderData(BandDesignIntf* patternBand);
+    BandDesignIntf* renderData(BandDesignIntf* patternBand, bool emitBeforeRender = true);
     void    startNewColumn();
     void    startNewPage(bool isFirst = false);
     void    resetPageNumber(ResetPageNuberType resetType);
