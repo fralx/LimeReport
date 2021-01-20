@@ -52,7 +52,8 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
     m_setPageSizeToPrinter(false), m_endlessHeight(false), m_printable(true),
-    m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false)
+    m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false),
+    m_notPrintIfEmpty(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -67,7 +68,8 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
     m_setPageSizeToPrinter(false), m_endlessHeight(false), m_printable(true),
-    m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false)
+    m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false),
+    m_notPrintIfEmpty(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -347,6 +349,16 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     }
 }
 
+bool PageItemDesignIntf::notPrintIfEmpty() const
+{
+    return m_notPrintIfEmpty;
+}
+
+void PageItemDesignIntf::setNotPrintIfEmpty(bool notPrintIfEmpty)
+{
+    m_notPrintIfEmpty = notPrintIfEmpty;
+}
+
 bool PageItemDesignIntf::dropPrinterMargins() const
 {
     return m_dropPrinterMargins;
@@ -355,6 +367,11 @@ bool PageItemDesignIntf::dropPrinterMargins() const
 void PageItemDesignIntf::setDropPrinterMargins(bool dropPrinterMargins)
 {
     m_dropPrinterMargins = dropPrinterMargins;
+}
+
+bool PageItemDesignIntf::isEmpty() const
+{
+    return childBaseItems().isEmpty();
 }
 
 void PageItemDesignIntf::setPrintBehavior(const PrintBehavior &printBehavior)
