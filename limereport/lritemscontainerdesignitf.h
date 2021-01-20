@@ -42,8 +42,9 @@ class ItemsContainerDesignInft : public BookmarkContainerDesignIntf{
 public:
   ItemsContainerDesignInft(const QString& xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0):
       BookmarkContainerDesignIntf(xmlTypeName, owner, parent){}
+  enum SnapshotType{Full, IgnoreBands};
 protected:
-  void  snapshotItemsLayout();
+  void  snapshotItemsLayout(SnapshotType type = Full);
   void  arrangeSubItems(RenderPass pass, DataSourceManager *dataManager, ArrangeType type = AsNeeded);
   qreal findMaxBottom() const;
   qreal findMaxHeight() const;

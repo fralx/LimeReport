@@ -70,7 +70,7 @@ void PieChart::paintChart(QPainter *painter, QRectF chartRect)
             drawPercent(painter, chartRect, currentDegree, sectorDegree);
             currentDegree += sectorDegree;
         }
-    } else {
+    } else if (m_chartItem->itemMode() == DesignMode){
         painter->setBrush(color_map[0]);
         painter->drawPie(chartRect,0,260*16);
         drawPercent(painter, chartRect, 0, 260);
@@ -122,7 +122,7 @@ void PieChart::paintChartLegend(QPainter *painter, QRectF legendRect)
                 );
             cw += painter->fontMetrics().height();
         }
-    } else {
+    } else if (m_chartItem->itemMode() == DesignMode){
         qreal cw = 0;
         for (int i=0;i<m_designLabels.size();++i){
             QString label = m_designLabels.at(i);

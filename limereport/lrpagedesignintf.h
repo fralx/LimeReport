@@ -266,7 +266,7 @@ namespace LimeReport {
         void bandDeleted(QObject* band);
         void slotPageItemLoaded(QObject *);
         void slotSelectionChanged();
-        void slotAnimationStoped(QObject *animation);
+        void slotAnimationStoped(QObject *animation);    
     private:
         template <typename T>
         BaseDesignIntf* internalAddBand(T bandType);
@@ -430,6 +430,7 @@ namespace LimeReport {
         void setItemsXML(const QString& itemsXML);
         void setParent(BaseDesignIntf* parent){m_parentItemName = parent->objectName();}
         bool insertItem(ItemsReaderIntf::Ptr reader);
+        void changeName(PageDesignIntf* page, BaseDesignIntf *item);
     private:
         QString m_itemsXML;
         QString m_parentItemName;

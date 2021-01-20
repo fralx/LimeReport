@@ -206,7 +206,7 @@ void ReportEnginePrivate::collectionLoadFinished(const QString &)
         page->setReportSettings(&m_reportSettings);
         page->setSceneRect(-Const::SCENE_MARGIN,-Const::SCENE_MARGIN,
                            page->pageItem()->width()+Const::SCENE_MARGIN*2,
-                           page->pageItem()->height()+Const::SCENE_MARGIN*2);
+                           page->pageItem()->boundingRect().height()+Const::SCENE_MARGIN*2);
     }
     emit pagesLoadFinished();
 }
@@ -878,6 +878,7 @@ bool ReportEnginePrivate::saveToFile(const QString &fileName)
         }
     }
     dropChanges();
+    this->setReportName(fi.baseName());
     return saved;
 }
 
@@ -1801,9 +1802,6 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     if (!m_firstPage && !m_painter->isActive()) return false;
     PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
-    //LimeReport::PageDesignIntf m_renderPage;
-    //m_renderPage.setItemMode(PrintMode);
-
     QPointF backupPagePos = page->pos();
     page->setPos(0,0);
     int currentPpm = page->ppm();
@@ -1852,7 +1850,14 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
         }
 
     } else {
-       m_renderPage.render(m_painter);
+        if (page->getSetPageSizeToPrinter()){
+            QRectF source = page->geometry();
+            QSizeF inchSize = source.size() / (100 * 2.54);
+            QRectF target = QRectF(QPoint(0,0), inchSize  * m_printer->resolution());
+            m_renderPage.render(m_painter, target, source);
+        } else {
+            m_renderPage.render(m_painter);
+        }
     }
     page->setPos(backupPagePos);
     page->setPpm(currentPpm);
@@ -1876,13 +1881,15 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
     } else {
         m_printer->setFullPage(page->fullPage());
+        if (page->dropPrinterMargins())
+            m_printer->setPageMargins(0, 0, 0, 0, QPrinter::Point);
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         if (page->pageSize()==PageItemDesignIntf::Custom){
             QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
                         QSizeF(page->sizeMM().height(),page->sizeMM().width()):
                         page->sizeMM();
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
-              m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
+              m_printer->setPaperSize(pageSize, QPrinter::Millimeter);
         } else {
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
               m_printer->setPaperSize(static_cast<QPrinter::PageSize>(page->pageSize()));

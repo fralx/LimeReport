@@ -56,6 +56,7 @@ public:
     virtual QVariant calculate(PageItemDesignIntf* page = 0)=0;
 public slots:
     void slotBandRendered(BandDesignIntf* band);
+    void slotBandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
 protected:
     void setName(const QString& value){m_name=value;}
     QVariant addition(QVariant value1, QVariant value2);

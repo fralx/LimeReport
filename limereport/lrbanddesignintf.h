@@ -219,6 +219,7 @@ public:
     void parentObjectLoadFinished();
     void finishLoading();
     void emitBandRendered(BandDesignIntf *band);
+    void emitBandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
 
     bool isSplittable() const {return m_splitable;}
     void setSplittable(bool value);
@@ -255,6 +256,7 @@ public:
     bool startFromNewPage() const;
     void setStartFromNewPage(bool startFromNewPage);
     bool canContainChildren() const{ return true;}
+    bool canAcceptPaste() const{ return true;}
     bool printAlways() const;
     void setPrintAlways(bool printAlways);
     bool repeatOnEachRow() const;
@@ -281,8 +283,10 @@ public:
     void setPaddingBottom(int paddingBottom);
 
     QRectF boundingRect() const;
+    void copyBandAttributes(BandDesignIntf* source);
 signals:
     void bandRendered(BandDesignIntf* band);
+    void bandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
     void preparedForRender();
     void bandRegistred();
 protected:

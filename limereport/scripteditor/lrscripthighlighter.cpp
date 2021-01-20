@@ -175,15 +175,15 @@ void ScriptHighlighter::highlightBlock(const QString& text)
 
 bool ScriptHighlighter::isKeyWord(const QString& word)
 {
-    for (int i = 0; i < KEYWORDS_COUNT-1; ++i){
-        if (QLatin1String(keywords[i]) == word) return true;
-    }
-    return false;
+    return m_keywords.contains(word);
 }
 
 ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
     QSyntaxHighlighter(parent)
 {
+    for(int i=0; i<KEYWORDS_COUNT; ++i){
+        m_keywords.insert(keywords[i]);
+    }
 
     if ( isColorDark(QPalette().background().color())){
         m_formats[NumberFormat].setForeground(Qt::darkBlue);

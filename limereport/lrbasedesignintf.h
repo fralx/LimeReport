@@ -324,6 +324,7 @@ public:
     void setBorderColor(const QColor &borderColor);
     void setItemVisible(const bool& value);
     virtual bool canContainChildren() const { return false;}
+    virtual bool canAcceptPaste() const{ return false;}
     ReportSettings* reportSettings() const;
     void setReportSettings(ReportSettings *reportSettings);
     void setZValueProperty(qreal value);
@@ -338,6 +339,15 @@ public:
     virtual void setWatermark(bool watermark);
     void updateSelectionMarker();
     void turnOnSelectionMarker(bool value);
+    bool fillTransparentInDesignMode() const;
+    void setFillTransparentInDesignMode(bool fillTransparentInDesignMode);
+    void emitPosChanged(QPointF oldPos, QPointF newPos);
+    void emitObjectNamePropertyChanged(const QString& oldName, const QString& newName);
+    bool isGeometryLocked() const;
+    void setGeometryLocked(bool itemLocked);
+    bool isChangingPos() const;
+    void setIsChangingPos(bool isChangingPos);
+
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
@@ -434,6 +444,10 @@ private:
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPossibleCursor(int cursorFlags);
     void updatePossibleDirectionFlags();
+
+private slots:
+    void onChangeGeometryTimeOut();
+
 private:
     QPointF m_startPos;
     int     m_resizeHandleSize;
@@ -495,19 +509,21 @@ private:
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
     int      m_ppm;
+    bool     m_isMoveable;
+
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
     void itemSelected(LimeReport::BaseDesignIntf *item);
-    void itemSelectedHasBeenChanged(BaseDesignIntf *item, bool value);
+    void itemSelectedHasBeenChanged(LimeReport::BaseDesignIntf *item, bool value);
     void loadCollectionFinished(const QString& collectionName);
     void objectLoaded(QObject* object);
     void objectChanged(QObject* object);
     void propertyChanged(const QString& propertName, const QVariant& oldValue,const QVariant& newValue);
     void propertyObjectNameChanged(const QString& oldValue, const QString& newValue);
     void propertyesChanged(QVector<QString> propertyNames);
-    void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
+    void itemAlignChanged(BaseDesignIntf* item, const BaseDesignIntf::ItemAlign& oldValue, const BaseDesignIntf::ItemAlign& newValue);
     void itemVisibleHasChanged(BaseDesignIntf* item);
     void beforeRender();
     void afterData();

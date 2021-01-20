@@ -386,7 +386,10 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
                         if (dataBand){
                             GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),dataBand->objectName());
                             if (gf){
-                                connect(dataBand,SIGNAL(bandRendered(BandDesignIntf*)),gf,SLOT(slotBandRendered(BandDesignIntf*)));
+                                connect(dataBand, SIGNAL(bandRendered(BandDesignIntf*)),
+                                        gf, SLOT(slotBandRendered(BandDesignIntf*)));
+                                connect(dataBand, SIGNAL(bandReRendered(BandDesignIntf*, BandDesignIntf*)),
+                                        gf, SLOT(slotBandReRendered(BandDesignIntf*, BandDesignIntf*)));
                             }
                         } else {
                             GroupFunction* gf = datasources()->addGroupFunction(functionName,captures.at(Const::VALUE_INDEX),band->objectName(),captures.at(dsIndex));
@@ -463,6 +466,15 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
     replaceGroupFunctionsInContainer(band, band);
 }
 
+QColor ReportRender::makeBackgroundColor(BandDesignIntf* band){
+    if (band->useAlternateBackgroundColor()){
+        return datasources()->variable(QLatin1String("line_") + band->objectName().toLower()).toInt() %2 == 0 ?
+                    band->backgroundColor() :
+                    band->alternateBackgroundColor();
+    }
+    return band->backgroundColor();
+}
+
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
     QCoreApplication::processEvents();
@@ -490,18 +502,9 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (patternBand->isFooter())
             m_lastRenderedFooter = patternBand;
 
-        if (bandClone->useAlternateBackgroundColor()){
-            bandClone->setBackgroundColor(
-                        (datasources()->variable(QLatin1String("line_")+patternBand->objectName().toLower()).toInt() %2 == 0 ?
-                             bandClone->backgroundColor() :
-                             bandClone->alternateBackgroundColor()
-                        )
-            );
-        }
-
+        bandClone->setBackgroundColor(makeBackgroundColor(patternBand));
         patternBand->emitBandRendered(bandClone);
         m_scriptEngineContext->setCurrentBand(bandClone);
-        emit(patternBand->afterRender());
 
         if ( isLast && bandClone->keepFooterTogether() && bandClone->sliceLastRow() ){
             if (m_maxHeightByColumn[m_currentColumn] < (bandClone->height()+m_reportFooterHeight))
@@ -545,8 +548,9 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                 savePage();
                                 startNewPage();
                                 if (!bandIsSliced){
-                                    BandDesignIntf* t = renderData(patternBand);
-                                    t->copyBookmarks(bandClone);
+                                    BandDesignIntf* t = renderData(patternBand, false);
+                                    t->copyBandAttributes(bandClone);
+                                    patternBand->emitBandReRendered(bandClone, t);
                                     delete bandClone;
                                     bandClone = t;
                                 }
@@ -554,6 +558,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                             if (!registerBand(bandClone)) {
                                 BandDesignIntf* upperPart = dynamic_cast<BandDesignIntf*>(bandClone->cloneUpperPart(m_maxHeightByColumn[m_currentColumn]));
                                 registerBand(upperPart);
+                                patternBand->emitBandReRendered(bandClone, upperPart);
                                 delete bandClone;
                                 bandClone = NULL;
                             };
@@ -571,6 +576,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
 
         if (patternBand->isFooter())
             datasources()->clearGroupFunctionValues(patternBand->objectName());
+        emit(patternBand->afterRender());
         return bandClone;
     }
     return 0;
@@ -832,7 +838,7 @@ void ReportRender::recalcIfNeeded(BandDesignIntf* band){
 void ReportRender::renderDataHeader(BandDesignIntf *header)
 {
     recalcIfNeeded(header);
-    BandDesignIntf* renderedHeader = renderBand(header, 0);
+    BandDesignIntf* renderedHeader = renderBand(header, 0, StartNewPageAsNeeded);
     if (containsGroupFunctions(header))
         m_recalcBands.append(renderedHeader);
 }
@@ -1253,13 +1259,14 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
     return bottomBandPart;
 }
 
-BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand)
+BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand, bool emitBeforeRender)
 {
     BandDesignIntf* bandClone = dynamic_cast<BandDesignIntf*>(patternBand->cloneItem(PreviewMode));
 
     m_scriptEngineContext->baseDesignIntfToScript(patternBand->parent()->objectName(), bandClone);
     m_scriptEngineContext->setCurrentBand(bandClone);
-    emit(patternBand->beforeRender());
+    if (emitBeforeRender)
+        emit(patternBand->beforeRender());
 
     if (patternBand->isFooter()){
         replaceGroupsFunction(bandClone);

@@ -29,6 +29,8 @@
  ****************************************************************************/
 #include "lrsimplecrypt.h"
 
+namespace LimeReport {
+
 #if defined(LP64) || defined(_LP64) || defined(__LP64__)
 typedef unsigned  int WORD; /* Should be 32-bit = 4 bytes        */
 #else
@@ -61,8 +63,6 @@ void initPt(WTB& pt, QByteArray::Iterator* it, QByteArray::Iterator end){
         } else break;
     }
 }
-
-namespace LimeReport {
 
 class ChipperPrivate{
     friend class Chipper;
@@ -117,7 +117,7 @@ QByteArray Chipper::cryptString(QString value)
 {
     QByteArray buff;
     QByteArray result;
-    buff += value;
+    buff += value.toUtf8();
     WTB pt, ct, prior;
 
     if (!d->isPrepared())

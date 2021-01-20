@@ -116,20 +116,14 @@ BaseDesignIntf* VerticalLayout::cloneBottomPart(int height, QObject* owner, QGra
     bottomPart->initFromItem(this);
 
     foreach(BaseDesignIntf* item,childBaseItems()){
-        if ((item->geometry().top() < height) && ( item->geometry().bottom() > height )){
+        if (item->geometry().bottom() > height){
             int sliceHeight = height - item->geometry().top();
-            if (item->canBeSplitted(sliceHeight)){
+            if ((item->geometry().top() < height) && (item->canBeSplitted(sliceHeight))){
                 BaseDesignIntf* tmpItem = item->cloneBottomPart(sliceHeight, bottomPart, bottomPart);
-                tmpItem->setPos(tmpItem->pos().x(),0);
                 tmpItem->setHeight(sliceHeight);
+                bottomPart->addChild(tmpItem);
             } else {
-                item->cloneItem(item->itemMode(), bottomPart, bottomPart);
-                item->setPos(item->pos().x(), 0);
-            }
-        } else {
-            if (item->geometry().top() >= height){
-                BaseDesignIntf* tmpItem = item->cloneItem(item->itemMode(), bottomPart, bottomPart);
-                tmpItem->setPos(item->pos().x(), item->pos().y() - height);
+                bottomPart->addChild(item->cloneItem(item->itemMode(), bottomPart, bottomPart));
             }
         }
     }

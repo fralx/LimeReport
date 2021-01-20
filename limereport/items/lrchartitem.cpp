@@ -584,7 +584,10 @@ QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont &font)
     return  QSizeF(maxWidth+fm.height()*2,cw);
 }
 
-bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect){
+bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect)
+{
+    if (valuesCount() == 0) return false;
+
     qreal hStep = (labelsRect.width() / valuesCount());
     QFontMetrics fm = painter->fontMetrics();
     foreach(QString label, m_chartItem->labels()){
@@ -597,6 +600,8 @@ bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect){
 
 void AbstractSeriesChart::paintHorizontalLabels(QPainter *painter, QRectF labelsRect)
 {
+    if (valuesCount() == 0) return;
+
     painter->save();
     qreal hStep = (labelsRect.width() / valuesCount());
     if (!m_chartItem->labels().isEmpty()){
@@ -623,6 +628,8 @@ void AbstractSeriesChart::paintHorizontalLabels(QPainter *painter, QRectF labels
 
 void AbstractSeriesChart::paintVerticalLabels(QPainter *painter, QRectF labelsRect)
 {
+    if (valuesCount() == 0) return;
+
     painter->save();
     painter->setFont(adaptLabelsFont(labelsRect.adjusted(0, 0, -hPadding(m_chartItem->rect()), 0),
                                      painter->font()));
@@ -771,7 +778,7 @@ void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)
             );
             cw += painter->fontMetrics().height();
         }
-    } else {
+    } else if (m_chartItem->itemMode() == DesignMode){
         qreal cw = 0;
         for (int i=0;i<m_designLabels.size();++i){
             QString label = m_designLabels.at(i);

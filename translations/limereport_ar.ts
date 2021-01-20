@@ -56,6 +56,29 @@
     </message>
 </context>
 <context>
+    <name>ImageItemEditor</name>
+    <message>
+        <source>Image Item Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished">صورة</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resource path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LRVariableDialog</name>
     <message>
         <source>Variable</source>
@@ -376,15 +399,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start from new page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start new page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Keep top space</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished">قص</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">نسخ</translation>
+    </message>
+    <message>
+        <source>Print if empty</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -420,6 +447,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Create Horizontal Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock item geometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create Vertical Layout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -501,10 +536,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Dont keep credentals in lrxml</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>defaultConnection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -516,6 +547,10 @@ p, li { white-space: pre-wrap; }
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Don&apos;t keep credentials in lrxml</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataBand</name>
@@ -525,6 +560,26 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Use alternate background color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep footer together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep subdetail together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slice last row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start from new page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start new page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -621,12 +676,28 @@ p, li { white-space: pre-wrap; }
         <source>DataFooter</source>
         <translation>ذيل جدول البيانات</translation>
     </message>
+    <message>
+        <source>Print always</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
         <source>DataHeader</source>
         <translation>رأس جدول البيانات</translation>
+    </message>
+    <message>
+        <source>Reprint on each page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Repeat on each row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print always</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -657,6 +728,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -932,6 +1007,30 @@ p, li { white-space: pre-wrap; }
         <source>TitleAlignCenter</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::FlagsPropItem</name>
@@ -1049,6 +1148,18 @@ p, li { white-space: pre-wrap; }
         <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">تحرير</translation>
+    </message>
+    <message>
+        <source>Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ext.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
@@ -1157,6 +1268,28 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::ObjectInspectorWidget</name>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translate properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::PDFExporter</name>
+    <message>
+        <source>Export to PDF</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::PageFooter</name>
     <message>
         <source>Page Footer</source>
@@ -1208,12 +1341,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">نموذج</translation>
     </message>
     <message>
-        <source>PDF file name</source>
-        <translation type="unfinished">أسم ملف PDF</translation>
-    </message>
-    <message>
         <source>Report file name</source>
         <translation type="unfinished">أسم التقرير</translation>
+    </message>
+    <message>
+        <source>%1 file name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1225,10 +1358,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Report</source>
         <translation type="unfinished">تقرير</translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation type="unfinished">شريط الأدوات</translation>
     </message>
     <message>
         <source>Print</source>
@@ -1328,6 +1457,46 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Text align</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MainToolBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EditModeTools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>InsertTextItem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new TextItem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Del</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation type="unfinished">Attention</translation>
+    </message>
+    <message>
+        <source>The printing is in process</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1800,16 +1969,65 @@ p, li { white-space: pre-wrap; }
         <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>LimeReport::RectMMPropItem</name>
     <message>
-        <source>width</source>
-        <translation>العرض</translation>
+        <source>replaceCRwithBR</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>height</source>
-        <translation>الأرتفاع</translation>
+        <source>hideIfEmpty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>hideEmptyItems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>useExternalPainter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>layoutSpacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printerName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fontLetterSpacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>hideText</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>option3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>units</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>geometryLocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>printBehavior</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>shiftItems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>showLegend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>removeGap</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1821,6 +2039,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>height</source>
         <translation>الأرتفاع</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::RectUnitPropItem</name>
+    <message>
+        <source>width</source>
+        <translation type="unfinished">العرض</translation>
+    </message>
+    <message>
+        <source>height</source>
+        <translation type="unfinished">الأرتفاع</translation>
     </message>
 </context>
 <context>
@@ -2021,18 +2250,6 @@ p, li { white-space: pre-wrap; }
         <translation>أسم التقرير</translation>
     </message>
     <message>
-        <source>Rendering report</source>
-        <translation>جاري قراءة التقرير</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>إجهاض</translation>
-    </message>
-    <message>
-        <source> page rendered</source>
-        <translation>تم إنشاء الصفحة</translation>
-    </message>
-    <message>
         <source>Warning</source>
         <translation type="unfinished">تحذير</translation>
     </message>
@@ -2120,6 +2337,38 @@ p, li { white-space: pre-wrap; }
         <source>Hide right panel | Alt+R</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Rendered %1 pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel report rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock selected items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlock selected items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select one level items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attention</source>
+        <translation type="unfinished">Attention</translation>
+    </message>
+    <message>
+        <source>The rendering is in process</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
@@ -2147,6 +2396,10 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Designer not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 file name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2283,6 +2536,41 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Datasource with name: &quot;%1&quot; already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Separator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use first row as header</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::SVGItem</name>
+    <message>
+        <source>SVG Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SVG (*.svg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">تحرير</translation>
+    </message>
+    <message>
+        <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2457,6 +2745,10 @@ This preview is no longer valid.</source>
         <source>Function manager with name &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>RowIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::SettingDialog</name>
@@ -2481,23 +2773,39 @@ This preview is no longer valid.</source>
         <translation type="unfinished">تباعد الشبكة الأفقي</translation>
     </message>
     <message>
-        <source>Designer Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Report Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Suppress absent fields and variables warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Use dark theme</source>
+        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Language</source>
+        <source>Designer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report units</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Script editor settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Font</source>
+        <translation type="unfinished">خط</translation>
+    </message>
+    <message>
+        <source>Indent size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2513,6 +2821,13 @@ This preview is no longer valid.</source>
     <message>
         <source>SubDetailHeader</source>
         <translation>رأس البيانات الفرعية</translation>
+    </message>
+</context>
+<context>
+    <name>LimeReport::SvgEditor</name>
+    <message>
+        <source>Select image file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2591,6 +2906,10 @@ This preview is no longer valid.</source>
         <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Hide if empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::TextItemEditor</name>
@@ -2603,20 +2922,8 @@ This preview is no longer valid.</source>
         <translation type="unfinished">المحتوى</translation>
     </message>
     <message>
-        <source>Editor settings</source>
-        <translation type="unfinished">إعدادات المحرر</translation>
-    </message>
-    <message>
-        <source>Editor font</source>
-        <translation type="unfinished">خطوط المحرر</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء الأمر</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ok</source>
@@ -2913,6 +3220,58 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Datasource manager not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export to PDF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SVG Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VLayout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>margin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Series</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

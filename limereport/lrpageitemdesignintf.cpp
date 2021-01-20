@@ -50,8 +50,9 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(A4), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
-    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
+    m_setPageSizeToPrinter(false), m_endlessHeight(false), m_printable(true),
+    m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -64,8 +65,9 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_topMargin(0), m_bottomMargin(0), m_leftMargin(0), m_rightMargin(0),
     m_pageOrientaion(Portrait), m_pageSize(pageSize), m_sizeChainging(false),
     m_fullPage(false), m_oldPrintMode(false), m_resetPageNumber(false),
-    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false), m_setPageSizeToPrinter(false),
-    m_endlessHeight(false), m_printable(true), m_pageFooter(0), m_printBehavior(Split)
+    m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
+    m_setPageSizeToPrinter(false), m_endlessHeight(false), m_printable(true),
+    m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -129,7 +131,8 @@ BaseDesignIntf *PageItemDesignIntf::createSameTypeItem(QObject *owner, QGraphics
 void PageItemDesignIntf::geometryChangedEvent(QRectF newRect, QRectF)
 {
     Q_UNUSED(newRect)
-    updateMarginRect();
+    if (itemMode() == DesignMode || !endlessHeight())
+        updateMarginRect();
     PageSize oldSize = m_pageSize;
     if (!m_sizeChainging && !isLoading())
         m_pageSize = Custom;
@@ -241,8 +244,7 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     } else {
         int maxChildIndex = 0;
         foreach(BandDesignIntf* band, m_bands){
-            if (band->bandType() == BandDesignIntf::Data)
-                maxChildIndex = std::max(maxChildIndex, band->maxChildIndex());
+            maxChildIndex = std::max(maxChildIndex, band->maxChildIndex());
         }
         bandIndex = std::max(bandIndex, maxChildIndex + 1);
     }
@@ -343,6 +345,16 @@ void PageItemDesignIntf::initColumnsPos(QVector<qreal> &posByColumns, qreal pos,
     for(int i=0;i<columnCount;++i){
         posByColumns.append(pos);
     }
+}
+
+bool PageItemDesignIntf::dropPrinterMargins() const
+{
+    return m_dropPrinterMargins;
+}
+
+void PageItemDesignIntf::setDropPrinterMargins(bool dropPrinterMargins)
+{
+    m_dropPrinterMargins = dropPrinterMargins;
 }
 
 void PageItemDesignIntf::setPrintBehavior(const PrintBehavior &printBehavior)
@@ -518,8 +530,10 @@ void PageItemDesignIntf::setResetPageNumber(bool resetPageNumber)
 
 void PageItemDesignIntf::updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager)
 {
-    snapshotItemsLayout();
-    arrangeSubItems(pass, dataManager);
+    if (!endlessHeight()){
+        snapshotItemsLayout(IgnoreBands);
+        arrangeSubItems(pass, dataManager);
+    }
 }
 
 bool PageItemDesignIntf::oldPrintMode() const

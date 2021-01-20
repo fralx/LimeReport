@@ -97,6 +97,14 @@ void GroupFunction::slotBandRendered(BandDesignIntf *band)
     }
 }
 
+void GroupFunction::slotBandReRendered(BandDesignIntf *oldBand, BandDesignIntf *newBand)
+{
+    if (m_valuesByBand.contains(oldBand)){
+        m_valuesByBand.insert(newBand, m_valuesByBand.value(oldBand));
+        m_valuesByBand.remove(oldBand);
+    }
+}
+
 QVariant GroupFunction::addition(QVariant value1, QVariant value2)
 {
     return value1.toDouble()+value2.toDouble();

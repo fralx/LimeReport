@@ -135,6 +135,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     m_hideLeftPanel->setChecked(isDockAreaVisible(Qt::LeftDockWidgetArea));
     m_hideRightPanel->setChecked(isDockAreaVisible(Qt::RightDockWidgetArea));
     createProgressBar();
+    m_deletePageAction->setEnabled(report->pageCount()>1);
 }
 
 ReportDesignWindow::~ReportDesignWindow()
@@ -1126,6 +1127,7 @@ void ReportDesignWindow::slotSaveReport()
     QString filename = m_reportDesignWidget->reportFileName();
     m_lblReportName->setText(filename);
     if(!filename.isEmpty()) addRecentFile(filename);
+    setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
 }
 
 void ReportDesignWindow::slotSaveReportAs()
@@ -1137,6 +1139,7 @@ void ReportDesignWindow::slotSaveReportAs()
         m_reportDesignWidget->saveToFile(fileName);
         m_lblReportName->setText(m_reportDesignWidget->reportFileName());
         addRecentFile(fileName);
+        setWindowTitle(m_reportDesignWidget->report()->reportName() + " - Lime Report Designer");
     }
 }
 

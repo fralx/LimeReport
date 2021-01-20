@@ -273,6 +273,12 @@ void BandDesignIntf::setPpm(int ppm)
     updateBandMarkerGeometry(QRectF(pos(),size()));
 }
 
+void BandDesignIntf::copyBandAttributes(BandDesignIntf *source)
+{
+    this->copyBookmarks(source);
+    this->setBackgroundColor(source->backgroundColor());
+}
+
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     prepareRect(painter, option, widget);
@@ -774,6 +780,11 @@ void BandDesignIntf::finishLoading()
 void BandDesignIntf::emitBandRendered(BandDesignIntf* band)
 {
     emit bandRendered(band);
+}
+
+void BandDesignIntf::emitBandReRendered(BandDesignIntf *oldBand, BandDesignIntf *newBand)
+{
+    emit bandReRendered(oldBand, newBand);
 }
 
 void BandDesignIntf::setSplittable(bool value){

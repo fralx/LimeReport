@@ -1937,7 +1937,10 @@ bool DatasourceFunctions::invalidate(const QString& datasourceName)
 
 QObject* DatasourceFunctions::createTableBuilder(QObject* horizontalLayout)
 {
-    return new TableBuilder(dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout), dynamic_cast<DataSourceManager*>(m_dataManager));
+    LimeReport::HorizontalLayout* l = dynamic_cast<LimeReport::HorizontalLayout*>(horizontalLayout);
+    if (l)
+        return new TableBuilder(l, m_dataManager);
+    return 0;
 }
 
 TableBuilder::TableBuilder(HorizontalLayout* layout, DataSourceManager* dataManager)
@@ -1987,16 +1990,19 @@ void TableBuilder::fillInRowData(QObject* row)
 void TableBuilder::buildTable(const QString& datasourceName)
 {
     checkBaseLayout();
-    m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
-    IDataSource* ds = m_dataManager->dataSource(datasourceName);
-    if (ds){
-        bool firstTime = true;
-        QObject* row = m_horizontalLayout;
-        while(!ds->eof()){
-            if (!firstTime) row = addRow();
-            else firstTime = false;
-            fillInRowData(row);
-            ds->next();
+    IDataSourceHolder* dh = m_dataManager->dataSourceHolder(datasourceName);
+    if (dh) {
+        dh->invalidate(IDataSource::RENDER_MODE);
+        IDataSource* ds = m_dataManager->dataSource(datasourceName);
+        if (ds){
+            bool firstTime = true;
+            QObject* row = m_horizontalLayout;
+            while(!ds->eof()){
+                if (!firstTime) row = addRow();
+                else firstTime = false;
+                fillInRowData(row);
+                ds->next();
+            }
         }
     }
 }
