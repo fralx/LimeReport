@@ -47,7 +47,11 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
     QStyleOption option;
     option.initFrom(this);
     //painter.fillRect(event->rect(), QPalette().background().color());
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QColor bg = option.palette.window().color().darker(150);
+#else
     QColor bg = option.palette.background().color().darker(150);
+#endif
     painter.fillRect(event->rect(), bg);
 
     QTextBlock block = firstVisibleBlock();
@@ -78,8 +82,11 @@ int CodeEditor::lineNumberAreaWidth()
         max /= 10;
         ++digits;
     }
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    int space = fontMetrics().horizontalAdvance(QLatin1Char('9')) * 2 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+#else
     int space = fontMetrics().width(QLatin1Char('9'))*2 + fontMetrics().width(QLatin1Char('9')) * digits;
+#endif
 
     return space;
 }
@@ -299,8 +306,11 @@ void CodeEditor::highlightCurrentLine()
 
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+        QColor lineColor = QColor(QPalette().window().color()).darker(100);
+#else
         QColor lineColor = QColor(QPalette().background().color()).darker(100);
+#endif
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);

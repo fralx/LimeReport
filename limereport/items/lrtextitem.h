@@ -232,6 +232,7 @@ private:
     Qt::LayoutDirection m_textLayoutDirection;
     bool m_hideIfEmpty;
     int m_fontLetterSpacing;
+    QFont mutable *m_adaptedFont;
 };
 
 }

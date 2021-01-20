@@ -421,8 +421,27 @@ QString DataSourceManager::extractField(QString source)
 }
 
 QString DataSourceManager::replaceVariables(QString value){
-    QRegExp rx(Const::VARIABLE_RX);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QRegularExpression rx(Const::VARIABLE_RX);
+    if (value.contains(rx)){
+        int pos = -1;
+        QRegularExpressionMatch match = rx.match(value);
+        while ((pos=match.capturedStart())!=-1){
+            QString var=match.captured(0);
+            var.remove("$V{");
+            var.remove("}");
+
+            if (variable(var).isValid()){
+                value.replace(pos,match.captured(0).length(),variable(var).toString());
+            } else {
+                value.replace(pos,match.captured(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+            }
+            match = rx.match(value);
+        }
+    }
+#else
+    QRegExp rx(Const::VARIABLE_RX);
     if (value.contains(rx)){
         int pos = -1;
         while ((pos=rx.indexIn(value))!=-1){
@@ -437,11 +456,53 @@ QString DataSourceManager::replaceVariables(QString value){
             }
         }
     }
+#endif
     return value;
 }
 
 QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QRegularExpression rx(Const::VARIABLE_RX);
+    int curentAliasIndex = 0;
+    if (query.contains(rx)){
+        int pos = -1;
+        QRegularExpressionMatch match = rx.match(query);
+        while ((pos=match.capturedStart())!=-1){
+
+            QString var=match.captured(0);
+            var.remove("$V{");
+            var.remove("}");
+            if (!match.captured(1).isEmpty()){
+                if (aliasesToParam.contains(var)){
+                    curentAliasIndex++;
+                    aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
+                    var += "_v_alias"+QString::number(curentAliasIndex);
+                } else {
+                    aliasesToParam.insert(var,var);
+                }
+                query.replace(pos,match.captured(0).length(),":"+var);
+            } else {
+                QString varName = match.captured(2).trimmed();
+                QString varParam = match.captured(3).trimmed();
+                if (!varName.isEmpty()){
+                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0 ){
+                        query.replace(pos,match.captured(0).length(), variable(varName).toString());
+                    } else {
+                        query.replace(pos,match.captured(0).length(),
+                                      QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
+                                              .arg(varName)
+                                              .arg(varParam))
+                                      );
+                    }
+                } else {
+                    query.replace(pos,match.captured(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+                }
+            }
+            match = rx.match(query);
+        }
+    }
+#else
     QRegExp rx(Const::VARIABLE_RX);
     int curentAliasIndex = 0;
     if (query.contains(rx)){
@@ -479,9 +540,44 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
             }
         }
     }
+#endif
     return query;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
+{
+    QRegularExpression rx(Const::FIELD_RX);
+    if (query.contains(rx)){
+        int curentAliasIndex = 0;
+        int pos=-1;
+        QRegularExpressionMatch match = rx.match(query);
+        while (match.hasMatch()){
+            pos = match.capturedStart();
+            QString field=match.captured(0);
+            field.remove("$D{");
+            field.remove("}");
+
+            if (!aliasesToParam.contains(field)){
+                if (field.contains("."))
+                    aliasesToParam.insert(field, field);
+                else
+                    aliasesToParam.insert(field, masterDatasource + "." + field);
+            } else {
+                curentAliasIndex++;
+                if (field.contains("."))
+                    aliasesToParam.insert(field + "_f_alias" + QString::number(curentAliasIndex), field);
+                else
+                    aliasesToParam.insert(field + "_f_alias" + QString::number(curentAliasIndex), masterDatasource + "." + field);
+                field += "_f_alias" + QString::number(curentAliasIndex);
+            }
+            query.replace(pos, match.captured(0).length(), ":" + extractField(field));
+            match = rx.match(query);
+        }
+    }
+    return query;
+}
+#else
 QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
 {
     QRegExp rx(Const::FIELD_RX);
@@ -511,6 +607,7 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
     }
     return query;
 }
+#endif
 
 void DataSourceManager::setReportVariable(const QString &name, const QVariant &value)
 { 
@@ -1012,7 +1109,7 @@ void DataSourceManager::disconnectConnection(const QString& connectionName)
         if (isQuery(datasourceName) || isSubQuery(datasourceName)){
             QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
             if (qh && qh->connectionName().compare(connectionName,Qt::CaseInsensitive)==0){
-                qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+                qh->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE, true);
                 qh->setLastError(tr("invalid connection"));
             }
         }
@@ -1392,7 +1489,7 @@ void DataSourceManager::invalidateQueriesContainsVariable(const QString& variabl
             foreach (const QString& datasourceName, dataSourceNames()){
                 QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
                 if (holder){
-                    QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+                    LRRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
                     if  (holder->queryText().contains(rx)){
                         holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
                         datasources.append(datasourceName);
@@ -1437,13 +1534,13 @@ void DataSourceManager::clear(ClearMethod method)
         case All:
             invalidateLinkedDatasources(dit.key());
             delete dit.value();
-            m_datasources.erase(dit++);
+            dit = m_datasources.erase(dit);
             break;
         default:
             if (owned){
                 invalidateLinkedDatasources(dit.key());
                 delete dit.value();
-                m_datasources.erase(dit++);
+                dit = m_datasources.erase(dit);
             } else {
                 ++dit;
             }
@@ -1467,8 +1564,7 @@ void DataSourceManager::clear(ClearMethod method)
     m_queries.clear();
     m_subqueries.clear();
     m_proxies.clear();
-//    if (method == All)
-//        clearUserVariables();
+
     clearReportVariables();
 
     emit cleared();

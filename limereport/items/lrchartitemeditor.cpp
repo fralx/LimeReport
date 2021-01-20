@@ -10,7 +10,11 @@ ChartItemEditor::ChartItemEditor(LimeReport::ChartItem *item, LimeReport::PageDe
 {
     ui->setupUi(this);
     QHBoxLayout* colorLayout = new QHBoxLayout();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    colorLayout->setContentsMargins(0, 0, 0, 0);
+#else
     colorLayout->setMargin(0);
+#endif
     m_colorButton = new QToolButton();
     m_colorButton->setText("...");
     m_colorButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);

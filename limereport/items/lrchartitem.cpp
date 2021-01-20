@@ -348,7 +348,11 @@ void ChartItem::paintChartTitle(QPainter *painter, QRectF titleRect)
     painter->save();
     QFont tmpFont = painter->font();
     QFontMetrics fm(tmpFont);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    while ((fm.height()>titleRect.height() || fm.horizontalAdvance(m_title) > titleRect.width())
+#else
     while ((fm.height()>titleRect.height() || fm.width(m_title)>titleRect.width())
+#endif
            && tmpFont.pixelSize()>1) {
         tmpFont.setPixelSize(tmpFont.pixelSize()-1);
         fm = QFontMetrics(tmpFont);
@@ -566,7 +570,21 @@ QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont &font)
 
     qreal cw = 0;
     qreal maxWidth = 0;
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    if (!m_chartItem->series().isEmpty()){
+        foreach(SeriesItem* series, m_chartItem->series()){
+            cw += fm.height();
+            if (maxWidth<fm.horizontalAdvance(series->name()))
+                maxWidth = fm.horizontalAdvance(series->name())+10;
+        }
+    } else {
+        foreach(QString label, m_designLabels){
+            cw += fm.height();
+            if (maxWidth<fm.horizontalAdvance(label))
+                maxWidth = fm.horizontalAdvance(label)+10;
+        }
+    }
+#else
     if (!m_chartItem->series().isEmpty()){
         foreach(SeriesItem* series, m_chartItem->series()){
             cw += fm.height();
@@ -580,6 +598,7 @@ QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont &font)
                 maxWidth = fm.width(label)+10;
         }
     }
+#endif
     cw += fm.height();
     return  QSizeF(maxWidth+fm.height()*2,cw);
 }
@@ -591,9 +610,16 @@ bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect)
     qreal hStep = (labelsRect.width() / valuesCount());
     QFontMetrics fm = painter->fontMetrics();
     foreach(QString label, m_chartItem->labels()){
-        if (fm.width(label) > hStep){
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+        if (fm.horizontalAdvance(label) > hStep){
             return  true;
         }
+#else
+        if (fm.width(label) > hStep){            
+            return  true;
+        }
+#endif
+
     }
     return false;
 }
@@ -656,7 +682,11 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
     delta = genNextValue(delta);
 
     painter->setRenderHint(QPainter::Antialiasing,false);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    qreal hStep = (gridRect.width() - painter->fontMetrics().horizontalAdvance(QString::number(maxValue()))) / 4;
+#else
     qreal hStep = (gridRect.width() - painter->fontMetrics().width(QString::number(maxValue()))) / 4;
+#endif
 
     painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
@@ -708,7 +738,11 @@ qreal AbstractSeriesChart::valuesHMargin(QPainter *painter)
 {
     int delta = int(maxValue()-minValue());
     delta = genNextValue(delta);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    return painter->fontMetrics().horizontalAdvance(QString::number(delta))+4;
+#else
     return painter->fontMetrics().width(QString::number(delta))+4;
+#endif
 }
 
 qreal AbstractSeriesChart::valuesVMargin(QPainter *painter)
@@ -720,9 +754,23 @@ QFont AbstractSeriesChart::adaptLabelsFont(QRectF rect, QFont font)
 {
     QString maxWord;
     QFontMetrics fm(font);
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
     foreach(QString label, m_chartItem->labels()){
-        foreach (QString currentWord, label.split(QRegExp("\\W+"))){
+        foreach (QString currentWord, label.split(LRRegularExpression("\\W+"))){
+            if (fm.horizontalAdvance(maxWord) < fm.horizontalAdvance(currentWord)) maxWord = currentWord;
+        }
+    }
+
+    qreal curWidth = fm.horizontalAdvance(maxWord);
+    QFont tmpFont = font;
+    while (curWidth>rect.width() && tmpFont.pixelSize() > 1){
+        tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+        QFontMetricsF tmpFM(tmpFont);
+        curWidth = tmpFM.horizontalAdvance(maxWord);
+    }
+#else
+    foreach(QString label, m_chartItem->labels()){
+        foreach (QString currentWord, label.split(LRRegularExpression("\\W+"))){
             if (fm.width(maxWord) < fm.width(currentWord)) maxWord = currentWord;
         }
     }
@@ -734,6 +782,7 @@ QFont AbstractSeriesChart::adaptLabelsFont(QRectF rect, QFont font)
         QFontMetricsF tmpFM(tmpFont);
         curWidth = tmpFM.width(maxWord);
     }
+#endif
     return tmpFont;
 }
 
@@ -741,6 +790,15 @@ QFont AbstractSeriesChart::adaptValuesFont(qreal width, QFont font)
 {
     QString strValue = QString::number(maxValue());
     QFont tmpFont = font;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QScopedPointer<QFontMetricsF> fm(new QFontMetricsF(tmpFont));
+    qreal curWidth = fm->horizontalAdvance(strValue);
+    while (curWidth > width && tmpFont.pixelSize() > 1){
+        tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+        fm.reset(new QFontMetricsF(tmpFont));
+        curWidth = fm->horizontalAdvance(strValue);
+    }
+#else
     QScopedPointer<QFontMetricsF> fm(new QFontMetricsF(tmpFont));
     qreal curWidth = fm->width(strValue);
     while (curWidth > width && tmpFont.pixelSize() > 1){
@@ -748,6 +806,7 @@ QFont AbstractSeriesChart::adaptValuesFont(qreal width, QFont font)
         fm.reset(new QFontMetricsF(tmpFont));
         curWidth = fm->width(strValue);
     }
+#endif
     return tmpFont;
 }
 
@@ -801,11 +860,17 @@ void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)
 QRectF AbstractBarChart::verticalLabelsRect(QPainter *painter, QRectF labelsRect)
 {
     qreal maxWidth = 0;
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    foreach (QString label, m_chartItem->labels()) {
+        if (painter->fontMetrics().horizontalAdvance(label)>maxWidth)
+            maxWidth = painter->fontMetrics().horizontalAdvance(label);
+    }
+#else
     foreach (QString label, m_chartItem->labels()) {
         if (painter->fontMetrics().width(label)>maxWidth)
             maxWidth = painter->fontMetrics().width(label);
     }
+#endif
 
     if (maxWidth + hPadding(m_chartItem->rect()) * 2 < labelsRect.width())
         return labelsRect;
@@ -816,12 +881,17 @@ QRectF AbstractBarChart::verticalLabelsRect(QPainter *painter, QRectF labelsRect
 QRectF AbstractBarChart::horizontalLabelsRect(QPainter *painter, QRectF labelsRect)
 {
     qreal maxWidth = 0;
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    foreach (QString label, m_chartItem->labels()) {
+        if (painter->fontMetrics().horizontalAdvance(label)>maxWidth)
+            maxWidth = painter->fontMetrics().horizontalAdvance(label);
+    }
+#else
     foreach (QString label, m_chartItem->labels()) {
         if (painter->fontMetrics().width(label)>maxWidth)
             maxWidth = painter->fontMetrics().width(label);
     }
-
+#endif
     if ((maxWidth + vPadding(m_chartItem->rect()) < labelsRect.height()) || !verticalLabels(painter, labelsRect))
         return labelsRect;
     else

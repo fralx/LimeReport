@@ -32,7 +32,9 @@
 #include <QPrinterInfo>
 #include <QMessageBox>
 #include <QApplication>
+#if QT_VERSION < QT_VERSION_CHECK(5, 12, 3)
 #include <QDesktopWidget>
+#endif
 #include <QFileSystemWatcher>
 #include <QPluginLoader>
 #include <QFileDialog>

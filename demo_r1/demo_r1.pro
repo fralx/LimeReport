@@ -1,12 +1,7 @@
 include(../common.pri)
 QT += core gui
 
-CONFIG(release, debug|release) {
-	TARGET = LRDemo_r1
-} else {
-	TARGET = LRDemo_r1d
-}
-
+TARGET = LRDemo_r1
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -31,9 +26,27 @@ macx{
 }
 
 unix:{
+    LIBS += -L$${DEST_LIBS}
+    CONFIG(debug, debug|release) {
+        LIBS += -llimereportd
+    } else {
+        LIBS += -llimereport
+    }
+
+    !contains(CONFIG, static_build){
+		contains(CONFIG,zint){
+			LIBS += -L$${DEST_LIBS}
+
+			CONFIG(debug, debug|release) {
+				LIBS += -lQtZintd
+			} else {
+				LIBS += -lQtZint
+			}
+		}
+	}
 	DESTDIR = $$DEST_DIR
 	#    QMAKE_POST_LINK += mkdir -p $$quote($$REPORTS_DIR) |
-        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\" $$escape_expand(\n\t)
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR) $$quote($$REPORTS_DIR) $$escape_expand(\n\t)
 		
 	linux{
 		#Link share lib to ../lib rpath
@@ -47,33 +60,33 @@ unix:{
 }
 
 win32 {
+    EXTRA_DIR ~= s,/,\\,g
+    DEST_DIR ~= s,/,\\,g
+    REPORTS_DIR ~= s,/,\\,g
+
     DESTDIR = $$DEST_DIR
-    contains(QMAKE_HOST.os, Linux){
-        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\" $$escape_expand(\n\t)
-    } else {
-	EXTRA_DIR ~= s,/,\\,g
-        DEST_DIR ~= s,/,\\,g
-	REPORTS_DIR ~= s,/,\\,g
-	RC_FILE += mainicon.rc
-        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
-    }
-}
+    RC_FILE += mainicon.rc
 
-LIBS += -L$${DEST_LIBS}
-CONFIG(debug, debug|release) {
-    LIBS += -llimereportd
-} else {
-    LIBS += -llimereport
-}
-message($$LIBS)
-
-!contains(CONFIG, static_build){
-	contains(CONFIG,zint){
-		LIBS += -L$${DEST_LIBS}
-		CONFIG(debug, debug|release) {
-			LIBS += -lQtZintd
-		} else {
-			LIBS += -lQtZint
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$$EXTRA_DIR\" \"$$REPORTS_DIR\\demo_reports\" $$escape_expand(\\n\\t)
+    #QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$quote($$EXTRA_DIR\\*) $$quote($$REPORTS_DIR\\demo_reports) $$escape_expand(\\n\\t)
+    !contains(CONFIG, static_build){
+		
+		contains(CONFIG,zint){
+			LIBS += -L$${DEST_LIBS}
+			CONFIG(debug, debug|release) {
+				LIBS += -lQtZintd
+			} else {
+				LIBS += -lQtZint
+			}
 		}
+    }
+	
+    LIBS += -L$${DEST_LIBS}
+	CONFIG(debug, debug|release) {
+		LIBS += -llimereportd
+	} else {
+		LIBS += -llimereport
 	}
 }
+
+

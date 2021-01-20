@@ -58,6 +58,9 @@ private slots:
     void slotGetCallbackChildData(LimeReport::CallbackInfo info, QVariant& data);
     void slotChangeChildPos(const LimeReport::CallbackInfo::ChangePosType& type, bool& result);
     void slotOneSlotDS(LimeReport::CallbackInfo info, QVariant& data);
+    void slotOnSave(bool &saved);
+    void on_pushButton_3_clicked();
+
 private:
     void prepareData(QSqlQuery* ds, LimeReport::CallbackInfo info, QVariant &data);
 private:

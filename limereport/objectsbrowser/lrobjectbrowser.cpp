@@ -38,11 +38,20 @@ ObjectBrowser::ObjectBrowser(QWidget *parent)
     :QWidget(parent), m_designerWidget(NULL), m_mainWindow(NULL),
       m_changingItemSelection(false), m_movingItem(false)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    setLayout(layout);
-    layout->setMargin(Const::DOCKWIDGET_MARGINS);
+    QVBoxLayout *l = new QVBoxLayout(this);
+    setLayout(l);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    l->setContentsMargins(
+        Const::DOCKWIDGET_MARGINS,
+        Const::DOCKWIDGET_MARGINS,
+        Const::DOCKWIDGET_MARGINS,
+        Const::DOCKWIDGET_MARGINS
+    );
+#else
+    l->setMargin(Const::DOCKWIDGET_MARGINS);
+#endif
     m_treeView = new QTreeWidget(this);
-    layout->addWidget(m_treeView);
+    l->addWidget(m_treeView);
     m_treeView->headerItem()->setText(0,tr("Objects"));
     m_treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }

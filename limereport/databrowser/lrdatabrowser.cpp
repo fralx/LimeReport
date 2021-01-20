@@ -62,9 +62,16 @@ DataBrowser::DataBrowser(QWidget *parent) :
     connect(ui->deleteDataSource,SIGNAL(clicked()),this,SLOT(slotDeleteDatasource()));
     connect(ui->changeConnection,SIGNAL(clicked()),this,SLOT(slotChangeConnection()));
     connect(ui->pbConnect,SIGNAL(clicked()),this,SLOT(slotChangeConnectionState()));
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    ui->verticalLayout_2->setContentsMargins(
+        Const::DOCKWIDGET_MARGINS,
+        Const::DOCKWIDGET_MARGINS,
+        Const::DOCKWIDGET_MARGINS,
+        Const::DOCKWIDGET_MARGINS
+    );
+#else
     ui->verticalLayout_2->setMargin(Const::DOCKWIDGET_MARGINS);
-
+#endif
     ui->dataTree->setHeaderLabel(tr("Datasources"));
     ui->pbConnect->setEnabled(false);
 }

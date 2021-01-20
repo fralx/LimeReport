@@ -34,6 +34,7 @@
 #include <QString>
 #include <QStyleOptionViewItem>
 #include <QtGlobal>
+#include <QRegExp>
 
 #if defined(LIMEREPORT_EXPORTS)
 #  define LIMEREPORT_EXPORT Q_DECL_EXPORT
@@ -49,6 +50,12 @@ namespace LimeReport {
 #define VARIABLE_IS_NOT_USED __attribute__ ((unused))
 #else
 #define VARIABLE_IS_NOT_USED
+#endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+typedef QRegularExpression LRRegularExpression;
+#else
+typedef QRegExp LRRegularExpression;
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)

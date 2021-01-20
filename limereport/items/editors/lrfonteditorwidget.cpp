@@ -63,7 +63,11 @@ void FontEditorWidget::initEditor()
     m_fontSizeEditor = new QComboBox(this);
     m_fontSizeEditor->setModel(&m_fontSizeModel);
     m_fontSizeEditor->setEditable(true);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    connect(m_fontSizeEditor,SIGNAL(currentTextChanged(QString)), this, SLOT(slotFontSizeChanged(QString)));
+#else
     connect(m_fontSizeEditor,SIGNAL(currentIndexChanged(QString)),this,SLOT(slotFontSizeChanged(QString)));
+#endif
     addWidget(m_fontSizeEditor);
 
     addSeparator();

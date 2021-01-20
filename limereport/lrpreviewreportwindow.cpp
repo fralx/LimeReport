@@ -41,7 +41,9 @@
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QScrollBar>
+#if QT_VERSION < QT_VERSION_CHECK(5, 12, 3)
 #include <QDesktopWidget>
+#endif
 #include <QLabel>
 #include <QMessageBox>
 #include <QToolButton>
@@ -57,7 +59,11 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
 
     m_progressWidget = new QWidget(ui->statusbar);
     QHBoxLayout* progressLayout = new QHBoxLayout();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    progressLayout->setContentsMargins(0, 0, 0, 0);
+#else
     progressLayout->setMargin(0);
+#endif
     progressLayout->addWidget(new QLabel(tr("Printing")));
     m_progressBar = new QProgressBar(ui->statusbar);
     m_progressBar->setMaximumWidth(100);
@@ -139,10 +145,14 @@ void PreviewReportWindow::restoreSetting()
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
     } else {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+        int screenWidth = QGuiApplication::primaryScreen()->geometry().width();
+        int screenHeight = QGuiApplication::primaryScreen()->geometry().height();
+#else
         QDesktopWidget *desktop = QApplication::desktop();
-
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
+#endif
 
         int x = static_cast<int>(screenWidth*0.1);
         int y = static_cast<int>(screenHeight*0.1);

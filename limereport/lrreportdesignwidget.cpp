@@ -1057,9 +1057,14 @@ bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
 {
     if (event->type() == QEvent::Wheel){
         QWheelEvent* we = dynamic_cast<QWheelEvent*>(event);
-        if (QApplication::keyboardModifiers()==Qt::ControlModifier){
-            if(we->delta()<0) scale(1.2,1.2);
+        if (QApplication::keyboardModifiers()==Qt::ControlModifier){   
+#if QT_VERSION >= 0x060000
+            if (we->pixelDelta().x()<0) scale(1.2,1.2);
             else scale(1/1.2,1/1.2);
+#else
+            if (we->delta()<0) scale(1.2,1.2);
+            else scale(1/1.2,1/1.2);
+#endif
         }
     }
     return QWidget::eventFilter(target,event);
@@ -1134,8 +1139,14 @@ void Ruler::paintEvent(QPaintEvent *event){
     painter.setBrush(palette().background());
     painter.setPen(Qt::NoPen);
     painter.drawRect(event->rect());
-//    painter.setPen(palette().foreground().color());
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QColor foregroundColor = palette().windowText().color();
+    QColor backgroundColor = palette().window().color();
+#else
+    QColor foregroundColor = palette().foreground().color();
+    QColor backgroundColor = palette().background().color();
+#endif
     if (m_page){
         qreal rulerWidth = m_page->geometry().width() / m_page->unitFactor();
         qreal rulerHeight = m_page->geometry().height() / m_page->unitFactor();
@@ -1153,13 +1164,13 @@ void Ruler::paintEvent(QPaintEvent *event){
         case Horizontal:
             painter.setPen(Qt::NoPen);
 
-            if (isColorDark(palette().background().color()))
+            if (isColorDark(backgroundColor))
                 painter.setBrush(QColor("#64893d"));
             else
                 painter.setBrush(QColor("#b5da91"));
 
             drawItemWithChildren(&painter, m_page);
-            painter.setPen(palette().foreground().color());
+            painter.setPen(foregroundColor);
 
             for (int i = 0; i < rulerWidth / 10; ++i){
                 int hs10 = view->mapFromScene(QPointF(m_page->geometry().topLeft().x() + i * 10 * m_page->unitFactor(), 0)).x();
@@ -1172,24 +1183,31 @@ void Ruler::paintEvent(QPaintEvent *event){
                     painter.drawLine(hs10, 15, hs10, 20);
                     painter.drawLine(hs5, 10, hs5, 20);
                     if ( i > 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+                        painter.drawText(QPoint(hs10 - (painter.fontMetrics().horizontalAdvance(QString::number(i))/2), 12),
+                                         QString::number(i));
+#else
                         painter.drawText(QPoint(hs10 - (painter.fontMetrics().width(QString::number(i))/2), 12),
                                          QString::number(i));
+#endif
                 }
             }
-            painter.setPen(palette().foreground().color());
+
+            painter.setPen(foregroundColor);
             painter.drawLine(m_mousePos.x() - (hStartPos > 0 ? hStartPos : 0) , 0,
                              m_mousePos.x() - (hStartPos > 0 ? hStartPos : 0) , 20);
             break;
         case Vertical:
             painter.setPen(Qt::NoPen);
 
-            if (isColorDark(palette().background().color()))
+            if (isColorDark(backgroundColor))
                 painter.setBrush(QColor("#64893d"));
             else
                 painter.setBrush(QColor("#b5da91"));
 
             drawItemWithChildren(&painter, m_page);
-            painter.setPen(palette().foreground().color());
+            painter.setPen(foregroundColor);
+
             for (int i = 0; i < rulerHeight / 10; ++i){
                 int vs10 = view->mapFromScene(QPointF(0, m_page->geometry().topLeft().y()+i * 10 * m_page->unitFactor())).y();
                 int vs5  = view->mapFromScene(QPointF(0, m_page->geometry().topLeft().y()+i * 10 * m_page->unitFactor() + 5 * m_page->unitFactor())).y();
@@ -1199,13 +1217,19 @@ void Ruler::paintEvent(QPaintEvent *event){
                         vs5 -= vStartPos;
                     }
                     painter.drawLine(15, vs10, 20, vs10);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+                    if ( i > 0 )
+                        painter.drawText(QPoint( (15 - painter.fontMetrics().horizontalAdvance(QString::number(i))) / 2 ,
+                                                 vs10 + (painter.fontMetrics().height()/2)), QString::number(i));
+#else
                     if ( i > 0 )
                         painter.drawText(QPoint( (15 - painter.fontMetrics().width(QString::number(i))) / 2 ,
                                                  vs10 + (painter.fontMetrics().height()/2)), QString::number(i));
+#endif
                     painter.drawLine(10, vs5, 20, vs5);
                 }
             }
-            painter.setPen(palette().foreground().color());
+            painter.setPen(foregroundColor);
             painter.drawLine(0, m_mousePos.y() - (vStartPos > 0 ? vStartPos : 0),
                              20, m_mousePos.y() - (vStartPos > 0 ? vStartPos : 0));
             break;

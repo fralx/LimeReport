@@ -38,7 +38,7 @@
 #include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
 #include "lrdatasourcemanager.h"
-#include "lrsimpletagparser.h"
+//#include "lrsimpletagparser.h"
 #include "lrtextitemeditor.h"
 #include "lrreportengine_p.h"
 #include <QMenu>
@@ -59,7 +59,7 @@ namespace LimeReport{
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
       m_allowHTMLInFields(false), m_replaceCarriageReturns(false), m_followTo(""), m_follower(0), m_textIndent(0),
-      m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false), m_fontLetterSpacing(0)
+      m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false), m_fontLetterSpacing(0), m_adaptedFont(0)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -75,7 +75,9 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     Init();
 }
 
-TextItem::~TextItem(){}
+TextItem::~TextItem(){
+    if (m_adaptedFont) delete m_adaptedFont;
+}
 
 int TextItem::fakeMarginSize() const{
     return marginSize()+5;
@@ -360,8 +362,14 @@ void TextItem::updateLayout()
 
 bool TextItem::isNeedExpandContent() const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QRegularExpression rx("\\$[S|V|D]\\s*\\{[^{].*\\}");
+    rx.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
+#else
     QRegExp rx("$*\\{[^{]*\\}");
-    return content().contains(rx) || isContentBackedUp();
+#endif
+    bool result = content().contains(rx) || isContentBackedUp();
+    return result;
 }
 
 QString TextItem::replaceBR(QString text) const
@@ -448,7 +456,7 @@ QString TextItem::formatNumber(const double value)
 
     if (m_format.contains("%"))
     {
-        str.sprintf(m_format.toStdString().c_str(), value);
+        str.asprintf(m_format.toStdString().c_str(), value);
         str = str.replace(",", QLocale::system().groupSeparator());
         str = str.replace(".", QLocale::system().decimalPoint());
     }
@@ -522,7 +530,12 @@ TextItem::TextPtr TextItem::textDocument() const
 
     QFont _font = transformToSceneFont(font());
     if (m_adaptFontToSize && (!(m_autoHeight || m_autoWidth))){
-        adaptFontSize(text);
+        if (!m_adaptedFont){
+            adaptFontSize(text);
+            m_adaptedFont = new QFont(text->defaultFont());
+        } else {
+            setTextFont(text, *m_adaptedFont);
+        }
     } else {
         setTextFont(text,_font);
     }
@@ -779,7 +792,12 @@ void TextItem::setTrimValue(bool value)
 
 
 void TextItem::geometryChangedEvent(QRectF , QRectF)
-{}
+{
+    if (m_adaptedFont){
+        delete  m_adaptedFont;
+        m_adaptedFont = 0;
+    }
+}
 
 bool TextItem::isNeedUpdateSize(RenderPass pass) const
 {
@@ -813,7 +831,11 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
     QString context=content();
     foreach (QString variableName, dataManager->variableNamesByRenderPass(SecondPass)) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+        QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+#else
         QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+#endif
         if (context.contains(rx) && pass == FirstPass){
             backupContent();
             break;

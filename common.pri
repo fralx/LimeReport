@@ -1,5 +1,5 @@
 #BINARY_RESULT_DIR = $${TOP_BUILD_DIR}
-CONFIG *= qtxlsx
+#CONFIG *= qtxlsx
 
 isEmpty(BINARY_RESULT_DIR) {
     BINARY_RESULT_DIR = $${PWD}
@@ -49,6 +49,11 @@ lessThan(QT_MINOR_VERSION, 6){
 lessThan(QT_MAJOR_VERSION, 5){
     CONFIG *= qtscriptengine
 }
+}
+
+greaterThan(QT_MAJOR_VERSION, 5){
+    CONFIG -= qtscriptengine
+    CONFIG *= qjsengine
 }
 
 contains(CONFIG, qtscriptengine){

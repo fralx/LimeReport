@@ -370,7 +370,7 @@ bool ReportRender::containsGroupFunctions(BandDesignIntf *band){
 }
 
 void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
-    if ( contentItem && contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}"))){
+    if ( contentItem && contentItem->content().contains(LRRegularExpression("\\$S\\s*\\{.*\\}"))){
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
             rx.setMinimal(true);

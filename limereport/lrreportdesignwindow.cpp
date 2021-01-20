@@ -39,7 +39,9 @@
 #include <QMenuBar>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#if QT_VERSION < QT_VERSION_CHECK(5, 12, 3)
 #include <QDesktopWidget>
+#endif
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -69,7 +71,12 @@ void ReportDesignWindow::createProgressBar()
 {
     m_progressWidget = new QWidget(m_statusBar);
     QHBoxLayout* progressLayout = new QHBoxLayout();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    progressLayout->setContentsMargins(0, 0, 0, 0);
+#else
     progressLayout->setMargin(0);
+#endif
+
     m_progressLabel = new QLabel(tr("Rendered %1 pages").arg(0));
     progressLayout->addWidget(m_progressLabel);
     m_progressBar = new QProgressBar(m_statusBar);
@@ -497,8 +504,11 @@ void ReportDesignWindow::createBandsButton()
     connect(m_newTearOffBand,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
     m_bandsAddSignalsMap->setMapping(m_newTearOffBand,BandDesignIntf::TearOffBand);
     m_newBandButton->addAction(m_newTearOffBand);
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    connect(m_bandsAddSignalsMap,SIGNAL(mappedInt(int)),this,SLOT(slotNewBand(int)));
+#else
     connect(m_bandsAddSignalsMap,SIGNAL(mapped(int)),this,SLOT(slotNewBand(int)));
+#endif
 }
 
 void ReportDesignWindow::createMainMenu()
@@ -525,7 +535,11 @@ void ReportDesignWindow::createMainMenu()
     m_infoMenu->addAction(m_aboutAction);
     m_recentFilesMenu = m_fileMenu->addMenu(tr("Recent Files"));
     m_recentFilesSignalMap = new QSignalMapper(this);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    connect(m_recentFilesSignalMap,SIGNAL(mappedString(QString)),this,SLOT(slotLoadRecentFile(QString)));
+#else
     connect(m_recentFilesSignalMap,SIGNAL(mapped(QString)),this,SLOT(slotLoadRecentFile(QString)));
+#endif
     m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
@@ -566,7 +580,11 @@ void ReportDesignWindow::createObjectInspector()
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
     l->addWidget(m_objectInspector);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    l->setContentsMargins(0, 0, 0, 0);
+#else
     l->setMargin(0);
+#endif
     w->setLayout(l);
     objectDoc->setWindowTitle(tr("Object Inspector"));
     objectDoc->setWidget(w);
@@ -832,10 +850,14 @@ void ReportDesignWindow::restoreSetting()
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
     } else {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+        int screenWidth = QGuiApplication::primaryScreen()->geometry().width();
+        int screenHeight = QGuiApplication::primaryScreen()->geometry().height();
+#else
         QDesktopWidget *desktop = QApplication::desktop();
-
-        int screenWidth = desktop->screenGeometry().width();
-        int screenHeight = desktop->screenGeometry().height();
+        int screenWidth = desktop->screen()->geometry().width();
+        int screenHeight = desktop->screen()->geometry().height();
+#endif
 
         int x = screenWidth * 0.1;
         int y = screenHeight * 0.1;
@@ -1527,7 +1549,12 @@ void ReportDesignWindow::slotPageDeleted()
 
 void ReportDesignWindow::slotFilterTextChanged(const QString& filter)
 {
+#if QT_VERSION >= 0x060000
+    m_filterModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));
+#else
     m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
+#endif
+
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION

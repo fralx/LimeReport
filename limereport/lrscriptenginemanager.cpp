@@ -352,6 +352,60 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
     }
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* pass */, ExpandType expandType, QVariant &varValue)
+{
+    LRRegularExpression rx(Const::VARIABLE_RX);
+    if (context.contains(rx)){
+        int pos = 0;
+        QRegularExpressionMatch match = rx.match(context, pos);
+        while (match.hasMatch()){
+
+            QString variable=match.captured(1);
+            pos = match.capturedEnd();
+
+            if (dataManager()->containsVariable(variable) ){
+                try {
+
+                    varValue = dataManager()->variable(variable);
+                    switch (expandType){
+                    case EscapeSymbols:
+                        context.replace(match.captured(0), escapeSimbols(varValue.toString()));
+                    break;
+                    case NoEscapeSymbols:
+                        context.replace(match.captured(0), varValue.toString());
+                    break;
+                    case ReplaceHTMLSymbols:
+                        context.replace(match.captured(0), replaceHTMLSymbols(varValue.toString()));
+                    break;
+                    }
+
+                    pos = 0;
+
+                } catch (ReportError &e){
+                    dataManager()->putError(e.what());
+                    if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                        context.replace(match.captured(0), e.what());
+                    else
+                        context.replace(match.captured(0), "");
+                }
+            } else {
+
+                QString error;
+                error = tr("Variable %1 not found").arg(variable);
+                dataManager()->putError(error);
+                if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(match.captured(0), error);
+                else
+                    context.replace(match.captured(0), "");
+            }
+
+            match = rx.match(context, pos);
+        }
+    }
+    return context;
+}
+#else
 QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* pass */, ExpandType expandType, QVariant &varValue)
 {
     QRegExp rx(Const::VARIABLE_RX);
@@ -397,7 +451,67 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
     }
     return context;
 }
+#endif
 
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+QString ScriptEngineManager::expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject *reportItem)
+{
+    QRegularExpression rx(Const::FIELD_RX);
+
+    if (context.contains(rx)){
+        QRegularExpressionMatch match = rx.match(context);
+        while (match.hasMatch()){
+
+            QString field=match.captured(1);
+
+            if (dataManager()->containsField(field)) {
+                QString fieldValue;
+                varValue = dataManager()->fieldData(field);
+                if (expandType == EscapeSymbols) {
+                    if (varValue.isNull()) {
+                        fieldValue="\"\"";
+                    } else {
+                        fieldValue = escapeSimbols(varValue.toString());
+                        switch (dataManager()->fieldData(field).type()) {
+                        case QVariant::Char:
+                        case QVariant::String:
+                        case QVariant::StringList:
+                        case QVariant::Date:
+                        case QVariant::DateTime:
+                            fieldValue = "\""+fieldValue+"\"";
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                } else {
+                    if (expandType == ReplaceHTMLSymbols)
+                        fieldValue = replaceHTMLSymbols(varValue.toString());
+                    else fieldValue = varValue.toString();
+                }
+
+                context.replace(match.captured(0),fieldValue);
+
+            } else {
+                QString error;
+                if (reportItem){
+                    error = tr("Field %1 not found in %2!").arg(field).arg(reportItem->objectName());
+                    dataManager()->putError(error);
+                }
+                varValue = QVariant();
+                if (!dataManager()->reportSettings() || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(match.captured(0), error);
+                else
+                    context.replace(match.captured(0), "");
+            }
+            match = rx.match(context);
+        }
+    }
+
+    return context;
+}
+#else
 QString ScriptEngineManager::expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject *reportItem)
 {
     QRegExp rx(Const::FIELD_RX);
@@ -451,10 +565,16 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
 
     return context;
 }
+#endif
 
 QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, QObject *reportItem)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QRegularExpression rx(Const::SCRIPT_RX);
+    rx.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
+#else
     QRegExp rx(Const::SCRIPT_RX);
+#endif
 
     if (context.contains(rx)){
 
@@ -517,7 +637,7 @@ QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue,
 
 QVariant ScriptEngineManager::evaluateScript(const QString& script){
 
-    QRegExp rx(Const::SCRIPT_RX);
+    LRRegularExpression rx(Const::SCRIPT_RX);
     QVariant varValue;
 
     if (script.contains(rx)){

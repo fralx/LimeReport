@@ -37,15 +37,8 @@
 #include <LRCallbackDS>
 #include <QDebug>
 #include <QStringListModel>
-#include <QPrinter>
-
-#ifdef BUILD_WITH_EASY_PROFILER
-#include "easy/profiler.h"
-#else
-# define EASY_BLOCK(...)
-# define EASY_END_BLOCK
-# define EASY_PROFILER_ENABLE
-#endif
+#include <QSqlError>
+#include <QSqlDriver>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -77,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
             int index = m_customers->record().indexOf("CustomerID");
             m_orders->bindValue(":id",m_customers->value(index));
             m_orders->exec();
-        }
+        };
     }
 
     LimeReport::ICallbackDatasource * callbackDatasource = report->dataManager()->createCallbackDatasource("master");
@@ -104,8 +97,8 @@ MainWindow::MainWindow(QWidget *parent) :
     report->dataManager()->addModel("string_list",stringListModel,true);
     QStringList strList;
     strList<<"value1"<<"value2";
-    //QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
-    //report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
+   // QScriptValue value = qScriptValueFromSequence(report->scriptManager()->scriptEngine(),strList);
+   // report->scriptManager()->scriptEngine()->globalObject().setProperty("test_list",value);
 
 
 }
@@ -119,58 +112,35 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    EASY_PROFILER_ENABLE;
-    EASY_BLOCK("design report");
     report->dataManager()->clearUserVariables();
     if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
         report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
+        report->dataManager()->setReportVariable("SecondPage", false);
     }
     report->setShowProgressDialog(false);
     report->designReport();
-    EASY_END_BLOCK;
-#ifdef BUILD_WITH_EASY_PROFILER
-    profiler::dumpBlocksToFile("test.prof");
-#endif
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,"Select report file",QApplication::applicationDirPath()+"/demo_reports/","*.lrxml");
     if (!fileName.isEmpty()) {
-        EASY_PROFILER_ENABLE;
-        EASY_BLOCK("Load file");
         report->loadFromFile(fileName);
-        EASY_END_BLOCK;
-        EASY_BLOCK("Set report variable");
         if (!ui->leVariableName->text().isEmpty() && !ui->leVariableValue->text().isEmpty()){
             report->dataManager()->setReportVariable(ui->leVariableName->text(), ui->leVariableValue->text());
         }
-        EASY_END_BLOCK;
-#ifdef BUILD_WITH_EASY_PROFILER
-        profiler::dumpBlocksToFile("test.prof");
-#endif
-//        QPrinter* printer = new QPrinter;
-//        QPrintDialog dialog(printer);
-//        if (dialog.exec()){
-//            QMap<QString, QPrinter*> printers;
-//            printers.insert("default",printer);
-//            report->printReport(printers);
-//        }
-        report->setShowProgressDialog(true);
         report->previewReport();
     }
 }
 
 void MainWindow::renderStarted()
 {
-    if (report->isShowProgressDialog()){
-        m_currentPage = 0;
-        m_progressDialog = new QProgressDialog(tr("Start render"),tr("Cancel"),0,0,this);
-        //m_progressDialog->setWindowModality(Qt::WindowModal);
-        connect(m_progressDialog, SIGNAL(canceled()), report, SLOT(cancelRender()));
-        QApplication::processEvents();
-        m_progressDialog->show();
-    }
+    m_currentPage = 0;
+    m_progressDialog = new QProgressDialog(tr("Start render"),tr("Cancel"),0,0,this);
+    m_progressDialog->setWindowModality(Qt::WindowModal);
+    connect(m_progressDialog, SIGNAL(canceled()), report, SLOT(cancelRender()));
+    m_progressDialog->show();
+    QApplication::processEvents();
 }
 
 void MainWindow::renderPageFinished(int renderedPageCount)
@@ -272,5 +242,28 @@ void MainWindow::slotOneSlotDS(LimeReport::CallbackInfo info, QVariant &data)
                 }
                 break;
             default: break;
-        }
+    }
+}
+
+void MainWindow::slotOnSave(bool& saved)
+{
+    QSqlQuery reports;
+    reports.prepare("Update reports set Content = ? where ReportName = ?");
+    reports.bindValue(0, report->saveToByteArray());
+    reports.bindValue(1,report->reportName());
+    if (!reports.exec()) qDebug() << reports.lastError();
+    saved = true;
+    m_db.commit();
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+   QSqlQuery reports("Select ReportName, Content from reports limit 1",m_db);
+   reports.first();
+   QByteArray source = reports.value(1).toByteArray();
+   report->loadFromByteArray(&source);
+   report->setReportName(reports.value(0).toString());
+   connect(report, SIGNAL(onSave(bool&)), this, SLOT(slotOnSave(bool&)));
+   report->designReport();
+   disconnect(report,SIGNAL(onSave(bool&)), this, SLOT(slotOnSave(bool&)));
 }

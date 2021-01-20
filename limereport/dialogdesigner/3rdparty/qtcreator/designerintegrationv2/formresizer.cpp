@@ -50,18 +50,23 @@ FormResizer::FormResizer(QWidget *parent) :
     m_frame(new QFrame),
     m_formWindow(0)
 {
-    // Make the resize grip of a mainwindow form find us as resizable window.
     setWindowFlags(windowFlags() | Qt::SubWindow);
     setBackgroundRole(QPalette::Base);
 
     QVBoxLayout *handleLayout = new QVBoxLayout(this);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    handleLayout->setContentsMargins(
+        SELECTION_MARGIN,
+        SELECTION_MARGIN,
+        SELECTION_MARGIN,
+        SELECTION_MARGIN
+    );
+#else
     handleLayout->setMargin(SELECTION_MARGIN);
+#endif
     handleLayout->addWidget(m_frame);
 
     m_frame->setFrameStyle(QFrame::Panel | QFrame::Raised);
-    QVBoxLayout *layout = new QVBoxLayout(m_frame);
-    layout->setMargin(0);
-    // handles
     m_handles.reserve(SizeHandleRect::Left);
     for (int i = SizeHandleRect::LeftTop; i <= SizeHandleRect::Left; ++i) {
         SizeHandleRect *shr = new SizeHandleRect(this, static_cast<SizeHandleRect::Direction>(i), this);

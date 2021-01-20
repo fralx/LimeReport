@@ -14,7 +14,13 @@ void PieChart::drawPercent(QPainter *painter, QRectF chartRect, qreal startAngle
 #ifdef HAVE_QT5
     qreal radAngle = qDegreesToRadians(angle/2+startAngle);
 #endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    qreal radius = painter->fontMetrics().horizontalAdvance("99,9%");
+#else
     qreal radius = painter->fontMetrics().width("99,9%");
+#endif
+
     qreal border = chartRect.height()*0.02;
     qreal length = (chartRect.height())/2-(radius/2+border);
     qreal x,y;
@@ -155,14 +161,24 @@ QSizeF PieChart::calcChartLegendSize(const QFont &font)
         SeriesItem* si = m_chartItem->series().at(0);
         foreach(QString label, si->data()->labels()){
             cw += fm.height();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+            if (maxWidth<fm.horizontalAdvance(label))
+                maxWidth = fm.horizontalAdvance(label)+10;
+#else
             if (maxWidth<fm.width(label))
                 maxWidth = fm.width(label)+10;
+#endif
         }
     } else {
         foreach(QString label, m_designLabels){
             cw += fm.height();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+            if (maxWidth<fm.horizontalAdvance(label))
+                maxWidth = fm.horizontalAdvance(label)+10;
+#else
             if (maxWidth<fm.width(label))
                 maxWidth = fm.width(label)+10;
+#endif
         }
     }
     cw += fm.height();
