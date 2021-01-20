@@ -62,6 +62,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(UnitType units READ unitType WRITE setUnitTypeProperty)
     Q_PROPERTY(PrintBehavior printBehavior READ printBehavior WRITE setPrintBehavior)
     Q_PROPERTY(bool dropPrinterMargins READ dropPrinterMargins WRITE setDropPrinterMargins)
+    Q_PROPERTY(bool notPrintIfEmpty READ notPrintIfEmpty WRITE setNotPrintIfEmpty)
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
@@ -182,6 +183,11 @@ public:
     bool dropPrinterMargins() const;
     void setDropPrinterMargins(bool dropPrinterMargins);
 
+    bool isEmpty() const;
+
+    bool notPrintIfEmpty() const;
+    void setNotPrintIfEmpty(bool notPrintIfEmpty);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -226,6 +232,7 @@ private:
     BandDesignIntf* m_pageFooter;
     PrintBehavior m_printBehavior;
     bool m_dropPrinterMargins;
+    bool m_notPrintIfEmpty;
 
 
 };
