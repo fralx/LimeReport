@@ -154,7 +154,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("replaceCRwithBR");
     tr("hideIfEmpty");
     tr("hideEmptyItems");
-	tr("useExternalPainter");
+    tr("useExternalPainter");
     tr("layoutSpacing");
     tr("printerName");
     tr("fontLetterSpacing");
@@ -166,6 +166,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("shiftItems");
     tr("showLegend");
     tr("removeGap");
+    tr("dropPrinterMargins");
+    tr("notPrintIfEmpty");
 }
 
 void QObjectPropertyModel::clearObjectsList()

@@ -2034,6 +2034,14 @@ p, li { white-space: pre-wrap; }
         <source>showLegend</source>
         <translation>Показывать легенду</translation>
     </message>
+    <message>
+        <source>dropPrinterMargins</source>
+        <translation>Сбросить поля принтера</translation>
+    </message>
+    <message>
+        <source>notPrintIfEmpty</source>
+        <translation>Не печатать, если пусто</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
