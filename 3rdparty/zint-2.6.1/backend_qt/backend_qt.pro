@@ -4,7 +4,7 @@ TEMPLATE = lib
 contains(CONFIG, static_build){
     message(Static Build)
     CONFIG += staticlib
-    DEFINES += HAVE_STATIC_BUILD
+    DEFINES += QZINT_STATIC_BUILD
 }
 
 !contains(CONFIG, staticlib){
