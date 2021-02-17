@@ -63,6 +63,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(PrintBehavior printBehavior READ printBehavior WRITE setPrintBehavior)
     Q_PROPERTY(bool dropPrinterMargins READ dropPrinterMargins WRITE setDropPrinterMargins)
     Q_PROPERTY(bool notPrintIfEmpty READ notPrintIfEmpty WRITE setNotPrintIfEmpty)
+    Q_PROPERTY(bool mixWithPriorPage READ mixWithPriorPage WRITE setMixWithPriorPage)
     friend class ReportRender;
 public:
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
@@ -188,6 +189,9 @@ public:
     bool notPrintIfEmpty() const;
     void setNotPrintIfEmpty(bool notPrintIfEmpty);
 
+    bool mixWithPriorPage() const;
+    void setMixWithPriorPage(bool value);
+
 signals:
     void beforeFirstPageRendered();
     void afterLastPageRendered();
@@ -233,6 +237,7 @@ private:
     PrintBehavior m_printBehavior;
     bool m_dropPrinterMargins;
     bool m_notPrintIfEmpty;
+    bool m_mixWithPriorPage;
 
 
 };
