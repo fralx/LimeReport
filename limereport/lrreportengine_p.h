@@ -144,6 +144,8 @@ class ReportEnginePrivate : public QObject,
     Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)
     Q_PROPERTY(ATranslationProperty translation READ fakeTranslationReader)
 
+    enum AppendType{MixPages, AppendPages};
+
     friend class PreviewReportWidget;
 public:
     bool printPages(ReportPages pages, QPrinter *printer);
@@ -304,6 +306,7 @@ private:
     void updateTranslations();
     //ITranslationContainer
     ReportPages renderToPages();
+    ReportPages appendPages(ReportPages s1, ReportPages s2, AppendType appendType);
     QString renderToString();
     PageItemDesignIntf *getPageByName(const QString& pageName);
     ATranslationProperty fakeTranslationReader(){ return ATranslationProperty();}

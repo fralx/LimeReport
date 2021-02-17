@@ -168,6 +168,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("removeGap");
     tr("dropPrinterMargins");
     tr("notPrintIfEmpty");
+    tr("mixWithPriorPage");
 }
 
 void QObjectPropertyModel::clearObjectsList()
