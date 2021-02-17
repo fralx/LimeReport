@@ -1338,6 +1338,10 @@ p, li { white-space: pre-wrap; }
         <source>Set page size to printer</source>
         <translation>Отправить параметры страницы в принтер</translation>
     </message>
+    <message>
+        <source>Mix with prior page</source>
+        <translation>Смешивать с предыдущей страницей</translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::PreviewReportWidget</name>
@@ -2041,6 +2045,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>notPrintIfEmpty</source>
         <translation>Не печатать, если пусто</translation>
+    </message>
+    <message>
+        <source>mixWithPriorPage</source>
+        <translation>Смешивать с предыдущей сраницей</translation>
     </message>
 </context>
 <context>

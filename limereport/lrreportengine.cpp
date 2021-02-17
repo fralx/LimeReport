@@ -1321,7 +1321,11 @@ ReportPages ReportEnginePrivate::renderToPages()
                 PageItemDesignIntf* page = m_renderingPages.at(i);
                 if (!page->isTOC() && page->isPrintable()){
                     page->setReportSettings(&m_reportSettings);
-                    result.append(m_reportRender->renderPageToPages(page));
+                    result = appendPages(
+                                result,
+                                m_reportRender->renderPageToPages(page),
+                                page->mixWithPriorPage() ? MixPages : AppendPages
+                             );
                 } else {
                     startTOCPage = result.count();
                     pageAfterTOCIndex = i+1;
@@ -1347,7 +1351,11 @@ ReportPages ReportEnginePrivate::renderToPages()
                         }
 
                     } else {
-                        result.append(m_reportRender->renderPageToPages(page));
+                        result = appendPages(
+                                    result,
+                                    m_reportRender->renderPageToPages(page),
+                                    page->mixWithPriorPage() ? MixPages : AppendPages
+                                 );
                     }
                 }
             }
@@ -1366,6 +1374,23 @@ ReportPages ReportEnginePrivate::renderToPages()
         return result;
     } else {
         return ReportPages();
+    }
+}
+
+ReportPages ReportEnginePrivate::appendPages(ReportPages s1, ReportPages s2, AppendType appendType)
+{
+    if (!s1.isEmpty()>0 && s1.size() == s2.size() && appendType == MixPages){
+        ReportPages result;
+        ReportPages::Iterator s1It;
+        ReportPages::Iterator s2It;
+        for (s1It = s1.begin(), s2It = s2.begin(); s1It != s1.end(); ++s1It,++s2It){
+            result.append(*s1It);
+            result.append(*s2It);
+        }
+        return result;
+    } else {
+        s1.append(s2);
+        return s1;
     }
 }
 

@@ -53,7 +53,7 @@ PageItemDesignIntf::PageItemDesignIntf(QObject *owner, QGraphicsItem *parent) :
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
     m_setPageSizeToPrinter(false), m_endlessHeight(false), m_printable(true),
     m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false),
-    m_notPrintIfEmpty(false)
+    m_notPrintIfEmpty(false), m_mixWithPriorPage(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -69,7 +69,7 @@ PageItemDesignIntf::PageItemDesignIntf(const PageSize pageSize, const QRectF &re
     m_isExtendedInDesignMode(false), m_extendedHeight(1000), m_isTOC(false),
     m_setPageSizeToPrinter(false), m_endlessHeight(false), m_printable(true),
     m_pageFooter(0), m_printBehavior(Split), m_dropPrinterMargins(false),
-    m_notPrintIfEmpty(false)
+    m_notPrintIfEmpty(false), m_mixWithPriorPage(false)
 {
     setFixedPos(true);
     setPossibleResizeDirectionFlags(Fixed);
@@ -755,6 +755,10 @@ void PageItemDesignIntf::preparePopUpMenu(QMenu &menu)
     action->setCheckable(true);
     action->setChecked(getSetPageSizeToPrinter());
 
+    action = menu.addAction(tr("Mix with prior page"));
+    action->setCheckable(true);
+    action->setChecked(mixWithPriorPage());
+
 //    action = menu.addAction(tr("Transparent"));
 //    action->setCheckable(true);
 //    action->setChecked(backgroundMode() == TransparentMode);
@@ -774,6 +778,10 @@ void PageItemDesignIntf::processPopUpAction(QAction *action)
     }
     if (action->text().compare(tr("Set page size to printer")) == 0){
         page()->setPropertyToSelectedItems("setPageSizeToPrinter",action->isChecked());
+    }
+
+    if (action->text().compare(tr("Mix with prior page")) == 0){
+        page()->setPropertyToSelectedItems("mixWithPriorPage",action->isChecked());
     }
 
 }
@@ -1056,6 +1064,23 @@ void PageItemDesignIntf::objectLoadFinished()
 PageItemDesignIntf::Ptr PageItemDesignIntf::create(QObject *owner)
 {
     return PageItemDesignIntf::Ptr(new PageItemDesignIntf(owner));
+}
+
+bool PageItemDesignIntf::mixWithPriorPage() const
+{
+    return m_mixWithPriorPage;
+}
+
+void PageItemDesignIntf::setMixWithPriorPage(bool value)
+{
+    if (m_mixWithPriorPage != value){
+        m_mixWithPriorPage = value;
+        if (!isLoading()){
+            update();
+            notify("mixWithPriorPage", !value, value);
+        }
+    }
+
 }
 
 }
