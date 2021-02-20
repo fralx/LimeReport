@@ -110,8 +110,8 @@ void SVGItem::updateItemSize(DataSourceManager *dataManager, RenderPass pass, in
             QVariant data = dataManager->variable(m_variable);
             if (data.type() == QVariant::String){
                 m_image = imageFromResource(data.toString());
-            } else if (data.type() == QVariant::Image){
-                m_image = data.value<QByteArray>();
+            } else if (data.type() == QVariant::ByteArray) {
+                m_image = data.value<QByteArray>() ;
             }
         }
     }
@@ -141,6 +141,8 @@ void SVGItem::setVariable(const QString &variable)
     }
     m_variable = variable;
 }
+
+bool SVGItem::isNeedUpdateSize(RenderPass) const { return m_image.isNull() ; }
 
 QString SVGItem::resourcePath() const
 {
