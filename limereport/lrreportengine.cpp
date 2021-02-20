@@ -499,6 +499,7 @@ bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hint
         w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
         w->setAttribute(Qt::WA_DeleteOnClose,true);
         w->setWindowModality(Qt::ApplicationModal);
+        w->setPreviewPageBackgroundColor(m_previewPageBackgroundColor);
         //w->setWindowIcon(QIcon(":/report/images/main.ico"));
         w->setWindowIcon(m_previewWindowIcon);
         w->setWindowTitle(m_previewWindowTitle);
