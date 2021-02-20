@@ -37,7 +37,7 @@ public:
     void setField(const QString &field);
     QString variable() const;
     void setVariable(const QString &variable);
-
+    bool isNeedUpdateSize(RenderPass) const;
 protected:
     BaseDesignIntf *createSameTypeItem(QObject *owner, QGraphicsItem *parent);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
