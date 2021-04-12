@@ -199,9 +199,9 @@ public:
     void    setInitScript(const QString& initScript);
     bool    runInitScript();
 
-    BandDesignIntf* getCurrentBand() const;
+    BandDesignIntf* currentBand() const;
     void setCurrentBand(BandDesignIntf* currentBand);
-    PageItemDesignIntf* getCurrentPage() const;
+    PageItemDesignIntf* currentPage() const;
     void setCurrentPage(PageItemDesignIntf* currentPage);
     TableOfContents* tableOfContents() const;
     void setTableOfContents(TableOfContents* tableOfContents);
@@ -389,6 +389,7 @@ public:
     Q_INVOKABLE QScriptValue createWrapper(QScriptValue item);
 #endif
     Q_INVOKABLE QFont font(QVariantMap params);
+    Q_INVOKABLE int getPageFreeSpace(QObject *page);
     ScriptEngineManager *scriptEngineManager() const;
     void setScriptEngineManager(ScriptEngineManager *scriptEngineManager);
     static QColor createQColor(const QString& color){ return QColor(color);}
@@ -473,6 +474,7 @@ public:
     int     findPageIndexByBookmark(const QString& uniqKey);
     void    addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent);
     void    clearTableOfContents();
+    int     getPageFreeSpace(PageItemDesignIntf *page);
     ScriptValueType moveQObjectToScript(QObject* object, const QString objectName);
 protected:
     void updateModel();

@@ -547,14 +547,13 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
 void ScriptEngineManager::addBookMark(const QString& uniqKey, const QString& content){
     Q_ASSERT(m_context != 0);
     if (m_context){
-        BandDesignIntf* currentBand = m_context->getCurrentBand();
+        BandDesignIntf* currentBand = m_context->currentBand();
         if (currentBand)
             currentBand->addBookmark(uniqKey, content);
-        else if (m_context->getCurrentPage()) {
-            m_context->getCurrentPage()->addBookmark(uniqKey, content);
+        else if (m_context->currentPage()) {
+            m_context->currentPage()->addBookmark(uniqKey, content);
         }
     }
-
 }
 
 int ScriptEngineManager::findPageIndexByBookmark(const QString &uniqKey)
@@ -568,6 +567,16 @@ int ScriptEngineManager::findPageIndexByBookmark(const QString &uniqKey)
         }
     }
     return -1;
+}
+
+int ScriptEngineManager::getPageFreeSpace(PageItemDesignIntf* page){
+    if (page){
+        int height = 0;
+        foreach(BandDesignIntf* band, page->bands()){
+            height += band->height();
+        }
+        return page->height() - height;
+    } else return -1;
 }
 
 void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
@@ -1306,7 +1315,7 @@ void ScriptEngineContext::setTableOfContents(TableOfContents* tableOfContents)
     m_tableOfContents = tableOfContents;
 }
 
-PageItemDesignIntf* ScriptEngineContext::getCurrentPage() const
+PageItemDesignIntf* ScriptEngineContext::currentPage() const
 {
     return m_currentPage;
 }
@@ -1317,7 +1326,7 @@ void ScriptEngineContext::setCurrentPage(PageItemDesignIntf* currentPage)
     m_currentBand = 0;
 }
 
-BandDesignIntf* ScriptEngineContext::getCurrentBand() const
+BandDesignIntf* ScriptEngineContext::currentBand() const
 {
     return m_currentBand;
 }
@@ -1691,6 +1700,10 @@ void ScriptFunctionsManager::addBookmark(const QString &uniqKey, const QString &
 int ScriptFunctionsManager::findPageIndexByBookmark(const QString &uniqKey)
 {
     return scriptEngineManager()->findPageIndexByBookmark(uniqKey);
+}
+
+int ScriptFunctionsManager::getPageFreeSpace(QObject* page){
+    return scriptEngineManager()->getPageFreeSpace(dynamic_cast<PageItemDesignIntf*>(page));
 }
 
 void ScriptFunctionsManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
