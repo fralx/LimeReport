@@ -208,10 +208,12 @@ void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignInt
 }
 
 void ReportRender::analizeContainer(BaseDesignIntf* item, BandDesignIntf* band){
-    foreach(BaseDesignIntf* child, item->childBaseItems()){
-        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(child);
-        if (contentItem) analizeItem(contentItem, band);
-        else analizeContainer(child, band);
+    if (item){
+        foreach(BaseDesignIntf* child, item->childBaseItems()){
+            ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(child);
+            if (contentItem) analizeItem(contentItem, band);
+            else analizeContainer(child, band);
+        }
     }
 }
 
@@ -407,12 +409,13 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
 }
 
 void ReportRender::extractGroupFunctionsFromContainer(BaseDesignIntf* baseItem, BandDesignIntf* band){
-    foreach (BaseDesignIntf* item, baseItem->childBaseItems()) {
-        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
-        if (contentItem) extractGroupFuntionsFromItem(contentItem, band);
-        else extractGroupFunctionsFromContainer(item, band);
+    if (baseItem){
+        foreach (BaseDesignIntf* item, baseItem->childBaseItems()) {
+            ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
+            if (contentItem) extractGroupFuntionsFromItem(contentItem, band);
+            else extractGroupFunctionsFromContainer(item, band);
+        }
     }
-
 }
 
 void ReportRender::extractGroupFunctions(BandDesignIntf *band)
@@ -436,11 +439,12 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                             if (captures.size()<5){
                                 content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
                             } else {
-                                content.replace(captures.at(0),QString("%1(%2,%3,%4)")
-                                                .arg(functionName)
-                                                .arg('"'+expressionIndex+'"')
-                                                .arg('"'+band->objectName()+'"')
-                                                .arg(captures.at(4)));
+                                content.replace(captures.at(0),QString("%1(%2,%3,%4)").arg(
+                                                    functionName,
+                                                    '"'+expressionIndex+'"',
+                                                    '"'+band->objectName()+'"',
+                                                    captures.at(4)
+                                                ));
                             }
                         }
                         pos += rx.matchedLength();
@@ -454,10 +458,12 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
 
 void ReportRender::replaceGroupFunctionsInContainer(BaseDesignIntf* baseItem, BandDesignIntf* band)
 {
-    foreach(BaseDesignIntf* item, baseItem->childBaseItems()){
-        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
-        if (contentItem) replaceGroupFunctionsInItem(contentItem, band);
-        else replaceGroupFunctionsInContainer(item, band);
+    if (baseItem){
+        foreach(BaseDesignIntf* item, baseItem->childBaseItems()){
+            ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
+            if (contentItem) replaceGroupFunctionsInItem(contentItem, band);
+            else replaceGroupFunctionsInContainer(item, band);
+        }
     }
 }
 
@@ -574,8 +580,10 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
             return 0;
         }
 
-        if (patternBand->isFooter())
+        if (patternBand->isFooter()){
             datasources()->clearGroupFunctionValues(patternBand->objectName());
+        }
+
         emit(patternBand->afterRender());
         return bandClone;
     }
@@ -1301,7 +1309,7 @@ void ReportRender::startNewPage(bool isFirst)
     m_newPageStarted = true;
     initColumns();
     initRenderPage();
-
+    m_scriptEngineContext->setCurrentPage(m_renderPageItem);
     m_scriptEngineContext->baseDesignIntfToScript(m_renderPageItem->patternName(), m_renderPageItem);
     emit m_patternPageItem->beforeRender();
 
@@ -1343,7 +1351,8 @@ void ReportRender::cutGroups()
 {
     m_popupedExpression.clear();
     m_popupedValues.clear();
-    foreach(BandDesignIntf* groupBand,m_childBands.keys()){
+    //foreach(BandDesignIntf* groupBand,m_childBands.keys()){
+    for(BandDesignIntf* groupBand : m_childBands.keys()){
         if (m_childBands.value(groupBand)->tryToKeepTogether()){
             foreach(BandDesignIntf* band, *m_childBands.value(groupBand)){
                 m_renderPageItem->removeBand(band);
@@ -1419,7 +1428,8 @@ void ReportRender::checkLostHeadersOnPrevPage()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        //qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
         }
@@ -1456,7 +1466,8 @@ void ReportRender::checkLostHeadersInPrevColumn()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+//        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
         }
@@ -1538,7 +1549,7 @@ void ReportRender::savePage(bool isLast)
     }
     m_renderPageItem->placeTearOffBand();
 
-    m_scriptEngineContext->setCurrentPage(m_renderPageItem);
+    //m_scriptEngineContext->setCurrentPage(m_renderPageItem);
     emit m_patternPageItem->afterRender();
     if (isLast)
         emit m_patternPageItem->afterLastPageRendered();
