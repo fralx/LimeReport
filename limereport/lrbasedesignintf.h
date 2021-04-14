@@ -473,7 +473,7 @@ signals:
     void posChanging(QObject* object, QPointF newPos, QPointF oldPos);
     void posChanged(QObject* object, QPointF newPos, QPointF oldPos);
     void itemSelected(LimeReport::BaseDesignIntf *item);
-    void itemSelectedHasBeenChanged(LimeReport::BaseDesignIntf *item, bool value);
+    void itemSelectedHasBeenChanged(BaseDesignIntf *item, bool value);
     void loadCollectionFinished(const QString& collectionName);
     void objectLoaded(QObject* object);
     void objectChanged(QObject* object);
