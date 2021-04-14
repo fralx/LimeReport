@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 contains(CONFIG, embedded_designer){
     include(designer.pri)
+    message(embedded designer)
 }
 
 DEFINES += INSPECT_BASEDESIGN
