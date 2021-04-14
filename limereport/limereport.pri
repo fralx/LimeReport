@@ -2,6 +2,7 @@ include(../common.pri)
 
 contains(CONFIG, embedded_designer){
     include(designer.pri)
+    message(embedded designer)
 }
 
 DEFINES += INSPECT_BASEDESIGN

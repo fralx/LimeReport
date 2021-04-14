@@ -1,14 +1,6 @@
-#BINARY_RESULT_DIR = $${TOP_BUILD_DIR}
-
 isEmpty(BINARY_RESULT_DIR) {
     BINARY_RESULT_DIR = $${PWD}
 }
-
-message(TOP_BUILD_DIR: $$TOP_BUILD_DIR)
-
-#!contains(CONFIG, config_build_dir){
-#    TOP_BUILD_DIR = $${PWD}
-#}
 
 !contains(CONFIG, no_build_translations){
     CONFIG += build_translations
@@ -64,6 +56,7 @@ contains(CONFIG, qtscriptengine){
 !contains(CONFIG, no_embedded_designer){
     CONFIG *= embedded_designer
     DEFINES += HAVE_REPORT_DESIGNER
+    message(embedded designer)
 }
 
 ZINT_PATH = $$PWD/3rdparty/zint-2.6.1
@@ -133,7 +126,7 @@ RCC_DIR        = $${ARCH_DIR}/$${BUILD_TYPE}/rcc
 
 LIMEREPORT_VERSION_MAJOR = 1
 LIMEREPORT_VERSION_MINOR = 5
-LIMEREPORT_VERSION_RELEASE = 84
+LIMEREPORT_VERSION_RELEASE = 85
 
 LIMEREPORT_VERSION = '$${LIMEREPORT_VERSION_MAJOR}.$${LIMEREPORT_VERSION_MINOR}.$${LIMEREPORT_VERSION_RELEASE}'
 DEFINES *= LIMEREPORT_VERSION_STR=\\\"$${LIMEREPORT_VERSION}\\\"
