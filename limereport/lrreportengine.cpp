@@ -110,25 +110,28 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     connect(m_datasources,SIGNAL(loadCollectionFinished(QString)),this,SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher,SIGNAL(fileChanged(const QString &)),this,SLOT(slotLoadFromFile(const QString &)));
 
-    QDir pluginsDir = QCoreApplication::applicationDirPath();
-    pluginsDir.cd("../lib" );
-    if (!pluginsDir.exists()){
-        pluginsDir.cd("./lib");
-        if (!pluginsDir.exists()) pluginsDir.setPath(QCoreApplication::applicationDirPath());
-    }
-
-    foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
-        QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
-        if( loader.load() ) {
 #ifndef HAVE_REPORT_DESIGNER
-            if( LimeReportDesignerPluginInterface* designerPlugin = qobject_cast< LimeReportDesignerPluginInterface* >( loader.instance() ) ) {
-                m_designerFactory = designerPlugin;
-                break;
-            }
-#endif
-        }        
+
+    QDir pluginsDir = QCoreApplication::applicationDirPath();
+    if (!pluginsDir.cd("../lib" )){
+        pluginsDir.cd("./lib");
     }
 
+    if (pluginsDir != QCoreApplication::applicationDirPath()){
+        foreach( const QString& pluginName, pluginsDir.entryList( QDir::Files ) ) {
+            QPluginLoader loader( pluginsDir.absoluteFilePath( pluginName ) );
+            if( loader.load() ) {
+
+                if( LimeReportDesignerPluginInterface* designerPlugin = qobject_cast< LimeReportDesignerPluginInterface* >( loader.instance() ) ) {
+                    m_designerFactory = designerPlugin;
+                    break;
+                }
+
+            }
+        }
+    }
+
+#endif
 }
 
 ReportEnginePrivate::~ReportEnginePrivate()
