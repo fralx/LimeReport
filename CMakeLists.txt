@@ -1,259 +1,269 @@
 project(limereport)
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.14)
 
-find_package(Qt5Core)
-find_package(Qt5Widgets)
-find_package(Qt5Sql)
-find_package(Qt5Network)
-find_package(Qt5Xml)
-find_package(Qt5Svg)
-find_package(Qt5Qml)
-find_package(Qt5PrintSupport)
-find_package(Qt5Script)
-find_package(Qt5UiTools)
 find_package(PNG REQUIRED)
+
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport Script UiTools
+  )
+find_package(
+  Qt${QT_VERSION_MAJOR}
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport Script UiTools
+  )
+
+# Old Qt does not provide QT_VERSION_MAJOR
+if (NOT QT_VERSION_MAJOR)
+    string(SUBSTRING ${QT_VERSION} 0 1 QT_VERSION_MAJOR)
+endif()
+
+message(STATUS "Qt version: ${QT_VERSION_MAJOR}")
+if (Qt${QT_VERSION_MAJOR}Widgets_FOUND)
+    message(STATUS "QtGui found")
+endif()
+if (Qt${QT_VERSION_MAJOR}Widgets_FOUND)
+    message(STATUS "QtWidgets found")
+endif()
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 
 set ( LIMEREPORT_SOURCES 
-limereport/bands/lrdataband.cpp
-limereport/bands/lrgroupbands.cpp
-limereport/bands/lrpagefooter.cpp
-limereport/bands/lrpageheader.cpp
-limereport/bands/lrreportfooter.cpp
-limereport/bands/lrreportheader.cpp
-limereport/bands/lrsubdetailband.cpp
-limereport/bands/lrtearoffband.cpp
-limereport/databrowser/lrconnectiondialog.cpp
-limereport/databrowser/lrdatabrowser.cpp
-limereport/databrowser/lrdatabrowsertree.cpp
-limereport/databrowser/lrsqleditdialog.cpp
-limereport/databrowser/lrvariabledialog.cpp
-limereport/exporters/lrpdfexporter.cpp
-limereport/items/charts/lrhorizontalbarchart.cpp
-limereport/items/charts/lrlineschart.cpp
-limereport/items/charts/lrpiechart.cpp
-limereport/items/charts/lrverticalbarchart.cpp
-limereport/items/editors/lrfonteditorwidget.cpp
-limereport/items/editors/lritemeditorwidget.cpp
-limereport/items/editors/lritemsaligneditorwidget.cpp
-limereport/items/editors/lritemsborderseditorwidget.cpp
-limereport/items/editors/lrtextalignmenteditorwidget.cpp
-limereport/items/lrabstractlayout.cpp
-limereport/items/lralignpropitem.cpp
-limereport/items/lrbarcodeitem.cpp
-limereport/items/lrchartitem.cpp
-limereport/items/lrchartitemeditor.cpp
-limereport/items/lrhorizontallayout.cpp
-limereport/items/lrimageitem.cpp
-limereport/items/lrimageitemeditor.cpp
-limereport/items/lrlayoutmarker.cpp
-limereport/items/lrshapeitem.cpp
-limereport/items/lrsimpletagparser.cpp
-limereport/items/lrsubitemparentpropitem.cpp
-limereport/items/lrsvgitem.cpp
-limereport/items/lrtextitem.cpp
-limereport/items/lrtextitemeditor.cpp
-limereport/items/lrverticallayout.cpp
-limereport/lraboutdialog.cpp
-limereport/lrbanddesignintf.cpp
-limereport/lrbandsmanager.cpp
-limereport/lrbasedesignintf.cpp
-limereport/lrcolorindicator.cpp
-limereport/lrdatadesignintf.cpp
-limereport/lrdatasourcemanager.cpp
-limereport/lrfactoryinitializer.cpp
-limereport/lrglobal.cpp
-limereport/lrgraphicsviewzoom.cpp
-limereport/lrgroupfunctions.cpp
-limereport/lritemdesignintf.cpp
-limereport/lritemscontainerdesignitf.cpp
-limereport/lrpagedesignintf.cpp
-limereport/lrpageitemdesignintf.cpp
-limereport/lrpreparedpages.cpp
-limereport/lrpreviewreportwidget.cpp
-limereport/lrpreviewreportwindow.cpp
-limereport/lrreportdesignwidget.cpp
-limereport/lrreportdesignwindow.cpp
-limereport/lrreportengine.cpp
-limereport/lrreportrender.cpp
-limereport/lrreporttranslation.cpp
-limereport/lrscriptenginemanager.cpp
-limereport/lrsettingdialog.cpp
-limereport/lrsimplecrypt.cpp
-limereport/lrvariablesholder.cpp
-limereport/objectinspector/editors/lrbuttonlineeditor.cpp
-limereport/objectinspector/editors/lrcheckboxeditor.cpp
-limereport/objectinspector/editors/lrcoloreditor.cpp
-limereport/objectinspector/editors/lrcomboboxeditor.cpp
-limereport/objectinspector/editors/lrfonteditor.cpp
-limereport/objectinspector/editors/lrimageeditor.cpp
-limereport/objectinspector/editors/lrsvgeditor.cpp
-limereport/objectinspector/editors/lrtextitempropertyeditor.cpp
-limereport/objectinspector/lrbasedesignobjectmodel.cpp
-limereport/objectinspector/lrobjectinspectorwidget.cpp
-limereport/objectinspector/lrobjectitemmodel.cpp
-limereport/objectinspector/lrobjectpropitem.cpp
-limereport/objectinspector/lrpropertydelegate.cpp
-limereport/objectinspector/propertyItems/lrboolpropitem.cpp
-limereport/objectinspector/propertyItems/lrcolorpropitem.cpp
-limereport/objectinspector/propertyItems/lrcontentpropitem.cpp
-limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp
-limereport/objectinspector/propertyItems/lrenumpropitem.cpp
-limereport/objectinspector/propertyItems/lrflagspropitem.cpp
-limereport/objectinspector/propertyItems/lrfontpropitem.cpp
-limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp
-limereport/objectinspector/propertyItems/lrimagepropitem.cpp
-limereport/objectinspector/propertyItems/lrintpropitem.cpp
-limereport/objectinspector/propertyItems/lrmarginpropitem.cpp
-limereport/objectinspector/propertyItems/lrqrealpropitem.cpp
-limereport/objectinspector/propertyItems/lrrectproptem.cpp
-limereport/objectinspector/propertyItems/lrseriespropitem.cpp
-limereport/objectinspector/propertyItems/lrstringpropitem.cpp
-limereport/objectinspector/propertyItems/lrsvgpropitem.cpp
-limereport/objectsbrowser/lrobjectbrowser.cpp
-limereport/scriptbrowser/lrscriptbrowser.cpp
-limereport/scripteditor/lrcodeeditor.cpp
-limereport/scripteditor/lrscripteditor.cpp
-limereport/scripteditor/lrscripthighlighter.cpp
-limereport/serializators/lrxmlbasetypesserializators.cpp
-limereport/serializators/lrxmlqrectserializator.cpp
-limereport/serializators/lrxmlreader.cpp
-limereport/serializators/lrxmlwriter.cpp
-limereport/translationeditor/languageselectdialog.cpp
-limereport/translationeditor/translationeditor.cpp
+${PROJECT_NAME}/bands/lrdataband.cpp
+${PROJECT_NAME}/bands/lrgroupbands.cpp
+${PROJECT_NAME}/bands/lrpagefooter.cpp
+${PROJECT_NAME}/bands/lrpageheader.cpp
+${PROJECT_NAME}/bands/lrreportfooter.cpp
+${PROJECT_NAME}/bands/lrreportheader.cpp
+${PROJECT_NAME}/bands/lrsubdetailband.cpp
+${PROJECT_NAME}/bands/lrtearoffband.cpp
+${PROJECT_NAME}/databrowser/lrconnectiondialog.cpp
+${PROJECT_NAME}/databrowser/lrdatabrowser.cpp
+${PROJECT_NAME}/databrowser/lrdatabrowsertree.cpp
+${PROJECT_NAME}/databrowser/lrsqleditdialog.cpp
+${PROJECT_NAME}/databrowser/lrvariabledialog.cpp
+${PROJECT_NAME}/exporters/lrpdfexporter.cpp
+${PROJECT_NAME}/items/charts/lrhorizontalbarchart.cpp
+${PROJECT_NAME}/items/charts/lrlineschart.cpp
+${PROJECT_NAME}/items/charts/lrpiechart.cpp
+${PROJECT_NAME}/items/charts/lrverticalbarchart.cpp
+${PROJECT_NAME}/items/editors/lrfonteditorwidget.cpp
+${PROJECT_NAME}/items/editors/lritemeditorwidget.cpp
+${PROJECT_NAME}/items/editors/lritemsaligneditorwidget.cpp
+${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.cpp
+${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.cpp
+${PROJECT_NAME}/items/lrabstractlayout.cpp
+${PROJECT_NAME}/items/lralignpropitem.cpp
+${PROJECT_NAME}/items/lrbarcodeitem.cpp
+${PROJECT_NAME}/items/lrchartitem.cpp
+${PROJECT_NAME}/items/lrchartitemeditor.cpp
+${PROJECT_NAME}/items/lrhorizontallayout.cpp
+${PROJECT_NAME}/items/lrimageitem.cpp
+${PROJECT_NAME}/items/lrimageitemeditor.cpp
+${PROJECT_NAME}/items/lrlayoutmarker.cpp
+${PROJECT_NAME}/items/lrshapeitem.cpp
+${PROJECT_NAME}/items/lrsimpletagparser.cpp
+${PROJECT_NAME}/items/lrsubitemparentpropitem.cpp
+${PROJECT_NAME}/items/lrsvgitem.cpp
+${PROJECT_NAME}/items/lrtextitem.cpp
+${PROJECT_NAME}/items/lrtextitemeditor.cpp
+${PROJECT_NAME}/items/lrverticallayout.cpp
+${PROJECT_NAME}/lraboutdialog.cpp
+${PROJECT_NAME}/lrbanddesignintf.cpp
+${PROJECT_NAME}/lrbandsmanager.cpp
+${PROJECT_NAME}/lrbasedesignintf.cpp
+${PROJECT_NAME}/lrcolorindicator.cpp
+${PROJECT_NAME}/lrdatadesignintf.cpp
+${PROJECT_NAME}/lrdatasourcemanager.cpp
+${PROJECT_NAME}/lrfactoryinitializer.cpp
+${PROJECT_NAME}/lrglobal.cpp
+${PROJECT_NAME}/lrgraphicsviewzoom.cpp
+${PROJECT_NAME}/lrgroupfunctions.cpp
+${PROJECT_NAME}/lritemdesignintf.cpp
+${PROJECT_NAME}/lritemscontainerdesignitf.cpp
+${PROJECT_NAME}/lrpagedesignintf.cpp
+${PROJECT_NAME}/lrpageitemdesignintf.cpp
+${PROJECT_NAME}/lrpreparedpages.cpp
+${PROJECT_NAME}/lrpreviewreportwidget.cpp
+${PROJECT_NAME}/lrpreviewreportwindow.cpp
+${PROJECT_NAME}/lrreportdesignwidget.cpp
+${PROJECT_NAME}/lrreportdesignwindow.cpp
+${PROJECT_NAME}/lrreportengine.cpp
+${PROJECT_NAME}/lrreportrender.cpp
+${PROJECT_NAME}/lrreporttranslation.cpp
+${PROJECT_NAME}/lrscriptenginemanager.cpp
+${PROJECT_NAME}/lrsettingdialog.cpp
+${PROJECT_NAME}/lrsimplecrypt.cpp
+${PROJECT_NAME}/lrvariablesholder.cpp
+${PROJECT_NAME}/objectinspector/editors/lrbuttonlineeditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrcheckboxeditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrcoloreditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrcomboboxeditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrfonteditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrimageeditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrsvgeditor.cpp
+${PROJECT_NAME}/objectinspector/editors/lrtextitempropertyeditor.cpp
+${PROJECT_NAME}/objectinspector/lrbasedesignobjectmodel.cpp
+${PROJECT_NAME}/objectinspector/lrobjectinspectorwidget.cpp
+${PROJECT_NAME}/objectinspector/lrobjectitemmodel.cpp
+${PROJECT_NAME}/objectinspector/lrobjectpropitem.cpp
+${PROJECT_NAME}/objectinspector/lrpropertydelegate.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrboolpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrcolorpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrcontentpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrdatasourcepropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrenumpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrflagspropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrfontpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrgroupfieldpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrimagepropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrintpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrmarginpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrqrealpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrrectproptem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrseriespropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrstringpropitem.cpp
+${PROJECT_NAME}/objectinspector/propertyItems/lrsvgpropitem.cpp
+${PROJECT_NAME}/objectsbrowser/lrobjectbrowser.cpp
+${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.cpp
+${PROJECT_NAME}/scripteditor/lrcodeeditor.cpp
+${PROJECT_NAME}/scripteditor/lrscripteditor.cpp
+${PROJECT_NAME}/scripteditor/lrscripthighlighter.cpp
+${PROJECT_NAME}/serializators/lrxmlbasetypesserializators.cpp
+${PROJECT_NAME}/serializators/lrxmlqrectserializator.cpp
+${PROJECT_NAME}/serializators/lrxmlreader.cpp
+${PROJECT_NAME}/serializators/lrxmlwriter.cpp
+${PROJECT_NAME}/translationeditor/languageselectdialog.cpp
+${PROJECT_NAME}/translationeditor/translationeditor.cpp
 
 
-limereport/bands/lrdataband.h
-limereport/bands/lrgroupbands.h
-limereport/bands/lrpagefooter.h
-limereport/bands/lrpageheader.h
-limereport/bands/lrreportfooter.h
-limereport/bands/lrreportheader.h
-limereport/bands/lrsubdetailband.h
-limereport/bands/lrtearoffband.h
-limereport/base/lrattribsabstractfactory.h
-limereport/base/lrsimpleabstractfactory.h
-limereport/base/lrsingleton.h
-limereport/databrowser/lrconnectiondialog.h
-limereport/databrowser/lrdatabrowser.h
-limereport/databrowser/lrdatabrowsertree.h
-limereport/databrowser/lrsqleditdialog.h
-limereport/databrowser/lrvariabledialog.h
-limereport/exporters/lrpdfexporter.h
-limereport/items/charts/lrhorizontalbarchart.h
-limereport/items/charts/lrlineschart.h
-limereport/items/charts/lrpiechart.h
-limereport/items/charts/lrverticalbarchart.h
-limereport/items/editors/lrfonteditorwidget.h
-limereport/items/editors/lritemeditorwidget.h
-limereport/items/editors/lritemsaligneditorwidget.h
-limereport/items/editors/lritemsborderseditorwidget.h
-limereport/items/editors/lrtextalignmenteditorwidget.h
-limereport/items/lrabstractlayout.h
-limereport/items/lralignpropitem.h
-limereport/items/lrbarcodeitem.h
-limereport/items/lrchartitem.h
-limereport/items/lrchartitemeditor.h
-limereport/items/lreditableimageitemintf.h
-limereport/items/lrhorizontallayout.h
-limereport/items/lrimageitem.h
-limereport/items/lrimageitemeditor.h
-limereport/items/lrlayoutmarker.h
-limereport/items/lrshapeitem.h
-limereport/items/lrsimpletagparser.h
-limereport/items/lrsubitemparentpropitem.h
-limereport/items/lrsvgitem.h
-limereport/items/lrtextitem.h
-limereport/items/lrtextitemeditor.h
-limereport/items/lrverticallayout.h
-limereport/lraboutdialog.h
-limereport/lrbanddesignintf.h
-limereport/lrbandsmanager.h
-limereport/lrbasedesignintf.h
-limereport/lrcallbackdatasourceintf.h
-limereport/lrcollection.h
-limereport/lrcolorindicator.h
-limereport/lrdatadesignintf.h
-limereport/lrdatasourceintf.h
-limereport/lrdatasourcemanager.h
-limereport/lrdatasourcemanagerintf.h
-limereport/lrdesignelementsfactory.h
-limereport/lrdesignerplugininterface.h
-limereport/lrexporterintf.h
-limereport/lrexportersfactory.h
-limereport/lrfactoryinitializer.h
-limereport/lrgraphicsviewzoom.h
-limereport/lrgroupfunctions.h
-limereport/lritemdesignintf.h
-limereport/lritemscontainerdesignitf.h
-limereport/lrpagedesignintf.h
-limereport/lrpageinitintf.h
-limereport/lrpageitemdesignintf.h
-limereport/lrpreparedpages.h
-limereport/lrpreparedpagesintf.h
-limereport/lrpreviewreportwidget.h
-limereport/lrpreviewreportwidget_p.h
-limereport/lrpreviewreportwindow.h
-limereport/lrreportdesignwidget.h
-limereport/lrreportdesignwindow.h
-limereport/lrreportdesignwindowintrerface.h
-limereport/lrreportengine.h
-limereport/lrreportengine_p.h
-limereport/lrreportrender.h
-limereport/lrreporttranslation.h
-limereport/lrscriptenginemanager.h
-limereport/lrscriptenginemanagerintf.h
-limereport/lrsettingdialog.h
-limereport/lrsimplecrypt.h
-limereport/lrvariablesholder.h
-limereport/objectinspector/editors/lrbuttonlineeditor.h
-limereport/objectinspector/editors/lrcheckboxeditor.h
-limereport/objectinspector/editors/lrcoloreditor.h
-limereport/objectinspector/editors/lrcomboboxeditor.h
-limereport/objectinspector/editors/lrfonteditor.h
-limereport/objectinspector/editors/lrimageeditor.h
-limereport/objectinspector/editors/lrsvgeditor.h
-limereport/objectinspector/editors/lrtextitempropertyeditor.h
-limereport/objectinspector/lrbasedesignobjectmodel.h
-limereport/objectinspector/lrobjectinspectorwidget.h
-limereport/objectinspector/lrobjectitemmodel.h
-limereport/objectinspector/lrobjectpropitem.h
-limereport/objectinspector/lrpropertydelegate.h
-limereport/objectinspector/propertyItems/lrboolpropitem.h
-limereport/objectinspector/propertyItems/lrcolorpropitem.h
-limereport/objectinspector/propertyItems/lrcontentpropitem.h
-limereport/objectinspector/propertyItems/lrdatasourcepropitem.h
-limereport/objectinspector/propertyItems/lrenumpropitem.h
-limereport/objectinspector/propertyItems/lrflagspropitem.h
-limereport/objectinspector/propertyItems/lrfontpropitem.h
-limereport/objectinspector/propertyItems/lrgroupfieldpropitem.h
-limereport/objectinspector/propertyItems/lrimagepropitem.h
-limereport/objectinspector/propertyItems/lrintpropitem.h
-limereport/objectinspector/propertyItems/lrmarginpropitem.h
-limereport/objectinspector/propertyItems/lrqrealpropitem.h
-limereport/objectinspector/propertyItems/lrrectproptem.h
-limereport/objectinspector/propertyItems/lrseriespropitem.h
-limereport/objectinspector/propertyItems/lrstringpropitem.h
-limereport/objectinspector/propertyItems/lrsvgpropitem.h
-limereport/objectsbrowser/lrobjectbrowser.h
-limereport/scriptbrowser/lrscriptbrowser.h
-limereport/scripteditor/lrcodeeditor.h
-limereport/scripteditor/lrscripteditor.h
-limereport/scripteditor/lrscripthighlighter.h
-limereport/serializators/lrserializatorintf.h
-limereport/serializators/lrstorageintf.h
-limereport/serializators/lrxmlbasetypesserializators.h
-limereport/serializators/lrxmlqrectserializator.h
-limereport/serializators/lrxmlreader.h
-limereport/serializators/lrxmlserializatorsfactory.h
-limereport/serializators/lrxmlwriter.h
-limereport/translationeditor/languageselectdialog.h
-limereport/translationeditor/translationeditor.h
-limereport/lrglobal.h
+${PROJECT_NAME}/bands/lrdataband.h
+${PROJECT_NAME}/bands/lrgroupbands.h
+${PROJECT_NAME}/bands/lrpagefooter.h
+${PROJECT_NAME}/bands/lrpageheader.h
+${PROJECT_NAME}/bands/lrreportfooter.h
+${PROJECT_NAME}/bands/lrreportheader.h
+${PROJECT_NAME}/bands/lrsubdetailband.h
+${PROJECT_NAME}/bands/lrtearoffband.h
+${PROJECT_NAME}/base/lrattribsabstractfactory.h
+${PROJECT_NAME}/base/lrsimpleabstractfactory.h
+${PROJECT_NAME}/base/lrsingleton.h
+${PROJECT_NAME}/databrowser/lrconnectiondialog.h
+${PROJECT_NAME}/databrowser/lrdatabrowser.h
+${PROJECT_NAME}/databrowser/lrdatabrowsertree.h
+${PROJECT_NAME}/databrowser/lrsqleditdialog.h
+${PROJECT_NAME}/databrowser/lrvariabledialog.h
+${PROJECT_NAME}/exporters/lrpdfexporter.h
+${PROJECT_NAME}/items/charts/lrhorizontalbarchart.h
+${PROJECT_NAME}/items/charts/lrlineschart.h
+${PROJECT_NAME}/items/charts/lrpiechart.h
+${PROJECT_NAME}/items/charts/lrverticalbarchart.h
+${PROJECT_NAME}/items/editors/lrfonteditorwidget.h
+${PROJECT_NAME}/items/editors/lritemeditorwidget.h
+${PROJECT_NAME}/items/editors/lritemsaligneditorwidget.h
+${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.h
+${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.h
+${PROJECT_NAME}/items/lrabstractlayout.h
+${PROJECT_NAME}/items/lralignpropitem.h
+${PROJECT_NAME}/items/lrbarcodeitem.h
+${PROJECT_NAME}/items/lrchartitem.h
+${PROJECT_NAME}/items/lrchartitemeditor.h
+${PROJECT_NAME}/items/lreditableimageitemintf.h
+${PROJECT_NAME}/items/lrhorizontallayout.h
+${PROJECT_NAME}/items/lrimageitem.h
+${PROJECT_NAME}/items/lrimageitemeditor.h
+${PROJECT_NAME}/items/lrlayoutmarker.h
+${PROJECT_NAME}/items/lrshapeitem.h
+${PROJECT_NAME}/items/lrsimpletagparser.h
+${PROJECT_NAME}/items/lrsubitemparentpropitem.h
+${PROJECT_NAME}/items/lrsvgitem.h
+${PROJECT_NAME}/items/lrtextitem.h
+${PROJECT_NAME}/items/lrtextitemeditor.h
+${PROJECT_NAME}/items/lrverticallayout.h
+${PROJECT_NAME}/lraboutdialog.h
+${PROJECT_NAME}/lrbanddesignintf.h
+${PROJECT_NAME}/lrbandsmanager.h
+${PROJECT_NAME}/lrbasedesignintf.h
+${PROJECT_NAME}/lrcollection.h
+${PROJECT_NAME}/lrcolorindicator.h
+${PROJECT_NAME}/lrdatadesignintf.h
+${PROJECT_NAME}/lrdatasourcemanager.h
+${PROJECT_NAME}/lrdesignelementsfactory.h
+${PROJECT_NAME}/lrdesignerplugininterface.h
+${PROJECT_NAME}/lrexporterintf.h
+${PROJECT_NAME}/lrexportersfactory.h
+${PROJECT_NAME}/lrfactoryinitializer.h
+${PROJECT_NAME}/lrgraphicsviewzoom.h
+${PROJECT_NAME}/lrgroupfunctions.h
+${PROJECT_NAME}/lritemdesignintf.h
+${PROJECT_NAME}/lritemscontainerdesignitf.h
+${PROJECT_NAME}/lrpagedesignintf.h
+${PROJECT_NAME}/lrpageinitintf.h
+${PROJECT_NAME}/lrpageitemdesignintf.h
+${PROJECT_NAME}/lrpreparedpages.h
+${PROJECT_NAME}/lrpreviewreportwidget_p.h
+${PROJECT_NAME}/lrpreviewreportwindow.h
+${PROJECT_NAME}/lrreportdesignwidget.h
+${PROJECT_NAME}/lrreportdesignwindow.h
+${PROJECT_NAME}/lrreportengine_p.h
+${PROJECT_NAME}/lrreportrender.h
+${PROJECT_NAME}/lrreporttranslation.h
+${PROJECT_NAME}/lrscriptenginemanager.h
+${PROJECT_NAME}/lrsettingdialog.h
+${PROJECT_NAME}/lrsimplecrypt.h
+${PROJECT_NAME}/lrvariablesholder.h
+${PROJECT_NAME}/objectinspector/editors/lrbuttonlineeditor.h
+${PROJECT_NAME}/objectinspector/editors/lrcheckboxeditor.h
+${PROJECT_NAME}/objectinspector/editors/lrcoloreditor.h
+${PROJECT_NAME}/objectinspector/editors/lrcomboboxeditor.h
+${PROJECT_NAME}/objectinspector/editors/lrfonteditor.h
+${PROJECT_NAME}/objectinspector/editors/lrimageeditor.h
+${PROJECT_NAME}/objectinspector/editors/lrsvgeditor.h
+${PROJECT_NAME}/objectinspector/editors/lrtextitempropertyeditor.h
+${PROJECT_NAME}/objectinspector/lrbasedesignobjectmodel.h
+${PROJECT_NAME}/objectinspector/lrobjectinspectorwidget.h
+${PROJECT_NAME}/objectinspector/lrobjectitemmodel.h
+${PROJECT_NAME}/objectinspector/lrobjectpropitem.h
+${PROJECT_NAME}/objectinspector/lrpropertydelegate.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrboolpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrcolorpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrcontentpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrdatasourcepropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrenumpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrflagspropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrfontpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrgroupfieldpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrimagepropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrintpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrmarginpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrqrealpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrrectproptem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrseriespropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrstringpropitem.h
+${PROJECT_NAME}/objectinspector/propertyItems/lrsvgpropitem.h
+${PROJECT_NAME}/objectsbrowser/lrobjectbrowser.h
+${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.h
+${PROJECT_NAME}/scripteditor/lrcodeeditor.h
+${PROJECT_NAME}/scripteditor/lrscripteditor.h
+${PROJECT_NAME}/scripteditor/lrscripthighlighter.h
+${PROJECT_NAME}/serializators/lrserializatorintf.h
+${PROJECT_NAME}/serializators/lrstorageintf.h
+${PROJECT_NAME}/serializators/lrxmlbasetypesserializators.h
+${PROJECT_NAME}/serializators/lrxmlqrectserializator.h
+${PROJECT_NAME}/serializators/lrxmlreader.h
+${PROJECT_NAME}/serializators/lrxmlserializatorsfactory.h
+${PROJECT_NAME}/serializators/lrxmlwriter.h
+${PROJECT_NAME}/translationeditor/languageselectdialog.h
+${PROJECT_NAME}/translationeditor/translationeditor.h
 
 
 3rdparty/zint-2.6.1/backend/2of5.c
@@ -301,39 +311,108 @@ limereport/lrglobal.h
 3rdparty/zint-2.6.1/backend_qt/qzint.cpp
 
 
-limereport/databrowser/lrconnectiondialog.ui
-limereport/databrowser/lrdatabrowser.ui
-limereport/databrowser/lrsqleditdialog.ui
-limereport/databrowser/lrvariabledialog.ui
-limereport/dialogdesigner/templates/Dialog.ui
-limereport/items/lrchartitemeditor.ui
-limereport/items/lrimageitemeditor.ui
-limereport/items/lrtextitemeditor.ui
-limereport/lraboutdialog.ui
-limereport/lrpreviewreportwidget.ui
-limereport/lrpreviewreportwindow.ui
-limereport/lrsettingdialog.ui
-limereport/objectinspector/editors/ltextitempropertyeditor.ui
-limereport/scriptbrowser/lrscriptbrowser.ui
-limereport/scripteditor/lrscripteditor.ui
-limereport/translationeditor/languageselectdialog.ui
-limereport/translationeditor/translationeditor.ui
+${PROJECT_NAME}/databrowser/lrconnectiondialog.ui
+${PROJECT_NAME}/databrowser/lrdatabrowser.ui
+${PROJECT_NAME}/databrowser/lrsqleditdialog.ui
+${PROJECT_NAME}/databrowser/lrvariabledialog.ui
+${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
+${PROJECT_NAME}/items/lrchartitemeditor.ui
+${PROJECT_NAME}/items/lrimageitemeditor.ui
+${PROJECT_NAME}/items/lrtextitemeditor.ui
+${PROJECT_NAME}/lraboutdialog.ui
+${PROJECT_NAME}/lrpreviewreportwidget.ui
+${PROJECT_NAME}/lrpreviewreportwindow.ui
+${PROJECT_NAME}/lrsettingdialog.ui
+${PROJECT_NAME}/objectinspector/editors/ltextitempropertyeditor.ui
+${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.ui
+${PROJECT_NAME}/scripteditor/lrscripteditor.ui
+${PROJECT_NAME}/translationeditor/languageselectdialog.ui
+${PROJECT_NAME}/translationeditor/translationeditor.ui
 
 
-./limereport/databrowser/lrdatabrowser.qrc
-./limereport/dialogdesigner/dialogdesigner.qrc
-./limereport/items/items.qrc
-./limereport/objectinspector/lobjectinspector.qrc
-./limereport/report.qrc
-./limereport/scriptbrowser/lrscriptbrowser.qrc
-./limereport/translationeditor/translationeditor.qrc
+./${PROJECT_NAME}/databrowser/lrdatabrowser.qrc
+./${PROJECT_NAME}/dialogdesigner/dialogdesigner.qrc
+./${PROJECT_NAME}/items/items.qrc
+./${PROJECT_NAME}/objectinspector/lobjectinspector.qrc
+./${PROJECT_NAME}/report.qrc
+./${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.qrc
+./${PROJECT_NAME}/translationeditor/translationeditor.qrc
 )
 
-add_library( limereport_static STATIC ${LIMEREPORT_SOURCES})
-add_library( limereport SHARED ${LIMEREPORT_SOURCES})
-target_link_libraries( limereport_static PNG::PNG Qt5::Core Qt5::Qml Qt5::Widgets Qt5::Xml Qt5::Sql Qt5::PrintSupport Qt5::Script Qt5::Svg Qt5::UiTools)
-target_link_libraries( limereport PNG::PNG Qt5::Core Qt5::Widgets Qt5::Qml Qt5::Xml Qt5::Sql Qt5::PrintSupport Qt5::Script Qt5::Svg Qt5::UiTools)
-target_compile_definitions( limereport_static PUBLIC -DHAVE_QT5 -DHAVE_STATIC_BUILD -DLIMEREPORT_VERSION_STR="dev" -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DHAVE_UI_LOADER )
-target_compile_definitions( limereport PUBLIC -DHAVE_QT5 -DLIMEREPORT_VERSION_STR="dev" -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DLIMEREPORT_EXPORTS -DHAVE_UI_LOADER)
-target_include_directories( limereport PRIVATE limereport/ limereport/base limereport/bands limereport/databrowser limereport/items/editors limereport/items limereport/objectinspector limereport/scriptbrowser limereport/serializators 3rdparty/zint-2.6.1/backend_qt 3rdparty/zint-2.6.1/backend limereport/scripteditor)
-target_include_directories( limereport_static PRIVATE limereport/ limereport/base limereport/bands limereport/databrowser limereport/items/editors limereport/items limereport/objectinspector limereport/scriptbrowser limereport/serializators 3rdparty/zint-2.6.1/backend_qt 3rdparty/zint-2.6.1/backend limereport/scripteditor )
+set(EXTRA_FILES
+   ${PROJECT_NAME}/lrglobal.h
+   ${PROJECT_NAME}/lrdatasourcemanagerintf.h
+   ${PROJECT_NAME}/lrdatasourceintf.h
+   ${PROJECT_NAME}/lrreportengine.h
+   ${PROJECT_NAME}/lrscriptenginemanagerintf.h
+   ${PROJECT_NAME}/lrcallbackdatasourceintf.h
+   ${PROJECT_NAME}/lrpreviewreportwidget.h
+   ${PROJECT_NAME}/lrreportdesignwindowintrerface.h
+   ${PROJECT_NAME}/lrpreparedpagesintf.h
+)
+
+
+set(LIMEREPORT_VERSION_MAJOR 1)
+set(LIMEREPORT_VERSION_MINOR 5)
+set(LIMEREPORT_VERSION_RELEASE 88)
+
+configure_file(config.h.in config.h @ONLY)
+
+set(GLOBAL_HEADERS
+    ${PROJECT_NAME}/LimeReport
+    ${PROJECT_NAME}/LRCallbackDS
+    ${PROJECT_NAME}/LRDataManager
+    ${PROJECT_NAME}/LRScriptManager
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    )
+
+
+if (LIMEREPORT_STATIC)
+	message(STATUS "STATIC LIBRARY")
+	add_library(${PROJECT_NAME} STATIC  ${EXTRA_FILES} ${LIMEREPORT_SOURCES})
+    target_compile_definitions( ${PROJECT_NAME} PUBLIC -DHAVE_STATIC_BUILD)
+else()
+    add_library(${PROJECT_NAME} SHARED  ${EXTRA_FILES} ${LIMEREPORT_SOURCES})
+endif()
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC -DCMAKE_CONFIG)
+target_link_libraries( ${PROJECT_NAME} PRIVATE PNG::PNG)
+target_link_libraries( ${PROJECT_NAME} PUBLIC 
+	Qt${QT_VERSION_MAJOR}::Core 
+	Qt${QT_VERSION_MAJOR}::Widgets 
+	Qt${QT_VERSION_MAJOR}::Qml 
+	Qt${QT_VERSION_MAJOR}::Xml 
+	Qt${QT_VERSION_MAJOR}::Sql 
+	Qt${QT_VERSION_MAJOR}::PrintSupport 
+	Qt${QT_VERSION_MAJOR}::Script 
+	Qt${QT_VERSION_MAJOR}::Svg 
+	Qt${QT_VERSION_MAJOR}::UiTools)
+	
+target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_QT5 -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DHAVE_UI_LOADER -D_CRT_SECURE_NO_WARNINGS)
+target_include_directories( ${PROJECT_NAME} PRIVATE 
+	limereport/ 
+	limereport/base 
+	limereport/bands 
+	limereport/databrowser 
+	limereport/items/editors 
+	limereport/items 
+	limereport/objectinspector 
+	limereport/scriptbrowser 
+	limereport/serializators 
+	3rdparty/zint-2.6.1/backend_qt 
+	3rdparty/zint-2.6.1/backend 
+	limereport/scripteditor )
+	
+install(TARGETS
+	${PROJECT_NAME}
+	ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION lib
+	RUNTIME DESTINATION bin)
+
+install(FILES
+  ${EXTRA_FILES}
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+
+install(FILES
+  ${GLOBAL_HEADERS}
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
