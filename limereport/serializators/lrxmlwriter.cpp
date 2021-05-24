@@ -223,7 +223,7 @@ void XMLWriter::saveTranslation(QString propertyName, QObject* item, QDomElement
         translationsNode.setAttribute("Type","Translation");
         Translations* translations = translationsContainer->translations();
         foreach(QLocale::Language language, translations->keys()){
-            QDomElement languageNode = m_doc->createElement(QLocale::languageToString(language));
+            QDomElement languageNode = m_doc->createElement(QLocale::languageToString(language).replace(' ', '_'));
             languageNode.setAttribute("Value",QString::number(language));
             translationsNode.appendChild(languageNode);
             ReportTranslation* curTranslation = translations->value(language);
