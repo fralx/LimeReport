@@ -488,9 +488,9 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
     return context;
 }
 
-QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue, QObject *reportItem, ScriptEngineType* se, ScriptNode *scriptTree)
+QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue, QObject *reportItem, ScriptEngineType* se, ScriptNode::Ptr scriptTree)
 {
-    foreach(ScriptNode* item, scriptTree->children()){
+    foreach(ScriptNode::Ptr item, scriptTree->children()){
         QString scriptBody = expandDataFields(item->body(), EscapeSymbols, varValue, reportItem);
         if (item->children().size() > 0)
             scriptBody = replaceScripts(scriptBody, varValue, reportItem, se, item);
@@ -529,7 +529,7 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
 
         ScriptExtractor scriptExtractor(script);
         if (scriptExtractor.parse()){
-            QString scriptBody = expandDataFields(scriptExtractor.scriptTree()[0].body(), EscapeSymbols, varValue, 0);
+            QString scriptBody = expandDataFields(scriptExtractor.scriptTree()->body(), EscapeSymbols, varValue, 0);
             scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
             ScriptValueType value = se->evaluate(scriptBody);
 #ifdef USE_QJSENGINE
@@ -987,7 +987,7 @@ bool ScriptExtractor::parse()
     return m_scriptTree->children().count() > 0;
 }
 
-bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode* scriptNode)
+bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode::Ptr scriptNode)
 {
     while (curPos<m_context.length()){
         switch (state) {
@@ -1014,7 +1014,7 @@ bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode* scriptN
     return false;
 }
 
-void ScriptExtractor::extractScript(int &curPos, const QString& startStr, ScriptNode* scriptNode)
+void ScriptExtractor::extractScript(int &curPos, const QString& startStr, ScriptNode::Ptr scriptNode)
 {
     int startPos = curPos;
     if (extractBracket(curPos, scriptNode)){
@@ -1034,7 +1034,7 @@ void ScriptExtractor::skipField(int &curPos){
     }
 }
 
-bool ScriptExtractor::extractBracket(int &curPos, ScriptNode* scriptNode)
+bool ScriptExtractor::extractBracket(int &curPos, ScriptNode::Ptr scriptNode)
 {
     curPos++;
     return parse(curPos,OpenBracketFound, scriptNode);
