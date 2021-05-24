@@ -400,18 +400,19 @@ private:
 
 class ScriptNode{
 public:
+    typedef QSharedPointer<ScriptNode> Ptr;
     QString body(){return m_body;}
     void setBody(const QString& body){ m_body = body;}
     void setStartLex(const QString startLex){ m_startLex = startLex;}
     QString script(){return m_startLex + m_body + '}';}
-    ScriptNode* createChildNode(){
-        ScriptNode* result = new ScriptNode();
+    Ptr createChildNode(){
+        Ptr result = Ptr(new ScriptNode());
         m_children.append(result);
         return result;
     }
-    QVector<ScriptNode*> children() const {return m_children;}
+    QVector<Ptr> children() const {return m_children;}
 private:
-    QVector<ScriptNode*> m_children;
+    QVector<Ptr> m_children;
     QString m_body;
     QString m_startLex;
 };
@@ -421,22 +422,22 @@ class ScriptExtractor
 public:
     enum State{None,BuksFound,SFound,StartScriptFound,OpenBracketFound,CloseBracketFound,DFound,VFound, SignFound};
     explicit ScriptExtractor(const QString& value):
-        m_context(value), m_scriptTree(new ScriptNode()){}
+        m_context(value), m_scriptTree(ScriptNode::Ptr(new ScriptNode())){}
     bool parse();
-    ScriptNode* scriptTree(){return m_scriptTree;}
+    ScriptNode::Ptr scriptTree(){return m_scriptTree;}
 private:
     bool isStartLexem(int &curPos, QChar value);
-    bool parse(int& curPos, const State &state, ScriptNode *scriptNode);
+    bool parse(int& curPos, const State &state, ScriptNode::Ptr scriptNode);
     void skipField(int &curPos);
-    void extractScript(int& curPos, const QString &startStr, ScriptNode *scriptNode);
-    bool extractBracket(int& curPos, ScriptNode *scriptNode);
+    void extractScript(int& curPos, const QString &startStr, ScriptNode::Ptr scriptNode);
+    bool extractBracket(int& curPos, ScriptNode::Ptr scriptNode);
     bool isStartScriptLexem(int &curPos);
     bool isStartFieldLexem(int &curPos);
     bool isStartVariableLexem(int &curPos);
     QString substring(const QString& value, int start, int end);
 private:
     QString m_context;
-    ScriptNode* m_scriptTree;
+    ScriptNode::Ptr m_scriptTree;
 };
 
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager
@@ -467,7 +468,7 @@ public:
     QString expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject* reportItem);
     QString expandScripts(QString context, QVariant &varValue, QObject* reportItem);
 
-    QString replaceScripts(QString context, QVariant& varValue, QObject *reportItem, ScriptEngineType *se, ScriptNode* scriptTree);
+    QString replaceScripts(QString context, QVariant& varValue, QObject *reportItem, ScriptEngineType *se, ScriptNode::Ptr scriptTree);
 
     QVariant evaluateScript(const QString &script);
     void    addBookMark(const QString &uniqKey, const QString &content);
