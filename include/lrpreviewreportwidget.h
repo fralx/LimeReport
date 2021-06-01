@@ -85,6 +85,7 @@ private:
     QColor    m_previewPageBackgroundColor;
     QPrinter* m_defaultPrinter;
     void printPages(QPrinter *printer);
+    bool m_scaleChanging;
 };
 
 } // namespace LimeReport

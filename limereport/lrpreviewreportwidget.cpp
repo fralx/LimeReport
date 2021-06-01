@@ -89,7 +89,7 @@ PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) 
     QWidget(parent),
     ui(new Ui::PreviewReportWidget), d_ptr(new PreviewReportWidgetPrivate(this)),
     m_scaleType(FitWidth), m_scalePercent(0), m_previewPageBackgroundColor(Qt::white),
-    m_defaultPrinter(0)
+    m_defaultPrinter(0), m_scaleChanging(false)
 {
     ui->setupUi(this);
     d_ptr->m_report = report->d_ptr;
@@ -299,6 +299,7 @@ void PreviewReportWidget::saveToFile()
 
 void PreviewReportWidget::setScalePercent(int percent)
 {
+    m_scaleChanging = true;
     ui->graphicsView->resetMatrix();
     d_ptr->m_scalePercent = percent;
     qreal scaleSize = percent/100.0;
@@ -310,6 +311,7 @@ void PreviewReportWidget::setScalePercent(int percent)
         m_scaleType = Percents;
         m_scalePercent = percent;
     }
+    m_scaleChanging = false;
 }
 
 void PreviewReportWidget::fitWidth()
@@ -425,6 +427,7 @@ void PreviewReportWidget::activateCurrentPage()
 
 void PreviewReportWidget::slotSliderMoved(int value)
 {
+    if (m_scaleChanging) return;
     int curPage = d_ptr->m_currentPage;
     if (ui->graphicsView->verticalScrollBar()->minimum()==value){
         d_ptr->m_currentPage = 1;
