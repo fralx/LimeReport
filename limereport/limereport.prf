@@ -1,4 +1,4 @@
-QT += xml sql script
+QT += xml sql script network
 
 greaterThan(QT_MAJOR_VERSION, 4) {
 QT += widgets printsupport
