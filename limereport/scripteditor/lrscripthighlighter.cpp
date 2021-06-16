@@ -5,7 +5,7 @@
 
 namespace LimeReport{
 
-#define KEYWORDS_COUNT 59
+#define KEYWORDS_COUNT 60
 
 static const char *const keywords[KEYWORDS_COUNT] = {
     "do","if","in","for","int","new","try","var","byte","case","char","else","enum",
@@ -14,12 +14,41 @@ static const char *const keywords[KEYWORDS_COUNT] = {
     "import","native","public","return","static","switch","throws","typeof","boolean",
     "default","extends","finally","package","private","abstract","continue","debugger",
     "function","volatile","interface","protected","transient","implements","instanceof",
-    "synchronized"
+    "synchronized","let"
 };
 
-enum LiteralsType{SpaceFound, AlpahabetFound, NumberFound, HashFound, SlashFound, AsterixFound,
-                 BracketFound, QuotationFound, ApostropheFound, SeparatorFound, BackSlashFound, LiteralsCount};
-enum States {Start, MayBeKeyWord, Code, MayBeComment, Comment, Comment2, MayBeComment2End, String, String2, MayBeNumber, Separator, StatesCount};
+enum LiteralsType {
+    SpaceFound,
+    AlpahabetFound,
+    NumberFound,
+    HashFound,
+    SlashFound,
+    AsterixFound,
+    BracketFound,
+    QuotationFound,
+    ApostropheFound,
+    Apostrophe2Found,
+    SeparatorFound,
+    BackSlashFound,
+    LiteralsCount
+};
+
+enum States {
+    Undefinded = -1,
+    Start,
+    MayBeKeyWord,
+    Code,
+    MayBeComment,
+    Comment,
+    Comment2,
+    MayBeComment2End,
+    String,
+    String2,
+    String3,
+    MayBeNumber,
+    Separator,
+    StatesCount
+};
 
 void ScriptHighlighter::createParentheisisInfo(const char& literal, TextBlockData *data, const QString& text)
 {
@@ -37,25 +66,36 @@ void ScriptHighlighter::highlightBlock(const QString& text)
 {
     int literal = -1;
     bool lastWasBackSlash = false;
-    int state = previousBlockState() != -1 ? previousBlockState() : Start ;
-    int oldState = -1;
-    int stateMaschine[StatesCount][LiteralsCount] = {
-        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Separator},
-        {Separator, MayBeKeyWord, Code, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Separator},
-        {Separator, Code, Code, Separator, Separator, Separator, Separator, String, String2, Separator, Separator},
-        {Separator, Code, MayBeNumber, Code, Comment, Comment2, Code, String, String2, Separator, Code},
-        {Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment, Comment},
-        {Comment2, Comment2, Comment2, Comment2, Comment2, MayBeComment2End, Comment2, Comment2, Comment2, Comment2, Comment2},
-        {Comment2, Comment2, Comment2, Comment2, Separator, Comment2, Comment2, Comment2, Comment2, Comment2, Comment2},
-        {String, String, String, String, String, String, String, Separator, String, String, String},
-        {String2, String2, String2, String2, String2, String2, String2, String2, Separator, String2, String2},
-        {Separator, Code, MayBeNumber, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Code},
-        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator, Separator, String, String2, Separator, Separator }
+    States prevState = (States)previousBlockState();
+    States state = prevState != Undefinded ? (States)prevState : Start;
+    States oldState = Undefinded;
+    const States stateMaschine[StatesCount][LiteralsCount] = {
+//      Space       Alpahabet     Number       Hash       Slash         Asterix,          Bracket,   Quotation, Apostrophe, Apostrophe2 Separator, Back Slash
+        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator,        Separator, String,    String2,    String3,    Separator, Separator},
+        {Separator, MayBeKeyWord, Code,        Separator, MayBeComment, Separator,        Separator, String,    String2,    String3,    Separator, Separator},
+        {Separator, Code,         Code,        Separator, Separator,    Separator,        Separator, String,    String2,    String3,    Separator, Separator},
+        {Separator, Code,         MayBeNumber, Code,      Comment,      Comment2,         Code,      String,    String2,    String3,    Separator, Code},
+        {Comment,   Comment,      Comment,     Comment,   Comment,      Comment,          Comment,   Comment,   Comment,    Comment,    Comment,   Comment},
+        {Comment2,  Comment2,     Comment2,    Comment2,  Comment2,     MayBeComment2End, Comment2,  Comment2,  Comment2,   Comment2,   Comment2,  Comment2},
+        {Comment2,  Comment2,     Comment2,    Comment2,  Separator,    Comment2,         Comment2,  Comment2,  Comment2,   Comment2,   Comment2,  Comment2},
+        {String,    String,       String,      String,    String,       String,           String,    Separator, String,     String,     String,    String},
+        {String2,   String2,      String2,     String2,   String2,      String2,          String2,   String2,   Separator,  String2,    String2,   String2},
+        {String3,   String3,      String3,     String3,   String3,      String3,          String3,   String3,   String3,    Separator,  String3,   String3},
+        {Separator, Code,         MayBeNumber, Separator, MayBeComment, Separator,        Separator, String,    String2,    String3,    Separator, Code},
+        {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator,        Separator, String,    String2,    String3,    Separator, Separator},
     };
 
     QString buffer;
 
-    if (text.isEmpty()) return;
+    setCurrentBlockState(Undefinded);
+
+    if (text.isEmpty())
+    {
+        if (prevState == Comment2)
+            setCurrentBlockState(Comment2);
+        return;
+    }
+
     int i = 0;
     for (;;){
         QChar currentChar = text.at(i);
@@ -81,6 +121,9 @@ void ScriptHighlighter::highlightBlock(const QString& text)
             case '"':
                 literal = QuotationFound;
                 break;
+            case '`':
+                literal = Apostrophe2Found;
+                break;
             case '{': case '[': case '(':
             case '}': case ']': case ')':
                 literal = BracketFound;
@@ -103,7 +146,7 @@ void ScriptHighlighter::highlightBlock(const QString& text)
 
         buffer += currentChar;
 
-        if (oldState != state){
+        if (oldState != state) {
             switch( state ){
                 case MayBeComment:
                     if (oldState == MayBeNumber){
@@ -114,6 +157,7 @@ void ScriptHighlighter::highlightBlock(const QString& text)
                     break;
                 case String:
                 case String2:
+                case String3:
                     buffer.clear();
                     buffer += currentChar;
                     break;
@@ -128,7 +172,7 @@ void ScriptHighlighter::highlightBlock(const QString& text)
                     switch(oldState){
                         case MayBeComment2End:
                             setFormat(i-(buffer.length()-1), buffer.length(), m_formats[CommentFormat]);
-                            setCurrentBlockState(-1);
+                            setCurrentBlockState(Undefinded);
                             buffer.clear();
                             break;
                         case MayBeKeyWord:
@@ -142,6 +186,7 @@ void ScriptHighlighter::highlightBlock(const QString& text)
                             buffer.clear();
                         case String:
                         case String2:
+                        case String3:
                             setFormat(i-(buffer.length()-1), buffer.length(), m_formats[StringFormat]);
                             buffer.clear();
                             break;
@@ -150,17 +195,30 @@ void ScriptHighlighter::highlightBlock(const QString& text)
                     break;
             }
         }
+        else if (state == Comment2)
+        {
+            setCurrentBlockState(Comment2);
+        }
 
         if ( state == Comment || state == Comment2 ){
             setFormat(i-(buffer.length()-1), buffer.length(), m_formats[CommentFormat]);
         }
 
-        if ( state == String || state == String2 ){
+        if ( state == String || state == String2 || state == String3 ){
             setFormat(i-(buffer.length()-1), buffer.length(), m_formats[StringFormat]);
         }
 
         i++;
         if ( i>= text.length()) break;
+    }
+
+    if (buffer.length())
+    {
+        if (oldState == MayBeKeyWord)
+        {
+            if (isKeyWord(buffer))
+                setFormat(i - buffer.length(), buffer.length(), m_formats[KeywordFormat]);
+        }
     }
 
     TextBlockData *data = new TextBlockData;
