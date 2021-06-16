@@ -197,11 +197,11 @@ bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesis
             }
 
         }
-
-        currentBlock = currentBlock.next();
-        if (currentBlock.isValid())
-            return matchLeftParenthesis(currentBlock, parenthesisType, 0, numLeftParentheses);
     }
+
+    currentBlock = currentBlock.next();
+    if (currentBlock.isValid())
+        return matchLeftParenthesis(currentBlock, parenthesisType, 0, numLeftParentheses);
 
     return false;
 }
@@ -227,12 +227,12 @@ bool CodeEditor::matchRightParenthesis(QTextBlock currentBlock, QChar parenthesi
                     --numRightParentheses;
             }
         }
-
-        currentBlock = currentBlock.previous();
-        if (currentBlock.isValid())
-            return matchRightParenthesis(currentBlock, parenthesisType, -2, numRightParentheses);
-
     }
+
+    currentBlock = currentBlock.previous();
+    if (currentBlock.isValid())
+        return matchRightParenthesis(currentBlock, parenthesisType, -2, numRightParentheses);
+
     return false;
 }
 
