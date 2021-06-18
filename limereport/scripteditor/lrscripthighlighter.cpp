@@ -34,7 +34,7 @@ enum LiteralsType {
 };
 
 enum States {
-    Undefinded = -1,
+    Undefined = -1,
     Start,
     MayBeKeyWord,
     Code,
@@ -67,8 +67,8 @@ void ScriptHighlighter::highlightBlock(const QString& text)
     int literal = -1;
     bool lastWasBackSlash = false;
     States prevState = (States)previousBlockState();
-    States state = prevState != Undefinded ? (States)prevState : Start;
-    States oldState = Undefinded;
+    States state = prevState != Undefined ? (States)prevState : Start;
+    States oldState = Undefined;
     const States stateMaschine[StatesCount][LiteralsCount] = {
 //      Space       Alpahabet     Number       Hash       Slash         Asterix,          Bracket,   Quotation, Apostrophe, Apostrophe2 Separator, Back Slash
         {Separator, MayBeKeyWord, MayBeNumber, Separator, MayBeComment, Separator,        Separator, String,    String2,    String3,    Separator, Separator},
@@ -87,7 +87,7 @@ void ScriptHighlighter::highlightBlock(const QString& text)
 
     QString buffer;
 
-    setCurrentBlockState(Undefinded);
+    setCurrentBlockState(Undefined);
 
     if (text.isEmpty())
     {
@@ -172,7 +172,7 @@ void ScriptHighlighter::highlightBlock(const QString& text)
                     switch(oldState){
                         case MayBeComment2End:
                             setFormat(i-(buffer.length()-1), buffer.length(), m_formats[CommentFormat]);
-                            setCurrentBlockState(Undefinded);
+                            setCurrentBlockState(Undefined);
                             buffer.clear();
                             break;
                         case MayBeKeyWord:
@@ -214,16 +214,20 @@ void ScriptHighlighter::highlightBlock(const QString& text)
 
     if (buffer.length())
     {
-        if (oldState == MayBeKeyWord)
+        if (state == MayBeKeyWord)
         {
             if (isKeyWord(buffer))
-                setFormat(i - buffer.length(), buffer.length(), m_formats[KeywordFormat]);
+               setFormat(i - buffer.length(), buffer.length(), m_formats[KeywordFormat]);
+        }
+        else if (state == MayBeNumber)
+        {
+            setFormat(i - buffer.length(), buffer.length(), m_formats[NumberFormat]);
         }
     }
 
     TextBlockData *data = new TextBlockData;
 
-    for (int i = 0; i < PARENHEIS_COUNT; ++i){
+    for (int i = 0; i < PARENHEIS_COUNT; ++i) {
         createParentheisisInfo(parenthesisCharacters[LeftParenthesis][i].toLatin1(), data, text);
         createParentheisisInfo(parenthesisCharacters[RightParenthesis][i].toLatin1(), data, text);
     }
