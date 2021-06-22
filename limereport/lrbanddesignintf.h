@@ -114,6 +114,7 @@ class BandDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
     Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
     Q_PROPERTY(int shiftItems READ shiftItems WRITE setShiftItems)
+    Q_PROPERTY(int maxRowItems READ maxRowItems WRITE setMaxRowItems)
     friend class BandMarker;
     friend class BandNameLabel;
     friend class ReportRender;
@@ -273,6 +274,10 @@ public:
     void setShiftItems(int shiftItems);    
     bool isNeedUpdateSize(RenderPass) const;
     void copyBandAttributes(BandDesignIntf* source);
+
+    int maxRowItems()const;
+    void setMaxRowItems(int maxRowItems);
+
 signals:
     void bandRendered(BandDesignIntf* band);
     void bandReRendered(BandDesignIntf* oldBand, BandDesignIntf* newBand);
@@ -337,6 +342,7 @@ private:
     int 						m_bottomSpace;
     QMap<QString,QVariant>      m_bookmarks;
     int                         m_shiftItems;
+    int                         m_maxRowItems;
 };
 
 class DataBandDesignIntf : public BandDesignIntf{

@@ -168,7 +168,8 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_repeatOnEachRow(false),
     m_useAlternateBackgroundColor(false),
     m_bottomSpace(0),
-    m_shiftItems(0)
+    m_shiftItems(0),
+    m_maxRowItems(-1) //in normally.
 {
     setPossibleResizeDirectionFlags(ResizeBottom);
     setPossibleMoveFlags(TopBotom);
@@ -253,6 +254,16 @@ void BandDesignIntf::copyBandAttributes(BandDesignIntf *source)
 {
     this->copyBookmarks(source);
     this->setBackgroundColor(source->backgroundColor());
+}
+
+int BandDesignIntf::maxRowItems() const
+{
+    return m_maxRowItems;
+}
+
+void BandDesignIntf::setMaxRowItems(int maxRowItems)
+{
+    m_maxRowItems = maxRowItems;
 }
 
 void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
