@@ -1,4 +1,4 @@
-CONFIG(debug, debug|release){
+CONFIG(debug, debug|release) {
     TARGET = limereportd
 } else {
     TARGET = limereport
@@ -6,11 +6,11 @@ CONFIG(debug, debug|release){
 
 TEMPLATE = lib
 
-contains(CONFIG, static_build){
+CONFIG(static_build) {
     CONFIG += staticlib
 }
 
-!contains(CONFIG, staticlib){
+!CONFIG(staticlib) {
     CONFIG += lib
     CONFIG += dll
 }
@@ -19,14 +19,14 @@ CONFIG += create_prl
 CONFIG += link_prl
 
 macx{
-    CONFIG  -= dll
-    CONFIG  += lib_bundle
-    CONFIG  += plugin
+    CONFIG -= dll
+    CONFIG += lib_bundle
+    CONFIG += plugin
 }
 
 DEFINES += LIMEREPORT_EXPORTS
 
-contains(CONFIG, staticlib){
+CONFIG(staticlib) {
     DEFINES += HAVE_STATIC_BUILD
     DEFINES += QZINT_STATIC_BUILD
     message(STATIC_BUILD)
@@ -47,15 +47,15 @@ EXTRA_FILES += \
 include(limereport.pri)
 
 unix:{
-    DESTDIR  = $${DEST_LIBS}
+    DESTDIR = $${DEST_LIBS}
     linux{
         QMAKE_POST_LINK += mkdir -p \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t) # qmake need make mkdir -p on subdirs more than root/
-        for(FILE,EXTRA_FILES){
+        for(FILE,EXTRA_FILES) {
             QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t) # inside of libs make /include/files
         }
     }
     macx{
-        for(FILE,EXTRA_FILES){
+        for(FILE,EXTRA_FILES) {
             QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t)
         }
         QMAKE_POST_LINK += mkdir -p \"$${DESTDIR}/include\" $$escape_expand(\\n\\t)
@@ -65,9 +65,9 @@ unix:{
 
 win32 {
     DESTDIR = $${DEST_LIBS}
-    contains(QMAKE_HOST.os, Linux){
+    contains(QMAKE_HOST.os, Linux) {
         QMAKE_POST_LINK += mkdir -p \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t) # qmake need make mkdir -p on subdirs more than root/
-        for(FILE,EXTRA_FILES){
+        for(FILE,EXTRA_FILES) {
             QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t) # inside of libs make /include/files
         }
         QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$${DEST_INCLUDE_DIR}\" \"$${DESTDIR}\"
@@ -78,23 +78,23 @@ win32 {
 	DEST_DIR ~= s,/,\\,g
 	DEST_INCLUDE_DIR ~= s,/,\\,g
 
-	for(FILE,EXTRA_FILES){
+        for(FILE,EXTRA_FILES) {
     	    QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t)
 	}
 	QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$${DEST_INCLUDE_DIR}\" \"$${DEST_DIR}\"
     }
 }
 
-contains(CONFIG,zint){
+CONFIG(zint) {
     message(zint)
     INCLUDEPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
     DEPENDPATH += $$ZINT_PATH/backend $$ZINT_PATH/backend_qt
-	LIBS += -L$${DEST_LIBS}
-        CONFIG(release, debug|release){
-		LIBS += -lQtZint
-	} else {
-		LIBS += -lQtZintd
-	}
+    LIBS += -L$${DEST_LIBS}
+    CONFIG(release, debug|release) {
+        LIBS += -lQtZint
+    } else {
+        LIBS += -lQtZintd
+    }
 }
 
 #### Install mkspecs, headers and libs to QT_INSTALL_DIR
@@ -112,7 +112,7 @@ INSTALLS += target
 
 ####Automatically build required translation files (*.qm)
 
-contains(CONFIG,build_translations){
+CONFIG(build_translations) {
     LANGUAGES = ru es ar fr zh pl
 
     defineReplace(prependAll) {
@@ -139,5 +139,3 @@ contains(CONFIG,build_translations){
 }
 
 #### EN AUTOMATIC TRANSLATIONS
-
-

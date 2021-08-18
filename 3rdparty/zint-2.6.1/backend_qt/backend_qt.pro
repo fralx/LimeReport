@@ -1,13 +1,13 @@
 DEFINES += NO_PNG
 TEMPLATE = lib
 
-contains(CONFIG, static_build){
+CONFIG(static_build) {
     message(Static Build)
     CONFIG += staticlib
     DEFINES += QZINT_STATIC_BUILD
 }
 
-!contains(CONFIG, staticlib){
+!CONFIG(staticlib) {
     CONFIG += dll
     DEFINES += QZINT_LIBRARY
 }
@@ -27,10 +27,10 @@ INCLUDEPATH += $$PWD/../backend
 
 DEFINES += ZINT_VERSION=\\\"$$ZINT_VERSION\\\"
 
-CONFIG(release, debug|release){
-        TARGET = QtZint
+CONFIG(release, debug|release) {
+    TARGET = QtZint
 } else {
-        TARGET = QtZintd
+    TARGET = QtZintd
 }
 
 !contains(DEFINES, NO_PNG) {
@@ -40,28 +40,28 @@ CONFIG(release, debug|release){
 
 INCLUDEPATH += zint zint/backend zint/backend_qt
 
-HEADERS +=  $$PWD/../backend/aztec.h \
-            $$PWD/../backend/bmp.h \
-            $$PWD/../backend/code49.h \
-            $$PWD/../backend/common.h \
-            $$PWD/../backend/composite.h \
-            $$PWD/../backend/dmatrix.h \
-            $$PWD/../backend/eci.h \
-            $$PWD/../backend/font.h \
-            $$PWD/../backend/gridmtx.h \
-            $$PWD/../backend/gs1.h \
-            $$PWD/../backend/hanxin.h \
-            $$PWD/../backend/large.h \
-            $$PWD/../backend/maxicode.h \
-            $$PWD/../backend/pcx.h \
-            $$PWD/../backend/pdf417.h \
-            $$PWD/../backend/reedsol.h \
-            $$PWD/../backend/rss.h \
-            $$PWD/../backend/sjis.h \
-            $$PWD/../backend/stdint_msvc.h \
-            $$PWD/../backend/zint.h \
-            $$PWD/qzint.h \
-            $$PWD/qzint_global.h
+HEADERS += $$PWD/../backend/aztec.h \
+           $$PWD/../backend/bmp.h \
+           $$PWD/../backend/code49.h \
+           $$PWD/../backend/common.h \
+           $$PWD/../backend/composite.h \
+           $$PWD/../backend/dmatrix.h \
+           $$PWD/../backend/eci.h \
+           $$PWD/../backend/font.h \
+           $$PWD/../backend/gridmtx.h \
+           $$PWD/../backend/gs1.h \
+           $$PWD/../backend/hanxin.h \
+           $$PWD/../backend/large.h \
+           $$PWD/../backend/maxicode.h \
+           $$PWD/../backend/pcx.h \
+           $$PWD/../backend/pdf417.h \
+           $$PWD/../backend/reedsol.h \
+           $$PWD/../backend/rss.h \
+           $$PWD/../backend/sjis.h \
+           $$PWD/../backend/stdint_msvc.h \
+           $$PWD/../backend/zint.h \
+           $$PWD/qzint.h \
+           $$PWD/qzint_global.h
 
 SOURCES += $$PWD/../backend/2of5.c \
            $$PWD/../backend/auspost.c \
