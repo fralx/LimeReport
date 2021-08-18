@@ -70,7 +70,7 @@ private:
 
 class ConnectionDesc : public QObject{
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName )
+    Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(QString driver READ driver WRITE setDriver)
     Q_PROPERTY(QString databaseName READ databaseName WRITE setDatabaseName)
     Q_PROPERTY(QString userName READ userName WRITE setUserName)
@@ -83,7 +83,7 @@ public:
     typedef QSharedPointer<ConnectionDesc> Ptr;
     ConnectionDesc(QSqlDatabase db, QObject* parent=0);
     ConnectionDesc(QObject* parent=0);
-    Ptr create(QSqlDatabase db, QObject* parent=0);
+    Ptr     create(QSqlDatabase db, QObject* parent=0);
     void    setName(const QString &value);
     QString name(){return m_connectionName;}
     void    setDriver(const QString &value){m_connectionDriver=value;}

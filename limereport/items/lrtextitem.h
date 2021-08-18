@@ -46,10 +46,10 @@ class TextItem : public ContentItemDesignIntf, IPageInit {
     Q_OBJECT
     Q_PROPERTY(QString content READ content WRITE setContent)
     Q_PROPERTY(int margin READ marginSize WRITE setMarginSize)
-    Q_PROPERTY(Qt::Alignment alignment READ alignment() WRITE setAlignment)
-    Q_PROPERTY(AutoWidth autoWidth READ autoWidth() WRITE setAutoWidth)
-    Q_PROPERTY(bool autoHeight READ autoHeight() WRITE setAutoHeight)
-    Q_PROPERTY(QFont font READ font() WRITE setTextItemFont)
+    Q_PROPERTY(Qt::Alignment alignment READ alignment WRITE setAlignment)
+    Q_PROPERTY(AutoWidth autoWidth READ autoWidth WRITE setAutoWidth)
+    Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight)
+    Q_PROPERTY(QFont font READ font WRITE setTextItemFont)
     Q_PROPERTY(int backgroundOpacity READ opacity WRITE setBackgroundOpacity)
     Q_PROPERTY(BGMode backgroundMode READ backgroundMode WRITE setBackgroundModeProperty)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColorProperty)
@@ -79,7 +79,7 @@ public:
     enum AutoWidth{NoneAutoWidth, MaxWordLength, MaxStringLength};
     enum AngleType{Angle0, Angle90, Angle180, Angle270, Angle45, Angle315};
     enum ValueType{Default, DateTime, Double};
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_ENUM(AutoWidth)
     Q_ENUM(AngleType)
     Q_ENUM(ValueType)

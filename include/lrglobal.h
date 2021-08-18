@@ -158,7 +158,7 @@ namespace Const{
     {
     public:
         enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
         Q_ENUM(VariableDataType)
 #else
         Q_ENUMS(VariableDataType)

@@ -103,11 +103,11 @@ private:
 class BandDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
-    Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight )
-    Q_PROPERTY(int bandIndex READ bandIndex WRITE setBandIndex DESIGNABLE false )
-    Q_PROPERTY(bool keepBottomSpace READ keepBottomSpace WRITE setKeepBottomSpace )
+    Q_PROPERTY(bool autoHeight READ autoHeight WRITE setAutoHeight)
+    Q_PROPERTY(int bandIndex READ bandIndex WRITE setBandIndex DESIGNABLE false)
+    Q_PROPERTY(bool keepBottomSpace READ keepBottomSpace WRITE setKeepBottomSpace)
     Q_PROPERTY(bool keepTopSpace READ keepTopSpace WRITE setKeepTopSpace)
-    Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false )
+    Q_PROPERTY(QString parentBand READ parentBandName WRITE setParentBandName DESIGNABLE false)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(BrushStyle backgroundBrushStyle READ backgroundBrushStyle WRITE setBackgroundBrushStyle)
     Q_PROPERTY(bool printIfEmpty READ printIfEmpty WRITE setPrintIfEmpty)
@@ -138,7 +138,7 @@ public:
     enum BandColumnsLayoutType{
         Horizontal, Vertical, VerticalUniform
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_ENUM(BandColumnsLayoutType)
 #else
     Q_ENUMS(BandColumnsLayoutType)
@@ -341,7 +341,7 @@ private:
 
 class DataBandDesignIntf : public BandDesignIntf{
     Q_OBJECT
-    Q_PROPERTY(QString datasource READ datasourceName WRITE setDataSourceName )
+    Q_PROPERTY(QString datasource READ datasourceName WRITE setDataSourceName)
 public:
     DataBandDesignIntf(BandsType bandType, QString xmlTypeName, QObject* owner = 0, QGraphicsItem* parent=0);
 };

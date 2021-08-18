@@ -86,7 +86,7 @@ private:
 class ReportRender: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QObject* datasourcesManager READ datasources())
+    Q_PROPERTY(QObject* datasourcesManager READ datasources)
 public:
     enum DataRenderMode {StartNewPageAsNeeded, NotStartNewPage, ForcedStartPage};
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
