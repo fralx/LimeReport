@@ -1383,7 +1383,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 
 ReportPages ReportEnginePrivate::appendPages(ReportPages s1, ReportPages s2, AppendType appendType)
 {
-    if (!s1.isEmpty()>0 && s1.size() == s2.size() && appendType == MixPages){
+    if (!s1.isEmpty() && s1.size() == s2.size() && appendType == MixPages){
         ReportPages result;
         ReportPages::Iterator s1It;
         ReportPages::Iterator s2It;
