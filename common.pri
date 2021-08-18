@@ -11,7 +11,7 @@ isEmpty(BINARY_RESULT_DIR) {
     CONFIG *= zint
 }
 
-!contains(CONGIG, no_svg){
+!contains(CONFIG, no_svg) {
     QT *= svg
     CONFIG *= svg
     DEFINES += HAVE_SVG
