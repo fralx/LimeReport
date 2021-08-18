@@ -171,6 +171,7 @@ qreal LimeReport::RectUnitValuePropItem::valueInUnits(qreal value) const
     case LimeReport::BaseDesignIntf::Inches:
         return value / (item->unitFactor() * 10);
     }
+    return 0;
 }
 
 qreal LimeReport::RectUnitValuePropItem::valueInReportUnits(qreal value) const
@@ -182,6 +183,7 @@ qreal LimeReport::RectUnitValuePropItem::valueInReportUnits(qreal value) const
     case LimeReport::BaseDesignIntf::Inches:
         return value * (item->unitFactor() * 10);
     }
+    return 0;
 }
 
 QString LimeReport::RectUnitValuePropItem::unitShortName() const
@@ -193,6 +195,7 @@ QString LimeReport::RectUnitValuePropItem::unitShortName() const
     case LimeReport::BaseDesignIntf::Inches:
         return QObject::tr("''");
     }
+    return QString();
 }
 
 QString LimeReport::RectUnitValuePropItem::displayValue() const
@@ -258,6 +261,7 @@ QRectF LimeReport::RectUnitPropItem::rectInUnits(QRectF rect) const
                       rect.width() / (item->unitFactor() * 10),
                       rect.height() / (item->unitFactor() * 10));
     }
+    return QRectF();
 }
 
 QString LimeReport::RectUnitPropItem::unitShortName() const
@@ -269,4 +273,5 @@ QString LimeReport::RectUnitPropItem::unitShortName() const
     case LimeReport::BaseDesignIntf::Inches:
         return QObject::tr("''");
     }
+    return QString();
 }

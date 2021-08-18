@@ -105,7 +105,7 @@ private:
 class ReportDesignWidget : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QObject* datasourcesManager READ dataManager())
+    Q_PROPERTY(QObject* datasourcesManager READ dataManager)
 public:
     enum ToolWindowType{
         WidgetBox = 1,

@@ -99,7 +99,7 @@ namespace LimeReport {
 
     class PageDesignIntf : public QGraphicsScene, public ObjectLoadingStateIntf{
         Q_OBJECT
-        Q_PROPERTY(QObject* pageItem READ pageItem())
+        Q_PROPERTY(QObject* pageItem READ pageItem)
     public:
         friend class PropertyChangedCommand;
         friend class InsertHLayoutCommand;

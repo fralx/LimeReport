@@ -40,11 +40,11 @@ class DataBand : public DataBandDesignIntf
 {
     Q_OBJECT
     Q_PROPERTY(bool keepSubdetailTogether READ tryToKeepTogether WRITE setTryToKeepTogether)
-    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )
+    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
     Q_PROPERTY(bool keepFooterTogether READ keepFooterTogether WRITE setKeepFooterTogether)
     Q_PROPERTY(bool sliceLastRow READ sliceLastRow WRITE setSliceLastRow)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
-    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE setColumnsFillDirection)
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
     Q_PROPERTY(bool startFromNewPage READ startFromNewPage WRITE setStartFromNewPage)
     Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE setAlternateBackgroundColor)
@@ -66,8 +66,8 @@ class DataHeaderBand : public BandDesignIntf
     Q_OBJECT
     Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
-    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)
-    Q_PROPERTY(bool printAlways READ printAlways() WRITE setPrintAlways())
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
     Q_PROPERTY(bool repeatOnEachRow READ repeatOnEachRow WRITE setRepeatOnEachRow)
 public:
     DataHeaderBand(QObject* owner=0, QGraphicsItem* parent=0);
@@ -88,7 +88,7 @@ class DataFooterBand : public BandDesignIntf
     Q_OBJECT
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
-    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection  READ columnsFillDirection WRITE setColumnsFillDirection)	
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE setColumnsFillDirection)
     Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
     DataFooterBand(QObject* owner=0, QGraphicsItem* parent=0);

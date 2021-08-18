@@ -43,7 +43,7 @@ class ItemDesignIntf : public BaseDesignIntf
     Q_PROPERTY(ItemAlign itemAlign READ itemAlign WRITE setItemAlign)
 public:
     enum LocationType{Band,Page};
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_ENUM(LocationType)
 #else
     Q_ENUMS(LocationType)

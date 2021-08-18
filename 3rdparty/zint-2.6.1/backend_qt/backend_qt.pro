@@ -24,7 +24,9 @@ unix{
 }
 
 INCLUDEPATH += $$PWD/../backend
-DEFINES +=  _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS ZINT_VERSION=\\\"$$VERSION\\\"
+
+DEFINES += ZINT_VERSION=\\\"$$ZINT_VERSION\\\"
+
 CONFIG(release, debug|release){
         TARGET = QtZint
 } else {
@@ -35,14 +37,6 @@ CONFIG(release, debug|release){
     SOURCES += $$PWD/../backend/png.c
     LIBS += -lpng
 }
-
-
-win32-msvc* {
-    DEFINES += _CRT_SECURE_NO_WARNINGS
-    #QMAKE_CFLAGS += /TP /wd4018 /wd4244 /wd4305
-    #QMAKE_CXXFLAGS += /TP /wd4018 /wd4244 /wd4305
-}
-
 
 INCLUDEPATH += zint zint/backend zint/backend_qt
 

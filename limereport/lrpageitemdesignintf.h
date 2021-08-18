@@ -82,7 +82,7 @@ public:
         Ledger = QPrinter::Ledger, Tabloid = QPrinter::Tabloid, Custom = QPrinter::Custom,
         NPageSize = Custom
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_ENUM(Orientation)
     Q_ENUM(PrintBehavior)
     Q_ENUM(PageSize)

@@ -147,6 +147,7 @@ QWidget *ReportDesignWidget::toolWindow(ReportDesignWidget::ToolWindowType windo
     case SignalSlotEditor:
         return dialogDesignerManager()->signalSlotEditor();
     }
+    return NULL;
 }
 
 #endif

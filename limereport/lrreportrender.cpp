@@ -1352,7 +1352,7 @@ void ReportRender::cutGroups()
     m_popupedExpression.clear();
     m_popupedValues.clear();
     //foreach(BandDesignIntf* groupBand,m_childBands.keys()){
-    for(BandDesignIntf* groupBand : m_childBands.keys()){
+    foreach(BandDesignIntf* groupBand, m_childBands.keys()){
         if (m_childBands.value(groupBand)->tryToKeepTogether()){
             foreach(BandDesignIntf* band, *m_childBands.value(groupBand)){
                 m_renderPageItem->removeBand(band);

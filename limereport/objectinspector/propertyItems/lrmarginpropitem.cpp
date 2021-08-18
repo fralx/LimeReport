@@ -42,6 +42,7 @@ QString MarginPropItem::displayValue() const
         return QString("%1 %2").arg((propertyValue().toDouble() * Const::mmFACTOR) / (item->unitFactor() * 10), 0, 'f', 2)
                                .arg(QObject::tr("''"));
     }
+    return QString();
 }
 
 QWidget *MarginPropItem::createProperyEditor(QWidget *parent) const
@@ -74,6 +75,7 @@ qreal MarginPropItem::valueInUnits(qreal value) const
     case LimeReport::BaseDesignIntf::Inches:
         return (value * Const::mmFACTOR) / (item->unitFactor() * 10);
     }
+    return 0;
 }
 
 qreal MarginPropItem::valueInReportUnits(qreal value) const
@@ -84,8 +86,8 @@ qreal MarginPropItem::valueInReportUnits(qreal value) const
         return value;
     case LimeReport::BaseDesignIntf::Inches:
         return (value * (item->unitFactor() * 10)) / Const::mmFACTOR;
-
     }
+    return 0;
 }
 
 QString MarginPropItem::unitShortName() const
@@ -97,6 +99,7 @@ QString MarginPropItem::unitShortName() const
     case LimeReport::BaseDesignIntf::Inches:
         return QObject::tr("''");
     }
+    return QString();
 }
 
 } // namespace LimeReport

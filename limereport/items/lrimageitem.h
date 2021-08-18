@@ -58,7 +58,7 @@ public:
         Hex     = 1,
         Base64  = 2
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_ENUM(Format)
 #else
     Q_ENUMS(Format)

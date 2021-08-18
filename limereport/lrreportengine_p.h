@@ -138,7 +138,7 @@ class ReportEnginePrivate : public QObject,
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(ReportEngine)
-    Q_PROPERTY(ACollectionProperty pages READ fakeCollectionReader())
+    Q_PROPERTY(ACollectionProperty pages READ fakeCollectionReader)
     Q_PROPERTY(QObject* datasourcesManager READ dataManager)
     Q_PROPERTY(QObject* scriptContext READ scriptContext)
     Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)

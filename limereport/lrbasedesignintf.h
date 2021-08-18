@@ -144,7 +144,7 @@ public:
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
 
     enum UnitType {Millimeters, Inches};
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_ENUM(BGMode)
     Q_ENUM(BrushStyle)
     Q_ENUM(ResizeFlags)
