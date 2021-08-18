@@ -23,13 +23,12 @@ CONFIG(debug, debug|release) {
 } else {
     LIBS += -llimereport
 }
-!contains(CONFIG, static_build){
-    contains(CONFIG,zint){
-        LIBS += -L$${DEST_LIBS}
-        CONFIG(debug, debug|release) {
-                LIBS += -lQtZintd
-        } else {
-                LIBS += -lQtZint
-        }
+
+!CONFIG(static_build) : CONFIG(zint) {
+    LIBS += -L$${DEST_LIBS}
+    CONFIG(debug, debug|release) {
+        LIBS += -lQtZintd
+    } else {
+        LIBS += -lQtZint
     }
 }

@@ -1,18 +1,19 @@
 include(../common.pri)
 QT += core gui
 
-contains(CONFIG,release) {
-	TARGET = LRDesigner
+CONFIG(release) {
+    TARGET = LRDesigner
 } else {
-	TARGET = LRDesignerd
+    TARGET = LRDesignerd
 }
+
 TEMPLATE = app
 
 HEADERS += \
-    designersettingmanager.h
+           designersettingmanager.h
 
 SOURCES += main.cpp \
-    designersettingmanager.cpp
+           designersettingmanager.cpp
 
 INCLUDEPATH += $$PWD/../include
 DEPENDPATH  += $$PWD/../include
@@ -51,17 +52,15 @@ win32 {
 
 LIBS += -L$${DEST_LIBS}
 CONFIG(debug, debug|release) {
-        LIBS += -llimereportd
+    LIBS += -llimereportd
 } else {
-        LIBS += -llimereport
+    LIBS += -llimereport
 }
 
-!contains(CONFIG, static_build){
-    contains(CONFIG,zint){
-        CONFIG(debug, debug|release) {
-            LIBS += -L$${DEST_LIBS} -lQtZintd
-        } else {
-            LIBS += -L$${DEST_LIBS} -lQtZint
-        }
+!CONFIG(static_build) : CONFIG(zint) {
+    CONFIG(debug, debug|release) {
+        LIBS += -L$${DEST_LIBS} -lQtZintd
+    } else {
+        LIBS += -L$${DEST_LIBS} -lQtZint
     }
 }

@@ -1,8 +1,9 @@
 include(../common.pri)
-DEFINES+=HAVE_REPORT_DESIGNER
 
-contains(CONFIG,dialogdesigner){
-	include($$REPORT_PATH/dialogdesigner/dialogdesigner.pri)
+DEFINES += HAVE_REPORT_DESIGNER
+
+CONFIG(dialogdesigner) {
+    include($$REPORT_PATH/dialogdesigner/dialogdesigner.pri)
 }
 
 INCLUDEPATH += $$REPORT_PATH/objectinspector \
@@ -51,7 +52,7 @@ SOURCES += \
     $$REPORT_PATH/lrreportdesignwidget.cpp \
     $$REPORT_PATH/lrreportdesignwindow.cpp
 
-contains(CONFIG, svg){
+CONFIG(svg) {
     SOURCES += \
         $$REPORT_PATH/objectinspector/editors/lrsvgeditor.cpp \
         $$REPORT_PATH/objectinspector/propertyItems/lrsvgpropitem.cpp
@@ -100,7 +101,7 @@ HEADERS += \
     $$REPORT_PATH/lrreportdesignwidget.h \
     $$REPORT_PATH/lrreportdesignwindow.h
 
-contains(CONFIG, svg){
+contains(CONFIG, svg) {
     HEADERS += \
         $$REPORT_PATH/objectinspector/editors/lrsvgeditor.h \
         $$REPORT_PATH/objectinspector/propertyItems/lrsvgpropitem.h
