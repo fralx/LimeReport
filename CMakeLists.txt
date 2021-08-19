@@ -63,7 +63,6 @@ ${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.cpp
 ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.cpp
 ${PROJECT_NAME}/items/lrabstractlayout.cpp
 ${PROJECT_NAME}/items/lralignpropitem.cpp
-${PROJECT_NAME}/items/lrbarcodeitem.cpp
 ${PROJECT_NAME}/items/lrchartitem.cpp
 ${PROJECT_NAME}/items/lrchartitemeditor.cpp
 ${PROJECT_NAME}/items/lrhorizontallayout.cpp
@@ -84,7 +83,6 @@ ${PROJECT_NAME}/lrbasedesignintf.cpp
 ${PROJECT_NAME}/lrcolorindicator.cpp
 ${PROJECT_NAME}/lrdatadesignintf.cpp
 ${PROJECT_NAME}/lrdatasourcemanager.cpp
-${PROJECT_NAME}/lrfactoryinitializer.cpp
 ${PROJECT_NAME}/lrglobal.cpp
 ${PROJECT_NAME}/lrgraphicsviewzoom.cpp
 ${PROJECT_NAME}/lrgroupfunctions.cpp
@@ -174,7 +172,6 @@ ${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.h
 ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.h
 ${PROJECT_NAME}/items/lrabstractlayout.h
 ${PROJECT_NAME}/items/lralignpropitem.h
-${PROJECT_NAME}/items/lrbarcodeitem.h
 ${PROJECT_NAME}/items/lrchartitem.h
 ${PROJECT_NAME}/items/lrchartitemeditor.h
 ${PROJECT_NAME}/items/lreditableimageitemintf.h
@@ -201,7 +198,6 @@ ${PROJECT_NAME}/lrdesignelementsfactory.h
 ${PROJECT_NAME}/lrdesignerplugininterface.h
 ${PROJECT_NAME}/lrexporterintf.h
 ${PROJECT_NAME}/lrexportersfactory.h
-${PROJECT_NAME}/lrfactoryinitializer.h
 ${PROJECT_NAME}/lrgraphicsviewzoom.h
 ${PROJECT_NAME}/lrgroupfunctions.h
 ${PROJECT_NAME}/lritemdesignintf.h
@@ -266,50 +262,6 @@ ${PROJECT_NAME}/translationeditor/languageselectdialog.h
 ${PROJECT_NAME}/translationeditor/translationeditor.h
 
 
-3rdparty/zint-2.6.1/backend/2of5.c
-3rdparty/zint-2.6.1/backend/auspost.c
-3rdparty/zint-2.6.1/backend/aztec.c
-3rdparty/zint-2.6.1/backend/bmp.c
-3rdparty/zint-2.6.1/backend/codablock.c
-3rdparty/zint-2.6.1/backend/code.c
-3rdparty/zint-2.6.1/backend/code1.c
-3rdparty/zint-2.6.1/backend/code128.c
-3rdparty/zint-2.6.1/backend/code16k.c
-3rdparty/zint-2.6.1/backend/code49.c
-3rdparty/zint-2.6.1/backend/common.c
-3rdparty/zint-2.6.1/backend/composite.c
-3rdparty/zint-2.6.1/backend/dllversion.c
-3rdparty/zint-2.6.1/backend/dmatrix.c
-3rdparty/zint-2.6.1/backend/dotcode.c
-3rdparty/zint-2.6.1/backend/eci.c
-3rdparty/zint-2.6.1/backend/emf.c
-3rdparty/zint-2.6.1/backend/gif.c
-3rdparty/zint-2.6.1/backend/gridmtx.c
-3rdparty/zint-2.6.1/backend/gs1.c
-3rdparty/zint-2.6.1/backend/hanxin.c
-3rdparty/zint-2.6.1/backend/imail.c
-3rdparty/zint-2.6.1/backend/large.c
-3rdparty/zint-2.6.1/backend/library.c
-3rdparty/zint-2.6.1/backend/libzint.rc
-3rdparty/zint-2.6.1/backend/maxicode.c
-3rdparty/zint-2.6.1/backend/medical.c
-3rdparty/zint-2.6.1/backend/pcx.c
-3rdparty/zint-2.6.1/backend/pdf417.c
-3rdparty/zint-2.6.1/backend/plessey.c
-3rdparty/zint-2.6.1/backend/png.c
-3rdparty/zint-2.6.1/backend/postal.c
-3rdparty/zint-2.6.1/backend/ps.c
-3rdparty/zint-2.6.1/backend/qr.c
-3rdparty/zint-2.6.1/backend/raster.c
-3rdparty/zint-2.6.1/backend/reedsol.c
-3rdparty/zint-2.6.1/backend/render.c
-3rdparty/zint-2.6.1/backend/rss.c
-3rdparty/zint-2.6.1/backend/svg.c
-3rdparty/zint-2.6.1/backend/telepen.c
-3rdparty/zint-2.6.1/backend/tif.c
-3rdparty/zint-2.6.1/backend/upcean.c
-3rdparty/zint-2.6.1/backend_qt/qzint.cpp
-
 
 ${PROJECT_NAME}/databrowser/lrconnectiondialog.ui
 ${PROJECT_NAME}/databrowser/lrdatabrowser.ui
@@ -339,6 +291,16 @@ ${PROJECT_NAME}/translationeditor/translationeditor.ui
 ./${PROJECT_NAME}/translationeditor/translationeditor.qrc
 )
 
+if (ENABLE_ZINT)
+    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/items/lrbarcodeitem.cpp)
+    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/items/lrbarcodeitem.h)
+endif(ENABLE_ZINT)
+
+if (LIMEREPORT_STATIC)
+    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/lrfactoryinitializer.cpp)
+    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/lrfactoryinitializer.h)
+endif(LIMEREPORT_STATIC)
+
 set(EXTRA_FILES
    ${PROJECT_NAME}/lrglobal.h
    ${PROJECT_NAME}/lrdatasourcemanagerintf.h
@@ -350,6 +312,53 @@ set(EXTRA_FILES
    ${PROJECT_NAME}/lrreportdesignwindowintrerface.h
    ${PROJECT_NAME}/lrpreparedpagesintf.h
 )
+
+set(ZINT_FILES
+    3rdparty/zint-2.6.1/backend/2of5.c
+    3rdparty/zint-2.6.1/backend/auspost.c
+    3rdparty/zint-2.6.1/backend/aztec.c
+    3rdparty/zint-2.6.1/backend/bmp.c
+    3rdparty/zint-2.6.1/backend/codablock.c
+    3rdparty/zint-2.6.1/backend/code.c
+    3rdparty/zint-2.6.1/backend/code1.c
+    3rdparty/zint-2.6.1/backend/code128.c
+    3rdparty/zint-2.6.1/backend/code16k.c
+    3rdparty/zint-2.6.1/backend/code49.c
+    3rdparty/zint-2.6.1/backend/common.c
+    3rdparty/zint-2.6.1/backend/composite.c
+    3rdparty/zint-2.6.1/backend/dllversion.c
+    3rdparty/zint-2.6.1/backend/dmatrix.c
+    3rdparty/zint-2.6.1/backend/dotcode.c
+    3rdparty/zint-2.6.1/backend/eci.c
+    3rdparty/zint-2.6.1/backend/emf.c
+    3rdparty/zint-2.6.1/backend/gif.c
+    3rdparty/zint-2.6.1/backend/gridmtx.c
+    3rdparty/zint-2.6.1/backend/gs1.c
+    3rdparty/zint-2.6.1/backend/hanxin.c
+    3rdparty/zint-2.6.1/backend/imail.c
+    3rdparty/zint-2.6.1/backend/large.c
+    3rdparty/zint-2.6.1/backend/library.c
+    3rdparty/zint-2.6.1/backend/libzint.rc
+    3rdparty/zint-2.6.1/backend/maxicode.c
+    3rdparty/zint-2.6.1/backend/medical.c
+    3rdparty/zint-2.6.1/backend/pcx.c
+    3rdparty/zint-2.6.1/backend/pdf417.c
+    3rdparty/zint-2.6.1/backend/plessey.c
+    3rdparty/zint-2.6.1/backend/png.c
+    3rdparty/zint-2.6.1/backend/postal.c
+    3rdparty/zint-2.6.1/backend/ps.c
+    3rdparty/zint-2.6.1/backend/qr.c
+    3rdparty/zint-2.6.1/backend/raster.c
+    3rdparty/zint-2.6.1/backend/reedsol.c
+    3rdparty/zint-2.6.1/backend/render.c
+    3rdparty/zint-2.6.1/backend/rss.c
+    3rdparty/zint-2.6.1/backend/svg.c
+    3rdparty/zint-2.6.1/backend/telepen.c
+    3rdparty/zint-2.6.1/backend/tif.c
+    3rdparty/zint-2.6.1/backend/upcean.c
+    3rdparty/zint-2.6.1/backend_qt/qzint.cpp
+    )
+
 
 
 set(LIMEREPORT_VERSION_MAJOR 1)
@@ -366,6 +375,9 @@ set(GLOBAL_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/config.h
     )
 
+if(ENABLE_ZINT)
+    add_library(QZint STATIC  ${ZINT_FILES})
+endif(ENABLE_ZINT)
 
 if (LIMEREPORT_STATIC)
 	message(STATUS "STATIC LIBRARY")
@@ -373,10 +385,23 @@ if (LIMEREPORT_STATIC)
     target_compile_definitions( ${PROJECT_NAME} PUBLIC -DHAVE_STATIC_BUILD)
 else()
     add_library(${PROJECT_NAME} SHARED  ${EXTRA_FILES} ${LIMEREPORT_SOURCES})
+    target_compile_definitions( ${PROJECT_NAME} PUBLIC -DLIMEREPORT_EXPORTS)
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DCMAKE_CONFIG)
 target_link_libraries( ${PROJECT_NAME} PRIVATE PNG::PNG)
+if(ENABLE_ZINT)
+    target_link_libraries( ${PROJECT_NAME} PRIVATE QZint)
+    target_include_directories( ${PROJECT_NAME} PRIVATE
+            3rdparty/zint-2.6.1/backend_qt
+            3rdparty/zint-2.6.1/backend)
+endif(ENABLE_ZINT)
+
+if (LIMEREPORT_STATIC AND ENABLE_ZINT)
+    target_compile_definitions( ${PROJECT_NAME} PRIVATE -DQZINT_STATIC_BUILD)
+endif(LIMEREPORT_STATIC AND ENABLE_ZINT)
+
+
 target_link_libraries( ${PROJECT_NAME} PUBLIC 
 	Qt${QT_VERSION_MAJOR}::Core 
 	Qt${QT_VERSION_MAJOR}::Widgets 
@@ -399,8 +424,6 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/objectinspector 
 	limereport/scriptbrowser 
 	limereport/serializators 
-	3rdparty/zint-2.6.1/backend_qt 
-	3rdparty/zint-2.6.1/backend 
 	limereport/scripteditor )
 	
 install(TARGETS
