@@ -247,7 +247,7 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
         m_keywords.insert(keywords[i]);
     }
 
-    if ( isColorDark(QPalette().background().color())){
+    if ( isColorDark(QPalette().window().color())){
         m_formats[NumberFormat].setForeground(Qt::darkBlue);
         m_formats[StringFormat].setForeground(Qt::darkGreen);
         m_formats[KeywordFormat].setForeground(Qt::darkYellow);

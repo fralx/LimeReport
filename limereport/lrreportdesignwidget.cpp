@@ -59,10 +59,9 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
     m_mainWindow(mainWindow), m_verticalGridStep(10), m_horizontalGridStep(10), m_useGrid(false),
     m_dialogChanged(false), m_theme("Default"), m_settings(settings), m_defaultUnits(BaseDesignIntf::Millimeters)
 {
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     m_tabWidget = new LimeReportTabWidget(this);
-#endif
-#ifdef HAVE_QT5
+#else
     m_tabWidget = new QTabWidget(this);
 #endif
     m_tabWidget->setTabPosition(QTabWidget::South);
@@ -1132,10 +1131,10 @@ void Ruler::setPage(PageItemDesignIntf *page)
 
 void Ruler::paintEvent(QPaintEvent *event){
     QPainter painter(this);
-    painter.setBrush(palette().background());
+    painter.setBrush(palette().window());
     painter.setPen(Qt::NoPen);
     painter.drawRect(event->rect());
-//    painter.setPen(palette().foreground().color());
+//    painter.setPen(palette().windowText().color());
 
     if (m_page){
         qreal rulerWidth = m_page->geometry().width() / m_page->unitFactor();
@@ -1154,13 +1153,13 @@ void Ruler::paintEvent(QPaintEvent *event){
         case Horizontal:
             painter.setPen(Qt::NoPen);
 
-            if (isColorDark(palette().background().color()))
+            if (isColorDark(palette().window().color()))
                 painter.setBrush(QColor("#64893d"));
             else
                 painter.setBrush(QColor("#b5da91"));
 
             drawItemWithChildren(&painter, m_page);
-            painter.setPen(palette().foreground().color());
+            painter.setPen(palette().windowText().color());
 
             for (int i = 0; i < rulerWidth / 10; ++i){
                 int hs10 = view->mapFromScene(QPointF(m_page->geometry().topLeft().x() + i * 10 * m_page->unitFactor(), 0)).x();
@@ -1173,24 +1172,24 @@ void Ruler::paintEvent(QPaintEvent *event){
                     painter.drawLine(hs10, 15, hs10, 20);
                     painter.drawLine(hs5, 10, hs5, 20);
                     if ( i > 0)
-                        painter.drawText(QPoint(hs10 - (painter.fontMetrics().width(QString::number(i))/2), 12),
+                        painter.drawText(QPoint(hs10 - (painter.fontMetrics().boundingRect(QString::number(i)).width()/2), 12),
                                          QString::number(i));
                 }
             }
-            painter.setPen(palette().foreground().color());
+            painter.setPen(palette().windowText().color());
             painter.drawLine(m_mousePos.x() - (hStartPos > 0 ? hStartPos : 0) , 0,
                              m_mousePos.x() - (hStartPos > 0 ? hStartPos : 0) , 20);
             break;
         case Vertical:
             painter.setPen(Qt::NoPen);
 
-            if (isColorDark(palette().background().color()))
+            if (isColorDark(palette().window().color()))
                 painter.setBrush(QColor("#64893d"));
             else
                 painter.setBrush(QColor("#b5da91"));
 
             drawItemWithChildren(&painter, m_page);
-            painter.setPen(palette().foreground().color());
+            painter.setPen(palette().windowText().color());
             for (int i = 0; i < rulerHeight / 10; ++i){
                 int vs10 = view->mapFromScene(QPointF(0, m_page->geometry().topLeft().y()+i * 10 * m_page->unitFactor())).y();
                 int vs5  = view->mapFromScene(QPointF(0, m_page->geometry().topLeft().y()+i * 10 * m_page->unitFactor() + 5 * m_page->unitFactor())).y();
@@ -1201,12 +1200,12 @@ void Ruler::paintEvent(QPaintEvent *event){
                     }
                     painter.drawLine(15, vs10, 20, vs10);
                     if ( i > 0 )
-                        painter.drawText(QPoint( (15 - painter.fontMetrics().width(QString::number(i))) / 2 ,
+                        painter.drawText(QPoint( (15 - painter.fontMetrics().boundingRect(QString::number(i)).width()) / 2 ,
                                                  vs10 + (painter.fontMetrics().height()/2)), QString::number(i));
                     painter.drawLine(10, vs5, 20, vs5);
                 }
             }
-            painter.setPen(palette().foreground().color());
+            painter.setPen(palette().windowText().color());
             painter.drawLine(0, m_mousePos.y() - (vStartPos > 0 ? vStartPos : 0),
                              20, m_mousePos.y() - (vStartPos > 0 ? vStartPos : 0));
             break;

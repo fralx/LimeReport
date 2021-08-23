@@ -104,7 +104,11 @@ namespace Const{
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);
     QString replaceHTMLSymbols(const QString &value);
+    #if QT_VERSION < 0x060000
     QVector<QString> normalizeCaptures(const QRegExp &reg);
+#else
+    QVector<QString> normalizeCaptures(const QRegularExpression &reg);
+#endif
     bool isColorDark(QColor color);
 
     enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
@@ -148,7 +152,7 @@ namespace Const{
         virtual ~IPainterProxy();
     };
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+#if QT_VERSION < 0x050000
     typedef QStyleOptionViewItemV4 StyleOptionViewItem;
 #else
     typedef QStyleOptionViewItem StyleOptionViewItem;

@@ -266,7 +266,7 @@ void BandDesignIntf::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         QFontMetrics fontMetrics(font);
 
         QVector<QRectF> bandNameRects;
-        bandNameRects.push_back(QRectF(8,8,fontMetrics.width(" "+bandText+" "),fontMetrics.height()));
+        bandNameRects.push_back(QRectF(8,8,fontMetrics.boundingRect(" "+bandText+" ").width(),fontMetrics.height()));
         //bandNameRects.push_back(QRectF(width()-fontMetrics.width(" "+bandText+" "),2,fontMetrics.width(" "+bandText+" "),fontMetrics.height()));
         //bandNameRects.push_back(QRectF(2,height()-fontMetrics.height(),fontMetrics.width(" "+bandText+" "),fontMetrics.height()));
         //bandNameRects.push_back(QRectF(width()-fontMetrics.width(" "+bandText+" "),height()-fontMetrics.height(),fontMetrics.width(" "+bandText+" "),fontMetrics.height()));
@@ -487,7 +487,7 @@ QList<BandDesignIntf *> BandDesignIntf::childrenByType(BandDesignIntf::BandsType
     foreach(BandDesignIntf* item,childBands()){
         if (item->bandType()==type) resList<<item;
     }
-    qSort(resList.begin(),resList.end(),bandIndexLessThen);
+    std::sort(resList.begin(),resList.end(),bandIndexLessThen);
     return resList;
 }
 
@@ -1223,7 +1223,7 @@ void BandNameLabel::updateLabel(const QString& bandName)
     m_rect = QRectF(
                 m_band->pos().x()+10,
                 m_band->pos().y()-(fontMetrics.height()+10),
-                fontMetrics.width(bandName)+20,fontMetrics.height()+10
+                fontMetrics.boundingRect(bandName).width()+20,fontMetrics.height()+10
                 );
     update();
 }

@@ -233,7 +233,7 @@ int PageItemDesignIntf::calcBandIndex(BandDesignIntf::BandsType bandType, BandDe
     groupFooterIgnoredBands << BandDesignIntf::DataFooter << BandDesignIntf::GroupHeader;
 
     int bandIndex = -1;
-    qSort(m_bands.begin(), m_bands.end(), bandSortBandLessThenByIndex);
+    std::sort(m_bands.begin(), m_bands.end(), bandSortBandLessThenByIndex);
     if (bandType != BandDesignIntf::Data){
         foreach(BandDesignIntf* band,m_bands){
             if ((band->bandType() == BandDesignIntf::GroupHeader) && ( band->bandType() > bandType)) break;
@@ -547,7 +547,7 @@ void PageItemDesignIntf::relocateBands()
 
     QVector<qreal> posByColumn;
 
-    qSort(m_bands.begin(), m_bands.end(), bandSortBandLessThenByIndex);
+    std::sort(m_bands.begin(), m_bands.end(), bandSortBandLessThenByIndex);
 
     int bandIndex = 0;
     if (!(itemMode() & DesignMode)){
@@ -623,7 +623,7 @@ int PageItemDesignIntf::dataBandCount()
 BandDesignIntf *PageItemDesignIntf::dataBandAt(int index)
 {
     int count=0;
-    qSort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
+    std::sort(m_bands.begin(),m_bands.end(),bandSortBandLessThenByIndex);
     foreach(BandDesignIntf* band,m_bands){
         if (band->bandType()==BandDesignIntf::Data){
             if(count==index) return band;
@@ -829,7 +829,7 @@ void PageItemDesignIntf::swapBands(BandDesignIntf* band, BandDesignIntf* bandToS
 
     firstMoveBand->changeBandIndex(firstIndex, true);
     moveIndex = firstIndex;
-    qSort(bandToMove.begin(), bandToMove.end(), bandIndexLessThen);
+    std::sort(bandToMove.begin(), bandToMove.end(), bandIndexLessThen);
 
     foreach(BandDesignIntf* curBand, bandToMove){
        curBand->changeBandIndex(moveIndex,true);
@@ -852,7 +852,7 @@ QList<BandDesignIntf*> PageItemDesignIntf::createBandGroup(int beginIndex, int e
         if ( curBand->bandIndex() >= beginIndex && curBand->bandIndex() <= endIndex)
             result.append(curBand);
     }
-    qSort(result.begin(), result.end(), bandIndexLessThen);
+    std::sort(result.begin(), result.end(), bandIndexLessThen);
     return result;
 }
 

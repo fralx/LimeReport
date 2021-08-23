@@ -32,7 +32,11 @@
 #include <QPrinterInfo>
 #include <QMessageBox>
 #include <QApplication>
+#if QT_VERSION < 0x060000
 #include <QDesktopWidget>
+#else
+#include <QScreen>
+#endif
 #include <QFileSystemWatcher>
 #include <QPluginLoader>
 #include <QFileDialog>
@@ -272,10 +276,9 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
             m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
-#endif
-#ifdef HAVE_QT5
+#else
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
         m_printer.data()->setPrinterName(pi.defaultPrinterName());
 #else
@@ -394,10 +397,9 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
             m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
-#endif
-#ifdef HAVE_QT5
+#else
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
 #else

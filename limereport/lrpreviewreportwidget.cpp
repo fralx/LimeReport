@@ -143,7 +143,11 @@ void PreviewReportWidget::initPreview()
 {
     if (ui->graphicsView->scene()!=d_ptr->m_previewPage)
         ui->graphicsView->setScene(d_ptr->m_previewPage);
+    #if QT_VERSION < 0x060000
     ui->graphicsView->resetMatrix();
+#else
+    ui->graphicsView->resetTransform();
+#endif
     ui->graphicsView->centerOn(0, 0);
     ui->graphicsView->scene()->setBackgroundBrush(QColor(m_previewPageBackgroundColor));
     setScalePercent(d_ptr->m_scalePercent);
@@ -237,10 +241,9 @@ void PreviewReportWidget::print()
     QPrinter lp(QPrinter::HighResolution);
 
     if (!pi.defaultPrinter().isNull()){
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
             lp.setPrinterName(pi.defaultPrinter().printerName());
-#endif
-#ifdef HAVE_QT5
+#else
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
             lp.setPrinterName(pi.defaultPrinterName());
 #else
@@ -300,7 +303,11 @@ void PreviewReportWidget::saveToFile()
 void PreviewReportWidget::setScalePercent(int percent)
 {
     m_scaleChanging = true;
+#if QT_VERSION < 0x060000
     ui->graphicsView->resetMatrix();
+#else
+    ui->graphicsView->resetTransform();
+#endif
     d_ptr->m_scalePercent = percent;
     qreal scaleSize = percent/100.0;
     ui->graphicsView->scale(scaleSize, scaleSize);
@@ -462,7 +469,11 @@ void PreviewReportWidget::reportEngineDestroyed(QObject *object)
 
 void PreviewReportWidget::slotZoomed(double )
 {
+#if QT_VERSION < 0x060000
     d_ptr->m_scalePercent = ui->graphicsView->matrix().m11()*100;
+#else
+    d_ptr->m_scalePercent = ui->graphicsView->transform().m11()*100;
+#endif
     emit scalePercentChanged(d_ptr->m_scalePercent);
 }
 

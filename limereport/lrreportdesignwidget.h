@@ -42,7 +42,7 @@
 #include "lrreportengine_p.h"
 #include "lrgraphicsviewzoom.h"
 
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
 QT_BEGIN_NAMESPACE
 class LimeReportTabWidget: public QTabWidget{
     Q_OBJECT
@@ -259,10 +259,9 @@ private:
     DialogDesignerManager* m_dialogDesignerManager;
 #endif
     QMainWindow *m_mainWindow;
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     LimeReportTabWidget* m_tabWidget;
-#endif
-#ifdef HAVE_QT5
+#else
     QTabWidget* m_tabWidget;
 #endif
     GraphicsViewZoomer* m_zoomer;

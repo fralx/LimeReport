@@ -167,8 +167,12 @@ void ObjectInspectorTreeView::commitActiveEditorData(){
 bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-    if (sourceParent.isValid()) return true;
+    if (sourceParent.isValid()) return true;    
+#if QT_VERSION < 0x060000
     return sourceModel()->data(index).toString().contains(filterRegExp());
+#else
+    return sourceModel()->data(index).toString().contains(filterRegularExpression());
+#endif
 }
 
 ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
@@ -209,7 +213,8 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     h->addWidget(settingButton);
     l->addLayout(h);
     l->addWidget(m_objectInspectorView);
-    l->setMargin(Const::DOCKWIDGET_MARGINS);
+    int margin = Const::DOCKWIDGET_MARGINS;
+    l->setContentsMargins(margin, margin, margin, margin);
     l->setSpacing(2);
     this->setLayout(l);
 }

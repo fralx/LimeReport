@@ -106,7 +106,7 @@ void SettingDialog::setScritpTabIndention(int size)
 
 void SettingDialog::setTheme(const QString &theme)
 {
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(theme));
 #else
     ui->cbTheme->setCurrentText(theme);
@@ -128,7 +128,7 @@ void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLo
         if (language != currentLanguage)
             ui->designerLanguage->addItem(QLocale::languageToString(language));
     }
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->designerLanguage->setCurrentIndex(ui->designerLanguage->findText(QLocale::languageToString(currentLanguage)));
 #else
     ui->designerLanguage->setCurrentText(QLocale::languageToString(currentLanguage));
@@ -139,7 +139,7 @@ void SettingDialog::setDesignerThemes(QList<QString> themes, const QString &curr
 {
     ui->cbTheme->clear();
     ui->cbTheme->addItems(themes);
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(currentTheme));
 #else
     ui->cbTheme->setCurrentText(currentTheme);
@@ -150,7 +150,7 @@ void SettingDialog::setDesignerUnites(QList<QString> unitTypes, const QString cu
 {
     ui->reportUnits->clear();
     ui->reportUnits->addItems(unitTypes);
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(currentUnitType));
 #else
     ui->reportUnits->setCurrentText(currentUnitType);

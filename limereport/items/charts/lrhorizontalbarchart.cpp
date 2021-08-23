@@ -36,7 +36,7 @@ void HorizontalBarChart::paintHorizontalBars(QPainter *painter, QRectF barsRect)
     delta = genNextValue(delta);
 
     qreal vStep = (barsRect.height()-painter->fontMetrics().height()) / valuesCount() / seriesCount();
-    qreal hStep = (barsRect.width()-painter->fontMetrics().width(QString::number(maxValue()))) / delta;
+    qreal hStep = (barsRect.width()-painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / delta;
 
     if (!m_chartItem->series().isEmpty() && (m_chartItem->itemMode() != DesignMode)){
         int curSeries = 0;

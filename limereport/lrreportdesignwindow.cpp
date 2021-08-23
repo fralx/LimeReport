@@ -39,7 +39,11 @@
 #include <QMenuBar>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#if QT_VERSION < 0x060000
 #include <QDesktopWidget>
+#else
+#include <QScreen>
+#endif
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -69,7 +73,7 @@ void ReportDesignWindow::createProgressBar()
 {
     m_progressWidget = new QWidget(m_statusBar);
     QHBoxLayout* progressLayout = new QHBoxLayout();
-    progressLayout->setMargin(0);
+    progressLayout->setContentsMargins(0, 0, 0, 0);
     m_progressLabel = new QLabel(tr("Rendered %1 pages").arg(0));
     progressLayout->addWidget(m_progressLabel);
     m_progressBar = new QProgressBar(m_statusBar);
@@ -149,7 +153,7 @@ void ReportDesignWindow::createActions()
 {
     m_newReportAction = new QAction(tr("New Report"),this);
     m_newReportAction->setIcon(QIcon(":/report/images/newReport"));
-    m_newReportAction->setShortcut(QKeySequence(Qt::CTRL+Qt::Key_N));
+    m_newReportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
     connect(m_newReportAction,SIGNAL(triggered()),this,SLOT(slotNewReport()));
 
     m_newPageAction = new QAction(tr("New Report Page"),this);
@@ -171,28 +175,28 @@ void ReportDesignWindow::createActions()
     m_undoAction = new QAction(tr("Undo"),this);
     m_undoAction->setIcon(QIcon(":/report/images/undo"));
     m_undoAction->setEnabled(false);
-    m_undoAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
+    m_undoAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     connect(m_undoAction,SIGNAL(triggered()),this,SLOT(slotUndo()));
 
     m_redoAction = new QAction(tr("Redo"),this);
     m_redoAction->setIcon(QIcon(":/report/images/redo"));
     m_redoAction->setEnabled(false);
-    m_redoAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z));
+    m_redoAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
     connect(m_redoAction,SIGNAL(triggered()),this,SLOT(slotRedo()));
 
     m_copyAction = new QAction(tr("Copy"),this);
     m_copyAction->setIcon(QIcon(":/report/images/copy"));
-    m_copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
+    m_copyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_C));
     connect(m_copyAction,SIGNAL(triggered()),this,SLOT(slotCopy()));
 
     m_pasteAction = new QAction(tr("Paste"),this);
     m_pasteAction->setIcon(QIcon(":/report/images/paste"));
-    m_pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
+    m_pasteAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_V));
     connect(m_pasteAction,SIGNAL(triggered()),this,SLOT(slotPaste()));
 
     m_cutAction = new QAction(tr("Cut"),this);
     m_cutAction->setIcon(QIcon(":/report/images/cut"));
-    m_cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    m_cutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_X));
     connect(m_cutAction,SIGNAL(triggered()),this,SLOT(slotCut()));
 
     m_settingsAction = new QAction(tr("Settings"),this);
@@ -202,13 +206,13 @@ void ReportDesignWindow::createActions()
     m_useGridAction = new QAction(tr("Use grid"),this);
     m_useGridAction->setIcon(QIcon(":/report/images/grid"));
     m_useGridAction->setCheckable(true);
-    m_useGridAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_G));
+    m_useGridAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_G));
     connect(m_useGridAction,SIGNAL(toggled(bool)),this,SLOT(slotUseGrid(bool)));
 
     m_useMagnetAction = new QAction(tr("Use magnet"),this);
     m_useMagnetAction->setIcon(QIcon(":/report/images/magnet"));
     m_useMagnetAction->setCheckable(true);
-    m_useMagnetAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+    m_useMagnetAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_M));
     connect(m_useMagnetAction,SIGNAL(toggled(bool)),this,SLOT(slotUseMagnet(bool)));
 
     
@@ -219,17 +223,17 @@ void ReportDesignWindow::createActions()
 
     m_saveReportAction = new QAction(tr("Save Report"),this);
     m_saveReportAction->setIcon(QIcon(":/report/images/save"));
-    m_saveReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    m_saveReportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     connect(m_saveReportAction,SIGNAL(triggered()),this,SLOT(slotSaveReport()));
 
     m_saveReportAsAction = new QAction(tr("Save Report As"),this);
     m_saveReportAsAction->setIcon(QIcon(":/report/images/saveas"));
-    m_saveReportAsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_S));
+    m_saveReportAsAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
     connect(m_saveReportAsAction,SIGNAL(triggered()),this,SLOT(slotSaveReportAs()));
 
     m_loadReportAction = new QAction(tr("Load Report"),this);
     m_loadReportAction->setIcon(QIcon(":/report/images/folder"));
-    m_loadReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
+    m_loadReportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     connect(m_loadReportAction,SIGNAL(triggered()),this,SLOT(slotLoadReport()));
 
     m_deleteItemAction = new QAction(tr("Delete item"),this);
@@ -247,7 +251,7 @@ void ReportDesignWindow::createActions()
 
     m_previewReportAction = new QAction(tr("Render Report"),this);
     m_previewReportAction->setIcon(QIcon(":/report/images/render"));
-    m_previewReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_P));
+    m_previewReportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
     connect(m_previewReportAction,SIGNAL(triggered()),this,SLOT(slotPreviewReport()));
 
     m_testAction = new QAction("test",this);
@@ -274,13 +278,13 @@ void ReportDesignWindow::createActions()
     m_hideLeftPanel = new QAction(tr("Hide left panel | Alt+L"),this);
     m_hideLeftPanel->setCheckable(true);
     m_hideLeftPanel->setIcon(QIcon(":/report/images/hideLeftPanel"));
-    m_hideLeftPanel->setShortcut(QKeySequence(Qt::ALT + Qt::Key_L));
+    m_hideLeftPanel->setShortcut(QKeySequence(Qt::ALT | Qt::Key_L));
     connect(m_hideLeftPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideLeftPanel(bool)));
 
     m_hideRightPanel = new QAction(tr("Hide right panel | Alt+R"),this);
     m_hideRightPanel->setCheckable(true);
     m_hideRightPanel->setIcon(QIcon(":/report/images/hideRightPanel"));
-    m_hideRightPanel->setShortcut(QKeySequence(Qt::ALT + Qt::Key_R));
+    m_hideRightPanel->setShortcut(QKeySequence(Qt::ALT | Qt::Key_R));
     connect(m_hideRightPanel,SIGNAL(toggled(bool)), this, SLOT(slotHideRightPanel(bool)));
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     m_deleteDialogAction = new QAction(tr("Delete dialog"), this);
@@ -294,19 +298,19 @@ void ReportDesignWindow::createActions()
 
     m_lockSelectedItemsAction = new QAction(tr("Lock selected items"), this);
     m_lockSelectedItemsAction->setIcon(QIcon(":/report/images/lock"));
-    m_lockSelectedItemsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    m_lockSelectedItemsAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
     connect(m_lockSelectedItemsAction, SIGNAL(triggered()),
             this, SLOT(slotLockSelectedItems()));
 
     m_unlockSelectedItemsAction = new QAction(tr("Unlock selected items"), this);
     m_unlockSelectedItemsAction->setIcon(QIcon(":/report/images/unlock"));
-    m_unlockSelectedItemsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_L));
+    m_unlockSelectedItemsAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_L));
     connect(m_unlockSelectedItemsAction, SIGNAL(triggered()),
             this, SLOT(slotUnlockSelectedItems()));
 
     m_selectOneLevelItems = new QAction(tr("Select one level items"), this);
     //m_unlockSelectedItemsAction->setIcon(QIcon(":/report/images/unlock"));
-    m_selectOneLevelItems->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+    m_selectOneLevelItems->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_A));
     connect(m_selectOneLevelItems, SIGNAL(triggered()),
             this, SLOT(slotSelectOneLevelItems()));
 }
@@ -567,7 +571,7 @@ void ReportDesignWindow::createObjectInspector()
     QWidget* w = new QWidget(objectDoc);
     QVBoxLayout* l = new QVBoxLayout(w);
     l->addWidget(m_objectInspector);
-    l->setMargin(0);
+    l->setContentsMargins(0, 0, 0, 0);
     w->setLayout(l);
     objectDoc->setWindowTitle(tr("Object Inspector"));
     objectDoc->setWidget(w);
@@ -833,11 +837,18 @@ void ReportDesignWindow::restoreSetting()
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
     } else {
+#if QT_VERSION < 0x060000
         QDesktopWidget *desktop = QApplication::desktop();
 
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
 
+#else
+        QScreen *screen = QGuiApplication::primaryScreen();
+
+        int screenWidth = screen->geometry().width();
+        int screenHeight = screen->geometry().height();
+#endif
         int x = screenWidth * 0.1;
         int y = screenHeight * 0.1;
 

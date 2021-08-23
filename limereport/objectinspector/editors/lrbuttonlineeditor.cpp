@@ -34,7 +34,11 @@
 #include <QFocusEvent>
 #include <QApplication>
 #include <QStyle>
+#if QT_VERSION < 0x060000
 #include <QDesktopWidget>
+#else
+#include <QScreen>
+#endif
 #include "lrtextitempropertyeditor.h"
 
 namespace LimeReport{
@@ -66,7 +70,11 @@ void ButtonLineEditor::editButtonClicked()
 {
     TextItemPropertyEditor* editor = new TextItemPropertyEditor(QApplication::activeWindow());
     editor->setAttribute(Qt::WA_DeleteOnClose);
+#if QT_VERSION < 0x060000
     editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QApplication::desktop()->availableGeometry()));
+#else
+    editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QGuiApplication::screens().first()->availableGeometry()));
+#endif
     editor->setWindowTitle(m_propertyName);
     editor->setText(m_lineEdit->text());
     connect(editor,SIGNAL(accepted()),this,SLOT(editingByEditorFinished()));
