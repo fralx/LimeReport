@@ -182,7 +182,11 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     m_propertyModel = new BaseDesignPropertyModel(this);
     m_filterModel = new PropertyFilterModel(this);
     m_filterModel->setSourceModel(m_propertyModel);
+#if QT_VERSION < 0x060000
     m_filterModel->setFilterRegExp(QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString));
+#else
+    m_filterModel->setFilterRegularExpression(QRegularExpression("", QRegularExpression::CaseInsensitiveOption));
+#endif
     m_objectInspectorView->setModel(m_filterModel);
     QVBoxLayout* l = new QVBoxLayout();
     QLineEdit* le = new QLineEdit(this);
@@ -310,7 +314,11 @@ void ObjectInspectorWidget::updateProperty(const QString &propertyName)
 void ObjectInspectorWidget::slotFilterTextChanged(const QString &filter)
 {
     if (m_filterModel)
+#if QT_VERSION < 0x060000
         m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
+#else
+        m_filterModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));
+#endif
 }
 
 void ObjectInspectorWidget::slotTranslatePropertiesChecked(bool value)

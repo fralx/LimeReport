@@ -842,7 +842,6 @@ void ReportDesignWindow::restoreSetting()
 
         int screenWidth = desktop->screenGeometry().width();
         int screenHeight = desktop->screenGeometry().height();
-
 #else
         QScreen *screen = QGuiApplication::primaryScreen();
 
@@ -1541,7 +1540,11 @@ void ReportDesignWindow::slotPageDeleted()
 
 void ReportDesignWindow::slotFilterTextChanged(const QString& filter)
 {
+#if QT_VERSION < 0x060000
     m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
+#else
+    m_filterModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));
+#endif
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION

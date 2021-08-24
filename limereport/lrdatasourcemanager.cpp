@@ -1392,7 +1392,11 @@ void DataSourceManager::invalidateQueriesContainsVariable(const QString& variabl
             foreach (const QString& datasourceName, dataSourceNames()){
                 QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
                 if (holder){
+#if QT_VERSION < 0x060000
                     QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+#else
+                    QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+#endif
                     if  (holder->queryText().contains(rx)){
                         holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
                         datasources.append(datasourceName);

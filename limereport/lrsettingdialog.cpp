@@ -151,7 +151,7 @@ void SettingDialog::setDesignerUnites(QList<QString> unitTypes, const QString cu
     ui->reportUnits->clear();
     ui->reportUnits->addItems(unitTypes);
 #if QT_VERSION < 0x050000
-    ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(currentUnitType));
+    ui->reportUnits->setCurrentIndex(ui->reportUnits->findText(currentUnitType));
 #else
     ui->reportUnits->setCurrentText(currentUnitType);
 #endif
