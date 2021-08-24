@@ -452,7 +452,7 @@ QString TextItem::formatNumber(const double value)
 
     if (m_format.contains("%"))
     {
-#if QT_VERSION < 0x050000
+#if QT_VERSION < 0x050500
         str.sprintf(m_format.toStdString().c_str(), value);
 #else
         str.asprintf(m_format.toStdString().c_str(), value);
