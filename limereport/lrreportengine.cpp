@@ -1906,8 +1906,7 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
     printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
                                  (printerPageRect.size().height() + bottomMargin + topMargin) * page->unitFactor());
-
-    if (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageLayout().pageSize() != (QPageSize::PageSizeId)page->pageSize() &&
+    if (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
         printerPageRect.width() < page->geometry().width())
     {
         qreal pageWidth = page->geometry().width();
