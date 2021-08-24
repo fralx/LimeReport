@@ -762,10 +762,18 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         if (!isVar){
             BandDesignIntf* parentBand = dynamic_cast<BandDesignIntf*>(ti->parentItem());
             if (parentBand && parentBand->datasourceName().isEmpty()){
+#if QT_VERSION < 0x060000
                 QRegExp dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
                 if (dataSource.indexIn(data) != -1){
                     parentBand->setProperty("datasource",dataSource.cap(1));
                 }
+#else
+                QRegularExpression dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
+                QRegularExpressionMatch match = dataSource.match(data);
+                if(match.hasMatch()){
+                    parentBand->setProperty("datasource", match.captured(1));
+                }
+#endif
             }
         }
     }

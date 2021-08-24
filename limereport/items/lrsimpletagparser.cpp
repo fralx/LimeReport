@@ -28,14 +28,18 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrsimpletagparser.h"
-#include <QRegExp>
 #include <QDebug>
 #include <QStringList>
-
+#if QT_VERSION < 0x060000
+#include <QRegExp>
+#else
+#include <QRegularExpression>
+#endif
 namespace LimeReport{
 
 void HtmlContext::fillTagVector(QString html)
 {
+#if QT_VERSION < 0x060000
     QRegExp rx("<[^<]*>");
     QString buff=html;
     int curPos=0;
@@ -49,10 +53,20 @@ void HtmlContext::fillTagVector(QString html)
         }
         buff=buff.right(buff.length()-rx.matchedLength());
     }
+#else
+    QRegularExpression rx("<[^<]*>");
+    QString buff=html;
+    while(buff.contains(rx)){
+        QRegularExpressionMatch match = rx.match(buff);
+        // TODO: Qt6 port
+    }
+
+#endif
 }
 
 QString HtmlContext::parseTag(QVector<Tag *> &storage, QString text, int &curPos, bool createTag)
 {
+#if QT_VERSION < 0x060000
     QRegExp rx("<[^<]*>");
     int pos=rx.indexIn(text);
     int begPos=pos+curPos;
@@ -78,12 +92,16 @@ QString HtmlContext::parseTag(QVector<Tag *> &storage, QString text, int &curPos
             buff=buff.right(buff.length()-rx.matchedLength());
         }
     }
+#else
+    QRegularExpression rx("<[^<]*>");
+    // TODO: Qt6 port
+#endif
     return "";
 }
 
 void HtmlContext::parseSymbs(QString text)
 {
-
+#if QT_VERSION < 0x060000
     QRegExp rx("<[^<]*[^/]>");
     while (text.contains(rx)){
         int pos=rx.indexIn(text);
@@ -100,6 +118,10 @@ void HtmlContext::parseSymbs(QString text)
             text.replace(rx.cap(0)," ");
         }
     }
+#else
+    QRegularExpression rx("<[^<]*>");
+    // TODO: Qt6 port
+#endif
 }
 
 void HtmlContext::initSymbPatterns()

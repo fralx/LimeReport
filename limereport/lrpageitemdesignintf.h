@@ -102,7 +102,7 @@ public:
     };
 #endif
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(Orientation)
     Q_ENUM(PrintBehavior)
     Q_ENUM(PageSize)

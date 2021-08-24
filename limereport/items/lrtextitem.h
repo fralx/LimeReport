@@ -79,7 +79,7 @@ public:
     enum AutoWidth{NoneAutoWidth, MaxWordLength, MaxStringLength};
     enum AngleType{Angle0, Angle90, Angle180, Angle270, Angle45, Angle315};
     enum ValueType{Default, DateTime, Double};
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(AutoWidth)
     Q_ENUM(AngleType)
     Q_ENUM(ValueType)

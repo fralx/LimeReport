@@ -51,7 +51,7 @@ namespace LimeReport {
 #define VARIABLE_IS_NOT_USED
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+#if QT_VERSION >= 0x050800
 Q_NAMESPACE
 #endif
 
@@ -104,10 +104,10 @@ namespace Const{
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);
     QString replaceHTMLSymbols(const QString &value);
-    #if QT_VERSION < 0x060000
+#if QT_VERSION < 0x060000
     QVector<QString> normalizeCaptures(const QRegExp &reg);
 #else
-    QVector<QString> normalizeCaptures(const QRegularExpression &reg);
+    QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg);
 #endif
     bool isColorDark(QColor color);
 
@@ -162,7 +162,7 @@ namespace Const{
     {
     public:
         enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
         Q_ENUM(VariableDataType)
 #else
         Q_ENUMS(VariableDataType)

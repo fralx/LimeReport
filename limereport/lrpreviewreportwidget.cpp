@@ -241,14 +241,10 @@ void PreviewReportWidget::print()
     QPrinter lp(QPrinter::HighResolution);
 
     if (!pi.defaultPrinter().isNull()){
-#if QT_VERSION < 0x050000
-            lp.setPrinterName(pi.defaultPrinter().printerName());
-#else
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+#if QT_VERSION >= 0x050300
             lp.setPrinterName(pi.defaultPrinterName());
 #else
             lp.setPrinterName(pi.defaultPrinter().printerName());
-#endif
 #endif
     }
 

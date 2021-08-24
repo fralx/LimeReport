@@ -31,7 +31,9 @@
 #include "lrdatadesignintf.h"
 #include <QStringList>
 #include <QSqlQuery>
+#if QT_VERSION < 0x060000
 #include <QRegExp>
+#endif
 #include <QSqlError>
 #include <QSqlQueryModel>
 #include <QFileInfo>
@@ -421,6 +423,7 @@ QString DataSourceManager::extractField(QString source)
 }
 
 QString DataSourceManager::replaceVariables(QString value){
+#if QT_VERSION < 0x060000
     QRegExp rx(Const::VARIABLE_RX);
 
     if (value.contains(rx)){
@@ -438,10 +441,16 @@ QString DataSourceManager::replaceVariables(QString value){
         }
     }
     return value;
+#else
+    QRegularExpression rx(Const::VARIABLE_RX);
+    // TODO: Qt6 port
+#endif
+    return QString();
 }
 
 QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
 {
+#if QT_VERSION < 0x060000
     QRegExp rx(Const::VARIABLE_RX);
     int curentAliasIndex = 0;
     if (query.contains(rx)){
@@ -480,10 +489,16 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
         }
     }
     return query;
+#else
+    QRegularExpression rx(Const::VARIABLE_RX);
+    // TODO: Qt6 port
+#endif
+    return QString();
 }
 
 QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
 {
+#if QT_VERSION < 0x060000
     QRegExp rx(Const::FIELD_RX);
     if (query.contains(rx)){
         int curentAliasIndex=0;
@@ -510,6 +525,11 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
         }
     }
     return query;
+#else
+    QRegularExpression rx(Const::FIELD_RX);
+    // TODO: Qt6 port
+#endif
+    return QString();
 }
 
 void DataSourceManager::setReportVariable(const QString &name, const QVariant &value)
