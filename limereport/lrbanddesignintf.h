@@ -138,7 +138,7 @@ public:
     enum BandColumnsLayoutType{
         Horizontal, Vertical, VerticalUniform
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(BandColumnsLayoutType)
 #else
     Q_ENUMS(BandColumnsLayoutType)

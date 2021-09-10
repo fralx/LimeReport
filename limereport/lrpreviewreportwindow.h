@@ -60,7 +60,7 @@ class PreviewReportWindow : public QMainWindow
 {
     Q_OBJECT   
 public:
-    explicit PreviewReportWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=0);
+    explicit PreviewReportWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=Qt::WindowFlags());
     ~PreviewReportWindow();
     void setReportReader(ItemsReaderIntf::Ptr reader);
     void setPages(ReportPages pages);

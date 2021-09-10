@@ -196,11 +196,15 @@ void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignInt
         QString content = contentItem->content();
         QVector<QString> functions;
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
+#if QT_VERSION < 0x060000
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
             rx.setMinimal(true);
             if (rx.indexIn(content)>=0){
                 functions.append(functionName);
             }
+#else
+            // TODO: Qt6 port
+#endif
         }
         if (functions.size()>0)
             m_groupfunctionItems.insert(contentItem->patternName(), functions);
@@ -361,10 +365,14 @@ bool ReportRender::containsGroupFunctions(BandDesignIntf *band){
         if (contentItem){
             QString content = contentItem->content();
             foreach(QString functionName, m_datasources->groupFunctionNames()){
+#if QT_VERSION < 0x060000
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 if (rx.indexIn(content)>=0){
                     return true;
                 }
+#else
+                // TODO: Qt6 port
+#endif
             }
         }
     }
@@ -372,6 +380,7 @@ bool ReportRender::containsGroupFunctions(BandDesignIntf *band){
 }
 
 void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
+#if QT_VERSION < 0x060000
     if ( contentItem && contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}"))){
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
@@ -406,6 +415,9 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
             }
         }
     }
+#else
+    // TODO: Qt6 port
+#endif
 }
 
 void ReportRender::extractGroupFunctionsFromContainer(BaseDesignIntf* baseItem, BandDesignIntf* band){
@@ -428,6 +440,7 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
         if (m_groupfunctionItems.contains(contentItem->patternName())){
             QString content = contentItem->content();
             foreach(QString functionName, m_groupfunctionItems.value(contentItem->patternName())){
+#if QT_VERSION < 0x060000
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 rx.setMinimal(true);
                 if (rx.indexIn(content)>=0){
@@ -450,6 +463,9 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                         pos += rx.matchedLength();
                     }
                 }
+#else
+                // TODO: Qt6 port
+#endif
             }
             contentItem->setContent(content);
         }
@@ -1142,10 +1158,9 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         band->setObjectName(band->objectName()+QString::number(++m_currentNameIndex));
         renameChildItems(band);
         if (m_lastDataBand){
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
             m_lastDataBand->metaObject()->invokeMethod(m_lastDataBand,"bandRegistred");
-#endif
-#ifdef HAVE_QT5
+#else
             emit m_lastDataBand->bandRegistred();
 #endif
         }
@@ -1428,7 +1443,7 @@ void ReportRender::checkLostHeadersOnPrevPage()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-        //qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        //std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
@@ -1466,7 +1481,7 @@ void ReportRender::checkLostHeadersInPrevColumn()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-//        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+//        std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);

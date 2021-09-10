@@ -33,7 +33,7 @@ class SeriesItem : public QObject{
     Q_PROPERTY(SeriesItemPreferredType preferredType READ preferredType WRITE setPreferredType)
 public:
     enum SeriesItemPreferredType {Bar, Line};
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(SeriesItemPreferredType)
 #else
     Q_ENUMS(SeriesItemPreferredType)
@@ -135,7 +135,7 @@ public:
     enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
     enum ChartType{Pie, VerticalBar, HorizontalBar, Lines};
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(LegendAlign)
     Q_ENUM(TitleAlign)
     Q_ENUM(ChartType)

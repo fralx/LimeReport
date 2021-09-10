@@ -3,7 +3,11 @@
 #include <QSqlDatabase>
 #include <QDir>
 #include <QDebug>
+#if QT_VERSION < 0x060000
 #include <QDesktopWidget>
+#else
+#include <QScreen>
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,10 +44,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOne_to_One, SIGNAL(triggered()), this, SLOT(slotOneToOne()));
     initPercentCombobox();
     enableUI(false);
+#if QT_VERSION < 0x060000
     QDesktopWidget *desktop = QApplication::desktop();
 
     int screenWidth = desktop->screenGeometry().width();
     int screenHeight = desktop->screenGeometry().height();
+#else
+    QScreen *screen = QGuiApplication::primaryScreen();
+
+    int screenWidth = screen->geometry().width();
+    int screenHeight = screen->geometry().height();
+#endif
 
     int x = screenWidth*0.1;
     int y = screenHeight*0.1;

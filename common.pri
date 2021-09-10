@@ -32,23 +32,24 @@ CONFIG(easy_profiler) {
     message(EasyProfiler)
     INCLUDEPATH *= $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
     DEPENDPATH *= $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
-    unix|win32: LIBS *= -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler
-    greaterThan(QT_MAJOR_VERSION, 4) {
+    unix|win32: LIBS *= -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler    
+    equals(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 6) {
         DEFINES *= BUILD_WITH_EASY_PROFILER
     }
 }
 
 !CONFIG(qtscriptengine) {
-    greaterThan(QT_MAJOR_VERSION, 4) {
-        greaterThan(QT_MINOR_VERSION, 5) {
-            CONFIG *= qjsengine
-        }
-        lessThan(QT_MINOR_VERSION, 6) {
-            CONFIG *= qtscriptengine
-        }
-    }
-    lessThan(QT_MAJOR_VERSION, 5) {
+    equals(QT_MAJOR_VERSION, 4) {
         CONFIG *= qtscriptengine
+    }
+    equals(QT_MAJOR_VERSION, 5) : lessThan(QT_MINOR_VERSION, 6) {
+        CONFIG *= qtscriptengine
+    }
+    equals(QT_MAJOR_VERSION, 5) : greaterThan(QT_MINOR_VERSION, 5) {
+        CONFIG *= qjsengine
+    }
+    equals(QT_MAJOR_VERSION, 6) {
+        CONFIG *= qjsengine
     }
 }
 
@@ -74,12 +75,12 @@ CONFIG(zint) {
     DEFINES *= HAVE_ZINT
 }
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-    QT *= uitools
+equals(QT_MAJOR_VERSION, 4) {
+    CONFIG *= uitools
 }
 
-lessThan(QT_MAJOR_VERSION, 5) {
-    CONFIG *= uitools
+equals(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 6) {
+    QT *= uitools
 }
 
 CONFIG(release, debug|release) {
@@ -150,7 +151,15 @@ QT *= xml sql
 REPORT_PATH = $$PWD/limereport
 TRANSLATIONS_PATH = $$PWD/translations
 
-greaterThan(QT_MAJOR_VERSION, 4) {
+equals(QT_MAJOR_VERSION, 4) {
+    DEFINES *= HAVE_QT4
+    CONFIG(uitools) {
+        message(uitools)
+        DEFINES *= HAVE_UI_LOADER
+    }
+}
+
+equals(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 6) {
     DEFINES *= HAVE_QT5
     QT *= printsupport widgets
     contains(QT, uitools) {
@@ -161,13 +170,5 @@ greaterThan(QT_MAJOR_VERSION, 4) {
         message(qjsengine)
         DEFINES *= USE_QJSENGINE
         QT *= qml
-    }
-}
-
-lessThan(QT_MAJOR_VERSION, 5) {
-    DEFINES *= HAVE_QT4
-    CONFIG(uitools) {
-        message(uitools)
-        DEFINES *= HAVE_UI_LOADER
     }
 }

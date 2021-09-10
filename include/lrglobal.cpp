@@ -67,7 +67,11 @@ QString replaceHTMLSymbols(const QString &value)
     return result;
 }
 
+#if QT_VERSION < 0x060000
 QVector<QString> normalizeCaptures(const QRegExp& reg){
+#else
+QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg){
+#endif
     QVector<QString> result;
     foreach (QString cap, reg.capturedTexts()) {
         if (!cap.isEmpty())

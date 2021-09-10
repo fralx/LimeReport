@@ -10,7 +10,7 @@ ChartItemEditor::ChartItemEditor(LimeReport::ChartItem *item, LimeReport::PageDe
 {
     ui->setupUi(this);
     QHBoxLayout* colorLayout = new QHBoxLayout();
-    colorLayout->setMargin(0);
+    colorLayout->setContentsMargins(0, 0, 0, 0);
     m_colorButton = new QToolButton();
     m_colorButton->setText("...");
     m_colorButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
@@ -118,11 +118,10 @@ void ChartItemEditor::init()
         ui->seriesTypeComboBox->addItem(enumerator.key(i));
     }
 
-#ifdef HAVE_QT5
-    ui->labelsFieldComboBox->setCurrentText(m_charItem->labelsField());
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->labelsFieldComboBox->setCurrentIndex(ui->labelsFieldComboBox->findText( m_charItem->labelsField()));
+#else
+    ui->labelsFieldComboBox->setCurrentText(m_charItem->labelsField());
 #endif
     if (!m_charItem->series().isEmpty()){
         enableSeriesEditor();
@@ -150,11 +149,10 @@ void ChartItemEditor::disableSeriesEditor()
     ui->valuesFieldComboBox->setDisabled(true);
     m_colorButton->setDisabled(true);
     m_colorIndicator->setDisabled(true);
-#ifdef HAVE_QT5
-    ui->valuesFieldComboBox->setCurrentText("");
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->valuesFieldComboBox->setEditText("");
+#else
+    ui->valuesFieldComboBox->setCurrentText("");
 #endif
     ui->seriesTypeComboBox->setDisabled(true);
 }
@@ -208,11 +206,10 @@ void ChartItemEditor::slotAddSeries()
     ui->tableWidget->setRowCount(m_charItem->series().count());
     ui->tableWidget->setItem(m_charItem->series().count()-1, 0, new QTableWidgetItem(series->name()));
     ui->tableWidget->selectRow(m_charItem->series().count()-1);
-#ifdef HAVE_QT5
-    ui->valuesFieldComboBox->setCurrentText("");
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->valuesFieldComboBox->setEditText("");
+#else
+    ui->valuesFieldComboBox->setCurrentText("");
 #endif
 }
 
@@ -235,20 +232,18 @@ void ChartItemEditor::on_tableWidget_itemSelectionChanged()
     if (ui->tableWidget->selectionModel()->hasSelection()){
         LimeReport::SeriesItem* series = m_charItem->series().at(ui->tableWidget->selectionModel()->currentIndex().row());
         ui->seriesNameLineEdit->setText(series->name());
-#ifdef HAVE_QT5
-        ui->valuesFieldComboBox->setCurrentText(series->valuesColumn());
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
         ui->valuesFieldComboBox->setCurrentIndex(ui->valuesFieldComboBox->findText(series->valuesColumn()));
+#else
+        ui->valuesFieldComboBox->setCurrentText(series->valuesColumn());
 #endif
         m_colorIndicator->setColor(series->color());
         static int enumIndex = LimeReport::SeriesItem::staticMetaObject.indexOfEnumerator("SeriesItemPreferredType");
         QMetaEnum enumerator = LimeReport::SeriesItem::staticMetaObject.enumerator(enumIndex);
-#ifdef HAVE_QT5
-        ui->seriesTypeComboBox->setCurrentText(enumerator.valueToKey(series->preferredType()));
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
         ui->seriesTypeComboBox->setCurrentIndex(ui->seriesTypeComboBox->findText(enumerator.valueToKey(series->preferredType())));
+#else
+        ui->seriesTypeComboBox->setCurrentText(enumerator.valueToKey(series->preferredType()));
 #endif
         enableSeriesEditor();
     }

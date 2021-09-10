@@ -53,7 +53,7 @@ void ItemsBordersEditorWidget::properyChangedEvent(const QString& property, cons
 
 void ItemsBordersEditorWidget::noBordesClicked()
 {
-    updateValues(0);
+    updateValues({});
 }
 
 void ItemsBordersEditorWidget::allBordesClicked()
@@ -148,7 +148,7 @@ void ItemsBordersEditorWidgetForDesigner::buttonClicked(bool)
 
 void ItemsBordersEditorWidgetForDesigner::noBordesClicked()
 {
-    m_reportEditor->setBorders(0);
+    m_reportEditor->setBorders({});
     ItemsBordersEditorWidget::noBordesClicked();
 }
 

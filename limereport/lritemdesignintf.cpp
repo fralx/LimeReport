@@ -35,7 +35,9 @@
 #include "lrglobal.h"
 
 #include <QDebug>
+#if QT_VERSION < 0x060000
 #include <QRegExp>
+#endif
 #include <QVariant>
 
 namespace LimeReport{

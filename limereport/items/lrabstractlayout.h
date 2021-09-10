@@ -13,7 +13,7 @@ class AbstractLayout: public LayoutDesignIntf
     Q_PROPERTY(int layoutSpacing READ layoutSpacing WRITE setLayoutSpacing)
 public:
     enum LayoutType{Layout,Table};
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(LayoutType)
 #else
     Q_ENUMS(LayoutType)

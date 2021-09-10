@@ -152,7 +152,7 @@ public:
         KANJI_INPUT_MODE    = 3,
         SJIS_INPUT_MODE     = 4
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(BarcodeType)
     Q_ENUM(AngleType)
     Q_ENUM(InputMode)

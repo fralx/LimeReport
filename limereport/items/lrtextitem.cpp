@@ -360,7 +360,11 @@ void TextItem::updateLayout()
 
 bool TextItem::isNeedExpandContent() const
 {
+#if QT_VERSION < 0x060000
     QRegExp rx("$*\\{[^{]*\\}");
+#else
+    QRegularExpression rx("$*\\{[^{]*\\}");
+#endif
     return content().contains(rx) || isContentBackedUp();
 }
 
@@ -448,7 +452,11 @@ QString TextItem::formatNumber(const double value)
 
     if (m_format.contains("%"))
     {
+#if QT_VERSION < 0x050500
         str.sprintf(m_format.toStdString().c_str(), value);
+#else
+        str.asprintf(m_format.toStdString().c_str(), value);
+#endif
         str = str.replace(",", QLocale::system().groupSeparator());
         str = str.replace(".", QLocale::system().decimalPoint());
     }
@@ -813,7 +821,11 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
     QString context=content();
     foreach (QString variableName, dataManager->variableNamesByRenderPass(SecondPass)) {
+#if QT_VERSION < 0x060000
         QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+#else
+        QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+#endif
         if (context.contains(rx) && pass == FirstPass){
             backupContent();
             break;

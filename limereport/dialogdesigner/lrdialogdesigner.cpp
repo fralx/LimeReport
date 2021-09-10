@@ -104,10 +104,9 @@ DialogDesignerManager::DialogDesignerManager(QObject *parent) : QObject(parent)
     m_designerToolWindows.append(m_actionEditor);
     connect(m_actionEditor, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)) );
 
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     m_designerIntegration = new qdesigner_internal::QDesignerIntegration(m_formEditor,this);
-#endif
-#ifdef HAVE_QT5
+#else
     m_designerIntegration = new QDesignerIntegration(m_formEditor,this);
 #endif
     m_formEditor->setIntegration(m_designerIntegration);

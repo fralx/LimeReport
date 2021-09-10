@@ -140,7 +140,7 @@ void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
 
 void HorizontalLayout::sortChildren()
 {
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+    std::sort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
 }
 
 void HorizontalLayout::updateLayoutSize()
@@ -177,7 +177,7 @@ void HorizontalLayout::relocateChildren()
             layoutsChildren().append(item);
         }
     }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+    std::sort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
     qreal curX = spaceBorder;
     setIsRelocating(true);
     foreach (BaseDesignIntf* item, layoutsChildren()) {
