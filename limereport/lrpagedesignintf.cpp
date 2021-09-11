@@ -1875,6 +1875,9 @@ void PageDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
                 }
             }
         }
+        foreach(PageItemDesignIntf::Ptr page, m_reportPages){
+            page->setItemMode(mode);
+        }
     }
 }
 

@@ -1259,6 +1259,8 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
         upperBandPart->updateItemSize(m_datasources, FirstPass, height);
         registerBand(upperBandPart);
         upperBandPart->copyBookmarks(band);
+        if (patternBand->isFooter())
+            closeFooterGroup(m_lastDataBand);
     } else delete upperBandPart;
 
     if (band->columnsCount()>1 &&
