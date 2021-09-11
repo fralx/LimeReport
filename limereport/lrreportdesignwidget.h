@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -42,7 +42,7 @@
 #include "lrreportengine_p.h"
 #include "lrgraphicsviewzoom.h"
 
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
 QT_BEGIN_NAMESPACE
 class LimeReportTabWidget: public QTabWidget{
     Q_OBJECT
@@ -105,7 +105,7 @@ private:
 class ReportDesignWidget : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QObject* datasourcesManager READ dataManager())
+    Q_PROPERTY(QObject* datasourcesManager READ dataManager)
 public:
     enum ToolWindowType{
         WidgetBox = 1,
@@ -259,10 +259,9 @@ private:
     DialogDesignerManager* m_dialogDesignerManager;
 #endif
     QMainWindow *m_mainWindow;
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     LimeReportTabWidget* m_tabWidget;
-#endif
-#ifdef HAVE_QT5
+#else
     QTabWidget* m_tabWidget;
 #endif
     GraphicsViewZoomer* m_zoomer;

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -86,7 +86,7 @@ private:
 class ReportRender: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QObject* datasourcesManager READ datasources())
+    Q_PROPERTY(QObject* datasourcesManager READ datasources)
 public:
     enum DataRenderMode {StartNewPageAsNeeded, NotStartNewPage, ForcedStartPage};
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };

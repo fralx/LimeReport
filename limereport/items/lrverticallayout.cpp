@@ -63,7 +63,7 @@ void VerticalLayout::relocateChildren()
             layoutsChildren().append(item);
         }
     }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(), verticalLessThen);
+    std::sort(layoutsChildren().begin(),layoutsChildren().end(), verticalLessThen);
     qreal curY = spaceBorder;
     setIsRelocating(true);
     foreach (BaseDesignIntf* item, layoutsChildren()) {
@@ -140,7 +140,7 @@ BaseDesignIntf* VerticalLayout::cloneBottomPart(int height, QObject* owner, QGra
 
 void VerticalLayout::sortChildren()
 {
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),verticalLessThen);
+    std::sort(layoutsChildren().begin(),layoutsChildren().end(),verticalLessThen);
 }
 
 void VerticalLayout::divideSpace()

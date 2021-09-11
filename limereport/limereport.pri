@@ -84,15 +84,15 @@ SOURCES += \
     $$REPORT_PATH/exporters/lrpdfexporter.cpp \
     $$REPORT_PATH/lrpreparedpages.cpp
 
-contains(CONFIG, staticlib){
+CONFIG(staticlib) {
     SOURCES += $$REPORT_PATH/lrfactoryinitializer.cpp
 }
     
-contains(CONFIG, zint){
+CONFIG(zint) {
     SOURCES += $$REPORT_PATH/items/lrbarcodeitem.cpp
 }
 
-contains(CONFIG, svg){
+CONFIG(svg){
    SOURCES += $$REPORT_PATH/items/lrsvgitem.cpp \
 
 }
@@ -187,15 +187,15 @@ HEADERS += \
     $$REPORT_PATH/lrpreparedpages.h \
     $$REPORT_PATH/lrpreparedpagesintf.h 
 
-contains(CONFIG, staticlib){
+CONFIG(staticlib) {
     HEADERS += $$REPORT_PATH/lrfactoryinitializer.h
 }
 
-contains(CONFIG,zint){
+CONFIG(zint) {
     HEADERS += $$REPORT_PATH/items/lrbarcodeitem.h
 }
 
-contains(CONFIG, svg){
+CONFIG(svg) {
     HEADERS += $$REPORT_PATH/items/lrsvgitem.h
 }
 
@@ -219,4 +219,3 @@ FORMS += \
 RESOURCES += \
     $$REPORT_PATH/report.qrc \
     $$REPORT_PATH/items/items.qrc
-

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -144,7 +144,7 @@ public:
     enum ItemAlign {LeftItemAlign,RightItemAlign,CenterItemAlign,ParentWidthItemAlign,DesignedItemAlign};
 
     enum UnitType {Millimeters, Inches};
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(BGMode)
     Q_ENUM(BrushStyle)
     Q_ENUM(ResizeFlags)

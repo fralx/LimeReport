@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -140,7 +140,7 @@ void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
 
 void HorizontalLayout::sortChildren()
 {
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+    std::sort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
 }
 
 void HorizontalLayout::updateLayoutSize()
@@ -177,7 +177,7 @@ void HorizontalLayout::relocateChildren()
             layoutsChildren().append(item);
         }
     }
-    qSort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+    std::sort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
     qreal curX = spaceBorder;
     setIsRelocating(true);
     foreach (BaseDesignIntf* item, layoutsChildren()) {

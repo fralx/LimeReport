@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -93,7 +93,7 @@ void ObjectPropItem::appendItem(ObjectPropItem *item){
 
 void ObjectPropItem::sortItem()
 {
-    qSort(m_childItems.begin(), m_childItems.end(), lesThen);
+    std::sort(m_childItems.begin(), m_childItems.end(), lesThen);
 }
 
 QVariant ObjectPropItem::propertyValue() const {

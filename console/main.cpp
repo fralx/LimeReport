@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationVersion(LIMEREPORT_VERSION_STR);
     QStringList vars;
 
-#if QT_VERSION > QT_VERSION_CHECK(5, 2, 0)
+#if QT_VERSION > 0x050200
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();

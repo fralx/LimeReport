@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -196,11 +196,15 @@ void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignInt
         QString content = contentItem->content();
         QVector<QString> functions;
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
+#if QT_VERSION < 0x060000
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
             rx.setMinimal(true);
             if (rx.indexIn(content)>=0){
                 functions.append(functionName);
             }
+#else
+            // TODO: Qt6 port
+#endif
         }
         if (functions.size()>0)
             m_groupfunctionItems.insert(contentItem->patternName(), functions);
@@ -361,10 +365,14 @@ bool ReportRender::containsGroupFunctions(BandDesignIntf *band){
         if (contentItem){
             QString content = contentItem->content();
             foreach(QString functionName, m_datasources->groupFunctionNames()){
+#if QT_VERSION < 0x060000
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 if (rx.indexIn(content)>=0){
                     return true;
                 }
+#else
+                // TODO: Qt6 port
+#endif
             }
         }
     }
@@ -372,6 +380,7 @@ bool ReportRender::containsGroupFunctions(BandDesignIntf *band){
 }
 
 void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
+#if QT_VERSION < 0x060000
     if ( contentItem && contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}"))){
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
@@ -406,6 +415,9 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
             }
         }
     }
+#else
+    // TODO: Qt6 port
+#endif
 }
 
 void ReportRender::extractGroupFunctionsFromContainer(BaseDesignIntf* baseItem, BandDesignIntf* band){
@@ -428,6 +440,7 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
         if (m_groupfunctionItems.contains(contentItem->patternName())){
             QString content = contentItem->content();
             foreach(QString functionName, m_groupfunctionItems.value(contentItem->patternName())){
+#if QT_VERSION < 0x060000
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 rx.setMinimal(true);
                 if (rx.indexIn(content)>=0){
@@ -450,6 +463,9 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                         pos += rx.matchedLength();
                     }
                 }
+#else
+                // TODO: Qt6 port
+#endif
             }
             contentItem->setContent(content);
         }
@@ -1142,10 +1158,9 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
         band->setObjectName(band->objectName()+QString::number(++m_currentNameIndex));
         renameChildItems(band);
         if (m_lastDataBand){
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
             m_lastDataBand->metaObject()->invokeMethod(m_lastDataBand,"bandRegistred");
-#endif
-#ifdef HAVE_QT5
+#else
             emit m_lastDataBand->bandRegistred();
 #endif
         }
@@ -1244,6 +1259,8 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
         upperBandPart->updateItemSize(m_datasources, FirstPass, height);
         registerBand(upperBandPart);
         upperBandPart->copyBookmarks(band);
+        if (patternBand->isFooter())
+            closeFooterGroup(m_lastDataBand);
     } else delete upperBandPart;
 
     if (band->columnsCount()>1 &&
@@ -1352,7 +1369,7 @@ void ReportRender::cutGroups()
     m_popupedExpression.clear();
     m_popupedValues.clear();
     //foreach(BandDesignIntf* groupBand,m_childBands.keys()){
-    for(BandDesignIntf* groupBand : m_childBands.keys()){
+    foreach(BandDesignIntf* groupBand, m_childBands.keys()){
         if (m_childBands.value(groupBand)->tryToKeepTogether()){
             foreach(BandDesignIntf* band, *m_childBands.value(groupBand)){
                 m_renderPageItem->removeBand(band);
@@ -1428,7 +1445,7 @@ void ReportRender::checkLostHeadersOnPrevPage()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-        //qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        //std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
@@ -1466,7 +1483,7 @@ void ReportRender::checkLostHeadersInPrevColumn()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-//        qSort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+//        std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -31,7 +31,7 @@
 #define LRSCRIPTENGINEMANAGERINTF_H
 #include "qglobal.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+#if QT_VERSION >= 0x050600
     #ifndef USE_QTSCRIPTENGINE
         #ifndef USE_QJSENGINE
             #define USE_QJSENGINE

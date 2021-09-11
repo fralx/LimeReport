@@ -12,11 +12,10 @@ LanguageSelectDialog::LanguageSelectDialog(QWidget *parent) :
     for (int i = 2; i<QLocale::LastLanguage; ++i){
         ui->comboBox->addItem(QLocale::languageToString(static_cast<QLocale::Language>(i)),static_cast<QLocale::Language>(i));
     }
-#ifdef HAVE_QT5
-    ui->comboBox->setCurrentText("");
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
     ui->comboBox->setEditText("");
+#else
+    ui->comboBox->setCurrentText("");
 #endif
 }
 

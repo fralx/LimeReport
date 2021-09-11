@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -66,6 +66,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool mixWithPriorPage READ mixWithPriorPage WRITE setMixWithPriorPage)
     friend class ReportRender;
 public:
+#if QT_VERSION < 0x060000
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
 
     enum PrintBehavior {Scale, Split};
@@ -82,7 +83,26 @@ public:
         Ledger = QPrinter::Ledger, Tabloid = QPrinter::Tabloid, Custom = QPrinter::Custom,
         NPageSize = Custom
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#else
+    enum Orientation { Portrait = QPageLayout::Portrait, Landscape = QPageLayout::Landscape };
+
+    enum PrintBehavior {Scale, Split};
+
+    enum PageSize {
+        A4 = QPageSize::A4, B5 = QPageSize::B5, Letter = QPageSize::Letter,
+        Legal = QPageSize::Legal, Executive = QPageSize::Executive,
+        A0 = QPageSize::A0, A1 = QPageSize::A1, A2 = QPageSize::A2, A3 = QPageSize::A3,
+        A5 = QPageSize::A5, A6 = QPageSize::A6, A7 = QPageSize::A7, A8 = QPageSize::A8,
+        A9 = QPageSize::A9, B0 = QPageSize::B0, B1 = QPageSize::B1, B10 = QPageSize::B10,
+        B2 = QPageSize::B2, B3 = QPageSize::B3, B4 = QPageSize::B4, B6 = QPageSize::B6,
+        B7 = QPageSize::B7, B8 = QPageSize::B8, B9 = QPageSize::B9, C5E = QPageSize::C5E,
+        Comm10E = QPageSize::Comm10E, DLE = QPageSize::DLE, Folio = QPageSize::Folio,
+        Ledger = QPageSize::Ledger, Tabloid = QPageSize::Tabloid, Custom = QPageSize::Custom,
+        NPageSize = Custom
+    };
+#endif
+
+#if QT_VERSION >= 0x050500
     Q_ENUM(Orientation)
     Q_ENUM(PrintBehavior)
     Q_ENUM(PageSize)

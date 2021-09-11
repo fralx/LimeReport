@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -78,11 +78,10 @@ void LRVariableDialog::showEvent(QShowEvent *)
     QMetaEnum enumerator = LimeReport::Enums::staticMetaObject.enumerator(enumIndex);
     if (!m_variableName.isEmpty()&&m_variablesContainer&&m_variablesContainer->containsVariable(m_variableName)){
         ui->leValue->setPlainText(m_variablesContainer->variable(m_variableName).toString());
-#ifdef HAVE_QT5
-        ui->cbbType->setCurrentText(enumerator.valueToKey(m_variablesContainer->variableDataType(m_variableName)));
-#endif
-#ifdef HAVE_QT4
+#if QT_VERSION < 0x050000
         ui->cbbType->setCurrentIndex(ui->cbbType->findText(enumerator.valueToKey(m_variablesContainer->variableDataType(m_variableName))));
+#else
+        ui->cbbType->setCurrentText(enumerator.valueToKey(m_variablesContainer->variableDataType(m_variableName)));
 #endif
         ui->cbbMandatory->setChecked(m_variablesContainer->variableIsMandatory(m_variableName));
     }

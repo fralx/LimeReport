@@ -520,7 +520,7 @@ matrix:
           - make
           - make check
           
-      - env: Qt5.12.6_Ubuntu_18.04
+      - env: Qt5.12.10_Ubuntu_18.04
         os: linux
         dist: bionic
         language: cpp
@@ -529,7 +529,7 @@ matrix:
         addons:
           apt:
             sources:
-              - sourceline: 'ppa:beineri/opt-qt-5.12.6-bionic'
+              - sourceline: 'ppa:beineri/opt-qt-5.12.10-bionic'
             packages:
               - qt512base
               - qt512script
@@ -544,7 +544,7 @@ matrix:
           - make
           - make check
           
-      - env: Qt5.12.6_Ubuntu_18.04
+      - env: Qt5.12.10_Ubuntu_18.04
         os: linux
         dist: bionic
         language: cpp
@@ -553,7 +553,7 @@ matrix:
         addons:
           apt:
             sources:
-              - sourceline: 'ppa:beineri/opt-qt-5.12.6-bionic'
+              - sourceline: 'ppa:beineri/opt-qt-5.12.10-bionic'
             packages:
               - qt512base
               - qt512script
@@ -616,7 +616,7 @@ matrix:
           - make
           - make check   
 
-      - env: Qt5.14.0_Ubuntu_18.04
+      - env: Qt5.14.2_Ubuntu_18.04
         os: linux
         dist: bionic
         language: cpp
@@ -625,7 +625,7 @@ matrix:
         addons:
           apt:
             sources:
-              - sourceline: 'ppa:beineri/opt-qt-5.14.0-bionic'
+              - sourceline: 'ppa:beineri/opt-qt-5.14.2-bionic'
             packages:
               - qt514base
               - qt514script
@@ -640,7 +640,7 @@ matrix:
           - make
           - make check
           
-      - env: Qt5.14.0_Ubuntu_18.04
+      - env: Qt5.14.2_Ubuntu_18.04
         os: linux
         dist: bionic
         language: cpp
@@ -649,7 +649,7 @@ matrix:
         addons:
           apt:
             sources:
-              - sourceline: 'ppa:beineri/opt-qt-5.14.0-bionic'
+              - sourceline: 'ppa:beineri/opt-qt-5.14.2-bionic'
             packages:
               - qt514base
               - qt514script
@@ -662,7 +662,55 @@ matrix:
           - source /opt/qt514/bin/qt514-env.sh
           - /opt/qt514/bin/qmake -r limereport.pro
           - make
-          - make check             
+          - make check    
+
+      - env: Qt5.15.2_Ubuntu_18.04
+        os: linux
+        dist: bionic
+        language: cpp
+        compiler: gcc
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.15.2-bionic'
+            packages:
+              - qt515base
+              - qt515script
+              - qt515tools
+              - qt515svg
+              - mesa-common-dev
+              - libgl1-mesa-dev
+             
+        script:
+          - source /opt/qt515/bin/qt515-env.sh
+          - /opt/qt515/bin/qmake -r limereport.pro
+          - make
+          - make check
+          
+      - env: Qt5.15.2_Ubuntu_18.04
+        os: linux
+        dist: bionic
+        language: cpp
+        compiler: clang
+        cache: ccache
+        addons:
+          apt:
+            sources:
+              - sourceline: 'ppa:beineri/opt-qt-5.15.2-bionic'
+            packages:
+              - qt515base
+              - qt515script
+              - qt515tools
+              - qt515svg
+              - mesa-common-dev
+              - libgl1-mesa-dev
+             
+        script:
+          - source /opt/qt515/bin/qt515-env.sh
+          - /opt/qt515/bin/qmake -r limereport.pro
+          - make
+          - make check            
           
 notifications:
   email: false

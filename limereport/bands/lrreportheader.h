@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -38,7 +38,7 @@ namespace LimeReport{
 class ReportHeader : public LimeReport::BandDesignIntf
 {
     Q_OBJECT
-    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )
+    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
     Q_PROPERTY(bool printBeforePageHeader READ printBeforePageHeader WRITE setPrintBeforePageHeader)
 public:
     ReportHeader(QObject* owner = 0, QGraphicsItem *parent=0);

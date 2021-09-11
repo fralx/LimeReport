@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/design.png</file>
+        <file>images/edit.png</file>
+        <file>images/print.png</file>
+        <file>images/folder_open_16.png</file>
+        <file>images/design_black.png</file>
+        <file>images/edit_page.png</file>
+        <file>images/edit_pattern.png</file>
+        <file>images/view.png</file>
+        <file>images/zoomin.png</file>
+        <file>images/zoomout.png</file>
+        <file>images/settings-24.png</file>
+        <file>images/delete.png</file>
+        <file>images/PDF1.png</file>
+    </qresource>
+</RCC>

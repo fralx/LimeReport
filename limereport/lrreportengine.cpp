@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -32,7 +32,11 @@
 #include <QPrinterInfo>
 #include <QMessageBox>
 #include <QApplication>
+#if QT_VERSION < 0x060000
 #include <QDesktopWidget>
+#else
+#include <QScreen>
+#endif
 #include <QFileSystemWatcher>
 #include <QPluginLoader>
 #include <QFileDialog>
@@ -272,15 +276,10 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
-#ifdef HAVE_QT4
-            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
-#endif
-#ifdef HAVE_QT5
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+#if QT_VERSION >= 0x050300
         m_printer.data()->setPrinterName(pi.defaultPrinterName());
 #else
         m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
-#endif
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -394,15 +393,10 @@ bool ReportEnginePrivate::printReport(QPrinter* printer)
     if (!printer&&!m_printerSelected){
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
-#ifdef HAVE_QT4
-            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
-#endif
-#ifdef HAVE_QT5
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+#if QT_VERSION >= 0x050300
             m_printer.data()->setPrinterName(pi.defaultPrinterName());
 #else
-        m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
-#endif
+            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -1383,7 +1377,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 
 ReportPages ReportEnginePrivate::appendPages(ReportPages s1, ReportPages s2, AppendType appendType)
 {
-    if (!s1.isEmpty()>0 && s1.size() == s2.size() && appendType == MixPages){
+    if (!s1.isEmpty() && s1.size() == s2.size() && appendType == MixPages){
         ReportPages result;
         ReportPages::Iterator s1It;
         ReportPages::Iterator s2It;
@@ -1824,6 +1818,7 @@ PrintProcessor::PrintProcessor(QPrinter* printer)
 
 bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
+#if QT_VERSION < 0x060000
     if (!m_firstPage && !m_painter->isActive()) return false;
     PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
@@ -1885,11 +1880,76 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     page->setPos(backupPagePos);
     m_renderPage.removePageItem(page);
     if (backupPage) backupPage->reactivatePageItem(page);
+#else
+    if (!m_firstPage && !m_painter->isActive()) return false;
+    PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
+
+    QPointF backupPagePos = page->pos();
+    page->setPos(0,0);
+    m_renderPage.setPageItem(page);
+    m_renderPage.setSceneRect(m_renderPage.pageItem()->mapToScene(m_renderPage.pageItem()->rect()).boundingRect());
+    initPrinter(m_renderPage.pageItem());
+
+    if (!m_firstPage){
+        m_printer->newPage();
+    } else {
+        m_painter = new QPainter(m_printer);
+        if (!m_painter->isActive()) return false;
+        m_firstPage = false;
+    }
+
+    qreal leftMargin = m_printer->pageLayout().margins().left();
+    qreal topMargin = m_printer->pageLayout().margins().top();
+    qreal rightMargin = m_printer->pageLayout().margins().right();
+    qreal bottomMargin = m_printer->pageLayout().margins().bottom();
+
+    QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
+    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
+                                 (printerPageRect.size().height() + bottomMargin + topMargin) * page->unitFactor());
+    if (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
+        printerPageRect.width() < page->geometry().width())
+    {
+        qreal pageWidth = page->geometry().width();
+        qreal pageHeight =  page->geometry().height();
+        QRectF currentPrintingRect = printerPageRect;
+        qreal curHeight = 0;
+        qreal curWidth = 0;
+        bool first = true;
+        while (pageHeight > 0){
+            while (curWidth < pageWidth){
+                if (!first) m_printer->newPage(); else first = false;
+                m_renderPage.render(m_painter, m_printer->pageRect(QPrinter::Millimeter), currentPrintingRect);
+                currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
+                curWidth += printerPageRect.size().width();
+
+            }
+            pageHeight -= printerPageRect.size().height();
+            curHeight += printerPageRect.size().height();
+            currentPrintingRect = printerPageRect;
+            currentPrintingRect.adjust(0, curHeight, 0, curHeight);
+            curWidth = 0;
+        }
+
+    } else {
+        if (page->getSetPageSizeToPrinter()){
+            QRectF source = page->geometry();
+            QSizeF inchSize = source.size() / (100 * 2.54);
+            QRectF target = QRectF(QPoint(0,0), inchSize  * m_printer->resolution());
+            m_renderPage.render(m_painter, target, source);
+        } else {
+            m_renderPage.render(m_painter);
+        }
+    }
+    page->setPos(backupPagePos);
+    m_renderPage.removePageItem(page);
+    if (backupPage) backupPage->reactivatePageItem(page);
+#endif
     return true;
 }
 
 void PrintProcessor::initPrinter(PageItemDesignIntf* page)
 {
+#if QT_VERSION < 0x060000
     if (page->oldPrintMode()){
         m_printer->setPageMargins(page->leftMargin(),
                               page->topMargin(),
@@ -1917,6 +1977,31 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
               m_printer->setPaperSize(static_cast<QPrinter::PageSize>(page->pageSize()));
         }
     }
+#else
+    if (page->oldPrintMode()){
+        m_printer->setPageMargins(QMarginsF(page->leftMargin(), page->topMargin(), page->rightMargin(), page->bottomMargin()),QPageLayout::Millimeter);
+        m_printer->setPageOrientation((QPageLayout::Orientation)page->pageOrientation());
+        QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
+                   QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                   page->sizeMM();
+        m_printer->setPageSize(QPageSize(pageSize, QPageSize::Millimeter));
+            } else {
+        m_printer->setFullPage(page->fullPage());
+        if (page->dropPrinterMargins())
+            m_printer->setPageMargins(QMarginsF(0, 0, 0, 0), QPageLayout::Point);
+        m_printer->setPageOrientation((QPageLayout::Orientation)page->pageOrientation());
+        if (page->pageSize()==PageItemDesignIntf::Custom){
+            QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
+                        QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                        page->sizeMM();
+            if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
+              m_printer->setPageSize(QPageSize(pageSize, QPageSize::Millimeter));
+        } else {
+            if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
+              m_printer->setPageSize(QPageSize((QPageSize::PageSizeId)page->pageSize()));
+        }
+    }
+#endif
 }
 
 qreal ItemGeometry::x() const

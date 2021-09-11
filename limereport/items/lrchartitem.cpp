@@ -30,9 +30,9 @@ namespace LimeReport{
 
 QColor generateColor()
 {
-    int red = (qrand()%(256 - 1)) + 1;
-    int green = (qrand()%(256 - 1)) + 1;
-    int blue = (qrand()%(256 - 1)) + 1;;
+    int red = (rand()%(256 - 1)) + 1;
+    int green = (rand()%(256 - 1)) + 1;
+    int blue = (rand()%(256 - 1)) + 1;;
     return QColor(red,green,blue);
 }
 
@@ -348,7 +348,7 @@ void ChartItem::paintChartTitle(QPainter *painter, QRectF titleRect)
     painter->save();
     QFont tmpFont = painter->font();
     QFontMetrics fm(tmpFont);
-    while ((fm.height()>titleRect.height() || fm.width(m_title)>titleRect.width())
+    while ((fm.height()>titleRect.height() || fm.boundingRect(m_title).width()>titleRect.width())
            && tmpFont.pixelSize()>1) {
         tmpFont.setPixelSize(tmpFont.pixelSize()-1);
         fm = QFontMetrics(tmpFont);
@@ -570,14 +570,14 @@ QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont &font)
     if (!m_chartItem->series().isEmpty()){
         foreach(SeriesItem* series, m_chartItem->series()){
             cw += fm.height();
-            if (maxWidth<fm.width(series->name()))
-                maxWidth = fm.width(series->name())+10;
+            if (maxWidth<fm.boundingRect(series->name()).width())
+                maxWidth = fm.boundingRect(series->name()).width()+10;
         }
     } else {
         foreach(QString label, m_designLabels){
             cw += fm.height();
-            if (maxWidth<fm.width(label))
-                maxWidth = fm.width(label)+10;
+            if (maxWidth<fm.boundingRect(label).width())
+                maxWidth = fm.boundingRect(label).width()+10;
         }
     }
     cw += fm.height();
@@ -591,7 +591,7 @@ bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect)
     qreal hStep = (labelsRect.width() / valuesCount());
     QFontMetrics fm = painter->fontMetrics();
     foreach(QString label, m_chartItem->labels()){
-        if (fm.width(label) > hStep){
+        if (fm.boundingRect(label).width() > hStep){
             return  true;
         }
     }
@@ -656,7 +656,7 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
     delta = genNextValue(delta);
 
     painter->setRenderHint(QPainter::Antialiasing,false);
-    qreal hStep = (gridRect.width() - painter->fontMetrics().width(QString::number(maxValue()))) / 4;
+    qreal hStep = (gridRect.width() - painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / 4;
 
     painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
@@ -708,7 +708,7 @@ qreal AbstractSeriesChart::valuesHMargin(QPainter *painter)
 {
     int delta = int(maxValue()-minValue());
     delta = genNextValue(delta);
-    return painter->fontMetrics().width(QString::number(delta))+4;
+    return painter->fontMetrics().boundingRect(QString::number(delta)).width()+4;
 }
 
 qreal AbstractSeriesChart::valuesVMargin(QPainter *painter)
@@ -722,17 +722,21 @@ QFont AbstractSeriesChart::adaptLabelsFont(QRectF rect, QFont font)
     QFontMetrics fm(font);
 
     foreach(QString label, m_chartItem->labels()){
+#if QT_VERSION < 0x060000
         foreach (QString currentWord, label.split(QRegExp("\\W+"))){
-            if (fm.width(maxWord) < fm.width(currentWord)) maxWord = currentWord;
+#else
+        foreach (QString currentWord, label.split(QRegularExpression("\\W+"))){
+#endif
+            if (fm.boundingRect(maxWord).width() < fm.boundingRect(currentWord).width()) maxWord = currentWord;
         }
     }
 
-    qreal curWidth = fm.width(maxWord);
+    qreal curWidth = fm.boundingRect(maxWord).width();
     QFont tmpFont = font;
     while (curWidth>rect.width() && tmpFont.pixelSize() > 1){
         tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
         QFontMetricsF tmpFM(tmpFont);
-        curWidth = tmpFM.width(maxWord);
+        curWidth = tmpFM.boundingRect(maxWord).width();
     }
     return tmpFont;
 }
@@ -742,11 +746,11 @@ QFont AbstractSeriesChart::adaptValuesFont(qreal width, QFont font)
     QString strValue = QString::number(maxValue());
     QFont tmpFont = font;
     QScopedPointer<QFontMetricsF> fm(new QFontMetricsF(tmpFont));
-    qreal curWidth = fm->width(strValue);
+    qreal curWidth = fm->boundingRect(strValue).width();
     while (curWidth > width && tmpFont.pixelSize() > 1){
         tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
         fm.reset(new QFontMetricsF(tmpFont));
-        curWidth = fm->width(strValue);
+        curWidth = fm->boundingRect(strValue).width();
     }
     return tmpFont;
 }
@@ -803,8 +807,8 @@ QRectF AbstractBarChart::verticalLabelsRect(QPainter *painter, QRectF labelsRect
     qreal maxWidth = 0;
 
     foreach (QString label, m_chartItem->labels()) {
-        if (painter->fontMetrics().width(label)>maxWidth)
-            maxWidth = painter->fontMetrics().width(label);
+        if (painter->fontMetrics().boundingRect(label).width()>maxWidth)
+            maxWidth = painter->fontMetrics().boundingRect(label).width();
     }
 
     if (maxWidth + hPadding(m_chartItem->rect()) * 2 < labelsRect.width())
@@ -818,8 +822,8 @@ QRectF AbstractBarChart::horizontalLabelsRect(QPainter *painter, QRectF labelsRe
     qreal maxWidth = 0;
 
     foreach (QString label, m_chartItem->labels()) {
-        if (painter->fontMetrics().width(label)>maxWidth)
-            maxWidth = painter->fontMetrics().width(label);
+        if (painter->fontMetrics().boundingRect(label).width()>maxWidth)
+            maxWidth = painter->fontMetrics().boundingRect(label).width();
     }
 
     if ((maxWidth + vPadding(m_chartItem->rect()) < labelsRect.height()) || !verticalLabels(painter, labelsRect))

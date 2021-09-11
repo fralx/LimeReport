@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -37,7 +37,7 @@ namespace LimeReport{
 class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_OBJECT
     Q_PROPERTY(QString content READ content WRITE setContent)
-    Q_PROPERTY(BarcodeType barcodeType READ barcodeType WRITE setBarcodeType )
+    Q_PROPERTY(BarcodeType barcodeType READ barcodeType WRITE setBarcodeType)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString field READ field WRITE setField)
     Q_PROPERTY(QString testValue READ designTestValue WRITE setDesignTestValue)
@@ -152,7 +152,7 @@ public:
         KANJI_INPUT_MODE    = 3,
         SJIS_INPUT_MODE     = 4
     };
-#if (QT_VERSION >= QT_VERSION_CHECK(5,5, 0))
+#if QT_VERSION >= 0x050500
     Q_ENUM(BarcodeType)
     Q_ENUM(AngleType)
     Q_ENUM(InputMode)

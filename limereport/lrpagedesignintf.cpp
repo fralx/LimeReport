@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -752,16 +752,28 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         bool isVar = event->mimeData()->text().indexOf("variable:")==0;
         BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
         TextItem* ti = dynamic_cast<TextItem*>(item);
-        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
+        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);        
+#if QT_VERSION < 0x060000
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
+#else
+        if (isVar) data = data.remove(QRegularExpression("  \\[.*\\]"));
+#endif
         ti->setContent(data);
         if (!isVar){
             BandDesignIntf* parentBand = dynamic_cast<BandDesignIntf*>(ti->parentItem());
             if (parentBand && parentBand->datasourceName().isEmpty()){
+#if QT_VERSION < 0x060000
                 QRegExp dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
                 if (dataSource.indexIn(data) != -1){
                     parentBand->setProperty("datasource",dataSource.cap(1));
                 }
+#else
+                QRegularExpression dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
+                QRegularExpressionMatch match = dataSource.match(data);
+                if(match.hasMatch()){
+                    parentBand->setProperty("datasource", match.captured(1));
+                }
+#endif
             }
         }
     }
@@ -1723,7 +1735,7 @@ HorizontalLayout* PageDesignIntf::internalAddHLayout()
 
         QList<QGraphicsItem *> si = selectedItems();
         QList<QGraphicsItem *>::iterator it = si.begin();
-        qSort(si.begin(), si.end(), hLayoutLessThen);
+        std::sort(si.begin(), si.end(), hLayoutLessThen);
         it = si.begin();
 
         if (si.count() > 1) {
@@ -1767,7 +1779,7 @@ VerticalLayout* PageDesignIntf::internalAddVLayout()
 
         QList<QGraphicsItem *> si = selectedItems();
         QList<QGraphicsItem *>::iterator it = si.begin();
-        qSort(si.begin(), si.end(), vLayoutLessThen);
+        std::sort(si.begin(), si.end(), vLayoutLessThen);
         it = si.begin();
 
         if (si.count() > 1) {
@@ -1862,6 +1874,9 @@ void PageDesignIntf::setItemMode(BaseDesignIntf::ItemMode mode)
                     reportItem->setItemMode(itemMode());
                 }
             }
+        }
+        foreach(PageItemDesignIntf::Ptr page, m_reportPages){
+            page->setItemMode(mode);
         }
     }
 }

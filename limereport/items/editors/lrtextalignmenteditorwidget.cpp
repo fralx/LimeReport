@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -108,7 +108,7 @@ void TextAlignmentEditorWidget::updateValues(const Qt::Alignment &align)
 
 Qt::Alignment TextAlignmentEditorWidget::createAlignment()
 {
-    Qt::Alignment align = 0 ;
+    Qt::Alignment align = Qt::Alignment();
     if (m_textAliginLeft->isChecked()) align |= Qt::AlignLeft;
     if (m_textAliginHCenter->isChecked()) align |= Qt::AlignHCenter;
     if (m_textAliginRight->isChecked()) align |= Qt::AlignRight;

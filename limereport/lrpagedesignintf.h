@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -99,7 +99,7 @@ namespace LimeReport {
 
     class PageDesignIntf : public QGraphicsScene, public ObjectLoadingStateIntf{
         Q_OBJECT
-        Q_PROPERTY(QObject* pageItem READ pageItem())
+        Q_PROPERTY(QObject* pageItem READ pageItem)
     public:
         friend class PropertyChangedCommand;
         friend class InsertHLayoutCommand;

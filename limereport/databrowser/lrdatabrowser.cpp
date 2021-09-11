@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of the Lime Report project                          *
- *   Copyright (C) 2015 by Alexander Arin                                  *
+ *   Copyright (C) 2021 by Alexander Arin                                  *
  *   arin_a@bk.ru                                                          *
  *                                                                         *
  **                   GNU General Public License Usage                    **
@@ -63,7 +63,8 @@ DataBrowser::DataBrowser(QWidget *parent) :
     connect(ui->changeConnection,SIGNAL(clicked()),this,SLOT(slotChangeConnection()));
     connect(ui->pbConnect,SIGNAL(clicked()),this,SLOT(slotChangeConnectionState()));
 
-    ui->verticalLayout_2->setMargin(Const::DOCKWIDGET_MARGINS);
+    int margin = Const::DOCKWIDGET_MARGINS;
+    ui->verticalLayout_2->setContentsMargins(margin, margin, margin, margin);
 
     ui->dataTree->setHeaderLabel(tr("Datasources"));
     ui->pbConnect->setEnabled(false);
@@ -413,7 +414,7 @@ void DataBrowser::initConnections()
             connections.append(connectionName);
         }
     }
-    qSort(connections);
+    std::sort(connections.begin(), connections.end());
     foreach (QString connectionName, connections) {
         QTreeWidgetItem *item=new QTreeWidgetItem(
             ui->dataTree,
@@ -443,7 +444,7 @@ void DataBrowser::initConnections()
 //    }
 
 //    connections = m_report->dataManager()->connectionNames();
-//    qSort(connections);
+//    std::sort(connections);
 //    foreach(QString connectionName,connectionName){
 //        if (!QSqlDatabase::contains(connectionName)){
 //            QTreeWidgetItem *item=new QTreeWidgetItem(
