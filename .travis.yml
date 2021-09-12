@@ -1,3 +1,4 @@
+language: cpp
 matrix:
     include:         
       - env: Qt4.8.5_Ubuntu_14.04
