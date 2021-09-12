@@ -8,9 +8,7 @@ QT  += core gui xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets gui-private
 
 CONFIG += uitools
-
 include(../common.pri)
-include(../qzint.pri)
 include(../limereport.pri)
 
 TARGET = lrdview
@@ -19,6 +17,9 @@ TEMPLATE = app
 win32 {
   RC_FILE += mainicon.rc
 }
+
+INCLUDEPATH += $$PWD/../include
+DEPENDPATH  += $$PWD/../include
 
 SOURCES += main.cpp\
         MainWindow.cpp \
