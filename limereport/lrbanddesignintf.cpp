@@ -643,18 +643,18 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     ItemsContainerDesignInft::processPopUpAction(action);
 }
 
-void BandDesignIntf::recalcItems(DataSourceManager* dataManager)
-{
-    foreach(BaseDesignIntf* bi, childBaseItems()){
-        ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
-        if (bi){
-            ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
-            ci->setContent(pci->content());
-        }
-    }
+//void BandDesignIntf::recalcItems(DataSourceManager* dataManager)
+//{
+//    foreach(BaseDesignIntf* bi, childBaseItems()){
+//        ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
+//        if (bi){
+//            ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
+//            ci->setContent(pci->content());
+//        }
+//    }
 
-    updateItemSize(dataManager,FirstPass,height());
-}
+//    updateItemSize(dataManager,FirstPass,height());
+//}
 
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
@@ -1157,17 +1157,6 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
         setHeight(maxHeight);
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
-}
-
-void BandDesignIntf::restoreItems()
-{
-    foreach(BaseDesignIntf* bi, childBaseItems()){
-        ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
-        if (ci){
-            ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
-            ci->setContent(pci->content());
-        }
-    }
 }
 
 void BandDesignIntf::updateBandNameLabel()

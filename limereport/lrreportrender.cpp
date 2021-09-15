@@ -359,20 +359,30 @@ void ReportRender::clearPageMap()
     m_renderedPages.clear();
 }
 
-bool ReportRender::containsGroupFunctions(BandDesignIntf *band){
-    foreach(BaseDesignIntf* item,band->childBaseItems()){
-        ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
-        if (contentItem){
-            QString content = contentItem->content();
-            foreach(QString functionName, m_datasources->groupFunctionNames()){
+
+bool checkContentItem(ContentItemDesignIntf* item, DataSourceManager* datasources){
+    QString content = item->content();
+    foreach(QString functionName, datasources->groupFunctionNames()){
 #if QT_VERSION < 0x060000
-                QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
-                if (rx.indexIn(content)>=0){
-                    return true;
-                }
+        QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+        if (rx.indexIn(content)>=0){
+            return true;
+        }
 #else
-                // TODO: Qt6 port
+        // TODO: Qt6 port
 #endif
+    }
+    return false;
+}
+
+bool ReportRender::containsGroupFunctions(BaseDesignIntf *container){
+    if (container){
+        foreach (BaseDesignIntf* item, container->childBaseItems()) {
+            ContentItemDesignIntf* contentItem = dynamic_cast<ContentItemDesignIntf*>(item);
+            if (contentItem){
+                if (checkContentItem(contentItem, m_datasources)) return true;
+            } else {
+                if (containsGroupFunctions(item)) return true;
             }
         }
     }
@@ -846,11 +856,21 @@ BandDesignIntf* ReportRender::findRecalcableBand(BandDesignIntf* patternBand){
     return 0;
 }
 
+void restoreItemsWithGroupFunctions(BaseDesignIntf* container, DataSourceManager* datasources){
+    foreach(BaseDesignIntf* bi, container->childBaseItems()){
+        ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
+        if (pci && checkContentItem(pci, datasources)){
+            ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
+            ci->setContent(pci->content());
+        } else restoreItemsWithGroupFunctions(bi, datasources);
+    }
+}
+
 void ReportRender::recalcIfNeeded(BandDesignIntf* band){
     BandDesignIntf* recalcBand = findRecalcableBand(band);
     if (recalcBand){
         QString bandName = recalcBand->objectName();
-        recalcBand->restoreItems();
+        restoreItemsWithGroupFunctions(recalcBand, m_datasources);
         recalcBand->setObjectName(recalcBand->patternItem()->objectName());
         replaceGroupsFunction(recalcBand);
         recalcBand->updateItemSize(datasources());

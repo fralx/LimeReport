@@ -139,7 +139,7 @@ private:
     qreal   calcPageFooterHeight(PageItemDesignIntf* patternPage);
     qreal   calcSlicePercent(qreal height);
 
-    bool	containsGroupFunctions(BandDesignIntf* band);
+    bool	containsGroupFunctions(BaseDesignIntf *container);
     void	extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band);
     void    extractGroupFunctionsFromContainer(BaseDesignIntf* baseItem, BandDesignIntf* band);
     void    extractGroupFunctions(BandDesignIntf* band);
