@@ -156,8 +156,7 @@ public:
     virtual bool isUnique() const;
     void setItemMode(BaseDesignIntf::ItemMode mode);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
-    void restoreItems();
-    void recalcItems(DataSourceManager* dataManager);
+//    void recalcItems(DataSourceManager* dataManager);
     void updateBandNameLabel();
 
     virtual QColor selectionColor() const;
