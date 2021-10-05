@@ -330,19 +330,14 @@ void PreviewReportWidget::setScalePercent(int percent)
 void PreviewReportWidget::fitWidth()
 {
     if (d_ptr->currentPage()){
-        qreal scalePercent = ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width();
-        setScalePercent(scalePercent*100);
-        m_scaleType = FitWidth;
+        resize(m_scaleType = FitWidth);
     }
 }
 
 void PreviewReportWidget::fitPage()
 {
     if (d_ptr->currentPage()){
-        qreal vScale = ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width();
-        qreal hScale = ui->graphicsView->viewport()->height() / d_ptr->currentPage()->height();
-        setScalePercent(qMin(vScale,hScale)*100);
-        m_scaleType = FitPage;
+        resize(m_scaleType = FitPage);
     }
 }
 
@@ -436,6 +431,28 @@ void PreviewReportWidget::activateCurrentPage()
     PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
     if (page)
         page->setCurrentPage(d_ptr->currentPage().data());
+}
+
+void PreviewReportWidget::resize(ScaleType scaleType, int percent)
+{
+    switch (scaleType) {
+    case FitWidth:
+            setScalePercent(ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width()*100);
+        break;
+    case FitPage:
+            setScalePercent(qMin(
+                ui->graphicsView->viewport()->width() / ui->graphicsView->scene()->width(),
+                ui->graphicsView->viewport()->height() / d_ptr->currentPage()->height()
+            ) * 100);
+        break;
+    case OneToOne:
+        setScalePercent(100);
+        break;
+    case Percents:
+        setScalePercent(percent);
+        break;
+    }
+
 }
 
 void PreviewReportWidget::slotSliderMoved(int value)

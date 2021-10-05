@@ -5,11 +5,11 @@ find_package(PNG REQUIRED)
 
 find_package(
   QT NAMES Qt6 Qt5
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport Script UiTools
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport UiTools
   )
 find_package(
   Qt${QT_VERSION_MAJOR}
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport Script UiTools
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport UiTools
   )
 
 # Old Qt does not provide QT_VERSION_MAJOR
@@ -37,7 +37,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 
-set ( LIMEREPORT_SOURCES 
+set ( LIMEREPORT_SOURCES
 ${PROJECT_NAME}/bands/lrdataband.cpp
 ${PROJECT_NAME}/bands/lrgroupbands.cpp
 ${PROJECT_NAME}/bands/lrpagefooter.cpp
@@ -282,13 +282,13 @@ ${PROJECT_NAME}/translationeditor/languageselectdialog.ui
 ${PROJECT_NAME}/translationeditor/translationeditor.ui
 
 
-./${PROJECT_NAME}/databrowser/lrdatabrowser.qrc
-./${PROJECT_NAME}/dialogdesigner/dialogdesigner.qrc
-./${PROJECT_NAME}/items/items.qrc
-./${PROJECT_NAME}/objectinspector/lobjectinspector.qrc
-./${PROJECT_NAME}/report.qrc
-./${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.qrc
-./${PROJECT_NAME}/translationeditor/translationeditor.qrc
+${PROJECT_NAME}/databrowser/lrdatabrowser.qrc
+${PROJECT_NAME}/dialogdesigner/dialogdesigner.qrc
+${PROJECT_NAME}/items/items.qrc
+${PROJECT_NAME}/objectinspector/lobjectinspector.qrc
+${PROJECT_NAME}/report.qrc
+${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.qrc
+${PROJECT_NAME}/translationeditor/translationeditor.qrc
 )
 
 if (ENABLE_ZINT)
@@ -402,30 +402,29 @@ if (LIMEREPORT_STATIC AND ENABLE_ZINT)
 endif(LIMEREPORT_STATIC AND ENABLE_ZINT)
 
 
-target_link_libraries( ${PROJECT_NAME} PUBLIC 
-	Qt${QT_VERSION_MAJOR}::Core 
-	Qt${QT_VERSION_MAJOR}::Widgets 
-	Qt${QT_VERSION_MAJOR}::Qml 
-	Qt${QT_VERSION_MAJOR}::Xml 
-	Qt${QT_VERSION_MAJOR}::Sql 
-	Qt${QT_VERSION_MAJOR}::PrintSupport 
-	Qt${QT_VERSION_MAJOR}::Script 
-	Qt${QT_VERSION_MAJOR}::Svg 
+target_link_libraries( ${PROJECT_NAME} PUBLIC
+	Qt${QT_VERSION_MAJOR}::Core
+	Qt${QT_VERSION_MAJOR}::Widgets
+	Qt${QT_VERSION_MAJOR}::Qml
+	Qt${QT_VERSION_MAJOR}::Xml
+	Qt${QT_VERSION_MAJOR}::Sql
+	Qt${QT_VERSION_MAJOR}::PrintSupport
+	Qt${QT_VERSION_MAJOR}::Svg
 	Qt${QT_VERSION_MAJOR}::UiTools)
-	
+
 target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_QT5 -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DHAVE_UI_LOADER -D_CRT_SECURE_NO_WARNINGS)
-target_include_directories( ${PROJECT_NAME} PRIVATE 
-	limereport/ 
-	limereport/base 
-	limereport/bands 
-	limereport/databrowser 
-	limereport/items/editors 
-	limereport/items 
-	limereport/objectinspector 
-	limereport/scriptbrowser 
-	limereport/serializators 
+target_include_directories( ${PROJECT_NAME} PRIVATE
+	limereport/
+	limereport/base
+	limereport/bands
+	limereport/databrowser
+	limereport/items/editors
+	limereport/items
+	limereport/objectinspector
+	limereport/scriptbrowser
+	limereport/serializators
 	limereport/scripteditor )
-	
+
 install(TARGETS
 	${PROJECT_NAME}
 	ARCHIVE DESTINATION lib

@@ -40,6 +40,7 @@ public:
     void activateItemSelectionMode();
     void deleteSelectedItems();
     void activateCurrentPage();
+    void resize(ScaleType scaleType, int percent=0);
 
 public slots:
     void refreshPages();
