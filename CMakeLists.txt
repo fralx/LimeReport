@@ -1,7 +1,12 @@
 project(limereport)
 cmake_minimum_required(VERSION 3.14)
 
-find_package(PNG REQUIRED)
+set(LIMEREPORT_VERSION_MAJOR 1)
+set(LIMEREPORT_VERSION_MINOR 5)
+set(LIMEREPORT_VERSION_RELEASE 90)
+
+option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
+option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
 
 find_package(
   QT NAMES Qt6 Qt5
@@ -11,7 +16,6 @@ find_package(
   Qt${QT_VERSION_MAJOR}
   COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport UiTools
   )
-
 # Old Qt does not provide QT_VERSION_MAJOR
 if (NOT QT_VERSION_MAJOR)
     string(SUBSTRING ${QT_VERSION} 0 1 QT_VERSION_MAJOR)
@@ -24,6 +28,8 @@ endif()
 if (Qt${QT_VERSION_MAJOR}Widgets_FOUND)
     message(STATUS "QtWidgets found")
 endif()
+
+add_subdirectory(3rdparty)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -301,6 +307,7 @@ if (LIMEREPORT_STATIC)
     list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/lrfactoryinitializer.h)
 endif(LIMEREPORT_STATIC)
 
+
 set(EXTRA_FILES
    ${PROJECT_NAME}/lrglobal.h
    ${PROJECT_NAME}/lrdatasourcemanagerintf.h
@@ -313,58 +320,6 @@ set(EXTRA_FILES
    ${PROJECT_NAME}/lrpreparedpagesintf.h
 )
 
-set(ZINT_FILES
-    3rdparty/zint-2.6.1/backend/2of5.c
-    3rdparty/zint-2.6.1/backend/auspost.c
-    3rdparty/zint-2.6.1/backend/aztec.c
-    3rdparty/zint-2.6.1/backend/bmp.c
-    3rdparty/zint-2.6.1/backend/codablock.c
-    3rdparty/zint-2.6.1/backend/code.c
-    3rdparty/zint-2.6.1/backend/code1.c
-    3rdparty/zint-2.6.1/backend/code128.c
-    3rdparty/zint-2.6.1/backend/code16k.c
-    3rdparty/zint-2.6.1/backend/code49.c
-    3rdparty/zint-2.6.1/backend/common.c
-    3rdparty/zint-2.6.1/backend/composite.c
-    3rdparty/zint-2.6.1/backend/dllversion.c
-    3rdparty/zint-2.6.1/backend/dmatrix.c
-    3rdparty/zint-2.6.1/backend/dotcode.c
-    3rdparty/zint-2.6.1/backend/eci.c
-    3rdparty/zint-2.6.1/backend/emf.c
-    3rdparty/zint-2.6.1/backend/gif.c
-    3rdparty/zint-2.6.1/backend/gridmtx.c
-    3rdparty/zint-2.6.1/backend/gs1.c
-    3rdparty/zint-2.6.1/backend/hanxin.c
-    3rdparty/zint-2.6.1/backend/imail.c
-    3rdparty/zint-2.6.1/backend/large.c
-    3rdparty/zint-2.6.1/backend/library.c
-    3rdparty/zint-2.6.1/backend/libzint.rc
-    3rdparty/zint-2.6.1/backend/maxicode.c
-    3rdparty/zint-2.6.1/backend/medical.c
-    3rdparty/zint-2.6.1/backend/pcx.c
-    3rdparty/zint-2.6.1/backend/pdf417.c
-    3rdparty/zint-2.6.1/backend/plessey.c
-    3rdparty/zint-2.6.1/backend/png.c
-    3rdparty/zint-2.6.1/backend/postal.c
-    3rdparty/zint-2.6.1/backend/ps.c
-    3rdparty/zint-2.6.1/backend/qr.c
-    3rdparty/zint-2.6.1/backend/raster.c
-    3rdparty/zint-2.6.1/backend/reedsol.c
-    3rdparty/zint-2.6.1/backend/render.c
-    3rdparty/zint-2.6.1/backend/rss.c
-    3rdparty/zint-2.6.1/backend/svg.c
-    3rdparty/zint-2.6.1/backend/telepen.c
-    3rdparty/zint-2.6.1/backend/tif.c
-    3rdparty/zint-2.6.1/backend/upcean.c
-    3rdparty/zint-2.6.1/backend_qt/qzint.cpp
-    )
-
-
-
-set(LIMEREPORT_VERSION_MAJOR 1)
-set(LIMEREPORT_VERSION_MINOR 5)
-set(LIMEREPORT_VERSION_RELEASE 88)
-
 configure_file(config.h.in config.h @ONLY)
 
 set(GLOBAL_HEADERS
@@ -374,10 +329,6 @@ set(GLOBAL_HEADERS
     ${PROJECT_NAME}/LRScriptManager
     ${CMAKE_CURRENT_BINARY_DIR}/config.h
     )
-
-if(ENABLE_ZINT)
-    add_library(QZint STATIC  ${ZINT_FILES})
-endif(ENABLE_ZINT)
 
 if (LIMEREPORT_STATIC)
 	message(STATUS "STATIC LIBRARY")
@@ -389,18 +340,6 @@ else()
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DCMAKE_CONFIG)
-target_link_libraries( ${PROJECT_NAME} PRIVATE PNG::PNG)
-if(ENABLE_ZINT)
-    target_link_libraries( ${PROJECT_NAME} PRIVATE QZint)
-    target_include_directories( ${PROJECT_NAME} PRIVATE
-            3rdparty/zint-2.6.1/backend_qt
-            3rdparty/zint-2.6.1/backend)
-endif(ENABLE_ZINT)
-
-if (LIMEREPORT_STATIC AND ENABLE_ZINT)
-    target_compile_definitions( ${PROJECT_NAME} PRIVATE -DQZINT_STATIC_BUILD)
-endif(LIMEREPORT_STATIC AND ENABLE_ZINT)
-
 
 target_link_libraries( ${PROJECT_NAME} PUBLIC
 	Qt${QT_VERSION_MAJOR}::Core
@@ -411,6 +350,10 @@ target_link_libraries( ${PROJECT_NAME} PUBLIC
 	Qt${QT_VERSION_MAJOR}::PrintSupport
 	Qt${QT_VERSION_MAJOR}::Svg
 	Qt${QT_VERSION_MAJOR}::UiTools)
+
+if(ENABLE_ZINT)
+    target_link_libraries( ${PROJECT_NAME} PRIVATE QZint)
+endif(ENABLE_ZINT)
 
 target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_QT5 -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DHAVE_UI_LOADER -D_CRT_SECURE_NO_WARNINGS)
 target_include_directories( ${PROJECT_NAME} PRIVATE
