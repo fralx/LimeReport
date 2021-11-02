@@ -82,7 +82,7 @@ public:
     static QVector<TagDiff> tagVectDiff(QVector<Tag*> source, QVector<Tag*> dest);
     static bool isVectorEqual(QVector<Tag*> source, QVector<Tag*> dest);
     void fillTagVector(QString html);
-    QString extendTextByTags(QString text, int pos);
+    //QString extendTextByTags(QString text, int pos);
     QVector<Tag *> tagsAt(int pos);
     Symb symbAt(int pos);
     void clearTags();

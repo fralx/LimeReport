@@ -360,10 +360,13 @@ void TextItem::updateLayout()
 
 bool TextItem::isNeedExpandContent() const
 {
+    bool result = false;
 #if QT_VERSION < 0x060000
     QRegExp rx("$*\\{[^{]*\\}");
 #else
-    QRegularExpression rx("$*\\{[^{]*\\}");
+    QRegularExpression rx("\\$*\\{[^{]*\\}");
+    result = content().contains(rx) || isContentBackedUp();
+    return result;
 #endif
     return content().contains(rx) || isContentBackedUp();
 }

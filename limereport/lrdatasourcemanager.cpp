@@ -423,7 +423,28 @@ QString DataSourceManager::extractField(QString source)
 }
 
 QString DataSourceManager::replaceVariables(QString value){
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QRegularExpression rx(Const::VARIABLE_RX);
+    QRegularExpressionMatchIterator iter = rx.globalMatch(value);
+    qsizetype pos = 0;
+    QString result;
+    while (iter.hasNext()) {
+        QRegularExpressionMatch match = iter.next();
+        QString var = match.captured(0);
+        var.remove("$V{");
+        var.remove("}");
+        result += value.mid(pos, match.capturedStart(0));
+        if (variable(var).isValid()){
+            result += variable(var).toString();
+        } else {
+            result += QString(tr("Variable \"%1\" not found!").arg(var));
+        }
+        pos = match.capturedEnd(0);
+    }
+    result += value.mid(pos);
+    return result;
+    // TODO: Qt6 port - done
+#else
     QRegExp rx(Const::VARIABLE_RX);
 
     if (value.contains(rx)){
@@ -440,17 +461,55 @@ QString DataSourceManager::replaceVariables(QString value){
             }
         }
     }
-    return value;
-#else
-    QRegularExpression rx(Const::VARIABLE_RX);
-    // TODO: Qt6 port
+    return value;    
 #endif
     return QString();
 }
 
 QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
 {
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    QRegularExpression rx(Const::VARIABLE_RX);
+    int curentAliasIndex = 0;
+    if (query.contains(rx)){
+        int pos = -1;
+        QRegularExpressionMatch match = rx.match(query);
+        while ((pos=match.capturedStart())!=-1){
+
+            QString var=match.captured(0);
+            var.remove("$V{");
+            var.remove("}");
+            if (!match.captured(1).isEmpty()){
+                if (aliasesToParam.contains(var)){
+                    curentAliasIndex++;
+                    aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
+                    var += "_v_alias"+QString::number(curentAliasIndex);
+                } else {
+                    aliasesToParam.insert(var,var);
+                }
+                query.replace(pos,match.captured(0).length(),":"+var);
+            } else {
+                QString varName = match.captured(2).trimmed();
+                QString varParam = match.captured(3).trimmed();
+                if (!varName.isEmpty()){
+                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0 ){
+                        query.replace(pos,match.captured(0).length(), variable(varName).toString());
+                    } else {
+                        query.replace(pos,match.captured(0).length(),
+                                      QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
+                                              .arg(varName)
+                                              .arg(varParam))
+                                      );
+                    }
+                } else {
+                    query.replace(pos,match.captured(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+                }
+            }
+            match = rx.match(query);
+        }
+    }
+    // TODO: Qt6 port - done
+#else
     QRegExp rx(Const::VARIABLE_RX);
     int curentAliasIndex = 0;
     if (query.contains(rx)){
@@ -488,17 +547,44 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
             }
         }
     }
-    return query;
-#else
-    QRegularExpression rx(Const::VARIABLE_RX);
-    // TODO: Qt6 port
 #endif
-    return QString();
+    return query;
 }
 
 QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
 {
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+
+    QRegularExpression rx(Const::FIELD_RX);
+    int curentAliasIndex = 0;
+    if (query.contains(rx)){
+        int pos = -1;
+        QRegularExpressionMatch match = rx.match(query);
+        while ((pos=match.capturedStart())!=-1){
+
+            QString field=match.captured(0);
+            field.remove("$D{");
+            field.remove("}");
+
+            if (!aliasesToParam.contains(field)){
+                if (field.contains("."))
+                    aliasesToParam.insert(field, field);
+                else
+                    aliasesToParam.insert(field, masterDatasource+"."+field);
+            } else {
+                curentAliasIndex++;
+                if (field.contains("."))
+                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex), field);
+                else
+                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex), masterDatasource+"."+field);
+                field+="_f_alias"+QString::number(curentAliasIndex);
+            }
+            query.replace(pos,match.capturedLength(),":"+extractField(field));
+            match = rx.match(query);
+        }
+    }
+    // TODO: Qt6 port - possible done
+#else
     QRegExp rx(Const::FIELD_RX);
     if (query.contains(rx)){
         int curentAliasIndex=0;
@@ -524,12 +610,9 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
             query.replace(pos,rx.cap(0).length(),":"+extractField(field));
         }
     }
-    return query;
-#else
-    QRegularExpression rx(Const::FIELD_RX);
-    // TODO: Qt6 port
+    return query;    
 #endif
-    return QString();
+    return query;
 }
 
 void DataSourceManager::setReportVariable(const QString &name, const QVariant &value)

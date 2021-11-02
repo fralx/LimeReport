@@ -104,10 +104,10 @@ namespace Const{
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);
     QString replaceHTMLSymbols(const QString &value);
-#if QT_VERSION < 0x060000
-    QVector<QString> normalizeCaptures(const QRegExp &reg);
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
     QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg);
+#else
+    QVector<QString> normalizeCaptures(const QRegExp &reg);    
 #endif
     bool isColorDark(QColor color);
 

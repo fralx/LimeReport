@@ -67,10 +67,10 @@ QString replaceHTMLSymbols(const QString &value)
     return result;
 }
 
-#if QT_VERSION < 0x060000
-QVector<QString> normalizeCaptures(const QRegExp& reg){
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
 QVector<QString> normalizeCaptures(const QRegularExpressionMatch& reg){
+#else
+QVector<QString> normalizeCaptures(const QRegExp& reg){
 #endif
     QVector<QString> result;
     foreach (QString cap, reg.capturedTexts()) {

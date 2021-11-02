@@ -169,7 +169,7 @@ void ReportDesignWindow::createActions()
     m_editModeAction->setIcon(QIcon(":/report/images/editMode"));
     m_editModeAction->setCheckable(true);
     m_editModeAction->setChecked(true);
-    m_editModeAction->setShortcut(QKeySequence(Qt::Key_Escape));
+    //m_editModeAction->setShortcut(QKeySequence(Qt::Key_Escape));
     connect(m_editModeAction,SIGNAL(triggered()),this,SLOT(slotEditMode()));
 
     m_undoAction = new QAction(tr("Undo"),this);
@@ -502,8 +502,11 @@ void ReportDesignWindow::createBandsButton()
     connect(m_newTearOffBand,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
     m_bandsAddSignalsMap->setMapping(m_newTearOffBand,BandDesignIntf::TearOffBand);
     m_newBandButton->addAction(m_newTearOffBand);
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    connect(m_bandsAddSignalsMap,SIGNAL(mappedInt(int)),this,SLOT(slotNewBand(int)));
+#else
     connect(m_bandsAddSignalsMap,SIGNAL(mapped(int)),this,SLOT(slotNewBand(int)));
+#endif
 }
 
 void ReportDesignWindow::createMainMenu()
@@ -530,7 +533,11 @@ void ReportDesignWindow::createMainMenu()
     m_infoMenu->addAction(m_aboutAction);
     m_recentFilesMenu = m_fileMenu->addMenu(tr("Recent Files"));
     m_recentFilesSignalMap = new QSignalMapper(this);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    connect(m_recentFilesSignalMap,SIGNAL(mappedString(QString)),this,SLOT(slotLoadRecentFile(QString)));
+#else
     connect(m_recentFilesSignalMap,SIGNAL(mapped(QString)),this,SLOT(slotLoadRecentFile(QString)));
+#endif
     m_recentFilesMenu->setDisabled(m_recentFiles.isEmpty());
 }
 
@@ -744,6 +751,11 @@ void ReportDesignWindow::setDocWidgetsVisibility(bool visible)
         hideDockWidgets(Qt::RightDockWidgetArea,!visible);
 }
 
+void ReportDesignWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key()==Qt::Key_Escape){m_editModeAction->trigger();}
+}
+
 void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
@@ -837,16 +849,16 @@ void ReportDesignWindow::restoreSetting()
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
     } else {
-#if QT_VERSION < 0x060000
-        QDesktopWidget *desktop = QApplication::desktop();
-
-        int screenWidth = desktop->screenGeometry().width();
-        int screenHeight = desktop->screenGeometry().height();
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
         QScreen *screen = QGuiApplication::primaryScreen();
 
         int screenWidth = screen->geometry().width();
         int screenHeight = screen->geometry().height();
+#else
+        QDesktopWidget *desktop = QApplication::desktop();
+
+        int screenWidth = desktop->screenGeometry().width();
+        int screenHeight = desktop->screenGeometry().height();        
 #endif
         int x = screenWidth * 0.1;
         int y = screenHeight * 0.1;

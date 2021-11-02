@@ -91,6 +91,7 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Enter:
         case Qt::Key_Return:
         case Qt::Key_Escape:
+            m_compleater->popup()->close();
         case Qt::Key_Tab:
         case Qt::Key_Backtab:
         case Qt::Key_Right:

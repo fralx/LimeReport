@@ -119,7 +119,11 @@ PreviewReportWindow::PreviewReportWindow(ReportEngine *report, QWidget *parent, 
     
     connect(ui->actionShowMessages, SIGNAL(triggered()), this, SLOT(slotShowErrors()));
     connect(m_previewReportWidget, SIGNAL(scalePercentChanged(int)), this, SLOT(slotScalePercentChanged(int)));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+    connect(m_scalePercent, SIGNAL(currentTextChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+#else
     connect(m_scalePercent, SIGNAL(currentIndexChanged(QString)), this, SLOT(scaleComboboxChanged(QString)));
+#endif
     connect(m_previewReportWidget, SIGNAL(pageChanged(int)), this, SLOT(slotCurrentPageChanged(int)));
     connect(m_previewReportWidget, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
             this, SLOT(slotItemInserted(LimeReport::PageDesignIntf*, QPointF, QString)));

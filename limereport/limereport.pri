@@ -35,7 +35,7 @@ SOURCES += \
     $$REPORT_PATH/items/editors/lrfonteditorwidget.cpp \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.cpp \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.cpp \
-    $$REPORT_PATH/items/lrsimpletagparser.cpp \
+#    $$REPORT_PATH/items/lrsimpletagparser.cpp \
     $$REPORT_PATH/items/lrimageitem.cpp \
     $$REPORT_PATH/items/lrimageitemeditor.cpp \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
@@ -121,7 +121,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/items/lrimageitemeditor.h \
-    $$REPORT_PATH/items/lrsimpletagparser.h \
+#    $$REPORT_PATH/items/lrsimpletagparser.h \
     $$REPORT_PATH/items/lrverticallayout.h \
     $$REPORT_PATH/items/lrlayoutmarker.h \
     $$REPORT_PATH/items/lrabstractlayout.h \

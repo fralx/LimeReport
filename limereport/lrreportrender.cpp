@@ -196,14 +196,19 @@ void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignInt
         QString content = contentItem->content();
         QVector<QString> functions;
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+            QRegularExpression rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            rx.setPatternOptions(rx.InvertedGreedinessOption);
+            if(content.indexOf(rx)>=0){
+                functions.append(functionName);
+            }
+            // TODO: Qt6 port - done
+#else
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
             rx.setMinimal(true);
             if (rx.indexIn(content)>=0){
                 functions.append(functionName);
-            }
-#else
-            // TODO: Qt6 port
+            }            
 #endif
         }
         if (functions.size()>0)
@@ -363,13 +368,18 @@ void ReportRender::clearPageMap()
 bool checkContentItem(ContentItemDesignIntf* item, DataSourceManager* datasources){
     QString content = item->content();
     foreach(QString functionName, datasources->groupFunctionNames()){
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+        QRegularExpression rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+        rx.setPatternOptions(rx.InvertedGreedinessOption);
+        if(content.indexOf(rx)>=0){
+            return true;
+        }
+        // TODO: Qt6 port - done
+#else
         QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
         if (rx.indexIn(content)>=0){
             return true;
         }
-#else
-        // TODO: Qt6 port
 #endif
     }
     return false;
@@ -390,7 +400,78 @@ bool ReportRender::containsGroupFunctions(BaseDesignIntf *container){
 }
 
 void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentItem, BandDesignIntf* band){
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+
+    if ( contentItem && contentItem->content().contains(QRegularExpression("\\$S\\s*\\{.*\\}"))){
+        foreach(const QString &functionName, m_datasources->groupFunctionNames()){
+            QRegularExpression rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+            rx.setPatternOptions(rx.InvertedGreedinessOption);
+            QRegularExpression rxName(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName));
+            rxName.setPatternOptions(rx.InvertedGreedinessOption);
+
+            QRegularExpressionMatch match = rx.match(contentItem->content());
+            if (match.hasMatch()){
+
+                QRegularExpressionMatchIterator iter = rx.globalMatch(contentItem->content());
+                while(iter.hasNext()){
+                    match = iter.next();
+                    QVector<QString> captures = normalizeCaptures(match);
+                    if (captures.size() >= 3){
+                        int dsIndex = captures.size() == 3 ? Const::DATASOURCE_INDEX - 1 : Const::DATASOURCE_INDEX;
+                        BandDesignIntf* dataBand = m_patternPageItem->bandByName(captures.at(dsIndex));
+                        if (dataBand){
+                            GroupFunction* gf = datasources()->addGroupFunction(
+                                functionName, captures.at(Const::VALUE_INDEX), band->objectName(), dataBand->objectName()
+                            );
+                            if (gf){
+                                connect(dataBand, SIGNAL(bandRendered(BandDesignIntf*)),
+                                        gf, SLOT(slotBandRendered(BandDesignIntf*)));
+                                connect(dataBand, SIGNAL(bandReRendered(BandDesignIntf*, BandDesignIntf*)),
+                                        gf, SLOT(slotBandReRendered(BandDesignIntf*, BandDesignIntf*)));
+                            }
+                        } else {
+                            GroupFunction* gf = datasources()->addGroupFunction(
+                                functionName, captures.at(Const::VALUE_INDEX), band->objectName(), captures.at(dsIndex)
+                            );
+                            gf->setInvalid(tr("Databand \"%1\" not found").arg(captures.at(dsIndex)));
+                        }
+                    }
+                }
+//                int pos = 0;
+//                while ( (pos = match.capturedStart()) != -1){
+//                    QVector<QString> captures = normalizeCaptures(match);
+//                    if (captures.size() >= 3){
+//                        int dsIndex = captures.size() == 3 ? Const::DATASOURCE_INDEX - 1 : Const::DATASOURCE_INDEX;
+//                        BandDesignIntf* dataBand = m_patternPageItem->bandByName(captures.at(dsIndex));
+//                        if (dataBand){
+//                            GroupFunction* gf = datasources()->addGroupFunction(
+//                                functionName, captures.at(Const::VALUE_INDEX), band->objectName(), dataBand->objectName()
+//                            );
+//                            if (gf){
+//                                connect(dataBand, SIGNAL(bandRendered(BandDesignIntf*)),
+//                                        gf, SLOT(slotBandRendered(BandDesignIntf*)));
+//                                connect(dataBand, SIGNAL(bandReRendered(BandDesignIntf*, BandDesignIntf*)),
+//                                        gf, SLOT(slotBandReRendered(BandDesignIntf*, BandDesignIntf*)));
+//                            }
+//                        } else {
+//                            GroupFunction* gf = datasources()->addGroupFunction(
+//                                functionName, captures.at(Const::VALUE_INDEX), band->objectName(), captures.at(dsIndex)
+//                            );
+//                            gf->setInvalid(tr("Databand \"%1\" not found").arg(captures.at(dsIndex)));
+//                        }
+//                    }
+//                    match = rx.match(contentItem->content(), pos + match.capturedLength());
+//                }
+            } else if (contentItem->content().indexOf(rxName)>=0){
+                match = rxName.match(contentItem->content());
+                GroupFunction* gf = datasources()->addGroupFunction(functionName, match.captured(1), band->objectName(), "");
+                gf->setInvalid(tr("Wrong using function %1").arg(functionName));
+            }
+        }
+    }
+
+    // TODO: Qt6 port - possible done
+#else
     if ( contentItem && contentItem->content().contains(QRegExp("\\$S\\s*\\{.*\\}"))){
         foreach(const QString &functionName, m_datasources->groupFunctionNames()){
             QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
@@ -424,9 +505,7 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
                 gf->setInvalid(tr("Wrong using function %1").arg(functionName));
             }
         }
-    }
-#else
-    // TODO: Qt6 port
+    }    
 #endif
 }
 
@@ -450,7 +529,35 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
         if (m_groupfunctionItems.contains(contentItem->patternName())){
             QString content = contentItem->content();
             foreach(QString functionName, m_groupfunctionItems.value(contentItem->patternName())){
-#if QT_VERSION < 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+
+                QRegularExpression rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
+                rx.setPatternOptions(rx.InvertedGreedinessOption);
+                QRegularExpressionMatch match = rx.match(content);
+
+                if (match.capturedStart() != -1){
+                    int pos = 0;
+                    while ( (pos = match.capturedStart()) != -1 ){
+                        QVector<QString> captures = normalizeCaptures(match);
+                        if (captures.size() >= 3){
+                            QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
+                            if (captures.size()<5){
+                                content.replace(captures.at(0), QString("%1(%2,%3)")
+                                    .arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                            } else {
+                                content.replace(captures.at(0), QString("%1(%2,%3,%4)").arg(
+                                                    functionName,
+                                                    '"'+expressionIndex+'"',
+                                                    '"'+band->objectName()+'"',
+                                                    captures.at(4)
+                                                ));
+                            }
+                        }
+                        match = rx.match(content, pos + match.capturedLength());
+                    }
+                }
+                // TODO: Qt6 port - possible done
+#else
                 QRegExp rx(QString(Const::GROUP_FUNCTION_RX).arg(functionName));
                 rx.setMinimal(true);
                 if (rx.indexIn(content)>=0){
@@ -470,11 +577,9 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                                                 ));
                             }
                         }
-                        pos += rx.matchedLength();
                     }
                 }
-#else
-                // TODO: Qt6 port
+
 #endif
             }
             contentItem->setContent(content);
@@ -747,11 +852,13 @@ void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
 void ReportRender::renderReportHeader(PageItemDesignIntf *patternPage, PageRenderStage stage)
 {
     BandDesignIntf* band = patternPage->bandByType(BandDesignIntf::ReportHeader);
+    BandDesignIntf* resBand = 0;
     if (band){
         if (band->property("printBeforePageHeader").toBool() && stage == BeforePageHeader )
-            renderBand(band, 0, StartNewPageAsNeeded);
+            resBand = renderBand(band, 0, StartNewPageAsNeeded);
         if (!band->property("printBeforePageHeader").toBool() && stage == AfterPageHeader )
-            renderBand(band, 0, StartNewPageAsNeeded);
+            resBand = renderBand(band, 0, StartNewPageAsNeeded);
+        if (resBand && containsGroupFunctions(band)) m_recalcBands.append(resBand);
     }
 }
 
