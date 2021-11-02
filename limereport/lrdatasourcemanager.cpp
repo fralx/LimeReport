@@ -583,7 +583,7 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
             match = rx.match(query);
         }
     }
-    // TODO: Qt6 port - possible done
+    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::FIELD_RX);
     if (query.contains(rx)){
