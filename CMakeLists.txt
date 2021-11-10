@@ -10,11 +10,16 @@ option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
 
 find_package(
   QT NAMES Qt6 Qt5
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport UiTools
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
   )
 find_package(
   Qt${QT_VERSION_MAJOR}
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport UiTools
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
+  )
+
+find_package(
+  Qt${QT_VERSION_MAJOR}
+  COMPONENTS UiTools
   )
 # Old Qt does not provide QT_VERSION_MAJOR
 if (NOT QT_VERSION_MAJOR)
@@ -341,6 +346,12 @@ endif()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DCMAKE_CONFIG)
 
+if(Qt${QT_VERSION_MAJOR}UiTools_FOUND)
+    target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_UI_LOADER)
+    target_link_libraries( ${PROJECT_NAME} PUBLIC
+        Qt${QT_VERSION_MAJOR}::UiTools)
+endif()
+
 target_link_libraries( ${PROJECT_NAME} PUBLIC
 	Qt${QT_VERSION_MAJOR}::Core
 	Qt${QT_VERSION_MAJOR}::Widgets
@@ -348,14 +359,15 @@ target_link_libraries( ${PROJECT_NAME} PUBLIC
 	Qt${QT_VERSION_MAJOR}::Xml
 	Qt${QT_VERSION_MAJOR}::Sql
 	Qt${QT_VERSION_MAJOR}::PrintSupport
-	Qt${QT_VERSION_MAJOR}::Svg
-	Qt${QT_VERSION_MAJOR}::UiTools)
+	Qt${QT_VERSION_MAJOR}::Svg)
 
 if(ENABLE_ZINT)
     target_link_libraries( ${PROJECT_NAME} PRIVATE QZint)
 endif(ENABLE_ZINT)
 
-target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_QT5 -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -DHAVE_UI_LOADER -D_CRT_SECURE_NO_WARNINGS)
+target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_QT${QT_VERSION_MAJOR} -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -D_CRT_SECURE_NO_WARNINGS)
+
+
 target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/
 	limereport/base
