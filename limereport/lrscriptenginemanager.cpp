@@ -354,7 +354,7 @@ void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
 
 QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* pass */, ExpandType expandType, QVariant &varValue)
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::VARIABLE_RX);
     if (context.contains(rx)){
         int pos = 0;
@@ -452,7 +452,7 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
 
 QString ScriptEngineManager::expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject *reportItem)
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::FIELD_RX);
 
     if (context.contains(rx)){
@@ -562,7 +562,7 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
 
 QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, QObject *reportItem)
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::SCRIPT_RX);
 
     if (context.contains(rx)){
@@ -631,7 +631,7 @@ QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue,
 
 QVariant ScriptEngineManager::evaluateScript(const QString& script){
 
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::SCRIPT_RX);
     QVariant varValue;
 

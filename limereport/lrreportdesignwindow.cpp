@@ -39,7 +39,7 @@
 #include <QMenuBar>
 #include <QCheckBox>
 #include <QVBoxLayout>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QDesktopWidget>
 #else
 #include <QScreen>
@@ -1552,7 +1552,7 @@ void ReportDesignWindow::slotPageDeleted()
 
 void ReportDesignWindow::slotFilterTextChanged(const QString& filter)
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
 #else
     m_filterModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));

@@ -5,7 +5,7 @@
 #include <private/qzipreader_p.h>
 #include <QDebug>
 #include <QtCore/qabstractanimation.h>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QDesktopWidget>
 #endif
 #include "XmlModel.h"
@@ -17,7 +17,7 @@
 //#endif
 
 void centerWindow(QWidget* widget, double widthFactor, double heightFactor) {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QDesktopWidget desk;
     int ww = desk.width() * widthFactor;
     int wh = desk.height() * heightFactor;

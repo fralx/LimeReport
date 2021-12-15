@@ -64,7 +64,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_borderLineSize(1),
     m_BGMode(OpaqueMode),
     m_opacity(100),
-    m_borderLinesFlags(0),
+    m_borderLinesFlags(BorderLines()),
     m_storageTypeName(storageTypeName),
     m_itemMode(DesignMode),
     m_objectState(ObjectCreated),

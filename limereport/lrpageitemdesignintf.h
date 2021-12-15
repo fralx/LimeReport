@@ -66,7 +66,7 @@ class PageItemDesignIntf : public ItemsContainerDesignInft
     Q_PROPERTY(bool mixWithPriorPage READ mixWithPriorPage WRITE setMixWithPriorPage)
     friend class ReportRender;
 public:
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     enum Orientation { Portrait = QPrinter::Portrait, Landscape = QPrinter::Landscape };
 
     enum PrintBehavior {Scale, Split};

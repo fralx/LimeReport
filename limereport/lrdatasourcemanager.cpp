@@ -31,7 +31,7 @@
 #include "lrdatadesignintf.h"
 #include <QStringList>
 #include <QSqlQuery>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QRegExp>
 #endif
 #include <QSqlError>
@@ -1495,7 +1495,7 @@ void DataSourceManager::invalidateQueriesContainsVariable(const QString& variabl
             foreach (const QString& datasourceName, dataSourceNames()){
                 QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
                 if (holder){
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
                     QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
                     QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));

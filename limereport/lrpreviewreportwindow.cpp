@@ -41,7 +41,7 @@
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QScrollBar>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QDesktopWidget>
 #else
 #include <QScreen>
@@ -147,7 +147,7 @@ void PreviewReportWindow::restoreSetting()
     if (v.isValid()){
         restoreGeometry(v.toByteArray());
     } else {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         QDesktopWidget *desktop = QApplication::desktop();
 
         int screenWidth = desktop->screenGeometry().width();

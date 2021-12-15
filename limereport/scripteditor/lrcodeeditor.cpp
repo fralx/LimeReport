@@ -282,14 +282,13 @@ void CodeEditor::insertCompletion(const QString &completion)
     if (m_completer->widget() != this)
              return;
     QTextCursor tc = textCursor();
-    int extra = completion.length() - m_completer->completionPrefix().length();
-    //tc.movePosition(QTextCursor::Left);
-    //tc.movePosition(QTextCursor::EndOfWord);
+//    QString prefix = m_completer->completionPrefix();
+//    int extra = completion.length() - prefix.length();
     for (int i=0; i < m_completer->completionPrefix().length(); ++i ) {
         tc.deletePreviousChar();
     }
     tc.insertText(completion);
-    //tc.insertText(completion.right(extra));
+//    tc.insertText(completion.right(extra));
     setTextCursor(tc);
 }
 

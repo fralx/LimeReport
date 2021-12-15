@@ -32,7 +32,7 @@
 #include <QPrinterInfo>
 #include <QMessageBox>
 #include <QApplication>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QDesktopWidget>
 #else
 #include <QScreen>
@@ -1324,7 +1324,7 @@ ReportPages ReportEnginePrivate::renderToPages()
                                 m_reportRender->renderPageToPages(page),
                                 page->mixWithPriorPage() ? MixPages : AppendPages
                              );
-                } else {
+                } else if (page->isTOC()){
                     startTOCPage = result.count();
                     pageAfterTOCIndex = i+1;
                     m_reportRender->createTOCMarker(page->resetPageNumber());
@@ -1818,7 +1818,7 @@ PrintProcessor::PrintProcessor(QPrinter* printer)
 
 bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (!m_firstPage && !m_painter->isActive()) return false;
     PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
@@ -1949,7 +1949,7 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 
 void PrintProcessor::initPrinter(PageItemDesignIntf* page)
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (page->oldPrintMode()){
         m_printer->setPageMargins(page->leftMargin(),
                               page->topMargin(),

@@ -3,7 +3,7 @@
 #include <QSqlDatabase>
 #include <QDir>
 #include <QDebug>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QDesktopWidget>
 #else
 #include <QScreen>
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOne_to_One, SIGNAL(triggered()), this, SLOT(slotOneToOne()));
     initPercentCombobox();
     enableUI(false);
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QDesktopWidget *desktop = QApplication::desktop();
 
     int screenWidth = desktop->screenGeometry().width();

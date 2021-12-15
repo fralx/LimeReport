@@ -66,8 +66,15 @@ private:
 
 private:
     const Direction m_dir;
-    QPoint m_startPos;
+#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
+    QPoint m_startPos;    
     QPoint m_curPos;
+#else
+    QPointF m_startPos;
+    QPointF m_curPos;
+//    QSizeF m_startSize;
+//    QSizeF m_curSize;
+#endif
     QSize m_startSize;
     QSize m_curSize;
     QWidget *m_resizable;
