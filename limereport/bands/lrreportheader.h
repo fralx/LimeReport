@@ -45,6 +45,7 @@ public:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     bool printBeforePageHeader() const;
     void setPrintBeforePageHeader(bool printBeforePageHeader);
+    bool isHeader() const {return true;}
 protected:
     QColor bandColor() const;
     bool m_printBeforePageHeader;

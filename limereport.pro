@@ -17,8 +17,13 @@ SUBDIRS += \
 
 if(equals(QT_MAJOR_VERSION, 5) : greaterThan(QT_MINOR_VERSION, 1)) | equals(QT_MAJOR_VERSION, 6) {
     SUBDIRS += console \
-            lrdview
+        lrdview
+
 }
+
+#if(equals(QT_MAJOR_VERSION, 5) : greaterThan(QT_MINOR_VERSION, 1)) {
+#    SUBDIRS += lrdview
+#}
 
 !CONFIG(embedded_designer) : !CONFIG(static_build) {
     SUBDIRS += designer_plugin

@@ -15,6 +15,7 @@ INCLUDEPATH += \
     $$REPORT_PATH/scripteditor
 
 SOURCES += \
+    $$PWD/scripteditor/lrcompletermodel.cpp \
     $$REPORT_PATH/bands/lrpageheader.cpp \
     $$REPORT_PATH/bands/lrpagefooter.cpp \
     $$REPORT_PATH/bands/lrreportheader.cpp \
@@ -35,7 +36,7 @@ SOURCES += \
     $$REPORT_PATH/items/editors/lrfonteditorwidget.cpp \
     $$REPORT_PATH/items/editors/lrtextalignmenteditorwidget.cpp \
     $$REPORT_PATH/items/editors/lritemsborderseditorwidget.cpp \
-    $$REPORT_PATH/items/lrsimpletagparser.cpp \
+#    $$REPORT_PATH/items/lrsimpletagparser.cpp \
     $$REPORT_PATH/items/lrimageitem.cpp \
     $$REPORT_PATH/items/lrimageitemeditor.cpp \
     $$REPORT_PATH/items/lrtextitemeditor.cpp \
@@ -90,6 +91,7 @@ CONFIG(svg) {
 
 HEADERS += \
     $$PWD/items/lreditableimageitemintf.h \
+    $$PWD/scripteditor/lrcompletermodel.h \
     $$REPORT_PATH/base/lrsingleton.h \
     $$REPORT_PATH/base/lrsimpleabstractfactory.h \
     $$REPORT_PATH/base/lrattribsabstractfactory.h \
@@ -121,7 +123,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrshapeitem.h \
     $$REPORT_PATH/items/lrimageitem.h \
     $$REPORT_PATH/items/lrimageitemeditor.h \
-    $$REPORT_PATH/items/lrsimpletagparser.h \
+#    $$REPORT_PATH/items/lrsimpletagparser.h \
     $$REPORT_PATH/items/lrverticallayout.h \
     $$REPORT_PATH/items/lrlayoutmarker.h \
     $$REPORT_PATH/items/lrabstractlayout.h \

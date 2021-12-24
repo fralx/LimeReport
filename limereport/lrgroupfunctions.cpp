@@ -34,7 +34,7 @@
 #include "lrscriptenginemanager.h"
 #include "lrpageitemdesignintf.h"
 
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QRegExp>
 #endif
 
@@ -44,7 +44,7 @@ void GroupFunction::slotBandRendered(BandDesignIntf *band)
 {
     ScriptEngineManager& sm = ScriptEngineManager::instance();
 
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rxField(Const::FIELD_RX);
     QRegExp rxVar(Const::VARIABLE_RX);
 #else
@@ -54,7 +54,7 @@ void GroupFunction::slotBandRendered(BandDesignIntf *band)
 
     switch (m_dataType){
     case Field:{
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (rxField.indexIn(m_data) != -1){
             QString field = rxField.cap(1);
 #else
@@ -72,7 +72,7 @@ void GroupFunction::slotBandRendered(BandDesignIntf *band)
         break;
     }
     case Variable:{
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (rxVar.indexIn(m_data) != -1){
             QString var = rxVar.cap(1);
 #else
@@ -149,7 +149,7 @@ QVariant GroupFunction::multiplication(QVariant value1, QVariant value2)
 GroupFunction::GroupFunction(const QString &expression, const QString &dataBandName, DataSourceManager* dataManager)
     :m_data(expression), m_dataBandName(dataBandName), m_dataManager(dataManager), m_isValid(true), m_errorMessage("")
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rxField(Const::FIELD_RX,Qt::CaseInsensitive);
     QRegExp rxVariable(Const::VARIABLE_RX,Qt::CaseInsensitive);
     QRegExp rxScript(Const::SCRIPT_RX,Qt::CaseInsensitive);
@@ -158,7 +158,7 @@ GroupFunction::GroupFunction(const QString &expression, const QString &dataBandN
     QRegularExpression rxVariable(Const::VARIABLE_RX, QRegularExpression::CaseInsensitiveOption);
     QRegularExpression rxScript(Const::SCRIPT_RX, QRegularExpression::CaseInsensitiveOption);
 #endif
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (rxScript.indexIn(expression) != -1){
 #else
     QRegularExpressionMatch matchScript = rxScript.match(expression);
@@ -168,7 +168,7 @@ GroupFunction::GroupFunction(const QString &expression, const QString &dataBandN
         return;
     }
 
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (rxField.indexIn(expression) != -1){
 #else
     QRegularExpressionMatch matchField = rxField.match(expression);
@@ -178,7 +178,7 @@ GroupFunction::GroupFunction(const QString &expression, const QString &dataBandN
         return;
     }
 
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (rxVariable.indexIn(expression) != -1){
 #else
     QRegularExpressionMatch matchVariable = rxVariable.match(expression);

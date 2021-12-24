@@ -67,7 +67,7 @@ QString replaceHTMLSymbols(const QString &value)
     return result;
 }
 
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 QVector<QString> normalizeCaptures(const QRegExp& reg){
 #else
 QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg){

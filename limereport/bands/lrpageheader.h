@@ -46,6 +46,7 @@ public:
     void setPrintOnFirstPage(bool printOnFirstPage);
     bool printOnLastPage() const;
     void setPrintOnLastPage(bool printOnLastPage);
+    bool isHeader() const{return true;}
 protected:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     QColor bandColor() const;

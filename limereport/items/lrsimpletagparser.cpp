@@ -110,7 +110,7 @@ void HtmlContext::parseSymbs(QString text)
         text.remove(pos,rx.matchedLength());
     }
 
-    foreach(QString pattern,m_symbPatterns){
+    foreach(QString pattern, m_symbPatterns){
         rx.setPattern(pattern);
         while (text.contains(rx)){
             int pos=rx.indexIn(text);
@@ -120,6 +120,13 @@ void HtmlContext::parseSymbs(QString text)
     }
 #else
     QRegularExpression rx("<[^<]*>");
+
+    while (text.contains(rx)){
+        int pos=text.indexOf(rx); //rx.indexIn(text);
+        if (rx.cap().compare("<br>",Qt::CaseInsensitive)==0)
+            m_symbs.append(new Symb(rx.cap(),pos));
+        text.remove(pos,rx.matchedLength());
+    }
     // TODO: Qt6 port
 #endif
 }
@@ -191,43 +198,43 @@ bool HtmlContext::isVectorEqual(QVector<Tag *> source, QVector<Tag *> dest)
     return true;
 }
 
-QString HtmlContext::extendTextByTags(QString text, int pos)
-{
-    QString curText="";
-    QVector<Tag*> curTags=tagsAt(pos);
-    for(int i=0;i<curTags.count();i++){
-        curText+='<'+curTags.at(i)->tagText()+'>';
-    }
+//QString HtmlContext::extendTextByTags(QString text, int pos)
+//{
+//    QString curText="";
+//    QVector<Tag*> curTags=tagsAt(pos);
+//    for(int i=0;i<curTags.count();i++){
+//        curText+='<'+curTags.at(i)->tagText()+'>';
+//    }
 
-    for(int i=0;i<text.length();i++,pos++){
-        QVector<Tag*> tagsAtPos=tagsAt(pos);
-        if (!HtmlContext::isVectorEqual(curTags,tagsAtPos)){
-            QVector<TagDiff> diffs=HtmlContext::tagVectDiff(curTags,tagsAtPos);
-            foreach(TagDiff diff,diffs){
-                if (diff.direction==TagDiff::Inner){
-                    curText+='<'+diff.tag->tagText()+'>';
-                    curTags.append(diff.tag);
-                }
-                else{
-                    curText+="</"+HtmlContext::extractWord(diff.tag->tagText(),1)+'>';
-                    curTags.remove(curTags.indexOf(diff.tag));
-                }
-            }
-        }
-        Symb s=symbAt(pos);
-        if (s.isValid()){
-            if (s.isTag()) curText+=s.text()+text.at(i);
-            else curText+=s.text();
-        } else curText+=text.at(i);
-    }
+//    for(int i=0;i<text.length();i++,pos++){
+//        QVector<Tag*> tagsAtPos=tagsAt(pos);
+//        if (!HtmlContext::isVectorEqual(curTags,tagsAtPos)){
+//            QVector<TagDiff> diffs=HtmlContext::tagVectDiff(curTags,tagsAtPos);
+//            foreach(TagDiff diff,diffs){
+//                if (diff.direction==TagDiff::Inner){
+//                    curText+='<'+diff.tag->tagText()+'>';
+//                    curTags.append(diff.tag);
+//                }
+//                else{
+//                    curText+="</"+HtmlContext::extractWord(diff.tag->tagText(),1)+'>';
+//                    curTags.remove(curTags.indexOf(diff.tag));
+//                }
+//            }
+//        }
+//        Symb s=symbAt(pos);
+//        if (s.isValid()){
+//            if (s.isTag()) curText+=s.text()+text.at(i);
+//            else curText+=s.text();
+//        } else curText+=text.at(i);
+//    }
 
-    curTags=tagsAt(pos);
-    for(int i=0;i<curTags.count();i++){
-        curText+="</"+HtmlContext::extractWord(curTags.at(i)->tagText(),1)+'>';
-    }
+//    curTags=tagsAt(pos);
+//    for(int i=0;i<curTags.count();i++){
+//        curText+="</"+HtmlContext::extractWord(curTags.at(i)->tagText(),1)+'>';
+//    }
 
-    return curText;
-}
+//    return curText;
+//}
 
 QVector<Tag *> HtmlContext::tagsAt(int pos)
 {

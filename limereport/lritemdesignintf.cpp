@@ -35,7 +35,7 @@
 #include "lrglobal.h"
 
 #include <QDebug>
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QRegExp>
 #endif
 #include <QVariant>

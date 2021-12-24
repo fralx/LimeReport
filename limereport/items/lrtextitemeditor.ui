@@ -88,9 +88,6 @@
        <property name="text">
         <string>Cancel</string>
        </property>
-       <property name="shortcut">
-        <string>Esc</string>
-       </property>
       </widget>
      </item>
     </layout>

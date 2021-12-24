@@ -197,7 +197,8 @@ QVariant XmlFontSerializator::loadValue()
 //#if QT_VERSION>0x040800
 //    font.setStyleName(node()->attribute("stylename"));
 //#endif
-    font.setWeight(static_cast<QFont::Weight>(node()->attribute("weight").toInt()));
+    if (node()->attribute("weight").toInt() > 0)
+        font.setWeight(static_cast<QFont::Weight>(node()->attribute("weight").toInt()));
     if (!node()->attribute("bold").isEmpty())
       font.setBold(node()->attribute("bold").toInt());
     font.setItalic(node()->attribute("italic").toInt());

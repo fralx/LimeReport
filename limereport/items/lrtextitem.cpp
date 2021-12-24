@@ -359,11 +359,14 @@ void TextItem::updateLayout()
 }
 
 bool TextItem::isNeedExpandContent() const
-{
-#if QT_VERSION < 0x060000
+{   
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx("$*\\{[^{]*\\}");
 #else
-    QRegularExpression rx("$*\\{[^{]*\\}");
+    bool result = false;
+    QRegularExpression rx("\\$*\\{[^{]*\\}");
+    result = content().contains(rx) || isContentBackedUp();
+    return result;
 #endif
     return content().contains(rx) || isContentBackedUp();
 }
@@ -821,7 +824,7 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 {
     QString context=content();
     foreach (QString variableName, dataManager->variableNamesByRenderPass(SecondPass)) {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
         QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
