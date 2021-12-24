@@ -7,6 +7,7 @@
 #include <QKeyEvent>
 #include <QScrollBar>
 #include <QStandardItemModel>
+#include "lrcompletermodel.h"
 
 namespace LimeReport{
 
@@ -20,12 +21,17 @@ namespace Ui {
 class ScriptEditor;
 }
 
+struct CacheItem {
+    QList<QSharedPointer<CompleterItem>> propsItems;
+    QList<QSharedPointer<CompleterItem>> slotsItems;
+};
+
 class ReportStructureCompleater : public QCompleter{
     Q_OBJECT
 public:
-    explicit ReportStructureCompleater(QObject* parent = 0): QCompleter(parent){ setModel(&m_model);}
+    explicit ReportStructureCompleater(QObject* parent = 0): QCompleter(parent){ setModel(&m_newModel);}
     explicit ReportStructureCompleater(QAbstractItemModel* model, QObject* parent = 0)
-        :QCompleter(model, parent){ setModel(&m_model);}
+        :QCompleter(model, parent){ setModel(&m_newModel);}
 public:
     // QCompleter interface
     QString pathFromIndex(const QModelIndex& index) const;
@@ -35,10 +41,10 @@ public:
 protected:
     QStringList extractSignalNames(BaseDesignIntf* item);
     QStringList extractProperties(BaseDesignIntf* item);
-    void addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent);
-    void addAdditionalDatawords(QStandardItemModel* model, DataSourceManager *dataManager);
+    void addChildItem(BaseDesignIntf *item, const QString &pageName, CompleterItem *parent);
+    void addAdditionalDatawords(CompleterModel *model, DataSourceManager *dataManager);
 private:
-    QStandardItemModel m_model;
+    CompleterModel m_newModel;
     QMap<QString, QStringList> m_properties;
     QMap<QString, QStringList> m_signals;
 };

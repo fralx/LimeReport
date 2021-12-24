@@ -143,7 +143,7 @@ void PreviewReportWidget::initPreview()
 {
     if (ui->graphicsView->scene()!=d_ptr->m_previewPage)
         ui->graphicsView->setScene(d_ptr->m_previewPage);
-    #if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     ui->graphicsView->resetMatrix();
 #else
     ui->graphicsView->resetTransform();
@@ -309,7 +309,7 @@ void PreviewReportWidget::saveToFile()
 void PreviewReportWidget::setScalePercent(int percent)
 {
     m_scaleChanging = true;
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     ui->graphicsView->resetMatrix();
 #else
     ui->graphicsView->resetTransform();
@@ -492,7 +492,7 @@ void PreviewReportWidget::reportEngineDestroyed(QObject *object)
 
 void PreviewReportWidget::slotZoomed(double )
 {
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     d_ptr->m_scalePercent = ui->graphicsView->matrix().m11()*100;
 #else
     d_ptr->m_scalePercent = ui->graphicsView->transform().m11()*100;

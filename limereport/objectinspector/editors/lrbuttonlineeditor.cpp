@@ -34,7 +34,7 @@
 #include <QFocusEvent>
 #include <QApplication>
 #include <QStyle>
-#if QT_VERSION < 0x060000
+#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
 #include <QDesktopWidget>
 #else
 #include <QScreen>
@@ -70,7 +70,7 @@ void ButtonLineEditor::editButtonClicked()
 {
     TextItemPropertyEditor* editor = new TextItemPropertyEditor(QApplication::activeWindow());
     editor->setAttribute(Qt::WA_DeleteOnClose);
-#if QT_VERSION < 0x060000
+#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
     editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QApplication::desktop()->availableGeometry()));
 #else
     editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QGuiApplication::screens().first()->availableGeometry()));

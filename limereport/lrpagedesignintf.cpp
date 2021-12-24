@@ -753,7 +753,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
         TextItem* ti = dynamic_cast<TextItem*>(item);
         QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);        
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
 #else
         if (isVar) data = data.remove(QRegularExpression("  \\[.*\\]"));
@@ -762,7 +762,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         if (!isVar){
             BandDesignIntf* parentBand = dynamic_cast<BandDesignIntf*>(ti->parentItem());
             if (parentBand && parentBand->datasourceName().isEmpty()){
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
                 QRegExp dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
                 if (dataSource.indexIn(data) != -1){
                     parentBand->setProperty("datasource",dataSource.cap(1));

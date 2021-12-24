@@ -168,7 +168,7 @@ bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sou
 {
     QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
     if (sourceParent.isValid()) return true;    
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     return sourceModel()->data(index).toString().contains(filterRegExp());
 #else
     return sourceModel()->data(index).toString().contains(filterRegularExpression());
@@ -182,7 +182,7 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     m_propertyModel = new BaseDesignPropertyModel(this);
     m_filterModel = new PropertyFilterModel(this);
     m_filterModel->setSourceModel(m_propertyModel);
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     m_filterModel->setFilterRegExp(QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString));
 #else
     m_filterModel->setFilterRegularExpression(QRegularExpression("", QRegularExpression::CaseInsensitiveOption));
@@ -314,7 +314,7 @@ void ObjectInspectorWidget::updateProperty(const QString &propertyName)
 void ObjectInspectorWidget::slotFilterTextChanged(const QString &filter)
 {
     if (m_filterModel)
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         m_filterModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
 #else
         m_filterModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));

@@ -1058,7 +1058,7 @@ bool ReportDesignWidget::eventFilter(QObject *target, QEvent *event)
     if (event->type() == QEvent::Wheel){
         QWheelEvent* we = dynamic_cast<QWheelEvent*>(event);
         if (QApplication::keyboardModifiers()==Qt::ControlModifier){
-#if QT_VERSION < 0x060000
+#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
             if(we->delta()<0) scale(1.2,1.2);
             else scale(1/1.2,1/1.2);
 #else

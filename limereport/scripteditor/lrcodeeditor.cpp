@@ -15,7 +15,7 @@
 namespace LimeReport{
 
 CodeEditor::CodeEditor(QWidget *parent)
-    : QPlainTextEdit(parent), m_compleater(0)
+    : QPlainTextEdit(parent), m_completer(0)
 {
     lineNumberArea = new LineNumberArea(this);
 
@@ -33,12 +33,13 @@ CodeEditor::CodeEditor(QWidget *parent)
 void CodeEditor::setCompleter(QCompleter *value)
 {
     if (value) disconnect(value,0,this,0);
-    m_compleater = value;
-    if (!m_compleater) return;
-    m_compleater->setWidget(this);
-    m_compleater->setCompletionMode(QCompleter::PopupCompletion);
-    m_compleater->setCaseSensitivity(Qt::CaseInsensitive);
-    connect(m_compleater,SIGNAL(activated(QString)),this,SLOT(insertCompletion(QString)));
+    m_completer = value;
+    if (!m_completer) return;
+    m_completer->setWidget(this);
+    m_completer->setCompletionMode(QCompleter::PopupCompletion);
+    m_completer->setCaseSensitivity(Qt::CaseInsensitive);
+
+    connect(m_completer,SIGNAL(activated(QString)),this,SLOT(insertCompletion(QString)));
 }
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
@@ -86,7 +87,7 @@ int CodeEditor::lineNumberAreaWidth()
 
 void CodeEditor::keyPressEvent(QKeyEvent *e)
 {
-    if (m_compleater && m_compleater->popup()->isVisible()) {
+    if (m_completer && m_completer->popup()->isVisible()) {
         switch (e->key()) {
         case Qt::Key_Enter:
         case Qt::Key_Return:
@@ -105,10 +106,10 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
     }
 
     bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Space);
-    if (!m_compleater || !isShortcut) QPlainTextEdit::keyPressEvent(e);
+    if (!m_completer || !isShortcut) QPlainTextEdit::keyPressEvent(e);
 
     const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
-    if (!m_compleater || (ctrlOrShift && e->text().isEmpty()))
+    if (!m_completer || (ctrlOrShift && e->text().isEmpty()))
         return;
 
     bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
@@ -119,36 +120,36 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
             || Const::EOW.contains(e->text().right(1)))
        )
     {
-        m_compleater->popup()->hide();
+        m_completer->popup()->hide();
         return;
     }
 
-    if (completionPrefix != m_compleater->completionPrefix()) {
-        m_compleater->setCompletionPrefix(completionPrefix);
-        m_compleater->popup()->setCurrentIndex(m_compleater->completionModel()->index(0, 0));
+    if (completionPrefix != m_completer->completionPrefix()) {
+        m_completer->setCompletionPrefix(completionPrefix);
+        m_completer->popup()->setCurrentIndex(m_completer->completionModel()->index(0, 0));
     }
 
-    QModelIndex ci = m_compleater->completionModel()->index(0,0);
-    if (ci.isValid() && m_compleater->completionModel()->data(ci).toString().compare(completionPrefix) == 0){
-        m_compleater->popup()->hide();
+    QModelIndex ci = m_completer->completionModel()->index(0,0);
+    if (ci.isValid() && m_completer->completionModel()->data(ci).toString().compare(completionPrefix) == 0){
+        m_completer->popup()->hide();
         return;
     }
 
     QRect cr = cursorRect();
-    cr.setWidth(m_compleater->popup()->sizeHintForColumn(0)
-                + m_compleater->popup()->verticalScrollBar()->sizeHint().width());
-    m_compleater->complete(cr);
+    cr.setWidth(m_completer->popup()->sizeHintForColumn(0)
+                + m_completer->popup()->verticalScrollBar()->sizeHint().width());
+    m_completer->complete(cr);
 
     if (!completionPrefix.isEmpty() &&
             completionPrefix.at(completionPrefix.length()-1) == '.')
     {
-        m_compleater->popup();
+        m_completer->popup();
     }
 }
 
 void CodeEditor::focusInEvent(QFocusEvent *e)
 {
-    if (m_compleater) m_compleater->setWidget(this);
+    if (m_completer) m_completer->setWidget(this);
     QPlainTextEdit::focusInEvent(e);
 }
 
@@ -278,13 +279,16 @@ QChar CodeEditor::getParenthesisReverceChar(QChar parenthesisChar)
 
 void CodeEditor::insertCompletion(const QString &completion)
 {
-    if (m_compleater->widget() != this)
+    if (m_completer->widget() != this)
              return;
     QTextCursor tc = textCursor();
-    int extra = completion.length() - m_compleater->completionPrefix().length();
-    //tc.movePosition(QTextCursor::Left);
-    //tc.movePosition(QTextCursor::EndOfWord);
-    tc.insertText(completion.right(extra));
+//    QString prefix = m_completer->completionPrefix();
+//    int extra = completion.length() - prefix.length();
+    for (int i=0; i < m_completer->completionPrefix().length(); ++i ) {
+        tc.deletePreviousChar();
+    }
+    tc.insertText(completion);
+//    tc.insertText(completion.right(extra));
     setTextCursor(tc);
 }
 

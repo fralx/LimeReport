@@ -5,7 +5,9 @@
 #include <private/qzipreader_p.h>
 #include <QDebug>
 #include <QtCore/qabstractanimation.h>
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QDesktopWidget>
+#endif
 #include "XmlModel.h"
 #include "SettingDialog.h"
 #include "lrreportengine.h"
@@ -15,11 +17,22 @@
 //#endif
 
 void centerWindow(QWidget* widget, double widthFactor, double heightFactor) {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QDesktopWidget desk;
     int ww = desk.width() * widthFactor;
     int wh = desk.height() * heightFactor;
-    widget->resize(ww, wh);
     widget->move((desk.width() - ww) / 2, (desk.height() - wh) / 2);
+    widget->resize(ww, wh);
+#else
+    QScreen* desk = QGuiApplication::primaryScreen();
+    int ww = desk->geometry().width() * widthFactor;
+    int wh = desk->geometry().height() * heightFactor;
+
+    widget->resize(ww, wh);
+    widget->move((desk->geometry().width() - ww) / 2, (desk->geometry().height() - wh) / 2);
+#endif
+
+
 }
 
 MainWindow::MainWindow(QWidget *parent) :

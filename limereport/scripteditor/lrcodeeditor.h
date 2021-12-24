@@ -20,7 +20,7 @@ class CodeEditor :public QPlainTextEdit
 public:
     CodeEditor(QWidget* parent=0);
     void setCompleter(QCompleter* value);
-    QCompleter* compleater() const{ return m_compleater;}
+    QCompleter* compleater() const{ return m_completer;}
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 protected:
@@ -41,7 +41,7 @@ private slots:
     void updateLineNumberArea(const QRect &rect, int dy);
     void matchParentheses();
 private:
-    QCompleter* m_compleater;
+    QCompleter* m_completer;
     QWidget *lineNumberArea;
 };
 

@@ -64,6 +64,7 @@ private:
     PageTranslation* createPageTranslation(PageDesignIntf* page);
 private:
     QLocale::Language m_language;
+    QLocale::Script m_script;
     QList<PageTranslation*> m_pagesTranslation;
 };
 

@@ -722,7 +722,7 @@ QFont AbstractSeriesChart::adaptLabelsFont(QRectF rect, QFont font)
     QFontMetrics fm(font);
 
     foreach(QString label, m_chartItem->labels()){
-#if QT_VERSION < 0x060000
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         foreach (QString currentWord, label.split(QRegExp("\\W+"))){
 #else
         foreach (QString currentWord, label.split(QRegularExpression("\\W+"))){

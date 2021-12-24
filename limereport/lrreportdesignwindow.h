@@ -138,6 +138,7 @@ protected:
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
     void setDocWidgetsVisibility(bool visible);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     void initReportEditor(ReportEnginePrivate* report);

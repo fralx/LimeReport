@@ -20,7 +20,7 @@ ScriptEditor::ScriptEditor(QWidget *parent) :
     setFocusProxy(ui->textEdit);
     m_completer = new ReportStructureCompleater(this);
     ui->textEdit->setCompleter(m_completer);
-#if QT_VERSION < 0x060000
+#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
     ui->textEdit->setTabStopWidth(ui->textEdit->fontMetrics().boundingRect("0").width()*m_tabIndention);
 #else
     ui->textEdit->setTabStopDistance(ui->textEdit->fontMetrics().boundingRect("0").width()*m_tabIndention);
@@ -90,7 +90,7 @@ void ScriptEditor::setPageBand(BandDesignIntf* band)
 void ScriptEditor::setTabIndention(int charCount)
 {
     if (m_tabIndention != charCount){
-#if QT_VERSION < 0x060000
+#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
         ui->textEdit->setTabStopWidth(ui->textEdit->fontMetrics().boundingRect("W").width()*charCount);
 #else
         ui->textEdit->setTabStopDistance(ui->textEdit->fontMetrics().boundingRect("W").width()*charCount);
@@ -182,21 +182,21 @@ QStringList ReportStructureCompleater::splitPath(const QString &path) const
     return path.split(".");
 }
 
-void ReportStructureCompleater::addAdditionalDatawords(QStandardItemModel* model, DataSourceManager* dataManager){
+void ReportStructureCompleater::addAdditionalDatawords(CompleterModel* model, DataSourceManager* dataManager){
 
     foreach(const QString &dsName,dataManager->dataSourceNames()){
-        QStandardItem* dsNode = new QStandardItem;
+        CompleterItem* dsNode = new CompleterItem;
         dsNode->setText(dsName);
+        model->invisibleRootItem()->appendRow(dsNode);
         foreach(const QString &field, dataManager->fieldNames(dsName)){
-            QStandardItem* fieldNode = new QStandardItem;
+            CompleterItem* fieldNode = new CompleterItem;
             fieldNode->setText(field);
             dsNode->appendRow(fieldNode);
         }
-        model->invisibleRootItem()->appendRow(dsNode);
     }
 
     foreach (QString varName, dataManager->variableNames()) {
-        QStandardItem* varNode = new QStandardItem;
+        CompleterItem* varNode = new CompleterItem;
         varNode->setText(varName.remove("#"));
         model->invisibleRootItem()->appendRow(varNode);
     }
@@ -208,19 +208,20 @@ void ReportStructureCompleater::addAdditionalDatawords(QStandardItemModel* model
     while (it.hasNext()){
         it.next();
         if (it.value().isCallable() ){
-            QStandardItem* itemNode = new QStandardItem;
+            CompleterItem* itemNode = new CompleterItem;
             itemNode->setText(it.name()+"()");
             model->invisibleRootItem()->appendRow(itemNode);
         }
         if (it.value().isQObject()){
             if (it.value().toQObject()){
                 if (model->findItems(it.name()).isEmpty()){
-                    QStandardItem* objectNode = new QStandardItem;
+                    CompleterItem* objectNode = new CompleterItem;
                     objectNode->setText(it.name());
                     objectNode->setIcon(QIcon(":/report/images/object"));
+
                     for (int i = 0; i< it.value().toQObject()->metaObject()->methodCount();++i){
                         if (it.value().toQObject()->metaObject()->method(i).methodType() == QMetaMethod::Method){
-                            QStandardItem* methodNode = new QStandardItem;
+                            CompleterItem* methodNode = new CompleterItem;
                             QMetaMethod m = it.value().toQObject()->metaObject()->method(i);
                             QString methodSignature = m.name() + "(";
                             bool isFirst = true;
@@ -245,46 +246,49 @@ void ReportStructureCompleater::addAdditionalDatawords(QStandardItemModel* model
 void ReportStructureCompleater::updateCompleaterModel(ReportEnginePrivateInterface* report)
 {
     if (report){
-        m_model.clear();
+        m_newModel.clear();
+
         QIcon signalIcon(":/report/images/signal");
         QIcon propertyIcon(":/report/images/property");
 
         for ( int i = 0; i < report->pageCount(); ++i){
             PageDesignIntf* page = report->pageAt(i);
 
-            QStandardItem* itemNode = new QStandardItem;
+            CompleterItem* itemNode = new CompleterItem;
             itemNode->setText(page->pageItem()->objectName());
             itemNode->setIcon(QIcon(":/report/images/object"));
-            m_model.invisibleRootItem()->appendRow(itemNode);
 
             QStringList items = extractSignalNames(page->pageItem());
             foreach(QString slotName, items){
-                QStandardItem* slotItem = new QStandardItem;
+                CompleterItem* slotItem = new CompleterItem;
                 slotItem->setText(slotName);
                 slotItem->setIcon(signalIcon);
                 itemNode->appendRow(slotItem);
             }
             items = extractProperties(page->pageItem());
             foreach(QString propertyName, items){
-                QStandardItem* properyItem = new QStandardItem;
+                CompleterItem* properyItem = new CompleterItem;
                 properyItem->setText(propertyName);
                 properyItem->setIcon(propertyIcon);
                 itemNode->appendRow(properyItem);
             }
+
             foreach (BaseDesignIntf* item, page->pageItem()->childBaseItems()){
-                addChildItem(item, itemNode->text(), m_model.invisibleRootItem());
+                addChildItem(item, itemNode->text(), m_newModel.invisibleRootItem());
             }
+
+            m_newModel.invisibleRootItem()->appendRow(itemNode);
         }
 
-        addAdditionalDatawords(&m_model, report->dataManager());
-        m_model.sort(0);
+        addAdditionalDatawords(&m_newModel, report->dataManager());
+        m_newModel.sort(0);
     }
 }
 
 void ReportStructureCompleater::updateCompleaterModel(DataSourceManager *dataManager)
 {
-    m_model.clear();
-    addAdditionalDatawords(&m_model, dataManager);
+    m_newModel.clear();
+    addAdditionalDatawords(&m_newModel, dataManager);
 }
 
 QStringList ReportStructureCompleater::extractSignalNames(BaseDesignIntf *item)
@@ -325,46 +329,64 @@ QStringList ReportStructureCompleater::extractProperties(BaseDesignIntf *item)
     return result;
 }
 
-void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString &pageName, QStandardItem *parent)
+void ReportStructureCompleater::addChildItem(BaseDesignIntf *item, const QString &pageName, CompleterItem *parent)
 {
     if (!item) return;
 
     QIcon signalIcon(":/report/images/signal");
     QIcon propertyIcon(":/report/images/property");
 
-    QStandardItem* itemNode = new QStandardItem;
+    CompleterItem* itemNode = new CompleterItem;
     itemNode->setText(pageName+"_"+item->objectName());
     itemNode->setIcon(QIcon(":/report/images/object"));
     parent->appendRow(itemNode);
-    QStringList items;
 
-    if (!m_signals.contains(item->metaObject()->className())){
-        items = extractSignalNames(item);
-        m_signals.insert(item->metaObject()->className(),items);
-    } else {
-        items = m_signals.value(item->metaObject()->className());
-    }
+//    if (m_cache.contains(item->metaObject()->className())){
 
-    foreach(QString slotName, items){
-        QStandardItem* slotItem = new QStandardItem;
-        slotItem->setText(slotName);
-        slotItem->setIcon(signalIcon);
-        itemNode->appendRow(slotItem);
-    }
+//        QSharedPointer<CacheItem> cacheItem = m_cache.value(item->metaObject()->className());
+//        itemNode->appendRows(cacheItem->slotsItems);
+//        itemNode->appendRows(cacheItem->propsItems);
 
-    if (!m_properties.contains(item->metaObject()->className())){
-        items = extractProperties(item);
-        m_properties.insert(item->metaObject()->className(),items);
-    } else {
-        items = m_properties.value(item->metaObject()->className());
-    }
+//    } else {
 
-    foreach(QString propertyName, items){
-        QStandardItem* properyItem = new QStandardItem;
-        properyItem->setText(propertyName);
-        properyItem->setIcon(propertyIcon);
-        itemNode->appendRow(properyItem);
-    }
+//        QSharedPointer<CacheItem> cacheItem = QSharedPointer<CacheItem>(new CacheItem);
+
+        QStringList items;
+        if (!m_signals.contains(item->metaObject()->className())){
+            items = extractSignalNames(item);
+            m_signals.insert(item->metaObject()->className(),items);
+        } else {
+            items = m_signals.value(item->metaObject()->className());
+        }
+
+        foreach(QString slotName, items){
+            CompleterItem* slotItem = new CompleterItem;
+            slotItem->setText(slotName);
+            slotItem->setIcon(signalIcon);
+            //cacheItem->slotsItems.append(QSharedPointer<CompleterItem>(slotItem));
+            itemNode->appendRow(slotItem);
+
+        }
+
+        if (!m_properties.contains(item->metaObject()->className())){
+            items = extractProperties(item);
+            m_properties.insert(item->metaObject()->className(),items);
+        } else {
+            items = m_properties.value(item->metaObject()->className());
+        }
+
+        foreach(QString propertyName, items){
+            CompleterItem* properyItem = new CompleterItem;
+            properyItem->setText(propertyName);
+            properyItem->setIcon(propertyIcon);
+            itemNode->appendRow(properyItem);
+            //cacheItem->propsItems.append(QSharedPointer<CompleterItem>(properyItem));
+        }
+
+        //m_cache.insert(item->metaObject()->className(), cacheItem);
+        //itemNode->appendRows(cacheItem->slotsItems);
+        //itemNode->appendRows(cacheItem->propsItems);
+    //}
 
     foreach (BaseDesignIntf* child, item->childBaseItems()){
         addChildItem(child, pageName, parent);
