@@ -717,11 +717,17 @@ QSizeF PageItemDesignIntf::getRectByPageSize(const PageSize& size)
         return QSizeF(printer.paperSize(QPrinter::Millimeter).width() * 10,
                       printer.paperSize(QPrinter::Millimeter).height() * 10);
 
-        #else
-        printer.setPageOrientation((QPageLayout::Orientation)pageOrientation());
-        printer.setPageSize(QPageSize((QPageSize::PageSizeId)size));
-        return QSizeF(printer.pageLayout().pageSize().size(QPageSize::Millimeter).width() * 10,
-                      printer.pageLayout().pageSize().size(QPageSize::Millimeter).height() * 10);
+#else
+        QPageSize pageSize = QPageSize((QPageSize::PageSizeId)size);
+        qreal width = pageSize.size(QPageSize::Millimeter).width() * 10;
+        qreal height = pageSize.size(QPageSize::Millimeter).height() * 10;
+        return QSizeF(pageOrientation() == Portrait ? width : height,
+                      pageOrientation() == Portrait ? height : width);
+
+//        printer.setPageOrientation((QPageLayout::Orientation)pageOrientation());
+//        printer.setPageSize(QPageSize((QPageSize::PageSizeId)size));
+//        return QSizeF(printer.pageLayout().pageSize().size(QPageSize::Millimeter).width() * 10,
+//                      printer.pageLayout().pageSize().size(QPageSize::Millimeter).height() * 10);
 #endif
     }
 
@@ -798,6 +804,7 @@ void PageItemDesignIntf::initPageSize(const PageItemDesignIntf::PageSize &size)
     m_sizeChainging = true;
     if (m_pageSize != Custom){
         QSizeF pageSize = getRectByPageSize(size);
+        qDebug() << pageSize;
         setWidth(pageSize.width());
         setHeight(pageSize.height());
     }
