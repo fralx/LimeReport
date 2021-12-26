@@ -502,7 +502,7 @@ void ReportDesignWindow::createBandsButton()
     connect(m_newTearOffBand,SIGNAL(triggered()),m_bandsAddSignalsMap,SLOT(map()));
     m_bandsAddSignalsMap->setMapping(m_newTearOffBand,BandDesignIntf::TearOffBand);
     m_newBandButton->addAction(m_newTearOffBand);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
     connect(m_bandsAddSignalsMap,SIGNAL(mappedInt(int)),this,SLOT(slotNewBand(int)));
 #else
     connect(m_bandsAddSignalsMap,SIGNAL(mapped(int)),this,SLOT(slotNewBand(int)));
@@ -533,7 +533,7 @@ void ReportDesignWindow::createMainMenu()
     m_infoMenu->addAction(m_aboutAction);
     m_recentFilesMenu = m_fileMenu->addMenu(tr("Recent Files"));
     m_recentFilesSignalMap = new QSignalMapper(this);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
     connect(m_recentFilesSignalMap,SIGNAL(mappedString(QString)),this,SLOT(slotLoadRecentFile(QString)));
 #else
     connect(m_recentFilesSignalMap,SIGNAL(mapped(QString)),this,SLOT(slotLoadRecentFile(QString)));
