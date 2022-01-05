@@ -516,26 +516,29 @@ AbstractSeriesChart::AbstractSeriesChart(ChartItem *chartItem)
 
 qreal AbstractSeriesChart::maxValue()
 {
-    if (m_chartItem->itemMode() == DesignMode) return 40;
-    qreal maxValue = 0;
-    foreach(SeriesItem* series, m_chartItem->series()){
-        foreach(qreal value, series->data()->values()){
-            if (value>maxValue) maxValue=value;
-        }
-    }
-    return maxValue;
+    return m_maxValue;
 }
 
 qreal AbstractSeriesChart::minValue()
 {
-    if (m_chartItem->itemMode() == DesignMode) return 0;
-    qreal minValue = 0;
+    return m_minValue;
+}
+
+void AbstractSeriesChart::updateMinAndMaxValues()
+{
+    if (m_chartItem->itemMode() == DesignMode) {
+        m_maxValue = 40;
+        m_minValue = 0;
+        return;
+    }
+    m_minValue = 0;
+    m_maxValue = 0;
     foreach(SeriesItem* series, m_chartItem->series()){
         foreach(qreal value, series->data()->values()){
-            if (value<minValue) minValue=value;
+            if (value<m_minValue) m_minValue=value;
+            if (value>m_maxValue) m_maxValue=value;
         }
     }
-    return minValue;
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)
@@ -679,11 +682,13 @@ void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
     painter->setRenderHint(QPainter::Antialiasing,false);
     qreal vStep = gridRect.height() / 4;
 
+    const qreal valuesHMargin = this->valuesHMargin(painter);
+
     for (int i=0;i<5;i++){
         painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(0,vStep*i+painter->fontMetrics().height()),
-                                 QSizeF(valuesHMargin(painter),painter->fontMetrics().height())),
+                                 QSizeF(valuesHMargin,painter->fontMetrics().height())),
                           QString::number(minValue()+i*delta/4));
-        painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin(painter),vStep*i),
+        painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin,vStep*i),
                           gridRect.bottomRight()-QPointF(0,vStep*i));
     }
 

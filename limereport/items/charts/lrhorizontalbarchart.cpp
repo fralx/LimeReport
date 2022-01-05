@@ -4,11 +4,15 @@ namespace LimeReport{
 
 void HorizontalBarChart::paintChart(QPainter *painter, QRectF chartRect)
 {
+    updateMinAndMaxValues();
+
+    const qreal valuesVMargin = this->valuesVMargin(painter);
+
     QRectF calcRect = verticalLabelsRect(painter, chartRect.adjusted(
                                               hPadding(chartRect),
                                               vPadding(chartRect) * 2,
                                               -(chartRect.width() * 0.9),
-                                              -(vPadding(chartRect) * 2 + valuesVMargin(painter))
+                                              -(vPadding(chartRect) * 2 + valuesVMargin)
                                               ));
 
     qreal barsShift = calcRect.width();

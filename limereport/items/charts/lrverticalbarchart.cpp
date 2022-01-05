@@ -4,10 +4,15 @@ namespace LimeReport{
 
 void VerticalBarChart::paintChart(QPainter *painter, QRectF chartRect)
 {
+    updateMinAndMaxValues();
+
+    const qreal valuesHMargin = this->valuesHMargin(painter);
+    const qreal valuesVMargin = this->valuesVMargin(painter);
+
     QRectF calcRect = horizontalLabelsRect(
         painter,
         chartRect.adjusted(
-            hPadding(chartRect) * 2 + valuesHMargin(painter),
+            hPadding(chartRect) * 2 + valuesHMargin,
             chartRect.height() - (painter->fontMetrics().height() + vPadding(chartRect) * 2),
             -(hPadding(chartRect) * 2),
             -vPadding(chartRect)
@@ -18,7 +23,7 @@ void VerticalBarChart::paintChart(QPainter *painter, QRectF chartRect)
         painter,
         chartRect.adjusted(
             hPadding(chartRect),
-            vPadding(chartRect) + valuesVMargin(painter),
+            vPadding(chartRect) + valuesVMargin,
             -hPadding(chartRect),
             -(vPadding(chartRect) + barsShift)
         )
@@ -26,8 +31,8 @@ void VerticalBarChart::paintChart(QPainter *painter, QRectF chartRect)
     paintVerticalBars(
         painter,
         chartRect.adjusted(
-            hPadding(chartRect) * 2 + valuesHMargin(painter),
-            vPadding(chartRect) + valuesVMargin(painter),
+            hPadding(chartRect) * 2 + valuesHMargin,
+            vPadding(chartRect) + valuesVMargin,
             -hPadding(chartRect) * 2,
             -(vPadding(chartRect) + barsShift)
         )
@@ -35,8 +40,8 @@ void VerticalBarChart::paintChart(QPainter *painter, QRectF chartRect)
     paintSerialLines(
         painter,
         chartRect.adjusted(
-            hPadding(chartRect) * 2 + valuesHMargin(painter),
-            vPadding(chartRect) + valuesVMargin(painter),
+            hPadding(chartRect) * 2 + valuesHMargin,
+            vPadding(chartRect) + valuesVMargin,
             -hPadding(chartRect) * 2,
             -(vPadding(chartRect) + barsShift)
         )
