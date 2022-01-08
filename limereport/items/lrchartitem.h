@@ -85,6 +85,7 @@ public:
 protected:
     qreal maxValue();
     qreal minValue();
+    void updateMinAndMaxValues();
     int valuesCount();
     int seriesCount();
     bool verticalLabels(QPainter* painter, QRectF labelsRect);
@@ -103,6 +104,7 @@ protected:
     virtual QFont adaptValuesFont(qreal width, QFont font);
 
 private:
+    qreal m_minValue = 0, m_maxValue = 0;
     qreal m_designValues [9];
 };
 
