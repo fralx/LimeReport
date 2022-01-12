@@ -804,7 +804,6 @@ void PageItemDesignIntf::initPageSize(const PageItemDesignIntf::PageSize &size)
     m_sizeChainging = true;
     if (m_pageSize != Custom){
         QSizeF pageSize = getRectByPageSize(size);
-        qDebug() << pageSize;
         setWidth(pageSize.width());
         setHeight(pageSize.height());
     }
