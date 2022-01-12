@@ -6,15 +6,13 @@ namespace LimeReport {
 
 bool Segment::intersect(Segment value)
 {
-    return ((value.m_end>=m_begin)&&(value.m_end<=m_end))   ||
-           ((value.m_begin>=m_begin)&&(value.m_end>=m_end))   ||
-           ((value.m_begin>=m_begin)&&(value.m_end<=m_end)) ||
-           ((value.m_begin<m_begin)&&(value.m_end>m_end)) ;
+    return (value.m_begin <= m_end) && (value.m_end >= m_begin);
 }
 
 qreal Segment::intersectValue(Segment value)
 {
-    if ((value.m_end>=m_begin)&&(value.m_end<=m_end)){
+    if (!intersect(value)) return 0;
+    if ((value.m_end >= m_begin) && (value.m_end <= m_end)){
         return value.m_end-m_begin;
     }
     if ((value.m_begin>=m_begin)&&(value.m_end>=m_end)){
