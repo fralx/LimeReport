@@ -2,6 +2,7 @@
 #define LRCHARTITEM_H
 #include "lritemdesignintf.h"
 #include "lrglobal.h"
+#include "lraxisdata.h"
 #include <QtGlobal>
 
 namespace LimeReport{
@@ -85,6 +86,7 @@ public:
 protected:
     qreal maxValue();
     qreal minValue();
+    AxisData yAxisData();
     void updateMinAndMaxValues();
     int valuesCount();
     int seriesCount();
@@ -102,13 +104,12 @@ protected:
     virtual qreal valuesVMargin(QPainter *painter);
     virtual QFont adaptLabelsFont(QRectF rect, QFont font);
     virtual QFont adaptValuesFont(qreal width, QFont font);
+    virtual QString verticalLabel(int i, qreal step, qreal min);
 
 private:
-    qreal m_minValue = 0, m_maxValue = 0;
+    AxisData m_yAxisData;
     qreal m_designValues [9];
 };
-
-int genNextValue(int value);
 
 class AbstractBarChart: public AbstractSeriesChart{
 public:
@@ -131,6 +132,10 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(ChartType chartType READ chartType WRITE setChartType)
     Q_PROPERTY(QString labelsField READ labelsField WRITE setLabelsField)
     Q_PROPERTY(bool showLegend READ showLegend WRITE setShowLegend)
+
+    //linesChart
+    Q_PROPERTY(bool drawPoints READ drawPoints WRITE setDrawPoints)
+    Q_PROPERTY(int seriesLineWidth READ seriesLineWidth WRITE setSeriesLineWidth)
     friend class AbstractChart;
 public:
 
@@ -183,6 +188,12 @@ public:
     bool showLegend() const;
     void setShowLegend(bool showLegend);
 
+    bool drawPoints() const;
+    void setDrawPoints(bool drawPoints);
+
+    int seriesLineWidth() const;
+    void setSeriesLineWidth(int newSeriesLineWidth);
+
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -209,7 +220,8 @@ private:
     QList<QString> m_labels;
     bool m_isEmpty;
     bool m_showLegend;
+    bool m_drawPoints;
+    int m_seriesLineWidth;
 };
-
 } //namespace LimeReport
 #endif // LRCHARTITEM_H

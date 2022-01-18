@@ -130,7 +130,7 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
     : ItemDesignIntf(xmlTag, owner, parent), m_legendBorder(true),
       m_legendAlign(LegendAlignCenter), m_titleAlign(TitleAlignCenter),
       m_chartType(Pie), m_labelsField(""), m_isEmpty(true),
-      m_showLegend(true)
+      m_showLegend(true), m_drawPoints(true), m_seriesLineWidth(4)
 {
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
@@ -433,6 +433,37 @@ bool ChartItem::isSeriesExists(const QString &name)
     return false;
 }
 
+int ChartItem::seriesLineWidth() const
+{
+    return m_seriesLineWidth;
+}
+
+bool ChartItem::drawPoints() const
+{
+    return m_drawPoints;
+}
+
+void ChartItem::setDrawPoints(bool drawPoints)
+{
+    if (m_drawPoints != drawPoints){
+        m_drawPoints = drawPoints;
+        notify("drawPoints", !m_drawPoints, m_drawPoints);
+        update();
+    }
+    m_drawPoints = drawPoints;
+}
+
+void ChartItem::setSeriesLineWidth(int newSeriesLineWidth)
+{
+    if (m_seriesLineWidth != newSeriesLineWidth){
+        int oldValue = m_seriesLineWidth;
+        m_seriesLineWidth = newSeriesLineWidth;
+        notify("seriesLineWidth", oldValue, m_seriesLineWidth);
+        update();
+    }
+    m_seriesLineWidth = newSeriesLineWidth;
+}
+
 AbstractChart::AbstractChart(ChartItem *chartItem)
     :m_chartItem(chartItem)
 {
@@ -492,14 +523,6 @@ void AbstractChart::prepareLegendToPaint(QRectF &legendRect, QPainter *painter)
     }
 }
 
-int genNextValue(int value){
-    int curValue = value;
-    while (curValue % 4 != 0){
-        curValue++;
-    }
-    return curValue;
-}
-
 AbstractSeriesChart::AbstractSeriesChart(ChartItem *chartItem)
     :AbstractChart(chartItem)
 {
@@ -516,29 +539,35 @@ AbstractSeriesChart::AbstractSeriesChart(ChartItem *chartItem)
 
 qreal AbstractSeriesChart::maxValue()
 {
-    return m_maxValue;
+    return m_yAxisData.maxValue();
 }
 
 qreal AbstractSeriesChart::minValue()
 {
-    return m_minValue;
+    return m_yAxisData.minValue();
+}
+
+AxisData AbstractSeriesChart::yAxisData()
+{
+    return m_yAxisData;
 }
 
 void AbstractSeriesChart::updateMinAndMaxValues()
 {
+    qreal maxYValue = 0;
+    qreal minYValue = 0;
     if (m_chartItem->itemMode() == DesignMode) {
-        m_maxValue = 40;
-        m_minValue = 0;
-        return;
-    }
-    m_minValue = 0;
-    m_maxValue = 0;
-    foreach(SeriesItem* series, m_chartItem->series()){
-        foreach(qreal value, series->data()->values()){
-            if (value<m_minValue) m_minValue=value;
-            if (value>m_maxValue) m_maxValue=value;
+        maxYValue = 40;
+    } else {
+        for (SeriesItem* series : m_chartItem->series()){
+            for (qreal value : series->data()->values()){
+                minYValue = std::min(minYValue, value);
+                maxYValue = std::max(maxYValue, value);
+            }
         }
     }
+
+    m_yAxisData = AxisData(minYValue, maxYValue);
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)
@@ -655,18 +684,22 @@ void AbstractSeriesChart::paintVerticalLabels(QPainter *painter, QRectF labelsRe
 void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect)
 {
     painter->save();
-    int delta = int(maxValue() - minValue());
-    delta = genNextValue(delta);
+
+    const AxisData &yAxisData = this->yAxisData();
+    const qreal delta = yAxisData.delta();
+
+    const int segmentCount = yAxisData.segmentCount();
+    const int lineCount = segmentCount + 1;
 
     painter->setRenderHint(QPainter::Antialiasing,false);
-    qreal hStep = (gridRect.width() - painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / 4;
+    qreal hStep = (gridRect.width() - painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / segmentCount;
 
     painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
-    for (int i=0;i<5;i++){
+    for (int i = 0 ; i < lineCount ; i++ ) {
         painter->drawText(QRectF(gridRect.left() + 4 + hStep * i, gridRect.bottom() - painter->fontMetrics().height(),
                                  hStep, painter->fontMetrics().height()),
-                          QString::number(minValue() + i * delta / 4));
+                          QString::number(minValue() + i * delta / segmentCount));
         painter->drawLine( gridRect.left()+hStep*i, gridRect.bottom(),
                           gridRect.left()+hStep*i, gridRect.top());
 
@@ -676,20 +709,27 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
 
 void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
 {
-    int delta = int(maxValue()-minValue());
-    delta = genNextValue(delta);
+    const AxisData &yAxisData = this->yAxisData();
 
     painter->setRenderHint(QPainter::Antialiasing,false);
-    qreal vStep = gridRect.height() / 4;
+
+    const int segmentCount = yAxisData.segmentCount();
+    const int lineCount = segmentCount + 1;
+    qreal vStep = gridRect.height() / segmentCount;
 
     const qreal valuesHMargin = this->valuesHMargin(painter);
+    const int fontHeight = painter->fontMetrics().height();
+    const int halfFontHeight = fontHeight / 2;
 
-    for (int i=0;i<5;i++){
-        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(0,vStep*i+painter->fontMetrics().height()),
-                                 QSizeF(valuesHMargin,painter->fontMetrics().height())),
-                          QString::number(minValue()+i*delta/4));
-        painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin,vStep*i),
-                          gridRect.bottomRight()-QPointF(0,vStep*i));
+    const QTextOption verticalTextOption(Qt::AlignRight);
+    for (int i = 0 ; i < lineCount ; i++ ) {
+        const qreal y = vStep * i;
+        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(fontHeight,y+halfFontHeight),
+                                 QSizeF(valuesHMargin,fontHeight)),
+                          verticalLabel(i, yAxisData.step(), yAxisData.rangeMin()),
+                          verticalTextOption);
+        painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin,y),
+                          gridRect.bottomRight()-QPointF(0,y));
     }
 
     painter->setRenderHint(QPainter::Antialiasing,true);
@@ -697,11 +737,14 @@ void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
 
 void AbstractSeriesChart::drawSegment(QPainter *painter, QPoint startPoint, QPoint endPoint, QColor color)
 {
-    int radius = 4;
+    int radius = m_chartItem->seriesLineWidth();
     QPen pen(color);
     pen.setWidth(radius);
     painter->setPen(pen);
     painter->drawLine(startPoint, endPoint);
+    if (!m_chartItem->drawPoints()) {
+        return;
+    }
     QRect startPointRect(startPoint,startPoint);
     QRect endPointRect(endPoint,endPoint);
     painter->setBrush(color);
@@ -711,9 +754,16 @@ void AbstractSeriesChart::drawSegment(QPainter *painter, QPoint startPoint, QPoi
 
 qreal AbstractSeriesChart::valuesHMargin(QPainter *painter)
 {
-    int delta = int(maxValue()-minValue());
-    delta = genNextValue(delta);
-    return painter->fontMetrics().boundingRect(QString::number(delta)).width()+4;
+    qreal max = 0;
+    const AxisData &yAxisData = this->yAxisData();
+    const int offset = 4;
+    const int yAxisLineCount = yAxisData.segmentCount() + 1;
+
+    for (int i = 0 ; i < yAxisLineCount ; i++) {
+        const QString label = verticalLabel(i, yAxisData.step(), yAxisData.rangeMin());
+        max = std::max(max, (qreal)painter->fontMetrics().boundingRect(label).width()+offset);
+    }
+    return max;
 }
 
 qreal AbstractSeriesChart::valuesVMargin(QPainter *painter)
@@ -758,6 +808,16 @@ QFont AbstractSeriesChart::adaptValuesFont(qreal width, QFont font)
         curWidth = fm->boundingRect(strValue).width();
     }
     return tmpFont;
+}
+
+QString AbstractSeriesChart::verticalLabel(int i, qreal step, qreal min)
+{
+    qreal value = min + i * step;
+    if (std::floor(step) == step) {
+        return QString::number(value);
+    }
+    // For float round numbers to small precision
+    return QString::number(value, 'g', 2);
 }
 
 void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)
@@ -836,5 +896,4 @@ QRectF AbstractBarChart::horizontalLabelsRect(QPainter *painter, QRectF labelsRe
     else
         return labelsRect.adjusted(0, (labelsRect.height() - maxWidth), 0, 0);
 }
-
 } // namespace LimeReport
