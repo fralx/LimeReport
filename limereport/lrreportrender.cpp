@@ -577,6 +577,7 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                                                 ));
                             }
                         }
+                        pos += rx.matchedLength();
                     }
                 }
 
