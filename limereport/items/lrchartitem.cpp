@@ -720,11 +720,12 @@ void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
     const qreal valuesHMargin = this->valuesHMargin(painter);
     const int fontHeight = painter->fontMetrics().height();
     const int halfFontHeight = fontHeight / 2;
+    const qreal textPositionOffset = valuesHMargin * 0.2;
 
     const QTextOption verticalTextOption(Qt::AlignRight);
     for (int i = 0 ; i < lineCount ; i++ ) {
         const qreal y = vStep * i;
-        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(fontHeight,y+halfFontHeight),
+        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(textPositionOffset,y+halfFontHeight),
                                  QSizeF(valuesHMargin,fontHeight)),
                           verticalLabel(i, yAxisData.step(), yAxisData.rangeMin()),
                           verticalTextOption);
