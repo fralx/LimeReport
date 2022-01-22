@@ -165,6 +165,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("printBehavior");
     tr("shiftItems");
     tr("showLegend");
+    tr("seriesLineWidth");
+    tr("drawPoints");
     tr("removeGap");
     tr("dropPrinterMargins");
     tr("notPrintIfEmpty");

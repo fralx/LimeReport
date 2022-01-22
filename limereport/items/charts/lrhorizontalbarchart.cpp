@@ -36,8 +36,8 @@ void HorizontalBarChart::paintHorizontalBars(QPainter *painter, QRectF barsRect)
 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,false);
-    int delta = int(maxValue()-minValue());
-    delta = genNextValue(delta);
+    const AxisData &yAxisData = this->yAxisData();
+    const qreal delta = yAxisData.delta();
 
     qreal vStep = (barsRect.height()-painter->fontMetrics().height()) / valuesCount() / seriesCount();
     qreal hStep = (barsRect.width()-painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / delta;

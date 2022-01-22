@@ -1,13 +1,13 @@
 #ifndef VERTICALBARCHART_H
 #define VERTICALBARCHART_H
 
-#include "lrchartitem.h"
+#include "lrlineschart.h"
 
 namespace LimeReport{
 
-class VerticalBarChart: public AbstractBarChart{
+class VerticalBarChart: public LinesChart{
 public:
-    VerticalBarChart(ChartItem* chartItem):AbstractBarChart(chartItem){}
+    VerticalBarChart(ChartItem* chartItem):LinesChart(chartItem){}
     void paintChart(QPainter *painter, QRectF chartRect);
 //    void paintVerticalGrid(QPainter *painter, QRectF gridRect);
     void paintVerticalBars(QPainter *painter, QRectF barsRect);
