@@ -23,6 +23,8 @@ ChartItemEditor::ChartItemEditor(LimeReport::ChartItem *item, LimeReport::PageDe
     readSetting();
     init();
     connect(m_colorButton, SIGNAL(clicked(bool)), this, SLOT(slotChangeSeriesColor()));
+
+    // TODO_ES add field in editor for x axis field, like for labels
 }
 
 ChartItemEditor::~ChartItemEditor()

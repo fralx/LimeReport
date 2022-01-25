@@ -145,6 +145,9 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(int seriesLineWidth READ seriesLineWidth WRITE setSeriesLineWidth)
     Q_PROPERTY(bool horizontalAxisOnTop READ horizontalAxisOnTop WRITE setHorizontalAxisOnTop)
     Q_PROPERTY(QString xAxisField READ xAxisField WRITE setXAxisField)
+
+    //girdChart
+    // TODO_ES add grid property for showing lines inside
     friend class AbstractChart;
 public:
 

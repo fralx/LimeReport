@@ -752,7 +752,6 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
     painter->save();
 
     const AxisData &yAxisData = this->yAxisData();
-    const qreal delta = yAxisData.delta();
 
     const int segmentCount = yAxisData.segmentCount();
     const int lineCount = segmentCount + 1;
@@ -765,7 +764,7 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
     for (int i = 0 ; i < lineCount ; i++ ) {
         painter->drawText(QRectF(gridRect.left() + 4 + hStep * i, gridRect.bottom() - painter->fontMetrics().height(),
                                  hStep, painter->fontMetrics().height()),
-                          QString::number(minValue() + i * delta / segmentCount));
+                          axisLabel(i, yAxisData));
         painter->drawLine( gridRect.left()+hStep*i, gridRect.bottom(),
                           gridRect.left()+hStep*i, gridRect.top());
 
@@ -791,6 +790,7 @@ void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
     const QTextOption verticalTextOption(Qt::AlignRight);
     for (int i = 0 ; i < lineCount ; i++ ) {
         const qreal y = vStep * i;
+        // TODO_ES handle horizontalAxisOnTop
         painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(textPositionOffset,y+halfFontHeight),
                                  QSizeF(valuesHMargin,fontHeight)),
                           axisLabel(i, yAxisData),
@@ -839,7 +839,7 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     for (int i = 0 ; i < xAxisLineCount ; i++) {
         const qreal x = gridRect.left() + hStep * i + valuesHMargin + gridOffset;
         const bool drawFullLine = i == 0 || i == xAxisSegmentCount;
-        const QString text = QString::number(xAxisData.rangeMin() + i * xAxisData.step());
+        const QString text = axisLabel(i, xAxisData);
 
         if (m_chartItem->horizontalAxisOnTop()) {
             painter->drawLine(x, gridRect.top() - gridOffset,
