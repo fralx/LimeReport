@@ -143,7 +143,7 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
       m_legendAlign(LegendAlignCenter), m_titleAlign(TitleAlignCenter),
       m_chartType(Pie), m_labelsField(""), m_isEmpty(true),
       m_showLegend(true), m_drawPoints(true), m_seriesLineWidth(4),
-      m_horizontalAxisOnTop(false), m_legendStyle(LegendPoints)
+      m_horizontalAxisOnTop(false)
 {
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
@@ -589,11 +589,11 @@ qreal AbstractSeriesChart::minValue()
 AxisData AbstractSeriesChart::yAxisData()
 {
     return m_yAxisData;
-qreal AbstractSeriesChart::minXValue()
-{
-    return m_chartItem->xAxisData()->minValue();
 }
 
+AxisData AbstractSeriesChart::xAxisData()
+{
+    return m_xAxisData;
 }
 
 void AbstractSeriesChart::updateMinAndMaxValues()
@@ -612,11 +612,8 @@ void AbstractSeriesChart::updateMinAndMaxValues()
                 maxYValue = std::max(maxYValue, value);
             }
             if (series->data()->xAxisValues().isEmpty()) {
-                // Grid plot starts from 0 on x axis so x range must be decresed by 1
-                const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
-                const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
                 minXValue = std::min(0.0, minXValue);
-                maxXValue = std::max(valuesCount, maxXValue);
+                maxXValue = std::max((qreal)valuesCount(), maxXValue);
             } else {
                 for (qreal value : series->data()->xAxisValues()){
                     minXValue = std::min(value, minXValue);
@@ -627,6 +624,8 @@ void AbstractSeriesChart::updateMinAndMaxValues()
     }
 
     m_yAxisData = AxisData(minYValue, maxYValue);
+    m_xAxisData = AxisData(minXValue, maxXValue);
+    m_xAxisData.setReverseDirection(true);
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)

@@ -81,8 +81,9 @@ qreal LinesChart::calculatePos(const AxisData &data, qreal value, qreal rectSize
 void LinesChart::paintSeries(QPainter *painter, SeriesItem *series, QRectF barsRect)
 {
     const AxisData &yAxisData = this->yAxisData();
+    const AxisData &xAxisData = this->xAxisData();
 
-    const qreal xAxisDiff = std::max(1.0, maxXValue() - minXValue());
+    const qreal xAxisDiff = std::max(1.0, xAxisData.maxValue() - xAxisData.minValue());
     const qreal hStep = barsRect.width() / xAxisDiff;
     const qreal topMargin = barsRect.top();
 

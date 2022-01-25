@@ -20,9 +20,12 @@ public:
     qreal step() const;
 
     qreal delta() const;
+
+    bool reverseDirection() const;
+    void setReverseDirection(bool reverseDirection);
+
 private:
     void calculateValuesAboveMax(qreal minValue, qreal maxValue, int segments);
-    qreal calculateNiceNum(qreal range, bool round);
 
     qreal m_rangeMin;
     qreal m_rangeMax;
@@ -31,6 +34,7 @@ private:
     qreal m_step;
     qreal m_delta;
     int m_segmentCount;
+    bool m_reverseDirection;
 };
 };
 

@@ -89,10 +89,10 @@ class AbstractSeriesChart: public AbstractChart{
 public:
     AbstractSeriesChart(ChartItem* chartItem);
 protected:
+    AxisData yAxisData();
+    AxisData xAxisData();
     qreal maxValue();
     qreal minValue();
-    qreal maxXValue();
-    qreal minXValue();
     void updateMinAndMaxValues();
     int valuesCount();
     int seriesCount();
@@ -113,7 +113,7 @@ protected:
     virtual QString verticalLabel(int i, qreal step, qreal min);
 
 private:
-    AxisData m_yAxisData;
+    AxisData m_yAxisData, m_xAxisData;
     qreal m_designValues [9];
 };
 
