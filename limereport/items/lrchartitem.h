@@ -16,11 +16,12 @@ class SeriesItemData : public QObject{
     Q_OBJECT
 public:
     QList<qreal>& values(){ return m_values;}
+    QList<qreal>& xAxisValues(){ return m_xAxisValues;}
     QList<QString>& labels(){ return m_labels;}
     QList<QColor>& colors() { return m_colors;}
     void clear(){ m_values.clear(); m_labels.clear(); m_colors.clear(); }
 private:
-    QList<qreal> m_values;
+    QList<qreal> m_values, m_xAxisValues;
     QList<QString> m_labels;
     QList<QColor> m_colors;
 };
@@ -30,6 +31,7 @@ class SeriesItem : public QObject{
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(QString valuesColumn READ valuesColumn WRITE setValuesColumn)
     Q_PROPERTY(QString labelsColumn READ labelsColumn WRITE setLabelsColumn)
+    Q_PROPERTY(QString xAxisColumn READ xAxisColumn WRITE setXAxisColumn)
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(SeriesItemPreferredType preferredType READ preferredType WRITE setPreferredType)
 public:
@@ -46,6 +48,8 @@ public:
     void setValuesColumn(const QString &valuesColumn);
     QString labelsColumn() const;
     void setLabelsColumn(const QString &labelsColumn);
+    QString xAxisColumn() const;
+    void setXAxisColumn(const QString &xAxisColumn);
     SeriesItem* clone();
     void fillSeriesData(IDataSource* dataSource);
     SeriesItemData* data(){ return &m_data;}
@@ -58,6 +62,7 @@ private:
     QString m_name;
     QString m_valuesColumn;
     QString m_labelsColumn;
+    QString m_xAxisColumn;
     SeriesItemData m_data;
     QColor m_color;
     SeriesItemPreferredType m_preferredType;
@@ -86,7 +91,8 @@ public:
 protected:
     qreal maxValue();
     qreal minValue();
-    AxisData yAxisData();
+    qreal maxXValue();
+    qreal minXValue();
     void updateMinAndMaxValues();
     int valuesCount();
     int seriesCount();
@@ -136,6 +142,8 @@ class ChartItem : public LimeReport::ItemDesignIntf
     //linesChart
     Q_PROPERTY(bool drawPoints READ drawPoints WRITE setDrawPoints)
     Q_PROPERTY(int seriesLineWidth READ seriesLineWidth WRITE setSeriesLineWidth)
+    Q_PROPERTY(bool horizontalAxisOnTop READ horizontalAxisOnTop WRITE setHorizontalAxisOnTop)
+    Q_PROPERTY(QString xAxisField READ xAxisField WRITE setXAxisField)
     friend class AbstractChart;
 public:
 
@@ -194,6 +202,12 @@ public:
     int seriesLineWidth() const;
     void setSeriesLineWidth(int newSeriesLineWidth);
 
+    QString xAxisField() const;
+    void setXAxisField(const QString &xAxisField);
+
+    bool horizontalAxisOnTop() const;
+    void setHorizontalAxisOnTop(bool horizontalAxisOnTop);
+
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -222,6 +236,8 @@ private:
     bool m_showLegend;
     bool m_drawPoints;
     int m_seriesLineWidth;
+    QString m_xAxisField;
+    bool m_horizontalAxisOnTop;
 };
 } //namespace LimeReport
 #endif // LRCHARTITEM_H

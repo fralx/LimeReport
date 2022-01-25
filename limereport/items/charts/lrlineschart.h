@@ -10,7 +10,7 @@ public:
     void paintChart(QPainter *painter, QRectF chartRect);
 protected:
     void drawDesignMode(QPainter *painter, qreal hStep, qreal vStep, qreal topShift, QRectF barsRect);
-    qreal calculateValueYPos(qreal min, qreal max, qreal value, qreal delta, qreal height);
+    qreal calculatePos(const AxisData &data, qreal value, qreal rectSize) const;
     void paintSeries(QPainter *painter, SeriesItem *series, QRectF barsRect);
 
 private:

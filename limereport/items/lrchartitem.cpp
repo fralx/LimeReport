@@ -79,6 +79,16 @@ void SeriesItem::setLabelsColumn(const QString &labelsColumn)
     m_labelsColumn = labelsColumn;
 }
 
+QString SeriesItem::xAxisColumn() const
+{
+    return m_xAxisColumn;
+}
+
+void SeriesItem::setXAxisColumn(const QString &xAxisColumn)
+{
+    m_xAxisColumn = xAxisColumn;
+}
+
 SeriesItem *SeriesItem::clone()
 {
     SeriesItem* result = new SeriesItem();
@@ -98,6 +108,8 @@ void SeriesItem::fillSeriesData(IDataSource *dataSource)
         while(!dataSource->eof()){
             if (!m_labelsColumn.isEmpty())
                 m_data.labels().append(dataSource->data(m_labelsColumn).toString());
+            if (!m_xAxisColumn.isEmpty())
+                m_data.xAxisValues().append(dataSource->data(m_xAxisColumn).toDouble());
             m_data.values().append(dataSource->data(m_valuesColumn).toDouble());
             m_data.colors().append((currentColorIndex<32)?color_map[currentColorIndex]:generateColor());
             dataSource->next();
@@ -130,7 +142,8 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
     : ItemDesignIntf(xmlTag, owner, parent), m_legendBorder(true),
       m_legendAlign(LegendAlignCenter), m_titleAlign(TitleAlignCenter),
       m_chartType(Pie), m_labelsField(""), m_isEmpty(true),
-      m_showLegend(true), m_drawPoints(true), m_seriesLineWidth(4)
+      m_showLegend(true), m_drawPoints(true), m_seriesLineWidth(4),
+      m_horizontalAxisOnTop(false), m_legendStyle(LegendPoints)
 {
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
@@ -235,6 +248,7 @@ void ChartItem::updateItemSize(DataSourceManager *dataManager, RenderPass , int 
         foreach (SeriesItem* series, m_series) {
             if (series->isEmpty()){
                 series->setLabelsColumn(m_labelsField);
+                series->setXAxisColumn(m_xAxisField);
                 series->fillSeriesData(ds);
             }
         }
@@ -464,6 +478,31 @@ void ChartItem::setSeriesLineWidth(int newSeriesLineWidth)
     m_seriesLineWidth = newSeriesLineWidth;
 }
 
+QString ChartItem::xAxisField() const
+{
+    return m_xAxisField;
+}
+
+void ChartItem::setXAxisField(const QString &xAxisField)
+{
+    m_xAxisField = xAxisField;
+}
+
+bool ChartItem::horizontalAxisOnTop() const
+{
+    return m_horizontalAxisOnTop;
+}
+
+void ChartItem::setHorizontalAxisOnTop(bool horizontalAxisOnTop)
+{
+    if (m_horizontalAxisOnTop != horizontalAxisOnTop){
+        m_horizontalAxisOnTop = horizontalAxisOnTop;
+        notify("horizontalAxisOnTop", !m_horizontalAxisOnTop, m_horizontalAxisOnTop);
+        update();
+    }
+    m_horizontalAxisOnTop = horizontalAxisOnTop;
+}
+
 AbstractChart::AbstractChart(ChartItem *chartItem)
     :m_chartItem(chartItem)
 {
@@ -550,19 +589,39 @@ qreal AbstractSeriesChart::minValue()
 AxisData AbstractSeriesChart::yAxisData()
 {
     return m_yAxisData;
+qreal AbstractSeriesChart::minXValue()
+{
+    return m_chartItem->xAxisData()->minValue();
+}
+
 }
 
 void AbstractSeriesChart::updateMinAndMaxValues()
 {
     qreal maxYValue = 0;
     qreal minYValue = 0;
+    qreal maxXValue = 0;
+    qreal minXValue = 0;
     if (m_chartItem->itemMode() == DesignMode) {
         maxYValue = 40;
+        maxXValue = 40;
     } else {
         for (SeriesItem* series : m_chartItem->series()){
             for (qreal value : series->data()->values()){
                 minYValue = std::min(minYValue, value);
                 maxYValue = std::max(maxYValue, value);
+            }
+            if (series->data()->xAxisValues().isEmpty()) {
+                // Grid plot starts from 0 on x axis so x range must be decresed by 1
+                const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
+                const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
+                minXValue = std::min(0.0, minXValue);
+                maxXValue = std::max(valuesCount, maxXValue);
+            } else {
+                for (qreal value : series->data()->xAxisValues()){
+                    minXValue = std::min(value, minXValue);
+                    maxXValue = std::max(value, maxXValue);
+                }
             }
         }
     }

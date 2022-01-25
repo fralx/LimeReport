@@ -68,17 +68,22 @@ void LinesChart::drawDesignMode(QPainter* painter, qreal hStep, qreal vStep, qre
     }
 }
 
-qreal LinesChart::calculateValueYPos(qreal, qreal max, qreal value, qreal delta, qreal height)
+qreal LinesChart::calculatePos(const AxisData &data, qreal value, qreal rectSize) const
 {
-    return (max - value) / delta * height;
+    if (data.reverseDirection() && data.rangeMin() >= 0) {
+        // Not flipping for minimum less than 0 because lower number is at the bottom.
+        return (1 - (data.rangeMax() - value) / data.delta()) * rectSize;
+    } else {
+        return (data.rangeMax() - value) / data.delta() * rectSize;
+    }
 }
 
 void LinesChart::paintSeries(QPainter *painter, SeriesItem *series, QRectF barsRect)
 {
     const AxisData &yAxisData = this->yAxisData();
-    const qreal delta = yAxisData.delta();
 
-    const qreal hStep = barsRect.width() / valuesCount();
+    const qreal xAxisDiff = std::max(1.0, maxXValue() - minXValue());
+    const qreal hStep = barsRect.width() / xAxisDiff;
     const qreal topMargin = barsRect.top();
 
     QPen pen(series->color());
@@ -91,11 +96,11 @@ void LinesChart::paintSeries(QPainter *painter, SeriesItem *series, QRectF barsR
     qreal lastXValue = barsRect.left() + hStep/2;
     if (!values.isEmpty()) {
         // Calculate first point position on plot before loop
-        lastYValue = calculateValueYPos(yAxisData.rangeMin(), yAxisData.rangeMax(), values.first(), delta, barsRect.height());
+        lastYValue = calculatePos(yAxisData, values.first(), barsRect.height());
     }
     for (int i = 0; i < values.count()-1; ++i ){
         const qreal startY = lastYValue;
-        const qreal endY = calculateValueYPos(yAxisData.rangeMin(), yAxisData.rangeMax(), values.at(i+1), delta, barsRect.height());
+        const qreal endY = calculatePos(yAxisData, values.at(i+1), barsRect.height());
         // Record last used Y position to only calculate new one
         lastYValue = endY;
 

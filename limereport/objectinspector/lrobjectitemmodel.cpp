@@ -144,6 +144,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("chartType");
     tr("drawLegendBorder");
     tr("labelsField");
+    tr("xAxisField");
     tr("legendAlign");
     tr("series");
     tr("titleAlign");
