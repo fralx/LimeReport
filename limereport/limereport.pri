@@ -49,6 +49,7 @@ SOURCES += \
     $$REPORT_PATH/items/lrchartitemeditor.cpp \
     $$REPORT_PATH/items/charts/lrhorizontalbarchart.cpp \
     $$REPORT_PATH/items/charts/lrlineschart.cpp \
+    $$REPORT_PATH/items/charts/lrgridlineschart.cpp \
     $$REPORT_PATH/items/charts/lrpiechart.cpp \
     $$REPORT_PATH/items/charts/lrverticalbarchart.cpp \
     $$REPORT_PATH/lrbanddesignintf.cpp \
@@ -132,6 +133,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrchartitemeditor.h \
     $$REPORT_PATH/items/charts/lrhorizontalbarchart.h \
     $$REPORT_PATH/items/charts/lrlineschart.h \
+    $$REPORT_PATH/items/charts/lrgridlineschart.h \
     $$REPORT_PATH/items/charts/lrpiechart.h \
     $$REPORT_PATH/items/charts/lrverticalbarchart.h \
     $$REPORT_PATH/lrbanddesignintf.h \

@@ -13,6 +13,7 @@
 #include "charts/lrverticalbarchart.h"
 #include "charts/lrhorizontalbarchart.h"
 #include "charts/lrlineschart.h"
+#include "charts/lrgridlineschart.h"
 
 namespace{
 
@@ -341,6 +342,10 @@ void ChartItem::setChartType(const ChartType &chartType)
             break;
         case Lines:
             m_chart = new LinesChart(this);
+            break;
+        case GridLines:
+            m_chart = new GridLinesChart(this);
+            break;
         }
         notify("chartType",oldValue,m_chartType);
         update();
@@ -612,8 +617,11 @@ void AbstractSeriesChart::updateMinAndMaxValues()
                 maxYValue = std::max(maxYValue, value);
             }
             if (series->data()->xAxisValues().isEmpty()) {
+                // Grid plot starts from 0 on x axis so x range must be decresed by 1
+                const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
+                const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
                 minXValue = std::min(0.0, minXValue);
-                maxXValue = std::max((qreal)valuesCount(), maxXValue);
+                maxXValue = std::max(valuesCount, maxXValue);
             } else {
                 for (qreal value : series->data()->xAxisValues()){
                     minXValue = std::min(value, minXValue);
@@ -785,13 +793,72 @@ void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
         const qreal y = vStep * i;
         painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(textPositionOffset,y+halfFontHeight),
                                  QSizeF(valuesHMargin,fontHeight)),
-                          verticalLabel(i, yAxisData.step(), yAxisData.rangeMin()),
+                          axisLabel(i, yAxisData),
                           verticalTextOption);
         painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin,y),
                           gridRect.bottomRight()-QPointF(0,y));
     }
 
     painter->setRenderHint(QPainter::Antialiasing,true);
+}
+
+void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
+{
+    painter->save();
+
+    const AxisData &yAxisData = this->yAxisData();
+    const AxisData &xAxisData = this->xAxisData();
+
+    painter->setRenderHint(QPainter::Antialiasing,false);
+
+    const int xAxisSegmentCount = xAxisData.segmentCount();
+    const int xAxisLineCount = xAxisSegmentCount + 1;
+    const int yAxisSegmentCount = yAxisData.segmentCount();
+    const int yAxisLineCount = yAxisSegmentCount + 1;
+
+    const qreal gridOffset = hPadding(gridRect);
+    const int fontHeight = painter->fontMetrics().height();
+    const int halfFontHeight = fontHeight / 2;
+    const qreal valuesHMargin = this->valuesHMargin(painter);
+    const qreal vStep = gridRect.height() / yAxisSegmentCount;
+    const qreal hStep = (gridRect.width() - valuesHMargin - gridOffset) / xAxisSegmentCount;
+
+    // Vertical axis lines
+    const QTextOption verticalTextOption(Qt::AlignRight);
+    for (int i = 0 ; i < yAxisLineCount ; i++ ) {
+        const qreal y = vStep * i;
+        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(halfFontHeight, y + halfFontHeight),
+                                 QSizeF(valuesHMargin,fontHeight)),
+                          axisLabel(i, yAxisData),
+                          verticalTextOption);
+        painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin, y),
+                          gridRect.bottomRight()-QPointF(0, y));
+    }
+
+    // Horizontal axis lines
+    for (int i = 0 ; i < xAxisLineCount ; i++) {
+        const qreal x = gridRect.left() + hStep * i + valuesHMargin + gridOffset;
+        const bool drawFullLine = i == 0 || i == xAxisSegmentCount;
+        const QString text = QString::number(xAxisData.rangeMin() + i * xAxisData.step());
+
+        if (m_chartItem->horizontalAxisOnTop()) {
+            painter->drawLine(x, gridRect.top() - gridOffset,
+                              x, (drawFullLine ? gridRect.bottom() : gridRect.top()));
+            painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
+                                     gridRect.top() - (fontHeight + gridOffset),
+                                     hStep, fontHeight),
+                              text);
+        } else {
+            painter->drawLine(x, gridRect.bottom() + gridOffset,
+                              x, (drawFullLine ? gridRect.top() : gridRect.bottom()));
+            painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
+                                     gridRect.bottom() + halfFontHeight + gridOffset,
+                                     hStep, fontHeight),
+                              text);
+        }
+    }
+
+    painter->restore();
 }
 
 void AbstractSeriesChart::drawSegment(QPainter *painter, QPoint startPoint, QPoint endPoint, QColor color)
@@ -819,7 +886,7 @@ qreal AbstractSeriesChart::valuesHMargin(QPainter *painter)
     const int yAxisLineCount = yAxisData.segmentCount() + 1;
 
     for (int i = 0 ; i < yAxisLineCount ; i++) {
-        const QString label = verticalLabel(i, yAxisData.step(), yAxisData.rangeMin());
+        const QString label = axisLabel(i, yAxisData);
         max = std::max(max, (qreal)painter->fontMetrics().boundingRect(label).width()+offset);
     }
     return max;
@@ -869,14 +936,22 @@ QFont AbstractSeriesChart::adaptValuesFont(qreal width, QFont font)
     return tmpFont;
 }
 
-QString AbstractSeriesChart::verticalLabel(int i, qreal step, qreal min)
+QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
 {
-    qreal value = min + i * step;
+    const qreal min = axisData.rangeMin();
+    const qreal step = axisData.step();
+    qreal value = 0;
+    // For values below 0, axis is already reversed (value closer to 0 is higher)
+    if (axisData.reverseDirection() && min >= 0) {
+        value = min + (axisData.segmentCount() - i) * step;
+    } else {
+        value = min + i * step;
+    }
     if (std::floor(step) == step) {
         return QString::number(value);
     }
     // For float round numbers to small precision
-    return QString::number(value, 'g', 2);
+    return QString::number(round(value * 100.0) / 100.0);
 }
 
 void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)

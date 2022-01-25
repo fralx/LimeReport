@@ -104,13 +104,14 @@ protected:
     virtual void paintHorizontalLabels(QPainter *painter, QRectF labelsRect);
     virtual void paintVerticalLabels(QPainter *painter, QRectF labelsRect);
     virtual void paintHorizontalGrid(QPainter *painter, QRectF gridRect);
+    virtual void paintGrid(QPainter *painter, QRectF gridRect);
     virtual void paintVerticalGrid(QPainter *painter, QRectF gridRect);
     virtual void drawSegment(QPainter *painter, QPoint startPoint, QPoint endPoint, QColor color);
     virtual qreal valuesHMargin(QPainter *painter);
     virtual qreal valuesVMargin(QPainter *painter);
     virtual QFont adaptLabelsFont(QRectF rect, QFont font);
     virtual QFont adaptValuesFont(qreal width, QFont font);
-    virtual QString verticalLabel(int i, qreal step, qreal min);
+    virtual QString axisLabel(int i, const AxisData &axisData);
 
 private:
     AxisData m_yAxisData, m_xAxisData;
@@ -148,8 +149,9 @@ class ChartItem : public LimeReport::ItemDesignIntf
 public:
 
     enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
+    enum LegendStyle{LegendPoints, LegendLines};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
-    enum ChartType{Pie, VerticalBar, HorizontalBar, Lines};
+    enum ChartType{Pie, VerticalBar, HorizontalBar, Lines, GridLines};
 #if QT_VERSION >= 0x050500
     Q_ENUM(LegendAlign)
     Q_ENUM(TitleAlign)
