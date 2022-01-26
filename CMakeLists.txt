@@ -2,8 +2,8 @@ project(limereport)
 cmake_minimum_required(VERSION 3.14)
 
 set(LIMEREPORT_VERSION_MAJOR 1)
-set(LIMEREPORT_VERSION_MINOR 5)
-set(LIMEREPORT_VERSION_RELEASE 90)
+set(LIMEREPORT_VERSION_MINOR 6)
+set(LIMEREPORT_VERSION_RELEASE 4)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
@@ -35,6 +35,7 @@ if (Qt${QT_VERSION_MAJOR}Widgets_FOUND)
 endif()
 
 add_subdirectory(3rdparty)
+add_subdirectory(designer EXCLUDE_FROM_ALL)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -81,13 +82,13 @@ ${PROJECT_NAME}/items/lrimageitem.cpp
 ${PROJECT_NAME}/items/lrimageitemeditor.cpp
 ${PROJECT_NAME}/items/lrlayoutmarker.cpp
 ${PROJECT_NAME}/items/lrshapeitem.cpp
-${PROJECT_NAME}/items/lrsimpletagparser.cpp
 ${PROJECT_NAME}/items/lrsubitemparentpropitem.cpp
 ${PROJECT_NAME}/items/lrsvgitem.cpp
 ${PROJECT_NAME}/items/lrtextitem.cpp
 ${PROJECT_NAME}/items/lrtextitemeditor.cpp
 ${PROJECT_NAME}/items/lrverticallayout.cpp
 ${PROJECT_NAME}/lraboutdialog.cpp
+${PROJECT_NAME}/lraxisdata.cpp
 ${PROJECT_NAME}/lrbanddesignintf.cpp
 ${PROJECT_NAME}/lrbandsmanager.cpp
 ${PROJECT_NAME}/lrbasedesignintf.cpp
@@ -147,6 +148,7 @@ ${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.cpp
 ${PROJECT_NAME}/scripteditor/lrcodeeditor.cpp
 ${PROJECT_NAME}/scripteditor/lrscripteditor.cpp
 ${PROJECT_NAME}/scripteditor/lrscripthighlighter.cpp
+${PROJECT_NAME}/scripteditor/lrcompletermodel.cpp
 ${PROJECT_NAME}/serializators/lrxmlbasetypesserializators.cpp
 ${PROJECT_NAME}/serializators/lrxmlqrectserializator.cpp
 ${PROJECT_NAME}/serializators/lrxmlreader.cpp
@@ -191,13 +193,13 @@ ${PROJECT_NAME}/items/lrimageitem.h
 ${PROJECT_NAME}/items/lrimageitemeditor.h
 ${PROJECT_NAME}/items/lrlayoutmarker.h
 ${PROJECT_NAME}/items/lrshapeitem.h
-${PROJECT_NAME}/items/lrsimpletagparser.h
 ${PROJECT_NAME}/items/lrsubitemparentpropitem.h
 ${PROJECT_NAME}/items/lrsvgitem.h
 ${PROJECT_NAME}/items/lrtextitem.h
 ${PROJECT_NAME}/items/lrtextitemeditor.h
 ${PROJECT_NAME}/items/lrverticallayout.h
 ${PROJECT_NAME}/lraboutdialog.h
+${PROJECT_NAME}/lraxisdata.h
 ${PROJECT_NAME}/lrbanddesignintf.h
 ${PROJECT_NAME}/lrbandsmanager.h
 ${PROJECT_NAME}/lrbasedesignintf.h
@@ -262,6 +264,7 @@ ${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.h
 ${PROJECT_NAME}/scripteditor/lrcodeeditor.h
 ${PROJECT_NAME}/scripteditor/lrscripteditor.h
 ${PROJECT_NAME}/scripteditor/lrscripthighlighter.h
+${PROJECT_NAME}/scripteditor/lrcompletermodel.h
 ${PROJECT_NAME}/serializators/lrserializatorintf.h
 ${PROJECT_NAME}/serializators/lrstorageintf.h
 ${PROJECT_NAME}/serializators/lrxmlbasetypesserializators.h
