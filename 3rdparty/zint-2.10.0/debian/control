@@ -1,0 +1,42 @@
+Source: zint
+Section: libs
+Priority: optional
+Maintainer: Robin Stuart <rstuart114@gmail.com>
+Build-Depends: debhelper (>= 9), cmake, libpng12-dev, libqt4-dev
+Standards-Version: 3.9.1
+Homepage: http://www.zint.org.uk/
+
+Package: zint
+Section: libs
+Architecture: any
+Description: A library for encoding data in barcode symbols.
+   Zint is an Open Source barcode encoding and image generating library.
+   It currently features support for over 50 symbologies including
+ QR Code, Data Matrix, Aztec Code, Code 128, UPC/EAN, HIBC, GS1 DataBar and many others.
+   Also included are Unicode translation for symbologies which support Latin-1 and Kanji character sets,
+ full GS1 data support including verification and automated insertion of FNC1 characters and
+ support for encoding binary data including NULL (ASCII 0) characters.
+
+Package: zint-devel
+Section: libdevel
+Architecture: any
+Depends: zint (= ${binary:Version})
+Description: Zint development files
+   This package contains development files for the Zint barcode encoding
+ library.
+
+Package: zint-qt
+Section: libs
+Architecture: any
+Depends: zint (= ${binary:Version})
+Description: Zint Barcode Studio.
+   This package contains Zint Barcode Studio, a QT frontend for the Zint
+ barcode encoding library.
+
+Package: zint-qt-devel
+Section: libdevel
+Architecture: any
+Depends: zint (= ${binary:Version}), zint-qt (= ${source:Version}), libqt4-dev
+Description: QZint development files.
+   This package contains development files for the Qt wrapper over the Zint
+ library.

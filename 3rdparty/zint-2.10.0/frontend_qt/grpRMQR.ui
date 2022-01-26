@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>grpRMQR</class>
+ <widget class="QWidget" name="grpRMQR">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>227</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="grpRMQROptions">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelRMQRSize">
+       <property name="text">
+        <string>Si&amp;ze:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbRMQRSize</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="cmbRMQRSize">
+       <property name="maxVisibleItems">
+        <number>21</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Automatic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R7x43 (Zint 1)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R7x59 (Zint 2)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R7x77 (Zint 3)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R7x99 (Zint 4)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R7x139 (Zint 5)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R9x43 (Zint 6)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R9x59 (Zint 7)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R9x77 (Zint 8)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R9x99 (Zint 9)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R9x139 (Zint 10)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11x27 (Zint 11)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11x43 (Zint 12)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11x59 (Zint 13)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11x77 (Zint 14)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11x99 (Zint 15)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11x139 (Zint 16)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13x27 (Zint 17)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13x43 (Zint 18)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13x59 (Zint 19)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13x77 (Zint 20)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13x99 (Zint 21)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13x139 (Zint 22)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R15x43 (Zint 23)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R15x59 (Zint 24)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R15x77 (Zint 25)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R15x99 (Zint 26)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R15x139 (Zint 27)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R17x43 (Zint 28)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R17x59 (Zint 29)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R17x77 (Zint 30)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R17x99 (Zint 31)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R17x139 (Zint 32)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R7 x Automatic Width (Zint 33)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R9 x Automatic Width (Zint 34)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R11 x Automatic Width (Zint 35)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R13 x Automatic Width (Zint 36)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R15 x Automatic Width (Zint 37)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R17 x Automatic Width (Zint 38)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelRMQRECC">
+       <property name="text">
+        <string>E&amp;rror Correction:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbRMQRECC</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="cmbRMQRECC">
+       <item>
+        <property name="text">
+         <string>Automatic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>~37% (Level M)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>~65% (Level H)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxRMQREncodingMode">
+     <property name="title">
+      <string>Encoding Mode</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayoutRMQREncodingMode">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radRMQRStand">
+        <property name="text">
+         <string>S&amp;tandard Mode</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="radRMQRGS1">
+        <property name="text">
+         <string>GS&amp;1 Data Mode</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkRMQRFullMultibyte">
+     <property name="text">
+      <string>&amp;Full Multibyte</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string>Use Kanji multibyte encoding for binary and Latin data</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>43</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
