@@ -70,7 +70,7 @@ CONFIG(qtscriptengine) {
     message(embedded designer)
 }
 
-ZINT_PATH = $$PWD/3rdparty/zint-2.6.1
+ZINT_PATH = $$PWD/3rdparty/zint-2.10.0
 CONFIG(zint) {
     DEFINES *= HAVE_ZINT
 }

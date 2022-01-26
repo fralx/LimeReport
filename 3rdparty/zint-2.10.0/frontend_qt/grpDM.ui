@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>grpDM</class>
+ <widget class="QWidget" name="grpDM">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>463</width>
+    <height>339</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblDM200Size">
+       <property name="text">
+        <string>Si&amp;ze:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbDM200Size</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="cmbDM200Size">
+       <property name="maxVisibleItems">
+        <number>21</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Automatic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10 x 10</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12 x 12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>14 x 14</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16 x 16</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>18 x 18</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20 x 20</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>22 x 22</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>24 x 24</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>26 x 26</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>32 x 32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>36 x 36</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>40 x 40</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>44 x 44</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>48 x 48</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>52 x 52</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>64 x 64</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>72 x 72</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>80 x 80</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>88 x 88</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>96 x 96</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>104 x 104</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>120 x 120</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>132 x 132</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>144 x 144</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 18</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12 x 26</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12 x 36</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16 x 36</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16 x 48</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 48 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 64 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 80 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 96 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 120 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8 x 144 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12 x 64 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12 x 88 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16 x 64 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20 x 36 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20 x 44 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20 x 64 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>22 x 48 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>24 x 48 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>24 x 64 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>26 x 40 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>26 x 48 (DMRE)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>26 x 64 (DMRE)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxDM200EncodingMode">
+     <property name="title">
+      <string>Encoding Mode</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayoutDM200EncodingMode">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radDM200Stand">
+        <property name="text">
+         <string>S&amp;tandard Mode</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="radDM200GS1">
+        <property name="text">
+         <string>GS&amp;1 Data Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radDM200HIBC">
+        <property name="text">
+         <string>H&amp;IBC Data Matrix</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkDMRectangle">
+     <property name="text">
+      <string>Suppress &amp;Rectangular Symbols in Automatic Mode</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkDMRE">
+     <property name="text">
+      <string>Allo&amp;w DMRE in Automatic Mode</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkDMGSSep">
+     <property name="text">
+      <string>&amp;Use separator GS for GS1</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

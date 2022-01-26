@@ -1,0 +1,174 @@
+<ui version="4.0" >
+ <class>grpMQR</class>
+ <widget class="QWidget" name="grpMQR" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>227</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" >
+   <item>
+    <layout class="QGridLayout" name="gridLayout" >
+     <item row="0" column="0" >
+      <widget class="QLabel" name="lavelMQRSize" >
+       <property name="text" >
+        <string>Si&amp;ze:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbMQRSize</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QComboBox" name="cmbMQRSize" >
+       <item>
+        <property name="text">
+         <string>Automatic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>11 x 11 (Version M1)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>13 x 13 (Version M2)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>15 x 15 (Version M3)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>17 x 17 (Version M4)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="labelMQRECC" >
+       <property name="text" >
+        <string>E&amp;rror Correction:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbMQRECC</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QComboBox" name="cmbMQRECC" >
+       <item>
+        <property name="text">
+         <string>Automatic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>~20% (Level L)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>~37% (Level M)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>~55% (Level Q)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelMQRMask">
+       <property name="text">
+        <string>&amp;Mask:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbMQRMask</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="cmbMQRMask">
+       <property name="maxVisibleItems">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Automatic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>3</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkMQRFullMultibyte">
+     <property name="text">
+      <string>&amp;Full Multibyte</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string>Use Kanji multibyte encoding for binary and Latin data</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>50</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -815,8 +815,9 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         	m_reprintableBands.removeOne(header);
         if (header) recalcIfNeeded(header);
 
-        if (bandDatasource->prior()){
-            renderGroupFooter(dataBand);
+        bool didGoBack = !bandDatasource->eof() && bandDatasource->prior();
+        renderGroupFooterByHeader(dataBand);
+        if (didGoBack){
             bandDatasource->next();
         }
 
@@ -1001,7 +1002,7 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
         IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb&&gb->isNeedToClose(datasources())){
             if (band->childBands().count()>0){
-                bool didGoBack = dataSource->prior();
+                bool didGoBack = !dataSource->eof() && dataSource->prior();
                 renderGroupFooterByHeader(band);
                 if (didGoBack){
                     dataSource->next();

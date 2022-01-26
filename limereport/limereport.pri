@@ -83,6 +83,7 @@ SOURCES += \
     $$REPORT_PATH/lrcolorindicator.cpp \
     $$REPORT_PATH/lrreporttranslation.cpp \
     $$REPORT_PATH/exporters/lrpdfexporter.cpp \
+    $$REPORT_PATH/lraxisdata.cpp \
     $$REPORT_PATH/lrpreparedpages.cpp
 
 CONFIG(staticlib) {
@@ -187,6 +188,7 @@ HEADERS += \
     $$REPORT_PATH/lrexportersfactory.h \	
     $$REPORT_PATH/exporters/lrpdfexporter.h \
     $$REPORT_PATH/lrpreparedpages.h \
+    $$REPORT_PATH/lraxisdata.h \
     $$REPORT_PATH/lrpreparedpagesintf.h 
 
 CONFIG(staticlib) {
