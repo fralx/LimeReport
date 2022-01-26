@@ -1,0 +1,106 @@
+Zint backend test suite
+-----------------------
+
+In order to build the zint test suite, zint has to be compiled with the
+ZINT_TEST option enabled:
+
+  cd <project-dir>
+  mkdir build
+  cd build
+  cmake -DZINT_TEST=ON ..
+  make
+
+------------------------------------------------------------------------------
+
+In order to run the test suite, the path of the zint library may need to be
+communicated to the runtime linker. On UNIX-like systems, this is done by
+exporting LD_LIBRARY_PATH to the path containing the zint library, which is
+<build-dir>/backend:
+
+  cd <project-dir>
+  cd build
+  export LD_LIBRARY_PATH=$(pwd)/backend
+
+Setting LD_LIBRARY_PATH is not required if the zint library to be tested is
+installed into a system library path ( /usr/lib for example ) prior to running
+the tests.
+
+To run all tests (within <build-dir>):
+
+  ctest
+
+For various useful options, e.g. matching (-R) and excluding (-E) tests, see
+https://cmake.org/cmake/help/latest/manual/ctest.1.html#options
+
+Tests can also be run individually, eg:
+
+  backend/tests/test_common
+  backend/tests/test_vector
+
+To run a single test function within an individual test, use '-f <func-name>':
+
+  backend/tests/test_common -f utf8_to_unicode
+  backend/tests/test_dotcode -f input
+
+To run a single dataset item in a single test function, use '-i <index>':
+
+  backend/tests/test_dotcode -f input -i 2
+
+To show debug info (if any), use '-d <flag>':
+
+  backend/tests/test_dotcode -f input -i 2 -d 1
+
+(for other flags see <project-dir>/backend/tests/testcommon.h)
+
+To generate test data, use '-g':
+
+  backend/tests/test_dotcode -f encode -g
+
+To run a test against BWIPP (if any), use '-d 128':
+
+  backend/tests/test_composite -d 128
+
+(see also <project-dir>/backend/tests/tools/run_bwipp_tests.sh)
+
+------------------------------------------------------------------------------
+
+If the zint library was built with static linkage support, i.e. ZINT_STATIC
+is ON, an additional test executable, which uses the zint-static library, will
+be built. The static variant of each test shares the test name, but has a
+"-static" suffix. For example,
+
+  backend/tests/test_dotcode
+
+would run the dotcode test that uses the shared zint library, while
+
+  backend/tests/test_dotcode-static
+
+runs the same test built against the zint-static library.
+
+------------------------------------------------------------------------------
+
+To make with gcc sanitize, first set for libzint and make:
+
+  cd <project-dir>
+  cd build
+  cmake -DZINT_SANITIZE=ON ..
+  make && sudo make install
+
+Similarly to make with gcc debug:
+
+  cd <project-dir>
+  cd build
+  cmake -DZINT_DEBUG=ON ..
+  make && sudo make install
+
+To undo sanitize/debug, remake each after setting:
+
+  cmake -DZINT_SANITIZE=OFF ..
+  cmake -DZINT_DEBUG=OFF ..
+
+To get a clean libzint, set the above and also:
+
+  cmake -DZINT_TEST=OFF ..
+
+(The tests will now fail to link.)
+

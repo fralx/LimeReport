@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DataDialog</class>
+ <widget class="QDialog" name="DataDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>429</width>
+    <height>333</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Input Data</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:res/zint-qt.ico</normaloff>:res/zint-qt.ico</iconset>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&amp;Data</string>
+     </property>
+     <property name="toolTip">
+      <string>Input data. Newlines (Line Feeds (0xA0))
+will be converted to spaces</string>
+     </property>
+     <property name="buddy">
+      <cstring>txtDataInput</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="txtDataInput">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item>
+      <widget class="QPushButton" name="btnFromFile">
+       <property name="text">
+        <string>&amp;From File...</string>
+       </property>
+       <property name="toolTip">
+        <string>Get input data from a file. Certain characters &lt;br/&gt;will be converted to escape sequences
+&lt;table cellspacing=&quot;3&quot;&gt;
+&lt;tr&gt;&lt;td&gt;End of Transmission (0x04)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\E&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Bell (0x07)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\a&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Backspace (0x08)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\b&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Horizontal Tab (0x09)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\t&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Vertical Tab (0x0B)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\v&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Form Feed (0x0C)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\f&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Carriage Return (0x0D)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\r&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Escape (0x1B)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\e&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Group Separator (0x1D)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\G&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Record Separator (0x1E)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\R&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Backslash (0x5C)&lt;/td&gt;&lt;td&gt;&amp;nbsp;\\&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+Note that newlines (Line Feeds (0x0A)) are &lt;br/&gt;not included</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnReset">
+       <property name="text">
+        <string>&amp;Reset</string>
+       </property>
+       <property name="toolTip">
+        <string>Clear data window</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnOK">
+       <property name="text">
+        <string>&amp;OK</string>
+       </property>
+       <property name="toolTip">
+        <string>Close window and update input data</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCancel">
+       <property name="text">
+        <string>&amp;Cancel</string>
+       </property>
+       <property name="toolTip">
+        <string>Close window without updating input data</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
