@@ -74,7 +74,7 @@ if (ENABLE_ZINT)
   if(PNG_FOUND)
     target_link_libraries(QZint PRIVATE PNG::PNG)
   else(PNG_FOUND)
-    target_compile_definitions(QZint -DNO_PNG)
+    target_compile_definitions(QZint PRIVATE -DNO_PNG)
   endif(PNG_FOUND)
 
 endif(ENABLE_ZINT)
