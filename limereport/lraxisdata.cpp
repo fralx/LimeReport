@@ -53,16 +53,6 @@ qreal AxisData::delta() const
     return m_delta;
 }
 
-bool AxisData::reverseDirection() const
-{
-    return m_reverseDirection;
-}
-
-void AxisData::setReverseDirection(bool reverseDirection)
-{
-    m_reverseDirection = reverseDirection;
-}
-
 void AxisData::calculateValuesAboveMax(qreal minValue, qreal maxValue, int segments)
 {
     const int delta = maxValue - minValue;

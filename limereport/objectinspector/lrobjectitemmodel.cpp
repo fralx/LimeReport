@@ -171,6 +171,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("removeGap");
     tr("dropPrinterMargins");
     tr("notPrintIfEmpty");
+    tr("gridChartLines");
+    tr("horizontalAxisOnTop");
     tr("mixWithPriorPage");
 }
 

@@ -70,12 +70,7 @@ void LinesChart::drawDesignMode(QPainter* painter, qreal hStep, qreal vStep, qre
 
 qreal LinesChart::calculatePos(const AxisData &data, qreal value, qreal rectSize) const
 {
-    if (data.reverseDirection() && data.rangeMin() >= 0) {
-        // Not flipping for minimum less than 0 because lower number is at the bottom.
-        return (1 - (data.rangeMax() - value) / data.delta()) * rectSize;
-    } else {
-        return (data.rangeMax() - value) / data.delta() * rectSize;
-    }
+    return (data.rangeMax() - value) / data.delta() * rectSize;
 }
 
 void LinesChart::paintSeries(QPainter *painter, SeriesItem *series, QRectF barsRect)
