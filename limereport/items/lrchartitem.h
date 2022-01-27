@@ -144,10 +144,11 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(bool drawPoints READ drawPoints WRITE setDrawPoints)
     Q_PROPERTY(int seriesLineWidth READ seriesLineWidth WRITE setSeriesLineWidth)
     Q_PROPERTY(bool horizontalAxisOnTop READ horizontalAxisOnTop WRITE setHorizontalAxisOnTop)
-    Q_PROPERTY(QString xAxisField READ xAxisField WRITE setXAxisField)
 
-    //girdChart
-    // TODO_ES add grid property for showing lines inside
+    //gridChart
+    Q_FLAGS(GridChartLines)
+    Q_PROPERTY(QString xAxisField READ xAxisField WRITE setXAxisField)
+    Q_PROPERTY(GridChartLines gridChartLines READ gridChartLines WRITE setGridChartLines)
     friend class AbstractChart;
 public:
 
@@ -155,15 +156,24 @@ public:
     enum LegendStyle{LegendPoints, LegendLines};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
     enum ChartType{Pie, VerticalBar, HorizontalBar, Lines, GridLines};
+    enum LineType {
+        NoLine = 0,
+        HorizontalLine = 1,
+        VerticalLine = 2,
+        AllLines = 3
+    };
 #if QT_VERSION >= 0x050500
     Q_ENUM(LegendAlign)
     Q_ENUM(TitleAlign)
     Q_ENUM(ChartType)
+    Q_ENUM(LineType)
 #else
     Q_ENUMS(LegendAlign)
     Q_ENUMS(TitleAlign)
     Q_ENUMS(ChartType)
+    Q_ENUMS(LineType)
 #endif
+    Q_DECLARE_FLAGS(GridChartLines, LineType)
 
     ChartItem(QObject* owner, QGraphicsItem* parent);
     ~ChartItem();
@@ -213,6 +223,9 @@ public:
     bool horizontalAxisOnTop() const;
     void setHorizontalAxisOnTop(bool horizontalAxisOnTop);
 
+    GridChartLines gridChartLines() const;
+    void setGridChartLines(GridChartLines flags);
+
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -243,6 +256,7 @@ private:
     int m_seriesLineWidth;
     QString m_xAxisField;
     bool m_horizontalAxisOnTop;
+    GridChartLines m_gridChartLines;
 };
 } //namespace LimeReport
 #endif // LRCHARTITEM_H

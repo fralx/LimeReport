@@ -144,7 +144,7 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
       m_legendAlign(LegendAlignCenter), m_titleAlign(TitleAlignCenter),
       m_chartType(Pie), m_labelsField(""), m_isEmpty(true),
       m_showLegend(true), m_drawPoints(true), m_seriesLineWidth(4),
-      m_horizontalAxisOnTop(false)
+      m_horizontalAxisOnTop(false), m_gridChartLines(AllLines)
 {
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
@@ -508,6 +508,25 @@ void ChartItem::setHorizontalAxisOnTop(bool horizontalAxisOnTop)
     m_horizontalAxisOnTop = horizontalAxisOnTop;
 }
 
+ChartItem::GridChartLines ChartItem::gridChartLines() const
+{
+    return m_gridChartLines;
+}
+
+void ChartItem::setGridChartLines(GridChartLines flags)
+{
+    if (m_gridChartLines == flags) {
+        return;
+    }
+    GridChartLines oldValue = m_gridChartLines;
+    m_gridChartLines = flags;
+    if (isLoading()) {
+        return;
+    }
+    update(rect());
+    notify("gridChartLines",QVariant(oldValue),QVariant(flags));
+}
+
 AbstractChart::AbstractChart(ChartItem *chartItem)
     :m_chartItem(chartItem)
 {
@@ -832,18 +851,25 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     const QTextOption verticalTextOption(Qt::AlignRight);
     for (int i = 0 ; i < yAxisLineCount ; i++ ) {
         const qreal y = vStep * i;
+        const bool drawFullLine = m_chartItem->gridChartLines() & ChartItem::HorizontalLine
+                                  || i == 0 || i == xAxisSegmentCount;
         painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(halfFontHeight, y + halfFontHeight),
                                  QSizeF(valuesHMargin,fontHeight)),
                           axisLabel(i, yAxisData),
                           verticalTextOption);
-        painter->drawLine(gridRect.bottomLeft()-QPointF(-valuesHMargin, y),
-                          gridRect.bottomRight()-QPointF(0, y));
+
+        QPointF lineEndPos = gridRect.bottomRight() - QPointF(0, y);
+        if (!drawFullLine) {
+            lineEndPos.setX(gridRect.left() + valuesHMargin + gridOffset);
+        }
+        painter->drawLine(gridRect.bottomLeft() - QPointF(-valuesHMargin, y), lineEndPos);
     }
 
     // Horizontal axis lines
     for (int i = 0 ; i < xAxisLineCount ; i++) {
         const qreal x = gridRect.left() + hStep * i + valuesHMargin + gridOffset;
-        const bool drawFullLine = i == 0 || i == xAxisSegmentCount;
+        const bool drawFullLine = m_chartItem->gridChartLines() & ChartItem::VerticalLine
+                                  || i == 0 || i == xAxisSegmentCount;
         const QString text = axisLabel(i, xAxisData);
 
         if (m_chartItem->horizontalAxisOnTop()) {
@@ -1035,4 +1061,5 @@ QRectF AbstractBarChart::horizontalLabelsRect(QPainter *painter, QRectF labelsRe
     else
         return labelsRect.adjusted(0, (labelsRect.height() - maxWidth), 0, 0);
 }
+
 } // namespace LimeReport
