@@ -633,7 +633,6 @@ void AbstractSeriesChart::updateMinAndMaxValues()
 
     m_yAxisData = AxisData(minYValue, maxYValue);
     m_xAxisData = AxisData(minXValue, maxXValue);
-    m_xAxisData.setReverseDirection(true);
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)
@@ -761,13 +760,18 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
 
     painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
+    QPointF textPos;
+    if (m_chartItem->horizontalAxisOnTop()) {
+        textPos.setY(gridRect.top());
+    } else {
+        textPos.setY(gridRect.bottom() - painter->fontMetrics().height());
+    }
     for (int i = 0 ; i < lineCount ; i++ ) {
-        painter->drawText(QRectF(gridRect.left() + 4 + hStep * i, gridRect.bottom() - painter->fontMetrics().height(),
-                                 hStep, painter->fontMetrics().height()),
+        const qreal x = gridRect.left() + hStep * i;
+        textPos.setX(x + 4);
+        painter->drawText(QRectF(textPos, QSizeF(hStep, painter->fontMetrics().height())),
                           axisLabel(i, yAxisData));
-        painter->drawLine( gridRect.left()+hStep*i, gridRect.bottom(),
-                          gridRect.left()+hStep*i, gridRect.top());
-
+        painter->drawLine(x, gridRect.bottom(), x, gridRect.top());
     }
     painter->restore();
 }
@@ -790,7 +794,6 @@ void AbstractSeriesChart::paintVerticalGrid(QPainter *painter, QRectF gridRect)
     const QTextOption verticalTextOption(Qt::AlignRight);
     for (int i = 0 ; i < lineCount ; i++ ) {
         const qreal y = vStep * i;
-        // TODO_ES handle horizontalAxisOnTop
         painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(textPositionOffset,y+halfFontHeight),
                                  QSizeF(valuesHMargin,fontHeight)),
                           axisLabel(i, yAxisData),
@@ -822,6 +825,8 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     const qreal valuesHMargin = this->valuesHMargin(painter);
     const qreal vStep = gridRect.height() / yAxisSegmentCount;
     const qreal hStep = (gridRect.width() - valuesHMargin - gridOffset) / xAxisSegmentCount;
+
+    painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
     // Vertical axis lines
     const QTextOption verticalTextOption(Qt::AlignRight);

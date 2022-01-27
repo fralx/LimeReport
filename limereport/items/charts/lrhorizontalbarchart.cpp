@@ -20,7 +20,9 @@ void HorizontalBarChart::paintChart(QPainter *painter, QRectF chartRect)
     paintHorizontalGrid(painter, chartRect.adjusted(
                                      hPadding(chartRect) + barsShift,
                                      vPadding(chartRect),
-                                     -(hPadding(chartRect)),-vPadding(chartRect)));
+                                     -(hPadding(chartRect)),
+                                     -vPadding(chartRect)));
+
     paintHorizontalBars(painter, chartRect.adjusted(
                                      hPadding(chartRect) + barsShift,
                                      vPadding(chartRect) * 2,
@@ -36,25 +38,33 @@ void HorizontalBarChart::paintHorizontalBars(QPainter *painter, QRectF barsRect)
 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,false);
+
     const AxisData &yAxisData = this->yAxisData();
     const qreal delta = yAxisData.delta();
 
-    qreal vStep = (barsRect.height()-painter->fontMetrics().height()) / valuesCount() / seriesCount();
+    const qreal verticalOffset = painter->fontMetrics().height();
+    qreal vStep = (barsRect.height() - verticalOffset) / valuesCount() / seriesCount();
     qreal hStep = (barsRect.width()-painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / delta;
 
     if (!m_chartItem->series().isEmpty() && (m_chartItem->itemMode() != DesignMode)){
-        int curSeries = 0;
+        qreal curVOffset = barsRect.top();
+        if (m_chartItem->horizontalAxisOnTop()) {
+            curVOffset += verticalOffset;
+        }
         foreach (SeriesItem* series, m_chartItem->series()) {
-            qreal curVOffset = curSeries*vStep+barsRect.top();
             painter->setBrush(series->color());
+            qreal y = curVOffset;
             foreach (qreal value, series->data()->values()) {
-                painter->drawRect(QRectF((-minValue()*hStep)+barsRect.left(), curVOffset, value*hStep, vStep));
-                curVOffset+=vStep*seriesCount();
+                painter->drawRect(QRectF((-minValue()*hStep)+barsRect.left(), y, value*hStep, vStep));
+                y+=vStep*seriesCount();
             }
-            curSeries++;
+            curVOffset += vStep;
         }
     } else {
         qreal curVOffset = barsRect.top();
+        if (m_chartItem->horizontalAxisOnTop()) {
+            curVOffset += verticalOffset;
+        }
         int curColor = 0;
         for (int i=0; i<9; ++i){
             if (curColor==3) curColor=0;
