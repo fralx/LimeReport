@@ -144,16 +144,30 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QComboBox" name="labelsFieldComboBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
       <widget class="QLabel" name="labelsFieldLabel">
        <property name="text">
         <string>Labels field</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QComboBox" name="labelsFieldComboBox">
+     <item row="1" column="0">
+      <widget class="QLabel" name="xAxisFieldLabel">
+       <property name="text">
+        <string>X data field</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="xAxisFieldComboBox">
        <property name="editable">
         <bool>true</bool>
        </property>
