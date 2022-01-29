@@ -21,13 +21,20 @@ void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
             )
         );
     const qreal barsShift = calcRect.height();
-    const qreal topOffset = painter->fontMetrics().height() * (m_chartItem->horizontalAxisOnTop() ? 1 : -1);
-    const QRectF gridRect = chartRect.adjusted(
+    const qreal topOffset = painter->fontMetrics().height();
+    QRectF gridRect = chartRect.adjusted(
         hPadding,
         vPadding + valuesVMargin + topOffset,
         -hPadding * 3,
         -(vPadding + barsShift)
         );
+
+    if (!m_chartItem->horizontalAxisOnTop()) {
+        // Draw labels above the grid
+        const qreal height = calcRect.height();
+        calcRect.setBottom(gridRect.top());
+        calcRect.setTop(calcRect.bottom() - height);
+    }
 
     paintGrid(painter, gridRect);
 

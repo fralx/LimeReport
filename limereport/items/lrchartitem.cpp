@@ -838,12 +838,15 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     const int yAxisSegmentCount = yAxisData.segmentCount();
     const int yAxisLineCount = yAxisSegmentCount + 1;
 
-    const qreal gridOffset = hPadding(gridRect);
     const int fontHeight = painter->fontMetrics().height();
     const int halfFontHeight = fontHeight / 2;
+    const QSizeF gridOffset = QSizeF(hPadding(gridRect), vPadding(gridRect));
     const qreal valuesHMargin = this->valuesHMargin(painter);
     const qreal vStep = gridRect.height() / yAxisSegmentCount;
-    const qreal hStep = (gridRect.width() - valuesHMargin - gridOffset) / xAxisSegmentCount;
+    const qreal hStep = (gridRect.width() - valuesHMargin - gridOffset.width()) / xAxisSegmentCount;
+    const qreal textPositionHOffset = valuesHMargin * 0.2;
+
+    // TODO_ES horizontal axis labels doesn't adapt font
 
     painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
@@ -853,37 +856,37 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
         const qreal y = vStep * i;
         const bool drawFullLine = m_chartItem->gridChartLines() & ChartItem::HorizontalLine
                                   || i == 0 || i == xAxisSegmentCount;
-        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(halfFontHeight, y + halfFontHeight),
+        painter->drawText(QRectF(gridRect.bottomLeft()-QPointF(textPositionHOffset, y + halfFontHeight),
                                  QSizeF(valuesHMargin,fontHeight)),
                           axisLabel(i, yAxisData),
                           verticalTextOption);
 
         QPointF lineEndPos = gridRect.bottomRight() - QPointF(0, y);
         if (!drawFullLine) {
-            lineEndPos.setX(gridRect.left() + valuesHMargin + gridOffset);
+            lineEndPos.setX(gridRect.left() + valuesHMargin + gridOffset.width());
         }
         painter->drawLine(gridRect.bottomLeft() - QPointF(-valuesHMargin, y), lineEndPos);
     }
 
     // Horizontal axis lines
     for (int i = 0 ; i < xAxisLineCount ; i++) {
-        const qreal x = gridRect.left() + hStep * i + valuesHMargin + gridOffset;
+        const qreal x = gridRect.left() + hStep * i + valuesHMargin + gridOffset.width();
         const bool drawFullLine = m_chartItem->gridChartLines() & ChartItem::VerticalLine
                                   || i == 0 || i == xAxisSegmentCount;
         const QString text = axisLabel(i, xAxisData);
 
         if (m_chartItem->horizontalAxisOnTop()) {
-            painter->drawLine(x, gridRect.top() - gridOffset,
+            painter->drawLine(x, gridRect.top() - gridOffset.height(),
                               x, (drawFullLine ? gridRect.bottom() : gridRect.top()));
             painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
-                                     gridRect.top() - (fontHeight + gridOffset),
+                                     gridRect.top() - (fontHeight + gridOffset.height()),
                                      hStep, fontHeight),
                               text);
         } else {
-            painter->drawLine(x, gridRect.bottom() + gridOffset,
+            painter->drawLine(x, gridRect.bottom() + gridOffset.height(),
                               x, (drawFullLine ? gridRect.top() : gridRect.bottom()));
             painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
-                                     gridRect.bottom() + halfFontHeight + gridOffset,
+                                     gridRect.bottom() + halfFontHeight * 0 + gridOffset.height(),
                                      hStep, fontHeight),
                               text);
         }
