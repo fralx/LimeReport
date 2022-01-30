@@ -9,14 +9,18 @@ void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
     const qreal vPadding = this->vPadding(chartRect);
 
     const qreal valuesVMargin = this->valuesVMargin(painter);
-    const qreal topOffset = painter->fontMetrics().height();
 
     QRectF gridRect = chartRect.adjusted(
         hPadding,
-        vPadding + valuesVMargin + topOffset,
+        vPadding + valuesVMargin * 2,
         -hPadding * 3,
-        -vPadding
+        -vPadding * 3
         );
+
+    if (!m_chartItem->horizontalAxisOnTop()) {
+        // If horizontal axis is on the bottom, move grid a little up
+        gridRect.adjust(0, -valuesVMargin, 0 , -valuesVMargin);
+    }
 
     // Adapt font for horizontal axis
     painter->setFont(adaptFont((gridRect.width() - this->valuesHMargin(painter)) / xAxisData().segmentCount() * 0.8,
@@ -25,23 +29,8 @@ void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
 
     const qreal valuesHMargin = this->valuesHMargin(painter);
 
-    QRectF calcRect = horizontalLabelsRect(
-        painter,
-        chartRect.adjusted(
-            hPadding * 2 + valuesHMargin,
-            chartRect.height() - (painter->fontMetrics().height() + vPadding*2),
-            -(hPadding * 2),
-            -vPadding
-            )
-        );
-    gridRect.adjust(0, 0, 0, -calcRect.height());
-
-    if (!m_chartItem->horizontalAxisOnTop()) {
-        // Draw labels above the grid
-        const qreal height = calcRect.height();
-        calcRect.setBottom(gridRect.top());
-        calcRect.setTop(calcRect.bottom() - height);
-    }
+    // Adjust vertical axis labels padding
+    gridRect.adjust(valuesHMargin * 0.2, 0, 0, 0);
 
     paintGrid(painter, gridRect);
 
@@ -49,7 +38,6 @@ void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
         painter,
         gridRect.adjusted(hPadding + valuesHMargin, 0, 0, 0)
         );
-    paintHorizontalLabels(painter, calcRect);
 }
 
 void GridLinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)

@@ -844,7 +844,7 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     const qreal valuesHMargin = this->valuesHMargin(painter);
     const qreal vStep = gridRect.height() / yAxisSegmentCount;
     const qreal hStep = (gridRect.width() - valuesHMargin - gridOffset.width()) / xAxisSegmentCount;
-    const qreal textPositionHOffset = valuesHMargin * 0.2;
+    const qreal textPositionHOffset = valuesHMargin * 0.1;
 
     // Vertical axis lines
     const QTextOption verticalTextOption(Qt::AlignRight);
