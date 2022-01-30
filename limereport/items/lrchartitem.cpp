@@ -777,7 +777,7 @@ void AbstractSeriesChart::paintHorizontalGrid(QPainter *painter, QRectF gridRect
     painter->setRenderHint(QPainter::Antialiasing,false);
     qreal hStep = (gridRect.width() - painter->fontMetrics().boundingRect(QString::number(maxValue())).width()) / segmentCount;
 
-    painter->setFont(adaptValuesFont(hStep-4, painter->font()));
+    painter->setFont(adaptFont(hStep-4, painter->font(), yAxisData));
 
     QPointF textPos;
     if (m_chartItem->horizontalAxisOnTop()) {
@@ -845,10 +845,6 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     const qreal vStep = gridRect.height() / yAxisSegmentCount;
     const qreal hStep = (gridRect.width() - valuesHMargin - gridOffset.width()) / xAxisSegmentCount;
     const qreal textPositionHOffset = valuesHMargin * 0.2;
-
-    // TODO_ES horizontal axis labels doesn't adapt font
-
-    painter->setFont(adaptValuesFont(hStep-4, painter->font()));
 
     // Vertical axis lines
     const QTextOption verticalTextOption(Qt::AlignRight);
@@ -956,16 +952,19 @@ QFont AbstractSeriesChart::adaptLabelsFont(QRectF rect, QFont font)
     return tmpFont;
 }
 
-QFont AbstractSeriesChart::adaptValuesFont(qreal width, QFont font)
+QFont AbstractSeriesChart::adaptFont(qreal width, QFont font, const AxisData &axisData)
 {
-    QString strValue = QString::number(maxValue());
     QFont tmpFont = font;
+    const int axisLineCount = axisData.segmentCount() + 1;
     QScopedPointer<QFontMetricsF> fm(new QFontMetricsF(tmpFont));
-    qreal curWidth = fm->boundingRect(strValue).width();
-    while (curWidth > width && tmpFont.pixelSize() > 1){
-        tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
-        fm.reset(new QFontMetricsF(tmpFont));
-        curWidth = fm->boundingRect(strValue).width();
+    for (int i = 0 ; i < axisLineCount ; i++) {
+        QString strValue = axisLabel(i, axisData);
+        qreal curWidth = fm->boundingRect(strValue).width();
+        while (curWidth > width && tmpFont.pixelSize() > 1){
+            tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+            fm.reset(new QFontMetricsF(tmpFont));
+            curWidth = fm->boundingRect(strValue).width();
+        }
     }
     return tmpFont;
 }

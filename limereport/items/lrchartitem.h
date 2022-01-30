@@ -110,7 +110,7 @@ protected:
     virtual qreal valuesHMargin(QPainter *painter);
     virtual qreal valuesVMargin(QPainter *painter);
     virtual QFont adaptLabelsFont(QRectF rect, QFont font);
-    virtual QFont adaptValuesFont(qreal width, QFont font);
+    virtual QFont adaptFont(qreal width, QFont font, const AxisData &axisData);
     virtual QString axisLabel(int i, const AxisData &axisData);
 
 private:
