@@ -57,9 +57,14 @@ void VerticalLayout::updateLayoutSize()
 void VerticalLayout::relocateChildren()
 {
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
+    QList<BaseDesignIntf*> newChildren;
     if (layoutsChildren().count() < childItems().size() - 1){
+        auto oldChildren = layoutsChildren();
         layoutsChildren().clear();
         foreach (BaseDesignIntf* item, childBaseItems()) {
+            if (!oldChildren.contains(item)) {
+                newChildren.append(item);
+            }
             layoutsChildren().append(item);
         }
     }
@@ -74,6 +79,10 @@ void VerticalLayout::relocateChildren()
         }
     }
     setIsRelocating(false);
+
+    for (BaseDesignIntf* item : newChildren) {
+        connectTolayout(item);
+    }
 }
 
 bool VerticalLayout::canBeSplitted(int height) const

@@ -57,22 +57,7 @@ void AbstractLayout::addChild(BaseDesignIntf* item, bool updateSize)
     item->setFixedPos(true);
     item->setPossibleResizeDirectionFlags(ResizeRight | ResizeBottom);
 
-    connect(
-        item, SIGNAL(destroyed(QObject*)),
-        this, SLOT(slotOnChildDestroy(QObject*))
-    );
-    connect(
-        item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),
-        this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF))
-    );
-    connect(
-        item, SIGNAL(itemVisibleHasChanged(BaseDesignIntf*)),
-        this, SLOT(slotOnChildVisibleHasChanged(BaseDesignIntf*))
-    );
-    connect(
-        item, SIGNAL(itemSelectedHasBeenChanged(BaseDesignIntf*,bool)),
-        this, SLOT(slotOnChildSelectionHasChanged(BaseDesignIntf*,bool))
-    );
+    connectTolayout(item);
 
     if (updateSize){
         relocateChildren();
@@ -265,6 +250,26 @@ void AbstractLayout::rebuildChildrenIfNeeded(){
         }
         sortChildren();
     }
+}
+
+void AbstractLayout::connectTolayout(BaseDesignIntf *item)
+{
+    connect(
+        item, SIGNAL(destroyed(QObject*)),
+        this, SLOT(slotOnChildDestroy(QObject*))
+        );
+    connect(
+        item,SIGNAL(geometryChanged(QObject*,QRectF,QRectF)),
+        this,SLOT(slotOnChildGeometryChanged(QObject*,QRectF,QRectF))
+        );
+    connect(
+        item, SIGNAL(itemVisibleHasChanged(BaseDesignIntf*)),
+        this, SLOT(slotOnChildVisibleHasChanged(BaseDesignIntf*))
+        );
+    connect(
+        item, SIGNAL(itemSelectedHasBeenChanged(BaseDesignIntf*,bool)),
+        this, SLOT(slotOnChildSelectionHasChanged(BaseDesignIntf*,bool))
+        );
 }
 
 BaseDesignIntf *AbstractLayout::findNext(BaseDesignIntf *item)

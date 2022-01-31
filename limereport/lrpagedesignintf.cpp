@@ -554,17 +554,16 @@ CommandIf::Ptr PageDesignIntf::removeReportItemCommand(BaseDesignIntf *item){
         CommandIf::Ptr command = createBandDeleteCommand(this,band);
         return command;
     } else {
-        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item->parent());
-        if (layout && (layout->childrenCount()==2)){
+        LayoutDesignIntf* parentLayout = dynamic_cast<LayoutDesignIntf*>(item->parent());
+        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item);
+        // When removing layout child all his children will be assigned to parent
+        if (!layout && parentLayout && (parentLayout->childrenCount() == 2)) {
             CommandGroup::Ptr commandGroup = CommandGroup::create();
-            commandGroup->addCommand(DeleteLayoutCommand::create(this, layout),false);
+            commandGroup->addCommand(DeleteLayoutCommand::create(this, parentLayout),false);
             commandGroup->addCommand(DeleteItemCommand::create(this,item),false);
             return commandGroup;
         } else {
-            CommandIf::Ptr command = (dynamic_cast<LayoutDesignIntf*>(item))?
-                        DeleteLayoutCommand::create(this, dynamic_cast<LayoutDesignIntf*>(item)) :
-                        DeleteItemCommand::create(this, item) ;
-            return command;
+            return layout ? DeleteLayoutCommand::create(this, layout) : DeleteItemCommand::create(this, item) ;
         }
     }
 }

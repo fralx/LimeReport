@@ -52,6 +52,7 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight);
     void rebuildChildrenIfNeeded();
+    void connectTolayout(BaseDesignIntf* item);
 private:
     virtual void sortChildren() = 0;
     virtual void divideSpace() = 0;
