@@ -222,6 +222,10 @@ void QObjectPropertyModel::setMultiObjects(QList<QObject *>* list)
     m_objects.clear();
     submit();
 
+    if (list->isEmpty()) {
+        return;
+    }
+
     if (!list->contains(m_object)){
         m_object=list->at(0);
         list->removeAt(0);
