@@ -41,6 +41,8 @@ private slots:
     void slotChangeSeriesColor();
     void on_seriesTypeComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_xAxisFieldComboBox_currentTextChanged(const QString &arg1);
+
 private:
     void readSetting();
     void writeSetting();
