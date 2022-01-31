@@ -20,9 +20,9 @@ public:
     qreal step() const;
 
     qreal delta() const;
+
 private:
     void calculateValuesAboveMax(qreal minValue, qreal maxValue, int segments);
-    qreal calculateNiceNum(qreal range, bool round);
 
     qreal m_rangeMin;
     qreal m_rangeMax;

@@ -106,6 +106,7 @@ void ChartItemEditor::init()
                 for (int i=0;i<ds->columnCount();++i){
                    ui->valuesFieldComboBox->addItem(ds->columnNameByIndex(i));
                    ui->labelsFieldComboBox->addItem(ds->columnNameByIndex(i));
+                   ui->xAxisFieldComboBox->addItem(ds->columnNameByIndex(i));
                 }
             }
         }
@@ -120,8 +121,10 @@ void ChartItemEditor::init()
 
 #if QT_VERSION < 0x050000
     ui->labelsFieldComboBox->setCurrentIndex(ui->labelsFieldComboBox->findText( m_charItem->labelsField()));
+    ui->xAxisFieldComboBox->setCurrentIndex(ui->xAxisFieldComboBox->findText( m_charItem->xAxisField()));
 #else
     ui->labelsFieldComboBox->setCurrentText(m_charItem->labelsField());
+    ui->xAxisFieldComboBox->setCurrentText(m_charItem->xAxisField());
 #endif
     if (!m_charItem->series().isEmpty()){
         enableSeriesEditor();
@@ -286,4 +289,10 @@ void ChartItemEditor::on_seriesTypeComboBox_currentIndexChanged(const QString &a
     if (currentSeries()){
         currentSeries()->setPreferredType(static_cast<LimeReport::SeriesItem::SeriesItemPreferredType>(enumerator.keysToValue(arg1.toLatin1())));
     }
+}
+
+void ChartItemEditor::on_xAxisFieldComboBox_currentTextChanged(const QString &arg1)
+{
+    if (!m_initing)
+        m_charItem->setXAxisField(arg1);
 }

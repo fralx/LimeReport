@@ -144,6 +144,7 @@ void QObjectPropertyModel::translatePropertyName()
     tr("chartType");
     tr("drawLegendBorder");
     tr("labelsField");
+    tr("xAxisField");
     tr("legendAlign");
     tr("series");
     tr("titleAlign");
@@ -170,6 +171,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("removeGap");
     tr("dropPrinterMargins");
     tr("notPrintIfEmpty");
+    tr("gridChartLines");
+    tr("horizontalAxisOnTop");
     tr("mixWithPriorPage");
 }
 
