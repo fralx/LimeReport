@@ -78,9 +78,15 @@ public:
     virtual void paintChartLegend(QPainter *painter, QRectF legendRect) =0;
     virtual QSizeF calcChartLegendSize(const QFont &font) = 0;
     virtual QRectF calcChartLegendRect(const QFont& font, const QRectF& parentRect, bool takeAllRect, qreal borderMargin, qreal titleOffset);
+
+    QFont titleFont();
+    void setTitleFont(const QFont &value);
 protected:
     virtual void prepareLegendToPaint(QRectF& legendRect, QPainter *painter);
 protected:
+    // Title font must be placed here instead of CharItem, becuase
+    // it would cause crash when creating CharItem object on embedded
+    QFont m_titleFont;
     ChartItem* m_chartItem;
     QList<QString> m_designLabels;
 };
@@ -139,6 +145,8 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(ChartType chartType READ chartType WRITE setChartType)
     Q_PROPERTY(QString labelsField READ labelsField WRITE setLabelsField)
     Q_PROPERTY(bool showLegend READ showLegend WRITE setShowLegend)
+    Q_PROPERTY(QFont titleFont READ titleFont WRITE setTitleFont)
+    Q_PROPERTY(QFont font READ font WRITE setCharItemFont)
 
     //linesChart
     Q_PROPERTY(bool drawPoints READ drawPoints WRITE setDrawPoints)
@@ -225,6 +233,10 @@ public:
 
     GridChartLines gridChartLines() const;
     void setGridChartLines(GridChartLines flags);
+
+    QFont titleFont() const;
+    void setTitleFont(QFont value);
+    void setCharItemFont(QFont value);
 
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);

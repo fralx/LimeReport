@@ -148,6 +148,7 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
 {
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
+    m_chart->setTitleFont(font());
 }
 
 ChartItem::~ChartItem()
@@ -182,15 +183,18 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setRenderHint(QPainter::Antialiasing,true);
     painter->setRenderHint(QPainter::TextAntialiasing,true);
     qreal borderMargin = (rect().height()*0.01>10)?(10):(rect().height()*0.01);
-    qreal maxTitleHeight = rect().height()*0.2;
+    qreal maxTitleHeight = rect().height()*0.5;
 
     QFont tmpFont = painter->font();
 
-    qreal titleOffset = !m_title.isEmpty()?(((painter->fontMetrics().height()+borderMargin*2)<maxTitleHeight)?
-                        (painter->fontMetrics().height()+borderMargin*2):
-                        (maxTitleHeight)):0;
+    qreal titleOffset = 0;
+    if (!m_title.isEmpty()) {
+        QFontMetrics fm(titleFont());
+        const qreal titleHeight = fm.boundingRect(rect().toRect(), Qt::TextWordWrap,chartTitle()).height() + borderMargin * 2;
+        titleOffset = std::min(titleHeight, maxTitleHeight);
+    }
 
-    QRectF titleRect = QRectF(borderMargin,borderMargin,rect().width()-borderMargin*2,titleOffset);
+    const QRectF titleRect = QRectF(borderMargin,borderMargin,rect().width()-borderMargin*2,titleOffset);
     QRectF legendRect = QRectF(0,0,0,0);
     if (m_showLegend)
         legendRect = m_chart->calcChartLegendRect(painter->font(), rect(), false, borderMargin, titleOffset);
@@ -329,6 +333,7 @@ void ChartItem::setChartType(const ChartType &chartType)
     if (m_chartType != chartType){
         ChartType oldValue = m_chartType;
         m_chartType = chartType;
+        QFont oldTitleFont = m_chart->titleFont();
         delete m_chart;
         switch (m_chartType) {
         case Pie:
@@ -347,6 +352,7 @@ void ChartItem::setChartType(const ChartType &chartType)
             m_chart = new GridLinesChart(this);
             break;
         }
+        m_chart->setTitleFont(oldTitleFont);
         notify("chartType",oldValue,m_chartType);
         update();
     }
@@ -365,13 +371,16 @@ void ChartItem::setDatasource(const QString &datasource)
 void ChartItem::paintChartTitle(QPainter *painter, QRectF titleRect)
 {
     painter->save();
-    QFont tmpFont = painter->font();
-    QFontMetrics fm(tmpFont);
-    while ((fm.height()>titleRect.height() || fm.boundingRect(m_title).width()>titleRect.width())
-           && tmpFont.pixelSize()>1) {
+    QFont tmpFont = transformToSceneFont(titleFont());
+    QRect titleBoundingRect = QFontMetrics(tmpFont).boundingRect(rect().toRect(), Qt::TextWordWrap, chartTitle());
+
+    while ((titleBoundingRect.height() > titleRect.height() || titleBoundingRect.width() > titleRect.width())
+           && tmpFont.pixelSize() > 1)
+    {
         tmpFont.setPixelSize(tmpFont.pixelSize()-1);
-        fm = QFontMetrics(tmpFont);
+        titleBoundingRect = QFontMetrics(tmpFont).boundingRect(rect().toRect(), Qt::TextWordWrap, chartTitle());
     }
+
     painter->setFont(tmpFont);
     Qt::AlignmentFlag align = Qt::AlignCenter;
     switch (m_titleAlign) {
@@ -385,7 +394,7 @@ void ChartItem::paintChartTitle(QPainter *painter, QRectF titleRect)
         align = Qt::AlignRight;
         break;
     }
-    painter->drawText(titleRect, align, m_title);
+    painter->drawText(titleRect, align | Qt::TextWordWrap, m_title);
     painter->restore();
 }
 
@@ -527,6 +536,33 @@ void ChartItem::setGridChartLines(GridChartLines flags)
     notify("gridChartLines",QVariant(oldValue),QVariant(flags));
 }
 
+void ChartItem::setCharItemFont(QFont value)
+{
+    if (font() == value) {
+        return;
+    }
+    QFont oldValue = font();
+    setFont(value);
+    if (!isLoading()) update();
+    notify("font",oldValue,value);
+}
+
+QFont ChartItem::titleFont() const
+{
+    return m_chart->titleFont();
+}
+
+void ChartItem::setTitleFont(QFont value)
+{
+    if (m_chart->titleFont() == value){
+        return;
+    }
+    QFont oldValue = value;
+    m_chart->setTitleFont(value);
+    if (!isLoading()) update();
+    notify("titleFont", oldValue, value);
+}
+
 AbstractChart::AbstractChart(ChartItem *chartItem)
     :m_chartItem(chartItem)
 {
@@ -566,6 +602,17 @@ QRectF AbstractChart::calcChartLegendRect(const QFont &font, const QRectF &paren
                 );
 
     return legendRect;
+}
+
+
+QFont AbstractChart::titleFont()
+{
+    return m_titleFont;
+}
+
+void AbstractChart::setTitleFont(const QFont &value)
+{
+    m_titleFont = value;
 }
 
 void AbstractChart::prepareLegendToPaint(QRectF &legendRect, QPainter *painter)
