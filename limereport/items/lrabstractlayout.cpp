@@ -293,7 +293,7 @@ BaseDesignIntf *AbstractLayout::findPrior(BaseDesignIntf *item)
 void AbstractLayout::slotOnChildDestroy(QObject* child)
 {
     m_children.removeAll(static_cast<BaseDesignIntf*>(child));
-    if (m_children.count()<2){
+    if (m_children.count() < 2 && !static_cast<LayoutDesignIntf*>(child)){
         beforeDelete();
     } else {
         relocateChildren();
