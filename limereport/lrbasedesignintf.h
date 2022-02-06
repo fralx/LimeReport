@@ -480,7 +480,7 @@ signals:
     void propertyChanged(const QString& propertName, const QVariant& oldValue,const QVariant& newValue);
     void propertyObjectNameChanged(const QString& oldValue, const QString& newValue);
     void propertyesChanged(QVector<QString> propertyNames);
-    void itemAlignChanged(BaseDesignIntf* item, const BaseDesignIntf::ItemAlign& oldValue, const BaseDesignIntf::ItemAlign& newValue);
+    void itemAlignChanged(BaseDesignIntf* item, const ItemAlign& oldValue, const ItemAlign& newValue);
     void itemVisibleHasChanged(BaseDesignIntf* item);
     void beforeRender();
     void afterData();
