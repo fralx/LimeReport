@@ -97,6 +97,7 @@ public:
     LayoutDesignIntf(const QString& xmlTypeName, QObject* owner = 0,QGraphicsItem* parent = 0):
         ItemDesignIntf(xmlTypeName,owner,parent){}
     virtual void addChild(BaseDesignIntf *item,bool updateSize=true) = 0;
+    virtual void removeChild(BaseDesignIntf *item) = 0;
     virtual void restoreChild(BaseDesignIntf *item) = 0;
     virtual int childrenCount() = 0;
     friend class BaseDesignIntf;

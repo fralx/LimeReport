@@ -195,7 +195,7 @@ void HorizontalLayout::relocateChildren()
     setIsRelocating(false);
 
     for (BaseDesignIntf* item : newChildren) {
-        connectTolayout(item);
+        connectToLayout(item);
     }
 }
 

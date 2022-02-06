@@ -2007,6 +2007,9 @@ CommandIf::Ptr DeleteLayoutCommand::create(PageDesignIntf *page, LayoutDesignInt
     foreach (BaseDesignIntf* childItem, item->childBaseItems()){
         command->m_childItems.append(childItem->objectName());
     }
+    LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item->parent());
+    if (layout)
+        command->m_layoutName = layout->objectName();
     return CommandIf::Ptr(command);
 }
 
@@ -2031,9 +2034,20 @@ void DeleteLayoutCommand::undoIt()
     BaseDesignIntf *item = page()->addReportItem(m_itemType);
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(m_itemXML);
     if (reader->first()) reader->readItem(item);
+    if (!m_layoutName.isEmpty()) {
+        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(page()->reportItemByName(m_layoutName));
+        if (layout){
+            layout->restoreChild(item);
+        }
+        page()->emitRegisterdItem(item);
+    }
     foreach(QString ci, m_childItems){
         BaseDesignIntf* ri = page()->reportItemByName(ci);
         if (ri){
+            LayoutDesignIntf* parentLayout = dynamic_cast<LayoutDesignIntf*>(ri->parent());
+            if (parentLayout) {
+                parentLayout->removeChild(ri);
+            }
             dynamic_cast<LayoutDesignIntf*>(item)->addChild(ri);
         }
         page()->emitRegisterdItem(item);

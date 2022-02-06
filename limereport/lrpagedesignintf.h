@@ -415,6 +415,7 @@ namespace LimeReport {
         void setItem(BaseDesignIntf* item);
     private:
         QStringList m_childItems;
+        QString m_layoutName;
         QString m_itemXML;
         QString m_itemType;
         QString m_itemName;

@@ -28,6 +28,7 @@ public:
     void setLayoutType(const LayoutType& layoutType);
 
     void addChild(BaseDesignIntf *item,bool updateSize=true);
+    void removeChild(BaseDesignIntf *item);
     void restoreChild(BaseDesignIntf *item);
     bool isEmpty() const;
     void paintChild(BaseDesignIntf* child, QPointF parentPos, QPainter* painter);
@@ -52,7 +53,8 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight);
     void rebuildChildrenIfNeeded();
-    void connectTolayout(BaseDesignIntf* item);
+    void connectToLayout(BaseDesignIntf* item);
+    void disconnectFromLayout(BaseDesignIntf* item);
 private:
     virtual void sortChildren() = 0;
     virtual void divideSpace() = 0;
