@@ -76,12 +76,13 @@ public:
     virtual ~AbstractChart(){}
     virtual void paintChart(QPainter *painter, QRectF rect) = 0;
     virtual void paintChartLegend(QPainter *painter, QRectF legendRect) =0;
-    virtual QSizeF calcChartLegendSize(const QFont &font) = 0;
+    virtual QSizeF calcChartLegendSize(const QFont &font, qreal maxWidth = 0) = 0;
     virtual QRectF calcChartLegendRect(const QFont& font, const QRectF& parentRect, bool takeAllRect, qreal borderMargin, qreal titleOffset);
 
     QFont titleFont();
     void setTitleFont(const QFont &value);
 protected:
+    QVector<qreal> legendColumnWidths() const;
     virtual void prepareLegendToPaint(QRectF& legendRect, QPainter *painter);
 protected:
     // Title font must be placed here instead of CharItem, becuase
@@ -89,6 +90,7 @@ protected:
     QFont m_titleFont;
     ChartItem* m_chartItem;
     QList<QString> m_designLabels;
+    QVector<qreal> m_legendColumnWidths;
 };
 
 class AbstractSeriesChart: public AbstractChart{
@@ -103,7 +105,7 @@ protected:
     int valuesCount();
     int seriesCount();
     bool verticalLabels(QPainter* painter, QRectF labelsRect);
-    QSizeF calcChartLegendSize(const QFont &font);
+    QSizeF calcChartLegendSize(const QFont &font, qreal maxWidth);
     qreal* designValues(){ return m_designValues;}
     virtual qreal hPadding(QRectF chartRect);
     virtual qreal vPadding(QRectF chartRect);
@@ -120,6 +122,9 @@ protected:
     virtual QString axisLabel(int i, const AxisData &axisData);
 
 private:
+    bool calculateLegendColumnWidths(qreal indicatorWidth, qreal maxWidth, const QFontMetrics &fm);
+    bool calculateLegendSingleColumnWidth(qreal &currentRowWidth, int &currentColumn, int &maxColumnCount,
+                                          const qreal itemWidth, const qreal maxWidth);
     AxisData m_yAxisData, m_xAxisData;
     qreal m_designValues [9];
 };
@@ -131,6 +136,11 @@ public:
 protected:
     QRectF verticalLabelsRect(QPainter* painter, QRectF horizontalLabelsRect);
     virtual QRectF horizontalLabelsRect(QPainter* painter, QRectF horizontalLabelsRect);
+private:
+    void drawVerticalLegendItem(QPainter *painter, int i, const QString &text,
+                                int indicatorSize, const QRectF &indicatorsRect, const QColor &indicatorColor);
+    void drawHorizontalLegendItem(QPainter *painter, int i, const QString &text,
+                                  int indicatorSize, const QRectF &indicatorsRect, const QColor &indicatorColor);
 };
 
 class ChartItem : public LimeReport::ItemDesignIntf
@@ -141,6 +151,7 @@ class ChartItem : public LimeReport::ItemDesignIntf
     Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
     Q_PROPERTY(bool drawLegendBorder READ drawLegendBorder WRITE setDrawLegendBorder)
     Q_PROPERTY(LegendAlign legendAlign READ legendAlign WRITE setLegendAlign)
+    Q_PROPERTY(LegendStyle legendStyle READ legendStyle WRITE setLegendStyle)
     Q_PROPERTY(TitleAlign titleAlign READ titleAlign WRITE setTitleAlign)
     Q_PROPERTY(ChartType chartType READ chartType WRITE setChartType)
     Q_PROPERTY(QString labelsField READ labelsField WRITE setLabelsField)
@@ -160,7 +171,8 @@ class ChartItem : public LimeReport::ItemDesignIntf
     friend class AbstractChart;
 public:
 
-    enum LegendAlign{LegendAlignTop,LegendAlignCenter,LegendAlignBottom};
+    enum LegendAlign{LegendAlignRightTop,LegendAlignRightCenter,LegendAlignRightBottom,
+                       LegendAlignBottomLeft,LegendAlignBottomCenter,LegendAlignBottomRight};
     enum LegendStyle{LegendPoints, LegendLines};
     enum TitleAlign{TitleAlignLeft, TitleAlignCenter, TitleAlignRight};
     enum ChartType{Pie, VerticalBar, HorizontalBar, Lines, GridLines};
@@ -172,11 +184,13 @@ public:
     };
 #if QT_VERSION >= 0x050500
     Q_ENUM(LegendAlign)
+    Q_ENUM(LegendStyle)
     Q_ENUM(TitleAlign)
     Q_ENUM(ChartType)
     Q_ENUM(LineType)
 #else
     Q_ENUMS(LegendAlign)
+    Q_ENUMS(LegendStyle)
     Q_ENUMS(TitleAlign)
     Q_ENUMS(ChartType)
     Q_ENUMS(LineType)
@@ -202,6 +216,9 @@ public:
 
     LegendAlign legendAlign() const;
     void setLegendAlign(const LegendAlign &legendAlign);
+
+    LegendStyle legendStyle() const;
+    void setLegendStyle(const LegendStyle &legendStyle);
 
     TitleAlign titleAlign() const;
     void setTitleAlign(const TitleAlign &titleAlign);
@@ -269,6 +286,7 @@ private:
     QString m_xAxisField;
     bool m_horizontalAxisOnTop;
     GridChartLines m_gridChartLines;
+    LegendStyle m_legendStyle;
 };
 } //namespace LimeReport
 #endif // LRCHARTITEM_H
