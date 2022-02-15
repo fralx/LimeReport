@@ -197,28 +197,25 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     const QRectF titleRect = QRectF(borderMargin,borderMargin,rect().width()-borderMargin*2,titleOffset);
     QRectF legendRect = QRectF(0, 0, 0, 0);
-    QRectF diagramRect = QRectF(0, 0, 0, 0);
+    QRectF diagramRect = rect().adjusted(borderMargin, titleOffset + borderMargin,
+                                         -(borderMargin * 2), -borderMargin);
     if (m_showLegend) {
         legendRect = m_chart->calcChartLegendRect(painter->font(), rect(), false, borderMargin, titleOffset);
         switch(legendAlign()) {
         case LegendAlignRightTop:
         case LegendAlignRightBottom:
         case LegendAlignRightCenter:
-            diagramRect = rect().adjusted(borderMargin, titleOffset + borderMargin,
-                                          -(legendRect.width() + borderMargin * 2), -borderMargin);
+            diagramRect.adjust(0, 0, -legendRect.width(), 0);
             break;
         case LegendAlignBottomLeft:
         case LegendAlignBottomCenter:
         case LegendAlignBottomRight:
-            diagramRect = rect().adjusted(borderMargin, titleOffset + borderMargin,
-                                          (borderMargin * 2), -legendRect.height());
+            diagramRect.adjust(0, 0, 0, -(legendRect.height() + borderMargin * 2));
             break;
         }
-    } else {
-        diagramRect = rect().adjusted(borderMargin, titleOffset + borderMargin,
-                                      -(borderMargin * 2), -borderMargin);
     }
 
+    painter->fillRect(diagramRect, Qt::yellow);
     paintChartTitle(painter, titleRect);
     if (m_showLegend)
         m_chart->paintChartLegend(painter,legendRect);

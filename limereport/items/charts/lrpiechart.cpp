@@ -91,7 +91,6 @@ void PieChart::paintChart(QPainter *painter, QRectF chartRect)
 
 void PieChart::paintChartLegend(QPainter *painter, QRectF legendRect)
 {
-// TODO_ES Fix bottom legend when axis is at the bottom
     prepareLegendToPaint(legendRect, painter);
 
     int indicatorSize = painter->fontMetrics().height()/2;
