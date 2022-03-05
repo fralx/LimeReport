@@ -677,23 +677,35 @@ void AbstractChart::prepareLegendToPaint(QRectF &legendRect, QPainter *painter)
     case ChartItem::LegendAlignBottomLeft:
     case ChartItem::LegendAlignBottomCenter:
     case ChartItem::LegendAlignBottomRight: {
-        // TODO_ES handle resize horizontal legend (wrapping text)
+        const qreal maxWidth = legendRect.width() * 0.9;
+        qreal legendWidth = std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0);
+        if (legendWidth < maxWidth) {
+            return;
+        }
+        while ( (legendWidth > maxWidth) && tmpFont.pixelSize() > 1) {
+            tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+            calcChartLegendSize(tmpFont, legendRect.width());
+            legendWidth = std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0);
+        }
+        painter->setFont(tmpFont);
+        legendRect = calcChartLegendRect(tmpFont, legendRect, true, 0, 0);
         break;
     }
     case ChartItem::LegendAlignRightTop:
     case ChartItem::LegendAlignRightCenter:
     case ChartItem::LegendAlignRightBottom:
         QSizeF legendSize = calcChartLegendSize(tmpFont, legendRect.width());
-        if ((legendSize.height() > legendRect.height() || legendSize.width() > legendRect.width())) {
-            while ( (legendSize.height() > legendRect.height() || legendSize.width() > legendRect.width())
-                   && tmpFont.pixelSize() > 1)
-            {
-                tmpFont.setPixelSize(tmpFont.pixelSize()-1);
-                legendSize = calcChartLegendSize(tmpFont, legendRect.width());
-            }
-            painter->setFont(tmpFont);
-            legendRect = calcChartLegendRect(tmpFont, legendRect, true, 0, 0);
+        if ((legendSize.height() <= legendRect.height() && legendSize.width() <= legendRect.width())) {
+            return;
         }
+        while ((legendSize.height() > legendRect.height() || legendSize.width() > legendRect.width())
+               && tmpFont.pixelSize() > 1)
+        {
+            tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+            legendSize = calcChartLegendSize(tmpFont, legendRect.width());
+        }
+        painter->setFont(tmpFont);
+        legendRect = calcChartLegendRect(tmpFont, legendRect, true, 0, 0);
         break;
     }
 }
@@ -1203,6 +1215,7 @@ QVector<qreal> AbstractChart::legendColumnWidths() const
 void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)
 {
     prepareLegendToPaint(legendRect, painter);
+    // TODO_ES after calculating bottom legend size, handle difference of sizes
     painter->setPen(Qt::black);
     painter->setRenderHint(QPainter::Antialiasing,false);
     if (m_chartItem->drawLegendBorder())
