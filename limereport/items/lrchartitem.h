@@ -124,7 +124,7 @@ protected:
 private:
     bool calculateLegendColumnWidths(qreal indicatorWidth, qreal maxWidth, const QFontMetrics &fm);
     bool calculateLegendSingleColumnWidth(qreal &currentRowWidth, int &currentColumn, int &maxColumnCount,
-                                          const qreal itemWidth, const qreal maxWidth);
+                                          const qreal itemWidth, const qreal maxRowWidth);
     AxisData m_yAxisData, m_xAxisData;
     qreal m_designValues [9];
 };

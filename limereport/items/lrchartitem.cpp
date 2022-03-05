@@ -1121,8 +1121,15 @@ QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
 
 bool AbstractSeriesChart::calculateLegendColumnWidths(qreal indicatorWidth, qreal maxWidth, const QFontMetrics &fm)
 {
+    // This method is called in the loop, because to handle case when we get
+    // 3 small series names in first row and then in second row small name and long name.
+    // In this case we need to set maximum column count to 2 and iterate from the start to recalculate
+    // all the sizes
     qreal currentRowWidth = 0;
     int currentColumn = 0;
+    // During first iteration it is updated when moving to second row
+    // After first iteration some column width are already calculated and are set as max,
+    // because all rows need to have same column count (except last one)
     int maxColumnCount = m_legendColumnWidths.size();
     if (m_chartItem->series().isEmpty()) {
         for (int i=0 ; i < m_designLabels.size() ; ++i) {
@@ -1143,32 +1150,45 @@ bool AbstractSeriesChart::calculateLegendColumnWidths(qreal indicatorWidth, qrea
     return true;
 }
 
-bool AbstractSeriesChart::calculateLegendSingleColumnWidth(qreal &currentRowWidth, int &currentColumn, int &maxColumnCount, const qreal itemWidth, const qreal maxWidth)
+bool AbstractSeriesChart::calculateLegendSingleColumnWidth(qreal &currentRowWidth, int &currentColumn, int &maxColumnCount,
+                                                           const qreal itemWidth, const qreal maxRowWidth)
 {
-    // TODO_ES optimise ?, it's hard to read
-    const bool isEnoughSpaceInRowForItem = currentRowWidth + itemWidth > maxWidth;
-    const bool lastColumnReached = (maxColumnCount > 0 && currentColumn >= maxColumnCount);
+    const bool maxColumnCountDefined = maxColumnCount > 0;
+    // Check if there is enough space for current item in the row
+    const bool isEnoughSpaceInRowForItem = currentRowWidth + itemWidth > maxRowWidth;
+    // Check if it is last column already
+    const bool lastColumnReached = (maxColumnCountDefined && currentColumn >= maxColumnCount);
     if (isEnoughSpaceInRowForItem || lastColumnReached) {
+        // Move to next row
         currentColumn = 0;
-        if (maxColumnCount == 0) {
+        // Set column count when moving to second row (next rows cannot have more columns)
+        if (!maxColumnCountDefined) {
             maxColumnCount = currentColumn + 1;
         }
         currentRowWidth = itemWidth;
     } else {
+        // Add next column in the row
         currentRowWidth += itemWidth;
     }
+
+    // Add new column or update already existing column width
     if (currentColumn >= m_legendColumnWidths.size()) {
+        // Append new column
         m_legendColumnWidths.append(itemWidth);
     } else if (m_legendColumnWidths.at(currentColumn) < itemWidth) {
+        // Update size if item in column is bigger than items in same column in previous rows
         m_legendColumnWidths[currentColumn] = itemWidth;
-        qreal tmpWidth = itemWidth;
+        // After any updating column size we must recheck if all columns fit in the max row width
+        qreal rowWidth = itemWidth;
         for (int c = 1 ; c < m_legendColumnWidths.size() ; c++) {
-            tmpWidth += m_legendColumnWidths.at(c);
-            if (tmpWidth > maxWidth) {
+            rowWidth += m_legendColumnWidths.at(c);
+            // When column widths exceed max row width remove columns at the end
+            if (rowWidth > maxRowWidth) {
                 m_legendColumnWidths.remove(c, m_legendColumnWidths.size() - c);
                 break;
             }
         }
+        // Return back and re-iterate from start to make sure everything fits
         return false;
     }
     ++currentColumn;
