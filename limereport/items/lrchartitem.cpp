@@ -215,7 +215,6 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         }
     }
 
-    painter->fillRect(diagramRect, Qt::yellow);
     paintChartTitle(painter, titleRect);
     if (m_showLegend)
         m_chart->paintChartLegend(painter,legendRect);
@@ -677,7 +676,7 @@ void AbstractChart::prepareLegendToPaint(QRectF &legendRect, QPainter *painter)
     case ChartItem::LegendAlignBottomLeft:
     case ChartItem::LegendAlignBottomCenter:
     case ChartItem::LegendAlignBottomRight: {
-        const qreal maxWidth = legendRect.width() * 0.9;
+        const qreal maxWidth = legendRect.width() * 0.95;
         qreal legendWidth = std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0);
         if (legendWidth < maxWidth) {
             return;
@@ -688,7 +687,6 @@ void AbstractChart::prepareLegendToPaint(QRectF &legendRect, QPainter *painter)
             legendWidth = std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0);
         }
         painter->setFont(tmpFont);
-        legendRect = calcChartLegendRect(tmpFont, legendRect, true, 0, 0);
         break;
     }
     case ChartItem::LegendAlignRightTop:
@@ -1215,7 +1213,6 @@ QVector<qreal> AbstractChart::legendColumnWidths() const
 void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)
 {
     prepareLegendToPaint(legendRect, painter);
-    // TODO_ES after calculating bottom legend size, handle difference of sizes
     painter->setPen(Qt::black);
     painter->setRenderHint(QPainter::Antialiasing,false);
     if (m_chartItem->drawLegendBorder())
