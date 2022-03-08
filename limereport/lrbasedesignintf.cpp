@@ -1290,32 +1290,40 @@ void BaseDesignIntf::setItemPos(const QPointF &newPos)
 }
 
 
-QWidget* findRootWidget(QWidget* widget){
+QWidget* BaseDesignIntf::findRootWidget(QWidget* widget)
+{
     while (widget->parentWidget()) {
         widget = widget->parentWidget();
     }
     return widget;
 }
 
-void BaseDesignIntf::showEditorDialog(){
-    QWidget *editor = defaultEditor(); 
-    if (editor) {
-        editor->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
-        QDialog* dialog = new QDialog(QApplication::activeWindow());
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-#ifdef Q_OS_MAC
-        dialog->setWindowModality(Qt::WindowModal);
-#else
-        dialog->setWindowModality(Qt::ApplicationModal);
-#endif
-        dialog->setLayout(new QVBoxLayout());
-        dialog->resize(editor->size());
-        dialog->layout()->setContentsMargins(2,2,2,2);
-        dialog->layout()->addWidget(editor);
-        connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));
-        dialog->setWindowTitle(editor->windowTitle());
-        dialog->exec();
+void BaseDesignIntf::showDialog(QWidget *widget)
+{
+    if (!widget) {
+        return;
     }
+    widget->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
+    QDialog dialog;
+    widget->setParent(&dialog);
+    widget->setAttribute(Qt::WA_DeleteOnClose);
+#ifdef Q_OS_MAC
+    dialog.setWindowModality(Qt::WindowModal);
+#else
+    dialog.setWindowModality(Qt::ApplicationModal);
+#endif
+    dialog.setLayout(new QVBoxLayout());
+    dialog.resize(widget->size());
+    dialog.layout()->setContentsMargins(2,2,2,2);
+    dialog.layout()->addWidget(widget);
+    connect(widget,SIGNAL(destroyed()),&dialog,SLOT(close()));
+    dialog.setWindowTitle(widget->windowTitle());
+    dialog.exec();
+}
+
+void BaseDesignIntf::showEditorDialog()
+{
+    showDialog(defaultEditor());
 }
 
 void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)

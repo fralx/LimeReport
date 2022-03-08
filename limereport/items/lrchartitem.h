@@ -97,8 +97,8 @@ class AbstractSeriesChart: public AbstractChart{
 public:
     AbstractSeriesChart(ChartItem* chartItem);
 protected:
-    AxisData yAxisData();
-    AxisData xAxisData();
+    AxisData &xAxisData() const;
+    AxisData &yAxisData() const;
     qreal maxValue();
     qreal minValue();
     void updateMinAndMaxValues();
@@ -125,7 +125,6 @@ private:
     bool calculateLegendColumnWidths(qreal indicatorWidth, qreal maxWidth, const QFontMetrics &fm);
     bool calculateLegendSingleColumnWidth(qreal &currentRowWidth, int &currentColumn, int &maxColumnCount,
                                           const qreal itemWidth, const qreal maxRowWidth);
-    AxisData m_yAxisData, m_xAxisData;
     qreal m_designValues [9];
 };
 
@@ -146,6 +145,8 @@ private:
 class ChartItem : public LimeReport::ItemDesignIntf
 {
     Q_OBJECT
+    Q_PROPERTY(QObject* xAxisSettings READ xAxisSettings WRITE setXAxisSettings)
+    Q_PROPERTY(QObject* yAxisSettings READ yAxisSettings WRITE setYAxisSettings)
     Q_PROPERTY(ACollectionProperty series READ fakeCollectionReader WRITE setSeries)
     Q_PROPERTY(QString datasource READ datasource WRITE setDatasource)
     Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
@@ -201,6 +202,13 @@ public:
     ~ChartItem();
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    QObject* xAxisSettings();
+    void setYAxisSettings(QObject *axis);
+    QObject* yAxisSettings();
+    void setXAxisSettings(QObject *axis);
+
+    AxisData *xAxisData();
+    AxisData *yAxisData();
     QList<SeriesItem *> &series();
     void setSeries(const QList<SeriesItem *> &series);
     bool isSeriesExists(const QString& name);
@@ -255,6 +263,8 @@ public:
     void setTitleFont(QFont value);
     void setCharItemFont(QFont value);
 
+    QSettings *settings();
+
 protected:
     void paintChartTitle(QPainter* painter, QRectF titleRect);
     virtual BaseDesignIntf* createSameTypeItem(QObject *owner, QGraphicsItem *parent);
@@ -287,6 +297,7 @@ private:
     bool m_horizontalAxisOnTop;
     GridChartLines m_gridChartLines;
     LegendStyle m_legendStyle;
+    AxisData *m_xAxisData, *m_yAxisData;
 };
 } //namespace LimeReport
 #endif // LRCHARTITEM_H

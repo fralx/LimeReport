@@ -147,6 +147,9 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
       m_horizontalAxisOnTop(false), m_gridChartLines(AllLines),
       m_legendStyle(LegendPoints)
 {
+    m_xAxisData = new AxisData(this);
+    m_xAxisData->setReverseDirection(true);
+    m_yAxisData = new AxisData(this);
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
     m_chart->setTitleFont(font());
@@ -224,6 +227,42 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     ItemDesignIntf::paint(painter,option,widget);
 }
 
+QObject *ChartItem::xAxisSettings()
+{
+    return m_xAxisData;
+}
+
+void ChartItem::setYAxisSettings(QObject *axis)
+{
+    AxisData *data = dynamic_cast<AxisData*>(axis);
+    if (data) {
+        m_yAxisData->copy(data);
+    }
+}
+
+QObject *ChartItem::yAxisSettings()
+{
+    return m_yAxisData;
+}
+
+void ChartItem::setXAxisSettings(QObject *axis)
+{
+    AxisData *data = static_cast<AxisData*>(axis);
+    if (data) {
+        m_xAxisData->copy(data);
+    }
+}
+
+AxisData *ChartItem::xAxisData()
+{
+    return m_xAxisData;
+}
+
+AxisData *ChartItem::yAxisData()
+{
+    return m_yAxisData;
+}
+
 BaseDesignIntf *ChartItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
     ChartItem* result = new ChartItem(owner,parent);
@@ -289,10 +328,7 @@ void ChartItem::fillLabels(IDataSource *dataSource)
 
 QWidget *ChartItem::defaultEditor()
 {
-    QSettings* l_settings = (page()->settings() != 0) ?
-                                 page()->settings() :
-                                 (page()->reportEditor()!=0) ? page()->reportEditor()->settings() : 0;
-    QWidget* editor = new ChartItemEditor(this, page(), l_settings);
+    QWidget* editor = new ChartItemEditor(this, page(), settings());
     editor->setAttribute(Qt::WA_DeleteOnClose);
     return editor;
 }
@@ -300,6 +336,18 @@ QWidget *ChartItem::defaultEditor()
 bool ChartItem::isNeedUpdateSize(RenderPass pass) const
 {
     return  pass == FirstPass && m_isEmpty;
+}
+
+QSettings *ChartItem::settings()
+{
+    PageDesignIntf *page = this->page();
+    if (page->settings()) {
+        return page->settings();
+    }
+    if (page->reportEditor()) {
+        return page->reportEditor()->settings();
+    }
+    return 0;
 }
 
 bool ChartItem::showLegend() const
@@ -724,22 +772,22 @@ AbstractSeriesChart::AbstractSeriesChart(ChartItem *chartItem)
 
 qreal AbstractSeriesChart::maxValue()
 {
-    return m_yAxisData.maxValue();
+    return m_chartItem->yAxisData()->maxValue();
 }
 
 qreal AbstractSeriesChart::minValue()
 {
-    return m_yAxisData.minValue();
+    return m_chartItem->yAxisData()->minValue();
 }
 
-AxisData AbstractSeriesChart::yAxisData()
+AxisData &AbstractSeriesChart::xAxisData() const
 {
-    return m_yAxisData;
+    return *m_chartItem->xAxisData();
 }
 
-AxisData AbstractSeriesChart::xAxisData()
+AxisData &AbstractSeriesChart::yAxisData() const
 {
-    return m_xAxisData;
+    return *m_chartItem->yAxisData();
 }
 
 void AbstractSeriesChart::updateMinAndMaxValues()
@@ -772,8 +820,8 @@ void AbstractSeriesChart::updateMinAndMaxValues()
         }
     }
 
-    m_yAxisData = AxisData(minYValue, maxYValue);
-    m_xAxisData = AxisData(minXValue, maxXValue);
+    m_chartItem->xAxisData()->update(minXValue, maxXValue);
+    m_chartItem->yAxisData()->update(minYValue, maxYValue);
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)
