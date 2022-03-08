@@ -143,7 +143,7 @@ void PieChart::paintChartLegend(QPainter *painter, QRectF legendRect)
     }
 }
 
-QSizeF PieChart::calcChartLegendSize(const QFont &font)
+QSizeF PieChart::calcChartLegendSize(const QFont &font, qreal)
 {
     QFontMetrics fm(font);
 
