@@ -209,6 +209,9 @@ public:
 
     AxisData *xAxisData();
     AxisData *yAxisData();
+
+    void showAxisEditorDialog(bool isXAxis);
+
     QList<SeriesItem *> &series();
     void setSeries(const QList<SeriesItem *> &series);
     bool isSeriesExists(const QString& name);

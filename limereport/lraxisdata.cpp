@@ -43,6 +43,16 @@ void AxisData::update(qreal minValue, qreal maxValue)
     update();
 }
 
+void AxisData::updateForDesignMode()
+{
+    m_minValue = 0;
+    m_maxValue = 40;
+    bool tmp = m_calculateAxisScale;
+    m_calculateAxisScale = false;
+    update();
+    m_calculateAxisScale = tmp;
+}
+
 int AxisData::segmentCount() const
 {
     return m_segmentCount;

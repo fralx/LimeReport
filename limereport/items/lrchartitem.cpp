@@ -8,6 +8,7 @@
 #include "lrpagedesignintf.h"
 #include "lrreportengine_p.h"
 #include "lrdatadesignintf.h"
+#include "lrchartaxiseditor.h"
 
 #include "charts/lrpiechart.h"
 #include "charts/lrverticalbarchart.h"
@@ -261,6 +262,11 @@ AxisData *ChartItem::xAxisData()
 AxisData *ChartItem::yAxisData()
 {
     return m_yAxisData;
+}
+
+void ChartItem::showAxisEditorDialog(bool isXAxis)
+{
+    showDialog(new ChartAxisEditor(this, page(), isXAxis, settings()));
 }
 
 BaseDesignIntf *ChartItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
@@ -797,25 +803,26 @@ void AbstractSeriesChart::updateMinAndMaxValues()
     qreal maxXValue = 0;
     qreal minXValue = 0;
     if (m_chartItem->itemMode() == DesignMode) {
-        maxYValue = 40;
-        maxXValue = 40;
-    } else {
-        for (SeriesItem* series : m_chartItem->series()){
-            for (qreal value : series->data()->values()){
-                minYValue = std::min(minYValue, value);
-                maxYValue = std::max(maxYValue, value);
-            }
-            if (series->data()->xAxisValues().isEmpty()) {
-                // Grid plot starts from 0 on x axis so x range must be decresed by 1
-                const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
-                const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
-                minXValue = std::min(0.0, minXValue);
-                maxXValue = std::max(valuesCount, maxXValue);
-            } else {
-                for (qreal value : series->data()->xAxisValues()){
-                    minXValue = std::min(value, minXValue);
-                    maxXValue = std::max(value, maxXValue);
-                }
+        m_chartItem->xAxisData()->updateForDesignMode();
+        m_chartItem->yAxisData()->updateForDesignMode();
+        return;
+    }
+
+    for (SeriesItem* series : m_chartItem->series()){
+        for (qreal value : series->data()->values()){
+            minYValue = std::min(minYValue, value);
+            maxYValue = std::max(maxYValue, value);
+        }
+        if (series->data()->xAxisValues().isEmpty()) {
+            // Grid plot starts from 0 on x axis so x range must be decresed by 1
+            const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
+            const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
+            minXValue = std::min(0.0, minXValue);
+            maxXValue = std::max(valuesCount, maxXValue);
+        } else {
+            for (qreal value : series->data()->xAxisValues()){
+                minXValue = std::min(value, minXValue);
+                maxXValue = std::max(value, maxXValue);
             }
         }
     }

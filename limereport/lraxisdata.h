@@ -21,6 +21,7 @@ public:
     void copy(AxisData *other);
     void update();
     void update(qreal minValue, qreal maxValue);
+    void updateForDesignMode();
 
     int segmentCount() const;
 
