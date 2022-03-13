@@ -115,6 +115,7 @@ void ChartAxisEditor::on_pushButtonOk_clicked()
     } else {
         axisData->update();
     }
+    m_chartItem->update();
     close();
 }
 

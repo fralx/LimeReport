@@ -1177,7 +1177,12 @@ QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
 {
     const qreal min = axisData.rangeMin();
     const qreal step = axisData.step();
-    qreal value = min + i * step;
+    qreal value = 0;
+    if (axisData.reverseDirection() && min >= 0) {
+        value = min + (axisData.segmentCount() - i) * step;
+    } else {
+        value = min + i * step;
+    }
     if (std::floor(step) == step) {
         return QString::number(value);
     }
