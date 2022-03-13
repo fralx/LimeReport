@@ -798,15 +798,16 @@ AxisData &AbstractSeriesChart::yAxisData() const
 
 void AbstractSeriesChart::updateMinAndMaxValues()
 {
-    qreal maxYValue = 0;
-    qreal minYValue = 0;
-    qreal maxXValue = 0;
-    qreal minXValue = 0;
     if (m_chartItem->itemMode() == DesignMode) {
         m_chartItem->xAxisData()->updateForDesignMode();
         m_chartItem->yAxisData()->updateForDesignMode();
         return;
     }
+
+    qreal maxYValue = 0;
+    qreal minYValue = 0;
+    qreal maxXValue = 0;
+    qreal minXValue = 0;
 
     for (SeriesItem* series : m_chartItem->series()){
         for (qreal value : series->data()->values()){

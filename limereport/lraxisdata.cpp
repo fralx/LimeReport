@@ -14,6 +14,22 @@ AxisData::AxisData(QObject *parent)
 {
 }
 
+QString AxisData::toString() const
+{
+    // Just for debug purposes
+    QString str;
+    QTextStream stream(&str);
+    stream << "{ "
+           << "min: " << m_minValue << ", max: " << m_maxValue << ", step: " << m_step
+           << ", range min: " << m_rangeMin << ", range max: " << m_rangeMax << ", segments: " << m_segmentCount
+           << ", reverseDiection: " << m_reverseDirection << ", calculateAxisScale: " << m_calculateAxisScale
+           << ", manualMaxEnabled: " << !m_isMaximumAutomatic << ", manualMinEnabled: " << !m_isMinimumAutomatic
+           << ", manualStepEnabled: " << !m_isStepAutomatic << ", manualMax: " << m_manualMaximum
+           << ", manualMin: " << m_manualMinimum << ", manualStep: " << m_manualStep
+           << " }";
+    return str;
+}
+
 void AxisData::copy(AxisData *other)
 {
     m_calculateAxisScale = other->calculateAxisScale();
@@ -101,8 +117,18 @@ void AxisData::calculateRoundedAxisScale()
     const bool calculateMinimum = isMinimumAutomatic();
     const bool calculateMaximum = isMaximumAutomatic();
 
-    qreal temporaryMin = calculateMinimum ? minValue() < 0 ? minValue() : 0 : manualMinimum();
-    qreal temporaryMax = calculateMaximum ? maxValue() : manualMaximum();
+    qreal temporaryMin = 0;
+    qreal temporaryMax = 0;
+    if (calculateMinimum) {
+        temporaryMin = qMax(0.0, minValue());
+    } else {
+        temporaryMin = qMin(manualMinimum(), minValue());
+    }
+    if (calculateMaximum) {
+        temporaryMax = maxValue();
+    } else {
+        temporaryMax = qMax(manualMaximum(), maxValue());
+    }
     m_step = calculateStep ? 0 : manualStep();
 
     if (temporaryMax == temporaryMin) {
