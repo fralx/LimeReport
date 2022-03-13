@@ -148,9 +148,9 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
       m_horizontalAxisOnTop(false), m_gridChartLines(AllLines),
       m_legendStyle(LegendPoints)
 {
-    m_xAxisData = new AxisData(this);
+    m_xAxisData = new AxisData(AxisData::XAxis, this);
     m_xAxisData->setReverseDirection(true);
-    m_yAxisData = new AxisData(this);
+    m_yAxisData = new AxisData(AxisData::YAxis, this);
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
     m_chart->setTitleFont(font());
@@ -1033,7 +1033,7 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     painter->save();
 
     const AxisData &yAxisData = this->yAxisData();
-    const AxisData &xAxisData = this->xAxisData();
+    AxisData &xAxisData = this->xAxisData();
 
     painter->setRenderHint(QPainter::Antialiasing,false);
 
@@ -1091,7 +1091,6 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
                               text);
         }
     }
-
     painter->restore();
 }
 
@@ -1178,7 +1177,7 @@ QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
     const qreal min = axisData.rangeMin();
     const qreal step = axisData.step();
     qreal value = 0;
-    if (axisData.reverseDirection() && min >= 0) {
+    if (axisData.type() == AxisData::YAxis && axisData.reverseDirection() && min >= 0) {
         value = min + (axisData.segmentCount() - i) * step;
     } else {
         value = min + i * step;

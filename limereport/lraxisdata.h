@@ -16,7 +16,12 @@ class AxisData : public QObject
     Q_PROPERTY(qreal manualMinimum READ manualMinimum WRITE setManualMinimum)
     Q_PROPERTY(qreal manualMaximum READ manualMaximum WRITE setManualMaximum)
 public:
-    AxisData(QObject *parent = nullptr);
+    enum AxisType {
+        YAxis = 0,
+        XAxis = 1
+    };
+
+    AxisData(AxisType type, QObject *parent = nullptr);
 
     QString toString() const;
     void copy(AxisData *other);
@@ -58,6 +63,8 @@ public:
     bool isStepAutomatic() const;
     void setIsStepAutomatic(bool newIsStepAutomatic);
 
+    AxisType type() const;
+
 private:
     void calculateRoundedAxisScale();
     void calculateSimpleAxisScale();
@@ -79,6 +86,7 @@ private:
     bool m_isMaximumAutomatic;
     bool m_isMinimumAutomatic;
     bool m_isStepAutomatic;
+    const AxisType m_type;
 };
 };
 

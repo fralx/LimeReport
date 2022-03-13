@@ -4,13 +4,14 @@
 #include <QDebug>
 
 namespace LimeReport {
-AxisData::AxisData(QObject *parent)
+AxisData::AxisData(AxisType type, QObject *parent)
     : QObject(parent), m_rangeMin(0), m_rangeMax(0),
       m_minValue(0), m_maxValue(0), m_step(0),
       m_delta(0), m_segmentCount(4), m_calculateAxisScale(false),
       m_reverseDirection(false), m_manualMaximum(0),
       m_manualMinimum(0), m_manualStep(0), m_isMaximumAutomatic(true),
-      m_isMinimumAutomatic(true), m_isStepAutomatic(true)
+      m_isMinimumAutomatic(true), m_isStepAutomatic(true),
+      m_type(type)
 {
 }
 
@@ -331,6 +332,11 @@ bool AxisData::isStepAutomatic() const
 void AxisData::setIsStepAutomatic(bool newIsStepAutomatic)
 {
     m_isStepAutomatic = newIsStepAutomatic;
+}
+
+AxisData::AxisType AxisData::type() const
+{
+    return m_type;
 }
 
 }
