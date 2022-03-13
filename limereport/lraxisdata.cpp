@@ -50,6 +50,17 @@ void AxisData::update()
         calculateSimpleAxisScale();
     }
     m_delta = m_step * m_segmentCount;
+
+    // Update manual values if they are automatic
+    if (m_isStepAutomatic) {
+        m_manualStep = m_step;
+    }
+    if (m_isMinimumAutomatic) {
+        m_manualMinimum = m_rangeMin;
+    }
+    if (m_isMaximumAutomatic) {
+        m_manualMaximum = m_rangeMax;
+    }
 }
 
 void AxisData::update(qreal minValue, qreal maxValue)

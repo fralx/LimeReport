@@ -3,6 +3,8 @@
 #include "ui_lrchartaxiseditor.h"
 #include "lraxisdata.h"
 
+#include "lrbasedesignintf.h"
+
 ChartAxisEditor::ChartAxisEditor(LimeReport::ChartItem *item, LimeReport::PageDesignIntf *page, bool isXAxis, QSettings *settings, QWidget *parent):
       QWidget(parent), ui(new Ui::ChartAxisEditor), m_chartItem(item), m_page(page),
       m_settings(settings), m_isXAxis(isXAxis)
@@ -59,9 +61,9 @@ void ChartAxisEditor::init()
 
     LimeReport::AxisData *axisData = m_isXAxis ? m_chartItem->xAxisData() : m_chartItem->yAxisData();
 
-    ui->minimumSpinBox->setValue(axisData->rangeMin());
-    ui->maximumSpinBox->setValue(axisData->rangeMax());
-    ui->stepSpinBox->setValue(axisData->step());
+    ui->minimumSpinBox->setValue(axisData->manualMinimum());
+    ui->maximumSpinBox->setValue(axisData->manualMaximum());
+    ui->stepSpinBox->setValue(axisData->manualStep());
 
     ui->minimumCheckBox->setChecked(axisData->isMinimumAutomatic());
     ui->maximumCheckBox->setChecked(axisData->isMaximumAutomatic());
@@ -108,7 +110,11 @@ void ChartAxisEditor::on_pushButtonOk_clicked()
 
     axisData->setCalculateAxisScale(ui->enableScaleCalculation_checkbox->isChecked());
 
-    axisData->update();
+    if (m_chartItem->itemMode() == LimeReport::DesignMode) {
+        axisData->updateForDesignMode();
+    } else {
+        axisData->update();
+    }
     close();
 }
 

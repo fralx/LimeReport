@@ -18,6 +18,7 @@ class AxisData : public QObject
 public:
     AxisData(QObject *parent = nullptr);
 
+    QString toString() const;
     void copy(AxisData *other);
     void update();
     void update(qreal minValue, qreal maxValue);
