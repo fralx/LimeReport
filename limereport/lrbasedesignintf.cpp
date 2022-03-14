@@ -1304,21 +1304,22 @@ void BaseDesignIntf::showDialog(QWidget *widget)
         return;
     }
     widget->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
-    QDialog dialog;
-    widget->setParent(&dialog);
+    QDialog *dialog = new QDialog(QApplication::activeWindow());
+    widget->setParent(dialog);
     widget->setAttribute(Qt::WA_DeleteOnClose);
 #ifdef Q_OS_MAC
-    dialog.setWindowModality(Qt::WindowModal);
+    dialog->setWindowModality(Qt::WindowModal);
 #else
-    dialog.setWindowModality(Qt::ApplicationModal);
+    dialog->setWindowModality(Qt::ApplicationModal);
 #endif
-    dialog.setLayout(new QVBoxLayout());
-    dialog.resize(widget->size());
-    dialog.layout()->setContentsMargins(2,2,2,2);
-    dialog.layout()->addWidget(widget);
-    connect(widget,SIGNAL(destroyed()),&dialog,SLOT(close()));
-    dialog.setWindowTitle(widget->windowTitle());
-    dialog.exec();
+    dialog->setLayout(new QVBoxLayout());
+    dialog->resize(widget->size());
+    dialog->layout()->setContentsMargins(2,2,2,2);
+    dialog->layout()->addWidget(widget);
+    connect(widget,SIGNAL(destroyed()),dialog,SLOT(close()));
+    dialog->setWindowTitle(widget->windowTitle());
+    dialog->exec();
+    dialog->deleteLater();
 }
 
 void BaseDesignIntf::showEditorDialog()
