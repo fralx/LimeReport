@@ -75,7 +75,7 @@ void AxisData::updateForDesignMode()
 {
     m_minValue = 0;
     m_maxValue = 40;
-    bool tmp = m_calculateAxisScale;
+    const bool tmp = m_calculateAxisScale;
     m_calculateAxisScale = false;
     update();
     m_calculateAxisScale = tmp;
@@ -237,7 +237,7 @@ void AxisData::calculateSimpleAxisScale()
     while (max % m_segmentCount != 0){
         max++;
     }
-    m_rangeMax = max;
+    m_rangeMax = minValue() + max;
     m_step = max / m_segmentCount;
     m_rangeMin = minValue();
 }
