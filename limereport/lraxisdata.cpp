@@ -132,7 +132,7 @@ void AxisData::calculateRoundedAxisScale()
     qreal temporaryMin = 0;
     qreal temporaryMax = 0;
     if (calculateMinimum) {
-        temporaryMin = qMax(0.0, minValue());
+        temporaryMin = qMin(0.0, minValue());
     } else {
         temporaryMin = qMin(manualMinimum(), minValue());
     }
@@ -214,7 +214,10 @@ void AxisData::calculateRoundedAxisScale()
         m_segmentCount = static_cast<int>(round((currentAxisMaximum - currentAxisMinimum) / m_step));
         m_rangeMin = currentAxisMinimum;
         m_rangeMax = currentAxisMaximum;
-        isLoopFinished = m_segmentCount <= maximumSegmentCount;
+        // Check also if step is correctly calucalted. It is possible for float steps that
+        // there might be a difference. Recalculate the step in that case.
+        const qreal tmpStep = (m_rangeMax - m_rangeMin) / m_segmentCount;
+        isLoopFinished = m_segmentCount <= maximumSegmentCount && qFuzzyCompare(tmpStep, m_step);
         if (!isLoopFinished) {
             // Configured step may be invalid, calculating it automatically
             calculateStep = true;
@@ -224,8 +227,12 @@ void AxisData::calculateRoundedAxisScale()
 
 void AxisData::calculateSimpleAxisScale()
 {
+    qreal min = 0;
+    if (m_minValue < 0) {
+        min = minValue();
+    }
     m_segmentCount = 4;
-    const int delta = maxValue() - minValue();
+    const int delta = maxValue() - min;
     int max = delta;
     while (max % m_segmentCount != 0){
         max++;

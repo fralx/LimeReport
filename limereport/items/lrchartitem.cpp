@@ -805,9 +805,9 @@ void AbstractSeriesChart::updateMinAndMaxValues()
     }
 
     qreal maxYValue = 0;
-    qreal minYValue = 0;
+    qreal minYValue = std::numeric_limits<qreal>::max();
     qreal maxXValue = 0;
-    qreal minXValue = 0;
+    qreal minXValue = std::numeric_limits<qreal>::max();
 
     for (SeriesItem* series : m_chartItem->series()){
         for (qreal value : series->data()->values()){
