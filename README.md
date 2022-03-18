@@ -3,8 +3,6 @@
 
 ## Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 
-## Donation [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/arinalex)
-
 ## Features
 
 * Multi-platform support
