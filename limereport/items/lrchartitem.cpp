@@ -8,6 +8,7 @@
 #include "lrpagedesignintf.h"
 #include "lrreportengine_p.h"
 #include "lrdatadesignintf.h"
+#include "lrchartaxiseditor.h"
 
 #include "charts/lrpiechart.h"
 #include "charts/lrverticalbarchart.h"
@@ -147,6 +148,9 @@ ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
       m_horizontalAxisOnTop(false), m_gridChartLines(AllLines),
       m_legendStyle(LegendPoints)
 {
+    m_xAxisData = new AxisData(AxisData::XAxis, this);
+    m_xAxisData->setReverseDirection(true);
+    m_yAxisData = new AxisData(AxisData::YAxis, this);
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
     m_chart->setTitleFont(font());
@@ -224,6 +228,47 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     ItemDesignIntf::paint(painter,option,widget);
 }
 
+QObject *ChartItem::xAxisSettings()
+{
+    return m_xAxisData;
+}
+
+void ChartItem::setYAxisSettings(QObject *axis)
+{
+    AxisData *data = dynamic_cast<AxisData*>(axis);
+    if (data) {
+        m_yAxisData->copy(data);
+    }
+}
+
+QObject *ChartItem::yAxisSettings()
+{
+    return m_yAxisData;
+}
+
+void ChartItem::setXAxisSettings(QObject *axis)
+{
+    AxisData *data = static_cast<AxisData*>(axis);
+    if (data) {
+        m_xAxisData->copy(data);
+    }
+}
+
+AxisData *ChartItem::xAxisData()
+{
+    return m_xAxisData;
+}
+
+AxisData *ChartItem::yAxisData()
+{
+    return m_yAxisData;
+}
+
+void ChartItem::showAxisEditorDialog(bool isXAxis)
+{
+    showDialog(new ChartAxisEditor(this, page(), isXAxis, settings()));
+}
+
 BaseDesignIntf *ChartItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
 {
     ChartItem* result = new ChartItem(owner,parent);
@@ -289,10 +334,7 @@ void ChartItem::fillLabels(IDataSource *dataSource)
 
 QWidget *ChartItem::defaultEditor()
 {
-    QSettings* l_settings = (page()->settings() != 0) ?
-                                 page()->settings() :
-                                 (page()->reportEditor()!=0) ? page()->reportEditor()->settings() : 0;
-    QWidget* editor = new ChartItemEditor(this, page(), l_settings);
+    QWidget* editor = new ChartItemEditor(this, page(), settings());
     editor->setAttribute(Qt::WA_DeleteOnClose);
     return editor;
 }
@@ -300,6 +342,18 @@ QWidget *ChartItem::defaultEditor()
 bool ChartItem::isNeedUpdateSize(RenderPass pass) const
 {
     return  pass == FirstPass && m_isEmpty;
+}
+
+QSettings *ChartItem::settings()
+{
+    PageDesignIntf *page = this->page();
+    if (page->settings()) {
+        return page->settings();
+    }
+    if (page->reportEditor()) {
+        return page->reportEditor()->settings();
+    }
+    return 0;
 }
 
 bool ChartItem::showLegend() const
@@ -724,56 +778,58 @@ AbstractSeriesChart::AbstractSeriesChart(ChartItem *chartItem)
 
 qreal AbstractSeriesChart::maxValue()
 {
-    return m_yAxisData.maxValue();
+    return m_chartItem->yAxisData()->maxValue();
 }
 
 qreal AbstractSeriesChart::minValue()
 {
-    return m_yAxisData.minValue();
+    return m_chartItem->yAxisData()->minValue();
 }
 
-AxisData AbstractSeriesChart::yAxisData()
+AxisData &AbstractSeriesChart::xAxisData() const
 {
-    return m_yAxisData;
+    return *m_chartItem->xAxisData();
 }
 
-AxisData AbstractSeriesChart::xAxisData()
+AxisData &AbstractSeriesChart::yAxisData() const
 {
-    return m_xAxisData;
+    return *m_chartItem->yAxisData();
 }
 
 void AbstractSeriesChart::updateMinAndMaxValues()
 {
-    qreal maxYValue = 0;
-    qreal minYValue = 0;
-    qreal maxXValue = 0;
-    qreal minXValue = 0;
     if (m_chartItem->itemMode() == DesignMode) {
-        maxYValue = 40;
-        maxXValue = 40;
-    } else {
-        for (SeriesItem* series : m_chartItem->series()){
-            for (qreal value : series->data()->values()){
-                minYValue = std::min(minYValue, value);
-                maxYValue = std::max(maxYValue, value);
-            }
-            if (series->data()->xAxisValues().isEmpty()) {
-                // Grid plot starts from 0 on x axis so x range must be decresed by 1
-                const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
-                const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
-                minXValue = std::min(0.0, minXValue);
-                maxXValue = std::max(valuesCount, maxXValue);
-            } else {
-                for (qreal value : series->data()->xAxisValues()){
-                    minXValue = std::min(value, minXValue);
-                    maxXValue = std::max(value, maxXValue);
-                }
+        m_chartItem->xAxisData()->updateForDesignMode();
+        m_chartItem->yAxisData()->updateForDesignMode();
+        return;
+    }
+
+    qreal maxYValue = 0;
+    qreal minYValue = std::numeric_limits<qreal>::max();
+    qreal maxXValue = 0;
+    qreal minXValue = std::numeric_limits<qreal>::max();
+
+    for (SeriesItem* series : m_chartItem->series()){
+        for (qreal value : series->data()->values()){
+            minYValue = std::min(minYValue, value);
+            maxYValue = std::max(maxYValue, value);
+        }
+        if (series->data()->xAxisValues().isEmpty()) {
+            // Grid plot starts from 0 on x axis so x range must be decresed by 1
+            const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
+            const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
+            minXValue = std::min(0.0, minXValue);
+            maxXValue = std::max(valuesCount, maxXValue);
+        } else {
+            for (qreal value : series->data()->xAxisValues()){
+                minXValue = std::min(value, minXValue);
+                maxXValue = std::max(value, maxXValue);
             }
         }
     }
 
-    m_yAxisData = AxisData(minYValue, maxYValue);
-    m_xAxisData = AxisData(minXValue, maxXValue);
+    m_chartItem->xAxisData()->update(minXValue, maxXValue);
+    m_chartItem->yAxisData()->update(minYValue, maxYValue);
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)
@@ -977,7 +1033,7 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     painter->save();
 
     const AxisData &yAxisData = this->yAxisData();
-    const AxisData &xAxisData = this->xAxisData();
+    AxisData &xAxisData = this->xAxisData();
 
     painter->setRenderHint(QPainter::Antialiasing,false);
 
@@ -1035,7 +1091,6 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
                               text);
         }
     }
-
     painter->restore();
 }
 
@@ -1121,7 +1176,12 @@ QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
 {
     const qreal min = axisData.rangeMin();
     const qreal step = axisData.step();
-    qreal value = min + i * step;
+    qreal value = 0;
+    if (axisData.type() == AxisData::YAxis && axisData.reverseDirection() && min >= 0) {
+        value = min + (axisData.segmentCount() - i) * step;
+    } else {
+        value = min + i * step;
+    }
     if (std::floor(step) == step) {
         return QString::number(value);
     }

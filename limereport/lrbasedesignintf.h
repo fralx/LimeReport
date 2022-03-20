@@ -397,6 +397,9 @@ protected:
     qreal calcAbsolutePosY(qreal currentOffset, BaseDesignIntf* item);
     qreal calcAbsolutePosX(qreal currentOffset, BaseDesignIntf* item);
 
+    QWidget* findRootWidget(QWidget* widget);
+    void showDialog(QWidget *widget);
+
 private:
     int resizeDirectionFlags(QPointF position);
     void moveSelectedItems(QPointF delta);
