@@ -1078,14 +1078,14 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
         if (m_chartItem->horizontalAxisOnTop()) {
             painter->drawLine(x, gridRect.top() - gridOffset.height(),
                               x, (drawFullLine ? gridRect.bottom() : gridRect.top()));
-            painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
+            painter->drawText(QRectF(x - painter->fontMetrics().boundingRect(text).width() / 2,
                                      gridRect.top() - (fontHeight + gridOffset.height()),
                                      hStep, fontHeight),
                               text);
         } else {
             painter->drawLine(x, gridRect.bottom() + gridOffset.height(),
                               x, (drawFullLine ? gridRect.top() : gridRect.bottom()));
-            painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
+            painter->drawText(QRectF(x - painter->fontMetrics().boundingRect(text).width() / 2,
                                      gridRect.bottom() + halfFontHeight * 0 + gridOffset.height(),
                                      hStep, fontHeight),
                               text);
