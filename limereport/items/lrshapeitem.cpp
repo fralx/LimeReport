@@ -114,6 +114,7 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         }
         break;
     }
+
     painter->restore();
     ItemDesignIntf::paint(painter,option,widget);
 

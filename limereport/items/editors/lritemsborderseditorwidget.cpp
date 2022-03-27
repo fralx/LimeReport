@@ -34,6 +34,11 @@ namespace LimeReport{
 
 void ItemsBordersEditorWidget::setItemEvent(BaseDesignIntf* item)
 {
+    if(QString(item->metaObject()->className()) == "LimeReport::ShapeItem")
+    {
+        setDisabled(true);
+        return;
+    }
     QVariant borders=item->property("borders");
     if (borders.isValid()){
         updateValues((BaseDesignIntf::BorderLines)borders.toInt());

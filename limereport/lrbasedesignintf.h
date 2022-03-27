@@ -94,10 +94,18 @@ class  BaseDesignIntf :
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
     Q_PROPERTY(bool geometryLocked READ isGeometryLocked WRITE setGeometryLocked)
+    Q_PROPERTY(Qt::PenStyle borderStyle READ borderStyle WRITE setBorderStyle)
 
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
+    enum BorderStyle { NoStyle = Qt::NoPen,
+                       Solid = Qt::SolidLine,
+                       Dot = Qt::DotLine,
+                       Dashed = Qt::DashLine,
+                       DashDot = Qt::DashDotLine,
+                       DashDotDot = Qt::DashDotDotLine,
+                     };
 
 
     enum BrushStyle{ NoBrush,
@@ -147,21 +155,25 @@ public:
 #if QT_VERSION >= 0x050500
     Q_ENUM(BGMode)
     Q_ENUM(BrushStyle)
+    Q_ENUM(BorderStyle)
     Q_ENUM(ResizeFlags)
     Q_ENUM(MoveFlags)
     Q_ENUM(BorderSide)
     Q_ENUM(ObjectState)
     Q_ENUM(ItemAlign)
     Q_ENUM(UnitType)
+
 #else
     Q_ENUMS(BGMode)
     Q_ENUMS(BrushStyle)
+    Q_ENUM(BorderStyle)
     Q_ENUMS(ResizeFlags)
     Q_ENUMS(MoveFlags)
     Q_ENUMS(BorderSide)
     Q_ENUMS(ObjectState)
     Q_ENUMS(ItemAlign)
     Q_ENUMS(UnitType)
+
 #endif
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
@@ -240,6 +252,7 @@ public:
     PageDesignIntf* page();
 
     BorderLines borderLines() const;
+    Qt::PenStyle borderStyle() const;
     QString storageTypeName() const {return m_storageTypeName;}
     ReportEnginePrivate *reportEditor();
 
@@ -285,6 +298,7 @@ public:
     void setItemTypeName(const QString &itemTypeName);
 
     int borderLineSize() const;
+    void setBorderStyle(Qt::PenStyle b);
     void setBorderLineSize(int value);
     void showEditorDialog();
     ItemAlign itemAlign() const;
@@ -320,6 +334,7 @@ public:
     void setGeometryLocked(bool itemLocked);
     bool isChangingPos() const;
     void setIsChangingPos(bool isChangingPos);
+    bool isShapeItem() const;
 
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
@@ -366,6 +381,7 @@ protected:
     void drawBootomLine(QPainter *painter, QRectF rect) const;
     void drawRightLine(QPainter *painter, QRectF rect) const;
     void drawLeftLine(QPainter *painter, QRectF rect) const;
+
 
     void drawBorder(QPainter* painter, QRectF rect) const;
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
@@ -434,6 +450,7 @@ private:
     BGMode  m_BGMode;
     int     m_opacity;
     BorderLines m_borderLinesFlags;
+    Qt::PenStyle m_borderStyle;
 
     QRectF m_bottomRect;
     QRectF m_topRect;

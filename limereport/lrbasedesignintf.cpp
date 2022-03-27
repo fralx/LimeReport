@@ -65,6 +65,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_BGMode(OpaqueMode),
     m_opacity(100),
     m_borderLinesFlags(BorderLines()),
+    m_borderStyle(Qt::SolidLine),
     m_storageTypeName(storageTypeName),
     m_itemMode(DesignMode),
     m_objectState(ObjectCreated),
@@ -87,6 +88,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_itemGeometryLocked(false),
     m_isChangingPos(false),
     m_isMoveable(false)
+
 
 {
     setGeometry(QRectF(0, 0, m_width, m_height));
@@ -764,6 +766,11 @@ void BaseDesignIntf::setIsChangingPos(bool isChangingPos)
     m_isChangingPos = isChangingPos;
 }
 
+bool BaseDesignIntf::isShapeItem() const
+{
+    return QString(metaObject()->className()) == "LimeReport::ShapeItem";
+}
+
 bool BaseDesignIntf::isGeometryLocked() const
 {
     return m_itemGeometryLocked;
@@ -948,6 +955,14 @@ int BaseDesignIntf::borderLineSize() const
     return m_borderLineSize;
 }
 
+void BaseDesignIntf::setBorderStyle(Qt::PenStyle b)
+{
+    Qt::PenStyle oldValue = m_borderStyle;
+    m_borderStyle = b;
+    update();
+    notify("borderStyle",(BorderStyle)oldValue,(BorderStyle)b);
+}
+
 void BaseDesignIntf::setBorderLineSize(int value)
 {
     int oldValue = m_borderLineSize;
@@ -1026,32 +1041,47 @@ BaseDesignIntf::BorderLines BaseDesignIntf::borderLines() const
     return m_borderLinesFlags;
 }
 
+Qt::PenStyle BaseDesignIntf::borderStyle() const
+{
+    return m_borderStyle;
+}
+
 void BaseDesignIntf::drawTopLine(QPainter *painter, QRectF rect) const
 {
+    if(isShapeItem())
+    return;
     painter->setPen(borderPen(TopLine));
     painter->drawLine(rect.x(), rect.y(), rect.width(), rect.y());
 }
 
 void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
 {
+    if(isShapeItem())
+    return;
     painter->setPen(borderPen(BottomLine));
     painter->drawLine(rect.x(), rect.height(), rect.width(), rect.height());
 }
 
 void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
 {
+    if(isShapeItem())
+    return;
     painter->setPen(borderPen(RightLine));
     painter->drawLine(rect.width(), rect.y(), rect.width(), rect.height());
 }
 
 void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
 {
+    if(isShapeItem())
+    return;
     painter->setPen(borderPen(LeftLine));
     painter->drawLine(rect.x(), rect.y(), rect.x(), rect.height());
 }
 
 void BaseDesignIntf::drawDesignModeBorder(QPainter *painter, QRectF rect) const
 {
+    if(isShapeItem())
+    return;
     drawTopLine(painter, rect);
     drawBootomLine(painter, rect);
     drawLeftLine(painter, rect);
@@ -1060,7 +1090,8 @@ void BaseDesignIntf::drawDesignModeBorder(QPainter *painter, QRectF rect) const
 
 void BaseDesignIntf::drawRenderModeBorder(QPainter *painter, QRectF rect) const
 {
-
+    if(isShapeItem())
+    return;
     if (m_borderLinesFlags & RightLine)  drawRightLine(painter, rect);
     if (m_borderLinesFlags & LeftLine)   drawLeftLine(painter, rect);
     if (m_borderLinesFlags & TopLine )   drawTopLine(painter, rect);
@@ -1138,8 +1169,8 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     QPen pen;
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
-        pen.setStyle(Qt::SolidLine);
-        pen.setWidth(m_borderLineSize);
+        pen.setStyle(m_borderStyle);
+        pen.setWidth(m_borderLineSize+1);
     } else {
         pen.setColor(Qt::darkGray);
         pen.setStyle(Qt::SolidLine);
