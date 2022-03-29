@@ -209,7 +209,7 @@ public:
     bool hasChanges(){ return m_hasChanges;}
     ReportPages* reportPages() const;
     void setReportPages(ReportPages* value);
-#ifdef HAVE_UI_LOADER        
+#ifdef HAVE_UI_LOADER
 signals:
     void    dialogNameChanged(QString dialogName);
     void    dialogDeleted(QString dialogName);
@@ -337,6 +337,7 @@ public:
     Q_INVOKABLE bool next(const QString& datasourceName);
     Q_INVOKABLE bool prior(const QString& datasourceName);
     Q_INVOKABLE bool isEOF(const QString& datasourceName);
+    Q_INVOKABLE int rowCount(const QString& datasourceName);
     Q_INVOKABLE bool invalidate(const QString& datasourceName);
     Q_INVOKABLE QObject *createTableBuilder(QObject *horizontalLayout);
 private:
@@ -441,7 +442,7 @@ private:
 };
 
 class ScriptEngineManager : public QObject, public Singleton<ScriptEngineManager>, public IScriptEngineManager
-{    
+{
     Q_OBJECT
 public:
     friend class Singleton<ScriptEngineManager>;

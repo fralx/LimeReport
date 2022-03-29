@@ -3434,13 +3434,13 @@ Ten podgląd nie jest już prawidłowy.</translation>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1288"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1293"/>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>Okno dialogowe z nazwą:%1 nie można utworzyć</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1576"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1584"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1581"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1589"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -3453,20 +3453,20 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>FUNKCJE GRUPUJĄCE</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="756"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="777"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="793"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="809"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="826"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="876"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="893"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="910"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="761"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="782"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="798"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="814"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="831"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="881"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="898"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="915"/>
         <source>Value</source>
         <translation>Wartość</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="339"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="741"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="746"/>
         <source>BandName</source>
         <translation>Nazwa sekcji</translation>
     </message>
@@ -3477,7 +3477,7 @@ Ten podgląd nie jest już prawidłowy.</translation>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="339"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="974"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="979"/>
         <source>FieldName</source>
         <translation>Nazwa pola</translation>
     </message>
@@ -3494,120 +3494,120 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Pole %1 nie znalezione w %2!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="739"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="744"/>
         <source>SYSTEM</source>
         <translation>SYSTEM</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="754"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="874"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="891"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="759"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="879"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="896"/>
         <source>NUMBER</source>
         <translation>LICZBA</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="756"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="777"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="793"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="809"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="826"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="761"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="782"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="798"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="814"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="831"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="757"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="762"/>
         <source>Precision</source>
         <translation>Precyzja</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="758"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="777"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="809"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="876"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="763"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="782"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="814"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="881"/>
         <source>Locale</source>
         <translation>Ustawienia lokalne</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="775"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="791"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="807"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="824"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="841"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="858"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="780"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="796"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="812"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="829"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="846"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="863"/>
         <source>DATE&amp;TIME</source>
         <translation>Data i czas</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="955"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="960"/>
         <source>Datasource</source>
         <translation>Źródło danych</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="956"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="961"/>
         <source>ValueField</source>
         <translation>Pole wartości</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="957"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="962"/>
         <source>KeyField</source>
         <translation>Pole klucza</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="958"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="963"/>
         <source>KeyFieldValue</source>
         <translation>Wartość pola klucza</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="975"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="980"/>
         <source>RowIndex</source>
         <translation>Indeks wiersza</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="991"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1006"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1021"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="996"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1011"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1026"/>
         <source>Unique identifier</source>
         <translation>Unikalny identyfikator</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="991"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1021"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="996"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1026"/>
         <source>Content</source>
         <translation>Zawartość</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1021"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1026"/>
         <source>Indent</source>
         <translation>Akapit</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1051"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1056"/>
         <source>datasourceName</source>
         <translation>Nazwa źródła danych</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="893"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="898"/>
         <source>CurrencySymbol</source>
         <translation>Symbol waluty</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="908"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="923"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="938"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="953"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="972"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="989"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1004"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1019"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1034"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1049"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="913"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="928"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="943"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="958"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="977"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="994"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1009"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1024"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1039"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1054"/>
         <source>GENERAL</source>
         <translation>OGÓLNY</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="910"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="925"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="940"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="915"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="930"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="945"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
@@ -4214,12 +4214,12 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Obiekt o nazwie %1 już istnieje!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1688"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1693"/>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>Funkcja %1 nie znaleziona lub ma błędne argumenty</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1691"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1696"/>
         <source>Datasource manager not found</source>
         <translation>Nie znaleziono menedżera źródła danych</translation>
     </message>
