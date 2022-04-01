@@ -1170,6 +1170,9 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
         pen.setStyle(m_borderStyle);
+        if(m_borderLineSize == 0)
+            pen.setStyle(Qt::NoPen);
+
         pen.setWidth(m_borderLineSize+1);
     } else {
         pen.setColor(Qt::darkGray);
@@ -1741,6 +1744,7 @@ void Marker::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
     painter->drawRect(rect());
     painter->setBrush(color());
     painter->setPen(Qt::transparent);
+    painter->setRenderHint(QPainter::HighQualityAntialiasing);
     painter->setOpacity(1);
     painter->drawRect(QRectF(-markerSize,-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().right()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
