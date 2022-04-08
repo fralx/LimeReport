@@ -1067,6 +1067,7 @@ void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
     if(isShapeItem())
     return;
     painter->setPen(borderPen(RightLine));
+
     painter->drawLine(rect.width(), rect.y(), rect.width(), rect.height());
 }
 
@@ -1170,14 +1171,11 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
         pen.setStyle(m_borderStyle);
-        if(m_borderLineSize == 0)
-            pen.setStyle(Qt::NoPen);
-
-        pen.setWidth(m_borderLineSize+1);
+        pen.setWidthF(m_borderLineSize * 1.33333333);
     } else {
         pen.setColor(Qt::darkGray);
         pen.setStyle(Qt::SolidLine);
-        pen.setWidth(1);
+        pen.setWidthF(1);
     }
     return pen;
 }
@@ -1744,7 +1742,7 @@ void Marker::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
     painter->drawRect(rect());
     painter->setBrush(color());
     painter->setPen(Qt::transparent);
-    painter->setRenderHint(QPainter::HighQualityAntialiasing);
+
     painter->setOpacity(1);
     painter->drawRect(QRectF(-markerSize,-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().right()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
