@@ -426,6 +426,7 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
     ppainter->save();
+    ppainter->setRenderHint(QPainter::HighQualityAntialiasing);
     setupPainter(ppainter);
     drawBorder(ppainter, rect());
 //    if (m_joinMarkerOn) { drawMarker(ppainter, Const::JOIN_COLOR);}
@@ -1171,11 +1172,11 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
         pen.setStyle(m_borderStyle);
-        pen.setWidthF(m_borderLineSize * 1.33333333);
+        pen.setWidthF(m_borderLineSize*1.333);
     } else {
         pen.setColor(Qt::darkGray);
         pen.setStyle(Qt::SolidLine);
-        pen.setWidthF(1);
+        pen.setWidth(1);
     }
     return pen;
 }
