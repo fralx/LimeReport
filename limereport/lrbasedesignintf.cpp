@@ -1172,7 +1172,9 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
         pen.setStyle(m_borderStyle);
-        pen.setWidthF(m_borderLineSize*1.333);
+        pen.setCosmetic(true);
+        pen.setWidthF(m_borderLineSize);
+
     } else {
         pen.setColor(Qt::darkGray);
         pen.setStyle(Qt::SolidLine);

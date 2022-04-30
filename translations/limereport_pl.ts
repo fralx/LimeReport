@@ -566,53 +566,53 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1383"/>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1811"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1385"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1813"/>
         <source>Lock item geometry</source>
         <translation>Zablokuj geometrię pozycji</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1389"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1391"/>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1391"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1393"/>
         <source>Cut</source>
         <translation>Wytnij</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1393"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1395"/>
         <source>Paste</source>
         <translation>Wklej</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1403"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1405"/>
         <source>Bring to top</source>
         <translation>Przenieś na górę</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1404"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1406"/>
         <source>Send to back</source>
         <translation>Przenieś na dół</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1407"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1409"/>
         <source>Create Horizontal Layout</source>
         <translation>Utwórz układ poziomy</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1411"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1413"/>
         <source>Create Vertical Layout</source>
         <translation>Utwórz układ pionowy</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1414"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1416"/>
         <source>No borders</source>
         <translation>Bez obramowania</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1415"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1417"/>
         <source>All borders</source>
         <translation>Pełne obramowanie</translation>
     </message>
@@ -1752,12 +1752,12 @@ p, li { white-space: pre-wrap; }
         <translation>Formatka</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="129"/>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="130"/>
         <source>%1 file name</source>
         <translation>%1 nazwa pliku</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="288"/>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="289"/>
         <source>Report file name</source>
         <translation>Nazwa pliku raportu</translation>
     </message>
@@ -4197,14 +4197,14 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Ciąg znaków</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1675"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1717"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1676"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1718"/>
         <source>Attention!</source>
         <translation>Uwaga!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1675"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1717"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1676"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1718"/>
         <source>Selected elements have different parent containers</source>
         <translation>Wybrane elementy mają różne pojemniki nadrzędne</translation>
     </message>
