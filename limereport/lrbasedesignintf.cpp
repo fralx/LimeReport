@@ -87,7 +87,8 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_unitType(Millimeters),
     m_itemGeometryLocked(false),
     m_isChangingPos(false),
-    m_isMoveable(false)
+    m_isMoveable(false),
+    m_shadow(false)
 
 
 {
@@ -103,7 +104,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
 QRectF BaseDesignIntf::boundingRect() const
 {
     qreal halfpw = pen().widthF() / 2;
-            halfpw += 2;
+    halfpw += 2;
     return rect().adjusted(-halfpw, -halfpw, halfpw, halfpw);
 }
 
@@ -426,16 +427,17 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
     ppainter->save();
-    ppainter->setRenderHint(QPainter::HighQualityAntialiasing);
     setupPainter(ppainter);
     drawBorder(ppainter, rect());
-//    if (m_joinMarkerOn) { drawMarker(ppainter, Const::JOIN_COLOR);}
-//    if (isSelected() && !m_joinMarkerOn) {drawMarker(ppainter, Const::SELECTION_COLOR);}
+    if(m_shadow)
+        drawShadow(ppainter, rect());
+    //    if (m_joinMarkerOn) { drawMarker(ppainter, Const::JOIN_COLOR);}
+    //    if (isSelected() && !m_joinMarkerOn) {drawMarker(ppainter, Const::SELECTION_COLOR);}
     drawResizeZone(ppainter);
     ppainter->restore();
-//    if (m_hovered) ppainter->drawImage(
-//                QRectF(QPointF(rect().topRight().x()-24, rect().bottomLeft().y()-24),
-//                       QSizeF(24, 24)),QImage(":/items/images/settings.png"));
+    //    if (m_hovered) ppainter->drawImage(
+    //                QRectF(QPointF(rect().topRight().x()-24, rect().bottomLeft().y()-24),
+    //                       QSizeF(24, 24)),QImage(":/items/images/settings.png"));
 }
 
 QColor calcColor(QColor color){
@@ -445,9 +447,9 @@ QColor calcColor(QColor color){
     int B = color.blue();
 
     if (0.222*R + 0.707*G + 0.071*B <= 127)
-      return Qt::white;
+        return Qt::white;
     else
-      return Qt::black;
+        return Qt::black;
 }
 
 void BaseDesignIntf::prepareRect(QPainter *painter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
@@ -488,22 +490,22 @@ void BaseDesignIntf::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
                 case ResizeRight:
                 case ResizeLeft:
                     setCursor(Qt::SizeHorCursor);
-                break;
+                    break;
                 case ResizeBottom:
                 case ResizeTop:
                     setCursor(Qt::SizeVerCursor);
-                break;
+                    break;
                 case ResizeRight | ResizeBottom:
                 case ResizeLeft  | ResizeTop:
                     setCursor(Qt::SizeFDiagCursor);
-                break;
+                    break;
                 case ResizeLeft  | ResizeBottom:
                 case ResizeRight | ResizeTop:
                     setCursor(Qt::SizeBDiagCursor);
-                break;
+                    break;
                 default:
                     setCursor(Qt::ArrowCursor);
-                break;
+                    break;
                 }
             }
         }
@@ -513,7 +515,7 @@ void BaseDesignIntf::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 void BaseDesignIntf::invalidateRects(QVector<QRectF *> rects)
 {
     foreach(QRectF * rect, rects)
-      scene()->update(mapToScene(*rect).boundingRect());
+        scene()->update(mapToScene(*rect).boundingRect());
 }
 
 void BaseDesignIntf::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
@@ -546,8 +548,8 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_resizeDirectionFlags & ResizeLeft) {
         if ((event->scenePos().x()) <= (mapToScene(0, 0).x() + (width() - Const::MINIMUM_ITEM_WIDTH)) &&
-             (width() + (event->lastScenePos().x() - event->scenePos().x()) > Const::MINIMUM_ITEM_WIDTH)
-           ) {
+                (width() + (event->lastScenePos().x() - event->scenePos().x()) > Const::MINIMUM_ITEM_WIDTH)
+                ) {
             qreal posRightCorner = mapToScene(0, 0).x() + width();
             qreal posLeftCorner = div(mapToParent(event->pos()).x(), hStep).quot * hStep;
             if (posLeftCorner < 0 )
@@ -559,15 +561,15 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_resizeDirectionFlags & ResizeRight) {
         if ((event->scenePos().x() >= (mapToScene(0, 0).x() + Const::MINIMUM_ITEM_WIDTH)) ||
-             (event->scenePos().x() >= (mapToScene(0, 0).x() + width()))) {
+                (event->scenePos().x() >= (mapToScene(0, 0).x() + width()))) {
             setWidth(div(event->scenePos().x() - mapToScene(0, 0).x(), hStep).quot * hStep);
         }
     }
 
     if (m_resizeDirectionFlags & ResizeTop) {
         if ((event->scenePos().y()) <= (mapToScene(0, 0).y() + (height() - Const::MINIMUM_ITEM_HEIGHT)) &&
-             (height() + (event->lastScenePos().y() - event->scenePos().y()) > Const::MINIMUM_ITEM_HEIGHT)
-           ) {
+                (height() + (event->lastScenePos().y() - event->scenePos().y()) > Const::MINIMUM_ITEM_HEIGHT)
+                ) {
             qreal posBottomCorner = mapToScene(0, 0).y() + height();
             qreal posTopCorner = div(mapToParent(event->pos()).y(), vStep).quot * vStep;
             if (posTopCorner < 0 )
@@ -579,8 +581,8 @@ void BaseDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_resizeDirectionFlags & ResizeBottom) {
         if ((event->scenePos().y() > (mapToScene(0, 0).y() + height())) ||
-             (event->scenePos().y() > (mapToScene(0, 0).y() + Const::MINIMUM_ITEM_HEIGHT))
-           ) {
+                (event->scenePos().y() > (mapToScene(0, 0).y() + Const::MINIMUM_ITEM_HEIGHT))
+                ) {
             setHeight(div(event->scenePos().y() - mapToScene(0, 0).y(), vStep).quot * vStep);
         }
     }
@@ -656,11 +658,11 @@ Qt::CursorShape BaseDesignIntf::getPossibleCursor(int cursorFlags)
     if ((cursorFlags == Fixed) || (scene()->selectedItems().count() > 1)) return Qt::ArrowCursor;
 
     if (((cursorFlags & ResizeRight) && (cursorFlags & ResizeTop)) ||
-         ((cursorFlags & ResizeLeft) && (cursorFlags & ResizeBottom))) {
+            ((cursorFlags & ResizeLeft) && (cursorFlags & ResizeBottom))) {
         return Qt::SizeBDiagCursor;
     }
     if (((cursorFlags & ResizeLeft) && (cursorFlags & ResizeTop)) ||
-         ((cursorFlags & ResizeRight) && (cursorFlags & ResizeBottom))) {
+            ((cursorFlags & ResizeRight) && (cursorFlags & ResizeBottom))) {
         return Qt::SizeFDiagCursor;
     }
     if ((cursorFlags & ResizeLeft) || (cursorFlags & ResizeRight)) { return Qt::SizeHorCursor; }
@@ -705,7 +707,7 @@ QPointF BaseDesignIntf::modifyPosForAlignedItem(const QPointF& pos){
         case ParentWidthItemAlign:
             result.setX(leftBorder);
         case DesignedItemAlign:
-           break;
+            break;
         }
     }
     return result;
@@ -753,7 +755,7 @@ void BaseDesignIntf::updatePossibleDirectionFlags(){
         setPossibleResizeDirectionFlags(ResizeBottom|ResizeTop);
     case CenterItemAlign:
     case DesignedItemAlign:
-       break;
+        break;
     }
 }
 
@@ -770,6 +772,21 @@ void BaseDesignIntf::setIsChangingPos(bool isChangingPos)
 bool BaseDesignIntf::isShapeItem() const
 {
     return QString(metaObject()->className()) == "LimeReport::ShapeItem";
+}
+
+bool BaseDesignIntf::hasShadow()
+{
+    return m_shadow;
+}
+
+void BaseDesignIntf::setShadow(bool sh)
+{
+    if (m_shadow != sh){
+        bool oldValue = m_shadow;
+        m_shadow = sh;
+        notify("shadow",oldValue,m_shadow);
+        update();
+    }
 }
 
 bool BaseDesignIntf::isGeometryLocked() const
@@ -996,7 +1013,7 @@ void BaseDesignIntf::moveUp()
 void BaseDesignIntf::sizeRight()
 {
     if ((m_possibleResizeDirectionFlags & ResizeLeft) ||
-         (m_possibleResizeDirectionFlags & ResizeRight)) {
+            (m_possibleResizeDirectionFlags & ResizeRight)) {
         if (page()) setWidth(width() + page()->horizontalGridStep());
     }
 }
@@ -1004,7 +1021,7 @@ void BaseDesignIntf::sizeRight()
 void BaseDesignIntf::sizeLeft()
 {
     if ((m_possibleResizeDirectionFlags & ResizeLeft) ||
-         (m_possibleResizeDirectionFlags & ResizeRight)) {
+            (m_possibleResizeDirectionFlags & ResizeRight)) {
         if(page()) setWidth(width() - page()->horizontalGridStep());
     }
 }
@@ -1012,7 +1029,7 @@ void BaseDesignIntf::sizeLeft()
 void BaseDesignIntf::sizeUp()
 {
     if ((m_possibleResizeDirectionFlags & ResizeTop) ||
-         (m_possibleResizeDirectionFlags & ResizeBottom)) {
+            (m_possibleResizeDirectionFlags & ResizeBottom)) {
         if (page()) setHeight(height() - page()->verticalGridStep());
     }
 }
@@ -1020,7 +1037,7 @@ void BaseDesignIntf::sizeUp()
 void BaseDesignIntf::sizeDown()
 {
     if ((m_possibleResizeDirectionFlags & ResizeTop) ||
-         (m_possibleResizeDirectionFlags & ResizeBottom)) {
+            (m_possibleResizeDirectionFlags & ResizeBottom)) {
         if (page()) setHeight(height() + page()->verticalGridStep());
     }
 }
@@ -1050,7 +1067,7 @@ Qt::PenStyle BaseDesignIntf::borderStyle() const
 void BaseDesignIntf::drawTopLine(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
-    return;
+        return;
     painter->setPen(borderPen(TopLine));
     painter->drawLine(rect.x(), rect.y(), rect.width(), rect.y());
 }
@@ -1058,7 +1075,7 @@ void BaseDesignIntf::drawTopLine(QPainter *painter, QRectF rect) const
 void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
-    return;
+        return;
     painter->setPen(borderPen(BottomLine));
     painter->drawLine(rect.x(), rect.height(), rect.width(), rect.height());
 }
@@ -1066,7 +1083,7 @@ void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
 void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
-    return;
+        return;
     painter->setPen(borderPen(RightLine));
 
     painter->drawLine(rect.width(), rect.y(), rect.width(), rect.height());
@@ -1075,7 +1092,7 @@ void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
 void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
-    return;
+        return;
     painter->setPen(borderPen(LeftLine));
     painter->drawLine(rect.x(), rect.y(), rect.x(), rect.height());
 }
@@ -1083,7 +1100,7 @@ void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
 void BaseDesignIntf::drawDesignModeBorder(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
-    return;
+        return;
     drawTopLine(painter, rect);
     drawBootomLine(painter, rect);
     drawLeftLine(painter, rect);
@@ -1093,7 +1110,7 @@ void BaseDesignIntf::drawDesignModeBorder(QPainter *painter, QRectF rect) const
 void BaseDesignIntf::drawRenderModeBorder(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
-    return;
+        return;
     if (m_borderLinesFlags & RightLine)  drawRightLine(painter, rect);
     if (m_borderLinesFlags & LeftLine)   drawLeftLine(painter, rect);
     if (m_borderLinesFlags & TopLine )   drawTopLine(painter, rect);
@@ -1108,6 +1125,32 @@ void BaseDesignIntf::drawBorder(QPainter *painter, QRectF rect) const
     }
     else drawRenderModeBorder(painter, rect);
     painter->restore();
+}
+
+void BaseDesignIntf::drawShadow(QPainter *painter, QRectF rect) const
+{
+
+    qreal shWidth = rect.width()/100;
+    QRectF rshadow(rect.topRight() + QPointF(0, shWidth),
+                   rect.bottomRight() + QPointF(shWidth, 0));
+    QLinearGradient rgrad(rshadow.topLeft(), rshadow.topRight());
+    rgrad.setColorAt(0.0, QColor(0,0,0,255));
+    rgrad.setColorAt(1.0, QColor(0,0,0,0));
+    painter->fillRect(rshadow, QBrush(rgrad));
+    QRectF bshadow(rect.bottomLeft() + QPointF(shWidth, 0),
+                   rect.bottomRight() + QPointF(0, shWidth));
+    QLinearGradient bgrad(bshadow.topLeft(), bshadow.bottomLeft());
+    bgrad.setColorAt(0.0, QColor(0,0,0,255));
+    bgrad.setColorAt(1.0, QColor(0,0,0,0));
+    painter->fillRect(bshadow, QBrush(bgrad));
+    QRectF cshadow(rect.bottomRight(),
+                   rect.bottomRight() + QPointF(shWidth, shWidth));
+    QRadialGradient cgrad(cshadow.topLeft(), shWidth, cshadow.topLeft());
+    cgrad.setColorAt(0.0, QColor(0,0,0,255));
+    cgrad.setColorAt(1.0, QColor(0,0,0,0));
+    painter->fillRect(cshadow, QBrush(cgrad));
+
+
 }
 
 void BaseDesignIntf::setGeometry(QRectF rect)
@@ -1270,13 +1313,13 @@ void BaseDesignIntf::drawMarker(QPainter *painter, QColor color) const
     painter->drawRect(QRectF(rect().right()-markerSize,rect().top()-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()-markerSize,
-                                rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
+                             rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().right()-markerSize,
-                                rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
+                             rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()+rect().width()/2-markerSize,
-                                rect().top()-markerSize,markerSize*2,markerSize*2));
+                             rect().top()-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()+rect().width()/2-markerSize,
-                                rect().bottom()-markerSize,markerSize*2,markerSize*2));
+                             rect().bottom()-markerSize,markerSize*2,markerSize*2));
 
     pen.setStyle(Qt::DotLine);
     painter->setPen(pen);
@@ -1366,7 +1409,7 @@ void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton &&
             ((itemMode()&EditMode)||(itemMode()&DesignMode))
-       ) {
+            ) {
         showEditorDialog();
     }
     QGraphicsItem::mouseDoubleClickEvent(event);
@@ -1468,14 +1511,14 @@ void BaseDesignIntf::setMarginSize(int value)
 void BaseDesignIntf::drawResizeZone(QPainter* /*painter*/)
 {
 
-//    if (m_resizeAreas.count() > 0) {
-//        painter->save();
-//        painter->setPen(QPen(Const::RESIZE_ZONE_COLOR));
-//        (isSelected()) ? painter->setOpacity(Const::SELECTED_RESIZE_ZONE_OPACITY) : painter->setOpacity(Const::RESIZE_ZONE_OPACITY);
-//        painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
-//        foreach(QRectF * resizeArea, m_resizeAreas) painter->drawRect(*resizeArea);
-//        painter->restore();
-//    }
+    //    if (m_resizeAreas.count() > 0) {
+    //        painter->save();
+    //        painter->setPen(QPen(Const::RESIZE_ZONE_COLOR));
+    //        (isSelected()) ? painter->setOpacity(Const::SELECTED_RESIZE_ZONE_OPACITY) : painter->setOpacity(Const::RESIZE_ZONE_OPACITY);
+    //        painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
+    //        foreach(QRectF * resizeArea, m_resizeAreas) painter->drawRect(*resizeArea);
+    //        painter->restore();
+    //    }
 
 }
 
@@ -1706,7 +1749,7 @@ void BaseDesignIntf::notify(const QString &propertyName, const QVariant& oldValu
 void BaseDesignIntf::notify(const QVector<QString>& propertyNames)
 {
     if (!isLoading())
-      emit propertyesChanged(propertyNames);
+        emit propertyesChanged(propertyNames);
 }
 
 
@@ -1752,11 +1795,11 @@ void Marker::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
     painter->drawRect(QRectF(rect().right()-markerSize,rect().top()-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()-markerSize,rect().bottom()-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()-markerSize,
-                                rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
+                             rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().right()-markerSize,
-                                rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
+                             rect().bottom()-rect().height()/2-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()+rect().width()/2-markerSize,
-                                rect().top()-markerSize,markerSize*2,markerSize*2));
+                             rect().top()-markerSize,markerSize*2,markerSize*2));
     painter->drawRect(QRectF(rect().left()+rect().width()/2-markerSize,
                              rect().bottom()-markerSize,markerSize*2,markerSize*2));
 }

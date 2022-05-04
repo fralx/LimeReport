@@ -98,6 +98,26 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         paintGrid(ppainter, rect);
         ppainter->setPen(gridColor());
         ppainter->drawRect(boundingRect());
+        //Draw shadow
+        qreal shWidth = boundingRect().width()/100;
+        QRectF rshadow(boundingRect().topRight() + QPointF(0, shWidth),
+                       boundingRect().bottomRight() + QPointF(shWidth, 0));
+        QLinearGradient rgrad(rshadow.topLeft(), rshadow.topRight());
+        rgrad.setColorAt(0.0, QColor(0,0,0,255));
+        rgrad.setColorAt(1.0, QColor(0,0,0,0));
+        ppainter->fillRect(rshadow, QBrush(rgrad));
+        QRectF bshadow(boundingRect().bottomLeft() + QPointF(shWidth, 0),
+                       boundingRect().bottomRight() + QPointF(0, shWidth));
+        QLinearGradient bgrad(bshadow.topLeft(), bshadow.bottomLeft());
+        bgrad.setColorAt(0.0, QColor(0,0,0,255));
+        bgrad.setColorAt(1.0, QColor(0,0,0,0));
+        ppainter->fillRect(bshadow, QBrush(bgrad));
+        QRectF cshadow(boundingRect().bottomRight(),
+                       boundingRect().bottomRight() + QPointF(shWidth, shWidth));
+        QRadialGradient cgrad(cshadow.topLeft(), shWidth, cshadow.topLeft());
+        cgrad.setColorAt(0.0, QColor(0,0,0,255));
+        cgrad.setColorAt(1.0, QColor(0,0,0,0));
+        ppainter->fillRect(cshadow, QBrush(cgrad));
         if (m_isExtendedInDesignMode){
             QPen pen;
             pen.setColor(Qt::red);
@@ -108,6 +128,7 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         }
         ppainter->restore();
     }
+
 
     if (itemMode() & PreviewMode) {
         ppainter->save();
@@ -123,6 +144,9 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         ppainter->restore();
         BaseDesignIntf::paint(ppainter,option,widget);
     }
+
+
+
 }
 
 BaseDesignIntf *PageItemDesignIntf::createSameTypeItem(QObject *owner, QGraphicsItem *parent)

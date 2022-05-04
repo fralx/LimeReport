@@ -92,6 +92,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(QString parentName READ parentReportItemName WRITE setParentReportItem DESIGNABLE false)
     Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
+    Q_PROPERTY(bool shadow READ hasShadow WRITE setShadow)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
     Q_PROPERTY(bool geometryLocked READ isGeometryLocked WRITE setGeometryLocked)
     Q_PROPERTY(Qt::PenStyle borderStyle READ borderStyle WRITE setBorderStyle)
@@ -335,7 +336,8 @@ public:
     bool isChangingPos() const;
     void setIsChangingPos(bool isChangingPos);
     bool isShapeItem() const;
-
+    bool hasShadow();
+    void setShadow(bool sh);
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
@@ -384,6 +386,7 @@ protected:
 
 
     void drawBorder(QPainter* painter, QRectF rect) const;
+    void drawShadow(QPainter* painter, QRectF rect) const;
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
     void drawRenderModeBorder(QPainter *painter, QRectF rect) const;
     void drawResizeZone(QPainter*);
@@ -443,6 +446,7 @@ private:
     bool    m_fixedPos;
     int     m_borderLineSize;
 
+
     QRectF  m_rect;
     mutable QRectF  m_boundingRect;
 
@@ -487,6 +491,7 @@ private:
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
     bool     m_isMoveable;
+    bool    m_shadow;
 
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

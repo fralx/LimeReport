@@ -554,53 +554,53 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1385"/>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1813"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1428"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1856"/>
         <source>Lock item geometry</source>
         <translation>Verrouiller la géométrie d&apos;un élément</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1391"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1434"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1393"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1436"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1395"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1438"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1405"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1448"/>
         <source>Bring to top</source>
         <translation>Placer au premier-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1406"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1449"/>
         <source>Send to back</source>
         <translation>Placer en arrière-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1409"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1452"/>
         <source>Create Horizontal Layout</source>
         <translation>Créer une disposition horizontale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1413"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1456"/>
         <source>Create Vertical Layout</source>
         <translation>Créer une disposition verticale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1416"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1459"/>
         <source>No borders</source>
         <translation>Aucune bordure</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1417"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1460"/>
         <source>All borders</source>
         <translation>Toutes les bordures</translation>
     </message>
@@ -1697,37 +1697,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="750"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="774"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="756"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="784"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="780"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="808"/>
         <source>Page is TOC</source>
         <translation>Table de contenus</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="760"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="787"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="784"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="811"/>
         <source>Reset page number</source>
         <translation>Réinitialiser le numéro de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="764"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="790"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="788"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="814"/>
         <source>Full page</source>
         <translation>Page entière</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="768"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="793"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="792"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="817"/>
         <source>Set page size to printer</source>
         <translation>Adapterr la taille de la page à l&apos;imprimante</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="772"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="797"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="796"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="821"/>
         <source>Mix with prior page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1745,7 +1745,7 @@ p, li { white-space: pre-wrap; }
         <translation>%1 nom de fichier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="289"/>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="290"/>
         <source>Report file name</source>
         <translation>Nom du fichier du rapport</translation>
     </message>

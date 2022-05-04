@@ -80,7 +80,7 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->save();
 
     QPen pen(m_shapeColor);
-    pen.setWidthF(m_lineWidth+1);
+    pen.setWidthF(m_lineWidth);
     pen.setStyle(m_penStyle);
     pen.setJoinStyle(Qt::MiterJoin);
     painter->setPen(pen);
