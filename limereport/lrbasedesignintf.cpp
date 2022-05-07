@@ -426,6 +426,7 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
+
     ppainter->save();
     setupPainter(ppainter);
     drawBorder(ppainter, rect());
@@ -968,7 +969,7 @@ void BaseDesignIntf::emitObjectNamePropertyChanged(const QString &oldName, const
     emit propertyObjectNameChanged(oldName,newName);
 }
 
-int BaseDesignIntf::borderLineSize() const
+qreal BaseDesignIntf::borderLineSize() const
 {
     return m_borderLineSize;
 }
@@ -981,9 +982,9 @@ void BaseDesignIntf::setBorderStyle(Qt::PenStyle b)
     notify("borderStyle",(BorderStyle)oldValue,(BorderStyle)b);
 }
 
-void BaseDesignIntf::setBorderLineSize(int value)
+void BaseDesignIntf::setBorderLineSize(qreal value)
 {
-    int oldValue = m_borderLineSize;
+    qreal oldValue = m_borderLineSize;
     m_borderLineSize = value;
     update();
     notify("borderLineSize",oldValue,value);
@@ -1076,6 +1077,7 @@ void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
 {
     if(isShapeItem())
         return;
+
     painter->setPen(borderPen(BottomLine));
     painter->drawLine(rect.x(), rect.height(), rect.width(), rect.height());
 }
@@ -1215,8 +1217,8 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
         pen.setStyle(m_borderStyle);
-        pen.setCosmetic(true);
-        pen.setWidthF(m_borderLineSize);
+        //pen.setCosmetic(true);
+        pen.setWidthF(m_borderLineSize+1);
 
     } else {
         pen.setColor(Qt::darkGray);

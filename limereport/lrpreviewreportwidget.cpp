@@ -152,7 +152,7 @@ void PreviewReportWidget::initPreview()
     ui->graphicsView->centerOn(0, 0);
     ui->graphicsView->scene()->setBackgroundBrush(QColor(m_previewPageBackgroundColor));
     setScalePercent(d_ptr->m_scalePercent);
-
+    qDebug()<<d_ptr->m_scalePercent;
     PageDesignIntf* page = dynamic_cast<PageDesignIntf*>(ui->graphicsView->scene());
     if (page)
         connect(page, SIGNAL(itemInserted(LimeReport::PageDesignIntf*, QPointF, QString)),
@@ -484,7 +484,7 @@ void PreviewReportWidget::reportEngineDestroyed(QObject *object)
 
 void PreviewReportWidget::slotZoomed(double )
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     d_ptr->m_scalePercent = ui->graphicsView->matrix().m11()*100;
 #else
     d_ptr->m_scalePercent = ui->graphicsView->transform().m11()*100;

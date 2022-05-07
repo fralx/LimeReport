@@ -90,7 +90,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
     Q_PROPERTY(QString parentName READ parentReportItemName WRITE setParentReportItem DESIGNABLE false)
-    Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
+    Q_PROPERTY(qreal borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
     Q_PROPERTY(bool shadow READ hasShadow WRITE setShadow)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
@@ -298,9 +298,9 @@ public:
     QString itemTypeName() const;
     void setItemTypeName(const QString &itemTypeName);
 
-    int borderLineSize() const;
+    qreal borderLineSize() const;
     void setBorderStyle(Qt::PenStyle b);
-    void setBorderLineSize(int value);
+    void setBorderLineSize(qreal value);
     void showEditorDialog();
     ItemAlign itemAlign() const;
     virtual void setItemAlign(const ItemAlign &itemAlign);
@@ -444,7 +444,7 @@ private:
     QFont   m_font;
     QColor  m_fontColor;
     bool    m_fixedPos;
-    int     m_borderLineSize;
+    qreal     m_borderLineSize;
 
 
     QRectF  m_rect;

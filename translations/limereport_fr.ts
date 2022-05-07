@@ -554,53 +554,53 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1428"/>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1856"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1430"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1858"/>
         <source>Lock item geometry</source>
         <translation>Verrouiller la géométrie d&apos;un élément</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1434"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1436"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1436"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1438"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1438"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1440"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1448"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1450"/>
         <source>Bring to top</source>
         <translation>Placer au premier-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1449"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1451"/>
         <source>Send to back</source>
         <translation>Placer en arrière-plan</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1452"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1454"/>
         <source>Create Horizontal Layout</source>
         <translation>Créer une disposition horizontale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1456"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1458"/>
         <source>Create Vertical Layout</source>
         <translation>Créer une disposition verticale</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1459"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1461"/>
         <source>No borders</source>
         <translation>Aucune bordure</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1460"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1462"/>
         <source>All borders</source>
         <translation>Toutes les bordures</translation>
     </message>
