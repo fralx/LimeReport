@@ -95,7 +95,7 @@ class  BaseDesignIntf :
     Q_PROPERTY(bool shadow READ hasShadow WRITE setShadow)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
     Q_PROPERTY(bool geometryLocked READ isGeometryLocked WRITE setGeometryLocked)
-    Q_PROPERTY(Qt::PenStyle borderStyle READ borderStyle WRITE setBorderStyle)
+    Q_PROPERTY(BorderStyle borderStyle READ borderStyle WRITE setBorderStyle)
 
     friend class ReportRender;
 public:
@@ -106,6 +106,7 @@ public:
                        Dashed = Qt::DashLine,
                        DashDot = Qt::DashDotLine,
                        DashDotDot = Qt::DashDotDotLine,
+                       Doubled = 7
                      };
 
 
@@ -188,6 +189,7 @@ public:
     QString parentReportItemName() const;
 
     BrushStyle  backgroundBrushStyle() const {return m_backgroundBrushStyle;}
+    BorderStyle borderStyle() const {return m_borderStyle;}
     void        setBackgroundBrushStyle(BrushStyle value);
     QColor      backgroundColor() const {return m_backgroundColor;}
     void        setBackgroundColor(QColor value);
@@ -253,7 +255,7 @@ public:
     PageDesignIntf* page();
 
     BorderLines borderLines() const;
-    Qt::PenStyle borderStyle() const;
+
     QString storageTypeName() const {return m_storageTypeName;}
     ReportEnginePrivate *reportEditor();
 
@@ -299,7 +301,7 @@ public:
     void setItemTypeName(const QString &itemTypeName);
 
     qreal borderLineSize() const;
-    void setBorderStyle(Qt::PenStyle b);
+    void setBorderStyle(BorderStyle b);
     void setBorderLineSize(qreal value);
     void showEditorDialog();
     ItemAlign itemAlign() const;
@@ -454,7 +456,7 @@ private:
     BGMode  m_BGMode;
     int     m_opacity;
     BorderLines m_borderLinesFlags;
-    Qt::PenStyle m_borderStyle;
+    BorderStyle m_borderStyle;
 
     QRectF m_bottomRect;
     QRectF m_topRect;

@@ -65,7 +65,7 @@ BaseDesignIntf::BaseDesignIntf(const QString &storageTypeName, QObject *owner, Q
     m_BGMode(OpaqueMode),
     m_opacity(100),
     m_borderLinesFlags(BorderLines()),
-    m_borderStyle(Qt::SolidLine),
+    m_borderStyle(BorderStyle::Solid),
     m_storageTypeName(storageTypeName),
     m_itemMode(DesignMode),
     m_objectState(ObjectCreated),
@@ -974,9 +974,9 @@ qreal BaseDesignIntf::borderLineSize() const
     return m_borderLineSize;
 }
 
-void BaseDesignIntf::setBorderStyle(Qt::PenStyle b)
+void BaseDesignIntf::setBorderStyle(BorderStyle b)
 {
-    Qt::PenStyle oldValue = m_borderStyle;
+    BorderStyle oldValue = m_borderStyle;
     m_borderStyle = b;
     update();
     notify("borderStyle",(BorderStyle)oldValue,(BorderStyle)b);
@@ -1060,10 +1060,6 @@ BaseDesignIntf::BorderLines BaseDesignIntf::borderLines() const
     return m_borderLinesFlags;
 }
 
-Qt::PenStyle BaseDesignIntf::borderStyle() const
-{
-    return m_borderStyle;
-}
 
 void BaseDesignIntf::drawTopLine(QPainter *painter, QRectF rect) const
 {
@@ -1071,6 +1067,11 @@ void BaseDesignIntf::drawTopLine(QPainter *painter, QRectF rect) const
         return;
     painter->setPen(borderPen(TopLine));
     painter->drawLine(rect.x(), rect.y(), rect.width(), rect.y());
+    if(borderStyle() == BorderStyle::Doubled)
+    painter->drawLine(rect.x()+6+m_borderLineSize,
+                      rect.y()+6+m_borderLineSize,
+                      rect.width()-6-m_borderLineSize,
+                      rect.y()+6+m_borderLineSize);
 }
 
 void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
@@ -1080,6 +1081,11 @@ void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
 
     painter->setPen(borderPen(BottomLine));
     painter->drawLine(rect.x(), rect.height(), rect.width(), rect.height());
+    if(borderStyle() == BorderStyle::Doubled)
+    painter->drawLine(rect.x()+6+m_borderLineSize,
+                      rect.height()-6-m_borderLineSize,
+                      rect.width()-6-m_borderLineSize,
+                      rect.height()-6-m_borderLineSize);
 }
 
 void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
@@ -1089,6 +1095,11 @@ void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
     painter->setPen(borderPen(RightLine));
 
     painter->drawLine(rect.width(), rect.y(), rect.width(), rect.height());
+    if(borderStyle() == BorderStyle::Doubled)
+    painter->drawLine(rect.width()-6 - m_borderLineSize,
+                      rect.y()+6+m_borderLineSize,
+                      rect.width()-6-m_borderLineSize,
+                      rect.height()-6-m_borderLineSize);
 }
 
 void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
@@ -1097,6 +1108,11 @@ void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
         return;
     painter->setPen(borderPen(LeftLine));
     painter->drawLine(rect.x(), rect.y(), rect.x(), rect.height());
+    if(borderStyle() == BorderStyle::Doubled)
+    painter->drawLine(rect.x()+6+m_borderLineSize,
+                      rect.y()+6+m_borderLineSize,
+                      rect.x()+6+m_borderLineSize,
+                      rect.height()-6-m_borderLineSize);
 }
 
 void BaseDesignIntf::drawDesignModeBorder(QPainter *painter, QRectF rect) const
@@ -1216,9 +1232,10 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
     QPen pen;
     if (m_borderLinesFlags & side) {
         pen.setColor(m_borderColor);
-        pen.setStyle(m_borderStyle);
-        //pen.setCosmetic(true);
-        pen.setWidthF(m_borderLineSize+1);
+        if(borderStyle() != BorderStyle::Doubled)
+        pen.setStyle(static_cast<Qt::PenStyle>(m_borderStyle));
+        pen.setCosmetic(true);
+        pen.setWidthF(m_borderLineSize+1); //To draw with point precision (By default: 2px = 1 pt)
 
     } else {
         pen.setColor(Qt::darkGray);
