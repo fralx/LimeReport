@@ -7,11 +7,13 @@ set(LIMEREPORT_VERSION_RELEASE 6)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
+option(USE_QT6 "Use Qt6" OFF)
 
-find_package(
-  QT NAMES Qt6 Qt5
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
-  )
+if(USE_QT6)
+    find_package(QT NAMES Qt6)
+else()
+    find_package(QT NAMES Qt5)
+endif(USE_QT6)
 find_package(
   Qt${QT_VERSION_MAJOR}
   COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
