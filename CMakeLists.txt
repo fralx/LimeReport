@@ -80,6 +80,7 @@ ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.cpp
 ${PROJECT_NAME}/items/lrabstractlayout.cpp
 ${PROJECT_NAME}/items/lralignpropitem.cpp
 ${PROJECT_NAME}/items/lrchartitem.cpp
+${PROJECT_NAME}/items/lrchartaxiseditor.cpp
 ${PROJECT_NAME}/items/lrchartitemeditor.cpp
 ${PROJECT_NAME}/items/lrhorizontallayout.cpp
 ${PROJECT_NAME}/items/lrimageitem.cpp
@@ -191,6 +192,7 @@ ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.h
 ${PROJECT_NAME}/items/lrabstractlayout.h
 ${PROJECT_NAME}/items/lralignpropitem.h
 ${PROJECT_NAME}/items/lrchartitem.h
+${PROJECT_NAME}/items/lrchartaxiseditor.h
 ${PROJECT_NAME}/items/lrchartitemeditor.h
 ${PROJECT_NAME}/items/lreditableimageitemintf.h
 ${PROJECT_NAME}/items/lrhorizontallayout.h
@@ -287,6 +289,7 @@ ${PROJECT_NAME}/databrowser/lrsqleditdialog.ui
 ${PROJECT_NAME}/databrowser/lrvariabledialog.ui
 ${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
 ${PROJECT_NAME}/items/lrchartitemeditor.ui
+${PROJECT_NAME}/items/lrchartaxiseditor.ui
 ${PROJECT_NAME}/items/lrimageitemeditor.ui
 ${PROJECT_NAME}/items/lrtextitemeditor.ui
 ${PROJECT_NAME}/lraboutdialog.ui

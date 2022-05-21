@@ -16,5 +16,5 @@ target_link_libraries(LRDesigner PUBLIC
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::PrintSupport
     Qt${QT_VERSION_MAJOR}::Qml
-    ${PROJECT_NAME}
+    ${PROJECT_NAME}-qt${QT_VERSION_MAJOR}
 )
