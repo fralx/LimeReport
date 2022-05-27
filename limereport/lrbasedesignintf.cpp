@@ -1234,7 +1234,7 @@ QPen BaseDesignIntf::borderPen(BorderSide side/*, bool selected*/) const
         pen.setColor(m_borderColor);
         if(borderStyle() != BorderStyle::Doubled)
         pen.setStyle(static_cast<Qt::PenStyle>(m_borderStyle));
-        pen.setCosmetic(true);
+        //pen.setCosmetic(true);
         pen.setWidthF(m_borderLineSize+1); //To draw with point precision (By default: 2px = 1 pt)
 
     } else {
