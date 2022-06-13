@@ -102,8 +102,9 @@ public:
     enum BGMode { TransparentMode, OpaqueMode};
     enum BorderStyle { NoStyle = Qt::NoPen,
                        Solid = Qt::SolidLine,
-                       Dot = Qt::DotLine,
                        Dashed = Qt::DashLine,
+                       Dot = Qt::DotLine,
+
                        DashDot = Qt::DashDotLine,
                        DashDotDot = Qt::DashDotDotLine,
                        Doubled = 7

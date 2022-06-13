@@ -10,6 +10,19 @@
     </message>
 </context>
 <context>
+    <name>BorderFrameEditor</name>
+    <message>
+        <location filename="../limereport/items/borderframeeditor.ui" line="20"/>
+        <source>BorderFrameEditor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/borderframeeditor.cpp" line="37"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChartAxisEditor</name>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="14"/>
@@ -555,7 +568,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::BaseDesignIntf</name>
     <message>
         <location filename="../limereport/lrbasedesignintf.cpp" line="1447"/>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1875"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1886"/>
         <source>Lock item geometry</source>
         <translation>Verrouiller la géométrie d&apos;un élément</translation>
     </message>
@@ -603,6 +616,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/lrbasedesignintf.cpp" line="1479"/>
         <source>All borders</source>
         <translation>Toutes les bordures</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1480"/>
+        <source>Edit borders...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1581,34 +1599,39 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemsBordersEditorWidget</name>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="82"/>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="95"/>
         <source>Top line</source>
         <translation>ligne haute</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="88"/>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="101"/>
         <source>Bottom line</source>
         <translation>Ligne basse</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="94"/>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="107"/>
         <source>Left line</source>
         <translation>Ligne gauche</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="100"/>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="113"/>
         <source>Right line</source>
         <translation>Ligne droite</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="108"/>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="121"/>
         <source>No borders</source>
         <translation>Aucune bordure</translation>
     </message>
     <message>
-        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="113"/>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="126"/>
         <source>All borders</source>
         <translation>Toutes les bordures</translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="131"/>
+        <source>Edit border</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1697,37 +1720,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="774"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="780"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="829"/>
+        <source>Edit</source>
+        <translation type="unfinished">Edition</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="776"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="780"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="808"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="785"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="813"/>
         <source>Page is TOC</source>
         <translation>Table de contenus</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="784"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="811"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="789"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="816"/>
         <source>Reset page number</source>
         <translation>Réinitialiser le numéro de page</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="788"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="814"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="793"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="819"/>
         <source>Full page</source>
         <translation>Page entière</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="792"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="817"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="797"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="822"/>
         <source>Set page size to printer</source>
         <translation>Adapterr la taille de la page à l&apos;imprimante</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="796"/>
-        <location filename="../limereport/lrpageitemdesignintf.cpp" line="821"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="801"/>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="826"/>
         <source>Mix with prior page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1745,7 +1774,7 @@ p, li { white-space: pre-wrap; }
         <translation>%1 nom de fichier</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwidget.cpp" line="290"/>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="289"/>
         <source>Report file name</source>
         <translation>Nom du fichier du rapport</translation>
     </message>
@@ -4355,6 +4384,251 @@ Cet aperçu n&apos;est plus valide.</translation>
         <location filename="../limereport/objectinspector/propertyItems/lraxispropitem.cpp" line="34"/>
         <source>Axis</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>lrbordereditor</name>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="191"/>
+        <source>Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="219"/>
+        <source>No style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="224"/>
+        <source>Solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="252"/>
+        <source>Width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="262"/>
+        <location filename="../limereport/items/lrbordereditor.ui" line="279"/>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="327"/>
+        <source>Select...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="269"/>
+        <source>0.25</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="229"/>
+        <source>Dash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="234"/>
+        <source>Dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="239"/>
+        <source>Dash dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="244"/>
+        <source>Dash dot dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="274"/>
+        <source>0.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="284"/>
+        <source>1.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="289"/>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="294"/>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="299"/>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="304"/>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="309"/>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="317"/>
+        <source>Color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="22"/>
+        <source>Presets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="14"/>
+        <source>Edit border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="31"/>
+        <source>No lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="51"/>
+        <source>Outline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="68"/>
+        <source>Border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="81"/>
+        <location filename="../limereport/items/lrbordereditor.ui" line="108"/>
+        <location filename="../limereport/items/lrbordereditor.ui" line="129"/>
+        <location filename="../limereport/items/lrbordereditor.ui" line="156"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>lrpageeditor</name>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="14"/>
+        <source>Page setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="24"/>
+        <source>Paper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="32"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="44"/>
+        <source>Dimension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="50"/>
+        <source>Width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="66"/>
+        <location filename="../limereport/items/lrpageeditor.ui" line="95"/>
+        <location filename="../limereport/items/lrpageeditor.ui" line="165"/>
+        <location filename="../limereport/items/lrpageeditor.ui" line="172"/>
+        <location filename="../limereport/items/lrpageeditor.ui" line="179"/>
+        <location filename="../limereport/items/lrpageeditor.ui" line="193"/>
+        <source> mm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="79"/>
+        <source>Height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="111"/>
+        <source>Orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="117"/>
+        <source>Portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="127"/>
+        <source>Landscape</source>
+        <translation type="unfinished">Paysage</translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="138"/>
+        <source>Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="144"/>
+        <source>Bottom:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="151"/>
+        <source>Top:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="158"/>
+        <source>Right:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="186"/>
+        <source>Left:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="207"/>
+        <source>Drop printer margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="228"/>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="234"/>
+        <source>Height options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="240"/>
+        <source>Endless Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="253"/>
+        <source>Extended Height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="273"/>
+        <source>Full page</source>
+        <translation type="unfinished">Page entière</translation>
     </message>
 </context>
 </TS>

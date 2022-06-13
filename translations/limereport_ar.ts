@@ -9,6 +9,17 @@
     </message>
 </context>
 <context>
+    <name>BorderFrameEditor</name>
+    <message>
+        <source>BorderFrameEditor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChartAxisEditor</name>
     <message>
         <source>Axis editor</source>
@@ -502,6 +513,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Create Vertical Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit borders...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1288,6 +1303,10 @@ p, li { white-space: pre-wrap; }
         <source>All borders</source>
         <translation>محاط بإطار</translation>
     </message>
+    <message>
+        <source>Edit border</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
@@ -1383,6 +1402,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Mix with prior page</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">تحرير</translation>
     </message>
 </context>
 <context>
@@ -3371,6 +3394,196 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <source>Axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>lrbordereditor</name>
+    <message>
+        <source>Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Presets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.25</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dash dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dash dot dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>lrpageeditor</name>
+    <message>
+        <source>Paper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation type="unfinished">الصيغة</translation>
+    </message>
+    <message>
+        <source>Dimension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> mm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Drop printer margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Endless Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extended Height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page setup</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

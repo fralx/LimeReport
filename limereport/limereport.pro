@@ -72,16 +72,16 @@ win32 {
         }
         QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$${DEST_INCLUDE_DIR}\" \"$${DESTDIR}\"
     } else {
-	EXTRA_FILES ~= s,/,\\,g
-	BUILD_DIR ~= s,/,\\,g
-	DEST_DIR = $$DESTDIR/include
-	DEST_DIR ~= s,/,\\,g
-	DEST_INCLUDE_DIR ~= s,/,\\,g
+        EXTRA_FILES ~= s,/,\\,g
+        BUILD_DIR ~= s,/,\\,g
+        DEST_DIR = $$DESTDIR/include
+        DEST_DIR ~= s,/,\\,g
+        DEST_INCLUDE_DIR ~= s,/,\\,g
 
         for(FILE,EXTRA_FILES) {
-    	    QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t)
-	}
-	QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$${DEST_INCLUDE_DIR}\" \"$${DEST_DIR}\"
+            QMAKE_POST_LINK += $$QMAKE_COPY \"$$FILE\" \"$${DEST_INCLUDE_DIR}\" $$escape_expand(\\n\\t)
+        }
+        QMAKE_POST_LINK += $$QMAKE_COPY_DIR \"$${DEST_INCLUDE_DIR}\" \"$${DEST_DIR}\"
     }
 }
 
@@ -139,3 +139,4 @@ CONFIG(build_translations) {
 }
 
 #### EN AUTOMATIC TRANSLATIONS
+

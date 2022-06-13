@@ -29,7 +29,7 @@
  ****************************************************************************/
 #include "lritemsborderseditorwidget.h"
 #include <QAction>
-
+#include "lrbordereditor.h"
 namespace LimeReport{
 
 void ItemsBordersEditorWidget::setItemEvent(BaseDesignIntf* item)
@@ -44,6 +44,7 @@ void ItemsBordersEditorWidget::setItemEvent(BaseDesignIntf* item)
         updateValues((BaseDesignIntf::BorderLines)borders.toInt());
         setEnabled(true);
     }
+    itm = item;
 }
 
 void ItemsBordersEditorWidget::properyChangedEvent(const QString& property, const QVariant& oldValue, const QVariant& newValue)
@@ -74,6 +75,18 @@ void ItemsBordersEditorWidget::allBordesClicked()
 void ItemsBordersEditorWidget::buttonClicked(bool)
 {
 
+}
+
+void ItemsBordersEditorWidget::editBorderClicked()
+{
+    lrbordereditor be;
+    be.loadItem(itm);
+    if(be.exec() == QDialog::Rejected)return;
+    updateValues(be.borderSides());
+    itm->setBorderLinesFlags(be.borderSides());
+    itm->setBorderLineSize(be.border_width());
+    itm->setBorderStyle((LimeReport::BaseDesignIntf::BorderStyle)be.border_style());
+    itm->setBorderColor(be.borderColor());
 }
 
 void ItemsBordersEditorWidget::initEditor()
@@ -114,6 +127,11 @@ void ItemsBordersEditorWidget::initEditor()
     m_allLines->setIcon(QIcon(":/report/images/allLines"));
     connect(m_allLines,SIGNAL(triggered()),this,SLOT(allBordesClicked()));
     addAction(m_allLines);
+    addSeparator();
+    m_BorderEditor = new QAction(tr("Edit border"),this);
+    m_BorderEditor->setIcon(QIcon(":/report/images/allLines"));
+    connect(m_BorderEditor,SIGNAL(triggered()),this,SLOT(editBorderClicked()));
+    addAction(m_BorderEditor);
 
     setEnabled(false);
 

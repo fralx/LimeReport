@@ -34,7 +34,7 @@
 #include <QGraphicsScene>
 #include <QPrinter>
 #include <QMenu>
-
+#include <lrpageeditor.h>
 namespace LimeReport {
 
 bool bandSortBandLessThenByIndex(const BandDesignIntf *c1, const BandDesignIntf *c2){
@@ -770,10 +770,15 @@ void PageItemDesignIntf::initPageSize(const QSizeF& size)
 
 void PageItemDesignIntf::preparePopUpMenu(QMenu &menu)
 {
+
+
     foreach (QAction* action, menu.actions()) {
         if (action->text().compare(tr("Paste")) != 0)
             action->setVisible(false);
     }
+    menu.addSeparator();
+    menu.addAction(tr("Edit"));
+
 
     menu.addSeparator();
 
@@ -820,6 +825,11 @@ void PageItemDesignIntf::processPopUpAction(QAction *action)
 
     if (action->text().compare(tr("Mix with prior page")) == 0){
         page()->setPropertyToSelectedItems("mixWithPriorPage",action->isChecked());
+    }
+    if(action->text() == tr("Edit"))
+    {
+        lrpageeditor pageEdit(NULL,this);
+        pageEdit.exec();
     }
 
 }

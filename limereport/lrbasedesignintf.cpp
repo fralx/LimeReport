@@ -37,7 +37,7 @@
 #include "lrhorizontallayout.h"
 #include "serializators/lrstorageintf.h"
 #include "serializators/lrxmlreader.h"
-
+#include "lrbordereditor.h"
 #include <memory>
 #include <QMetaObject>
 #include <QGraphicsSceneMouseEvent>
@@ -1068,10 +1068,10 @@ void BaseDesignIntf::drawTopLine(QPainter *painter, QRectF rect) const
     painter->setPen(borderPen(TopLine));
     painter->drawLine(rect.x(), rect.y(), rect.width(), rect.y());
     if(borderStyle() == BorderStyle::Doubled)
-    painter->drawLine(rect.x()+6+m_borderLineSize,
-                      rect.y()+6+m_borderLineSize,
-                      rect.width()-6-m_borderLineSize,
-                      rect.y()+6+m_borderLineSize);
+    painter->drawLine(rect.x()+3+m_borderLineSize,
+                      rect.y()+3+m_borderLineSize,
+                      rect.width()-3-m_borderLineSize,
+                      rect.y()+3+m_borderLineSize);
 }
 
 void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
@@ -1082,10 +1082,10 @@ void BaseDesignIntf::drawBootomLine(QPainter *painter, QRectF rect) const
     painter->setPen(borderPen(BottomLine));
     painter->drawLine(rect.x(), rect.height(), rect.width(), rect.height());
     if(borderStyle() == BorderStyle::Doubled)
-    painter->drawLine(rect.x()+6+m_borderLineSize,
-                      rect.height()-6-m_borderLineSize,
-                      rect.width()-6-m_borderLineSize,
-                      rect.height()-6-m_borderLineSize);
+    painter->drawLine(rect.x()+3+m_borderLineSize,
+                      rect.height()-3-m_borderLineSize,
+                      rect.width()-3-m_borderLineSize,
+                      rect.height()-3-m_borderLineSize);
 }
 
 void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
@@ -1096,10 +1096,10 @@ void BaseDesignIntf::drawRightLine(QPainter *painter, QRectF rect) const
 
     painter->drawLine(rect.width(), rect.y(), rect.width(), rect.height());
     if(borderStyle() == BorderStyle::Doubled)
-    painter->drawLine(rect.width()-6 - m_borderLineSize,
-                      rect.y()+6+m_borderLineSize,
-                      rect.width()-6-m_borderLineSize,
-                      rect.height()-6-m_borderLineSize);
+    painter->drawLine(rect.width()-3 - m_borderLineSize,
+                      rect.y()+3+m_borderLineSize,
+                      rect.width()-3-m_borderLineSize,
+                      rect.height()-3-m_borderLineSize);
 }
 
 void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
@@ -1109,10 +1109,10 @@ void BaseDesignIntf::drawLeftLine(QPainter *painter, QRectF rect) const
     painter->setPen(borderPen(LeftLine));
     painter->drawLine(rect.x(), rect.y(), rect.x(), rect.height());
     if(borderStyle() == BorderStyle::Doubled)
-    painter->drawLine(rect.x()+6+m_borderLineSize,
-                      rect.y()+6+m_borderLineSize,
-                      rect.x()+6+m_borderLineSize,
-                      rect.height()-6-m_borderLineSize);
+    painter->drawLine(rect.x()+3+m_borderLineSize,
+                      rect.y()+3+m_borderLineSize,
+                      rect.x()+3+m_borderLineSize,
+                      rect.height()-3-m_borderLineSize);
 }
 
 void BaseDesignIntf::drawDesignModeBorder(QPainter *painter, QRectF rect) const
@@ -1477,6 +1477,7 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     menu.addSeparator();
     QAction* noBordersAction = menu.addAction(QIcon(":/report/images/noLines"), tr("No borders"));
     QAction* allBordersAction = menu.addAction(QIcon(":/report/images/allLines"), tr("All borders"));
+    QAction* editBorderAction = menu.addAction(QIcon(":/report/images/allLines"), tr("Edit borders..."));
     preparePopUpMenu(menu);
     QAction* a = menu.exec(event->screenPos());
     if (a){
@@ -1497,6 +1498,16 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             page->setBorders(BaseDesignIntf::NoLine);
         if (a == allBordersAction)
             page->setBorders(BaseDesignIntf::AllLines);
+        if(a == editBorderAction)
+        {
+            lrbordereditor be;
+            be.loadItem(this);
+            if(be.exec() == QDialog::Rejected)return;
+            setBorderLinesFlags(be.borderSides());
+            setBorderLineSize(be.border_width());
+            setBorderStyle((LimeReport::BaseDesignIntf::BorderStyle)be.border_style());
+            setBorderColor(be.borderColor());
+        }
         if (a == createHLayout)
             page->addHLayout();
         if (a == createVLayout)
