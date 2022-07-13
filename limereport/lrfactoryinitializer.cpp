@@ -165,7 +165,7 @@ void initReportItems(){
 
 #ifdef HAVE_SVG
     DesignElementsFactory::instance().registerCreator(
-        "BarcodeItem",
+        "SVGItem",
         LimeReport::ItemAttribs(QObject::tr("SVG Item"),"Item"),
         createSVGItem
         );
