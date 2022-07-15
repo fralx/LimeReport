@@ -36,7 +36,11 @@ namespace LimeReport {
 DataBrowserTree::DataBrowserTree(QWidget *parent) :
     QTreeWidget(parent){}
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QMimeData *DataBrowserTree::mimeData(const QList<QTreeWidgetItem *> &items) const
+#else
 QMimeData *DataBrowserTree::mimeData(const QList<QTreeWidgetItem *> items) const
+#endif
 {
     QMimeData* result = QTreeWidget::mimeData(items);
     if (items.at(0)->type()==Row){

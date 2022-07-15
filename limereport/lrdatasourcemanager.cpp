@@ -423,8 +423,8 @@ QString DataSourceManager::extractField(QString source)
 }
 
 QString DataSourceManager::replaceVariables(QString value){
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
-    QRegularExpression rx(Const::VARIABLE_RX);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression rx = getVariableRegEx();
     QRegularExpressionMatchIterator iter = rx.globalMatch(value);
     qsizetype pos = 0;
     QString result;
@@ -468,8 +468,8 @@ QString DataSourceManager::replaceVariables(QString value){
 
 QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
-    QRegularExpression rx(Const::VARIABLE_RX);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression rx = getVariableRegEx();
     int curentAliasIndex = 0;
     if (query.contains(rx)){
         int pos = -1;
@@ -553,9 +553,8 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
 
 QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
-
-    QRegularExpression rx(Const::FIELD_RX);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression rx = getFieldRegEx();
     int curentAliasIndex = 0;
     if (query.contains(rx)){
         int pos = -1;
@@ -1498,7 +1497,7 @@ void DataSourceManager::invalidateQueriesContainsVariable(const QString& variabl
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
                     QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
-                    QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+                    QRegularExpression rx = getNamedVariableRegEx(variableName);
 #endif
                     if  (holder->queryText().contains(rx)){
                         holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);

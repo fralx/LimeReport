@@ -827,7 +827,7 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
-        QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+        QRegularExpression rx = getNamedVariableRegEx(variableName);
 #endif
         if (context.contains(rx) && pass == FirstPass){
             backupContent();

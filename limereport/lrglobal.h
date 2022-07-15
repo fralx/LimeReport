@@ -157,6 +157,16 @@ namespace Const{
 #else
     typedef QStyleOptionViewItem StyleOptionViewItem;
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression getRegEx(QString expression);
+    QRegularExpression getVariableRegEx();
+    QRegularExpression getFieldRegEx();
+    QRegularExpression getScriptRegEx();
+    QRegularExpression getGroupFunctionRegEx(QString functionName);
+    QRegularExpression getGroupFunctionNameRegEx(QString functionName);
+    QRegularExpression getNamedVariableRegEx(QString variableName);
+#endif
+
 
     class Enums
     {
