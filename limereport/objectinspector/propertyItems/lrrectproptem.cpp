@@ -85,6 +85,17 @@ LimeReport::RectPropItem::RectPropItem(QObject *object, ObjectsList* objects, co
 
 QString LimeReport::RectPropItem::displayValue() const
 {
+    //TODO: Migrate to QMetaType
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    switch(propertyValue().typeId()){
+        case QMetaType::QRect:
+            return rectToString(propertyValue().toRect());
+        case QMetaType::QRectF:
+            return rectToString(propertyValue().toRect());
+        default :
+            return ObjectPropItem::displayValue();
+    }
+#else
     switch(propertyValue().type()){
         case QVariant::Rect:
             return rectToString(propertyValue().toRect());
@@ -93,6 +104,7 @@ QString LimeReport::RectPropItem::displayValue() const
         default :
             return ObjectPropItem::displayValue();
     }
+#endif
 }
 
 LimeReport::RectUnitPropItem::RectUnitPropItem(QObject *object, ObjectsList* objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool /*readonly*/):

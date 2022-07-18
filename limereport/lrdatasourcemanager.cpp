@@ -392,7 +392,13 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         }
 
         query.exec();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+        model->setQuery(std::move(query));
+#else
         model->setQuery(query);
+#endif
+
         m_lastError = model->lastError().text();
         putError(m_lastError);
         if (model->query().isActive())
@@ -443,7 +449,6 @@ QString DataSourceManager::replaceVariables(QString value){
     }
     result += value.mid(pos);
     return result;
-    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::VARIABLE_RX);
 
@@ -508,7 +513,6 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
             match = rx.match(query);
         }
     }
-    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::VARIABLE_RX);
     int curentAliasIndex = 0;
@@ -582,7 +586,6 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
             match = rx.match(query);
         }
     }
-    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::FIELD_RX);
     if (query.contains(rx)){

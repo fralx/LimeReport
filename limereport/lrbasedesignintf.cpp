@@ -1349,17 +1349,26 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
     QAction* lockGeometryAction = menu.addAction(tr("Lock item geometry"));
     lockGeometryAction->setCheckable(true);
-    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+
     lockGeometryAction->setChecked(isGeometryLocked());
     menu.addSeparator();
 
     QAction* copyAction = menu.addAction(QIcon(":/report/images/copy"), tr("Copy"));
-    copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
-    QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));
-    cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));    
     QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste"), tr("Paste"));
-    pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
     pasteAction->setEnabled(false);
+
+#if QT_VERSION >=QT_VERSION_CHECK(5,0,0)
+    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
+    copyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_C));
+    cutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_X));
+    pasteAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_V));
+#else
+    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
+    cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
+#endif
 
     QClipboard *clipboard = QApplication::clipboard();
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());

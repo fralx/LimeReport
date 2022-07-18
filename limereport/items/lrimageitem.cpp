@@ -61,8 +61,13 @@ BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *par
 }
 
 void ImageItem::loadPictureFromVariant(QVariant& data){
+    //TODO: Migrate to QMetaType
     if (data.isValid()){
-        if (data.type()==QVariant::Image){
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+        if (data.typeId() == QMetaType::QImage){
+#else
+        if (data.type() == QVariant::Image){
+#endif
           m_picture =  data.value<QImage>();
         } else {
             switch (m_format) {
@@ -178,11 +183,22 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
            m_resourcePath = expandDataFields(m_resourcePath, NoEscapeSymbols, dataManager);
            m_picture = QImage(m_resourcePath);
        } else if (!m_variable.isEmpty()){
+            //TODO: Migrate to QMetaType
            QVariant data = dataManager->variable(m_variable);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+           if (data.typeId() == QMetaType::QString){
+#else
            if (data.type() == QVariant::String){
+#endif
                 m_picture = QImage(data.toString());
-           } else if (data.type() == QVariant::Image){
-                loadPictureFromVariant(data);
+           } else {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+               if (data.typeId() == QMetaType::QImage){
+#else
+               if (data.type() == QVariant::Image){
+#endif
+                    loadPictureFromVariant(data);
+               }
            }
        }
    }

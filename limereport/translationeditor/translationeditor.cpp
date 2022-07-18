@@ -29,7 +29,11 @@ TranslationEditor::TranslationEditor(QWidget *parent) :
     ui->tbStrings->setHorizontalHeaderItem(1,new QTableWidgetItem(tr("Report Item")));
     ui->tbStrings->setHorizontalHeaderItem(2,new QTableWidgetItem(tr("Property")));
     ui->tbStrings->setHorizontalHeaderItem(3,new QTableWidgetItem(tr("Source text")));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return), this, SLOT(slotItemChecked()));
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    m_clrReturn = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return), this, SLOT(slotItemChecked()));
+#else
+    m_clrReturn = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return), this, SLOT(slotItemChecked()));
+#endif
     //ui->tbStrings->setSortingEnabled(true);
 
 }
@@ -50,6 +54,7 @@ void TranslationEditor::setReportEngine(ITranslationContainer* translationContai
 TranslationEditor::~TranslationEditor()
 {
     delete ui;
+    delete m_clrReturn;
 }
 
 QLocale::Language TranslationEditor::getLanguageByName(const QString& languageName){

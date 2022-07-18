@@ -193,13 +193,23 @@ bool XMLWriter::enumOrFlag(QString name, QObject *item)
 bool XMLWriter::isCollection(QString propertyName, QObject* item)
 {
     QMetaProperty prop=item->metaObject()->property(item->metaObject()->indexOfProperty(propertyName.toLatin1()));
-    return QMetaType::type(prop.typeName())==COLLECTION_TYPE_ID;
+    //TODO: Migrate to QMetaType
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QMetaType::fromName(prop.typeName()).id() == COLLECTION_TYPE_ID;
+#else
+    return QMetaType::type(prop.typeName()) == COLLECTION_TYPE_ID;
+#endif
 }
 
 bool XMLWriter::isTranslation(QString propertyName, QObject* item)
 {
     QMetaProperty prop=item->metaObject()->property(item->metaObject()->indexOfProperty(propertyName.toLatin1()));
-    return QMetaType::type(prop.typeName())==TRANSLATION_TYPE_ID;
+    //TODO: Migrate to QMetaType
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QMetaType::fromName(prop.typeName()).id() == TRANSLATION_TYPE_ID;
+#else
+    return QMetaType::type(prop.typeName()) == TRANSLATION_TYPE_ID;
+#endif
 }
 
 void XMLWriter::saveCollection(QString propertyName, QObject *item, QDomElement *node)
@@ -254,7 +264,13 @@ void XMLWriter::saveTranslation(QString propertyName, QObject* item, QDomElement
 bool XMLWriter::isQObject(QString propertyName, QObject *item)
 {
     QMetaProperty prop=item->metaObject()->property(item->metaObject()->indexOfProperty(propertyName.toLatin1()));
-    return QMetaType::type(prop.typeName())==QMetaType::QObjectStar;
+    //TODO: Migrate to QMetaType
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QMetaType::fromName(prop.typeName()).id() == QMetaType::QObjectStar;
+#else
+    return QMetaType::type(prop.typeName()) == QMetaType::QObjectStar;
+#endif
+
 }
 
 bool XMLWriter::replaceNode(QDomElement node, QObject* item)

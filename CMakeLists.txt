@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 
 set(LIMEREPORT_VERSION_MAJOR 1)
 set(LIMEREPORT_VERSION_MINOR 6)
-set(LIMEREPORT_VERSION_RELEASE 7)
+set(LIMEREPORT_VERSION_RELEASE 8)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
@@ -38,7 +38,7 @@ endif()
 
 add_subdirectory(3rdparty)
 add_subdirectory(designer EXCLUDE_FROM_ALL)
-add_subdirectory(demo_r1 EXCLUDE_FROM_ALL)
+add_subdirectory(demo_r1  EXCLUDE_FROM_ALL)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)

@@ -519,17 +519,32 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                         fieldValue="\"\"";
                     } else {
                         fieldValue = escapeSimbols(varValue.toString());
-                        switch (dataManager()->fieldData(field).type()) {
-                        case QVariant::Char:
-                        case QVariant::String:
-                        case QVariant::StringList:
-                        case QVariant::Date:
-                        case QVariant::DateTime:
-                            fieldValue = "\""+fieldValue+"\"";
-                            break;
-                        default:
-                            break;
+                        //TODO: Migrate to QMetaType
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        switch (dataManager()->fieldData(field).typeId()) {
+                            case QMetaType::QChar:
+                            case QMetaType::QString:
+                            case QMetaType::QStringList:
+                            case QMetaType::QDate:
+                            case QMetaType::QDateTime:
+                                fieldValue = "\""+fieldValue+"\"";
+                                break;
+                            default:
+                                break;
                         }
+#else
+                        switch (dataManager()->fieldData(field).type()) {
+                            case QVariant::Char:
+                            case QVariant::String:
+                            case QVariant::StringList:
+                            case QVariant::Date:
+                            case QVariant::DateTime:
+                                fieldValue = "\""+fieldValue+"\"";
+                                break;
+                            default:
+                                break;
+                        }
+#endif
                     }
                 } else {
                     if (expandType == ReplaceHTMLSymbols)

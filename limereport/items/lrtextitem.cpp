@@ -487,6 +487,7 @@ QString TextItem::formatFieldValue()
         }
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     switch (value.type()) {
         case QVariant::Date:
         case QVariant::DateTime:
@@ -496,6 +497,17 @@ QString TextItem::formatFieldValue()
         default:
             return value.toString();
     }
+#else
+    switch (value.typeId()) {
+        case QMetaType::QDate:
+        case QMetaType::QDateTime:
+            return formatDateTime(value.toDateTime());
+        case QMetaType::Double:
+            return formatNumber(value.toDouble());
+        default:
+            return value.toString();
+    }
+#endif
 
 }
 
