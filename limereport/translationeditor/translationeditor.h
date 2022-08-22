@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLocale>
 #include <QTreeWidgetItem>
+#include <QShortcut>
 #include "lrreporttranslation.h"
 
 namespace LimeReport {
