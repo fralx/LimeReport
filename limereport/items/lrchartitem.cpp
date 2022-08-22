@@ -8,6 +8,7 @@
 #include "lrpagedesignintf.h"
 #include "lrreportengine_p.h"
 #include "lrdatadesignintf.h"
+#include "lrchartaxiseditor.h"
 
 #include "charts/lrpiechart.h"
 #include "charts/lrverticalbarchart.h"
@@ -141,13 +142,18 @@ void SeriesItem::setPreferredType(const SeriesItemPreferredType& type)
 
 ChartItem::ChartItem(QObject *owner, QGraphicsItem *parent)
     : ItemDesignIntf(xmlTag, owner, parent), m_legendBorder(true),
-      m_legendAlign(LegendAlignCenter), m_titleAlign(TitleAlignCenter),
+      m_legendAlign(LegendAlignRightCenter), m_titleAlign(TitleAlignCenter),
       m_chartType(Pie), m_labelsField(""), m_isEmpty(true),
       m_showLegend(true), m_drawPoints(true), m_seriesLineWidth(4),
-      m_horizontalAxisOnTop(false), m_gridChartLines(AllLines)
+      m_horizontalAxisOnTop(false), m_gridChartLines(AllLines),
+      m_legendStyle(LegendPoints)
 {
+    m_xAxisData = new AxisData(AxisData::XAxis, this);
+    m_xAxisData->setReverseDirection(true);
+    m_yAxisData = new AxisData(AxisData::YAxis, this);
     m_labels<<"First"<<"Second"<<"Thrid";
     m_chart = new PieChart(this);
+    m_chart->setTitleFont(font());
 }
 
 ChartItem::~ChartItem()
@@ -182,20 +188,36 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setRenderHint(QPainter::Antialiasing,true);
     painter->setRenderHint(QPainter::TextAntialiasing,true);
     qreal borderMargin = (rect().height()*0.01>10)?(10):(rect().height()*0.01);
-    qreal maxTitleHeight = rect().height()*0.2;
+    qreal maxTitleHeight = rect().height()*0.5;
 
     QFont tmpFont = painter->font();
 
-    qreal titleOffset = !m_title.isEmpty()?(((painter->fontMetrics().height()+borderMargin*2)<maxTitleHeight)?
-                        (painter->fontMetrics().height()+borderMargin*2):
-                        (maxTitleHeight)):0;
+    qreal titleOffset = 0;
+    if (!m_title.isEmpty()) {
+        QFontMetrics fm(titleFont());
+        const qreal titleHeight = fm.boundingRect(rect().toRect(), Qt::TextWordWrap,chartTitle()).height() + borderMargin * 2;
+        titleOffset = std::min(titleHeight, maxTitleHeight);
+    }
 
-    QRectF titleRect = QRectF(borderMargin,borderMargin,rect().width()-borderMargin*2,titleOffset);
-    QRectF legendRect = QRectF(0,0,0,0);
-    if (m_showLegend)
+    const QRectF titleRect = QRectF(borderMargin,borderMargin,rect().width()-borderMargin*2,titleOffset);
+    QRectF legendRect = QRectF(0, 0, 0, 0);
+    QRectF diagramRect = rect().adjusted(borderMargin, titleOffset + borderMargin,
+                                         -(borderMargin * 2), -borderMargin);
+    if (m_showLegend) {
         legendRect = m_chart->calcChartLegendRect(painter->font(), rect(), false, borderMargin, titleOffset);
-    QRectF diagramRect = rect().adjusted(borderMargin,titleOffset+borderMargin,
-                                         -(legendRect.width()+borderMargin*2),-borderMargin);
+        switch(legendAlign()) {
+        case LegendAlignRightTop:
+        case LegendAlignRightBottom:
+        case LegendAlignRightCenter:
+            diagramRect.adjust(0, 0, -legendRect.width(), 0);
+            break;
+        case LegendAlignBottomLeft:
+        case LegendAlignBottomCenter:
+        case LegendAlignBottomRight:
+            diagramRect.adjust(0, 0, 0, -(legendRect.height() + borderMargin * 2));
+            break;
+        }
+    }
 
     paintChartTitle(painter, titleRect);
     if (m_showLegend)
@@ -204,6 +226,47 @@ void ChartItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->restore();
     ItemDesignIntf::paint(painter,option,widget);
+}
+
+QObject *ChartItem::xAxisSettings()
+{
+    return m_xAxisData;
+}
+
+void ChartItem::setYAxisSettings(QObject *axis)
+{
+    AxisData *data = dynamic_cast<AxisData*>(axis);
+    if (data) {
+        m_yAxisData->copy(data);
+    }
+}
+
+QObject *ChartItem::yAxisSettings()
+{
+    return m_yAxisData;
+}
+
+void ChartItem::setXAxisSettings(QObject *axis)
+{
+    AxisData *data = static_cast<AxisData*>(axis);
+    if (data) {
+        m_xAxisData->copy(data);
+    }
+}
+
+AxisData *ChartItem::xAxisData()
+{
+    return m_xAxisData;
+}
+
+AxisData *ChartItem::yAxisData()
+{
+    return m_yAxisData;
+}
+
+void ChartItem::showAxisEditorDialog(bool isXAxis)
+{
+    showDialog(new ChartAxisEditor(this, page(), isXAxis, settings()));
 }
 
 BaseDesignIntf *ChartItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
@@ -271,10 +334,7 @@ void ChartItem::fillLabels(IDataSource *dataSource)
 
 QWidget *ChartItem::defaultEditor()
 {
-    QSettings* l_settings = (page()->settings() != 0) ?
-                                 page()->settings() :
-                                 (page()->reportEditor()!=0) ? page()->reportEditor()->settings() : 0;
-    QWidget* editor = new ChartItemEditor(this, page(), l_settings);
+    QWidget* editor = new ChartItemEditor(this, page(), settings());
     editor->setAttribute(Qt::WA_DeleteOnClose);
     return editor;
 }
@@ -282,6 +342,18 @@ QWidget *ChartItem::defaultEditor()
 bool ChartItem::isNeedUpdateSize(RenderPass pass) const
 {
     return  pass == FirstPass && m_isEmpty;
+}
+
+QSettings *ChartItem::settings()
+{
+    PageDesignIntf *page = this->page();
+    if (page->settings()) {
+        return page->settings();
+    }
+    if (page->reportEditor()) {
+        return page->reportEditor()->settings();
+    }
+    return 0;
 }
 
 bool ChartItem::showLegend() const
@@ -329,6 +401,7 @@ void ChartItem::setChartType(const ChartType &chartType)
     if (m_chartType != chartType){
         ChartType oldValue = m_chartType;
         m_chartType = chartType;
+        QFont oldTitleFont = m_chart->titleFont();
         delete m_chart;
         switch (m_chartType) {
         case Pie:
@@ -347,6 +420,7 @@ void ChartItem::setChartType(const ChartType &chartType)
             m_chart = new GridLinesChart(this);
             break;
         }
+        m_chart->setTitleFont(oldTitleFont);
         notify("chartType",oldValue,m_chartType);
         update();
     }
@@ -365,13 +439,16 @@ void ChartItem::setDatasource(const QString &datasource)
 void ChartItem::paintChartTitle(QPainter *painter, QRectF titleRect)
 {
     painter->save();
-    QFont tmpFont = painter->font();
-    QFontMetrics fm(tmpFont);
-    while ((fm.height()>titleRect.height() || fm.boundingRect(m_title).width()>titleRect.width())
-           && tmpFont.pixelSize()>1) {
+    QFont tmpFont = transformToSceneFont(titleFont());
+    QRect titleBoundingRect = QFontMetrics(tmpFont).boundingRect(rect().toRect(), Qt::TextWordWrap, chartTitle());
+
+    while ((titleBoundingRect.height() > titleRect.height() || titleBoundingRect.width() > titleRect.width())
+           && tmpFont.pixelSize() > 1)
+    {
         tmpFont.setPixelSize(tmpFont.pixelSize()-1);
-        fm = QFontMetrics(tmpFont);
+        titleBoundingRect = QFontMetrics(tmpFont).boundingRect(rect().toRect(), Qt::TextWordWrap, chartTitle());
     }
+
     painter->setFont(tmpFont);
     Qt::AlignmentFlag align = Qt::AlignCenter;
     switch (m_titleAlign) {
@@ -385,7 +462,7 @@ void ChartItem::paintChartTitle(QPainter *painter, QRectF titleRect)
         align = Qt::AlignRight;
         break;
     }
-    painter->drawText(titleRect, align, m_title);
+    painter->drawText(titleRect, align | Qt::TextWordWrap, m_title);
     painter->restore();
 }
 
@@ -403,6 +480,22 @@ void ChartItem::setLegendAlign(const LegendAlign &legendAlign)
         notify("legendAlign",oldValue,m_legendAlign);
         update();
     }
+}
+
+ChartItem::LegendStyle ChartItem::legendStyle() const
+{
+    return m_legendStyle;
+}
+
+void ChartItem::setLegendStyle(const LegendStyle &legendStyle)
+{
+    if (m_legendStyle == legendStyle) {
+        return;
+    }
+    LegendStyle oldValue = m_legendStyle;
+    m_legendStyle = legendStyle;
+    notify("legendStyle", oldValue, m_legendStyle);
+    update();
 }
 
 bool ChartItem::drawLegendBorder() const
@@ -527,6 +620,33 @@ void ChartItem::setGridChartLines(GridChartLines flags)
     notify("gridChartLines",QVariant(oldValue),QVariant(flags));
 }
 
+void ChartItem::setCharItemFont(QFont value)
+{
+    if (font() == value) {
+        return;
+    }
+    QFont oldValue = font();
+    setFont(value);
+    if (!isLoading()) update();
+    notify("font",oldValue,value);
+}
+
+QFont ChartItem::titleFont() const
+{
+    return m_chart->titleFont();
+}
+
+void ChartItem::setTitleFont(QFont value)
+{
+    if (m_chart->titleFont() == value){
+        return;
+    }
+    QFont oldValue = value;
+    m_chart->setTitleFont(value);
+    if (!isLoading()) update();
+    notify("titleFont", oldValue, value);
+}
+
 AbstractChart::AbstractChart(ChartItem *chartItem)
     :m_chartItem(chartItem)
 {
@@ -535,54 +655,110 @@ AbstractChart::AbstractChart(ChartItem *chartItem)
 
 QRectF AbstractChart::calcChartLegendRect(const QFont &font, const QRectF &parentRect, bool takeAllRect, qreal borderMargin, qreal titleOffset)
 {
-    QSizeF legendSize = calcChartLegendSize(font);
+    const QSizeF legendSize = calcChartLegendSize(font, parentRect.width() * 0.9);
     qreal legendTopMargin = 0;
     qreal legendBottomMargin = 0;
+    qreal legendLeftMargin = 0;
 
+    bool isVertical = true;
     switch (m_chartItem->legendAlign()) {
-    case ChartItem::LegendAlignTop:
-        legendTopMargin = titleOffset+borderMargin;
-        legendBottomMargin = parentRect.height()-(legendSize.height()+titleOffset);
+    case ChartItem::LegendAlignRightTop:
+        legendTopMargin = titleOffset + borderMargin;
+        legendBottomMargin = parentRect.height() - (legendSize.height() + titleOffset);
+        isVertical = true;
         break;
-    case ChartItem::LegendAlignCenter:
-        legendTopMargin = titleOffset+(parentRect.height()-titleOffset-legendSize.height())/2;
-        legendBottomMargin = (parentRect.height()-titleOffset-legendSize.height())/2;
+    case ChartItem::LegendAlignRightCenter:
+        legendTopMargin = titleOffset + (parentRect.height() - titleOffset - legendSize.height()) / 2;
+        legendBottomMargin = (parentRect.height() - titleOffset - legendSize.height()) / 2;
+        isVertical = true;
         break;
-    case ChartItem::LegendAlignBottom:
-            legendTopMargin = parentRect.height()-(legendSize.height()+titleOffset);
-            legendBottomMargin = borderMargin;
+    case ChartItem::LegendAlignRightBottom:
+        legendTopMargin = parentRect.height() - (legendSize.height() + titleOffset);
+        legendBottomMargin = borderMargin;
+        isVertical = true;
+        break;
+    case ChartItem::LegendAlignBottomLeft:
+        legendLeftMargin = QFontMetrics(font).height() / 2;
+        isVertical = false;
+        break;
+    case ChartItem::LegendAlignBottomCenter:
+        legendLeftMargin = (parentRect.width() - legendSize.width()) / 2;
+        isVertical = false;
+        break;
+    case ChartItem::LegendAlignBottomRight:
+        legendLeftMargin = parentRect.width() - legendSize.width() - QFontMetrics(font).height() / 2;
+        isVertical = false;
         break;
     }
 
-    qreal rightOffset = !takeAllRect?((legendSize.width()>parentRect.width()/2-borderMargin)?
-                (parentRect.width()/2):
-                (parentRect.width()-legendSize.width())):0;
+    if (isVertical) {
+        qreal rightOffset = !takeAllRect ? ((legendSize.width() > parentRect.width() / 2 - borderMargin) ?
+                                                (parentRect.width() / 2) :
+                                                (parentRect.width() - legendSize.width())) : 0;
+        return parentRect.adjusted(
+            rightOffset,
+            (legendSize.height()>(parentRect.height()-titleOffset))?(titleOffset):(legendTopMargin),
+            -borderMargin,
+            (legendSize.height()>(parentRect.height()-titleOffset))?(0):(-legendBottomMargin)
+            );
+    } else {
+        const qreal verticalOffset = borderMargin * 2;
+        return parentRect.adjusted(
+            legendLeftMargin,
+            (parentRect.height()) - (legendSize.height() + verticalOffset),
+            -(parentRect.width() - (legendSize.width() + legendLeftMargin)),
+            -verticalOffset
+            );
+    }
+}
 
-    QRectF legendRect = parentRect.adjusted(
-                    rightOffset,
-                    (legendSize.height()>(parentRect.height()-titleOffset))?(titleOffset):(legendTopMargin),
-                    -borderMargin,
-                    (legendSize.height()>(parentRect.height()-titleOffset))?(0):(-legendBottomMargin)
-                );
 
-    return legendRect;
+QFont AbstractChart::titleFont()
+{
+    return m_titleFont;
+}
+
+void AbstractChart::setTitleFont(const QFont &value)
+{
+    m_titleFont = value;
 }
 
 void AbstractChart::prepareLegendToPaint(QRectF &legendRect, QPainter *painter)
 {
     QFont tmpFont = painter->font();
-    QSizeF legendSize = calcChartLegendSize(tmpFont);
-
-    if ((legendSize.height()>legendRect.height() || legendSize.width()>legendRect.width())){
-        while ( (legendSize.height()>legendRect.height() || legendSize.width()>legendRect.width())
-                && tmpFont.pixelSize()>1)
+    switch(m_chartItem->legendAlign()) {
+    case ChartItem::LegendAlignBottomLeft:
+    case ChartItem::LegendAlignBottomCenter:
+    case ChartItem::LegendAlignBottomRight: {
+        const qreal maxWidth = legendRect.width() * 0.95;
+        qreal legendWidth = std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0);
+        if (legendWidth < maxWidth) {
+            return;
+        }
+        while ( (legendWidth > maxWidth) && tmpFont.pixelSize() > 1) {
+            tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+            calcChartLegendSize(tmpFont, legendRect.width());
+            legendWidth = std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0);
+        }
+        painter->setFont(tmpFont);
+        break;
+    }
+    case ChartItem::LegendAlignRightTop:
+    case ChartItem::LegendAlignRightCenter:
+    case ChartItem::LegendAlignRightBottom:
+        QSizeF legendSize = calcChartLegendSize(tmpFont, legendRect.width());
+        if ((legendSize.height() <= legendRect.height() && legendSize.width() <= legendRect.width())) {
+            return;
+        }
+        while ((legendSize.height() > legendRect.height() || legendSize.width() > legendRect.width())
+               && tmpFont.pixelSize() > 1)
         {
-            tmpFont.setPixelSize(tmpFont.pixelSize()-1);
-            painter->setFont(tmpFont);
-            legendSize = calcChartLegendSize(tmpFont);
+            tmpFont.setPixelSize(tmpFont.pixelSize() - 1);
+            legendSize = calcChartLegendSize(tmpFont, legendRect.width());
         }
         painter->setFont(tmpFont);
         legendRect = calcChartLegendRect(tmpFont, legendRect, true, 0, 0);
+        break;
     }
 }
 
@@ -602,56 +778,58 @@ AbstractSeriesChart::AbstractSeriesChart(ChartItem *chartItem)
 
 qreal AbstractSeriesChart::maxValue()
 {
-    return m_yAxisData.maxValue();
+    return m_chartItem->yAxisData()->maxValue();
 }
 
 qreal AbstractSeriesChart::minValue()
 {
-    return m_yAxisData.minValue();
+    return m_chartItem->yAxisData()->minValue();
 }
 
-AxisData AbstractSeriesChart::yAxisData()
+AxisData &AbstractSeriesChart::xAxisData() const
 {
-    return m_yAxisData;
+    return *m_chartItem->xAxisData();
 }
 
-AxisData AbstractSeriesChart::xAxisData()
+AxisData &AbstractSeriesChart::yAxisData() const
 {
-    return m_xAxisData;
+    return *m_chartItem->yAxisData();
 }
 
 void AbstractSeriesChart::updateMinAndMaxValues()
 {
-    qreal maxYValue = 0;
-    qreal minYValue = 0;
-    qreal maxXValue = 0;
-    qreal minXValue = 0;
     if (m_chartItem->itemMode() == DesignMode) {
-        maxYValue = 40;
-        maxXValue = 40;
-    } else {
-        for (SeriesItem* series : m_chartItem->series()){
-            for (qreal value : series->data()->values()){
-                minYValue = std::min(minYValue, value);
-                maxYValue = std::max(maxYValue, value);
-            }
-            if (series->data()->xAxisValues().isEmpty()) {
-                // Grid plot starts from 0 on x axis so x range must be decresed by 1
-                const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
-                const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
-                minXValue = std::min(0.0, minXValue);
-                maxXValue = std::max(valuesCount, maxXValue);
-            } else {
-                for (qreal value : series->data()->xAxisValues()){
-                    minXValue = std::min(value, minXValue);
-                    maxXValue = std::max(value, maxXValue);
-                }
+        m_chartItem->xAxisData()->updateForDesignMode();
+        m_chartItem->yAxisData()->updateForDesignMode();
+        return;
+    }
+
+    qreal maxYValue = 0;
+    qreal minYValue = std::numeric_limits<qreal>::max();
+    qreal maxXValue = 0;
+    qreal minXValue = std::numeric_limits<qreal>::max();
+
+    for (SeriesItem* series : m_chartItem->series()){
+        for (qreal value : series->data()->values()){
+            minYValue = std::min(minYValue, value);
+            maxYValue = std::max(maxYValue, value);
+        }
+        if (series->data()->xAxisValues().isEmpty()) {
+            // Grid plot starts from 0 on x axis so x range must be decresed by 1
+            const bool startingFromZero = m_chartItem->chartType() == ChartItem::GridLines;
+            const qreal valuesCount = this->valuesCount() - (startingFromZero ? 1 : 0);
+            minXValue = std::min(0.0, minXValue);
+            maxXValue = std::max(valuesCount, maxXValue);
+        } else {
+            for (qreal value : series->data()->xAxisValues()){
+                minXValue = std::min(value, minXValue);
+                maxXValue = std::max(value, maxXValue);
             }
         }
     }
 
-    m_yAxisData = AxisData(minYValue, maxYValue);
-    m_xAxisData = AxisData(minXValue, maxXValue);
+    m_chartItem->xAxisData()->update(minXValue, maxXValue);
+    m_chartItem->yAxisData()->update(minYValue, maxYValue);
 }
 
 qreal AbstractSeriesChart::hPadding(QRectF chartRect)
@@ -676,28 +854,54 @@ int AbstractSeriesChart::seriesCount()
     return m_chartItem->series().count();
 }
 
-QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont &font)
+QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont &font, const qreal maxWidth)
 {
     QFontMetrics fm(font);
 
-    qreal cw = 0;
-    qreal maxWidth = 0;
-
-    if (!m_chartItem->series().isEmpty()){
-        foreach(SeriesItem* series, m_chartItem->series()){
-            cw += fm.height();
-            if (maxWidth<fm.boundingRect(series->name()).width())
-                maxWidth = fm.boundingRect(series->name()).width()+10;
+    switch(m_chartItem->legendAlign()) {
+    case ChartItem::LegendAlignBottomLeft:
+    case ChartItem::LegendAlignBottomCenter:
+    case ChartItem::LegendAlignBottomRight: {
+        const qreal seriesCount = m_chartItem->series().isEmpty() ? m_designLabels.size() : m_chartItem->series().size();
+        const qreal indicatorWidth = fm.height() * 1.5;
+        m_legendColumnWidths.clear();
+        while (!calculateLegendColumnWidths(indicatorWidth, maxWidth, fm)) {
+            // Nothing to do here
         }
-    } else {
-        foreach(QString label, m_designLabels){
-            cw += fm.height();
-            if (maxWidth<fm.boundingRect(label).width())
-                maxWidth = fm.boundingRect(label).width()+10;
+        if (m_legendColumnWidths.isEmpty()) {
+            m_legendColumnWidths.append(0);
         }
+        const qreal columnCount = m_legendColumnWidths.size();
+        const qreal rowCount = std::ceil(seriesCount / columnCount);
+        QSizeF legendSize(std::accumulate(m_legendColumnWidths.cbegin(), m_legendColumnWidths.cend(), 0.0) + fm.height() / 2,
+                          (rowCount + 1) * fm.height());
+        if (legendSize.width() > maxWidth) {
+            legendSize.setWidth(maxWidth);
+        }
+        return legendSize;
     }
-    cw += fm.height();
-    return  QSizeF(maxWidth+fm.height()*2,cw);
+    default: {
+        qreal cw = 0;
+        qreal maxWidth = 0;
+
+        if (m_chartItem->series().isEmpty()) {
+            foreach(QString label, m_designLabels){
+                cw += fm.height();
+                if (maxWidth<fm.boundingRect(label).width())
+                    maxWidth = fm.boundingRect(label).width()+10;
+            }
+        } else {
+            foreach(SeriesItem* series, m_chartItem->series()){
+                cw += fm.height();
+                if (maxWidth<fm.boundingRect(series->name()).width())
+                    maxWidth = fm.boundingRect(series->name()).width()+10;
+            }
+        }
+        cw += fm.height();
+        return QSizeF(maxWidth+fm.height()*2,cw);
+    }
+    }
+    return QSizeF();
 }
 
 bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect)
@@ -829,7 +1033,7 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
     painter->save();
 
     const AxisData &yAxisData = this->yAxisData();
-    const AxisData &xAxisData = this->xAxisData();
+    AxisData &xAxisData = this->xAxisData();
 
     painter->setRenderHint(QPainter::Antialiasing,false);
 
@@ -874,20 +1078,19 @@ void AbstractSeriesChart::paintGrid(QPainter *painter, QRectF gridRect)
         if (m_chartItem->horizontalAxisOnTop()) {
             painter->drawLine(x, gridRect.top() - gridOffset.height(),
                               x, (drawFullLine ? gridRect.bottom() : gridRect.top()));
-            painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
+            painter->drawText(QRectF(x - painter->fontMetrics().boundingRect(text).width() / 2,
                                      gridRect.top() - (fontHeight + gridOffset.height()),
                                      hStep, fontHeight),
                               text);
         } else {
             painter->drawLine(x, gridRect.bottom() + gridOffset.height(),
                               x, (drawFullLine ? gridRect.top() : gridRect.bottom()));
-            painter->drawText(QRectF(x - painter->fontMetrics().width(text) / 2,
+            painter->drawText(QRectF(x - painter->fontMetrics().boundingRect(text).width() / 2,
                                      gridRect.bottom() + halfFontHeight * 0 + gridOffset.height(),
                                      hStep, fontHeight),
                               text);
         }
     }
-
     painter->restore();
 }
 
@@ -973,7 +1176,12 @@ QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
 {
     const qreal min = axisData.rangeMin();
     const qreal step = axisData.step();
-    qreal value = min + i * step;
+    qreal value = 0;
+    if (axisData.type() == AxisData::YAxis && axisData.reverseDirection() && min >= 0) {
+        value = min + (axisData.segmentCount() - i) * step;
+    } else {
+        value = min + i * step;
+    }
     if (std::floor(step) == step) {
         return QString::number(value);
     }
@@ -981,48 +1189,128 @@ QString AbstractSeriesChart::axisLabel(int i, const AxisData &axisData)
     return QString::number(round(value * 100.0) / 100.0);
 }
 
+bool AbstractSeriesChart::calculateLegendColumnWidths(qreal indicatorWidth, qreal maxWidth, const QFontMetrics &fm)
+{
+    // This method is called in the loop, because to handle case when we get
+    // 3 small series names in first row and then in second row small name and long name.
+    // In this case we need to set maximum column count to 2 and iterate from the start to recalculate
+    // all the sizes
+    qreal currentRowWidth = 0;
+    int currentColumn = 0;
+    // During first iteration it is updated when moving to second row
+    // After first iteration some column width are already calculated and are set as max,
+    // because all rows need to have same column count (except last one)
+    int maxColumnCount = m_legendColumnWidths.size();
+    if (m_chartItem->series().isEmpty()) {
+        for (int i=0 ; i < m_designLabels.size() ; ++i) {
+            const qreal itemWidth = (qreal)(fm.boundingRect(m_designLabels[i]).width()) + indicatorWidth;
+            if (!calculateLegendSingleColumnWidth(currentRowWidth, currentColumn, maxColumnCount, itemWidth, maxWidth)) {
+                return false;
+            }
+        }
+    } else {
+        for (int i = 0 ; i < m_chartItem->series().size() ; ++i) {
+            SeriesItem* series = m_chartItem->series().at(i);
+            const qreal itemWidth = (qreal)(fm.boundingRect(series->name()).width()) + indicatorWidth;
+            if (!calculateLegendSingleColumnWidth(currentRowWidth, currentColumn, maxColumnCount, itemWidth, maxWidth)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool AbstractSeriesChart::calculateLegendSingleColumnWidth(qreal &currentRowWidth, int &currentColumn, int &maxColumnCount,
+                                                           const qreal itemWidth, const qreal maxRowWidth)
+{
+    const bool maxColumnCountDefined = maxColumnCount > 0;
+    // Check if there is enough space for current item in the row
+    const bool isEnoughSpaceInRowForItem = currentRowWidth + itemWidth > maxRowWidth;
+    // Check if it is last column already
+    const bool lastColumnReached = (maxColumnCountDefined && currentColumn >= maxColumnCount);
+    if (isEnoughSpaceInRowForItem || lastColumnReached) {
+        // Move to next row
+        currentColumn = 0;
+        // Set column count when moving to second row (next rows cannot have more columns)
+        if (!maxColumnCountDefined) {
+            maxColumnCount = currentColumn + 1;
+        }
+        currentRowWidth = itemWidth;
+    } else {
+        // Add next column in the row
+        currentRowWidth += itemWidth;
+    }
+
+    // Add new column or update already existing column width
+    if (currentColumn >= m_legendColumnWidths.size()) {
+        // Append new column
+        m_legendColumnWidths.append(itemWidth);
+    } else if (m_legendColumnWidths.at(currentColumn) < itemWidth) {
+        // Update size if item in column is bigger than items in same column in previous rows
+        m_legendColumnWidths[currentColumn] = itemWidth;
+        // After any updating column size we must recheck if all columns fit in the max row width
+        qreal rowWidth = itemWidth;
+        for (int c = 1 ; c < m_legendColumnWidths.size() ; c++) {
+            rowWidth += m_legendColumnWidths.at(c);
+            // When column widths exceed max row width remove columns at the end
+            if (rowWidth > maxRowWidth) {
+                m_legendColumnWidths.remove(c, m_legendColumnWidths.size() - c);
+                break;
+            }
+        }
+        // Return back and re-iterate from start to make sure everything fits
+        return false;
+    }
+    ++currentColumn;
+    return true;
+}
+
+QVector<qreal> AbstractChart::legendColumnWidths() const
+{
+    return m_legendColumnWidths;
+}
+
 void AbstractBarChart::paintChartLegend(QPainter *painter, QRectF legendRect)
 {
     prepareLegendToPaint(legendRect, painter);
-    int indicatorSize = painter->fontMetrics().height()/2;
     painter->setPen(Qt::black);
     painter->setRenderHint(QPainter::Antialiasing,false);
     if (m_chartItem->drawLegendBorder())
         painter->drawRect(legendRect);
     painter->setRenderHint(QPainter::Antialiasing,true);
-    QRectF indicatorsRect = legendRect.adjusted(painter->fontMetrics().height()/2,painter->fontMetrics().height()/2,0,0);
+
+    const qreal halfFontSize = painter->fontMetrics().height() / 2;
+    int indicatorSize = halfFontSize;
+    const QRectF indicatorsRect = legendRect.adjusted(halfFontSize, halfFontSize, 0, 0);
+
+    bool isHorizontal = false;
+    switch(m_chartItem->legendAlign()) {
+    case ChartItem::LegendAlignBottomLeft:
+    case ChartItem::LegendAlignBottomCenter:
+    case ChartItem::LegendAlignBottomRight:
+        isHorizontal = true;
+        break;
+    default:
+        isHorizontal = false;
+        break;
+    }
 
     if (!m_chartItem->series().isEmpty()){
-        qreal cw = 0;
-        foreach(SeriesItem* series, m_chartItem->series()){
-            QString label = series->name();
-            painter->drawText(indicatorsRect.adjusted(indicatorSize+indicatorSize/2,cw,0,0),label);
-            painter->setBrush(series->color());
-            painter->drawEllipse(
-                indicatorsRect.adjusted(
-                    0,
-                    cw+indicatorSize/2,
-                    -(indicatorsRect.width()-indicatorSize),
-                    -(indicatorsRect.height()-(cw+indicatorSize+indicatorSize/2))
-                )
-            );
-            cw += painter->fontMetrics().height();
+        for (int i = 0 ; i < m_chartItem->series().size() ; ++i) {
+            SeriesItem* series = m_chartItem->series().at(i);
+            if (isHorizontal) {
+                drawHorizontalLegendItem(painter, i, series->name(), indicatorSize, indicatorsRect, series->color());
+            } else {
+                drawVerticalLegendItem(painter, i, series->name(), indicatorSize, indicatorsRect, series->color());
+            }
         }
-    } else if (m_chartItem->itemMode() == DesignMode){
-        qreal cw = 0;
-        for (int i=0;i<m_designLabels.size();++i){
-            QString label = m_designLabels.at(i);
-            painter->drawText(indicatorsRect.adjusted(indicatorSize+indicatorSize/2,cw,0,0),label);
-            painter->setBrush(color_map[i]);
-            painter->drawEllipse(
-                indicatorsRect.adjusted(
-                    0,
-                    cw+indicatorSize/2,
-                    -(indicatorsRect.width()-indicatorSize),
-                    -(indicatorsRect.height()-(cw+indicatorSize+indicatorSize/2))
-                )
-            );
-            cw += painter->fontMetrics().height();
+    } else if (m_chartItem->itemMode() == DesignMode) {
+        for (int i = 0 ; i < m_designLabels.size() ; ++i){
+            if (isHorizontal) {
+                drawHorizontalLegendItem(painter, i, m_designLabels.at(i), indicatorSize, indicatorsRect, color_map[i]);
+            } else {
+                drawVerticalLegendItem(painter, i, m_designLabels.at(i), indicatorSize, indicatorsRect, color_map[i]);
+            }
         }
 
     }
@@ -1056,6 +1344,68 @@ QRectF AbstractBarChart::horizontalLabelsRect(QPainter *painter, QRectF labelsRe
         return labelsRect;
     else
         return labelsRect.adjusted(0, (labelsRect.height() - maxWidth), 0, 0);
+}
+
+void AbstractBarChart::drawVerticalLegendItem(QPainter *painter, int i, const QString &text, int indicatorSize,
+                                              const QRectF &indicatorsRect, const QColor &indicatorColor)
+{
+    const qreal y = i * painter->fontMetrics().height();
+    painter->drawText(indicatorsRect.adjusted(indicatorSize+indicatorSize * 1.5, y, 0, 0),text);
+    switch(m_chartItem->legendStyle()) {
+    case ChartItem::LegendPoints: {
+        painter->setBrush(indicatorColor);
+        painter->drawEllipse(
+            indicatorsRect.adjusted(
+                0,
+                y+indicatorSize/2,
+                -(indicatorsRect.width()-indicatorSize),
+                -(indicatorsRect.height()-(y+indicatorSize+indicatorSize/2))
+                )
+            );
+        break;
+    }
+    case ChartItem::LegendLines: {
+        const QPen tmpPen = painter->pen();
+        QPen indicatorPen(indicatorColor);
+        indicatorPen.setWidth(4);
+        painter->setPen(indicatorPen);
+        const QPointF linePos = QPointF(indicatorsRect.left(), indicatorsRect.top() + y + painter->fontMetrics().height()/2);
+        painter->drawLine(linePos, linePos + QPointF(indicatorSize, 0));
+        painter->setPen(tmpPen);
+        break;
+    }
+    }
+}
+
+void AbstractBarChart::drawHorizontalLegendItem(QPainter *painter, int i, const QString &text,
+                                                int indicatorSize, const QRectF &indicatorsRect, const QColor &indicatorColor)
+{
+    const QVector<qreal> &columnWidths = legendColumnWidths();
+    if (columnWidths.isEmpty())
+        return;
+    const int column = i % columnWidths.size();
+    const int row = std::floor(i / columnWidths.size());
+    const qreal halfTextSize = painter->fontMetrics().height() / 2;
+
+    const qreal x = indicatorsRect.x() + std::accumulate(columnWidths.cbegin(), columnWidths.cbegin() + column, 0.0);
+    const qreal y = indicatorsRect.y() + (row + 1) * painter->fontMetrics().height();
+    painter->drawText(QPointF(x + indicatorSize * 1.5, y), text);
+    switch(m_chartItem->legendStyle()) {
+    case ChartItem::LegendPoints: {
+        painter->setBrush(indicatorColor);
+        painter->drawEllipse(x, y - halfTextSize, indicatorSize, indicatorSize);
+        break;
+    }
+    case ChartItem::LegendLines: {
+        const QPen tmpPen = painter->pen();
+        QPen indicatorPen(indicatorColor);
+        indicatorPen.setWidth(4);
+        painter->setPen(indicatorPen);
+        painter->drawLine(x, y - halfTextSize * 0.7, x + indicatorSize, y - halfTextSize * 0.7);
+        painter->setPen(tmpPen);
+        break;
+    }
+    }
 }
 
 } // namespace LimeReport

@@ -261,7 +261,6 @@ public:
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
     bool useAlternateBackgroundColor() const;
     void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
-    void replaceGroupsFunction(BandDesignIntf *band);
     qreal bottomSpace() const;
     void setBackgroundModeProperty(BGMode value);
     void setBackgroundOpacity(int value);

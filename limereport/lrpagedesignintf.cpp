@@ -554,17 +554,16 @@ CommandIf::Ptr PageDesignIntf::removeReportItemCommand(BaseDesignIntf *item){
         CommandIf::Ptr command = createBandDeleteCommand(this,band);
         return command;
     } else {
-        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item->parent());
-        if (layout && (layout->childrenCount()==2)){
+        LayoutDesignIntf* parentLayout = dynamic_cast<LayoutDesignIntf*>(item->parent());
+        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item);
+        // When removing layout child all his children will be assigned to parent
+        if (!layout && parentLayout && (parentLayout->childrenCount() == 2)) {
             CommandGroup::Ptr commandGroup = CommandGroup::create();
-            commandGroup->addCommand(DeleteLayoutCommand::create(this, layout),false);
+            commandGroup->addCommand(DeleteLayoutCommand::create(this, parentLayout),false);
             commandGroup->addCommand(DeleteItemCommand::create(this,item),false);
             return commandGroup;
         } else {
-            CommandIf::Ptr command = (dynamic_cast<LayoutDesignIntf*>(item))?
-                        DeleteLayoutCommand::create(this, dynamic_cast<LayoutDesignIntf*>(item)) :
-                        DeleteItemCommand::create(this, item) ;
-            return command;
+            return layout ? DeleteLayoutCommand::create(this, layout) : DeleteItemCommand::create(this, item) ;
         }
     }
 }
@@ -727,7 +726,6 @@ ReportEnginePrivate *PageDesignIntf::reportEditor()
 
 void PageDesignIntf::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-
     if (!event->mimeData()->text().isEmpty()){
         event->setDropAction(Qt::CopyAction);
         event->accept();
@@ -756,7 +754,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
 #else
-        if (isVar) data = data.remove(QRegularExpression("  \\[.*\\]"));
+        if (isVar) data = data.remove(QRegularExpression("  \\[.*\\]", QRegularExpression::DotMatchesEverythingOption));
 #endif
         ti->setContent(data);
         if (!isVar){
@@ -768,7 +766,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
                     parentBand->setProperty("datasource",dataSource.cap(1));
                 }
 #else
-                QRegularExpression dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
+                QRegularExpression dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})", QRegularExpression::DotMatchesEverythingOption);
                 QRegularExpressionMatch match = dataSource.match(data);
                 if(match.hasMatch()){
                     parentBand->setProperty("datasource", match.captured(1));
@@ -2008,6 +2006,9 @@ CommandIf::Ptr DeleteLayoutCommand::create(PageDesignIntf *page, LayoutDesignInt
     foreach (BaseDesignIntf* childItem, item->childBaseItems()){
         command->m_childItems.append(childItem->objectName());
     }
+    LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(item->parent());
+    if (layout)
+        command->m_layoutName = layout->objectName();
     return CommandIf::Ptr(command);
 }
 
@@ -2032,9 +2033,20 @@ void DeleteLayoutCommand::undoIt()
     BaseDesignIntf *item = page()->addReportItem(m_itemType);
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(m_itemXML);
     if (reader->first()) reader->readItem(item);
+    if (!m_layoutName.isEmpty()) {
+        LayoutDesignIntf* layout = dynamic_cast<LayoutDesignIntf*>(page()->reportItemByName(m_layoutName));
+        if (layout){
+            layout->restoreChild(item);
+        }
+        page()->emitRegisterdItem(item);
+    }
     foreach(QString ci, m_childItems){
         BaseDesignIntf* ri = page()->reportItemByName(ci);
         if (ri){
+            LayoutDesignIntf* parentLayout = dynamic_cast<LayoutDesignIntf*>(ri->parent());
+            if (parentLayout) {
+                parentLayout->removeChild(ri);
+            }
             dynamic_cast<LayoutDesignIntf*>(item)->addChild(ri);
         }
         page()->emitRegisterdItem(item);

@@ -3,15 +3,17 @@ cmake_minimum_required(VERSION 3.14)
 
 set(LIMEREPORT_VERSION_MAJOR 1)
 set(LIMEREPORT_VERSION_MINOR 6)
-set(LIMEREPORT_VERSION_RELEASE 6)
+set(LIMEREPORT_VERSION_RELEASE 8)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
+option(USE_QT6 "Use Qt6" OFF)
 
-find_package(
-  QT NAMES Qt6 Qt5
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
-  )
+if(USE_QT6)
+    find_package(QT NAMES Qt6)
+else()
+    find_package(QT NAMES Qt5)
+endif(USE_QT6)
 find_package(
   Qt${QT_VERSION_MAJOR}
   COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
@@ -36,7 +38,7 @@ endif()
 
 add_subdirectory(3rdparty)
 add_subdirectory(designer EXCLUDE_FROM_ALL)
-add_subdirectory(demo_r1 EXCLUDE_FROM_ALL)
+add_subdirectory(demo_r1  EXCLUDE_FROM_ALL)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -78,6 +80,7 @@ ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.cpp
 ${PROJECT_NAME}/items/lrabstractlayout.cpp
 ${PROJECT_NAME}/items/lralignpropitem.cpp
 ${PROJECT_NAME}/items/lrchartitem.cpp
+${PROJECT_NAME}/items/lrchartaxiseditor.cpp
 ${PROJECT_NAME}/items/lrchartitemeditor.cpp
 ${PROJECT_NAME}/items/lrhorizontallayout.cpp
 ${PROJECT_NAME}/items/lrimageitem.cpp
@@ -189,6 +192,7 @@ ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.h
 ${PROJECT_NAME}/items/lrabstractlayout.h
 ${PROJECT_NAME}/items/lralignpropitem.h
 ${PROJECT_NAME}/items/lrchartitem.h
+${PROJECT_NAME}/items/lrchartaxiseditor.h
 ${PROJECT_NAME}/items/lrchartitemeditor.h
 ${PROJECT_NAME}/items/lreditableimageitemintf.h
 ${PROJECT_NAME}/items/lrhorizontallayout.h
@@ -285,6 +289,7 @@ ${PROJECT_NAME}/databrowser/lrsqleditdialog.ui
 ${PROJECT_NAME}/databrowser/lrvariabledialog.ui
 ${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
 ${PROJECT_NAME}/items/lrchartitemeditor.ui
+${PROJECT_NAME}/items/lrchartaxiseditor.ui
 ${PROJECT_NAME}/items/lrimageitemeditor.ui
 ${PROJECT_NAME}/items/lrtextitemeditor.ui
 ${PROJECT_NAME}/lraboutdialog.ui
@@ -339,6 +344,8 @@ set(GLOBAL_HEADERS
     ${PROJECT_NAME}/LRScriptManager
     ${CMAKE_CURRENT_BINARY_DIR}/config.h
     )
+
+set(PROJECT_NAME ${PROJECT_NAME}-qt${QT_VERSION_MAJOR})
 
 if (LIMEREPORT_STATIC)
 	message(STATUS "STATIC LIBRARY")

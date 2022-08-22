@@ -40,8 +40,8 @@ private slots:
     void on_labelsFieldComboBox_currentTextChanged(const QString &arg1);
     void slotChangeSeriesColor();
     void on_seriesTypeComboBox_currentIndexChanged(const QString &arg1);
-
     void on_xAxisFieldComboBox_currentTextChanged(const QString &arg1);
+    void on_tableWidget_itemChanged(QTableWidgetItem *item);
 
 private:
     void readSetting();

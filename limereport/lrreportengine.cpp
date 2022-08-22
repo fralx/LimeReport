@@ -492,7 +492,7 @@ bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hint
     Q_UNUSED(printer)
     if (pages.count()>0){
         Q_Q(ReportEngine);
-        PreviewReportWindow* w = new PreviewReportWindow(q, 0, settings());
+        PreviewReportWindow* w = new PreviewReportWindow(q, QApplication::activeWindow(), settings());
         w->setWindowFlags(Qt::Dialog|Qt::WindowMaximizeButtonHint|Qt::WindowCloseButtonHint| Qt::WindowMinMaxButtonsHint);
         w->setAttribute(Qt::WA_DeleteOnClose,true);
         w->setWindowModality(Qt::ApplicationModal);

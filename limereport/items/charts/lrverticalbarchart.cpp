@@ -71,8 +71,6 @@ void VerticalBarChart::paintVerticalBars(QPainter *painter, QRectF barsRect)
     qreal hStep = (barsRect.width() / valuesCount()) / (barSeriesCount == 0 ? 1 : barSeriesCount);
     qreal topShift = (delta - (maxValue() - minValue())) * vStep + barsRect.top();
 
-    qDebug() << "vStep" << vStep << "hStep" << hStep;
-
     if (!m_chartItem->series().isEmpty() && (m_chartItem->itemMode() != DesignMode)){
         int curSeries = 0;
         foreach (SeriesItem* series, m_chartItem->series()) {

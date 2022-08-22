@@ -296,3 +296,14 @@ void ChartItemEditor::on_xAxisFieldComboBox_currentTextChanged(const QString &ar
     if (!m_initing)
         m_charItem->setXAxisField(arg1);
 }
+void ChartItemEditor::on_tableWidget_itemChanged(QTableWidgetItem *item)
+{
+    if (ui->seriesNameLineEdit->hasFocus())
+        return;
+
+    const QString dataStr = item->data(Qt::DisplayRole).toString();
+    if (dataStr == ui->seriesNameLineEdit->text())
+        return;
+
+    ui->seriesNameLineEdit->setText(dataStr);
+}

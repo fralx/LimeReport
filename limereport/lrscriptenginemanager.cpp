@@ -398,7 +398,7 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
     }
     return context;
 #else
-    QRegularExpression rx(Const::VARIABLE_RX);
+    QRegularExpression rx = getVariableRegEx();
     if (context.contains(rx)){
          int pos = 0;
          QRegularExpressionMatch match = rx.match(context, pos);
@@ -504,8 +504,7 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
 
     return context;
 #else
-    QRegularExpression rx(Const::FIELD_RX);
-
+    QRegularExpression rx = getFieldRegEx();
     if (context.contains(rx)){
         QRegularExpressionMatch match = rx.match(context);
         while (match.hasMatch()){
@@ -520,17 +519,32 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                         fieldValue="\"\"";
                     } else {
                         fieldValue = escapeSimbols(varValue.toString());
-                        switch (dataManager()->fieldData(field).type()) {
-                        case QVariant::Char:
-                        case QVariant::String:
-                        case QVariant::StringList:
-                        case QVariant::Date:
-                        case QVariant::DateTime:
-                            fieldValue = "\""+fieldValue+"\"";
-                            break;
-                        default:
-                            break;
+                        //TODO: Migrate to QMetaType
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        switch (dataManager()->fieldData(field).typeId()) {
+                            case QMetaType::QChar:
+                            case QMetaType::QString:
+                            case QMetaType::QStringList:
+                            case QMetaType::QDate:
+                            case QMetaType::QDateTime:
+                                fieldValue = "\""+fieldValue+"\"";
+                                break;
+                            default:
+                                break;
                         }
+#else
+                        switch (dataManager()->fieldData(field).type()) {
+                            case QVariant::Char:
+                            case QVariant::String:
+                            case QVariant::StringList:
+                            case QVariant::Date:
+                            case QVariant::DateTime:
+                                fieldValue = "\""+fieldValue+"\"";
+                                break;
+                            default:
+                                break;
+                        }
+#endif
                     }
                 } else {
                     if (expandType == ReplaceHTMLSymbols)
@@ -567,8 +581,7 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
 
     if (context.contains(rx)){
 #else
-    QRegularExpression rx(Const::SCRIPT_RX, QRegularExpression::DotMatchesEverythingOption);
-
+    QRegularExpression rx = getScriptRegEx();
     if(context.contains(rx)){
 #endif
 
@@ -636,8 +649,8 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     QVariant varValue;
 
     if (script.contains(rx)){
-#else
-    QRegularExpression rx(Const::SCRIPT_RX);
+#else    
+    QRegularExpression rx = getScriptRegEx();
     QVariant varValue;
 
     if (script.contains(rx)){
@@ -1110,7 +1123,7 @@ bool ScriptExtractor::parse()
 
 bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode::Ptr scriptNode)
 {
-    while (curPos<m_context.length()){
+    while (curPos < m_context.length()){
         switch (state) {
         case OpenBracketFound:
             if (m_context[curPos]=='}'){
@@ -1680,11 +1693,10 @@ QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QS
         if (gf){
             if (gf->isValid()){
                 return gf->calculate(pageItem);
-            }else{
+            } else{
                 return gf->error();
             }
-        }
-        else {
+        } else {
             return QString(QObject::tr("Function %1 not found or have wrong arguments").arg(name));
         }
     } else {

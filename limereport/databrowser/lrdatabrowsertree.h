@@ -42,7 +42,11 @@ public:
     enum NodeType{Connection, Table, Row, Category, Variable, ExternalVariable};
     explicit DataBrowserTree(QWidget *parent = 0);
 protected:
-    QMimeData* mimeData(const QList<QTreeWidgetItem *> items) const;
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> &items) const;
+#else
+    virtual QMimeData *mimeData(const QList<QTreeWidgetItem*> items) const;
+#endif
 
 public slots:
 

@@ -18,6 +18,6 @@ target_link_libraries(demo_r1 PRIVATE
         Qt${QT_VERSION_MAJOR}::PrintSupport
         Qt${QT_VERSION_MAJOR}::Qml
         Qt${QT_VERSION_MAJOR}::Sql
-        ${PROJECT_NAME}
+        ${PROJECT_NAME}-qt${QT_VERSION_MAJOR}
 )
 

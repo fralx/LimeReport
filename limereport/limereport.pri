@@ -55,6 +55,7 @@ SOURCES += \
     $$REPORT_PATH/items/lrabstractlayout.cpp \
     $$REPORT_PATH/items/lrchartitem.cpp \
     $$REPORT_PATH/items/lrchartitemeditor.cpp \
+    $$REPORT_PATH/items/lrchartaxiseditor.cpp \
     $$REPORT_PATH/items/charts/lrhorizontalbarchart.cpp \
     $$REPORT_PATH/items/charts/lrlineschart.cpp \
     $$REPORT_PATH/items/charts/lrgridlineschart.cpp \
@@ -148,6 +149,7 @@ HEADERS += \
     $$REPORT_PATH/items/lrabstractlayout.h \
     $$REPORT_PATH/items/lrchartitem.h \
     $$REPORT_PATH/items/lrchartitemeditor.h \
+    $$REPORT_PATH/items/lrchartaxiseditor.h \
     $$REPORT_PATH/items/charts/lrhorizontalbarchart.h \
     $$REPORT_PATH/items/charts/lrlineschart.h \
     $$REPORT_PATH/items/charts/lrgridlineschart.h \
@@ -219,6 +221,7 @@ FORMS += \
     $$REPORT_PATH/lraboutdialog.ui \
     $$REPORT_PATH/lrsettingdialog.ui \
     $$REPORT_PATH/items/lrchartitemeditor.ui \
+    $$REPORT_PATH/items/lrchartaxiseditor.ui \
     $$REPORT_PATH/items/lrimageitemeditor.ui \
     $$REPORT_PATH/scripteditor/lrscripteditor.ui
 

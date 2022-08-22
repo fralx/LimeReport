@@ -1290,32 +1290,41 @@ void BaseDesignIntf::setItemPos(const QPointF &newPos)
 }
 
 
-QWidget* findRootWidget(QWidget* widget){
+QWidget* BaseDesignIntf::findRootWidget(QWidget* widget)
+{
     while (widget->parentWidget()) {
         widget = widget->parentWidget();
     }
     return widget;
 }
 
-void BaseDesignIntf::showEditorDialog(){
-    QWidget *editor = defaultEditor(); 
-    if (editor) {
-        editor->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
-        QDialog* dialog = new QDialog(QApplication::activeWindow());
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-#ifdef Q_OS_MAC
-        dialog->setWindowModality(Qt::WindowModal);
-#else
-        dialog->setWindowModality(Qt::ApplicationModal);
-#endif
-        dialog->setLayout(new QVBoxLayout());
-        dialog->resize(editor->size());
-        dialog->layout()->setContentsMargins(2,2,2,2);
-        dialog->layout()->addWidget(editor);
-        connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));
-        dialog->setWindowTitle(editor->windowTitle());
-        dialog->exec();
+void BaseDesignIntf::showDialog(QWidget *widget)
+{
+    if (!widget) {
+        return;
     }
+    widget->setStyleSheet(findRootWidget(scene()->views().at(0))->styleSheet());
+    QDialog *dialog = new QDialog(QApplication::activeWindow());
+    widget->setParent(dialog);
+    widget->setAttribute(Qt::WA_DeleteOnClose);
+#ifdef Q_OS_MAC
+    dialog->setWindowModality(Qt::WindowModal);
+#else
+    dialog->setWindowModality(Qt::ApplicationModal);
+#endif
+    dialog->setLayout(new QVBoxLayout());
+    dialog->resize(widget->size());
+    dialog->layout()->setContentsMargins(2,2,2,2);
+    dialog->layout()->addWidget(widget);
+    connect(widget,SIGNAL(destroyed()),dialog,SLOT(close()));
+    dialog->setWindowTitle(widget->windowTitle());
+    dialog->exec();
+    dialog->deleteLater();
+}
+
+void BaseDesignIntf::showEditorDialog()
+{
+    showDialog(defaultEditor());
 }
 
 void BaseDesignIntf::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -1340,17 +1349,26 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
     QAction* lockGeometryAction = menu.addAction(tr("Lock item geometry"));
     lockGeometryAction->setCheckable(true);
-    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+
     lockGeometryAction->setChecked(isGeometryLocked());
     menu.addSeparator();
 
     QAction* copyAction = menu.addAction(QIcon(":/report/images/copy"), tr("Copy"));
-    copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
-    QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));
-    cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    QAction* cutAction = menu.addAction(QIcon(":/report/images/cut"), tr("Cut"));    
     QAction* pasteAction = menu.addAction(QIcon(":/report/images/paste"), tr("Paste"));
-    pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
     pasteAction->setEnabled(false);
+
+#if QT_VERSION >=QT_VERSION_CHECK(5,0,0)
+    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
+    copyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_C));
+    cutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_X));
+    pasteAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_V));
+#else
+    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));
+    cutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
+    pasteAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
+#endif
 
     QClipboard *clipboard = QApplication::clipboard();
     ItemsReaderIntf::Ptr reader = StringXMLreader::create(clipboard->text());
