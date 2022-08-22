@@ -63,7 +63,7 @@ BaseDesignIntf *ImageItem::createSameTypeItem(QObject *owner, QGraphicsItem *par
 void ImageItem::loadPictureFromVariant(QVariant& data){
     //TODO: Migrate to QMetaType
     if (data.isValid()){
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         if (data.typeId() == QMetaType::QImage){
 #else
         if (data.type() == QVariant::Image){
@@ -185,14 +185,14 @@ void ImageItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, 
        } else if (!m_variable.isEmpty()){
             //TODO: Migrate to QMetaType
            QVariant data = dataManager->variable(m_variable);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
            if (data.typeId() == QMetaType::QString){
 #else
            if (data.type() == QVariant::String){
 #endif
                 m_picture = QImage(data.toString());
            } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                if (data.typeId() == QMetaType::QImage){
 #else
                if (data.type() == QVariant::Image){
