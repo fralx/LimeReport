@@ -389,6 +389,7 @@ void TextItem::setTextFont(TextPtr text, const QFont& value) const {
 void TextItem::adaptFontSize(TextPtr text) const{
     QFont _font = transformToSceneFont(font());
     do{
+//        qApp->processEvents();
         setTextFont(text,_font);
         if (_font.pixelSize()>2)
             _font.setPixelSize(_font.pixelSize()-1);
