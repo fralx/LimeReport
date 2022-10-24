@@ -364,7 +364,7 @@ void ImageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             }
 
             if (shiftHeight > 0){
-                point.setY(point.x()+shiftHeight/2);
+                point.setY(point.y()+shiftHeight/2);
             } else {
                 cutY = fabs(shiftHeight/2);
                 cutHeigth += shiftHeight;
