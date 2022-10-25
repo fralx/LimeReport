@@ -1119,6 +1119,7 @@ bool PageView::viewportEvent(QEvent *event)
             m_verticalRuller->setGeometry(0, y+20, 20, (height - y));
             m_verticalRuller->update();
             m_horizontalRuller->update();
+
         }
         break;
     default:

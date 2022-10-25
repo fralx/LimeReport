@@ -7,13 +7,14 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
     DesignerSettingManager manager;
 
     QTranslator limeReportTranslator;
     QTranslator qtBaseTranslator;
-	QTranslator qtDesignerTranslator;
-	QTranslator qtLinguistTranslator;
-	
+    QTranslator qtDesignerTranslator;
+    QTranslator qtLinguistTranslator;
+
     QString translationPath = QApplication::applicationDirPath();
     translationPath.append("/translations");
     Qt::LayoutDirection layoutDirection = QLocale::system().textDirection();
@@ -22,12 +23,12 @@ int main(int argc, char *argv[])
 
     if (limeReportTranslator.load("limereport_"+designerTranslation, translationPath)){
         qtBaseTranslator.load("qtbase_" + designerTranslation, translationPath);
-		qtDesignerTranslator.load("designer_"+designerTranslation,translationPath);        
-		
+        qtDesignerTranslator.load("designer_"+designerTranslation,translationPath);
+
         a.installTranslator(&qtBaseTranslator);
-		a.installTranslator(&qtDesignerTranslator);		
+        a.installTranslator(&qtDesignerTranslator);
         a.installTranslator(&limeReportTranslator);
-		
+
         Qt::LayoutDirection layoutDirection = QLocale(manager.getCurrentDefaultLanguage()).textDirection();
         a.setLayoutDirection(layoutDirection);
     }

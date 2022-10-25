@@ -90,14 +90,25 @@ class  BaseDesignIntf :
     Q_PROPERTY(qreal zOrder READ zValue WRITE setZValueProperty DESIGNABLE false)
     Q_PROPERTY(BorderLines borders READ borderLines WRITE setBorderLinesFlags)
     Q_PROPERTY(QString parentName READ parentReportItemName WRITE setParentReportItem DESIGNABLE false)
-    Q_PROPERTY(int borderLineSize READ borderLineSize WRITE setBorderLineSize)
+    Q_PROPERTY(qreal borderLineSize READ borderLineSize WRITE setBorderLineSize)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setItemVisible DESIGNABLE false)
+    Q_PROPERTY(bool shadow READ hasShadow WRITE setShadow)
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
     Q_PROPERTY(bool geometryLocked READ isGeometryLocked WRITE setGeometryLocked)
+    Q_PROPERTY(BorderStyle borderStyle READ borderStyle WRITE setBorderStyle)
 
     friend class ReportRender;
 public:
     enum BGMode { TransparentMode, OpaqueMode};
+    enum BorderStyle { NoStyle = Qt::NoPen,
+                       Solid = Qt::SolidLine,
+                       Dashed = Qt::DashLine,
+                       Dot = Qt::DotLine,
+
+                       DashDot = Qt::DashDotLine,
+                       DashDotDot = Qt::DashDotDotLine,
+                       Doubled = 7
+                     };
 
 
     enum BrushStyle{ NoBrush,
@@ -147,21 +158,25 @@ public:
 #if QT_VERSION >= 0x050500
     Q_ENUM(BGMode)
     Q_ENUM(BrushStyle)
+    Q_ENUM(BorderStyle)
     Q_ENUM(ResizeFlags)
     Q_ENUM(MoveFlags)
     Q_ENUM(BorderSide)
     Q_ENUM(ObjectState)
     Q_ENUM(ItemAlign)
     Q_ENUM(UnitType)
+
 #else
     Q_ENUMS(BGMode)
     Q_ENUMS(BrushStyle)
+    Q_ENUM(BorderStyle)
     Q_ENUMS(ResizeFlags)
     Q_ENUMS(MoveFlags)
     Q_ENUMS(BorderSide)
     Q_ENUMS(ObjectState)
     Q_ENUMS(ItemAlign)
     Q_ENUMS(UnitType)
+
 #endif
 //    enum ExpandType {EscapeSymbols, NoEscapeSymbols, ReplaceHTMLSymbols};
     Q_DECLARE_FLAGS(BorderLines, BorderSide)
@@ -175,6 +190,7 @@ public:
     QString parentReportItemName() const;
 
     BrushStyle  backgroundBrushStyle() const {return m_backgroundBrushStyle;}
+    BorderStyle borderStyle() const {return m_borderStyle;}
     void        setBackgroundBrushStyle(BrushStyle value);
     QColor      backgroundColor() const {return m_backgroundColor;}
     void        setBackgroundColor(QColor value);
@@ -240,6 +256,7 @@ public:
     PageDesignIntf* page();
 
     BorderLines borderLines() const;
+
     QString storageTypeName() const {return m_storageTypeName;}
     ReportEnginePrivate *reportEditor();
 
@@ -284,8 +301,9 @@ public:
     QString itemTypeName() const;
     void setItemTypeName(const QString &itemTypeName);
 
-    int borderLineSize() const;
-    void setBorderLineSize(int value);
+    qreal borderLineSize() const;
+    void setBorderStyle(BorderStyle b);
+    void setBorderLineSize(qreal value);
     void showEditorDialog();
     ItemAlign itemAlign() const;
     virtual void setItemAlign(const ItemAlign &itemAlign);
@@ -320,7 +338,9 @@ public:
     void setGeometryLocked(bool itemLocked);
     bool isChangingPos() const;
     void setIsChangingPos(bool isChangingPos);
-
+    bool isShapeItem() const;
+    bool hasShadow();
+    void setShadow(bool sh);
     Q_INVOKABLE QString setItemWidth(qreal width);
     Q_INVOKABLE QString setItemHeight(qreal height);
     Q_INVOKABLE qreal getItemWidth();
@@ -367,7 +387,9 @@ protected:
     void drawRightLine(QPainter *painter, QRectF rect) const;
     void drawLeftLine(QPainter *painter, QRectF rect) const;
 
+
     void drawBorder(QPainter* painter, QRectF rect) const;
+    void drawShadow(QPainter* painter, QRectF rect) const;
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
     void drawRenderModeBorder(QPainter *painter, QRectF rect) const;
     void drawResizeZone(QPainter*);
@@ -425,7 +447,8 @@ private:
     QFont   m_font;
     QColor  m_fontColor;
     bool    m_fixedPos;
-    int     m_borderLineSize;
+    qreal     m_borderLineSize;
+
 
     QRectF  m_rect;
     mutable QRectF  m_boundingRect;
@@ -434,6 +457,7 @@ private:
     BGMode  m_BGMode;
     int     m_opacity;
     BorderLines m_borderLinesFlags;
+    BorderStyle m_borderStyle;
 
     QRectF m_bottomRect;
     QRectF m_topRect;
@@ -470,6 +494,7 @@ private:
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
     bool     m_isMoveable;
+    bool    m_shadow;
 
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

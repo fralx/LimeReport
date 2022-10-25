@@ -98,6 +98,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     updatePageRect();
     connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
     setBackgroundBrush(QBrush(Qt::white));
+
 }
 
 PageDesignIntf::~PageDesignIntf()
@@ -355,7 +356,7 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             );
         }
     } else {
-    	if (m_insertMode) m_itemInsertRect->setVisible(false);
+        if (m_insertMode) m_itemInsertRect->setVisible(false);
     }
 
     QGraphicsScene::mouseMoveEvent(event);
@@ -750,7 +751,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         bool isVar = event->mimeData()->text().indexOf("variable:")==0;
         BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
         TextItem* ti = dynamic_cast<TextItem*>(item);
-        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);        
+        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
 #else
@@ -943,7 +944,7 @@ CommandIf::Ptr PageDesignIntf::createChangePosCommand()
             newPos.pos = reportItem->pos();
             newPoses.append(newPos);
         }
-    }    
+    }
     return PosChangedCommand::create(this, m_positionStamp, newPoses);
 }
 
@@ -2650,7 +2651,7 @@ bool BandMoveFromToCommand::doIt()
 void BandMoveFromToCommand::undoIt()
 {
     if (page() && page()->pageItem())
-    	page()->pageItem()->moveBandFromTo(reverceFrom, reverceTo);
+        page()->pageItem()->moveBandFromTo(reverceFrom, reverceTo);
 }
 
 }
