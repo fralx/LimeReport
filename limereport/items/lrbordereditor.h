@@ -7,7 +7,7 @@ namespace Ui {
 class lrbordereditor;
 }
 
-class lrbordereditor : public QDialog
+class LIMEREPORT_EXPORT lrbordereditor : public QDialog
 {
     Q_OBJECT
 

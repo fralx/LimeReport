@@ -8,7 +8,7 @@ namespace Ui {
 class lrpageeditor;
 }
 
-class lrpageeditor : public QDialog
+class LIMEREPORT_EXPORT lrpageeditor : public QDialog
 {
     Q_OBJECT
 

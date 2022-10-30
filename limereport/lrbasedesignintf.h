@@ -49,7 +49,7 @@ class ReportEnginePrivate;
 class PageDesignIntf;
 class  BaseDesignIntf;
 
-class Marker : public QGraphicsItem{
+class LIMEREPORT_EXPORT Marker : public QGraphicsItem{
 public:
     Marker(QGraphicsItem* parent = 0, BaseDesignIntf* owner = 0): QGraphicsItem(parent), m_owner(owner){}
     QRectF boundingRect() const;
@@ -65,7 +65,7 @@ private:
     BaseDesignIntf* m_owner;
 };
 
-class SelectionMarker : public Marker{
+class LIMEREPORT_EXPORT SelectionMarker : public Marker{
 public:
     SelectionMarker(QGraphicsItem* parent=0, BaseDesignIntf* owner = 0);
     QColor color() const;
@@ -80,7 +80,7 @@ protected:
 class DataSourceManager;
 class ReportRender;
 
-class  BaseDesignIntf :
+class LIMEREPORT_EXPORT BaseDesignIntf :
         public QObject, public QGraphicsItem, public ICollectionContainer, public ObjectLoadingStateIntf {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -515,7 +515,7 @@ signals:
     void afterRender();
 };
 
-class BookmarkContainerDesignIntf: public BaseDesignIntf{
+class LIMEREPORT_EXPORT BookmarkContainerDesignIntf: public BaseDesignIntf{
     Q_OBJECT
 public:
     BookmarkContainerDesignIntf(const QString& storageTypeName, QObject* owner = 0, QGraphicsItem* parent = 0)

@@ -1,9 +1,12 @@
 #include "lrpageeditor.h"
 #include "ui_lrpageeditor.h"
-#include "lrpagedesignintf.h"
+#include "lrpageitemdesignintf.h"
 #include <QPushButton>
 #include <QPageSize>
-lrpageeditor::lrpageeditor(QWidget *parent, LimeReport::PageItemDesignIntf *page) :
+
+using namespace LimeReport;
+
+lrpageeditor::lrpageeditor(QWidget *parent, PageItemDesignIntf *page) :
     QDialog(parent),
     ui(new Ui::lrpageeditor)
 {
@@ -16,10 +19,10 @@ lrpageeditor::lrpageeditor(QWidget *parent, LimeReport::PageItemDesignIntf *page
         ui->format->addItem(pageSizes.key(i));
     }
     ui->format->setCurrentIndex(m_page->pageSize());
-    ui->width->setValue(m_page->width() / LimeReport::Const::mmFACTOR);
-    ui->height->setValue(m_page->height() / LimeReport::Const::mmFACTOR);
-    ui->portrait->setChecked(m_page->pageOrientation() == LimeReport::PageItemDesignIntf::Portrait);
-    ui->landscape->setChecked(m_page->pageOrientation() == LimeReport::PageItemDesignIntf::Landscape);
+    ui->width->setValue(m_page->width() / Const::mmFACTOR);
+    ui->height->setValue(m_page->height() / Const::mmFACTOR);
+    ui->portrait->setChecked(m_page->pageOrientation() == PageItemDesignIntf::Portrait);
+    ui->landscape->setChecked(m_page->pageOrientation() == PageItemDesignIntf::Landscape);
     //Margins
     ui->marginTop->setValue(m_page->topMargin());
     ui->marginRight->setValue(m_page->rightMargin());
@@ -40,10 +43,10 @@ lrpageeditor::~lrpageeditor()
 
 void lrpageeditor::applyChanges()
 {
-    m_page->setPageSize(static_cast<LimeReport::PageItemDesignIntf::PageSize>(ui->format->currentIndex()));
-    m_page->setWidth(ui->width->value()* LimeReport::Const::mmFACTOR);
-    m_page->setHeight(ui->height->value()*  LimeReport::Const::mmFACTOR);
-    m_page->setPageOrientation(ui->portrait->isChecked()?LimeReport::PageItemDesignIntf::Portrait : LimeReport::PageItemDesignIntf::Landscape);
+    m_page->setPageSize(static_cast<PageItemDesignIntf::PageSize>(ui->format->currentIndex()));
+    m_page->setWidth(ui->width->value()* Const::mmFACTOR);
+    m_page->setHeight(ui->height->value()*  Const::mmFACTOR);
+    m_page->setPageOrientation(ui->portrait->isChecked()?PageItemDesignIntf::Portrait : PageItemDesignIntf::Landscape);
 
     m_page->setTopMargin(ui->marginTop->value());
     m_page->setBottomMargin(ui->marginBottom->value());
@@ -61,9 +64,9 @@ void lrpageeditor::on_buttonBox_accepted()
 
 }
 
-QSizeF lrpageeditor::getRectByPageSize(const LimeReport::PageItemDesignIntf::PageSize& size)
+QSizeF lrpageeditor::getRectByPageSize(const PageItemDesignIntf::PageSize& size)
 {
-    if (size != LimeReport::PageItemDesignIntf::Custom) {
+    if (size != PageItemDesignIntf::Custom) {
         QPrinter printer;
         printer.setOutputFormat(QPrinter::PdfFormat);
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
@@ -76,8 +79,8 @@ QSizeF lrpageeditor::getRectByPageSize(const LimeReport::PageItemDesignIntf::Pag
         QPageSize pageSize = QPageSize((QPageSize::PageSizeId)size);
         qreal width = pageSize.size(QPageSize::Millimeter).width() * 10;
         qreal height = pageSize.size(QPageSize::Millimeter).height() * 10;
-        return QSizeF(pageOrientation() == Portrait ? width : height,
-                      pageOrientation() == Portrait ? height : width);
+        return QSizeF(m_page->pageOrientation() == PageItemDesignIntf::Portrait ? width : height,
+                      m_page->pageOrientation() == PageItemDesignIntf::Orientation::Portrait ? height : width);
 
 //        printer.setPageOrientation((QPageLayout::Orientation)pageOrientation());
 //        printer.setPageSize(QPageSize((QPageSize::PageSizeId)size));
@@ -95,7 +98,7 @@ void lrpageeditor::on_format_currentIndexChanged(int index)
     QPageSize ps = *new QPageSize();
     if(ui->format->currentText() != "Custom")
     {
-        QSizeF pageSize = getRectByPageSize(static_cast<LimeReport::PageItemDesignIntf::PageSize>(index));
+        QSizeF pageSize = getRectByPageSize(static_cast<PageItemDesignIntf::PageSize>(index));
     ui->width->setValue(pageSize.width()/10);
     ui->height->setValue(pageSize.height()/10);
     }
