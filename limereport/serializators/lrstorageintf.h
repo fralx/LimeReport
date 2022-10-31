@@ -30,6 +30,7 @@
 #ifndef LRSTORAGEINTF_H
 #define LRSTORAGEINTF_H
 
+#include "lrglobal.h"
 #include <QSharedPointer>
 
 class QString;
@@ -37,14 +38,14 @@ class QObject;
 
 namespace LimeReport{
 
-class ObjectLoadingStateIntf{
+class LIMEREPORT_EXPORT ObjectLoadingStateIntf{
 public:
     virtual bool isLoading() = 0;
     virtual void objectLoadStarted() = 0;
     virtual void objectLoadFinished() = 0;
 };
 
-class ItemsWriterIntf
+class LIMEREPORT_EXPORT ItemsWriterIntf
 {
 public:
     virtual void putItem(QObject* item) = 0;
@@ -55,7 +56,7 @@ public:
     virtual ~ItemsWriterIntf(){}
 };
 
-class ItemsReaderIntf
+class LIMEREPORT_EXPORT ItemsReaderIntf
 {
 public:
     typedef QSharedPointer<ItemsReaderIntf> Ptr;
