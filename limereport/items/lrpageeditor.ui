@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>306</width>
-    <height>322</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -297,7 +297,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -312,8 +312,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>312</y>
+     <x>296</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -328,12 +328,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>60</x>
-     <y>50</y>
+     <x>72</x>
+     <y>81</y>
     </hint>
     <hint type="destinationlabel">
-     <x>130</x>
-     <y>85</y>
+     <x>131</x>
+     <y>134</y>
     </hint>
    </hints>
   </connection>

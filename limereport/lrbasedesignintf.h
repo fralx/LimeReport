@@ -389,7 +389,7 @@ protected:
 
 
     void drawBorder(QPainter* painter, QRectF rect) const;
-    void drawShadow(QPainter* painter, QRectF rect) const;
+    void drawShadow(QPainter* painter, QRectF rect, qreal shadowSize) const;
     void drawDesignModeBorder(QPainter* painter, QRectF rect) const;
     void drawRenderModeBorder(QPainter *painter, QRectF rect) const;
     void drawResizeZone(QPainter*);

@@ -431,7 +431,7 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     setupPainter(ppainter);
     drawBorder(ppainter, rect());
     if(m_shadow)
-        drawShadow(ppainter, rect());
+        drawShadow(ppainter, rect(), 6);
     //    if (m_joinMarkerOn) { drawMarker(ppainter, Const::JOIN_COLOR);}
     //    if (isSelected() && !m_joinMarkerOn) {drawMarker(ppainter, Const::SELECTION_COLOR);}
     drawResizeZone(ppainter);
@@ -1145,10 +1145,9 @@ void BaseDesignIntf::drawBorder(QPainter *painter, QRectF rect) const
     painter->restore();
 }
 
-void BaseDesignIntf::drawShadow(QPainter *painter, QRectF rect) const
+void BaseDesignIntf::drawShadow(QPainter *painter, QRectF rect, qreal shadowSize) const
 {
-
-    qreal shWidth = rect.width()/100;
+    qreal shWidth = shadowSize;
     QRectF rshadow(rect.topRight() + QPointF(0, shWidth),
                    rect.bottomRight() + QPointF(shWidth, 0));
     QLinearGradient rgrad(rshadow.topLeft(), rshadow.topRight());
@@ -1167,8 +1166,6 @@ void BaseDesignIntf::drawShadow(QPainter *painter, QRectF rect) const
     cgrad.setColorAt(0.0, QColor(0,0,0,255));
     cgrad.setColorAt(1.0, QColor(0,0,0,0));
     painter->fillRect(cshadow, QBrush(cgrad));
-
-
 }
 
 void BaseDesignIntf::setGeometry(QRectF rect)
@@ -1486,7 +1483,7 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     menu.addSeparator();
     QAction* noBordersAction = menu.addAction(QIcon(":/report/images/noLines"), tr("No borders"));
     QAction* allBordersAction = menu.addAction(QIcon(":/report/images/allLines"), tr("All borders"));
-    QAction* editBorderAction = menu.addAction(QIcon(":/report/images/allLines"), tr("Edit borders..."));
+    QAction* editBorderAction = menu.addAction(QIcon(":/report/images/borderEditor"), tr("Edit borders..."));
     preparePopUpMenu(menu);
     QAction* a = menu.exec(event->screenPos());
     if (a){
@@ -1507,15 +1504,12 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             page->setBorders(BaseDesignIntf::NoLine);
         if (a == allBordersAction)
             page->setBorders(BaseDesignIntf::AllLines);
-        if(a == editBorderAction)
+        if (a == editBorderAction)
         {
-            lrbordereditor be;
+            BorderEditor be;
             be.loadItem(this);
-            if(be.exec() == QDialog::Rejected)return;
-            setBorderLinesFlags(be.borderSides());
-            setBorderLineSize(be.border_width());
-            setBorderStyle((LimeReport::BaseDesignIntf::BorderStyle)be.border_style());
-            setBorderColor(be.borderColor());
+            if (be.exec() == QDialog::Rejected) return;
+            page->setBordersExt(be.borderSides(), be.borderWidth(), (LimeReport::BaseDesignIntf::BorderStyle)be.borderStyle(), be.borderColor());
         }
         if (a == createHLayout)
             page->addHLayout();
