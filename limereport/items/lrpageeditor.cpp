@@ -5,9 +5,11 @@
 #include <QPushButton>
 #include <QPageSize>
 
+namespace LimeReport{
+
 PageEditor::PageEditor(QWidget *parent, LimeReport::PageItemDesignIntf *page) :
     QDialog(parent),
-    ui(new Ui::lrpageeditor)
+    ui(new Ui::PageEditor)
 {
     ui->setupUi(this);
     m_page = page;
@@ -59,7 +61,7 @@ void PageEditor::applyChanges()
 
 QSizeF PageEditor::getRectByPageSize(const LimeReport::PageItemDesignIntf::PageSize& size)
 {
-    if (size != LimeReport::PageItemDesignIntf::Custom) {
+    if (size != PageItemDesignIntf::Custom) {
         QPrinter printer;
         printer.setOutputFormat(QPrinter::PdfFormat);
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
@@ -78,6 +80,7 @@ QSizeF PageEditor::getRectByPageSize(const LimeReport::PageItemDesignIntf::PageS
         return QSizeF(m_page->getItemWidth(), m_page->getItemHeight());
     }
 }
+
 void PageEditor::on_format_currentIndexChanged(int index)
 {
     QPageSize ps = *new QPageSize();
@@ -102,6 +105,6 @@ void PageEditor::on_buttonBox_clicked(QAbstractButton *button)
             accept();
     }
 
-
 }
 
+} // namespace

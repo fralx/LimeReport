@@ -31,7 +31,7 @@
            <string>No lines</string>
           </property>
           <property name="icon">
-           <iconset resource="../report.qrc">
+           <iconset>
             <normaloff>:/report/images/noLines</normaloff>:/report/images/noLines</iconset>
           </property>
           <property name="checkable">
@@ -51,7 +51,7 @@
            <string>Outline</string>
           </property>
           <property name="icon">
-           <iconset resource="../report.qrc">
+           <iconset>
             <normaloff>:/report/images/allLines</normaloff>:/report/images/allLines</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -81,7 +81,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/topLine</normaloff>:/report/images/topLine</iconset>
               </property>
               <property name="checkable">
@@ -108,7 +108,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/bottomLine</normaloff>:/report/images/bottomLine</iconset>
               </property>
               <property name="checkable">
@@ -129,7 +129,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/leftLine</normaloff>:/report/images/leftLine</iconset>
               </property>
               <property name="checkable">
@@ -156,7 +156,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/rightLine</normaloff>:/report/images/rightLine</iconset>
               </property>
               <property name="checkable">
@@ -364,14 +364,11 @@
   <customwidget>
    <class>LimeReport::BorderFrameEditor</class>
    <extends>QWidget</extends>
-   <header>borderframeeditor.h</header>
+   <header>lrborderframeeditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../report.qrc"/>
-  <include location="../report.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

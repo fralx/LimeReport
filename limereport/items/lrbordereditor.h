@@ -3,13 +3,15 @@
 
 #include <QDialog>
 #include "lrbasedesignintf.h"
+
 namespace LimeReport{
 
 namespace Ui {
-class BorderEditor;
+    class BorderEditor;
 }
 
-class BorderEditor : public QDialog
+
+class LIMEREPORT_EXPORT BorderEditor : public QDialog
 {
     Q_OBJECT
 
