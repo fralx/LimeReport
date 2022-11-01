@@ -80,7 +80,7 @@ SOURCES += \
     $$REPORT_PATH/lraxisdata.cpp \
     $$REPORT_PATH/lrpreparedpages.cpp \
     $$REPORT_PATH/items/lrpageeditor.cpp \
-    $$REPORT_PATH/items/borderframeeditor.cpp \
+    $$REPORT_PATH/items/lrborderframeeditor.cpp \
     $$REPORT_PATH/items/lrbordereditor.cpp
 
 CONFIG(staticlib) {
@@ -181,7 +181,7 @@ HEADERS += \
     $$REPORT_PATH/lraxisdata.h \
     $$REPORT_PATH/lrpreparedpagesintf.h \
     $$REPORT_PATH/items/lrpageeditor.h \
-    $$REPORT_PATH/items/borderframeeditor.h \
+    $$REPORT_PATH/items/lrborderframeeditor.h \
     $$REPORT_PATH/items/lrbordereditor.h
 
 CONFIG(staticlib) {
@@ -207,7 +207,7 @@ FORMS += \
     $$REPORT_PATH/items/lrimageitemeditor.ui \
     $$REPORT_PATH/scripteditor/lrscripteditor.ui \
     $$REPORT_PATH/items/lrpageeditor.ui \
-    $$REPORT_PATH/items/borderframeeditor.ui \
+    $$REPORT_PATH/items/lrborderframeeditor.ui \
     $$REPORT_PATH/items/lrbordereditor.ui
 
 RESOURCES += \

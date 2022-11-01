@@ -704,6 +704,16 @@ void ReportDesignWidget::setBorders(const BaseDesignIntf::BorderLines& borders)
         activePage()->setBorders(borders);
 }
 
+void ReportDesignWidget::setBordersExt(
+    const BaseDesignIntf::BorderLines& border,
+    const double borderWidth,
+    const LimeReport::BaseDesignIntf::BorderStyle style,
+    const QString color
+){
+    if (activePage())
+        activePage()->setBordersExt(border, borderWidth, style, color);
+}
+
 void ReportDesignWidget::prepareReport()
 {
     m_report->scriptContext()->setInitScript(m_scriptEditor->toPlainText());

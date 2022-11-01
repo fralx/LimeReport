@@ -1826,6 +1826,20 @@ void PageDesignIntf::setBorders(const BaseDesignIntf::BorderLines& border)
     changeSelectedGroupProperty("borders", (int)border);
 }
 
+void PageDesignIntf::setBordersExt(
+        const BaseDesignIntf::BorderLines& border,
+        const double borderWidth,
+        const LimeReport::BaseDesignIntf::BorderStyle style,
+        const QString color
+
+)
+{
+    changeSelectedGroupProperty("borders", (int)border);
+    changeSelectedGroupProperty("borderLineSize", borderWidth);
+    changeSelectedGroupProperty("borderStyle", style);
+    changeSelectedGroupProperty("borderColor", color);
+}
+
 void PageDesignIntf::lockSelectedItems()
 {
     foreach(QGraphicsItem* graphicItem, selectedItems()){

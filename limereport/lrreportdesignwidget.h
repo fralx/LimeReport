@@ -194,6 +194,8 @@ public slots:
     void setFont(const QFont &font);
     void setTextAlign(const bool &horizontalAlign, const Qt::AlignmentFlag &alignment);
     void setBorders(const BaseDesignIntf::BorderLines& borders);
+    void setBordersExt(const BaseDesignIntf::BorderLines &border, const double borderWidth,
+                       const LimeReport::BaseDesignIntf::BorderStyle style, const QString color);
     void editSetting();
     void setUseGrid(bool value);
     void previewReport();

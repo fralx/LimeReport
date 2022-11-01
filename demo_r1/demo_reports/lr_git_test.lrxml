@@ -1,0 +1,2891 @@
+<?xml version="1.0" encoding="UTF8"?>
+<Report>
+  <object Type="Object" ClassName="LimeReport::ReportEnginePrivate">
+    <objectName Type="QString"></objectName>
+    <pages Type="Collection">
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page4</objectName>
+        <sceneRect height="3075" x="-50" width="2200" y="-50" Type="QRect"/>
+        <bspTreeDepth Type="int" Value="5"/>
+        <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+        <sortCacheEnabled Type="bool" Value="0"/>
+        <stickyFocus Type="bool" Value="0"/>
+        <minimumRenderSize Type="qreal" Value="0"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">Horizontal</objectName>
+          <geometry height="2970" x="0" width="2100" y="0" Type="QRect"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem1</objectName>
+              <geometry height="644" x="82" width="818" y="106" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Horizontal</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem3</objectName>
+              <geometry height="654" x="1018" width="988" y="122" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Horizontal</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem2</objectName>
+              <geometry height="654" x="1016" width="988" y="838" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Horizontal</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem4</objectName>
+              <geometry height="644" x="132" width="818" y="826" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Horizontal</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem5</objectName>
+              <geometry height="644" x="102" width="818" y="1630" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Horizontal</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="1"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem6</objectName>
+              <geometry height="654" x="1018" width="988" y="1614" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Horizontal</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="1"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+          </children>
+          <zOrder Type="qreal" Value="0"/>
+          <borders Type="enumAndFlags" Value="0"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Type="int" Value="1"/>
+          <isVisible Type="bool" Value="1"/>
+          <borderColor Type="QColor" Value="#000000"/>
+          <geometryLocked Type="bool" Value="0"/>
+          <topMargin Type="int" Value="5"/>
+          <bottomMargin Type="int" Value="5"/>
+          <rightMargin Type="int" Value="5"/>
+          <leftMargin Type="int" Value="5"/>
+          <pageOrientation Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="0"/>
+          <gridStep Type="int" Value="1"/>
+          <fullPage Type="bool" Value="0"/>
+          <oldPrintMode Type="bool" Value="0"/>
+          <resetPageNumber Type="bool" Value="0"/>
+          <isExtendedInDesignMode Type="bool" Value="0"/>
+          <extendedHeight Type="int" Value="1000"/>
+          <pageIsTOC Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <endlessHeight Type="bool" Value="0"/>
+          <printable Type="bool" Value="1"/>
+          <printerName Type="QString"></printerName>
+          <units Type="enumAndFlags" Value="0"/>
+          <printBehavior Type="enumAndFlags" Value="1"/>
+          <dropPrinterMargins Type="bool" Value="0"/>
+          <notPrintIfEmpty Type="bool" Value="0"/>
+          <mixWithPriorPage Type="bool" Value="0"/>
+        </pageItem>
+      </item>
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page2</objectName>
+        <sceneRect height="3075" x="-50" width="2200" y="-50" Type="QRect"/>
+        <bspTreeDepth Type="int" Value="5"/>
+        <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+        <sortCacheEnabled Type="bool" Value="0"/>
+        <stickyFocus Type="bool" Value="0"/>
+        <minimumRenderSize Type="qreal" Value="0"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">Grid</objectName>
+          <geometry height="2970" x="0" width="2100" y="0" Type="QRect"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem2</objectName>
+              <geometry height="676" x="98" width="876" y="100" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Grid</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="4"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem4</objectName>
+              <geometry height="676" x="1018" width="972" y="120" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Grid</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="4"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem7</objectName>
+              <geometry height="676" x="110" width="876" y="922" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Grid</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="4"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem8</objectName>
+              <geometry height="676" x="1022" width="972" y="930" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Grid</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="4"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem9</objectName>
+              <geometry height="676" x="1064" width="972" y="1772" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Grid</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString">test</chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="5"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="4"/>
+              <labelsField Type="QString">x</labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="26"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="1"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem10</objectName>
+              <geometry height="676" x="132" width="876" y="1752" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Grid</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="4"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="1"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+          </children>
+          <zOrder Type="qreal" Value="0"/>
+          <borders Type="enumAndFlags" Value="0"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Type="int" Value="1"/>
+          <isVisible Type="bool" Value="1"/>
+          <borderColor Type="QColor" Value="#000000"/>
+          <geometryLocked Type="bool" Value="0"/>
+          <topMargin Type="int" Value="5"/>
+          <bottomMargin Type="int" Value="5"/>
+          <rightMargin Type="int" Value="5"/>
+          <leftMargin Type="int" Value="5"/>
+          <pageOrientation Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="0"/>
+          <gridStep Type="int" Value="1"/>
+          <fullPage Type="bool" Value="0"/>
+          <oldPrintMode Type="bool" Value="0"/>
+          <resetPageNumber Type="bool" Value="0"/>
+          <isExtendedInDesignMode Type="bool" Value="0"/>
+          <extendedHeight Type="int" Value="1000"/>
+          <pageIsTOC Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <endlessHeight Type="bool" Value="0"/>
+          <printable Type="bool" Value="1"/>
+          <printerName Type="QString"></printerName>
+          <units Type="enumAndFlags" Value="0"/>
+          <printBehavior Type="enumAndFlags" Value="1"/>
+          <dropPrinterMargins Type="bool" Value="0"/>
+          <notPrintIfEmpty Type="bool" Value="0"/>
+          <mixWithPriorPage Type="bool" Value="0"/>
+        </pageItem>
+      </item>
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page2</objectName>
+        <sceneRect height="3075" x="-50" width="2200" y="-50" Type="QRect"/>
+        <bspTreeDepth Type="int" Value="5"/>
+        <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+        <sortCacheEnabled Type="bool" Value="0"/>
+        <stickyFocus Type="bool" Value="0"/>
+        <minimumRenderSize Type="qreal" Value="0"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">Lines</objectName>
+          <geometry height="2970" x="0" width="2100" y="0" Type="QRect"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem5</objectName>
+              <geometry height="676" x="1040" width="854" y="134" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Lines</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="3"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem1</objectName>
+              <geometry height="676" x="80" width="854" y="160" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Lines</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="3"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem2</objectName>
+              <geometry height="676" x="1068" width="854" y="868" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Lines</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="3"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem3</objectName>
+              <geometry height="676" x="92" width="868" y="870" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Lines</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="3"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="1"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+          </children>
+          <zOrder Type="qreal" Value="0"/>
+          <borders Type="enumAndFlags" Value="0"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Type="int" Value="1"/>
+          <isVisible Type="bool" Value="1"/>
+          <borderColor Type="QColor" Value="#000000"/>
+          <geometryLocked Type="bool" Value="0"/>
+          <topMargin Type="int" Value="5"/>
+          <bottomMargin Type="int" Value="5"/>
+          <rightMargin Type="int" Value="5"/>
+          <leftMargin Type="int" Value="5"/>
+          <pageOrientation Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="0"/>
+          <gridStep Type="int" Value="1"/>
+          <fullPage Type="bool" Value="0"/>
+          <oldPrintMode Type="bool" Value="0"/>
+          <resetPageNumber Type="bool" Value="0"/>
+          <isExtendedInDesignMode Type="bool" Value="0"/>
+          <extendedHeight Type="int" Value="1000"/>
+          <pageIsTOC Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <endlessHeight Type="bool" Value="0"/>
+          <printable Type="bool" Value="1"/>
+          <printerName Type="QString"></printerName>
+          <units Type="enumAndFlags" Value="0"/>
+          <printBehavior Type="enumAndFlags" Value="1"/>
+          <dropPrinterMargins Type="bool" Value="0"/>
+          <notPrintIfEmpty Type="bool" Value="0"/>
+          <mixWithPriorPage Type="bool" Value="0"/>
+        </pageItem>
+      </item>
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page3</objectName>
+        <sceneRect height="3075" x="-50" width="2200" y="-50" Type="QRect"/>
+        <bspTreeDepth Type="int" Value="5"/>
+        <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+        <sortCacheEnabled Type="bool" Value="0"/>
+        <stickyFocus Type="bool" Value="0"/>
+        <minimumRenderSize Type="qreal" Value="0"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">Vertical</objectName>
+          <geometry height="2970" x="0" width="2100" y="0" Type="QRect"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem6</objectName>
+              <geometry height="676" x="1076" width="938" y="136" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Vertical</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="1"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem1</objectName>
+              <geometry height="676" x="106" width="938" y="136" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Vertical</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="1"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem2</objectName>
+              <geometry height="676" x="96" width="938" y="862" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Vertical</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="1"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem3</objectName>
+              <geometry height="676" x="1064" width="938" y="864" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Vertical</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series7</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#ff0000"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series8</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00008b"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series9</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#00cd00"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="1"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="1"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+          </children>
+          <zOrder Type="qreal" Value="0"/>
+          <borders Type="enumAndFlags" Value="0"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Type="int" Value="1"/>
+          <isVisible Type="bool" Value="1"/>
+          <borderColor Type="QColor" Value="#000000"/>
+          <geometryLocked Type="bool" Value="0"/>
+          <topMargin Type="int" Value="5"/>
+          <bottomMargin Type="int" Value="5"/>
+          <rightMargin Type="int" Value="5"/>
+          <leftMargin Type="int" Value="5"/>
+          <pageOrientation Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="0"/>
+          <gridStep Type="int" Value="1"/>
+          <fullPage Type="bool" Value="0"/>
+          <oldPrintMode Type="bool" Value="0"/>
+          <resetPageNumber Type="bool" Value="0"/>
+          <isExtendedInDesignMode Type="bool" Value="0"/>
+          <extendedHeight Type="int" Value="1000"/>
+          <pageIsTOC Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <endlessHeight Type="bool" Value="0"/>
+          <printable Type="bool" Value="1"/>
+          <printerName Type="QString"></printerName>
+          <units Type="enumAndFlags" Value="0"/>
+          <printBehavior Type="enumAndFlags" Value="1"/>
+          <dropPrinterMargins Type="bool" Value="0"/>
+          <notPrintIfEmpty Type="bool" Value="0"/>
+          <mixWithPriorPage Type="bool" Value="0"/>
+        </pageItem>
+      </item>
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page5</objectName>
+        <sceneRect height="3075" x="-50" width="2200" y="-50" Type="QRect"/>
+        <bspTreeDepth Type="int" Value="5"/>
+        <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+        <sortCacheEnabled Type="bool" Value="0"/>
+        <stickyFocus Type="bool" Value="0"/>
+        <minimumRenderSize Type="qreal" Value="0"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">Pie</objectName>
+          <geometry height="2970" x="0" width="2100" y="0" Type="QRect"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem7</objectName>
+              <geometry height="628" x="1310" width="620" y="142" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Pie</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="0"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem1</objectName>
+              <geometry height="676" x="362" width="530" y="210" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Pie</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0</name>
+                  <valuesColumn Type="QString">y</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="0"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString">x</xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+          </children>
+          <zOrder Type="qreal" Value="0"/>
+          <borders Type="enumAndFlags" Value="0"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Type="int" Value="1"/>
+          <isVisible Type="bool" Value="1"/>
+          <borderColor Type="QColor" Value="#000000"/>
+          <geometryLocked Type="bool" Value="0"/>
+          <topMargin Type="int" Value="5"/>
+          <bottomMargin Type="int" Value="5"/>
+          <rightMargin Type="int" Value="5"/>
+          <leftMargin Type="int" Value="5"/>
+          <pageOrientation Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="0"/>
+          <gridStep Type="int" Value="1"/>
+          <fullPage Type="bool" Value="0"/>
+          <oldPrintMode Type="bool" Value="0"/>
+          <resetPageNumber Type="bool" Value="0"/>
+          <isExtendedInDesignMode Type="bool" Value="0"/>
+          <extendedHeight Type="int" Value="1000"/>
+          <pageIsTOC Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <endlessHeight Type="bool" Value="0"/>
+          <printable Type="bool" Value="1"/>
+          <printerName Type="QString"></printerName>
+          <units Type="enumAndFlags" Value="0"/>
+          <printBehavior Type="enumAndFlags" Value="1"/>
+          <dropPrinterMargins Type="bool" Value="0"/>
+          <notPrintIfEmpty Type="bool" Value="0"/>
+          <mixWithPriorPage Type="bool" Value="0"/>
+        </pageItem>
+      </item>
+      <item Type="Object" ClassName="LimeReport::PageDesignIntf">
+        <objectName Type="QString">page6</objectName>
+        <sceneRect height="3075" x="-50" width="2200" y="-50" Type="QRect"/>
+        <bspTreeDepth Type="int" Value="5"/>
+        <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+        <sortCacheEnabled Type="bool" Value="0"/>
+        <stickyFocus Type="bool" Value="0"/>
+        <minimumRenderSize Type="qreal" Value="0"/>
+        <pageItem Type="Object" ClassName="PageItem">
+          <objectName Type="QString">Corner cases</objectName>
+          <geometry height="2970" x="0" width="2100" y="0" Type="QRect"/>
+          <children Type="Collection">
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem3</objectName>
+              <geometry height="618" x="282" width="366" y="316" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Corner cases</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0 long naammamamamamama</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="4"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+            <item Type="Object" ClassName="ChartItem">
+              <objectName Type="QString">ChartItem1</objectName>
+              <geometry height="142" x="334" width="1286" y="1086" Type="QRect"/>
+              <children Type="Collection"/>
+              <zOrder Type="qreal" Value="0"/>
+              <borders Type="enumAndFlags" Value="0"/>
+              <parentName Type="QString">Corner cases</parentName>
+              <borderLineSize Type="int" Value="1"/>
+              <isVisible Type="bool" Value="1"/>
+              <borderColor Type="QColor" Value="#000000"/>
+              <geometryLocked Type="bool" Value="0"/>
+              <itemLocation Type="enumAndFlags" Value="1"/>
+              <stretchToMaxHeight Type="bool" Value="0"/>
+              <itemAlign Type="enumAndFlags" Value="4"/>
+              <series Type="Collection">
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series0 long naammamamamamama</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#3366cc"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series1</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dc3912"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series2</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#e19900"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series3</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#109618"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series4</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#990099"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series5</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#0099c6"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+                <item Type="Object" ClassName="LimeReport::SeriesItem">
+                  <objectName Type="QString"></objectName>
+                  <name Type="QString">Series6</name>
+                  <valuesColumn Type="QString">x_big</valuesColumn>
+                  <labelsColumn Type="QString"></labelsColumn>
+                  <xAxisColumn Type="QString"></xAxisColumn>
+                  <color Type="QColor" Value="#dd4477"/>
+                  <preferredType Type="enumAndFlags" Value="0"/>
+                </item>
+              </series>
+              <datasource Type="QString">test</datasource>
+              <chartTitle Type="QString"></chartTitle>
+              <drawLegendBorder Type="bool" Value="1"/>
+              <legendAlign Type="enumAndFlags" Value="1"/>
+              <legendStyle Type="enumAndFlags" Value="0"/>
+              <titleAlign Type="enumAndFlags" Value="1"/>
+              <chartType Type="enumAndFlags" Value="2"/>
+              <labelsField Type="QString"></labelsField>
+              <showLegend Type="bool" Value="1"/>
+              <titleFont weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <font weight="50" italic="0" family="Sans Serif" underline="0" Type="QFont" pointSize="9"/>
+              <drawPoints Type="bool" Value="1"/>
+              <seriesLineWidth Type="int" Value="4"/>
+              <horizontalAxisOnTop Type="bool" Value="0"/>
+              <xAxisField Type="QString"></xAxisField>
+              <gridChartLines Type="enumAndFlags" Value="3"/>
+            </item>
+          </children>
+          <zOrder Type="qreal" Value="0"/>
+          <borders Type="enumAndFlags" Value="0"/>
+          <parentName Type="QString"></parentName>
+          <borderLineSize Type="int" Value="1"/>
+          <isVisible Type="bool" Value="1"/>
+          <borderColor Type="QColor" Value="#000000"/>
+          <geometryLocked Type="bool" Value="0"/>
+          <topMargin Type="int" Value="5"/>
+          <bottomMargin Type="int" Value="5"/>
+          <rightMargin Type="int" Value="5"/>
+          <leftMargin Type="int" Value="5"/>
+          <pageOrientation Type="enumAndFlags" Value="0"/>
+          <pageSize Type="enumAndFlags" Value="0"/>
+          <gridStep Type="int" Value="1"/>
+          <fullPage Type="bool" Value="0"/>
+          <oldPrintMode Type="bool" Value="0"/>
+          <resetPageNumber Type="bool" Value="0"/>
+          <isExtendedInDesignMode Type="bool" Value="0"/>
+          <extendedHeight Type="int" Value="1000"/>
+          <pageIsTOC Type="bool" Value="0"/>
+          <setPageSizeToPrinter Type="bool" Value="0"/>
+          <endlessHeight Type="bool" Value="0"/>
+          <printable Type="bool" Value="1"/>
+          <printerName Type="QString"></printerName>
+          <units Type="enumAndFlags" Value="0"/>
+          <printBehavior Type="enumAndFlags" Value="1"/>
+          <dropPrinterMargins Type="bool" Value="0"/>
+          <notPrintIfEmpty Type="bool" Value="0"/>
+          <mixWithPriorPage Type="bool" Value="0"/>
+        </pageItem>
+      </item>
+    </pages>
+    <datasourcesManager Type="Object" ClassName="LimeReport::DataSourceManager">
+      <objectName Type="QString">datasources</objectName>
+      <connections Type="Collection"/>
+      <queries Type="Collection"/>
+      <subqueries Type="Collection"/>
+      <subproxies Type="Collection"/>
+      <variables Type="Collection"/>
+      <csvs Type="Collection">
+        <item Type="Object" ClassName="LimeReport::CSVDesc">
+          <objectName Type="QString"></objectName>
+          <name Type="QString">test</name>
+          <csvText Type="QString">y,x,label,x_big
+10,3,f,200000
+20,2,s,100000
+30,0,t,10000</csvText>
+          <separator Type="QString">,</separator>
+          <firstRowIsHeader Type="bool" Value="1"/>
+        </item>
+      </csvs>
+    </datasourcesManager>
+    <scriptContext Type="Object" ClassName="LimeReport::ScriptEngineContext">
+      <objectName Type="QString"></objectName>
+      <dialogs Type="Collection"/>
+      <initScript Type="QString"></initScript>
+    </scriptContext>
+    <suppressFieldAndVarError Type="bool" Value="0"/>
+    <translation Type="Translation"/>
+  </object>
+</Report>
