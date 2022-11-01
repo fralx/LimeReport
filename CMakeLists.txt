@@ -298,7 +298,7 @@ ${PROJECT_NAME}/databrowser/lrdatabrowser.ui
 ${PROJECT_NAME}/databrowser/lrsqleditdialog.ui
 ${PROJECT_NAME}/databrowser/lrvariabledialog.ui
 ${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
-${PROJECT_NAME}/items/borderframeeditor.ui
+${PROJECT_NAME}/items/lrborderframeeditor.ui
 ${PROJECT_NAME}/items/lrbordereditor.ui
 ${PROJECT_NAME}/items/lrchartitemeditor.ui
 ${PROJECT_NAME}/items/lrchartaxiseditor.ui
