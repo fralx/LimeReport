@@ -83,7 +83,7 @@ ${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.cpp
 ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.cpp
 ${PROJECT_NAME}/items/lrabstractlayout.cpp
 ${PROJECT_NAME}/items/lralignpropitem.cpp
-${PROJECT_NAME}/items/borderframeeditor.cpp
+${PROJECT_NAME}/items/lrborderframeeditor.cpp
 ${PROJECT_NAME}/items/lrbordereditor.cpp
 ${PROJECT_NAME}/items/lrchartitem.cpp
 ${PROJECT_NAME}/items/lrchartaxiseditor.cpp
@@ -198,7 +198,7 @@ ${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.h
 ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.h
 ${PROJECT_NAME}/items/lrabstractlayout.h
 ${PROJECT_NAME}/items/lralignpropitem.h
-${PROJECT_NAME}/items/borderframeeditor.h
+${PROJECT_NAME}/items/lrborderframeeditor.h
 ${PROJECT_NAME}/items/lrbordereditor.h
 ${PROJECT_NAME}/items/lrchartitem.h
 ${PROJECT_NAME}/items/lrchartaxiseditor.h
