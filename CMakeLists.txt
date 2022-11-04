@@ -10,15 +10,8 @@ option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
 option(LIMEREPORT_DEMO "Build LimeReport demos" OFF)
 option(USE_QT6 "Use Qt6" OFF)
 
-if(USE_QT6)
-    find_package(QT NAMES Qt6)
-else()
-    find_package(QT NAMES Qt5)
-endif(USE_QT6)
-find_package(
-  Qt${QT_VERSION_MAJOR}
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
-  )
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED )
 
 find_package(
   Qt${QT_VERSION_MAJOR}
