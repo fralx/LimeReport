@@ -168,6 +168,7 @@ QGraphicsLineItem *BorderFrameEditor::createSideLine(LimeReport::BaseDesignIntf:
     case BaseDesignIntf::BorderSide::BottomLine:
         return scene->addLine(QLineF(10, rect().bottom() - 10, rect().width() - 10, rect().bottom() - 10), m_pen);
     }
+    return 0;
 }
 
 void BorderFrameEditor::updateBorders()
