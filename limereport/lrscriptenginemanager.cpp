@@ -707,14 +707,13 @@ int ScriptEngineManager::getPageFreeSpace(PageItemDesignIntf* page){
     if (page){
         int height = 0;
         foreach(BandDesignIntf* band, page->bands()){
-
             if(band->type() == BandDesignIntf::Data)
             {
                 height += band->geometry().height() * m_dataManager->dataSource(band->datasourceName())->model()->rowCount();
             }
             else height += band->height();
         }
-        return page->height() - height;
+        return page->height() - height - (page->pageFooter()?page->pageFooter()->height() : 0);
     } else return -1;
 }
 
