@@ -533,6 +533,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::BorderFrameEditor</name>
+    <message>
+        <source>BorderFrameEditor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
         <source>defaultConnection</source>

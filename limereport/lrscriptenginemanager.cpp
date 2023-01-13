@@ -701,7 +701,7 @@ int ScriptEngineManager::getPageFreeSpace(PageItemDesignIntf* page){
             }
             else height += band->height();
         }
-        return page->height() - height;
+        return page->height() - height - (page->pageFooter()?page->pageFooter()->height() : 0);
     } else return -1;
 }
 

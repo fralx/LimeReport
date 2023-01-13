@@ -624,6 +624,19 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>LimeReport::BorderFrameEditor</name>
+    <message>
+        <location filename="../limereport/items/lrborderframeeditor.ui" line="20"/>
+        <source>BorderFrameEditor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/items/lrborderframeeditor.cpp" line="39"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
         <location filename="../limereport/lrdatadesignintf.cpp" line="372"/>
@@ -4214,14 +4227,14 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1676"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1718"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1702"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1744"/>
         <source>Attention!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1676"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1718"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1702"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1744"/>
         <source>Selected elements have different parent containers</source>
         <translation>Les éléments sélectionnés ont un parent différent</translation>
     </message>

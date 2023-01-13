@@ -73,6 +73,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_itemInsertRect(0),
     m_itemMode(DesignMode),
     m_cutterBorder(0),
+    m_infoPosRect(0),
     m_currentCommand(-1),
     m_changeSizeMode(false),
     m_changePosMode(false),
@@ -93,6 +94,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_magneticMovement(false),
     m_reportSettings(0),
     m_currentPage(0)
+
 {
     m_reportEditor = dynamic_cast<ReportEnginePrivate *>(parent);
     updatePageRect();
@@ -314,6 +316,7 @@ void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
 
     if (event->buttons() & Qt::LeftButton) {
         if (!m_changePosOrSizeMode) {
@@ -321,6 +324,25 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             saveSelectedItemsGeometry();
             m_changePosOrSizeMode = true;
         }
+        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
+        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
+        if(!m_infoPosRect)
+        {
+
+
+        m_infoPosRect = new QGraphicsTextItem();
+        m_infoPosRect->setDefaultTextColor(QColor(100,150,50));
+
+        QFont font("Arial");
+        font.setPointSize(16);
+        font.setBold(true);
+        m_infoPosRect->setFont(font);
+        addItem(m_infoPosRect);
+        }
+        m_infoPosRect->setPlainText("(x: "+QString::number(posX/100)+", y: "+QString::number(posY/100)+") cm");
+
+        m_infoPosRect->setPos(posX,posY+30);
+
     }
 
     if (event->buttons() & Qt::LeftButton && m_multiSelectStarted){
@@ -340,7 +362,6 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect->setRect(selectionRect);
     }
 
-    PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
     if ((m_insertMode) && (page && page->rect().contains(page->mapFromScene(event->scenePos())))) {
         if (!m_itemInsertRect->isVisible()) m_itemInsertRect->setVisible(true);
         qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
@@ -401,6 +422,11 @@ void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         delete m_selectionRect;
         m_selectionRect = 0;
         m_multiSelectStarted = false;
+    }
+    if(m_infoPosRect)
+    {
+        delete m_infoPosRect;
+        m_infoPosRect = 0;
     }
     QGraphicsScene::mouseReleaseEvent(event);
 }
