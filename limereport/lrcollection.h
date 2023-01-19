@@ -35,7 +35,7 @@
 
 #include "lrglobal.h"
 
-class ACollectionProperty{
+class LIMEREPORT_EXPORT ACollectionProperty{
 public:
     ACollectionProperty(){}
     ACollectionProperty(const ACollectionProperty& ){}
@@ -45,8 +45,8 @@ Q_DECLARE_METATYPE(ACollectionProperty)
 
 namespace LimeReport{
 
-const int COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
-class ICollectionContainer{
+const int inline COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
+class LIMEREPORT_EXPORT ICollectionContainer{
 public:
     virtual QObject* createElement(const QString& collectionName,const QString& elementType)=0;
     virtual int elementsCount(const QString& collectionName)=0;

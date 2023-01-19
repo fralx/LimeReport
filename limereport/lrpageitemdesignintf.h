@@ -39,7 +39,7 @@
 namespace LimeReport{
 
 class ReportRender;
-class PageItemDesignIntf : public ItemsContainerDesignInft
+class LIMEREPORT_EXPORT PageItemDesignIntf : public ItemsContainerDesignInft
 {
     Q_OBJECT
     Q_PROPERTY(int topMargin READ topMargin WRITE setTopMargin)

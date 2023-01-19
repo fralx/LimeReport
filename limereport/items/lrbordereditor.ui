@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>lrbordereditor</class>
- <widget class="QDialog" name="lrbordereditor">
+ <class>LimeReport::BorderEditor</class>
+ <widget class="QDialog" name="LimeReport::BorderEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>381</width>
-    <height>311</height>
+    <height>352</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
            <string>No lines</string>
           </property>
           <property name="icon">
-           <iconset resource="../report.qrc">
+           <iconset>
             <normaloff>:/report/images/noLines</normaloff>:/report/images/noLines</iconset>
           </property>
           <property name="checkable">
@@ -46,12 +46,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_4">
+         <widget class="QToolButton" name="allLines">
           <property name="text">
            <string>Outline</string>
           </property>
           <property name="icon">
-           <iconset resource="../report.qrc">
+           <iconset>
             <normaloff>:/report/images/allLines</normaloff>:/report/images/allLines</iconset>
           </property>
           <property name="toolButtonStyle">
@@ -81,7 +81,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/topLine</normaloff>:/report/images/topLine</iconset>
               </property>
               <property name="checkable">
@@ -108,7 +108,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/bottomLine</normaloff>:/report/images/bottomLine</iconset>
               </property>
               <property name="checkable">
@@ -119,7 +119,7 @@
            </layout>
           </item>
           <item row="0" column="1">
-           <widget class="BorderFrameEditor" name="borderFrame" native="true"/>
+           <widget class="LimeReport::BorderFrameEditor" name="borderFrame" native="true"/>
           </item>
           <item row="1" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -129,7 +129,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/leftLine</normaloff>:/report/images/leftLine</iconset>
               </property>
               <property name="checkable">
@@ -156,7 +156,7 @@
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../report.qrc">
+               <iconset>
                 <normaloff>:/report/images/rightLine</normaloff>:/report/images/rightLine</iconset>
               </property>
               <property name="checkable">
@@ -319,14 +319,34 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="styleSheet">
-         <string notr="true">#pushButton{background-color: black;}</string>
-        </property>
-        <property name="text">
-         <string>Select...</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QWidget" name="colorIndicator" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>10</width>
+            <height>10</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectColor">
+          <property name="text">
+           <string>Select</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -342,46 +362,43 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BorderFrameEditor</class>
+   <class>LimeReport::BorderFrameEditor</class>
    <extends>QWidget</extends>
-   <header>borderframeeditor.h</header>
+   <header>lrborderframeeditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../report.qrc"/>
-  <include location="../report.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>lrbordereditor</receiver>
+   <receiver>LimeReport::BorderEditor</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>253</x>
-     <y>255</y>
+     <x>119</x>
+     <y>322</y>
     </hint>
     <hint type="destinationlabel">
-     <x>219</x>
-     <y>275</y>
+     <x>377</x>
+     <y>309</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>lrbordereditor</receiver>
+   <receiver>LimeReport::BorderEditor</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>258</y>
+     <x>48</x>
+     <y>334</y>
     </hint>
     <hint type="destinationlabel">
-     <x>345</x>
-     <y>277</y>
+     <x>66</x>
+     <y>348</y>
     </hint>
    </hints>
   </connection>

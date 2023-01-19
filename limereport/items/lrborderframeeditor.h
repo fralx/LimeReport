@@ -5,9 +5,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include "lrbasedesignintf.h"
-QT_BEGIN_NAMESPACE
+namespace LimeReport{
+
 namespace Ui { class BorderFrameEditor; }
-QT_END_NAMESPACE
 
 class BorderFrameEditor : public QWidget
 {
@@ -23,20 +23,24 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event);
 signals:
-    void borderSideClicked(int side,bool show);
+    void borderSideClicked(LimeReport::BaseDesignIntf::BorderSide side, bool show);
 private slots:
-    void SlotBorderSideClicked(int side, bool show);
+    void slotBorderSideClicked(LimeReport::BaseDesignIntf::BorderSide side, bool show);
 
 private:
+    QGraphicsLineItem *createSideLine(LimeReport::BaseDesignIntf::BorderSide side);
+    void updateBorders();
+private:
     Ui::BorderFrameEditor *ui;
-        QGraphicsScene *scene;
-        QGraphicsLineItem *topLine = NULL
+    QGraphicsScene *scene;
+    QGraphicsLineItem *topLine = NULL
                 ,*bottomLine = NULL
                 ,*leftLine = NULL
                 ,*rightLine = NULL;
-        QPen m_pen;
-        void updateBorders();
+    QPen m_pen;
+
 
 
 };
+} // namespace LimeReport
 #endif // WIDGET

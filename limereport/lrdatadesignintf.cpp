@@ -85,7 +85,12 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
     query.exec();
 
     QSqlQueryModel *model = new QSqlQueryModel;
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    model->setQuery(std::move(query));
+#else
     model->setQuery(query);
+#endif
 
     while (model->canFetchMore())
         model->fetchMore();

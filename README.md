@@ -1,5 +1,5 @@
 
-# LimeReport v1.5.87 [![Build Status](https://app.travis-ci.com/fralx/LimeReport.svg?branch=master)](https://app.travis-ci.com/fralx/LimeReport) [![Build status](https://ci.appveyor.com/api/projects/status/wna5429pix7ilcmo/branch/master?svg=true)](https://ci.appveyor.com/project/fralx/limereport/branch/master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc31412ea4814f30825b5ed3723e9a70)](https://app.codacy.com/app/fralx/LimeReport?utm_source=github.com&utm_medium=referral&utm_content=fralx/LimeReport&utm_campaign=Badge_Grade_Dashboard)
+# LimeReport v1.5.87 [![Build status](https://ci.appveyor.com/api/projects/status/wna5429pix7ilcmo/branch/master?svg=true)](https://ci.appveyor.com/project/fralx/limereport/branch/master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc31412ea4814f30825b5ed3723e9a70)](https://app.codacy.com/app/fralx/LimeReport?utm_source=github.com&utm_medium=referral&utm_content=fralx/LimeReport&utm_campaign=Badge_Grade_Dashboard) ![Cmake Build Status](https://github.com/fralx/limereport/actions/workflows/cmake.yml/badge.svg)
 
 ## Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 
@@ -23,8 +23,37 @@
 
 ### How to use it
 
-1. Build limereport.pro. It will create a limereport shared library  
-2. In your project connect the limereport library then in source code add:
+#### QMake
+
+- Build limereport.pro. It will create a limereport shared library  
+- In your project connect the limereport library
+
+#### CMake
+
+To use in your application without installation
+
+There are 2 possible ways:
+
+- Use cmake subdirectory in your CMakeLists.txt:
+
+```cmake
+add_subdirectory(LimeReport)
+target_link_libraries(myapp PRIVATE limereport-qt${QT_VERSION_MAJOR})
+```
+- Use cmake FetchContent in your CMakeLists.txt:
+
+```cmake
+include(FetchContent)
+FetchContent_Declare(
+  LimeReport
+  GIT_REPOSITORY https://github.com/fralx/LimeReport.git
+  GIT_TAG        sha-of-the-commit
+)
+FetchContent_MakeAvailable(LimeReport)
+target_link_libraries(myapp PRIVATE limereport-qt${QT_VERSION_MAJOR})
+```
+
+- Then in source code add:
 
 ```cpp
   #include "lrreportengine.h" to add report engine

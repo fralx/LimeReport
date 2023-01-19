@@ -186,5 +186,6 @@
         <file alias="/images/logo32">images/designer.png</file>
         <file alias="/images/lock">images/lock.png</file>
         <file>images/unlock.png</file>
+        <file alias="/images/borderEditor">images/border_settings.png</file>
     </qresource>
 </RCC>

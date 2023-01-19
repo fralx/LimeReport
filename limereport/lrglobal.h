@@ -104,7 +104,7 @@ namespace Const{
     QString extractClassName(QString className);
     QString escapeSimbols(const QString& value);
     QString replaceHTMLSymbols(const QString &value);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
     QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg);
 #else
     QVector<QString> normalizeCaptures(const QRegExp &reg);    
@@ -125,12 +125,12 @@ namespace Const{
     Q_DECLARE_FLAGS(PreviewHints, PreviewHint)
     Q_FLAGS(PreviewHints)
 
-    class ReportError : public std::runtime_error{
+    class LIMEREPORT_EXPORT ReportError : public std::runtime_error{
     public:
         ReportError(const QString& message);
     };
 
-    class ReportSettings{
+    class LIMEREPORT_EXPORT ReportSettings{
     public:
         ReportSettings():m_suppressAbsentFieldsAndVarsWarnings(false){}
         void setDefaultValues(){m_suppressAbsentFieldsAndVarsWarnings = false;}
@@ -140,13 +140,13 @@ namespace Const{
         bool m_suppressAbsentFieldsAndVarsWarnings;
     };
 
-    class IExternalPainter{
+    class LIMEREPORT_EXPORT IExternalPainter{
     public:
         virtual void paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options) = 0;
         virtual ~IExternalPainter();
     };
 
-    class IPainterProxy{
+    class LIMEREPORT_EXPORT IPainterProxy{
     public:
         virtual void setExternalPainter(IExternalPainter* externalPainter) = 0;
         virtual ~IPainterProxy();
@@ -157,8 +157,18 @@ namespace Const{
 #else
     typedef QStyleOptionViewItem StyleOptionViewItem;
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression getRegEx(QString expression);
+    QRegularExpression getVariableRegEx();
+    QRegularExpression getFieldRegEx();
+    QRegularExpression getScriptRegEx();
+    QRegularExpression getGroupFunctionRegEx(QString functionName);
+    QRegularExpression getGroupFunctionNameRegEx(QString functionName);
+    QRegularExpression getNamedVariableRegEx(QString variableName);
+#endif
 
-    class Enums
+
+    class LIMEREPORT_EXPORT Enums
     {
     public:
         enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};

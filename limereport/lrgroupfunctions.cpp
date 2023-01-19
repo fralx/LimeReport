@@ -48,8 +48,8 @@ void GroupFunction::slotBandRendered(BandDesignIntf *band)
     QRegExp rxField(Const::FIELD_RX);
     QRegExp rxVar(Const::VARIABLE_RX);
 #else
-    QRegularExpression rxField(Const::FIELD_RX);
-    QRegularExpression rxVar(Const::VARIABLE_RX);
+    QRegularExpression rxField = getFieldRegEx();
+    QRegularExpression rxVar = getVariableRegEx();
 #endif
 
     switch (m_dataType){
@@ -154,9 +154,9 @@ GroupFunction::GroupFunction(const QString &expression, const QString &dataBandN
     QRegExp rxVariable(Const::VARIABLE_RX,Qt::CaseInsensitive);
     QRegExp rxScript(Const::SCRIPT_RX,Qt::CaseInsensitive);
 #else
-    QRegularExpression rxField(Const::FIELD_RX, QRegularExpression::CaseInsensitiveOption);
-    QRegularExpression rxVariable(Const::VARIABLE_RX, QRegularExpression::CaseInsensitiveOption);
-    QRegularExpression rxScript(Const::SCRIPT_RX, QRegularExpression::CaseInsensitiveOption);
+    QRegularExpression rxField = getFieldRegEx();
+    QRegularExpression rxVariable = getVariableRegEx();
+    QRegularExpression rxScript = getScriptRegEx();
 #endif
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (rxScript.indexIn(expression) != -1){

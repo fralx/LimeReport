@@ -753,7 +753,6 @@ ReportEnginePrivate *PageDesignIntf::reportEditor()
 
 void PageDesignIntf::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-
     if (!event->mimeData()->text().isEmpty()){
         event->setDropAction(Qt::CopyAction);
         event->accept();
@@ -782,7 +781,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
 #else
-        if (isVar) data = data.remove(QRegularExpression("  \\[.*\\]"));
+        if (isVar) data = data.remove(QRegularExpression("  \\[.*\\]", QRegularExpression::DotMatchesEverythingOption));
 #endif
         ti->setContent(data);
         if (!isVar){
@@ -794,7 +793,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
                     parentBand->setProperty("datasource",dataSource.cap(1));
                 }
 #else
-                QRegularExpression dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})");
+                QRegularExpression dataSource("(?:\\$D\\{\\s*(.*)\\..*\\})", QRegularExpression::DotMatchesEverythingOption);
                 QRegularExpressionMatch match = dataSource.match(data);
                 if(match.hasMatch()){
                     parentBand->setProperty("datasource", match.captured(1));
@@ -1851,6 +1850,20 @@ void PageDesignIntf::setTextAlign(const Qt::Alignment& alignment)
 void PageDesignIntf::setBorders(const BaseDesignIntf::BorderLines& border)
 {
     changeSelectedGroupProperty("borders", (int)border);
+}
+
+void PageDesignIntf::setBordersExt(
+        const BaseDesignIntf::BorderLines& border,
+        const double borderWidth,
+        const LimeReport::BaseDesignIntf::BorderStyle style,
+        const QString color
+
+)
+{
+    changeSelectedGroupProperty("borders", (int)border);
+    changeSelectedGroupProperty("borderLineSize", borderWidth);
+    changeSelectedGroupProperty("borderStyle", style);
+    changeSelectedGroupProperty("borderColor", color);
 }
 
 void PageDesignIntf::lockSelectedItems()

@@ -67,7 +67,7 @@ public:
     ImageItem(QObject *owner, QGraphicsItem *parent);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setImage(QImage value);
-    QImage image();
+    QImage image() const;
     void setResourcePath(const QString &value);
     QString resourcePath() const;
     QString datasource() const;
@@ -108,7 +108,7 @@ protected:
     void loadPictureFromVariant(QVariant& data);
     void preparePopUpMenu(QMenu &menu);
     void processPopUpAction(QAction *action);
-    QImage drawImage();
+    QImage drawImage() const;
 private:
     QImage  m_picture;
     bool m_useExternalPainter;
@@ -121,8 +121,12 @@ private:
     bool    m_keepAspectRatio;
     bool    m_center;
     Format  m_format;
-    QString m_variable;    
+    QString m_variable;
 
+
+    // BaseDesignIntf interface
+  public:
+    bool isEmpty() const override;
 };
 
 }
