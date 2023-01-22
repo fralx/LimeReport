@@ -2148,7 +2148,9 @@ bool PasteCommand::insertItem(ItemsReaderIntf::Ptr reader)
             if (page()->reportItemsByName(item->objectName()).size()>1){
                 item->setObjectName(objectName);
             }
+
             foreach (BaseDesignIntf* child, item->childBaseItems()){
+                if (page()->reportItemsByName(child->objectName()).size() == 0)
                 changeName(page(), child);
             };
             m_itemNames.push_back(item->objectName());
