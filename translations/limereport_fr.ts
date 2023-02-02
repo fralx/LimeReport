@@ -611,138 +611,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>LimeReport::BorderEditor</name>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="14"/>
-        <source>Edit border</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="22"/>
-        <source>Presets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="31"/>
-        <source>No lines</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="51"/>
-        <source>Outline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="68"/>
-        <source>Border</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="81"/>
-        <location filename="../limereport/items/lrbordereditor.ui" line="108"/>
-        <location filename="../limereport/items/lrbordereditor.ui" line="129"/>
-        <location filename="../limereport/items/lrbordereditor.ui" line="156"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="191"/>
-        <source>Style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="219"/>
-        <source>No style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="224"/>
-        <source>Solid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="229"/>
-        <source>Dash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="234"/>
-        <source>Dot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="239"/>
-        <source>Dash dot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="244"/>
-        <source>Dash dot dot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="252"/>
-        <source>Width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="262"/>
-        <location filename="../limereport/items/lrbordereditor.ui" line="279"/>
-        <source>1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="269"/>
-        <source>0.25</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="274"/>
-        <source>0.5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="284"/>
-        <source>1.5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="289"/>
-        <source>2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="294"/>
-        <source>3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="299"/>
-        <source>4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="304"/>
-        <source>5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="309"/>
-        <source>6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="317"/>
-        <source>Color:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../limereport/items/lrbordereditor.ui" line="345"/>
-        <source>Select</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LimeReport::BorderFrameEditor</name>
     <message>
         <location filename="../limereport/items/lrborderframeeditor.ui" line="20"/>
@@ -4459,14 +4327,12 @@ Cet aperçu n&apos;est plus valide.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1675"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1717"/>
+
         <source>Attention!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1675"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1717"/>
+
         <source>Selected elements have different parent containers</source>
         <translation>Les éléments sélectionnés ont un parent différent</translation>
     </message>

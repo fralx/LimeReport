@@ -300,6 +300,7 @@ namespace LimeReport {
         BaseDesignIntf::ItemMode m_itemMode;
         QGraphicsRectItem* m_cutterBorder;
         QGraphicsRectItem* m_pageRect;
+        QGraphicsTextItem* m_infoPosRect;
         QVector<CommandIf::Ptr> m_commandsList;
         QVector<ReportItemPos> m_positionStamp;
         QVector<ReportItemSize> m_geometryStamp;
