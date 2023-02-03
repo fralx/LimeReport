@@ -2,181 +2,155 @@
 #include "ui_lrbordereditor.h"
 #include <QColorDialog>
 #include "lrbasedesignintf.h"
-lrbordereditor::lrbordereditor(QWidget *parent) :
+
+namespace LimeReport{
+
+BorderEditor::BorderEditor(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::lrbordereditor)
+    ui(new Ui::BorderEditor),
+    m_borderStyle(1),
+    m_borderWidth(1)
 {
     ui->setupUi(this);
-
-    connect(ui->borderFrame,SIGNAL(borderSideClicked(int, bool)), this, SLOT(checkToolButtons(int, bool)));
+    connect(
+        ui->borderFrame, SIGNAL(borderSideClicked(LimeReport::BaseDesignIntf::BorderSide, bool)),
+        this, SLOT(checkToolButtons(LimeReport::BaseDesignIntf::BorderSide, bool))
+    );
 }
 
-void lrbordereditor::loadItem(LimeReport::BaseDesignIntf *i)
+void BorderEditor::loadItem(LimeReport::BaseDesignIntf *item)
 {
-    item = i;
-    if(item->borderLines() & LimeReport::BaseDesignIntf::TopLine)
-    {
-        emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine,true);
+    m_item = item;
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine,
+                                            item->borderLines() & LimeReport::BaseDesignIntf::TopLine);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine,
+                                            item->borderLines() & LimeReport::BaseDesignIntf::LeftLine);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine,
+                                            item->borderLines() & LimeReport::BaseDesignIntf::RightLine);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine,
+                                            item->borderLines() & LimeReport::BaseDesignIntf::BottomLine);
 
-    }
-    if(item->borderLines() & LimeReport::BaseDesignIntf::LeftLine)
-    {
-        emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine,true);
-
-    }
-    if(item->borderLines() & LimeReport::BaseDesignIntf::RightLine)
-    {
-        emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine,true);
-
-    }
-    if(item->borderLines() & LimeReport::BaseDesignIntf::BottomLine)
-    {
-        emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine,true);
-    }
     QPen pen;
     pen.setWidthF(item->borderLineSize());
     pen.setColor(item->borderColor());
     pen.setStyle((Qt::PenStyle)item->borderStyle());
     ui->borderFrame->setPen(pen);
-    border_color = item->borderColor().name();
+    m_borderColor = item->borderColor().name();
     ui->listWidget->setCurrentRow((Qt::PenStyle)item->borderStyle());
     ui->comboBox->setCurrentText(QString::number(item->borderLineSize()));
-            borderWidth = ui->comboBox->currentText().toDouble();
-    borderStyle =ui->listWidget->currentRow();
-    ui->pushButton->setStyleSheet(QString("#pushButton{background-color:%1;}").arg(border_color));
+    m_borderWidth = ui->comboBox->currentText().toDouble();
+    m_borderStyle =ui->listWidget->currentRow();
+    ui->colorIndicator->setStyleSheet(QString("background-color:%1;").arg(m_borderColor));
 }
 
-LimeReport::BaseDesignIntf::BorderLines lrbordereditor::borderSides()
+LimeReport::BaseDesignIntf::BorderLines BorderEditor::borderSides()
 {
     int borders = 0;
-    borders += (ui->topLine->isChecked())?LimeReport::BaseDesignIntf::TopLine:0;
-    borders += (ui->bottomLine->isChecked())?LimeReport::BaseDesignIntf::BottomLine:0;
-    borders += (ui->leftLine->isChecked())?LimeReport::BaseDesignIntf::LeftLine:0;
-    borders += (ui->rightLine->isChecked())?LimeReport::BaseDesignIntf::RightLine:0;
-    return (LimeReport::BaseDesignIntf::BorderLines)borders;
+    borders += (ui->topLine->isChecked()) ? LimeReport::BaseDesignIntf::TopLine : 0;
+    borders += (ui->bottomLine->isChecked()) ? LimeReport::BaseDesignIntf::BottomLine : 0;
+    borders += (ui->leftLine->isChecked()) ? LimeReport::BaseDesignIntf::LeftLine : 0;
+    borders += (ui->rightLine->isChecked()) ? LimeReport::BaseDesignIntf::RightLine : 0;
+    return (LimeReport::BaseDesignIntf::BorderLines) borders;
 }
 
-LimeReport::BaseDesignIntf::BorderStyle lrbordereditor::border_style()
+LimeReport::BaseDesignIntf::BorderStyle BorderEditor::borderStyle()
 {
-    return (LimeReport::BaseDesignIntf::BorderStyle)borderStyle;
+    return (LimeReport::BaseDesignIntf::BorderStyle) m_borderStyle;
 }
 
-QString lrbordereditor::borderColor()
+QString BorderEditor::borderColor()
 {
-    return border_color;
+    return m_borderColor;
 }
 
-double lrbordereditor::border_width()
+double BorderEditor::borderWidth()
 {
-    return borderWidth;
+    return m_borderWidth;
 }
 
-lrbordereditor::~lrbordereditor()
+BorderEditor::~BorderEditor()
 {
     delete ui;
 }
 
-void lrbordereditor::on_listWidget_currentRowChanged(int currentRow)
+void BorderEditor::on_listWidget_currentRowChanged(int currentRow)
 {
     QPen pen = ui->borderFrame->pen();
     pen.setStyle((Qt::PenStyle)currentRow);
-    borderStyle = currentRow;
+    m_borderStyle = currentRow;
     ui->borderFrame->setPen(pen);
-
-
 }
 
-
-void lrbordereditor::on_comboBox_currentTextChanged(const QString &arg1)
+void BorderEditor::on_comboBox_currentTextChanged(const QString &arg1)
 {
     QPen pen = ui->borderFrame->pen();
     pen.setWidthF(arg1.toDouble());
     ui->borderFrame->setPen(pen);
-    borderWidth = arg1.toDouble();
+    m_borderWidth = arg1.toDouble();
 }
 
-
-void lrbordereditor::on_pushButton_clicked()
+void BorderEditor::checkToolButtons(LimeReport::BaseDesignIntf::BorderSide side, bool check)
 {
-    QColorDialog cd(this);
-    if(cd.exec() == QDialog::Rejected)return;
-    QPen pen = ui->borderFrame->pen();
-    pen.setColor(cd.selectedColor().name());
-    border_color = pen.color().name();
-
-    ui->pushButton->setStyleSheet(QString("#pushButton{background-color:%1;}").arg(border_color));
-    ui->borderFrame->setPen(pen);
-}
-
-
-void lrbordereditor::on_toolButton_4_clicked()
-{
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine,true);
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine,true);
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine,true);
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine,true);
-    QPen pen = ui->borderFrame->pen();
-
-    ui->borderFrame->setPen(pen);
-}
-
-
-void lrbordereditor::on_noLines_clicked()
-{
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine,false);
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine,false);
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine,false);
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine,false);
-
-}
-
-
-void lrbordereditor::on_topLine_clicked()
-{
-
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine,ui->topLine->isChecked());
-
-}
-
-void lrbordereditor::checkToolButtons(int side, bool check)
-{
-
     switch(side)
     {
-    case LimeReport::BaseDesignIntf::BorderSide::TopLine:
-    {
-        ui->topLine->setChecked(check);
-    }break;
-    case LimeReport::BaseDesignIntf::BorderSide::BottomLine:
-    {
-        ui->bottomLine->setChecked(check);
-    }break;
-    case LimeReport::BaseDesignIntf::BorderSide::LeftLine:
-    {
-        ui->leftLine->setChecked(check);
-    }break;
-    case LimeReport::BaseDesignIntf::BorderSide::RightLine:
-    {
-        ui->rightLine->setChecked(check);
-    }break;
+        case BaseDesignIntf::BorderSide::TopLine:
+            ui->topLine->setChecked(check);
+            break;
+        case BaseDesignIntf::BorderSide::BottomLine:
+            ui->bottomLine->setChecked(check);
+            break;
+        case BaseDesignIntf::BorderSide::LeftLine:
+            ui->leftLine->setChecked(check);
+            break;
+        case BaseDesignIntf::BorderSide::RightLine:
+            ui->rightLine->setChecked(check);
+            break;
     }
 }
 
+void BorderEditor::on_topLine_clicked(bool checked){
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine, checked);
+}
 
-void lrbordereditor::on_bottomLine_clicked()
-{
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine,ui->bottomLine->isChecked());
+void BorderEditor::on_bottomLine_clicked(bool checked){
+    emit ui->borderFrame->borderSideClicked(BaseDesignIntf::BorderSide::BottomLine, checked);
+}
+
+void BorderEditor::on_leftLine_clicked(bool checked){
+    emit ui->borderFrame->borderSideClicked(BaseDesignIntf::BorderSide::LeftLine, checked);
+}
+
+void BorderEditor::on_rightLine_clicked(bool checked){
+    emit ui->borderFrame->borderSideClicked(BaseDesignIntf::BorderSide::RightLine, checked);
 }
 
 
-void lrbordereditor::on_leftLine_clicked()
+void BorderEditor::on_allLines_clicked()
 {
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine,ui->leftLine->isChecked());
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine, true);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine, true);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine, true);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine, true);
+}
+
+void BorderEditor::on_noLines_clicked()
+{
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine, false);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::BottomLine, false);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine, false);
+    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine, false);
 }
 
 
-void lrbordereditor::on_toolButton_3_clicked()
+void BorderEditor::on_selectColor_clicked()
 {
-    emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::RightLine,ui->rightLine->isChecked());
+    QColorDialog cd(this);
+    if(cd.exec() == QDialog::Rejected) return;
+    QPen pen = ui->borderFrame->pen();
+    pen.setColor(cd.selectedColor().name());
+    m_borderColor = pen.color().name();
+    ui->colorIndicator->setStyleSheet(QString("background-color:%1;").arg(m_borderColor));
+    ui->borderFrame->setPen(pen);
 }
 
+} // namespace LimeReport

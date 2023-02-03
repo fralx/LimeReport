@@ -1,3 +1,5 @@
+project(LRDesigner)
+
 set(CMAKE_AUTOMOC ON)
 
 set(LRDESIGNER_FILES
@@ -7,12 +9,12 @@ set(LRDESIGNER_FILES
     mainicon.rc
 )
 
-add_executable(LRDesigner ${LRDESIGNER_FILES})
+add_executable(${PROJECT_NAME} ${LRDESIGNER_FILES})
 
-target_include_directories(LRDesigner PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-target_link_libraries(LRDesigner PUBLIC
+target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
-    ${PROJECT_NAME}
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Qml
+    limereport-qt${QT_VERSION_MAJOR}
 )

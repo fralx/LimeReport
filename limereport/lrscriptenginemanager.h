@@ -402,7 +402,11 @@ private:
 class ScriptNode{
 public:
     typedef QSharedPointer<ScriptNode> Ptr;
-    QString body(){return m_body;}
+    QString body(){
+        if (m_body.isEmpty() && m_children.count() > 0)
+          return m_children.at(0)->body();
+        return m_body;
+    }
     void setBody(const QString& body){ m_body = body;}
     void setStartLex(const QString startLex){ m_startLex = startLex;}
     QString script(){return m_startLex + m_body + '}';}

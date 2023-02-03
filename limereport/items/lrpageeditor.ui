@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>lrpageeditor</class>
- <widget class="QDialog" name="lrpageeditor">
+ <class>LimeReport::PageEditor</class>
+ <widget class="QDialog" name="LimeReport::PageEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>306</width>
-    <height>322</height>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -130,6 +130,19 @@
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -297,7 +310,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -306,34 +319,18 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>lrpageeditor</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>325</x>
-     <y>312</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>endlessHeight</sender>
    <signal>clicked(bool)</signal>
    <receiver>horizontalFrame</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>60</x>
-     <y>50</y>
+     <x>72</x>
+     <y>81</y>
     </hint>
     <hint type="destinationlabel">
-     <x>130</x>
-     <y>85</y>
+     <x>131</x>
+     <y>134</y>
     </hint>
    </hints>
   </connection>

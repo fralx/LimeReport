@@ -276,10 +276,6 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
     BaseDesignIntf::paint(painter, style, widget);
 }
 
-QString TextItem::content() const{
-    return m_strText;
-}
-
 void TextItem::Init()
 {
     m_autoWidth = NoneAutoWidth;
@@ -299,14 +295,8 @@ void TextItem::setContent(const QString &value)
 {
     if (m_strText.compare(value)!=0){
         QString oldValue = m_strText;
-        if (m_trimValue)
-            m_strText=value.trimmed();
-        else
-            m_strText=value;
 
-//        if (itemMode() == DesignMode && (autoHeight())){
-//            initTextSizes();
-//        }
+        m_strText = value;
 
         if (!isLoading()){
             if (autoHeight() || autoWidth() || hasFollower())
@@ -315,6 +305,10 @@ void TextItem::setContent(const QString &value)
             notify("content",oldValue,value);
         }
     }
+}
+
+QString TextItem::content() const{
+    return m_strText;
 }
 
 void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
@@ -395,6 +389,7 @@ void TextItem::setTextFont(TextPtr text, const QFont& value) const {
 void TextItem::adaptFontSize(TextPtr text) const{
     QFont _font = transformToSceneFont(font());
     do{
+//        qApp->processEvents();
         setTextFont(text,_font);
         if (_font.pixelSize()>2)
             _font.setPixelSize(_font.pixelSize()-1);
@@ -493,29 +488,43 @@ QString TextItem::formatFieldValue()
         }
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     switch (value.type()) {
-    case QVariant::Date:
-    case QVariant::DateTime:
-        return formatDateTime(value.toDateTime());
-    case QVariant::Double:
-        return formatNumber(value.toDouble());
-    default:
-        return value.toString();
+        case QVariant::Date:
+        case QVariant::DateTime:
+            return formatDateTime(value.toDateTime());
+        case QVariant::Double:
+            return formatNumber(value.toDouble());
+        default:
+            return value.toString();
     }
+#else
+    switch (value.typeId()) {
+        case QMetaType::QDate:
+        case QMetaType::QDateTime:
+            return formatDateTime(value.toDateTime());
+        case QMetaType::Double:
+            return formatNumber(value.toDouble());
+        default:
+            return value.toString();
+    }
+#endif
+
 }
 
 TextItem::TextPtr TextItem::textDocument() const
 {
     TextPtr text(new QTextDocument);
+    QString content = m_trimValue ? m_strText.trimmed() : m_strText;
 
     if (allowHTML())
         if (isReplaceCarriageReturns()){
-            text->setHtml(replaceReturns(m_strText));
+            text->setHtml(replaceReturns(content));
         } else {
-            text->setHtml(m_strText);
+            text->setHtml(content);
         }
     else
-        text->setPlainText(m_strText);
+        text->setPlainText(content);
 
     QTextOption to;
     to.setAlignment(m_alignment);
@@ -785,6 +794,7 @@ void TextItem::setTrimValue(bool value)
 {
     bool oldValue = m_trimValue;
     m_trimValue = value;
+    update();
     notify("trimValue",oldValue,value);
 }
 
@@ -827,7 +837,7 @@ void TextItem::expandContent(DataSourceManager* dataManager, RenderPass pass)
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
-        QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+        QRegularExpression rx = getNamedVariableRegEx(variableName);
 #endif
         if (context.contains(rx) && pass == FirstPass){
             backupContent();

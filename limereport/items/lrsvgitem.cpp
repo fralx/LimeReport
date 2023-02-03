@@ -107,11 +107,22 @@ void SVGItem::updateItemSize(DataSourceManager *dataManager, RenderPass pass, in
             m_resourcePath = expandDataFields(m_resourcePath, NoEscapeSymbols, dataManager);
             m_image = imageFromResource(m_resourcePath);
         } else if (!m_variable.isEmpty()){
+            //TODO: Migrate to QMetaType
             QVariant data = dataManager->variable(m_variable);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            if (data.typeId() == QMetaType::QString){
+#else
             if (data.type() == QVariant::String){
+#endif
                 m_image = imageFromResource(data.toString());
-            } else if (data.type() == QVariant::ByteArray) {
-                m_image = data.value<QByteArray>() ;
+            } else {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                if (data.typeId() == QMetaType::QByteArray) {
+#else
+                if (data.type() == QVariant::ByteArray) {
+#endif
+                    m_image = data.value<QByteArray>() ;
+                }
             }
         }
     }

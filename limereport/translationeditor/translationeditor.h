@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLocale>
 #include <QTreeWidgetItem>
+#include <QShortcut>
 #include "lrreporttranslation.h"
 
 namespace LimeReport {
@@ -46,6 +47,7 @@ private:
     PageTranslation* m_currentPageTranslation;
     PropertyTranslation* m_currentPropertyTranslation;
     bool m_translationChanging;
+    QShortcut* m_clrReturn;
 };
 
 } //namespace LimeReport

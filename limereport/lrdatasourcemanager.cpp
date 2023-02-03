@@ -392,7 +392,13 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         }
 
         query.exec();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+        model->setQuery(std::move(query));
+#else
         model->setQuery(query);
+#endif
+
         m_lastError = model->lastError().text();
         putError(m_lastError);
         if (model->query().isActive())
@@ -423,8 +429,8 @@ QString DataSourceManager::extractField(QString source)
 }
 
 QString DataSourceManager::replaceVariables(QString value){
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
-    QRegularExpression rx(Const::VARIABLE_RX);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression rx = getVariableRegEx();
     QRegularExpressionMatchIterator iter = rx.globalMatch(value);
     qsizetype pos = 0;
     QString result;
@@ -443,7 +449,6 @@ QString DataSourceManager::replaceVariables(QString value){
     }
     result += value.mid(pos);
     return result;
-    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::VARIABLE_RX);
 
@@ -468,8 +473,8 @@ QString DataSourceManager::replaceVariables(QString value){
 
 QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
-    QRegularExpression rx(Const::VARIABLE_RX);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression rx = getVariableRegEx();
     int curentAliasIndex = 0;
     if (query.contains(rx)){
         int pos = -1;
@@ -508,7 +513,6 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
             match = rx.match(query);
         }
     }
-    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::VARIABLE_RX);
     int curentAliasIndex = 0;
@@ -553,9 +557,8 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
 
 QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 3)
-
-    QRegularExpression rx(Const::FIELD_RX);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
+    QRegularExpression rx = getFieldRegEx();
     int curentAliasIndex = 0;
     if (query.contains(rx)){
         int pos = -1;
@@ -583,7 +586,6 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
             match = rx.match(query);
         }
     }
-    // TODO: Qt6 port - done
 #else
     QRegExp rx(Const::FIELD_RX);
     if (query.contains(rx)){
@@ -1498,7 +1500,7 @@ void DataSourceManager::invalidateQueriesContainsVariable(const QString& variabl
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
                     QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
-                    QRegularExpression rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
+                    QRegularExpression rx = getNamedVariableRegEx(variableName);
 #endif
                     if  (holder->queryText().contains(rx)){
                         holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
