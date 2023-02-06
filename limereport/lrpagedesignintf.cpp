@@ -73,7 +73,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_itemInsertRect(0),
     m_itemMode(DesignMode),
     m_cutterBorder(0),
-    m_infoPosRect(0),
+//    m_infoPosRect(0),
     m_currentCommand(-1),
     m_changeSizeMode(false),
     m_changePosMode(false),
@@ -324,24 +324,23 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             saveSelectedItemsGeometry();
             m_changePosOrSizeMode = true;
         }
-        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
-        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
-        if(!m_infoPosRect)
-        {
+//        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
+//        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
 
+//        if(!m_infoPosRect)
+//        {
+//            m_infoPosRect = new QGraphicsTextItem();
+//            m_infoPosRect->setDefaultTextColor(QColor(100,150,50));
 
-        m_infoPosRect = new QGraphicsTextItem();
-        m_infoPosRect->setDefaultTextColor(QColor(100,150,50));
+//            QFont font("Arial");
+//            font.setPointSize(16);
+//            font.setBold(true);
+//            m_infoPosRect->setFont(font);
+//            addItem(m_infoPosRect);
+//        }
 
-        QFont font("Arial");
-        font.setPointSize(16);
-        font.setBold(true);
-        m_infoPosRect->setFont(font);
-        addItem(m_infoPosRect);
-        }
-        m_infoPosRect->setPlainText("(x: "+QString::number(posX/100)+", y: "+QString::number(posY/100)+") cm");
-
-        m_infoPosRect->setPos(posX,posY+30);
+//        m_infoPosRect->setPlainText("(x: "+QString::number(posX/100)+", y: "+QString::number(posY/100)+") cm");
+//        m_infoPosRect->setPos(posX,posY+30);
 
     }
 
@@ -423,11 +422,11 @@ void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect = 0;
         m_multiSelectStarted = false;
     }
-    if(m_infoPosRect)
-    {
-        delete m_infoPosRect;
-        m_infoPosRect = 0;
-    }
+//    if(m_infoPosRect)
+//    {
+//        delete m_infoPosRect;
+//        m_infoPosRect = 0;
+//    }
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
