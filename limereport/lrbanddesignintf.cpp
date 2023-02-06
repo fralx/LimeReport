@@ -60,7 +60,6 @@ void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**opt
                 boundingRect().bottomLeft().y()-4,
                 boundingRect().width(),4), Qt::lightGray
     );
-    qDebug()<<boundingRect().width();
     painter->setRenderHint(QPainter::Antialiasing);
     qreal size = (boundingRect().width()<boundingRect().height()) ? boundingRect().width() : boundingRect().height();
     QRectF r = QRectF(0,0,size,size);
