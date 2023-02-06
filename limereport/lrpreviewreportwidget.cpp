@@ -21,7 +21,7 @@ namespace LimeReport {
 
 bool PreviewReportWidgetPrivate::pageIsVisible(){
     QGraphicsView* view = q_ptr->ui->graphicsView;
-	if ( m_currentPage-1 >= m_reportPages.size() || m_currentPage <= 0 )
+    if ( m_currentPage-1 >= m_reportPages.size() || m_currentPage <= 0 )
         return false;
     PageItemDesignIntf::Ptr page = m_reportPages.at(m_currentPage-1);
     return page->mapToScene(page->rect()).boundingRect().intersects(
@@ -103,6 +103,7 @@ PreviewReportWidget::PreviewReportWidget(ReportEngine *report, QWidget *parent) 
     d_ptr->m_zoomer = new GraphicsViewZoomer(ui->graphicsView);
     connect(d_ptr->m_zoomer, SIGNAL(zoomed(double)), this, SLOT(slotZoomed(double)));
     connect(&m_resizeTimer, SIGNAL(timeout()), this, SLOT(resizeDone()));
+
 }
 
 PreviewReportWidget::~PreviewReportWidget()
@@ -236,7 +237,7 @@ void PreviewReportWidget::printPages(QPrinter* printer)
 }
 
 void PreviewReportWidget::print()
-{    
+{
     QPrinterInfo pi;
     QPrinter lp(QPrinter::HighResolution);
 
@@ -492,7 +493,7 @@ void PreviewReportWidget::reportEngineDestroyed(QObject *object)
 
 void PreviewReportWidget::slotZoomed(double )
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     d_ptr->m_scalePercent = ui->graphicsView->matrix().m11()*100;
 #else
     d_ptr->m_scalePercent = ui->graphicsView->transform().m11()*100;

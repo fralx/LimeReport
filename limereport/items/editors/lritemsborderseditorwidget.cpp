@@ -29,16 +29,22 @@
  ****************************************************************************/
 #include "lritemsborderseditorwidget.h"
 #include <QAction>
-
+#include "lrbordereditor.h"
 namespace LimeReport{
 
 void ItemsBordersEditorWidget::setItemEvent(BaseDesignIntf* item)
 {
+    if(QString(item->metaObject()->className()) == "LimeReport::ShapeItem")
+    {
+        setDisabled(true);
+        return;
+    }
     QVariant borders=item->property("borders");
     if (borders.isValid()){
         updateValues((BaseDesignIntf::BorderLines)borders.toInt());
         setEnabled(true);
     }
+    m_item = item;
 }
 
 void ItemsBordersEditorWidget::properyChangedEvent(const QString& property, const QVariant& oldValue, const QVariant& newValue)
@@ -66,9 +72,18 @@ void ItemsBordersEditorWidget::allBordesClicked()
     updateValues((BaseDesignIntf::BorderLines)borders);
 }
 
-void ItemsBordersEditorWidget::buttonClicked(bool)
-{
+void ItemsBordersEditorWidget::buttonClicked(bool){}
 
+void ItemsBordersEditorWidget::editBorderClicked()
+{
+    BorderEditor be;
+    be.loadItem(m_item);
+    if ( be.exec() == QDialog::Rejected ) return;
+    updateValues(be.borderSides());
+    m_item->setBorderLinesFlags(be.borderSides());
+    m_item->setBorderLineSize(be.borderWidth());
+    m_item->setBorderStyle((LimeReport::BaseDesignIntf::BorderStyle)be.borderStyle());
+    m_item->setBorderColor(be.borderColor());
 }
 
 void ItemsBordersEditorWidget::initEditor()
@@ -109,6 +124,11 @@ void ItemsBordersEditorWidget::initEditor()
     m_allLines->setIcon(QIcon(":/report/images/allLines"));
     connect(m_allLines,SIGNAL(triggered()),this,SLOT(allBordesClicked()));
     addAction(m_allLines);
+    addSeparator();
+    m_BorderEditor = new QAction(tr("Edit border"),this);
+    m_BorderEditor->setIcon(QIcon(":/report/images/borderEditor"));
+    connect(m_BorderEditor,SIGNAL(triggered()),this,SLOT(editBorderClicked()));
+    addAction(m_BorderEditor);
 
     setEnabled(false);
 
@@ -117,20 +137,20 @@ void ItemsBordersEditorWidget::initEditor()
 void ItemsBordersEditorWidget::updateValues(BaseDesignIntf::BorderLines borders)
 {
     m_changing = true;
-    m_topLine->setChecked(borders&BaseDesignIntf::TopLine);
-    m_bottomLine->setChecked(borders&BaseDesignIntf::BottomLine);
-    m_leftLine->setChecked(borders&BaseDesignIntf::LeftLine);
-    m_rightLine->setChecked(borders&BaseDesignIntf::RightLine);
+    m_topLine->setChecked(borders & BaseDesignIntf::TopLine);
+    m_bottomLine->setChecked(borders & BaseDesignIntf::BottomLine);
+    m_leftLine->setChecked(borders & BaseDesignIntf::LeftLine);
+    m_rightLine->setChecked(borders & BaseDesignIntf::RightLine);
     m_changing = false;
 }
 
 BaseDesignIntf::BorderLines ItemsBordersEditorWidget::createBorders()
 {
     int borders = 0;
-    borders += (m_topLine->isChecked())?BaseDesignIntf::TopLine:0;
-    borders += (m_bottomLine->isChecked())?BaseDesignIntf::BottomLine:0;
-    borders += (m_leftLine->isChecked())?BaseDesignIntf::LeftLine:0;
-    borders += (m_rightLine->isChecked())?BaseDesignIntf::RightLine:0;
+    borders += (m_topLine->isChecked()) ? BaseDesignIntf::TopLine:0;
+    borders += (m_bottomLine->isChecked()) ? BaseDesignIntf::BottomLine:0;
+    borders += (m_leftLine->isChecked()) ? BaseDesignIntf::LeftLine:0;
+    borders += (m_rightLine->isChecked()) ? BaseDesignIntf::RightLine:0;
     return (BaseDesignIntf::BorderLines)borders;
 }
 
@@ -157,6 +177,21 @@ void ItemsBordersEditorWidgetForDesigner::allBordesClicked()
     ItemsBordersEditorWidget::allBordesClicked();
     m_reportEditor->setBorders(createBorders());
 }
+
+void ItemsBordersEditorWidgetForDesigner::editBorderClicked()
+{
+    BorderEditor be;
+    be.loadItem(m_item);
+    if ( be.exec() == QDialog::Rejected ) return;
+
+    m_reportEditor->setBordersExt(
+                be.borderSides(),
+                be.borderWidth(),
+                (LimeReport::BaseDesignIntf::BorderStyle)be.borderStyle(),
+                be.borderColor()
+    );
+}
+
 #endif
 
 } //namespace LimeReport

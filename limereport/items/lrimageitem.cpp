@@ -111,14 +111,14 @@ void ImageItem::processPopUpAction(QAction *action)
     ItemDesignIntf::processPopUpAction(action);
 }
 
-QImage getFileByResourcePath(QString resourcePath){
+QImage getFileByResourcePath(QString resourcePath) {
     QFileInfo resourceFile(resourcePath);
     if (resourceFile.exists())
         return QImage(resourcePath);
     return QImage();
 }
 
-QImage ImageItem::drawImage()
+QImage ImageItem::drawImage() const
 {
     if (image().isNull())
         return getFileByResourcePath(m_resourcePath);
@@ -364,7 +364,7 @@ void ImageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             }
 
             if (shiftHeight > 0){
-                point.setY(point.x()+shiftHeight/2);
+                point.setY(point.y()+shiftHeight/2);
             } else {
                 cutY = fabs(shiftHeight/2);
                 cutHeigth += shiftHeight;
@@ -410,7 +410,7 @@ void ImageItem::setImage(QImage value)
     }
 }
 
-QImage ImageItem::image(){
+QImage ImageItem::image() const{
     return m_picture;
 }
 
@@ -438,4 +438,9 @@ void ImageItem::setFormat(Format format)
     }
 }
 
+}
+
+bool LimeReport::ImageItem::isEmpty() const
+{
+  return drawImage().isNull();
 }

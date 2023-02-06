@@ -49,10 +49,12 @@ protected slots:
     virtual void noBordesClicked();
     virtual void allBordesClicked();
     virtual void buttonClicked(bool);
+    virtual void editBorderClicked();
 protected:
     void setItemEvent(BaseDesignIntf *item);
     void properyChangedEvent(const QString &property, const QVariant &oldValue, const QVariant &newValue);
     BaseDesignIntf::BorderLines createBorders();
+    BaseDesignIntf *m_item;
 private:
     void initEditor();
     void updateValues(BaseDesignIntf::BorderLines borders);
@@ -62,8 +64,10 @@ private:
     QAction* m_topLine;
     QAction* m_bottomLine;
     QAction* m_allLines;
+    QAction* m_BorderEditor;
     bool m_changing;
     int m_borders;
+
 };
 
 #ifdef HAVE_REPORT_DESIGNER
@@ -76,8 +80,10 @@ protected slots:
     void buttonClicked(bool);
     void noBordesClicked();
     void allBordesClicked();
+    void editBorderClicked();
 private:
     ReportDesignWidget* m_reportEditor;
+
 };
 #endif
 
