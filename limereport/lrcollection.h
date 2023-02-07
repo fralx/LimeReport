@@ -47,7 +47,7 @@ namespace LimeReport{
 #if __cplusplus >= 201703L
 const int inline COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
 #else
-const int inline COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
+const int COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
 #endif
 class LIMEREPORT_EXPORT ICollectionContainer{
 public:
