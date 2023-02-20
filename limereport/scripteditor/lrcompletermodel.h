@@ -35,7 +35,7 @@ public:
     void appendRow(CompleterItem* child);
     void appendRows(const QList<CompleterItem *> &children);
 private:
-    CompleterItem* m_parent;
+    CompleterItem* m_parent{nullptr};
     QVector<QSharedPointer<CompleterItem> > m_children;
     QString m_text;
     QIcon m_icon;
