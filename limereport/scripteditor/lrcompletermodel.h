@@ -12,7 +12,9 @@ public:
     CompleterItem(QString text, QIcon icon):m_parent(0), m_text(text), m_icon(icon), m_model(0){}
     ~CompleterItem();
     int rowCount() const {return m_children.count();}
-    CompleterItem* child(int row) const {return m_children.at(row).data();}
+    CompleterItem *child(int row) const {
+      return m_children.count() < row ? m_children.at(row).data() : nullptr;
+    }
     CompleterItem* parent() const {return m_parent;}
     int row() const{
         if (m_parent){
