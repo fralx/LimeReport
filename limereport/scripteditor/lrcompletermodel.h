@@ -13,7 +13,7 @@ public:
     ~CompleterItem();
     int rowCount() const {return m_children.count();}
     CompleterItem *child(int row) const {
-      return m_children.count() < row ? m_children.at(row).data() : nullptr;
+      return m_children.count() > row ? m_children.at(row).data() : nullptr;
     }
     CompleterItem* parent() const {return m_parent;}
     int row() const{
