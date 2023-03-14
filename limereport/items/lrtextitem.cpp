@@ -78,7 +78,7 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
 TextItem::~TextItem(){}
 
 int TextItem::fakeMarginSize() const{
-    return marginSize()+5;
+    return marginSize()/*+5*/;
 }
 
 void TextItem::preparePopUpMenu(QMenu &menu)
