@@ -125,12 +125,12 @@ namespace Const{
     Q_DECLARE_FLAGS(PreviewHints, PreviewHint)
     Q_FLAGS(PreviewHints)
 
-    class ReportError : public std::runtime_error{
+    class LIMEREPORT_EXPORT ReportError : public std::runtime_error{
     public:
         ReportError(const QString& message);
     };
 
-    class ReportSettings{
+    class LIMEREPORT_EXPORT ReportSettings{
     public:
         ReportSettings():m_suppressAbsentFieldsAndVarsWarnings(false){}
         void setDefaultValues(){m_suppressAbsentFieldsAndVarsWarnings = false;}
@@ -140,13 +140,13 @@ namespace Const{
         bool m_suppressAbsentFieldsAndVarsWarnings;
     };
 
-    class IExternalPainter{
+    class LIMEREPORT_EXPORT IExternalPainter{
     public:
         virtual void paintByExternalPainter(const QString& objectName, QPainter* painter, const QStyleOptionGraphicsItem* options) = 0;
         virtual ~IExternalPainter();
     };
 
-    class IPainterProxy{
+    class LIMEREPORT_EXPORT IPainterProxy{
     public:
         virtual void setExternalPainter(IExternalPainter* externalPainter) = 0;
         virtual ~IPainterProxy();
@@ -168,7 +168,7 @@ namespace Const{
 #endif
 
 
-    class Enums
+    class LIMEREPORT_EXPORT Enums
     {
     public:
         enum VariableDataType {Undefined, String, Bool, Int, Real, Date, Time, DateTime};

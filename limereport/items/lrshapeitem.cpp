@@ -89,6 +89,7 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(brush);
     painter->setBackground(QBrush(Qt::NoBrush));
     painter->setOpacity(qreal(opacity())/100);
+
     QRectF rectangleRect = rect().adjusted((lineWidth() / 2),
                                            (lineWidth() / 2),
                                            -(lineWidth() / 2),
@@ -114,6 +115,7 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         }
         break;
     }
+
     painter->restore();
     ItemDesignIntf::paint(painter,option,widget);
 

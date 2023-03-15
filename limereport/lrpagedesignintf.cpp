@@ -73,6 +73,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_itemInsertRect(0),
     m_itemMode(DesignMode),
     m_cutterBorder(0),
+//    m_infoPosRect(0),
     m_currentCommand(-1),
     m_changeSizeMode(false),
     m_changePosMode(false),
@@ -93,11 +94,13 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_magneticMovement(false),
     m_reportSettings(0),
     m_currentPage(0)
+
 {
     m_reportEditor = dynamic_cast<ReportEnginePrivate *>(parent);
     updatePageRect();
     connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
     setBackgroundBrush(QBrush(Qt::white));
+
 }
 
 PageDesignIntf::~PageDesignIntf()
@@ -313,6 +316,7 @@ void PageDesignIntf::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
 
     if (event->buttons() & Qt::LeftButton) {
         if (!m_changePosOrSizeMode) {
@@ -320,6 +324,24 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             saveSelectedItemsGeometry();
             m_changePosOrSizeMode = true;
         }
+//        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
+//        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
+
+//        if(!m_infoPosRect)
+//        {
+//            m_infoPosRect = new QGraphicsTextItem();
+//            m_infoPosRect->setDefaultTextColor(QColor(100,150,50));
+
+//            QFont font("Arial");
+//            font.setPointSize(16);
+//            font.setBold(true);
+//            m_infoPosRect->setFont(font);
+//            addItem(m_infoPosRect);
+//        }
+
+//        m_infoPosRect->setPlainText("(x: "+QString::number(posX/100)+", y: "+QString::number(posY/100)+") cm");
+//        m_infoPosRect->setPos(posX,posY+30);
+
     }
 
     if (event->buttons() & Qt::LeftButton && m_multiSelectStarted){
@@ -339,7 +361,6 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect->setRect(selectionRect);
     }
 
-    PageItemDesignIntf* page = pageItem() ? pageItem() : getCurrentPage();
     if ((m_insertMode) && (page && page->rect().contains(page->mapFromScene(event->scenePos())))) {
         if (!m_itemInsertRect->isVisible()) m_itemInsertRect->setVisible(true);
         qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
@@ -355,7 +376,7 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             );
         }
     } else {
-    	if (m_insertMode) m_itemInsertRect->setVisible(false);
+        if (m_insertMode) m_itemInsertRect->setVisible(false);
     }
 
     QGraphicsScene::mouseMoveEvent(event);
@@ -401,6 +422,11 @@ void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect = 0;
         m_multiSelectStarted = false;
     }
+//    if(m_infoPosRect)
+//    {
+//        delete m_infoPosRect;
+//        m_infoPosRect = 0;
+//    }
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
@@ -750,7 +776,7 @@ void PageDesignIntf::dropEvent(QGraphicsSceneDragDropEvent* event)
         bool isVar = event->mimeData()->text().indexOf("variable:")==0;
         BaseDesignIntf* item = addReportItem("TextItem",event->scenePos(),QSize(250, 50));
         TextItem* ti = dynamic_cast<TextItem*>(item);
-        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);        
+        QString data = event->mimeData()->text().remove(0,event->mimeData()->text().indexOf(":")+1);
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
         if (isVar) data = data.remove(QRegExp("  \\[.*\\]"));
 #else
@@ -943,7 +969,7 @@ CommandIf::Ptr PageDesignIntf::createChangePosCommand()
             newPos.pos = reportItem->pos();
             newPoses.append(newPos);
         }
-    }    
+    }
     return PosChangedCommand::create(this, m_positionStamp, newPoses);
 }
 
@@ -1825,6 +1851,20 @@ void PageDesignIntf::setBorders(const BaseDesignIntf::BorderLines& border)
     changeSelectedGroupProperty("borders", (int)border);
 }
 
+void PageDesignIntf::setBordersExt(
+        const BaseDesignIntf::BorderLines& border,
+        const double borderWidth,
+        const LimeReport::BaseDesignIntf::BorderStyle style,
+        const QString color
+
+)
+{
+    changeSelectedGroupProperty("borders", (int)border);
+    changeSelectedGroupProperty("borderLineSize", borderWidth);
+    changeSelectedGroupProperty("borderStyle", style);
+    changeSelectedGroupProperty("borderColor", color);
+}
+
 void PageDesignIntf::lockSelectedItems()
 {
     foreach(QGraphicsItem* graphicItem, selectedItems()){
@@ -2650,7 +2690,7 @@ bool BandMoveFromToCommand::doIt()
 void BandMoveFromToCommand::undoIt()
 {
     if (page() && page()->pageItem())
-    	page()->pageItem()->moveBandFromTo(reverceFrom, reverceTo);
+        page()->pageItem()->moveBandFromTo(reverceFrom, reverceTo);
 }
 
 }

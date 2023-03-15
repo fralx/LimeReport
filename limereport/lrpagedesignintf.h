@@ -254,6 +254,11 @@ namespace LimeReport {
         void setFont(const QFont &font);
         void setTextAlign(const Qt::Alignment& alignment);
         void setBorders(const BaseDesignIntf::BorderLines& border);
+        void setBordersExt(const BaseDesignIntf::BorderLines &border,
+                const double borderWidth,
+                const BaseDesignIntf::BorderStyle style,
+                const QString color
+        );
         void lockSelectedItems();
         void unlockSelectedItems();
         void selectOneLevelItems();
@@ -295,6 +300,7 @@ namespace LimeReport {
         BaseDesignIntf::ItemMode m_itemMode;
         QGraphicsRectItem* m_cutterBorder;
         QGraphicsRectItem* m_pageRect;
+//        QGraphicsTextItem* m_infoPosRect;
         QVector<CommandIf::Ptr> m_commandsList;
         QVector<ReportItemPos> m_positionStamp;
         QVector<ReportItemSize> m_geometryStamp;

@@ -1,5 +1,5 @@
-project(limereport)
 cmake_minimum_required(VERSION 3.14)
+project(limereport)
 
 set(LIMEREPORT_VERSION_MAJOR 1)
 set(LIMEREPORT_VERSION_MINOR 6)
@@ -7,6 +7,7 @@ set(LIMEREPORT_VERSION_RELEASE 8)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
+option(LIMEREPORT_DEMO "Build LimeReport demos" OFF)
 option(USE_QT6 "Use Qt6" OFF)
 
 if(USE_QT6)
@@ -37,8 +38,11 @@ if (Qt${QT_VERSION_MAJOR}Widgets_FOUND)
 endif()
 
 add_subdirectory(3rdparty)
-add_subdirectory(designer EXCLUDE_FROM_ALL)
-add_subdirectory(demo_r1  EXCLUDE_FROM_ALL)
+
+if (LIMEREPORT_DEMO)
+    add_subdirectory(designer)
+    add_subdirectory(demo_r1)
+endif()
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -79,6 +83,8 @@ ${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.cpp
 ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.cpp
 ${PROJECT_NAME}/items/lrabstractlayout.cpp
 ${PROJECT_NAME}/items/lralignpropitem.cpp
+${PROJECT_NAME}/items/lrborderframeeditor.cpp
+${PROJECT_NAME}/items/lrbordereditor.cpp
 ${PROJECT_NAME}/items/lrchartitem.cpp
 ${PROJECT_NAME}/items/lrchartaxiseditor.cpp
 ${PROJECT_NAME}/items/lrchartitemeditor.cpp
@@ -86,6 +92,7 @@ ${PROJECT_NAME}/items/lrhorizontallayout.cpp
 ${PROJECT_NAME}/items/lrimageitem.cpp
 ${PROJECT_NAME}/items/lrimageitemeditor.cpp
 ${PROJECT_NAME}/items/lrlayoutmarker.cpp
+${PROJECT_NAME}/items/lrpageeditor.cpp
 ${PROJECT_NAME}/items/lrshapeitem.cpp
 ${PROJECT_NAME}/items/lrsubitemparentpropitem.cpp
 ${PROJECT_NAME}/items/lrsvgitem.cpp
@@ -191,6 +198,8 @@ ${PROJECT_NAME}/items/editors/lritemsborderseditorwidget.h
 ${PROJECT_NAME}/items/editors/lrtextalignmenteditorwidget.h
 ${PROJECT_NAME}/items/lrabstractlayout.h
 ${PROJECT_NAME}/items/lralignpropitem.h
+${PROJECT_NAME}/items/lrborderframeeditor.h
+${PROJECT_NAME}/items/lrbordereditor.h
 ${PROJECT_NAME}/items/lrchartitem.h
 ${PROJECT_NAME}/items/lrchartaxiseditor.h
 ${PROJECT_NAME}/items/lrchartitemeditor.h
@@ -199,6 +208,7 @@ ${PROJECT_NAME}/items/lrhorizontallayout.h
 ${PROJECT_NAME}/items/lrimageitem.h
 ${PROJECT_NAME}/items/lrimageitemeditor.h
 ${PROJECT_NAME}/items/lrlayoutmarker.h
+${PROJECT_NAME}/items/lrpageeditor.h
 ${PROJECT_NAME}/items/lrshapeitem.h
 ${PROJECT_NAME}/items/lrsubitemparentpropitem.h
 ${PROJECT_NAME}/items/lrsvgitem.h
@@ -288,9 +298,12 @@ ${PROJECT_NAME}/databrowser/lrdatabrowser.ui
 ${PROJECT_NAME}/databrowser/lrsqleditdialog.ui
 ${PROJECT_NAME}/databrowser/lrvariabledialog.ui
 ${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
+${PROJECT_NAME}/items/lrborderframeeditor.ui
+${PROJECT_NAME}/items/lrbordereditor.ui
 ${PROJECT_NAME}/items/lrchartitemeditor.ui
 ${PROJECT_NAME}/items/lrchartaxiseditor.ui
 ${PROJECT_NAME}/items/lrimageitemeditor.ui
+${PROJECT_NAME}/items/lrpageeditor.ui
 ${PROJECT_NAME}/items/lrtextitemeditor.ui
 ${PROJECT_NAME}/lraboutdialog.ui
 ${PROJECT_NAME}/lrpreviewreportwidget.ui
@@ -348,12 +361,13 @@ set(GLOBAL_HEADERS
 set(PROJECT_NAME ${PROJECT_NAME}-qt${QT_VERSION_MAJOR})
 
 if (LIMEREPORT_STATIC)
-	message(STATUS "STATIC LIBRARY")
-	add_library(${PROJECT_NAME} STATIC  ${EXTRA_FILES} ${LIMEREPORT_SOURCES})
+    message(STATUS "STATIC LIBRARY")
+    add_library(${PROJECT_NAME} STATIC  ${EXTRA_FILES} ${LIMEREPORT_SOURCES})
     target_compile_definitions( ${PROJECT_NAME} PUBLIC -DHAVE_STATIC_BUILD)
 else()
     add_library(${PROJECT_NAME} SHARED  ${EXTRA_FILES} ${LIMEREPORT_SOURCES})
-    target_compile_definitions( ${PROJECT_NAME} PUBLIC -DLIMEREPORT_EXPORTS)
+    target_compile_definitions( ${PROJECT_NAME} PRIVATE -DLIMEREPORT_EXPORTS)
+    target_compile_definitions( ${PROJECT_NAME} INTERFACE -DLIMEREPORT_IMPORTS)
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DCMAKE_CONFIG)
@@ -392,16 +406,16 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/serializators
 	limereport/scripteditor )
 
+target_include_directories( ${PROJECT_NAME} INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+list (APPEND GLOBAL_HEADERS ${EXTRA_FILES})
+set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GLOBAL_HEADERS}")
+
 install(TARGETS
 	${PROJECT_NAME}
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib
-	RUNTIME DESTINATION bin)
+	RUNTIME DESTINATION bin
+	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/limereport)
 
-install(FILES
-  ${EXTRA_FILES}
-  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
-
-install(FILES
-  ${GLOBAL_HEADERS}
-  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")

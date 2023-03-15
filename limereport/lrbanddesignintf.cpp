@@ -60,7 +60,6 @@ void BandMarker::paint(QPainter *painter, const QStyleOptionGraphicsItem* /**opt
                 boundingRect().bottomLeft().y()-4,
                 boundingRect().width(),4), Qt::lightGray
     );
-
     painter->setRenderHint(QPainter::Antialiasing);
     qreal size = (boundingRect().width()<boundingRect().height()) ? boundingRect().width() : boundingRect().height();
     QRectF r = QRectF(0,0,size,size);
@@ -186,7 +185,7 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
     m_bandMarker = new BandMarker(this);
     m_bandMarker->setColor(Qt::magenta);
     m_bandMarker->setHeight(height());
-    m_bandMarker->setPos(pos().x()-m_bandMarker->width(),pos().y());
+    m_bandMarker->setPos(pos().x()-m_bandMarker->width() - (itemMode() == ItemModes::PrintMode?boundingRect().width() : 0),pos().y());
     if (scene()) scene()->addItem(m_bandMarker);
 
     m_bandNameLabel = new BandNameLabel(this);
@@ -818,7 +817,7 @@ BandDesignIntf* BandDesignIntf::findParentBand()
 void BandDesignIntf::updateBandMarkerGeometry()
 {
     if (parentItem() && m_bandMarker){
-        m_bandMarker->setPos(pos().x()-m_bandMarker->width(),pos().y());
+        m_bandMarker->setPos(pos().x()-m_bandMarker->width() - (itemMode() == ItemModes::PrintMode?boundingRect().width() : 0),pos().y());
         m_bandMarker->setHeight(rect().height());
     }
 }
@@ -839,7 +838,7 @@ QVariant BandDesignIntf::itemChange(QGraphicsItem::GraphicsItemChange change, co
 {
     if ((change==ItemPositionChange)&&((itemMode()&DesignMode)||(itemMode()&EditMode))){
         if (m_bandMarker){
-            m_bandMarker->setPos((value.toPointF().x()-m_bandMarker->boundingRect().width()),
+            m_bandMarker->setPos((value.toPointF().x()-m_bandMarker->boundingRect().width() - (itemMode() == ItemModes::PrintMode?boundingRect().width() : 0)),
                                  value.toPointF().y());
         }
     }
@@ -1142,7 +1141,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
     restoreLinks();
     snapshotItemsLayout();
 
-    arrangeSubItems(pass, dataManager); 
+    arrangeSubItems(pass, dataManager);
     if (autoHeight()){
         if (!keepTopSpace()) {
             qreal minTop = findMinTop() + m_shiftItems;
