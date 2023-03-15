@@ -77,10 +77,6 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
 
 TextItem::~TextItem(){}
 
-int TextItem::fakeMarginSize() const{
-    return marginSize()/*+5*/;
-}
-
 void TextItem::preparePopUpMenu(QMenu &menu)
 {
     QAction* editAction = menu.addAction(QIcon(":/report/images/edit_pecil2.png"),tr("Edit"));
@@ -180,7 +176,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
     qreal hOffset = 0, vOffset = 0;
     switch (m_angle){
         case Angle0:
-            hOffset = fakeMarginSize();
+            hOffset = marginSize();
             if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignVCenter)){
                 vOffset = tmpSize.height() / 2;
             }
@@ -189,8 +185,8 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
             painter->translate(hOffset,vOffset);
         break;
         case Angle90:
-            hOffset = width() - fakeMarginSize();
-            vOffset = fakeMarginSize();
+            hOffset = width() - marginSize();
+            vOffset = marginSize();
             if (m_alignment & Qt::AlignVCenter){
                 hOffset = (width() - text->size().height()) / 2 + text->size().height();
             }
@@ -202,8 +198,8 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
             painter->rotate(90);
         break;
         case Angle180:
-            hOffset = width() - fakeMarginSize();
-            vOffset = height() - fakeMarginSize();
+            hOffset = width() - marginSize();
+            vOffset = height() - marginSize();
             if ((tmpSize.width()>0) && (m_alignment & Qt::AlignVCenter)){
                 vOffset = tmpSize.height() / 2+ text->size().height();
             }
@@ -214,8 +210,8 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
             painter->rotate(180);
         break;
         case Angle270:
-            hOffset = fakeMarginSize();
-            vOffset = height()-fakeMarginSize();
+            hOffset = marginSize();
+            vOffset = height()-marginSize();
             if (m_alignment & Qt::AlignVCenter){
                 hOffset = (width() - text->size().height())/2;
             }
@@ -321,7 +317,7 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
         initTextSizes();
 
     if (m_textSize.width()>width() && ((m_autoWidth==MaxWordLength)||(m_autoWidth==MaxStringLength))){
-        setWidth(m_textSize.width() + fakeMarginSize()*2);
+        setWidth(m_textSize.width() + marginSize()*2);
     }
 
     if (m_textSize.height()>height()) {
@@ -380,9 +376,9 @@ QString TextItem::replaceReturns(QString text) const
 void TextItem::setTextFont(TextPtr text, const QFont& value) const {
     text->setDefaultFont(value);
     if ((m_angle==Angle0)||(m_angle==Angle180)){
-        text->setTextWidth(rect().width()-fakeMarginSize()*2);
+        text->setTextWidth(rect().width()-marginSize()*2);
     } else {
-        text->setTextWidth(rect().height()-fakeMarginSize()*2);
+        text->setTextWidth(rect().height()-marginSize()*2);
     }
 }
 
@@ -394,7 +390,7 @@ void TextItem::adaptFontSize(TextPtr text) const{
         if (_font.pixelSize()>2)
             _font.setPixelSize(_font.pixelSize()-1);
         else break;
-    } while(text->size().height()>this->height() || text->size().width()>(this->width()) - fakeMarginSize() * 2);
+    } while(text->size().height()>this->height() || text->size().width()>(this->width()) - marginSize() * 2);
 }
 
 int TextItem::underlineLineSize() const
