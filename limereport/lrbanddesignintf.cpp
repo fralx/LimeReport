@@ -198,12 +198,6 @@ BandDesignIntf::BandDesignIntf(BandsType bandType, const QString &xmlTypeName, Q
 
 BandDesignIntf::~BandDesignIntf()
 {
-//    if (itemMode()&DesignMode){
-//        foreach(BandDesignIntf* band,childBands()) {
-//            removeChildBand(band);
-//            delete band;
-//        }
-//    }
     delete m_bandMarker;
     delete m_bandNameLabel;
 }
@@ -642,19 +636,6 @@ void BandDesignIntf::processPopUpAction(QAction *action)
     ItemsContainerDesignInft::processPopUpAction(action);
 }
 
-//void BandDesignIntf::recalcItems(DataSourceManager* dataManager)
-//{
-//    foreach(BaseDesignIntf* bi, childBaseItems()){
-//        ContentItemDesignIntf* ci = dynamic_cast<ContentItemDesignIntf*>(bi);
-//        if (bi){
-//            ContentItemDesignIntf* pci = dynamic_cast<ContentItemDesignIntf*>(bi->patternItem());
-//            ci->setContent(pci->content());
-//        }
-//    }
-
-//    updateItemSize(dataManager,FirstPass,height());
-//}
-
 BaseDesignIntf* BandDesignIntf::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
 {
     int maxBottom = 0;
@@ -921,9 +902,9 @@ void BandDesignIntf::setAlternateBackgroundColor(const QColor &alternateBackgrou
     }
 }
 
-qreal BandDesignIntf::bottomSpace() const
+qreal BandDesignIntf::bottomSpace()
 {
-    return height()-findMaxBottom();
+    return m_bottomSpace;
 }
 
 void BandDesignIntf::slotPropertyObjectNameChanged(const QString &, const QString& newName)
@@ -957,14 +938,9 @@ void BandDesignIntf::setKeepTopSpace(bool value)
     }
 }
 
-int BandDesignIntf::bootomSpace() const
+void BandDesignIntf::setBottomSpace(qreal bottomSpace)
 {
-    return m_bottomSpace;
-}
-
-void BandDesignIntf::setBootomSpace(int bootomSpace)
-{
-    m_bottomSpace = bootomSpace;
+    m_bottomSpace = bottomSpace;
 }
 
 bool BandDesignIntf::repeatOnEachRow() const
@@ -1137,7 +1113,6 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
         spaceBorder += borderLineSize() + 2;
     }
 
-    spaceBorder += m_bottomSpace;
     restoreLinks();
     snapshotItemsLayout();
 
@@ -1161,6 +1136,15 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
 void BandDesignIntf::updateBandNameLabel()
 {
     if (m_bandNameLabel) m_bandNameLabel->updateLabel(bandTitle());
+}
+
+void BandDesignIntf::initFromItem(BaseDesignIntf *source)
+{
+    ItemsContainerDesignInft::initFromItem(source);
+    BandDesignIntf* source_band = dynamic_cast<BandDesignIntf*>(source);
+    if (source_band){
+        this->setBottomSpace(source_band->bottomSpace());
+    }
 }
 
 QColor BandDesignIntf::selectionColor() const
