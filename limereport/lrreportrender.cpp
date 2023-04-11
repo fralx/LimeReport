@@ -596,7 +596,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
             bandClone = renderData(patternBand);
         }
 
-        if (isLast) bandClone->setBootomSpace(1);
+        if (isLast) bandClone->setBottomSpace(1);
 
         if (mode == ForcedStartPage){
             savePage();
@@ -1341,9 +1341,9 @@ void ReportRender::createTOCMarker(bool startNewRange)
 
 BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf* patternBand)
 {
-    int sliceHeight = height;
-    BandDesignIntf* upperBandPart = dynamic_cast<BandDesignIntf*>(band->cloneUpperPart(sliceHeight));
-    BandDesignIntf* bottomBandPart = dynamic_cast<BandDesignIntf*>(band->cloneBottomPart(sliceHeight));
+    //int sliceHeight = height;
+    BandDesignIntf* upperBandPart = dynamic_cast<BandDesignIntf*>(band->cloneUpperPart(height));
+    BandDesignIntf* bottomBandPart = dynamic_cast<BandDesignIntf*>(band->cloneBottomPart(height));
     if (!bottomBandPart->isEmpty()){
         if (patternBand->keepFooterTogether())
             closeFooterGroup(patternBand);
@@ -1351,6 +1351,7 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
             bottomBandPart->copyBookmarks(band);
     }
     if (!upperBandPart->isEmpty()){
+        upperBandPart->setBottomSpace(0);
         upperBandPart->updateItemSize(m_datasources, FirstPass, height);
         registerBand(upperBandPart);
         upperBandPart->copyBookmarks(band);
@@ -1397,6 +1398,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand, bool emitB
     }
 
     emit(patternBand->preparedForRender());
+    bandClone->setBottomSpace(patternBand->height() - patternBand->findMaxBottom());
     bandClone->updateItemSize(m_datasources);
 
     //m_scriptEngineContext->baseDesignIntfToScript(bandClone);

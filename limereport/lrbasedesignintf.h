@@ -265,7 +265,7 @@ public:
     virtual BaseDesignIntf* cloneItem(LimeReport::BaseDesignIntf::ItemMode mode, QObject* owner=0, QGraphicsItem* parent=0);
     virtual BaseDesignIntf* cloneItemWOChild(LimeReport::BaseDesignIntf::ItemMode mode, QObject* owner=0, QGraphicsItem* parent=0);
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0) = 0;
-    void    initFromItem(BaseDesignIntf* source);
+    virtual void initFromItem(BaseDesignIntf* source);
 
     virtual bool canBeSplitted(int height) const;
     virtual qreal minHeight() const {return 0;}
