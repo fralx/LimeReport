@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     QString designerTranslation = QLocale(manager.getCurrentDefaultLanguage()).name();
 
     if (limeReportTranslator.load("limereport_"+designerTranslation, translationPath)){
-        qtBaseTranslator.load("qtbase_" + designerTranslation, translationPath);
-        qtDesignerTranslator.load("designer_"+designerTranslation,translationPath);
+        static_cast<void>(qtBaseTranslator.load("qtbase_" + designerTranslation, translationPath));
+        static_cast<void>(qtDesignerTranslator.load("designer_"+designerTranslation,translationPath));
 
         a.installTranslator(&qtBaseTranslator);
         a.installTranslator(&qtDesignerTranslator);

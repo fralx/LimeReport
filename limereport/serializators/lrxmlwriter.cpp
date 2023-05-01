@@ -80,7 +80,8 @@ bool XMLWriter::setContent(QString fileName)
 {
     QFile xmlFile(fileName);
     if (xmlFile.open(QFile::ReadOnly)){
-        return m_doc->setContent(&xmlFile);
+        m_doc->setContent(&xmlFile);
+        return true;
     }
     return false;
 }
