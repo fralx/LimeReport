@@ -135,9 +135,6 @@ void EnumPropItem::translateEnumItemName()
     tr("Pie");
     tr("VerticalBar");
     tr("HorizontalBar");
-    tr("LegendAlignTop");
-    tr("LegendAlignCenter");
-    tr("LegendAlignBottom");
     tr("TitleAlignLeft");
     tr("TitleAlignRight");
     tr("TitleAlignCenter");
@@ -147,6 +144,31 @@ void EnumPropItem::translateEnumItemName()
     tr("Inches");
     tr("Scale");
     tr("Split");
+    tr("GridLines");
+    tr("Lines");
+    tr("Solid");
+    tr("NoStyle");
+    tr("Dashed");
+    tr("Dot");
+    tr("DashDot");
+    tr("DashDotDot");
+    tr("Doubled");
+    tr("LegendPoints");
+    tr("LegendLines");
+    tr("LegendAlignRightCenter");
+    tr("LegendAlignRightTop");
+    tr("LegendAlignRightBottom");
+    tr("LegendAlignBottomRight");
+    tr("LegendAlignBottomCenter");
+    tr("LegendAlignBottomLeft");
+    tr("SolidLine");
+    tr("NoPen");
+    tr("DashLine");
+    tr("DotLine");
+    tr("DashDotLine");
+    tr("DashDotDotLine");
+    tr("CustomDashLine");
+
 }
 
 void EnumPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
