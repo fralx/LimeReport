@@ -13,7 +13,7 @@ option(USE_QT6 "Use Qt6" OFF)
 if(USE_QT6)
     find_package(QT NAMES Qt6)
 else()
-    find_package(QT NAMES Qt5)
+    find_package(QT NAMES Qt5 Qt6)
 endif(USE_QT6)
 find_package(
   Qt${QT_VERSION_MAJOR}
