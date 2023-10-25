@@ -409,7 +409,7 @@ public:
                          bool bold = false,
                          bool italic = false,
                          bool underLine = false);
-  Q_INVOKABLE QVariant testFunct();
+  Q_INVOKABLE QVariant getFieldByRowIndexEx(const QString &fieldName, int rowIndex, const int role);
 #ifdef USE_QJSENGINE
   Q_INVOKABLE void addItemsToComboBox(QJSValue object, const QStringList &values);
   Q_INVOKABLE void addItemToComboBox(QJSValue object, const QString &value);
@@ -569,7 +569,7 @@ private:
   bool createAddTableOfContentsItemFunction();
   bool createClearTableOfContentsFunction();
   bool createReopenDatasourceFunction();
-  bool createTestFunct();
+  bool createGetFieldByRowIndexEx();
 
 private:
   ScriptEngineManager();

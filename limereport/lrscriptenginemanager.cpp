@@ -1045,15 +1045,16 @@ bool ScriptEngineManager::createReopenDatasourceFunction() {
   return addFunction(fd);
 }
 
-bool ScriptEngineManager::createTestFunct() {
+bool ScriptEngineManager::createGetFieldByRowIndexEx() {
   JSFunctionDesc fd;
   fd.setManager(m_functionManager);
   fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
   fd.setCategory(tr("GENERAL"));
-  fd.setName("testFunct");
-  fd.setDescription("testFunct()");
-  fd.setScriptWrapper(QString("function testFunct(){"
-                              "return %1.testFunct();}")
+  fd.setName("getFieldByRowIndexEx");
+  fd.setDescription("getFieldByRowIndexEx(\"" + tr("FieldName") + "\", \"" + tr("RowIndex")
+                    + "\", \"" + tr("Role value") + "\")");
+  fd.setScriptWrapper(QString("function getFieldByRowIndexEx(fieldName, rowIndex, role){"
+                              "return %1.getFieldByRowIndexEx(fieldName, rowIndex, role);}")
                           .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
   return addFunction(fd);
 }
@@ -1099,7 +1100,7 @@ ScriptEngineManager::ScriptEngineManager() : m_model(0), m_context(0), m_dataMan
   createAddTableOfContentsItemFunction();
   createClearTableOfContentsFunction();
   createReopenDatasourceFunction();
-  createTestFunct();
+  createGetFieldByRowIndexEx();
 
   m_model = new ScriptEngineModel(this);
 }
@@ -1813,8 +1814,11 @@ QFont ScriptFunctionsManager::font(
   return result;
 }
 
-QVariant ScriptFunctionsManager::testFunct() {
-  return QString("TEST ");
+QVariant ScriptFunctionsManager::getFieldByRowIndexEx(const QString &fieldName,
+                                                      int rowIndex,
+                                                      const int role) {
+  DataSourceManager *dm = scriptEngineManager()->dataManager();
+  return dm->fieldDataByRowIndex(fieldName, rowIndex, role);
 }
 
 #ifdef USE_QJSENGINE
