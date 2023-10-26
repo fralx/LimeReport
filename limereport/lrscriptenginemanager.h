@@ -409,7 +409,46 @@ public:
                          bool bold = false,
                          bool italic = false,
                          bool underLine = false);
+  /*!
+   * \brief getFieldByRowIndexEx Выдает для поля значение заданной роли
+   * \param fieldName имя источника данных + имя поля
+   * \param rowIndex индекс строки
+   * \param role код роли
+   * \return
+   */
   Q_INVOKABLE QVariant getFieldByRowIndexEx(const QString &fieldName, int rowIndex, const int role);
+  /*!
+   * \brief getFieldByRowIndexEx2 Выдает для поля значение заданной роли
+   * \param fieldName имя источника данных + имя поля
+   * \param rowIndex индекс строки
+   * \param roleName имя роли из roleNames()
+   * \return
+   */
+  Q_INVOKABLE QVariant getFieldByRowIndexEx2(const QString &fieldName,
+                                             int rowIndex,
+                                             const QString &roleName);
+  /*!
+   * \brief getHeaderData Выдает для поля заголовка значение заданной роли
+   * \param fieldName имя источника данных + имя поля
+   * \param role имя роли из roleNames()
+   * \return
+   */
+  Q_INVOKABLE QVariant getHeaderData(const QString &fieldName, const QString &roleName);
+  /*!
+   * \brief getHeaderColumnNameByIndex Выдает имя колонки по ее индексу (имя используемое LR)
+   * \param datasourceName имя источника данных
+   * \param columnIndex индекс колонки
+   * \return
+   */
+  Q_INVOKABLE QVariant getHeaderColumnNameByIndex(const QString &datasourceName,
+                                                  const int columnIndex);
+  /*!
+   * \brief getColumnCount Выдает число столбцов в источнике данных
+   * \param datasourceName имя источника данных
+   * \return возможно -1 при ошибке
+   */
+  Q_INVOKABLE int getColumnCount(const QString &datasourceName);
+
 #ifdef USE_QJSENGINE
   Q_INVOKABLE void addItemsToComboBox(QJSValue object, const QStringList &values);
   Q_INVOKABLE void addItemToComboBox(QJSValue object, const QString &value);
@@ -570,6 +609,10 @@ private:
   bool createClearTableOfContentsFunction();
   bool createReopenDatasourceFunction();
   bool createGetFieldByRowIndexEx();
+  bool createGetFieldByRowIndexEx2();
+  bool createHeaderData();
+  bool createHeaderColumnNameByIndex();
+  bool createColumnCount();
 
 private:
   ScriptEngineManager();

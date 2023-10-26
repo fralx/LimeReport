@@ -1680,6 +1680,18 @@ QVariant DataSourceManager::fieldDataByRowIndex(const QString &fieldName, int ro
   return QVariant();
 }
 
+QVariant DataSourceManager::fieldDataByRowIndex(const QString &fieldName,
+                                                int rowIndex,
+                                                const QString &roleName) {
+  if(containsField(fieldName)) {
+    IDataSource *ds = dataSource(extractDataSource(fieldName));
+    if(ds) {
+      return ds->dataByRowIndex(extractFieldName(fieldName), rowIndex, roleName);
+    }
+  }
+  return QVariant();
+}
+
 QVariant DataSourceManager::fieldDataByKey(const QString &datasourceName,
                                            const QString &valueFieldName,
                                            const QString &keyFieldName,
@@ -1689,6 +1701,33 @@ QVariant DataSourceManager::fieldDataByKey(const QString &datasourceName,
     return ds->dataByKeyField(valueFieldName, keyFieldName, keyValue);
   }
   return QVariant();
+}
+
+QVariant DataSourceManager::headerData(const QString &fieldName, const QString &roleName) {
+  if(containsField(fieldName)) {
+    IDataSource *ds = dataSource(extractDataSource(fieldName));
+    if(ds) {
+      return ds->headerData(extractFieldName(fieldName), roleName);
+    }
+  }
+  return QVariant();
+}
+
+QString DataSourceManager::columnName(const QString &datasourceName, int index) {
+  IDataSource *ds = dataSource(datasourceName);
+  if(ds && !ds->isInvalid() && ds->columnCount() > index) {
+    return ds->columnNameByIndex(index);
+  }
+  return QString("unknown");
+}
+
+int DataSourceManager::columnCount(const QString &datasourceName) {
+  IDataSource *ds = dataSource(datasourceName);
+  if(ds && !ds->isInvalid()) {
+    return ds->columnCount();
+  }
+
+  return -1;
 }
 
 void DataSourceManager::reopenDatasource(const QString &datasourceName) {

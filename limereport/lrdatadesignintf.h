@@ -417,10 +417,12 @@ public:
   QVariant data(const QString &columnName);
   QVariant dataByRowIndex(const QString &columnName, int rowIndex);
   QVariant dataByRowIndex(const QString &columnName, int rowIndex, int roleName);
+  QVariant dataByRowIndex(const QString &columnName, int rowIndex, const QString &roleName);
   QVariant dataByKeyField(const QString &columnName, const QString &keyColumnName, QVariant keyData);
   int columnCount();
   QString columnNameByIndex(int columnIndex);
   int columnIndexByName(QString name);
+  QVariant headerData(const QString &columnName, const QString &roleName);
   QString lastError();
   virtual QAbstractItemModel *model();
   int currentRow();
@@ -458,6 +460,7 @@ public:
   QVariant data(const QString &columnName);
   QVariant dataByRowIndex(const QString &columnName, int rowIndex);
   QVariant dataByRowIndex(const QString &columnName, int rowIndex, int roleName);
+  QVariant dataByRowIndex(const QString &columnName, int rowIndex, const QString &roleName);
   QVariant dataByKeyField(const QString &columnName, const QString &keyColumnName, QVariant keyData);
   int columnCount();
   QString columnNameByIndex(int columnIndex);
@@ -465,6 +468,7 @@ public:
   bool isInvalid() const { return false; }
   QString lastError() { return ""; }
   QAbstractItemModel *model() { return 0; }
+  QVariant headerData(const QString &columnName, const QString &roleName);
 
 private:
   bool checkNextRecord(int recordNum);

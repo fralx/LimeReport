@@ -205,10 +205,14 @@ public:
   QVariant fieldData(const QString &fieldName);
   QVariant fieldDataByRowIndex(const QString &fieldName, int rowIndex);
   QVariant fieldDataByRowIndex(const QString &fieldName, int rowIndex, int role);
+  QVariant fieldDataByRowIndex(const QString &fieldName, int rowIndex, const QString &roleName);
   QVariant fieldDataByKey(const QString &datasourceName,
                           const QString &valueFieldName,
                           const QString &keyFieldName,
                           QVariant keyValue);
+  QVariant headerData(const QString &fieldName, const QString &roleName);
+  QString columnName(const QString &datasourceName, int index);
+  int columnCount(const QString &datasourceName);
   void reopenDatasource(const QString &datasourceName);
 
   QString extractDataSource(const QString &fieldName);
