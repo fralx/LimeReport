@@ -107,7 +107,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
 {
     initReportEditor(report);
     createActions();
-    createMainMenu();
+//    createMainMenu();
     createToolBars();
     createObjectInspector();
     createDataWindow();
@@ -350,10 +350,10 @@ void ReportDesignWindow::createToolBars()
     m_mainToolBar->setFloatable(false);
     m_mainToolBar->setObjectName("mainTools");
 
-    m_mainToolBar->addAction(m_newReportAction);
-    m_mainToolBar->addAction(m_loadReportAction);
-    m_mainToolBar->addAction(m_saveReportAction);
-    m_mainToolBar->addSeparator();
+//    m_mainToolBar->addAction(m_newReportAction);
+//    m_mainToolBar->addAction(m_loadReportAction);
+//    m_mainToolBar->addAction(m_saveReportAction);
+//    m_mainToolBar->addSeparator();
     m_mainToolBar->addAction(m_settingsAction);
     m_mainToolBar->addSeparator();
 
@@ -517,7 +517,7 @@ void ReportDesignWindow::createMainMenu()
     m_fileMenu->addAction(m_saveReportAction);
     m_fileMenu->addAction(m_saveReportAsAction);
     m_fileMenu->addAction(m_previewReportAction);
-    //m_fileMenu->addAction(m_printReportAction);
+    m_fileMenu->addAction(m_printReportAction);
     m_editMenu = menuBar()->addMenu(tr("Edit"));
     m_editMenu->addAction(m_redoAction);
     m_editMenu->addAction(m_undoAction);

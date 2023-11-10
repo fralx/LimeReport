@@ -102,7 +102,7 @@ private:
     Ruler* m_verticalRuller;
 };
 
-class ReportDesignWidget : public QWidget
+class LIMEREPORT_EXPORT ReportDesignWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QObject* datasourcesManager READ dataManager)

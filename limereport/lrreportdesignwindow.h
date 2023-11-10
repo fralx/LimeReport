@@ -42,7 +42,7 @@
 #include "items/editors/lrtextalignmenteditorwidget.h"
 #include "items/editors/lritemsaligneditorwidget.h"
 #include "items/editors/lritemsborderseditorwidget.h"
-#include "lrobjectitemmodel.h"
+#include "objectinspector/lrobjectitemmodel.h"
 #include "lrreportdesignwindowintrerface.h"
 
 namespace LimeReport{
@@ -243,7 +243,7 @@ private:
     QAction* m_unlockSelectedItemsAction;
     QAction* m_selectOneLevelItems;
 
-    QMenu*   m_recentFilesMenu;
+    QMenu*   m_recentFilesMenu =nullptr;
 
     QSignalMapper* m_bandsAddSignalsMap;
     QSignalMapper* m_recentFilesSignalMap;
