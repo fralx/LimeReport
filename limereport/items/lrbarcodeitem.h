@@ -49,6 +49,7 @@ class BarcodeItem : public LimeReport::ContentItemDesignIntf {
     Q_PROPERTY(int securityLevel READ securityLevel WRITE setSecurityLevel)
     Q_PROPERTY(int pdf417CodeWords READ pdf417CodeWords WRITE setPdf417CodeWords)
     Q_PROPERTY(InputMode inputMode READ inputMode WRITE setInputMode)
+    Q_PROPERTY(bool escapeMode READ escapeMode WRITE setEscapeMode)
     Q_PROPERTY(bool hideText READ hideText WRITE setHideText)
     Q_PROPERTY(int option3 READ option3 WRITE setOption3)
     Q_PROPERTY(bool hideIfEmpty READ hideIfEmpty WRITE setHideIfEmpty)
@@ -193,6 +194,8 @@ public:
     void setPdf417CodeWords(int pdf417CodeWords);
     InputMode inputMode() const;
     void setInputMode(const InputMode &inputMode);
+    bool escapeMode() const;
+    void setEscapeMode(bool escapeMode);
     bool hideText() const;
     void setHideText(bool hideText);
     int option3() const;
@@ -218,6 +221,7 @@ private:
     int m_securityLevel;
     int m_pdf417CodeWords;
     InputMode m_inputMode;
+    bool m_escapeMode;
     bool m_hideText;
     int m_option3;
     bool m_hideIfEmpty;

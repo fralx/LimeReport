@@ -915,6 +915,11 @@ void ReportDesignWindow::restoreSetting()
     createRecentFilesMenu();
 }
 
+QImage ReportDesignWindow::previewImage(int pageN)
+{
+    return QImage{};
+}
+
 bool ReportDesignWindow::checkNeedToSave()
 {
     if (m_reportDesignWidget->isNeedToSave()){

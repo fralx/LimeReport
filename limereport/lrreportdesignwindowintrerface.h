@@ -3,10 +3,11 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include "lrglobal.h"
 
 namespace LimeReport {
 
-class ReportDesignWindowInterface: public QMainWindow{
+class LIMEREPORT_EXPORT ReportDesignWindowInterface: public QMainWindow{
 public:
     ReportDesignWindowInterface(QWidget* parent = 0): QMainWindow(parent){}
     virtual bool checkNeedToSave() = 0;
@@ -16,6 +17,7 @@ public:
     virtual QSettings* settings() = 0;
     virtual void restoreSetting() = 0;
     virtual void setShowProgressDialog(bool value) = 0;
+    virtual void newReport() = 0;
 };
 
 } // namespace LimeReport

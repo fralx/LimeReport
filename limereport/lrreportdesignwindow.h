@@ -71,6 +71,8 @@ public:
     QSettings* settings();
     void restoreSetting();
     void setShowProgressDialog(bool value){m_showProgressDialog = value;}
+    void newReport() { slotNewReport();}
+    QImage previewImage(int pageN = 0);
 private slots:
     void slotNewReport();
     void slotNewPage();
