@@ -17,7 +17,7 @@ public:
     virtual QSettings* settings() = 0;
     virtual void restoreSetting() = 0;
     virtual void setShowProgressDialog(bool value) = 0;
-    virtual void newReport() = 0;
+    virtual void newReport(bool needCheck = true) = 0;
 };
 
 } // namespace LimeReport

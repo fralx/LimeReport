@@ -71,10 +71,10 @@ public:
     QSettings* settings();
     void restoreSetting();
     void setShowProgressDialog(bool value){m_showProgressDialog = value;}
-    void newReport() { slotNewReport();}
+    void newReport(bool needCheck = true) { slotNewReport(needCheck);}
     QImage previewImage(int pageN = 0);
 private slots:
-    void slotNewReport();
+    void slotNewReport(bool needCheck = true);
     void slotNewPage();
     void slotDeletePage();
     void slotNewTextItem();

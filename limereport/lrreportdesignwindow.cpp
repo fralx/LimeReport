@@ -977,9 +977,9 @@ QSettings*ReportDesignWindow::settings()
     }
 }
 
-void ReportDesignWindow::slotNewReport()
+void ReportDesignWindow::slotNewReport(bool needCheck)
 {    
-    if (checkNeedToSave()) {
+    if (!needCheck || checkNeedToSave()) {
         m_lblReportName->setText("");
         startNewReport();
         m_deletePageAction->setEnabled(false);
