@@ -940,6 +940,11 @@ bool ReportDesignWindow::checkNeedToSave()
     return true;
 }
 
+bool LimeReport::ReportDesignWindow::isNeedToSave()
+{
+    return m_reportDesignWidget->isNeedToSave();
+}
+
 void ReportDesignWindow::showModal()
 {
     bool deleteOnClose = testAttribute(Qt::WA_DeleteOnClose);

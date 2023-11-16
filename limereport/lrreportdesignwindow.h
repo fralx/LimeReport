@@ -65,6 +65,7 @@ public:
     static ReportDesignWindow* instance(){return m_instance;}
 
     bool checkNeedToSave();
+    bool isNeedToSave();
     void showModal();
     void showNonModal();
     void setSettings(QSettings* value);
