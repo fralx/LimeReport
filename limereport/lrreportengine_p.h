@@ -130,7 +130,7 @@ private:
     bool m_firstPage;
 };
 
-class LIMEREPORT_EXPORT ReportEnginePrivate : public QObject,
+class ReportEnginePrivate : public QObject,
         public ICollectionContainer,
         public ITranslationContainer,
         public IExternalPainter,
