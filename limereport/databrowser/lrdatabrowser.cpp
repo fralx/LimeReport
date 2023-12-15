@@ -198,9 +198,9 @@ void DataBrowser::updateVariablesTree()
     systemVariables->setIcon(0,QIcon(":/report/images/folder"));
     QTreeWidgetItem *externalVariables = new QTreeWidgetItem(QStringList(tr("External variables")),DataBrowserTree::Category);
     externalVariables->setIcon(0,QIcon(":/report/images/folder"));
+    ui->variablesTree->addTopLevelItem(externalVariables);
     ui->variablesTree->addTopLevelItem(reportVariables);
     ui->variablesTree->addTopLevelItem(systemVariables);
-    ui->variablesTree->addTopLevelItem(externalVariables);
 
     foreach(QString variableName,m_report->dataManager()->variableNames()){
         QStringList values;
