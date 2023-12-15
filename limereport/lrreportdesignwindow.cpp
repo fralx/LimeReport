@@ -762,9 +762,10 @@ void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
 
-    setDocWidgetsVisibility(true);
+    // setDocWidgetsVisibility(true);
 
     m_editorsStates[m_editorTabType] = saveState();
+    settings()->setValue("MainWindowState", saveState());
     settings()->setValue("PageEditorsState",         m_editorsStates[ReportDesignWidget::Page]);
     settings()->setValue("DialogEditorsState",       m_editorsStates[ReportDesignWidget::Dialog]);
     settings()->setValue("ScriptEditorsState",       m_editorsStates[ReportDesignWidget::Script]);
@@ -846,6 +847,7 @@ void ReportDesignWindow::addRecentFile(const QString &fileName)
 
 void ReportDesignWindow::restoreSetting()
 {
+    qDebug() << "limereport restoreSetting" << m_ownedSettings;
     settings()->beginGroup("DesignerWindow");
     QVariant v = settings()->value("Geometry");
     if (v.isValid()){
@@ -868,6 +870,9 @@ void ReportDesignWindow::restoreSetting()
         resize(screenWidth * 0.8, screenHeight * 0.8);
         move(x, y);
     }
+    auto s = settings()->value("MainWindowState").toByteArray();
+    if(!s.isEmpty())
+        restoreState(s);
     v = settings()->value("PageEditorsState");
     if (v.isValid()){
         m_editorsStates[ReportDesignWidget::Page] = v.toByteArray();
@@ -986,6 +991,7 @@ QSettings*ReportDesignWindow::settings()
 
 void LimeReport::ReportDesignWindow::saveSettings()
 {
+    qDebug() << "limereport saveSettings" << m_ownedSettings;
     writeState();
 }
 
@@ -1410,7 +1416,9 @@ void ReportDesignWindow::showDefaultToolBars(){
 
 void ReportDesignWindow::showDefaultEditors(){
     foreach (QDockWidget* w, m_pageEditors) {
-        w->setVisible(m_editorTabType != ReportDesignWidget::Dialog);
+      w->setVisible(m_editorTabType != ReportDesignWidget::Dialog &&
+                    w->objectName() != "scriptDoc" &&
+                    w->objectName() != "structureDoc");
     }
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     foreach (QDockWidget* w, m_dialogEditors) {
