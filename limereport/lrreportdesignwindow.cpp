@@ -598,6 +598,7 @@ void ReportDesignWindow::createObjectsBrowser()
     m_objectsBrowser->setMainWindow(this);
     m_pageEditors.append(doc);
     m_objectsBrowser->setReportEditor(m_reportDesignWidget);
+    doc->setVisible(false);
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION
@@ -707,6 +708,7 @@ void ReportDesignWindow::createScriptWindow()
 #ifdef HAVE_UI_LOADER
     m_scriptBrowser->updateDialogsTree();
 #endif
+    dataDoc->setVisible(false);
 }
 
 void ReportDesignWindow::updateRedoUndo()
