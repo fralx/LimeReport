@@ -762,7 +762,7 @@ void ReportDesignWindow::writeState()
 {
     settings()->beginGroup("DesignerWindow");
 
-    // setDocWidgetsVisibility(true);
+    setDocWidgetsVisibility(true);
 
     m_editorsStates[m_editorTabType] = saveState();
     settings()->setValue("MainWindowState", saveState());
@@ -989,7 +989,7 @@ QSettings*ReportDesignWindow::settings()
     }
 }
 
-void LimeReport::ReportDesignWindow::saveSettings()
+void ReportDesignWindow::saveSettings()
 {
     qDebug() << "limereport saveSettings" << m_ownedSettings;
     writeState();
