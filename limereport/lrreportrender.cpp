@@ -581,7 +581,7 @@ QColor ReportRender::makeBackgroundColor(BandDesignIntf* band){
 
 BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesignIntf* bandData, ReportRender::DataRenderMode mode, bool isLast)
 {
-    QCoreApplication::processEvents();
+    // QCoreApplication::processEvents();
     bool bandIsSliced = false;
     if (patternBand){
 
