@@ -984,6 +984,11 @@ QSettings*ReportDesignWindow::settings()
     }
 }
 
+void LimeReport::ReportDesignWindow::saveSettings()
+{
+    writeState();
+}
+
 void ReportDesignWindow::slotNewReport(bool needCheck)
 {    
     if (!needCheck || checkNeedToSave()) {

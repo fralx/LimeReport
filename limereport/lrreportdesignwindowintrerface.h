@@ -17,6 +17,7 @@ public:
     virtual void setSettings(QSettings* value) = 0;
     virtual QSettings* settings() = 0;
     virtual void restoreSetting() = 0;
+    virtual void saveSettings() = 0;
     virtual void setShowProgressDialog(bool value) = 0;
     virtual void newReport(bool needCheck = true) = 0;
 };
