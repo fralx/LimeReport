@@ -325,7 +325,7 @@ void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printe
         {
               printProcessors["default"]->printPage(page);
               emit pagePrintingFinished(currenPage);
-              QApplication::processEvents();
+              // QApplication::processEvents();
         }
 
         currenPage++;
@@ -364,7 +364,7 @@ void ReportEnginePrivate::printPages(ReportPages pages, QMap<QString, QPrinter*>
             else currentPrinter = 0;
         }
         emit pagePrintingFinished(i+1);
-        QApplication::processEvents();
+        // QApplication::processEvents();
     }
 
     emit printingFinished();
