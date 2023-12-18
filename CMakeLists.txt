@@ -410,6 +410,10 @@ target_include_directories( ${PROJECT_NAME} INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 list (APPEND GLOBAL_HEADERS ${EXTRA_FILES})
+if(ENABLE_ZINT)
+    list (APPEND GLOBAL_HEADERS 3rdparty/zint-2.10.0/backend_qt/qzint.h 3rdparty/zint-2.10.0/backend_qt/qzint_global.h
+    3rdparty/zint-2.10.0/backend/zint.h)
+endif(ENABLE_ZINT)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GLOBAL_HEADERS}")
 
 install(TARGETS
