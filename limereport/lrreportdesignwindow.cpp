@@ -353,7 +353,7 @@ void ReportDesignWindow::createToolBars()
     m_mainToolBar->addAction(m_newReportAction);
     m_mainToolBar->addAction(m_loadReportAction);
     m_mainToolBar->addAction(m_saveReportAsAction);
-//    m_mainToolBar->addSeparator();
+    m_mainToolBar->addSeparator();
     m_mainToolBar->addAction(m_settingsAction);
     m_mainToolBar->addSeparator();
 
