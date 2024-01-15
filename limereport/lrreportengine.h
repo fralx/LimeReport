@@ -243,7 +243,7 @@ protected:
     ReportEngine(ReportEnginePrivate &dd, QObject * parent=0);
 private:
     Q_DECLARE_PRIVATE(ReportEngine)
-    QSettings* m_settings;
+    QSettings* m_settings = nullptr;
     bool m_showDesignerModal;
 };
 
