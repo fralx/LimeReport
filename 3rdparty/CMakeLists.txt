@@ -69,7 +69,7 @@ if (ENABLE_ZINT)
     Qt${QT_VERSION_MAJOR}::Widgets
   )
 
-  target_compile_definitions(QZint PUBLIC -DQZINT_STATIC_BUILD)
+  target_compile_definitions(QZint PUBLIC -DQZINT_LIBRARY)
 
   if(PNG_FOUND)
     target_link_libraries(QZint PRIVATE PNG::PNG)

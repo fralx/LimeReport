@@ -178,6 +178,9 @@ bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sou
 ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     :QWidget(parent), m_filterModel(0)
 {
+    auto f = qApp->font();
+    f.setPointSize(f.pointSize()*0.7);
+    setFont(f);
     m_objectInspectorView = new ObjectInspectorTreeView(this);
     m_propertyModel = new BaseDesignPropertyModel(this);
     m_filterModel = new PropertyFilterModel(this);
