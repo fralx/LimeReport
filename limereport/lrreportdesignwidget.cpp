@@ -99,7 +99,7 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
     m_zoomer = new GraphicsViewZoomer(activeView());
 
 #ifdef Q_OS_WIN
-    m_defaultFont = QFont("Arial",10);
+    m_defaultFont = QFont("Arial",20);
 #else
     m_defaultFont = qApp->font();
     m_defaultFont.setPointSize(m_defaultFont.pointSize()*0.7);

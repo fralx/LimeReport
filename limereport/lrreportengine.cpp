@@ -78,8 +78,6 @@
 
 namespace LimeReport{
 
-QSettings* ReportEngine::m_settings = 0;
-
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_preparedPagesManager(new PreparedPages(&m_preparedPages)), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
@@ -1500,12 +1498,16 @@ void ReportEngine::designReport()
 ReportDesignWindowInterface* ReportEngine::getDesignerWindow()
 {
     Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
     return d->getDesignerWindow();
 }
 
 PreviewReportWidget* ReportEngine::createPreviewWidget(QWidget *parent)
 {
     Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
     return d->createPreviewWidget(parent);
 }
 

@@ -148,7 +148,7 @@ class LIMEREPORT_EXPORT ReportEngine : public QObject{
     friend class PreviewReportWidget;
     friend class TranslationEditor;
 public:
-    static void setSettings(QSettings *value){m_settings=value;}
+    void setSettings(QSettings *value){m_settings=value;}
 public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
@@ -243,7 +243,7 @@ protected:
     ReportEngine(ReportEnginePrivate &dd, QObject * parent=0);
 private:
     Q_DECLARE_PRIVATE(ReportEngine)
-    static QSettings* m_settings;
+    QSettings* m_settings;
     bool m_showDesignerModal;
 };
 

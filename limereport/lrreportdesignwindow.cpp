@@ -850,7 +850,7 @@ void ReportDesignWindow::addRecentFile(const QString &fileName)
 
 void ReportDesignWindow::restoreSetting()
 {
-    qDebug() << "limereport restoreSetting" << m_ownedSettings;
+    qDebug() << "limereport restoreSetting" << settings()->fileName();
     settings()->beginGroup("DesignerWindow");
     QVariant v = settings()->value("Geometry");
     if (v.isValid()){
@@ -994,7 +994,7 @@ QSettings*ReportDesignWindow::settings()
 
 void ReportDesignWindow::saveSettings()
 {
-    qDebug() << "limereport saveSettings" << m_ownedSettings;
+    qDebug() << "limereport saveSettings" << settings()->fileName();
     writeState();
 }
 
