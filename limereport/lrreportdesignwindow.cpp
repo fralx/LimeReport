@@ -105,9 +105,10 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     ReportDesignWindowInterface(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
     m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page), m_reportItemIsLocked(false)
 {
+    setAttribute(Qt::WA_WindowPropagation);
     initReportEditor(report);
     createActions();
-    createMainMenu();
+//    createMainMenu();
     createToolBars();
     createObjectInspector();
     createDataWindow();
@@ -352,7 +353,7 @@ void ReportDesignWindow::createToolBars()
 
     m_mainToolBar->addAction(m_newReportAction);
     m_mainToolBar->addAction(m_loadReportAction);
-    m_mainToolBar->addAction(m_saveReportAction);
+    m_mainToolBar->addAction(m_saveReportAsAction);
     m_mainToolBar->addSeparator();
     m_mainToolBar->addAction(m_settingsAction);
     m_mainToolBar->addSeparator();
@@ -517,7 +518,7 @@ void ReportDesignWindow::createMainMenu()
     m_fileMenu->addAction(m_saveReportAction);
     m_fileMenu->addAction(m_saveReportAsAction);
     m_fileMenu->addAction(m_previewReportAction);
-    //m_fileMenu->addAction(m_printReportAction);
+    m_fileMenu->addAction(m_printReportAction);
     m_editMenu = menuBar()->addMenu(tr("Edit"));
     m_editMenu->addAction(m_redoAction);
     m_editMenu->addAction(m_undoAction);
@@ -598,6 +599,7 @@ void ReportDesignWindow::createObjectsBrowser()
     m_objectsBrowser->setMainWindow(this);
     m_pageEditors.append(doc);
     m_objectsBrowser->setReportEditor(m_reportDesignWidget);
+    doc->setVisible(false);
 }
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION
@@ -707,6 +709,7 @@ void ReportDesignWindow::createScriptWindow()
 #ifdef HAVE_UI_LOADER
     m_scriptBrowser->updateDialogsTree();
 #endif
+    dataDoc->setVisible(false);
 }
 
 void ReportDesignWindow::updateRedoUndo()
@@ -763,6 +766,7 @@ void ReportDesignWindow::writeState()
     setDocWidgetsVisibility(true);
 
     m_editorsStates[m_editorTabType] = saveState();
+    settings()->setValue("MainWindowState", saveState());
     settings()->setValue("PageEditorsState",         m_editorsStates[ReportDesignWidget::Page]);
     settings()->setValue("DialogEditorsState",       m_editorsStates[ReportDesignWidget::Dialog]);
     settings()->setValue("ScriptEditorsState",       m_editorsStates[ReportDesignWidget::Script]);
@@ -844,6 +848,7 @@ void ReportDesignWindow::addRecentFile(const QString &fileName)
 
 void ReportDesignWindow::restoreSetting()
 {
+    qDebug() << "limereport restoreSetting" << settings()->fileName();
     settings()->beginGroup("DesignerWindow");
     QVariant v = settings()->value("Geometry");
     if (v.isValid()){
@@ -866,6 +871,9 @@ void ReportDesignWindow::restoreSetting()
         resize(screenWidth * 0.8, screenHeight * 0.8);
         move(x, y);
     }
+    auto s = settings()->value("MainWindowState").toByteArray();
+    if(!s.isEmpty())
+        restoreState(s);
     v = settings()->value("PageEditorsState");
     if (v.isValid()){
         m_editorsStates[ReportDesignWidget::Page] = v.toByteArray();
@@ -915,6 +923,11 @@ void ReportDesignWindow::restoreSetting()
     createRecentFilesMenu();
 }
 
+QImage ReportDesignWindow::previewImage(int pageN)
+{
+    return QImage{};
+}
+
 bool ReportDesignWindow::checkNeedToSave()
 {
     if (m_reportDesignWidget->isNeedToSave()){
@@ -933,6 +946,11 @@ bool ReportDesignWindow::checkNeedToSave()
         return false;
     }
     return true;
+}
+
+bool LimeReport::ReportDesignWindow::isNeedToSave()
+{
+    return m_reportDesignWidget->isNeedToSave();
 }
 
 void ReportDesignWindow::showModal()
@@ -972,9 +990,15 @@ QSettings*ReportDesignWindow::settings()
     }
 }
 
-void ReportDesignWindow::slotNewReport()
+void ReportDesignWindow::saveSettings()
+{
+    qDebug() << "limereport saveSettings" << settings()->fileName();
+    writeState();
+}
+
+void ReportDesignWindow::slotNewReport(bool needCheck)
 {    
-    if (checkNeedToSave()) {
+    if (!needCheck || checkNeedToSave()) {
         m_lblReportName->setText("");
         startNewReport();
         m_deletePageAction->setEnabled(false);
@@ -1393,7 +1417,9 @@ void ReportDesignWindow::showDefaultToolBars(){
 
 void ReportDesignWindow::showDefaultEditors(){
     foreach (QDockWidget* w, m_pageEditors) {
-        w->setVisible(m_editorTabType != ReportDesignWidget::Dialog);
+      w->setVisible(m_editorTabType != ReportDesignWidget::Dialog &&
+                    w->objectName() != "scriptDoc" &&
+                    w->objectName() != "structureDoc");
     }
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     foreach (QDockWidget* w, m_dialogEditors) {
