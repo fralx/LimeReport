@@ -53,7 +53,14 @@ DataBrowser::DataBrowser(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DataBrowser), m_report(0), m_closingWindows(false), m_settings(0), m_ownedSettings(false)
 {
+    auto f = qApp->font();
+    f.setPointSize(f.pointSize()*0.7);
     ui->setupUi(this);
+    setFont(f);
+    ui->tabWidget->setFont(f);
+    ui->tabWidget->setCurrentWidget(ui->tab_2);
+    ui->variablesTree->setFont(f);
+    ui->dataTree->setFont(f);
     connect(ui->addConnection,SIGNAL(clicked()),this,SLOT(slotAddConnection()));
     connect(ui->deleteConection,SIGNAL(clicked()),this,SLOT(slotDeleteConnection()));
     connect(ui->addDataSource,SIGNAL(clicked()),this,SLOT(slotAddDataSource()));

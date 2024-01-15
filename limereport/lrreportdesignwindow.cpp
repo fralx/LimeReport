@@ -105,9 +105,7 @@ ReportDesignWindow::ReportDesignWindow(ReportEnginePrivateInterface* report, QWi
     ReportDesignWindowInterface(parent), m_textAttibutesIsChanging(false), m_settings(settings), m_ownedSettings(false),
     m_progressDialog(0), m_showProgressDialog(true), m_editorTabType(ReportDesignWidget::Page), m_reportItemIsLocked(false)
 {
-    auto f = qApp->font();
-    f.setPointSize(f.pointSize()*0.7);
-    setFont(f);
+    setAttribute(Qt::WA_WindowPropagation);
     initReportEditor(report);
     createActions();
 //    createMainMenu();
