@@ -100,6 +100,9 @@ ReportDesignWidget::ReportDesignWidget(ReportEnginePrivateInterface* report, QSe
 
 #ifdef Q_OS_WIN
     m_defaultFont = QFont("Arial",10);
+#else
+    m_defaultFont = qApp->font();
+    m_defaultFont.setPointSize(m_defaultFont.pointSize()*0.7);
 #endif
 
 #ifdef HAVE_QTDESIGNER_INTEGRATION
