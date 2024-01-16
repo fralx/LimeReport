@@ -141,7 +141,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 ReportEnginePrivate::~ReportEnginePrivate()
 {
     if (m_designerWindow) {
-        m_designerWindow->close();
+        m_designerWindow->deleteLater();
     }
     if (m_activePreview){
         m_activePreview->close();
@@ -564,7 +564,7 @@ ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
         } else {
 #ifdef HAVE_REPORT_DESIGNER
             m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
-            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
+            // m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
             m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
             m_designerWindow->setShowProgressDialog(m_showProgressDialog);
 #endif
