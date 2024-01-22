@@ -22,16 +22,17 @@ QModelIndex CompleterModel::index(int row, int column, const QModelIndex &parent
     return createIndex(row, column, parentItem->child(row));
 }
 
-QModelIndex CompleterModel::parent(const QModelIndex &child) const
-{
-    if (child.isValid()){
-        CompleterItem *childItem = static_cast<CompleterItem*>(child.internalPointer());
-        CompleterItem *parentItem = childItem->parent();
-        if (parentItem != &m_root) {
-            return indexFromItem(parentItem);
-        }
+QModelIndex CompleterModel::parent(const QModelIndex &child) const {
+  if(child.isValid()) {
+    if(CompleterItem *childItem = static_cast<CompleterItem *>(child.internalPointer());
+       childItem) {
+      CompleterItem *parentItem = childItem->parent();
+      if(parentItem != &m_root) {
+        return indexFromItem(parentItem);
+      }
     }
-    return QModelIndex();
+  }
+  return QModelIndex();
 }
 
 int CompleterModel::rowCount(const QModelIndex &parent) const
