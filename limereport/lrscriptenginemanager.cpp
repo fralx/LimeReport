@@ -1073,6 +1073,79 @@ bool ScriptEngineManager::createReopenDatasourceFunction()
     return addFunction(fd);
 }
 
+bool ScriptEngineManager::createGetFieldByRowIndexEx()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getFieldByRowIndexEx");
+    fd.setDescription("getFieldByRowIndexEx(\"" + tr("FieldName") + "\", \"" + tr("RowIndex")
+                    + "\", \"" + tr("RoleIndex") + "\")");
+    fd.setScriptWrapper(QString("function getFieldByRowIndexEx(fieldName, rowIndex, role){"
+                              "return %1.getFieldByRowIndexEx(fieldName, rowIndex, role);}")
+                          .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createGetFieldByRowIndexEx2()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getFieldByRowIndexEx2");
+    fd.setDescription("getFieldByRowIndexEx2(\"" + tr("FieldName") + "\", \"" + tr("RowIndex")
+                      + "\", \"" + tr("RoleName") + "\")");
+    fd.setScriptWrapper(QString("function getFieldByRowIndexEx2(fieldName, rowIndex, role){"
+                                "return %1.getFieldByRowIndexEx2(fieldName, rowIndex, role);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createHeaderData()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getHeaderData");
+    fd.setDescription("getHeaderData(\"" + tr("FieldName") + "\", \"" + tr("RoleName") + "\")");
+    fd.setScriptWrapper(QString("function getHeaderData(fieldName, role){"
+                                "return %1.getHeaderData(fieldName, role);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createHeaderColumnNameByIndex()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getHeaderColumnNameByIndex");
+    fd.setDescription("getHeaderColumnNameByIndex(\"" + tr("datasourceName") + "\", \""
+                      + tr("columnIndex") + "\")");
+    fd.setScriptWrapper(QString("function getHeaderColumnNameByIndex(datasourceName, columnIndex){"
+                                "return %1.getHeaderColumnNameByIndex(datasourceName, columnIndex);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    return addFunction(fd);
+}
+
+bool ScriptEngineManager::createColumnCount()
+{
+    JSFunctionDesc fd;
+    fd.setManager(m_functionManager);
+    fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
+    fd.setCategory(tr("GENERAL"));
+    fd.setName("getColumnCount");
+    fd.setDescription("getColumnCount(\"" + tr("datasourceName") + "\")");
+    fd.setScriptWrapper(QString("function getColumnCount(datasourceName){"
+                                "return %1.getColumnCount(datasourceName);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    return addFunction(fd);
+}
+
 ScriptEngineManager::ScriptEngineManager()
     :m_model(0), m_context(0), m_dataManager(0)
 {
@@ -1114,6 +1187,11 @@ ScriptEngineManager::ScriptEngineManager()
     createAddTableOfContentsItemFunction();
     createClearTableOfContentsFunction();
     createReopenDatasourceFunction();
+    createGetFieldByRowIndexEx();
+    createGetFieldByRowIndexEx2();
+    createHeaderData();
+    createHeaderColumnNameByIndex();
+    createColumnCount();
 
     m_model = new ScriptEngineModel(this);
 }
@@ -1864,6 +1942,36 @@ QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool it
     result.setItalic(italic);
     result.setUnderline(underLine);
     return result;
+}
+
+QVariant ScriptFunctionsManager::getFieldByRowIndexEx(const QString &fieldName, int rowIndex, const int role)
+{
+    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    return dm->fieldDataByRowIndex(fieldName, rowIndex, role);
+}
+
+QVariant ScriptFunctionsManager::getFieldByRowIndexEx2(const QString &fieldName, int rowIndex, const QString &roleName)
+{
+    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    return dm->fieldDataByRowIndex(fieldName, rowIndex, roleName);
+}
+
+QVariant ScriptFunctionsManager::getHeaderData(const QString &fieldName, const QString &roleName)
+{
+    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    return dm->headerData(fieldName, roleName);
+}
+
+QVariant ScriptFunctionsManager::getHeaderColumnNameByIndex(const QString &datasourceName, const int columnIndex)
+{
+    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    return dm->columnName(datasourceName, columnIndex);
+}
+
+int ScriptFunctionsManager::getColumnCount(const QString &datasourceName)
+{
+    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    return dm->columnCount(datasourceName);
 }
 
 #ifdef USE_QJSENGINE
