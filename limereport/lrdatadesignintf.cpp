@@ -272,6 +272,24 @@ QVariant ModelToDataSource::dataByRowIndex(const QString &columnName, int rowInd
     return QVariant();
 }
 
+QVariant ModelToDataSource::dataByRowIndex(const QString &columnName, int rowIndex, int roleName)
+{
+    if(m_model->rowCount() > rowIndex)
+        return m_model->data(m_model->index(rowIndex, columnIndexByName(columnName)));
+    return QVariant();
+}
+
+QVariant ModelToDataSource::dataByRowIndex(const QString &columnName, int rowIndex, const QString &roleName)
+{
+    if(m_model->rowCount() > rowIndex) {
+        int roleCode{roleName.isEmpty() ? Qt::DisplayRole
+                                        : m_model->roleNames().key(roleName.toUtf8(), Qt::DisplayRole)};
+        return m_model->data(m_model->index(rowIndex, columnIndexByName(columnName)), roleCode);
+    }
+
+    return QVariant();
+}
+
 QVariant ModelToDataSource::dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData)
 {
    for( int i=0; i < m_model->rowCount(); ++i ){
@@ -308,6 +326,13 @@ int ModelToDataSource::columnIndexByName(QString name)
             return i;
     }
     return -1;
+}
+
+QVariant ModelToDataSource::headerData(const QString &columnName, const QString &roleName)
+{
+    int roleCode{roleName.isEmpty() ? Qt::DisplayRole
+                                    : m_model->roleNames().key(roleName.toUtf8(), Qt::DisplayRole)};
+    return m_model->headerData(columnIndexByName(columnName), Qt::Horizontal, roleCode);
 }
 
 QString ModelToDataSource::lastError()
@@ -722,6 +747,18 @@ QVariant CallbackDatasource::dataByRowIndex(const QString &columnName, int rowIn
     return result;
 }
 
+QVariant CallbackDatasource::dataByRowIndex(const QString &columnName, int rowIndex, int roleName)
+{
+    Q_UNUSED(roleName)
+    return dataByRowIndex(columnName, rowIndex);
+}
+
+QVariant CallbackDatasource::dataByRowIndex(const QString &columnName, int rowIndex, const QString &roleName)
+{
+    Q_UNUSED(roleName)
+    return dataByRowIndex(columnName, rowIndex);
+}
+
 QVariant CallbackDatasource::dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData)
 {
     int backupCurrentRow = m_currentRow;
@@ -814,6 +851,12 @@ int CallbackDatasource::columnIndexByName(QString name)
 //        if (data.isValid()) return 0;
 //    }
     return -1;
+}
+
+QVariant CallbackDatasource::headerData(const QString &columnName, const QString &roleName)
+{
+    Q_UNUSED(roleName)
+    return columnName; // STUB
 }
 
 bool CallbackDatasource::checkNextRecord(int recordNum){
