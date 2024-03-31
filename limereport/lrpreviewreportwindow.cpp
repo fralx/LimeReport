@@ -29,8 +29,6 @@
  ****************************************************************************/
 #include "lrpreviewreportwindow.h"
 #include "ui_lrpreviewreportwindow.h"
-#include "serializators/lrxmlreader.h"
-#include "serializators/lrxmlwriter.h"
 #include "lrreportengine_p.h"
 #include "lrpreviewreportwidget.h"
 #include "lrpreviewreportwidget_p.h"
@@ -179,7 +177,6 @@ PreviewReportWindow::~PreviewReportWindow()
 {
     if (m_ownedSettings)
         delete m_settings;
-    //delete m_previewPage;
     delete ui;
 }
 
@@ -264,17 +261,6 @@ QSettings*PreviewReportWindow::settings()
         m_ownedSettings = true;
         return m_settings;
     }
-}
-
-void PreviewReportWindow::setReportReader(ItemsReaderIntf::Ptr /*reader*/)
-{
-//    m_reader=reader;
-//    if (!reader.isNull()){
-//        if (reader->first()) reader->readItem(m_previewPage->pageItem());
-//        int pagesCount = reader->firstLevelItemsCount();
-//        m_previewPage->pageItem()->setItemMode(PreviewMode);
-//        initPreview(pagesCount);
-//    }
 }
 
 void PreviewReportWindow::setPages(ReportPages pages)
