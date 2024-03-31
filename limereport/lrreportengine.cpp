@@ -1818,7 +1818,7 @@ PrintProcessor::PrintProcessor(QPrinter* printer)
 
 bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+
     if (!m_firstPage && !m_painter->isActive()) return false;
     PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
@@ -1836,91 +1836,47 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
         m_firstPage = false;
     }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     qreal leftMargin, topMargin, rightMargin, bottomMargin;
     m_printer->getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
-
-    QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
-    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
-                                 (printerPageRect.size().height() + bottomMargin +topMargin) * page->unitFactor());
-
-    if  (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
-        printerPageRect.width() < page->geometry().width())
-    {
-        qreal pageWidth = page->geometry().width();
-        qreal pageHeight =  page->geometry().height();
-        QRectF currentPrintingRect = printerPageRect;
-        qreal curHeight = 0;
-        qreal curWidth = 0;
-        bool first = true;
-        while (pageHeight > 0){
-            while (curWidth < pageWidth){
-                if (!first) m_printer->newPage(); else first = false;
-                m_renderPage.render(m_painter, m_printer->pageRect(), currentPrintingRect);
-                currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
-                curWidth += printerPageRect.size().width();
-
-            }
-            pageHeight -= printerPageRect.size().height();
-            curHeight += printerPageRect.size().height();
-            currentPrintingRect = printerPageRect;
-            currentPrintingRect.adjust(0, curHeight, 0, curHeight);
-            curWidth = 0;
-        }
-
-    } else {
-        if (page->getSetPageSizeToPrinter()){
-            QRectF source = page->geometry();
-            QSizeF inchSize = source.size() / (100 * 2.54);
-            QRectF target = QRectF(QPoint(0,0), inchSize  * m_printer->resolution());
-            m_renderPage.render(m_painter, target, source);
-        } else {
-            m_renderPage.render(m_painter);
-        }
-    }
-    page->setPos(backupPagePos);
-    m_renderPage.removePageItem(page);
-    if (backupPage) backupPage->reactivatePageItem(page);
 #else
-    if (!m_firstPage && !m_painter->isActive()) return false;
-    PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
-
-    QPointF backupPagePos = page->pos();
-    page->setPos(0,0);
-    m_renderPage.setPageItem(page);
-    m_renderPage.setSceneRect(m_renderPage.pageItem()->mapToScene(m_renderPage.pageItem()->rect()).boundingRect());
-    initPrinter(m_renderPage.pageItem());
-
-    if (!m_firstPage){
-        m_printer->newPage();
-    } else {
-        m_painter = new QPainter(m_printer);
-        if (!m_painter->isActive()) return false;
-        m_firstPage = false;
-    }
-
     qreal leftMargin = m_printer->pageLayout().margins().left();
     qreal topMargin = m_printer->pageLayout().margins().top();
     qreal rightMargin = m_printer->pageLayout().margins().right();
     qreal bottomMargin = m_printer->pageLayout().margins().bottom();
+#endif
 
     QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
     printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
                                  (printerPageRect.size().height() + bottomMargin + topMargin) * page->unitFactor());
-    if (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+    if  (page->printBehavior() == PageItemDesignIntf::Split &&
+        m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
         printerPageRect.width() < page->geometry().width())
     {
+#else
+    if (
+        page->printBehavior() == PageItemDesignIntf::Split &&
+        m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
+        printerPageRect.width() < page->geometry().width()
+    ){
+#endif
         qreal pageWidth = page->geometry().width();
         qreal pageHeight =  page->geometry().height();
-        QRectF currentPrintingRect = printerPageRect;
         qreal curHeight = 0;
         qreal curWidth = 0;
+        QRectF currentPrintingRect =  printerPageRect;
+
         bool first = true;
         while (pageHeight > 0){
             while (curWidth < pageWidth){
                 if (!first) m_printer->newPage(); else first = false;
-                m_renderPage.render(m_painter, m_printer->pageRect(QPrinter::Millimeter), currentPrintingRect);
-                currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
+                m_renderPage.render(m_painter, QRectF(), currentPrintingRect);
                 curWidth += printerPageRect.size().width();
+                currentPrintingRect = QRectF(
+                    curWidth, 0,
+                    printerPageRect.size().width() > (pageWidth - curWidth) ? (pageWidth - curWidth) : printerPageRect.size().width(),  pageHeight
+                );
 
             }
             pageHeight -= printerPageRect.size().height();
@@ -1943,7 +1899,6 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     page->setPos(backupPagePos);
     m_renderPage.removePageItem(page);
     if (backupPage) backupPage->reactivatePageItem(page);
-#endif
     return true;
 }
 
