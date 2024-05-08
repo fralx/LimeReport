@@ -54,6 +54,7 @@ private:
     friend class Singleton< AttribsAbstractFactory< AbstractProduct,IdentifierType,ProductCreator,Attribs > >;
 public:
     bool registerCreator(const IdentifierType& id, Attribs attribs, ProductCreator creator){
+        if (m_factoryMap.contains(id)) return true;
         return (m_factoryMap.insert(id,creator).value() == creator) &&
                (m_attribsMap.insert(id,attribs).value() == attribs);
     }
