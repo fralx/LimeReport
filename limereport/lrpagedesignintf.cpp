@@ -73,7 +73,7 @@ PageDesignIntf::PageDesignIntf(QObject *parent):
     m_itemInsertRect(0),
     m_itemMode(DesignMode),
     m_cutterBorder(0),
-    m_infoPosRect(0),
+//    m_infoPosRect(0),
     m_currentCommand(-1),
     m_changeSizeMode(false),
     m_changePosMode(false),
@@ -120,10 +120,10 @@ void PageDesignIntf::updatePageRect()
     if (m_pageItem.isNull()) {
         m_pageItem =  PageItemDesignIntf::create(this);
         addItem(m_pageItem.data());
-        m_pageItem->setTopMargin(5);
-        m_pageItem->setBottomMargin(5);
-        m_pageItem->setLeftMargin(5);
-        m_pageItem->setRightMargin(5);
+        m_pageItem->setTopMargin(10);
+        m_pageItem->setBottomMargin(10);
+        m_pageItem->setLeftMargin(10);
+        m_pageItem->setRightMargin(10);
         m_pageItem->setObjectName("ReportPage1");
         connect(m_pageItem.data(), SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)), this, SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)));
         connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeometryChanged(QObject *, QRectF, QRectF)));
@@ -324,24 +324,23 @@ void PageDesignIntf::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             saveSelectedItemsGeometry();
             m_changePosOrSizeMode = true;
         }
-        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
-        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
-        if(!m_infoPosRect)
-        {
+//        qreal posY = div(page->mapFromScene(event->scenePos()).y(), verticalGridStep()).quot * verticalGridStep();
+//        qreal posX = div(page->mapFromScene(event->scenePos()).x(), verticalGridStep()).quot * horizontalGridStep();
 
+//        if(!m_infoPosRect)
+//        {
+//            m_infoPosRect = new QGraphicsTextItem();
+//            m_infoPosRect->setDefaultTextColor(QColor(100,150,50));
 
-        m_infoPosRect = new QGraphicsTextItem();
-        m_infoPosRect->setDefaultTextColor(QColor(100,150,50));
+//            QFont font("Arial");
+//            font.setPointSize(16);
+//            font.setBold(true);
+//            m_infoPosRect->setFont(font);
+//            addItem(m_infoPosRect);
+//        }
 
-        QFont font("Arial");
-        font.setPointSize(16);
-        font.setBold(true);
-        m_infoPosRect->setFont(font);
-        addItem(m_infoPosRect);
-        }
-        m_infoPosRect->setPlainText("(x: "+QString::number(posX/100)+", y: "+QString::number(posY/100)+") cm");
-
-        m_infoPosRect->setPos(posX,posY+30);
+//        m_infoPosRect->setPlainText("(x: "+QString::number(posX/100)+", y: "+QString::number(posY/100)+") cm");
+//        m_infoPosRect->setPos(posX,posY+30);
 
     }
 
@@ -423,11 +422,11 @@ void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect = 0;
         m_multiSelectStarted = false;
     }
-    if(m_infoPosRect)
-    {
-        delete m_infoPosRect;
-        m_infoPosRect = 0;
-    }
+//    if(m_infoPosRect)
+//    {
+//        delete m_infoPosRect;
+//        m_infoPosRect = 0;
+//    }
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
@@ -1749,6 +1748,11 @@ void PageDesignIntf::addVLayout()
     }
 }
 
+void PageDesignIntf::setItemAlign(BaseDesignIntf::ItemAlign itemAlign)
+{
+    changeSelectedGroupProperty("itemAlign",QVariant(itemAlign));
+}
+
 bool hLayoutLessThen(QGraphicsItem *c1, QGraphicsItem *c2)
 {
     return c1->pos().x() < c2->pos().x();
@@ -2158,10 +2162,9 @@ bool PasteCommand::insertItem(ItemsReaderIntf::Ptr reader)
             reader->readItem(item);
             item->setParent(parentItem);
             item->setParentItem(parentItem);
-            if (page()->reportItemsByName(item->objectName()).size() > 0){
+            if (page()->reportItemsByName(item->objectName()).size()>1){
                 item->setObjectName(objectName);
             }
-            else
             foreach (BaseDesignIntf* child, item->childBaseItems()){
                 changeName(page(), child);
             };

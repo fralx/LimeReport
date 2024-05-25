@@ -32,12 +32,14 @@
 
 #include "lrbanddesignintf.h"
 #include "lrdesignelementsfactory.h"
+#include "qnamespace.h"
 
 namespace LimeReport{
 
 class GroupBandHeader : public BandDesignIntf, public IGroupBand{
     Q_OBJECT
     Q_PROPERTY(QString groupFieldName READ groupFieldName WRITE setGroupFieldName)
+    Q_PROPERTY(Qt::SortOrder SortFieldNameBy READ SortFieldNameBy WRITE setSortFieldNameBy)
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )
     Q_PROPERTY(bool keepGroupTogether READ tryToKeepTogether WRITE setTryToKeepTogether)
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
@@ -60,6 +62,8 @@ public:
     bool isGroupHeader() const {return true;}
     QString condition() const;
     void setCondition(const QString &condition);
+    Qt::SortOrder SortFieldNameBy(){return m_sortFieldNameBy;};
+    void setSortFieldNameBy(Qt::SortOrder sortOrder){m_sortFieldNameBy = sortOrder;}
 private:
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
     void startGroup(DataSourceManager* dataManager);
@@ -77,6 +81,7 @@ private:
     bool m_resetPageNumber;
     QString m_condition;
     QString m_conditionValue;
+    Qt::SortOrder m_sortFieldNameBy;
 };
 
 class GroupBandFooter : public BandDesignIntf{

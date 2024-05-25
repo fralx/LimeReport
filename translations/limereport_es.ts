@@ -9,17 +9,6 @@
     </message>
 </context>
 <context>
-    <name>BorderFrameEditor</name>
-    <message>
-        <source>BorderFrameEditor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ChartAxisEditor</name>
     <message>
         <source>Axis editor</source>
@@ -645,6 +634,62 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Edit borders...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to left</source>
+        <translation type="unfinished">Alinear a la izquierda</translation>
+    </message>
+    <message>
+        <source>Align to right</source>
+        <translation type="unfinished">Alinear a la derecha</translation>
+    </message>
+    <message>
+        <source>Align to top</source>
+        <translation type="unfinished">Alinear arriba</translation>
+    </message>
+    <message>
+        <source>Align to bottom</source>
+        <translation type="unfinished">Alinear abajo</translation>
+    </message>
+    <message>
+        <source>Align to horizontal center</source>
+        <translation type="unfinished">Centrar horizontalmente</translation>
+    </message>
+    <message>
+        <source>Align to vertical center</source>
+        <translation type="unfinished">Centrar verticalmente</translation>
+    </message>
+    <message>
+        <source>Resize items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Same width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Same height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align items to page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>cancel alignement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to page width</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1288,18 +1333,6 @@ p, li { white-space: pre-wrap; }
         <translation>Barra horizontal</translation>
     </message>
     <message>
-        <source>LegendAlignTop</source>
-        <translation>Alinear Leyenda Arriba</translation>
-    </message>
-    <message>
-        <source>LegendAlignCenter</source>
-        <translation>Centrar leyenda</translation>
-    </message>
-    <message>
-        <source>LegendAlignBottom</source>
-        <translation>Alinear Leyenda Abajo</translation>
-    </message>
-    <message>
         <source>TitleAlignLeft</source>
         <translation>Alinear titulo a la izquierda</translation>
     </message>
@@ -1333,6 +1366,102 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Split</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GridLines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NoStyle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dashed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DashDot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DashDotDot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doubled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendPoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendLines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignRightCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignRightTop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignRightBottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignBottomRight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignBottomCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LegendAlignBottomLeft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SolidLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NoPen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DashLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DotLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DashDotLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DashDotDotLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CustomDashLine</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2464,6 +2593,14 @@ p, li { white-space: pre-wrap; }
         <source>mixWithPriorPage</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>borderStyle</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LimeReport::RectPropItem</name>
@@ -2802,6 +2939,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The rendering is in process</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print Report</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3185,6 +3326,18 @@ Esta vista previa ya no es válida.</translation>
     <message>
         <source>RowIndex</source>
         <translation>Índice de fila</translation>
+    </message>
+    <message>
+        <source>RoleIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RoleName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>columnIndex</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

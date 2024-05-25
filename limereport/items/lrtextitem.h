@@ -177,7 +177,7 @@ public:
     void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
 
     void setWatermark(bool watermark);
-    
+
     bool isReplaceCarriageReturns() const;
     void setReplaceCarriageReturns(bool isReplaceCarriageReturns);
 
@@ -192,7 +192,6 @@ protected:
     bool isNeedExpandContent() const;
     QString replaceBR(QString text) const;
     QString replaceReturns(QString text) const;
-    int fakeMarginSize() const;
     QString getTextPart(int height, int skipHeight);
     void restoreLinksEvent();
     void preparePopUpMenu(QMenu &menu);

@@ -92,7 +92,7 @@ public:
     enum BandPrintMode {PrintAlwaysPrintable, PrintNotAlwaysPrintable };
     enum ResetPageNuberType{BandReset, PageReset};
     enum PageRenderStage{BeforePageHeader, AfterPageHeader};
-    typedef QSharedPointer<ReportRender> Ptr;    
+    typedef QSharedPointer<ReportRender> Ptr;
     ~ReportRender();
     ReportRender(QObject *parent = 0);
     void setDatasources(DataSourceManager* value);
@@ -220,6 +220,7 @@ private:
     unsigned long long m_currentNameIndex;
     bool            m_newPageStarted;
     bool            m_lostHeadersMoved;
+    bool            m_dataSourceSorted = false;
 
 };
 } // namespace LimeReport

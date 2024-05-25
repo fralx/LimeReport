@@ -55,6 +55,7 @@ public:
     virtual bool containsVariable(const QString& variableName) = 0;
     virtual QVariant variable(const QString& variableName) = 0;
     virtual bool addModel(const QString& name, QAbstractItemModel *model, bool owned) = 0;
+    virtual void addCSV(const QString& name, const QString& csvText, const QString& separator, bool firstRowIsHeader) = 0;
     virtual void removeModel(const QString& name) = 0;
     virtual bool containsDatasource(const QString& dataSourceName) = 0;
     virtual void clearUserVariables()=0;

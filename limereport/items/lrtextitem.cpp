@@ -58,8 +58,8 @@ namespace LimeReport{
 
 TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
     : ContentItemDesignIntf(xmlTag,owner,parent), m_angle(Angle0), m_trimValue(true), m_allowHTML(false),
-      m_allowHTMLInFields(false), m_replaceCarriageReturns(false), m_followTo(""), m_follower(0), m_textIndent(0),
-      m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false), m_fontLetterSpacing(0)
+    m_allowHTMLInFields(false), m_replaceCarriageReturns(false), m_followTo(""), m_follower(0), m_textIndent(0),
+    m_textLayoutDirection(Qt::LayoutDirectionAuto), m_hideIfEmpty(false), m_fontLetterSpacing(0)
 {
     PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(parent);
     BaseDesignIntf* parentItem = dynamic_cast<BaseDesignIntf*>(parent);
@@ -76,10 +76,6 @@ TextItem::TextItem(QObject *owner, QGraphicsItem *parent)
 }
 
 TextItem::~TextItem(){}
-
-int TextItem::fakeMarginSize() const{
-    return marginSize()+5;
-}
 
 void TextItem::preparePopUpMenu(QMenu &menu)
 {
@@ -179,62 +175,62 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
 
     qreal hOffset = 0, vOffset = 0;
     switch (m_angle){
-        case Angle0:
-            hOffset = fakeMarginSize();
-            if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignVCenter)){
-                vOffset = tmpSize.height() / 2;
-            }
-            if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignBottom)) // allow html
-                vOffset = tmpSize.height();
-            painter->translate(hOffset,vOffset);
+    case Angle0:
+        hOffset = marginSize();
+        if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignVCenter)){
+            vOffset = tmpSize.height() / 2;
+        }
+        if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignBottom)) // allow html
+            vOffset = tmpSize.height();
+        painter->translate(hOffset,vOffset);
         break;
-        case Angle90:
-            hOffset = width() - fakeMarginSize();
-            vOffset = fakeMarginSize();
-            if (m_alignment & Qt::AlignVCenter){
-                hOffset = (width() - text->size().height()) / 2 + text->size().height();
-            }
+    case Angle90:
+        hOffset = width() - marginSize();
+        vOffset = marginSize();
+        if (m_alignment & Qt::AlignVCenter){
+            hOffset = (width() - text->size().height()) / 2 + text->size().height();
+        }
 
-            if (m_alignment & Qt::AlignBottom){
-                hOffset = (text->size().height());
-            }
-            painter->translate(hOffset,vOffset);
-            painter->rotate(90);
+        if (m_alignment & Qt::AlignBottom){
+            hOffset = (text->size().height());
+        }
+        painter->translate(hOffset,vOffset);
+        painter->rotate(90);
         break;
-        case Angle180:
-            hOffset = width() - fakeMarginSize();
-            vOffset = height() - fakeMarginSize();
-            if ((tmpSize.width()>0) && (m_alignment & Qt::AlignVCenter)){
-                vOffset = tmpSize.height() / 2+ text->size().height();
-            }
-            if ((tmpSize.height()>0) && (m_alignment & Qt::AlignBottom)){
-                vOffset = (text->size().height());
-            }
-            painter->translate(hOffset,vOffset);
-            painter->rotate(180);
+    case Angle180:
+        hOffset = width() - marginSize();
+        vOffset = height() - marginSize();
+        if ((tmpSize.width()>0) && (m_alignment & Qt::AlignVCenter)){
+            vOffset = tmpSize.height() / 2+ text->size().height();
+        }
+        if ((tmpSize.height()>0) && (m_alignment & Qt::AlignBottom)){
+            vOffset = (text->size().height());
+        }
+        painter->translate(hOffset,vOffset);
+        painter->rotate(180);
         break;
-        case Angle270:
-            hOffset = fakeMarginSize();
-            vOffset = height()-fakeMarginSize();
-            if (m_alignment & Qt::AlignVCenter){
-                hOffset = (width() - text->size().height())/2;
-            }
+    case Angle270:
+        hOffset = marginSize();
+        vOffset = height()-marginSize();
+        if (m_alignment & Qt::AlignVCenter){
+            hOffset = (width() - text->size().height())/2;
+        }
 
-            if (m_alignment & Qt::AlignBottom){
-                hOffset = (width() - text->size().height());
-            }
-            painter->translate(hOffset,vOffset);
-            painter->rotate(270);
+        if (m_alignment & Qt::AlignBottom){
+            hOffset = (width() - text->size().height());
+        }
+        painter->translate(hOffset,vOffset);
+        painter->rotate(270);
         break;
-        case Angle45:
-            painter->translate(width()/2,0);
-            painter->rotate(45);
-            text->setTextWidth(sqrt(2*(pow(width()/2,2))));
+    case Angle45:
+        painter->translate(width()/2,0);
+        painter->rotate(45);
+        text->setTextWidth(sqrt(2*(pow(width()/2,2))));
         break;
-        case Angle315:
-            painter->translate(0,height()/2);
-            painter->rotate(315);
-            text->setTextWidth(sqrt(2*(pow(height()/2,2))));
+    case Angle315:
+        painter->translate(0,height()/2);
+        painter->rotate(315);
+        text->setTextWidth(sqrt(2*(pow(height()/2,2))));
         break;
     }
 
@@ -321,7 +317,7 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
         initTextSizes();
 
     if (m_textSize.width()>width() && ((m_autoWidth==MaxWordLength)||(m_autoWidth==MaxStringLength))){
-        setWidth(m_textSize.width() + fakeMarginSize()*2);
+        setWidth(m_textSize.width() + marginSize()*2);
     }
 
     if (m_textSize.height()>height()) {
@@ -338,22 +334,22 @@ void TextItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, i
 
 void TextItem::updateLayout()
 {
-//    m_layout.setFont(transformToSceneFont(font()));
-//    m_layout.setText(content());
-//    qreal linePos = 0;
-//    m_layout.beginLayout();
-//    while(true){
-//        QTextLine line = m_layout.createLine();
-//        if (!line.isValid()) break;
-//        line.setLineWidth(width()-marginSize()*2);
-//        line.setPosition(QPoint(marginSize(),linePos));
-//        linePos+=line.height();
-//    }
-//    m_layout.endLayout();
+    //    m_layout.setFont(transformToSceneFont(font()));
+    //    m_layout.setText(content());
+    //    qreal linePos = 0;
+    //    m_layout.beginLayout();
+    //    while(true){
+    //        QTextLine line = m_layout.createLine();
+    //        if (!line.isValid()) break;
+    //        line.setLineWidth(width()-marginSize()*2);
+    //        line.setPosition(QPoint(marginSize(),linePos));
+    //        linePos+=line.height();
+    //    }
+    //    m_layout.endLayout();
 }
 
 bool TextItem::isNeedExpandContent() const
-{   
+{
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx("$*\\{[^{]*\\}");
 #else
@@ -380,21 +376,21 @@ QString TextItem::replaceReturns(QString text) const
 void TextItem::setTextFont(TextPtr text, const QFont& value) const {
     text->setDefaultFont(value);
     if ((m_angle==Angle0)||(m_angle==Angle180)){
-        text->setTextWidth(rect().width()-fakeMarginSize()*2);
+        text->setTextWidth(rect().width()-marginSize()*2);
     } else {
-        text->setTextWidth(rect().height()-fakeMarginSize()*2);
+        text->setTextWidth(rect().height()-marginSize()*2);
     }
 }
 
 void TextItem::adaptFontSize(TextPtr text) const{
     QFont _font = transformToSceneFont(font());
     do{
-//        qApp->processEvents();
+        //        qApp->processEvents();
         setTextFont(text,_font);
         if (_font.pixelSize()>2)
             _font.setPixelSize(_font.pixelSize()-1);
         else break;
-    } while(text->size().height()>this->height() || text->size().width()>(this->width()) - fakeMarginSize() * 2);
+    } while(text->size().height()>this->height() || text->size().width()>(this->width()) - marginSize() * 2);
 }
 
 int TextItem::underlineLineSize() const
@@ -419,8 +415,8 @@ void TextItem::setLineSpacing(int value)
 {
     int oldValue = m_lineSpacing;
     m_lineSpacing = value;
-//    if (autoHeight())
-//        initTextSizes();
+    //    if (autoHeight())
+    //        initTextSizes();
     update();
     notify("lineSpacing",oldValue,value);
 }
@@ -473,40 +469,40 @@ QString TextItem::formatFieldValue()
     if (m_valueType != Default) {
         switch (m_valueType) {
         case DateTime:
-            {
-                QDateTime dt = QDateTime::fromString(value.toString(), Qt::ISODate);
-                value = (dt.isValid() ? QVariant(dt) : m_varValue);
-                break;
-            }
+        {
+            QDateTime dt = QDateTime::fromString(value.toString(), Qt::ISODate);
+            value = (dt.isValid() ? QVariant(dt) : m_varValue);
+            break;
+        }
         case Double:
-            {
-                bool bOk = false;
-                double dbl = value.toDouble(&bOk);
-                value = (bOk ? QVariant(dbl) : m_varValue);
-            }
+        {
+            bool bOk = false;
+            double dbl = value.toDouble(&bOk);
+            value = (bOk ? QVariant(dbl) : m_varValue);
+        }
         default: break;
         }
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     switch (value.type()) {
-        case QVariant::Date:
-        case QVariant::DateTime:
-            return formatDateTime(value.toDateTime());
-        case QVariant::Double:
-            return formatNumber(value.toDouble());
-        default:
-            return value.toString();
+    case QVariant::Date:
+    case QVariant::DateTime:
+        return formatDateTime(value.toDateTime());
+    case QVariant::Double:
+        return formatNumber(value.toDouble());
+    default:
+        return value.toString();
     }
 #else
     switch (value.typeId()) {
-        case QMetaType::QDate:
-        case QMetaType::QDateTime:
-            return formatDateTime(value.toDateTime());
-        case QMetaType::Double:
-            return formatNumber(value.toDouble());
-        default:
-            return value.toString();
+    case QMetaType::QDate:
+    case QMetaType::QDateTime:
+        return formatDateTime(value.toDateTime());
+    case QMetaType::Double:
+        return formatNumber(value.toDouble());
+    default:
+        return value.toString();
     }
 #endif
 
@@ -679,7 +675,7 @@ void TextItem::setFollowTo(const QString &followTo)
                         tr("TextItem \" %1 \" already has folower \" %2 \" ")
                             .arg(fi->objectName())
                             .arg(fi->follower()->objectName())
-                    );
+                        );
                     notify("followTo",followTo,"");
                 }
             } else if (m_followTo != ""){
@@ -688,7 +684,7 @@ void TextItem::setFollowTo(const QString &followTo)
                     tr("Error"),
                     tr("TextItem \" %1 \" not found!")
                         .arg(m_followTo)
-                );
+                    );
                 notify("followTo",followTo,"");
             }
         }
@@ -774,13 +770,13 @@ void TextItem::setAllowHTML(bool allowHTML)
 {
     if (m_allowHTML!=allowHTML){
         m_allowHTML = allowHTML;
-//        if (m_text){
-//            if (allowHTML)
-//                m_text->setHtml(m_strText);
-//            else
-//                m_text->setPlainText(m_strText);
-//            update();
-//        }
+        //        if (m_text){
+        //            if (allowHTML)
+        //                m_text->setHtml(m_strText);
+        //            else
+        //                m_text->setPlainText(m_strText);
+        //            update();
+        //        }
         update();
         notify("allowHTML",!m_allowHTML,allowHTML);
     }
@@ -811,9 +807,9 @@ bool TextItem::isNeedUpdateSize(RenderPass pass) const
     }
 
     bool res =  (m_textSize.height()>geometry().height()&&autoHeight()) ||
-                (m_textSize.width()>geometry().width()&&autoWidth()) ||
-                 m_follower ||
-                isNeedExpandContent();
+               (m_textSize.width()>geometry().width()&&autoWidth()) ||
+               m_follower ||
+               isNeedExpandContent();
     return res;
 }
 
@@ -896,7 +892,7 @@ void TextItem::setAdaptFontToSize(bool value)
     if (m_adaptFontToSize!=value){
         bool oldValue = m_adaptFontToSize;
         m_adaptFontToSize=value;
-//        initText();
+        //        initText();
         invalidateRect(rect());
         notify("updateFontToSize",oldValue,value);
     }
@@ -918,10 +914,10 @@ QString TextItem::extractText(QTextBlock& curBlock, int height){
             linesHeight += curBlock.layout()->lineAt(curLine).height() + lineSpacing();
             if (height > 0 && linesHeight > (height-borderLineSize() * 2)) {goto loop_exit;}
             resultText += curBlock.text().mid(curBlock.layout()->lineAt(curLine).textStart(),
-                                                   curBlock.layout()->lineAt(curLine).textLength());
+                                              curBlock.layout()->lineAt(curLine).textLength());
         }
     }
-    loop_exit: return resultText;
+loop_exit: return resultText;
 }
 
 QString TextItem::getTextPart(int height, int skipHeight){
@@ -1003,10 +999,10 @@ BaseDesignIntf *TextItem::cloneEmpty(int height, QObject *owner, QGraphicsItem *
 void TextItem::objectLoadFinished()
 {
     ItemDesignIntf::objectLoadFinished();
-//    if (itemMode() == DesignMode || !isNeedExpandContent()){
-//        if (autoHeight() && autoWidth())
-//            initTextSizes();
-//    }
+    //    if (itemMode() == DesignMode || !isNeedExpandContent()){
+    //        if (autoHeight() && autoWidth())
+    //            initTextSizes();
+    //    }
 }
 
 void TextItem::setTextItemFont(QFont value)
@@ -1023,8 +1019,8 @@ void TextItem::setTextItemFont(QFont value)
 QWidget *TextItem::defaultEditor()
 {
     QSettings* l_settings = (page()->settings() != 0) ?
-                                 page()->settings() :
-                                 (page()->reportEditor()!=0) ? page()->reportEditor()->settings() : 0;
+                                page()->settings() :
+                                (page()->reportEditor()!=0) ? page()->reportEditor()->settings() : 0;
     QWidget* editor = new TextItemEditor(this,page(),l_settings);
     editor->setAttribute(Qt::WA_DeleteOnClose);
     return editor;

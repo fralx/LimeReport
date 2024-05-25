@@ -253,7 +253,7 @@ public:
 
     virtual void setBorderLinesFlags(LimeReport::BaseDesignIntf::BorderLines flags);
     void setGeometryProperty(QRect rect);
-    PageDesignIntf* page();
+    PageDesignIntf* page() const;
 
     BorderLines borderLines() const;
 
@@ -265,7 +265,7 @@ public:
     virtual BaseDesignIntf* cloneItem(LimeReport::BaseDesignIntf::ItemMode mode, QObject* owner=0, QGraphicsItem* parent=0);
     virtual BaseDesignIntf* cloneItemWOChild(LimeReport::BaseDesignIntf::ItemMode mode, QObject* owner=0, QGraphicsItem* parent=0);
     virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0) = 0;
-    void    initFromItem(BaseDesignIntf* source);
+    virtual void initFromItem(BaseDesignIntf* source);
 
     virtual bool canBeSplitted(int height) const;
     virtual qreal minHeight() const {return 0;}
@@ -339,6 +339,7 @@ public:
     bool isChangingPos() const;
     void setIsChangingPos(bool isChangingPos);
     bool isShapeItem() const;
+    bool isPageItem() const;
     bool hasShadow();
     void setShadow(bool sh);
     Q_INVOKABLE QString setItemWidth(qreal width);
@@ -427,7 +428,8 @@ private:
     void moveSelectedItems(QPointF delta);
     Qt::CursorShape getPossibleCursor(int cursorFlags);
     void updatePossibleDirectionFlags();
-
+    void addGuideLine(qreal x1, qreal y1, qreal x2, qreal y2);
+    void removeGuideLines();
 private slots:
     void onChangeGeometryTimeOut();
 
@@ -495,6 +497,7 @@ private:
     bool     m_isChangingPos;
     bool     m_isMoveable;
     bool    m_shadow;
+    QList<QGraphicsLineItem*> guideLines;
 
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

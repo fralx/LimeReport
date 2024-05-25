@@ -15,12 +15,13 @@ BorderEditor::BorderEditor(QWidget *parent) :
     connect(
         ui->borderFrame, SIGNAL(borderSideClicked(LimeReport::BaseDesignIntf::BorderSide, bool)),
         this, SLOT(checkToolButtons(LimeReport::BaseDesignIntf::BorderSide, bool))
-    );
+        );
 }
 
 void BorderEditor::loadItem(LimeReport::BaseDesignIntf *item)
 {
     m_item = item;
+    qDebug()<<item->metaObject()->className();
     emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::TopLine,
                                             item->borderLines() & LimeReport::BaseDesignIntf::TopLine);
     emit ui->borderFrame->borderSideClicked(LimeReport::BaseDesignIntf::BorderSide::LeftLine,
@@ -68,6 +69,11 @@ double BorderEditor::borderWidth()
     return m_borderWidth;
 }
 
+bool BorderEditor::isPage()
+{
+    return QString(m_item->metaObject()->className()) == "LimeReport::PageItemDesignIntf";
+}
+
 BorderEditor::~BorderEditor()
 {
     delete ui;
@@ -93,18 +99,18 @@ void BorderEditor::checkToolButtons(LimeReport::BaseDesignIntf::BorderSide side,
 {
     switch(side)
     {
-        case BaseDesignIntf::BorderSide::TopLine:
-            ui->topLine->setChecked(check);
-            break;
-        case BaseDesignIntf::BorderSide::BottomLine:
-            ui->bottomLine->setChecked(check);
-            break;
-        case BaseDesignIntf::BorderSide::LeftLine:
-            ui->leftLine->setChecked(check);
-            break;
-        case BaseDesignIntf::BorderSide::RightLine:
-            ui->rightLine->setChecked(check);
-            break;
+    case BaseDesignIntf::BorderSide::TopLine:
+        ui->topLine->setChecked(check);
+        break;
+    case BaseDesignIntf::BorderSide::BottomLine:
+        ui->bottomLine->setChecked(check);
+        break;
+    case BaseDesignIntf::BorderSide::LeftLine:
+        ui->leftLine->setChecked(check);
+        break;
+    case BaseDesignIntf::BorderSide::RightLine:
+        ui->rightLine->setChecked(check);
+        break;
     }
 }
 

@@ -32,6 +32,7 @@
 
 #include "lrglobal.h"
 #include "lrreportrender.h"
+#include "lrgroupbands.h"
 #include "lrpagedesignintf.h"
 #include "lrbanddesignintf.h"
 #include "lritemdesignintf.h"
@@ -66,9 +67,9 @@ bool ReportRender::isNeedToRearrangeColumnsItems()
             maxHeightColumn = i;
         }
         if (maxHeightColumn>0 && columnItemsCount(maxHeightColumn)<avg &&
-                maxHeight> lastColumnItem(maxHeightColumn-1)->height()
-        ){
-          return true;
+            maxHeight> lastColumnItem(maxHeightColumn-1)->height()
+            ){
+            return true;
         }
     }
     return false;
@@ -78,8 +79,8 @@ BandDesignIntf *ReportRender::lastColumnItem(int columnIndex)
 {
     if (columnIndex<0) return 0;
     for(int i=0;i<m_columnedBandItems.size();++i){
-       if (m_columnedBandItems[i]->columnIndex()>columnIndex)
-           return m_columnedBandItems[i-1];
+        if (m_columnedBandItems[i]->columnIndex()>columnIndex)
+            return m_columnedBandItems[i-1];
     }
     return m_columnedBandItems.last();
 }
@@ -90,15 +91,15 @@ void ReportRender::rearrangeColumnsItems()
         qreal startHeight = columnHeigth(0);
         int avg = m_columnedBandItems.size() / m_columnedBandItems[0]->columnsCount();
         for (int i = 1; i < m_columnedBandItems[0]->columnsCount(); ++i){
-           if (columnItemsCount(i) < avg){
-               int getCount = avg * (m_columnedBandItems[0]->columnsCount()-i) - columnItemsCount(i);
-               for (int j = 0; j < getCount; ++j){
-                   BandDesignIntf* band = lastColumnItem(i-1);
-                   band->setPos(band->pos().x()+band->width(),m_columnedBandItems[0]->pos().y());
-                   band->setColumnIndex(i);
-               }
+            if (columnItemsCount(i) < avg){
+                int getCount = avg * (m_columnedBandItems[0]->columnsCount()-i) - columnItemsCount(i);
+                for (int j = 0; j < getCount; ++j){
+                    BandDesignIntf* band = lastColumnItem(i-1);
+                    band->setPos(band->pos().x()-30,m_columnedBandItems[0]->pos().y());
+                    band->setColumnIndex(i);
+                }
 
-           }
+            }
         }
         m_renderPageItem->relocateBands();
         m_maxHeightByColumn[0]+=startHeight-maxColumnHeight();
@@ -122,9 +123,9 @@ qreal ReportRender::columnHeigth(int columnIndex)
 {
     qreal result = 0;
     for(int i=0;i<m_columnedBandItems.size();++i){
-       if (m_columnedBandItems[i]->columnIndex()==columnIndex)
-           result += m_columnedBandItems[i]->height();
-       if (m_columnedBandItems[i]->columnIndex()>columnIndex) break;
+        if (m_columnedBandItems[i]->columnIndex()==columnIndex)
+            result += m_columnedBandItems[i]->height();
+        if (m_columnedBandItems[i]->columnIndex()>columnIndex) break;
     }
     return result;
 }
@@ -206,7 +207,7 @@ void ReportRender::analizeItem(ContentItemDesignIntf* contentItem, BandDesignInt
             rx.setMinimal(true);
             if (rx.indexIn(content)>=0){
                 functions.append(functionName);
-            }            
+            }
 #endif
         }
         if (functions.size()>0)
@@ -270,7 +271,7 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     startNewPage(true);
 
     renderReportHeader(m_patternPageItem, AfterPageHeader);
-
+    m_dataSourceSorted = false;
     BandDesignIntf* lastRenderedBand = 0;
     for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled; i++){
         lastRenderedBand = m_patternPageItem->dataBandAt(i);
@@ -416,7 +417,7 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
                         if (dataBand){
                             GroupFunction* gf = datasources()->addGroupFunction(
                                 functionName, captures.at(Const::VALUE_INDEX), band->objectName(), dataBand->objectName()
-                            );
+                                );
                             if (gf){
                                 connect(dataBand, SIGNAL(bandRendered(BandDesignIntf*)),
                                         gf, SLOT(slotBandRendered(BandDesignIntf*)));
@@ -426,7 +427,7 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
                         } else {
                             GroupFunction* gf = datasources()->addGroupFunction(
                                 functionName, captures.at(Const::VALUE_INDEX), band->objectName(), captures.at(dsIndex)
-                            );
+                                );
                             gf->setInvalid(tr("Databand \"%1\" not found").arg(captures.at(dsIndex)));
                         }
                     }
@@ -474,7 +475,7 @@ void ReportRender::extractGroupFuntionsFromItem(ContentItemDesignIntf* contentIt
                 gf->setInvalid(tr("Wrong using function %1").arg(functionName));
             }
         }
-    }    
+    }
 #endif
 }
 
@@ -510,14 +511,14 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                             QString expressionIndex = datasources()->putGroupFunctionsExpressions(captures.at(Const::VALUE_INDEX));
                             if (captures.size()<5){
                                 content.replace(captures.at(0), QString("%1(%2,%3)")
-                                    .arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
+                                                                    .arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
                             } else {
                                 content.replace(captures.at(0), QString("%1(%2,%3,%4)").arg(
-                                                    functionName,
-                                                    '"'+expressionIndex+'"',
-                                                    '"'+band->objectName()+'"',
-                                                    captures.at(4)
-                                                ));
+                                                                    functionName,
+                                                                    '"'+expressionIndex+'"',
+                                                                    '"'+band->objectName()+'"',
+                                                                    captures.at(4)
+                                                                    ));
                             }
                         }
                         match = rx.match(content, pos + match.capturedLength());
@@ -536,11 +537,11 @@ void ReportRender::replaceGroupFunctionsInItem(ContentItemDesignIntf* contentIte
                                 content.replace(captures.at(0),QString("%1(%2,%3)").arg(functionName).arg('"'+expressionIndex+'"').arg('"'+band->objectName()+'"'));
                             } else {
                                 content.replace(captures.at(0),QString("%1(%2,%3,%4)").arg(
-                                                    functionName,
-                                                    '"'+expressionIndex+'"',
-                                                    '"'+band->objectName()+'"',
-                                                    captures.at(4)
-                                                ));
+                                                                    functionName,
+                                                                    '"'+expressionIndex+'"',
+                                                                    '"'+band->objectName()+'"',
+                                                                    captures.at(4)
+                                                                    ));
                             }
                         }
                         pos += rx.matchedLength();
@@ -573,8 +574,8 @@ void ReportRender::replaceGroupsFunction(BandDesignIntf *band)
 QColor ReportRender::makeBackgroundColor(BandDesignIntf* band){
     if (band->useAlternateBackgroundColor()){
         return datasources()->variable(QLatin1String("line_") + band->objectName().toLower()).toInt() %2 == 0 ?
-                    band->backgroundColor() :
-                    band->alternateBackgroundColor();
+                   band->backgroundColor() :
+                   band->alternateBackgroundColor();
     }
     return band->backgroundColor();
 }
@@ -591,12 +592,12 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         BandDesignIntf* bandClone = 0;
 
         if (bandData){
-           bandClone = bandData;
+            bandClone = bandData;
         } else {
             bandClone = renderData(patternBand);
         }
 
-        if (isLast) bandClone->setBootomSpace(1);
+        if (isLast) bandClone->setBottomSpace(1);
 
         if (mode == ForcedStartPage){
             savePage();
@@ -613,7 +614,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if ( isLast && bandClone->keepFooterTogether() && bandClone->sliceLastRow() ){
             if (m_maxHeightByColumn[m_currentColumn] < (bandClone->height()+m_reportFooterHeight))
                 m_maxHeightByColumn[m_currentColumn] -= ((m_maxHeightByColumn[m_currentColumn]-bandClone->height())+(bandClone->height()*calcSlicePercent(bandClone->height())));
-         }
+        }
 
         if (!bandClone->isEmpty() || patternBand->printIfEmpty()){
             if (!registerBand(bandClone)){
@@ -645,7 +646,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
                                     patternBand->bandHeader()->columnsCount()>1 &&
                                     !m_lostHeadersMoved &&
                                     patternBand->bandNestingLevel() == 0
-                                ){
+                                    ){
                                     renderBand(patternBand->bandHeader(), 0, mode);
                                 }
                             } else {
@@ -697,7 +698,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
     m_lastRenderedFooter = 0;
 
     if (!dataBand->datasourceName().isEmpty())
-       bandDatasource = datasources()->dataSource(dataBand->datasourceName());
+        bandDatasource = datasources()->dataSource(dataBand->datasourceName());
 
     BandDesignIntf* header = dataBand->bandHeader();
     BandDesignIntf* footer = dataBand->bandFooter();
@@ -778,7 +779,7 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
         }
 
         if (!dataBand->keepFooterTogether())
-        	m_reprintableBands.removeOne(header);
+            m_reprintableBands.removeOne(header);
         if (header) recalcIfNeeded(header);
 
         bool didGoBack = !bandDatasource->eof() && bandDatasource->prior();
@@ -812,7 +813,7 @@ void ReportRender::renderPageHeader(PageItemDesignIntf *patternPage)
     if (band){
         if (m_datasources->variable("#PAGE").toInt()!=1 ||
             band->property("printOnFirstPage").toBool()
-        )
+            )
             renderBand(band, 0);
     }
 }
@@ -964,6 +965,14 @@ void ReportRender::renderDataHeader(BandDesignIntf *header)
 
 void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* dataSource, bool firstTime)
 {
+    GroupBandHeader *group = dynamic_cast<GroupBandHeader*>(parentBand);
+    if(dataSource->model() && group && !group->groupFieldName().isEmpty() && !m_dataSourceSorted)
+    {
+        dataSource->model()->sort(dataSource->columnIndexByName(group->groupFieldName()),group->SortFieldNameBy());
+        qDebug()<<"sorted;";
+        m_dataSourceSorted = true;
+    }
+
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){
         IGroupBand* gb = dynamic_cast<IGroupBand*>(band);
         if (gb&&gb->isNeedToClose(datasources())){
@@ -1153,7 +1162,7 @@ void ReportRender::placeBandOnPage(BandDesignIntf* band, int columnIndex){
 
 bool isMultiColumnHeader(BandDesignIntf* band){
     return ( (band->columnsCount() > 1 ) &&
-             (band->isHeader() &&
+            (band->isHeader() &&
              ((band->bandNestingLevel() == 0) || (band->columnsFillDirection() == BandDesignIntf::Horizontal))));
 }
 
@@ -1182,7 +1191,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
     }
 
     if ( (band->columnsCount() > 1) &&
-         (!band->isHeader() || (band->bandNestingLevel() > 0 && band->columnsFillDirection() != BandDesignIntf::Horizontal ))){
+        (!band->isHeader() || (band->bandNestingLevel() > 0 && band->columnsFillDirection() != BandDesignIntf::Horizontal ))){
 
         if (band->columnsFillDirection() == BandDesignIntf::Horizontal){
             if (m_currentColumn < band->columnsCount()-1)
@@ -1194,7 +1203,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
             if ((m_currentColumn !=0) &&
                 (m_maxHeightByColumn[0] == m_maxHeightByColumn[m_currentColumn]) &&
                 (m_maxHeightByColumn[0] >= band->height())
-            ){
+                ){
                 m_currentColumn = 0;
             }
         }
@@ -1203,13 +1212,13 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
     m_currentColumn = m_currentColumn == -1 ? 0: m_currentColumn;
 
     if (  (band->height() <= m_maxHeightByColumn[m_currentColumn]) ||
-          m_patternPageItem->endlessHeight() ||
-          (isMultiColumnHeader(band) && (band->height() <= m_maxHeightByColumn[0]))
-    ){
+        m_patternPageItem->endlessHeight() ||
+        (isMultiColumnHeader(band) && (band->height() <= m_maxHeightByColumn[0]))
+        ){
 
         if ( (band->bandType() == BandDesignIntf::PageFooter) ){
-           for (int i=0; i < m_maxHeightByColumn.size(); ++i)
-               m_maxHeightByColumn[i]+=band->height();
+            for (int i=0; i < m_maxHeightByColumn.size(); ++i)
+                m_maxHeightByColumn[i]+=band->height();
         }
 
         if ( isMultiColumnHeader(band)){
@@ -1245,7 +1254,7 @@ bool ReportRender::registerBand(BandDesignIntf *band, bool registerInChildren)
                 band->bandType()!=BandDesignIntf::ReportFooter &&
                 !list->contains(band) &&
                 !band->reprintOnEachPage()
-            )
+                )
                 list->append(band);
         }
 
@@ -1283,7 +1292,7 @@ BandDesignIntf* ReportRender::sliceBand(BandDesignIntf *band, BandDesignIntf* pa
             DataBandDesignIntf* data = dynamic_cast<DataBandDesignIntf*>(band);
             if (isLast && data && data->keepFooterTogether() &&
                 band->height()<m_maxHeightByColumn[m_currentColumn] && band->sliceLastRow()
-            ){
+                ){
                 if (band->height()>(m_maxHeightByColumn[m_currentColumn]-m_reportFooterHeight)){
                     m_maxHeightByColumn[m_currentColumn] -= ((m_maxHeightByColumn[m_currentColumn]-band->height())+(band->height()*calcSlicePercent(band->height())));
                 }
@@ -1341,9 +1350,9 @@ void ReportRender::createTOCMarker(bool startNewRange)
 
 BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, int height, BandDesignIntf* patternBand)
 {
-    int sliceHeight = height;
-    BandDesignIntf* upperBandPart = dynamic_cast<BandDesignIntf*>(band->cloneUpperPart(sliceHeight));
-    BandDesignIntf* bottomBandPart = dynamic_cast<BandDesignIntf*>(band->cloneBottomPart(sliceHeight));
+    //int sliceHeight = height;
+    BandDesignIntf* upperBandPart = dynamic_cast<BandDesignIntf*>(band->cloneUpperPart(height));
+    BandDesignIntf* bottomBandPart = dynamic_cast<BandDesignIntf*>(band->cloneBottomPart(height));
     if (!bottomBandPart->isEmpty()){
         if (patternBand->keepFooterTogether())
             closeFooterGroup(patternBand);
@@ -1351,6 +1360,7 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
             bottomBandPart->copyBookmarks(band);
     }
     if (!upperBandPart->isEmpty()){
+        upperBandPart->setBottomSpace(0);
         upperBandPart->updateItemSize(m_datasources, FirstPass, height);
         registerBand(upperBandPart);
         upperBandPart->copyBookmarks(band);
@@ -1366,7 +1376,7 @@ BandDesignIntf *ReportRender::saveUppperPartReturnBottom(BandDesignIntf *band, i
             patternBand->bandHeader()->columnsCount()>1 &&
             !m_lostHeadersMoved &&
             patternBand->bandNestingLevel() == 0
-        ){
+            ){
             renderBand(patternBand->bandHeader(), 0, StartNewPageAsNeeded);
         }
 
@@ -1398,6 +1408,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand, bool emitB
 
     emit(patternBand->preparedForRender());
     bandClone->updateItemSize(m_datasources);
+    bandClone->setBottomSpace(patternBand->height() - patternBand->findMaxBottom());
 
     //m_scriptEngineContext->baseDesignIntfToScript(bandClone);
     emit(patternBand->afterData());
@@ -1484,7 +1495,7 @@ void ReportRender::checkFooterGroup(BandDesignIntf *groupBand)
         foreach(BandDesignIntf* band, *holder){
             qreal percent = band->height()*100 / m_dataAreaSize;
             if (m_renderedDataBandCount<=1 || percent>20 ){
-                 holder->removeAll(band);
+                holder->removeAll(band);
             }
         }
     }
@@ -1523,8 +1534,8 @@ void ReportRender::checkLostHeadersOnPrevPage()
     it.toBack();
     if (it.hasPrevious()){
         if (it.previous()->isFooter()){
-                if (it.hasPrevious()) it.previous();
-                else return;
+            if (it.hasPrevious()) it.previous();
+            else return;
         }
     }
 
@@ -1561,8 +1572,8 @@ void ReportRender::checkLostHeadersInPrevColumn()
     it.toBack();
     if (it.hasPrevious()){
         if (it.previous()->isFooter()){
-                if (it.hasPrevious()) it.previous();
-                else return;
+            if (it.hasPrevious()) it.previous();
+            else return;
         }
     }
 
@@ -1578,7 +1589,7 @@ void ReportRender::checkLostHeadersInPrevColumn()
 
     if (lostHeaders.size() > 0){
         m_lostHeadersMoved = true;
-//        std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
+        //        std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         std::sort(lostHeaders.begin(), lostHeaders.end(), bandLessThen);
         foreach(BandDesignIntf* header, lostHeaders){
             registerBand(header);
@@ -1596,7 +1607,7 @@ BandDesignIntf* ReportRender::findEnclosingGroup()
         foreach(BandDesignIntf* gb, m_childBands.keys()){
             if (m_childBands.value(gb)->tryToKeepTogether()&&
                 ((gb->bandIndex()<groupIndex)||(groupIndex==-1))
-            ){
+                ){
                 result=gb;
                 groupIndex=result->bandIndex();
             }
@@ -1671,7 +1682,7 @@ void ReportRender::savePage(bool isLast)
             pageHeight += band->height();
         }
         m_renderPageItem->setHeight(pageHeight + 10 +
-           (m_patternPageItem->topMargin() + m_patternPageItem->bottomMargin()) * Const::mmFACTOR);
+                                    (m_patternPageItem->topMargin() + m_patternPageItem->bottomMargin()) * Const::mmFACTOR);
     }
 }
 

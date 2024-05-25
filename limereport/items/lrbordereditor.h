@@ -22,6 +22,7 @@ public:
     LimeReport::BaseDesignIntf::BorderStyle borderStyle();
     QString borderColor();
     double borderWidth();
+    bool isPage();
     ~BorderEditor();
 
 private slots:

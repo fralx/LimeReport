@@ -156,8 +156,8 @@ public:
     virtual bool isUnique() const;
     void setItemMode(BaseDesignIntf::ItemMode mode);
     void updateItemSize(DataSourceManager *dataManager, RenderPass pass=FirstPass, int maxHeight=0);
-//    void recalcItems(DataSourceManager* dataManager);
     void updateBandNameLabel();
+    void initFromItem(BaseDesignIntf* source);
 
     virtual QColor selectionColor() const;
     int bandIndex() const;
@@ -261,11 +261,10 @@ public:
     void setAlternateBackgroundColor(const QColor &alternateBackgroundColor);
     bool useAlternateBackgroundColor() const;
     void setUseAlternateBackgroundColor(bool useAlternateBackgroundColor);    
-    qreal bottomSpace() const;
+    qreal bottomSpace();
+    void setBottomSpace(qreal bottomSpace);
     void setBackgroundModeProperty(BGMode value);
     void setBackgroundOpacity(int value);
-    int bootomSpace() const;
-    void setBootomSpace(int bootomSpace);
     void updateBandMarkerGeometry();
     int shiftItems() const;
     void setShiftItems(int shiftItems);    

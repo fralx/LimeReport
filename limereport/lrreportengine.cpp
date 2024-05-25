@@ -277,9 +277,9 @@ bool ReportEnginePrivate::printPages(ReportPages pages, QPrinter *printer)
         QPrinterInfo pi;
         if (!pi.defaultPrinter().isNull())
 #if QT_VERSION >= 0x050300
-        m_printer.data()->setPrinterName(pi.defaultPrinterName());
+            m_printer.data()->setPrinterName(pi.defaultPrinterName());
 #else
-        m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
+            m_printer.data()->setPrinterName(pi.defaultPrinter().printerName());
 #endif
         QPrintDialog dialog(m_printer.data(),QApplication::activeWindow());
         m_printerSelected = dialog.exec()!=QDialog::Rejected;
@@ -310,22 +310,22 @@ void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printe
     printProcessors.insert("default",QSharedPointer<PrintProcessor>(new PrintProcessor(&printer)));
 
     int pageCount = (printer.printRange() == QPrinter::AllPages) ?
-                pages.size() :
-                printer.toPage() - printer.fromPage();
+                        pages.size() :
+                        printer.toPage() - printer.fromPage();
 
     emit printingStarted(pageCount);
     foreach(PageItemDesignIntf::Ptr page, pages){
         if (    !m_cancelPrinting &&
-                ((printer.printRange() == QPrinter::AllPages) ||
-                (   (printer.printRange()==QPrinter::PageRange) &&
-                    (currenPage >= printer.fromPage()) &&
-                    (currenPage <= printer.toPage())
-                ))
-           )
+            ((printer.printRange() == QPrinter::AllPages) ||
+             (   (printer.printRange()==QPrinter::PageRange) &&
+              (currenPage >= printer.fromPage()) &&
+              (currenPage <= printer.toPage())
+              ))
+            )
         {
-              printProcessors["default"]->printPage(page);
-              emit pagePrintingFinished(currenPage);
-              QApplication::processEvents();
+            printProcessors["default"]->printPage(page);
+            emit pagePrintingFinished(currenPage);
+            QApplication::processEvents();
         }
 
         currenPage++;
@@ -382,9 +382,9 @@ QStringList ReportEnginePrivate::aviableReportTranslations()
 void ReportEnginePrivate::setReportTranslation(const QString &languageName)
 {
     foreach(QLocale::Language language, aviableLanguages()){
-       if (QLocale::languageToString(language).compare(languageName) == 0){
-           setReportLanguage(language);
-       }
+        if (QLocale::languageToString(language).compare(languageName) == 0){
+            setReportLanguage(language);
+        }
     }
 }
 
@@ -504,7 +504,7 @@ bool ReportEnginePrivate::showPreviewWindow(ReportPages pages, PreviewHints hint
         w->setPages(pages);
         w->setLayoutDirection(m_previewLayoutDirection);
         w->setStyleSheet(styleSheet());
-//        w->setDefaultPrinter()
+        //        w->setDefaultPrinter()
 
         if (!dataManager()->errorsList().isEmpty()){
             w->setErrorMessages(dataManager()->errorsList());
@@ -542,15 +542,15 @@ void ReportEnginePrivate::previewReport(PreviewHints hints)
 
 void ReportEnginePrivate::previewReport(QPrinter* printer, PreviewHints hints)
 {
-        try{
-            dataManager()->setDesignTime(false);
-            ReportPages pages = renderToPages();
-            dataManager()->setDesignTime(true);
-            showPreviewWindow(pages, hints, printer);
-        } catch (ReportError &exception){
-            saveError(exception.what());
-            showError(exception.what());
-        }
+    try{
+        dataManager()->setDesignTime(false);
+        ReportPages pages = renderToPages();
+        dataManager()->setDesignTime(true);
+        showPreviewWindow(pages, hints, printer);
+    } catch (ReportError &exception){
+        saveError(exception.what());
+        showError(exception.what());
+    }
 }
 
 ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
@@ -569,7 +569,7 @@ ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
             m_designerWindow->setShowProgressDialog(m_showProgressDialog);
 #endif
         }
-     }
+    }
     if (m_designerWindow){
         m_datasources->updateDatasourceModel();
     }
@@ -664,19 +664,19 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
 
     if (!QFile::exists(fileName))
     {
-       if ( hasActivePreview() )
-       {
-          QMessageBox::information( NULL,
-                                    tr( "Report File Change" ),
-                                    tr( "The report file \"%1\" has changed names or been deleted.\n\nThis preview is no longer valid." ).arg( fileName )
-                                    );
+        if ( hasActivePreview() )
+        {
+            QMessageBox::information( NULL,
+                                     tr( "Report File Change" ),
+                                     tr( "The report file \"%1\" has changed names or been deleted.\n\nThis preview is no longer valid." ).arg( fileName )
+                                     );
 
-          clearReport();
+            clearReport();
 
-          currentPreview->close();
-       }
+            currentPreview->close();
+        }
 
-       return false;
+        return false;
     }
 
     clearReport();
@@ -708,7 +708,7 @@ bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
 
             if ( hasActivePreview() )
             {
-               currentPreview->reloadPreview();
+                currentPreview->reloadPreview();
             }
             EASY_END_BLOCK;
             return true;
@@ -778,23 +778,23 @@ QSettings*ReportEnginePrivate::settings()
 
 bool ReportEnginePrivate::loadFromFile(const QString &fileName, bool autoLoadPreviewOnChange)
 {
-   // only watch one file at a time
+    // only watch one file at a time
 
-   if ( !m_fileWatcher->files().isEmpty() )
-   {
-      m_fileWatcher->removePaths( m_fileWatcher->files() );
-   }
+    if ( !m_fileWatcher->files().isEmpty() )
+    {
+        m_fileWatcher->removePaths( m_fileWatcher->files() );
+    }
 
-   if ( autoLoadPreviewOnChange )
-   {
-      m_fileWatcher->addPath( fileName );
-   }
+    if ( autoLoadPreviewOnChange )
+    {
+        m_fileWatcher->addPath( fileName );
+    }
 
-   bool result = slotLoadFromFile( fileName );
-   if (result) {
-       emit loadFinished();
-   }
-   return result;
+    bool result = slotLoadFromFile( fileName );
+    if (result) {
+        emit loadFinished();
+    }
+    return result;
 }
 
 bool ReportEnginePrivate::loadFromByteArray(QByteArray* data, const QString &name){
@@ -1302,7 +1302,7 @@ ReportPages ReportEnginePrivate::renderToPages()
 
         scriptContext()->qobjectToScript("engine",this);
 #ifdef USE_QTSCRIPTENGINE
-    ScriptEngineManager::instance().scriptEngine()->pushContext();
+        ScriptEngineManager::instance().scriptEngine()->pushContext();
 #endif
         if (m_scriptEngineContext->runInitScript()){
 
@@ -1320,10 +1320,10 @@ ReportPages ReportEnginePrivate::renderToPages()
                 if (!page->isTOC() && page->isPrintable()){
                     page->setReportSettings(&m_reportSettings);
                     result = appendPages(
-                                result,
-                                m_reportRender->renderPageToPages(page),
-                                page->mixWithPriorPage() ? MixPages : AppendPages
-                             );
+                        result,
+                        m_reportRender->renderPageToPages(page),
+                        page->mixWithPriorPage() ? MixPages : AppendPages
+                        );
                 } else if (page->isTOC()){
                     startTOCPage = result.count();
                     pageAfterTOCIndex = i+1;
@@ -1340,20 +1340,20 @@ ReportPages ReportEnginePrivate::renderToPages()
                         if ( m_renderingPages.count() > (pageAfterTOCIndex))
                             secondPage = m_renderingPages.at(pageAfterTOCIndex);
                         ReportPages pages = m_reportRender->renderTOC(
-                                    page,
-                                    true,
-                                    secondPage && secondPage->resetPageNumber()
-                        );
+                            page,
+                            true,
+                            secondPage && secondPage->resetPageNumber()
+                            );
                         for (int j=0; j<pages.count(); ++j){
                             result.insert(startTOCPage+j,pages.at(j));
                         }
 
                     } else {
                         result = appendPages(
-                                    result,
-                                    m_reportRender->renderPageToPages(page),
-                                    page->mixWithPriorPage() ? MixPages : AppendPages
-                                 );
+                            result,
+                            m_reportRender->renderPageToPages(page),
+                            page->mixWithPriorPage() ? MixPages : AppendPages
+                            );
                     }
                 }
             }
@@ -1367,7 +1367,7 @@ ReportPages ReportEnginePrivate::renderToPages()
         m_reportRendering = false;
 
 #ifdef USE_QTSCRIPTENGINE
-    ScriptEngineManager::instance().scriptEngine()->popContext();
+        ScriptEngineManager::instance().scriptEngine()->popContext();
 #endif
         return result;
     } else {
@@ -1818,7 +1818,7 @@ PrintProcessor::PrintProcessor(QPrinter* printer)
 
 bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+
     if (!m_firstPage && !m_painter->isActive()) return false;
     PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
 
@@ -1836,91 +1836,47 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
         m_firstPage = false;
     }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     qreal leftMargin, topMargin, rightMargin, bottomMargin;
     m_printer->getPageMargins(&leftMargin, &topMargin, &rightMargin, &bottomMargin, QPrinter::Millimeter);
-
-    QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
-    printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
-                                 (printerPageRect.size().height() + bottomMargin +topMargin) * page->unitFactor());
-
-    if  (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
-        printerPageRect.width() < page->geometry().width())
-    {
-        qreal pageWidth = page->geometry().width();
-        qreal pageHeight =  page->geometry().height();
-        QRectF currentPrintingRect = printerPageRect;
-        qreal curHeight = 0;
-        qreal curWidth = 0;
-        bool first = true;
-        while (pageHeight > 0){
-            while (curWidth < pageWidth){
-                if (!first) m_printer->newPage(); else first = false;
-                m_renderPage.render(m_painter, m_printer->pageRect(), currentPrintingRect);
-                currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
-                curWidth += printerPageRect.size().width();
-
-            }
-            pageHeight -= printerPageRect.size().height();
-            curHeight += printerPageRect.size().height();
-            currentPrintingRect = printerPageRect;
-            currentPrintingRect.adjust(0, curHeight, 0, curHeight);
-            curWidth = 0;
-        }
-
-    } else {
-        if (page->getSetPageSizeToPrinter()){
-            QRectF source = page->geometry();
-            QSizeF inchSize = source.size() / (100 * 2.54);
-            QRectF target = QRectF(QPoint(0,0), inchSize  * m_printer->resolution());
-            m_renderPage.render(m_painter, target, source);
-        } else {
-            m_renderPage.render(m_painter);
-        }
-    }
-    page->setPos(backupPagePos);
-    m_renderPage.removePageItem(page);
-    if (backupPage) backupPage->reactivatePageItem(page);
 #else
-    if (!m_firstPage && !m_painter->isActive()) return false;
-    PageDesignIntf* backupPage = dynamic_cast<PageDesignIntf*>(page->scene());
-
-    QPointF backupPagePos = page->pos();
-    page->setPos(0,0);
-    m_renderPage.setPageItem(page);
-    m_renderPage.setSceneRect(m_renderPage.pageItem()->mapToScene(m_renderPage.pageItem()->rect()).boundingRect());
-    initPrinter(m_renderPage.pageItem());
-
-    if (!m_firstPage){
-        m_printer->newPage();
-    } else {
-        m_painter = new QPainter(m_printer);
-        if (!m_painter->isActive()) return false;
-        m_firstPage = false;
-    }
-
     qreal leftMargin = m_printer->pageLayout().margins().left();
     qreal topMargin = m_printer->pageLayout().margins().top();
     qreal rightMargin = m_printer->pageLayout().margins().right();
     qreal bottomMargin = m_printer->pageLayout().margins().bottom();
+#endif
 
     QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
     printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
-                                 (printerPageRect.size().height() + bottomMargin + topMargin) * page->unitFactor());
-    if (page->printBehavior() == PageItemDesignIntf::Split && m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
+                             (printerPageRect.size().height() + bottomMargin + topMargin) * page->unitFactor());
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+    if  (page->printBehavior() == PageItemDesignIntf::Split &&
+        m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
         printerPageRect.width() < page->geometry().width())
     {
+#else
+    if (
+        page->printBehavior() == PageItemDesignIntf::Split &&
+        m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
+        printerPageRect.width() < page->geometry().width()
+        ){
+#endif
         qreal pageWidth = page->geometry().width();
         qreal pageHeight =  page->geometry().height();
-        QRectF currentPrintingRect = printerPageRect;
         qreal curHeight = 0;
         qreal curWidth = 0;
+        QRectF currentPrintingRect =  printerPageRect;
+
         bool first = true;
         while (pageHeight > 0){
             while (curWidth < pageWidth){
                 if (!first) m_printer->newPage(); else first = false;
-                m_renderPage.render(m_painter, m_printer->pageRect(QPrinter::Millimeter), currentPrintingRect);
-                currentPrintingRect.adjust(printerPageRect.size().width(), 0, printerPageRect.size().width(), 0);
+                m_renderPage.render(m_painter, QRectF(), currentPrintingRect);
                 curWidth += printerPageRect.size().width();
+                currentPrintingRect = QRectF(
+                    curWidth, 0,
+                    printerPageRect.size().width() > (pageWidth - curWidth) ? (pageWidth - curWidth) : printerPageRect.size().width(),  pageHeight
+                    );
 
             }
             pageHeight -= printerPageRect.size().height();
@@ -1943,7 +1899,6 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
     page->setPos(backupPagePos);
     m_renderPage.removePageItem(page);
     if (backupPage) backupPage->reactivatePageItem(page);
-#endif
     return true;
 }
 
@@ -1952,14 +1907,14 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if (page->oldPrintMode()){
         m_printer->setPageMargins(page->leftMargin(),
-                              page->topMargin(),
-                              page->rightMargin(),
-                              page->bottomMargin(),
-                              QPrinter::Millimeter);
+                                  page->topMargin(),
+                                  page->rightMargin(),
+                                  page->bottomMargin(),
+                                  QPrinter::Millimeter);
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
-                   QSizeF(page->sizeMM().height(),page->sizeMM().width()):
-                   page->sizeMM();
+                              QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                              page->sizeMM();
         m_printer->setPaperSize(pageSize,QPrinter::Millimeter);
     } else {
         m_printer->setFullPage(page->fullPage());
@@ -1968,13 +1923,13 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         m_printer->setOrientation(static_cast<QPrinter::Orientation>(page->pageOrientation()));
         if (page->pageSize()==PageItemDesignIntf::Custom){
             QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
-                        QSizeF(page->sizeMM().height(),page->sizeMM().width()):
-                        page->sizeMM();
+                                  QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                                  page->sizeMM();
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
-              m_printer->setPaperSize(pageSize, QPrinter::Millimeter);
+                m_printer->setPaperSize(pageSize, QPrinter::Millimeter);
         } else {
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
-              m_printer->setPaperSize(static_cast<QPrinter::PageSize>(page->pageSize()));
+                m_printer->setPaperSize(static_cast<QPrinter::PageSize>(page->pageSize()));
         }
     }
 #else
@@ -1982,23 +1937,23 @@ void PrintProcessor::initPrinter(PageItemDesignIntf* page)
         m_printer->setPageMargins(QMarginsF(page->leftMargin(), page->topMargin(), page->rightMargin(), page->bottomMargin()),QPageLayout::Millimeter);
         m_printer->setPageOrientation((QPageLayout::Orientation)page->pageOrientation());
         QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
-                   QSizeF(page->sizeMM().height(),page->sizeMM().width()):
-                   page->sizeMM();
+                              QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                              page->sizeMM();
         m_printer->setPageSize(QPageSize(pageSize, QPageSize::Millimeter));
-            } else {
+    } else {
         m_printer->setFullPage(page->fullPage());
         if (page->dropPrinterMargins())
             m_printer->setPageMargins(QMarginsF(0, 0, 0, 0), QPageLayout::Point);
         m_printer->setPageOrientation((QPageLayout::Orientation)page->pageOrientation());
         if (page->pageSize()==PageItemDesignIntf::Custom){
             QSizeF pageSize = (page->pageOrientation()==PageItemDesignIntf::Landscape)?
-                        QSizeF(page->sizeMM().height(),page->sizeMM().width()):
-                        page->sizeMM();
+                                  QSizeF(page->sizeMM().height(),page->sizeMM().width()):
+                                  page->sizeMM();
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
-              m_printer->setPageSize(QPageSize(pageSize, QPageSize::Millimeter));
+                m_printer->setPageSize(QPageSize(pageSize, QPageSize::Millimeter));
         } else {
             if (page->getSetPageSizeToPrinter() || m_printer->outputFormat() == QPrinter::PdfFormat)
-              m_printer->setPageSize(QPageSize((QPageSize::PageSizeId)page->pageSize()));
+                m_printer->setPageSize(QPageSize((QPageSize::PageSizeId)page->pageSize()));
         }
     }
 #endif
@@ -2181,4 +2136,3 @@ qreal WatermarkHelper::valueToPixels(qreal value)
 
 
 }// namespace LimeReport
-

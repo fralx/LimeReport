@@ -174,6 +174,8 @@ void QObjectPropertyModel::translatePropertyName()
     tr("gridChartLines");
     tr("horizontalAxisOnTop");
     tr("mixWithPriorPage");
+    tr("shadow");
+    tr("borderStyle");
 }
 
 void QObjectPropertyModel::clearObjectsList()

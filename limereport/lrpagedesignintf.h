@@ -251,6 +251,7 @@ namespace LimeReport {
         void sameHeight();
         void addHLayout();
         void addVLayout();
+        void setItemAlign(BaseDesignIntf::ItemAlign itemAlign);
         void setFont(const QFont &font);
         void setTextAlign(const Qt::Alignment& alignment);
         void setBorders(const BaseDesignIntf::BorderLines& border);
@@ -271,7 +272,7 @@ namespace LimeReport {
         void bandDeleted(QObject* band);
         void slotPageItemLoaded(QObject *);
         void slotSelectionChanged();
-        void slotAnimationStoped(QObject *animation);    
+        void slotAnimationStoped(QObject *animation);
     private:
         template <typename T>
         BaseDesignIntf* internalAddBand(T bandType);
@@ -300,7 +301,7 @@ namespace LimeReport {
         BaseDesignIntf::ItemMode m_itemMode;
         QGraphicsRectItem* m_cutterBorder;
         QGraphicsRectItem* m_pageRect;
-        QGraphicsTextItem* m_infoPosRect;
+//        QGraphicsTextItem* m_infoPosRect;
         QVector<CommandIf::Ptr> m_commandsList;
         QVector<ReportItemPos> m_positionStamp;
         QVector<ReportItemSize> m_geometryStamp;

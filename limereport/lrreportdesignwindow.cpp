@@ -215,7 +215,7 @@ void ReportDesignWindow::createActions()
     m_useMagnetAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_M));
     connect(m_useMagnetAction,SIGNAL(toggled(bool)),this,SLOT(slotUseMagnet(bool)));
 
-    
+
     m_newTextItemAction = new QAction(tr("Text Item"),this);
     m_newTextItemAction->setIcon(QIcon(":/items/TextItem"));
     m_actionMap.insert("TextItem",m_newTextItemAction);
@@ -253,7 +253,10 @@ void ReportDesignWindow::createActions()
     m_previewReportAction->setIcon(QIcon(":/report/images/render"));
     m_previewReportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
     connect(m_previewReportAction,SIGNAL(triggered()),this,SLOT(slotPreviewReport()));
-
+    m_printReportAction = new QAction(tr("Print Report"),this);
+    m_printReportAction->setIcon(QIcon(":/report/images/print"));
+    m_printReportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
+    connect(m_printReportAction,SIGNAL(triggered()),this,SLOT(slotPrintReport()));
     m_testAction = new QAction("test",this);
     m_testAction->setIcon(QIcon(":/report/images/pin"));
     connect(m_testAction,SIGNAL(triggered()),this,SLOT(slotTest()));
@@ -372,13 +375,13 @@ void ReportDesignWindow::createToolBars()
     m_mainToolBar->addSeparator();
 
     m_mainToolBar->addAction(m_zoomInReportAction);
-    m_mainToolBar->addAction(m_zoomOutReportAction); 
+    m_mainToolBar->addAction(m_zoomOutReportAction);
     m_mainToolBar->addSeparator();
     m_mainToolBar->addAction(m_previewReportAction);
     //m_mainToolBar->addSeparator();
     //m_mainToolBar->addAction(m_useGridAction);
 
-    //m_mainToolBar->addAction(m_printReportAction);
+    m_mainToolBar->addAction(m_printReportAction);
 
     m_fontEditorBar = new FontEditorWidgetForDesigner(m_reportDesignWidget,tr("Font"),this);
     m_fontEditorBar->setIconSize(m_mainToolBar->iconSize());
@@ -517,7 +520,7 @@ void ReportDesignWindow::createMainMenu()
     m_fileMenu->addAction(m_saveReportAction);
     m_fileMenu->addAction(m_saveReportAsAction);
     m_fileMenu->addAction(m_previewReportAction);
-    //m_fileMenu->addAction(m_printReportAction);
+    m_fileMenu->addAction(m_printReportAction);
     m_editMenu = menuBar()->addMenu(tr("Edit"));
     m_editMenu->addAction(m_redoAction);
     m_editMenu->addAction(m_undoAction);
@@ -858,7 +861,7 @@ void ReportDesignWindow::restoreSetting()
         QDesktopWidget *desktop = QApplication::desktop();
 
         int screenWidth = desktop->screenGeometry().width();
-        int screenHeight = desktop->screenGeometry().height();        
+        int screenHeight = desktop->screenGeometry().height();
 #endif
         int x = screenWidth * 0.1;
         int y = screenHeight * 0.1;
@@ -973,7 +976,7 @@ QSettings*ReportDesignWindow::settings()
 }
 
 void ReportDesignWindow::slotNewReport()
-{    
+{
     if (checkNeedToSave()) {
         m_lblReportName->setText("");
         startNewReport();
@@ -1601,7 +1604,7 @@ void ReportDesignWindow::closeEvent(QCloseEvent * event)
         event->ignore();
         return;
     }
-    if (checkNeedToSave()){    
+    if (checkNeedToSave()){
         m_dataBrowser->closeAllDataWindows();
         writeState();
 #ifdef Q_OS_WIN
