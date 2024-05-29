@@ -968,9 +968,14 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
     GroupBandHeader *group = dynamic_cast<GroupBandHeader*>(parentBand);
     if(dataSource->model() && group && !group->groupFieldName().isEmpty() && !m_dataSourceSorted)
     {
-        dataSource->model()->sort(dataSource->columnIndexByName(group->groupFieldName()),group->SortFieldNameBy());
-        qDebug()<<"sorted;";
-        m_dataSourceSorted = true;
+        MasterDetailProxyModel *proxyModel = static_cast<MasterDetailProxyModel*>(dataSource->model());
+        if(proxyModel)
+        {
+            proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+
+            proxyModel->sort(dataSource->columnIndexByName(group->groupFieldName()),group->SortFieldNameBy());
+            m_dataSourceSorted = true;
+        }
     }
 
     foreach(BandDesignIntf* band,parentBand->childrenByType(BandDesignIntf::GroupHeader)){

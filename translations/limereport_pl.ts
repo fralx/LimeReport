@@ -1170,51 +1170,51 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="410"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="411"/>
         <source>Connection &quot;%1&quot; is not open</source>
         <translation>Połączenie &quot;%1&quot; nie jest otwarte</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="446"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="465"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="510"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="549"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="447"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="466"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="511"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="550"/>
         <source>Variable &quot;%1&quot; not found!</source>
         <translation>Zmienna &quot;%1&quot; nie znaleziona!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="504"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="543"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="505"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="544"/>
         <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
         <translation>Nieznany parametr &quot;%1&quot; dla znalezionej zmiennej &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="752"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="1148"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="753"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1149"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation>Źródło danych %1&quot; nie znalezione!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="849"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="850"/>
         <source>Connection with name &quot;%1&quot; already exists!</source>
         <translation>Połączenie o nazwie &quot;%1&quot; już istnieje!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="874"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="883"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="892"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="899"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="908"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="875"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="884"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="893"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="900"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="909"/>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation>Źródło danych o nazwie &quot;%1&quot; już istnieje!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="939"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="940"/>
         <source>Database &quot;%1&quot; not found</source>
         <translation>Baza danych &quot;%1&quot; nie znaleziona</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="1120"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1121"/>
         <source>invalid connection</source>
         <translation>Nieprawidłowe połączenie</translation>
     </message>
@@ -4296,18 +4296,18 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Ukryj jeśli pusty</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="674"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="684"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="677"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="687"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="675"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="678"/>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
         <translation>Pole tekstowe &quot; %1 &quot; już ma folower &quot; %2 &quot; </translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="685"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="688"/>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>Nie znaleziono pole tekstowego &quot;%1&quot;!</translation>
     </message>

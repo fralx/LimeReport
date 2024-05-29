@@ -99,7 +99,7 @@ bool QueryHolder::runQuery(IDataSource::DatasourceMode mode)
         if (m_dataSource)
            m_dataSource.clear();
         setLastError(model->lastError().text());
-        delete model;
+        //delete model;
         return false;
     } else { setLastError("");}
 

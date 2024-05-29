@@ -329,6 +329,7 @@ bool DataSourceManager::addModel(const QString &name, QAbstractItemModel *model,
     } catch (ReportError &e){
         putError(e.what());
         setLastError(e.what());
+        delete model;
         return false;
     }
     emit datasourcesChanged();

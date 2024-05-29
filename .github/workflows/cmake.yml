@@ -1,0 +1,174 @@
+name: CMake
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-${{ matrix.ubuntu_version }}
+    name: Ubuntu-${{ matrix.ubuntu_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: [20.04, 22.04]
+        qt_version: [5.15.2, 6.4.0]
+        static: [ON, OFF]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+                
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+          version: ${{ matrix.qt_version }}
+          cache: 'true'
+          cache-key-prefix: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+          dir: ${{ github.workspace }}/Qt      
+
+    - name: Configure CMake for Qt5
+      if: "startsWith(matrix.qt_version, '5.')"
+      run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+
+    - name: Configure CMake for Qt6
+      if: "startsWith(matrix.qt_version, '6.')"
+      run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      
+  MSVC:
+    name: windows-${{ matrix.win_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    runs-on: windows-${{ matrix.win_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        win_version: [2019, 2022]
+        qt_version: [5.15.2, 6.4.0]
+        static: [ON, OFF]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+            version: ${{ matrix.qt_version }}
+            cache: 'true'
+            cache-key-prefix: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+            dir: ${{ github.workspace }}/Qt      
+
+      - name: Configure CMake for Qt5
+        if: "startsWith(matrix.qt_version, '5.')"
+        run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+
+      - name: Configure CMake for Qt6
+        if: "startsWith(matrix.qt_version, '6.')"
+        run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+  MinGW-w64:
+    runs-on: windows-2022
+    name: msys2-${{ matrix.msystem }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        qt_version: [5, 6]
+        msystem: [UCRT64, CLANG64]
+        static: [ON, OFF]
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install MinGW-w64 packages Qt5
+        if: "startsWith(matrix.qt_version, '5')"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          release: false
+          update: true
+          pacboy: >-
+            cc:p
+            cmake:p
+            ninja:p
+            qt${{ matrix.qt_version }}-base:p
+            qt${{ matrix.qt_version }}-svg:p
+            qt${{ matrix.qt_version }}-tools:p
+            qt${{ matrix.qt_version }}-quickcontrols:p
+
+      - name: Install MinGW-w64 packages Qt6
+        if: "startsWith(matrix.qt_version, '6')"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          release: false
+          update: true
+          pacboy: >-
+            cc:p
+            cmake:p
+            ninja:p
+            qt${{ matrix.qt_version }}-base:p
+            qt${{ matrix.qt_version }}-svg:p
+            qt${{ matrix.qt_version }}-tools:p
+            qt${{ matrix.qt_version }}-declarative:p
+
+      - name: Configure CMake for Qt5
+        if: "startsWith(matrix.qt_version, '5')"
+        run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+
+      - name: Configure CMake for Qt6
+        if: "startsWith(matrix.qt_version, '6')"
+        run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+      - name: Build
+        run: cmake --build '${{github.workspace}}/build' --config ${{env.BUILD_TYPE}}
+  macos:
+    runs-on: macos-${{ matrix.macos_version }}
+    name: macos-${{ matrix.macos_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        macos_version: [11, 12]
+        qt_version: [5.15.2, 6.4.0]
+        static: [ON, OFF]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+            version: ${{ matrix.qt_version }}
+            cache: 'true'
+            cache-key-prefix: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+            dir: ${{ github.workspace }}/Qt      
+
+      - name: Configure CMake for Qt5
+        if: "startsWith(matrix.qt_version, '5.')"
+        run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+
+
+      - name: Configure CMake for Qt6
+        if: "startsWith(matrix.qt_version, '6.')"
+        run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+        
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}

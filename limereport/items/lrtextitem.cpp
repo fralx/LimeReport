@@ -514,11 +514,14 @@ TextItem::TextPtr TextItem::textDocument() const
     QString content = m_trimValue ? m_strText.trimmed() : m_strText;
 
     if (allowHTML())
+    {
         if (isReplaceCarriageReturns()){
             text->setHtml(replaceReturns(content));
         } else {
             text->setHtml(content);
         }
+
+    }
     else
         text->setPlainText(content);
 
@@ -533,7 +536,7 @@ TextItem::TextPtr TextItem::textDocument() const
             to.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
     else to.setWrapMode(QTextOption::NoWrap);
 
-    text->setDocumentMargin(0);
+    text->setDocumentMargin(marginSize());
     text->setDefaultTextOption(to);
 
     QFont _font = transformToSceneFont(font());
