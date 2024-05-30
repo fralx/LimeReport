@@ -199,6 +199,7 @@ ModelToDataSource::ModelToDataSource(QAbstractItemModel* model, bool owned)
             model->fetchMore(QModelIndex());
             if (model->rowCount() <= 0) break;
         }
+
         connect(model, SIGNAL(destroyed()), this, SLOT(slotModelDestroed()));
         connect(model, SIGNAL(modelReset()), this, SIGNAL(modelStateChanged()));
     }
@@ -304,6 +305,12 @@ int ModelToDataSource::columnCount()
 {
     if (isInvalid()) return 0;
     return m_model->columnCount();
+}
+
+int ModelToDataSource::rowCount()
+{
+    if (isInvalid()) return 0;
+    return m_model->rowCount();
 }
 
 QString ModelToDataSource::columnNameByIndex(int columnIndex)

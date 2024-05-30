@@ -842,8 +842,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="402"/>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="407"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="409"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="414"/>
         <source>defaultConnection</source>
         <translation>Domyślne połączenie</translation>
     </message>
@@ -1958,12 +1958,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="623"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="630"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
         <translation>Pole: &quot;%1&quot; nie znalezione w &quot;%2&quot; źródle danch dziecka</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="637"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="644"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
         <translation>Pole: &quot;%1&quot; nie znalezione w &quot;%2&quot; głównym źródle danch</translation>
     </message>
@@ -1971,7 +1971,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="363"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="370"/>
         <source>model is destroyed</source>
         <translation>Model danych jest zniszczony</translation>
     </message>
@@ -2410,7 +2410,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="562"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="569"/>
         <source>Datasource has been invalidated</source>
         <translation>Źródło danych zostało unieważnione</translation>
     </message>
@@ -3616,25 +3616,25 @@ Ten podgląd nie jest już prawidłowy.</translation>
     <name>LimeReport::ReportRender</name>
     <message>
         <location filename="../limereport/lrreportrender.cpp" line="176"/>
-        <location filename="../limereport/lrreportrender.cpp" line="189"/>
-        <location filename="../limereport/lrreportrender.cpp" line="266"/>
+        <location filename="../limereport/lrreportrender.cpp" line="190"/>
+        <location filename="../limereport/lrreportrender.cpp" line="269"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="303"/>
+        <location filename="../limereport/lrreportrender.cpp" line="307"/>
         <source>page index out of range</source>
         <translation>indeks strony poza zakresem</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="431"/>
-        <location filename="../limereport/lrreportrender.cpp" line="468"/>
+        <location filename="../limereport/lrreportrender.cpp" line="435"/>
+        <location filename="../limereport/lrreportrender.cpp" line="472"/>
         <source>Databand &quot;%1&quot; not found</source>
         <translation>Sekcja danych &quot;%1&quot; nie znaleziona</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportrender.cpp" line="439"/>
-        <location filename="../limereport/lrreportrender.cpp" line="475"/>
+        <location filename="../limereport/lrreportrender.cpp" line="443"/>
+        <location filename="../limereport/lrreportrender.cpp" line="479"/>
         <source>Wrong using function %1</source>
         <translation>Złe użycie funkcji %1</translation>
     </message>
@@ -4555,27 +4555,27 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <translation>Nieprawidłowe połączenie! %1</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="450"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="457"/>
         <source>Master datasource &quot;%1&quot; not found!</source>
         <translation>Nie znaleziono głównego źródła danych &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="533"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="540"/>
         <source>Master datasouce &quot;%1&quot; not found!</source>
         <translation>Nie znaleziono głównego źródła danych &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="534"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="541"/>
         <source>Child</source>
         <translation>Dziecko</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="534"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="541"/>
         <source> and child </source>
         <translation> i dziecko </translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="535"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="542"/>
         <source>datasouce &quot;%1&quot; not found!</source>
         <translation>nie znaleziono źródła danych &quot;%1&quot;!</translation>
     </message>

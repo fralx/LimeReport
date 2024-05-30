@@ -81,7 +81,7 @@ private:
     bool m_resetPageNumber;
     QString m_condition;
     QString m_conditionValue;
-    Qt::SortOrder m_sortFieldNameBy;
+    Qt::SortOrder m_sortFieldNameBy = Qt::AscendingOrder;
 };
 
 class GroupBandFooter : public BandDesignIntf{

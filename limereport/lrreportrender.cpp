@@ -181,6 +181,7 @@ void ReportRender::initDatasources(){
 void ReportRender::initDatasource(const QString& name){
     try{
         if (datasources()->containsDatasource(name)){
+            if(m_dataSourceSorted)return;
             IDataSource* ds = datasources()->dataSource(name);
             if (ds)
                 ds->first();
@@ -259,8 +260,10 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     clearPageMap();
 
     try{
+
         datasources()->setAllDatasourcesToFirst();
         datasources()->clearGroupFuntionsExpressions();
+
     } catch(ReportError &exception){
         //TODO possible should thow exeption
         QMessageBox::critical(0,tr("Error"),exception.what());
@@ -274,6 +277,7 @@ void ReportRender::renderPage(PageItemDesignIntf* patternPage, bool isTOC, bool 
     m_dataSourceSorted = false;
     BandDesignIntf* lastRenderedBand = 0;
     for (int i=0;i<m_patternPageItem->dataBandCount() && !m_renderCanceled; i++){
+
         lastRenderedBand = m_patternPageItem->dataBandAt(i);
         initDatasource(lastRenderedBand->datasourceName());
         renderDataBand(lastRenderedBand);
@@ -696,7 +700,6 @@ void ReportRender::renderDataBand(BandDesignIntf *dataBand)
 
     IDataSource* bandDatasource = 0;
     m_lastRenderedFooter = 0;
-
     if (!dataBand->datasourceName().isEmpty())
         bandDatasource = datasources()->dataSource(dataBand->datasourceName());
 
@@ -968,10 +971,12 @@ void ReportRender::renderGroupHeader(BandDesignIntf *parentBand, IDataSource* da
     GroupBandHeader *group = dynamic_cast<GroupBandHeader*>(parentBand);
     if(dataSource->model() && group && !group->groupFieldName().isEmpty() && !m_dataSourceSorted)
     {
+
         MasterDetailProxyModel *proxyModel = static_cast<MasterDetailProxyModel*>(dataSource->model());
+
         if(proxyModel)
         {
-            proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+            //proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
             proxyModel->sort(dataSource->columnIndexByName(group->groupFieldName()),group->SortFieldNameBy());
             m_dataSourceSorted = true;
