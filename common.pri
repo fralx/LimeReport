@@ -159,6 +159,7 @@ equals(QT_MAJOR_VERSION, 4) {
     }
 }
 
+
 equals(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 6) {
     DEFINES *= HAVE_QT5
     QT *= printsupport widgets
