@@ -611,7 +611,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (patternBand->isFooter())
             m_lastRenderedFooter = patternBand;
 
-        bandClone->setBackgroundColor(makeBackgroundColor(patternBand));
+        bandClone->setBackgroundColor(makeBackgroundColor(bandClone));
         patternBand->emitBandRendered(bandClone);
         m_scriptEngineContext->setCurrentBand(bandClone);
 
@@ -1417,6 +1417,7 @@ BandDesignIntf *ReportRender::renderData(BandDesignIntf *patternBand, bool emitB
     }
 
     emit(patternBand->preparedForRender());
+    bandClone->setBottomSpace(patternBand->height() - patternBand->findMaxBottom());
     bandClone->updateItemSize(m_datasources);
     bandClone->setBottomSpace(patternBand->height() - patternBand->findMaxBottom());
 

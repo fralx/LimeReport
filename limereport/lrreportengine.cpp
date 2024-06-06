@@ -1848,7 +1848,11 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
 
     QRectF printerPageRect = m_printer->pageRect(QPrinter::Millimeter);
     printerPageRect = QRectF(0,0,(printerPageRect.size().width() + rightMargin + leftMargin) * page->unitFactor(),
+
                              (printerPageRect.size().height() + bottomMargin + topMargin) * page->unitFactor());
+
+
+
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     if  (page->printBehavior() == PageItemDesignIntf::Split &&
         m_printer->pageSize() != static_cast<QPrinter::PageSize>(page->pageSize()) &&
@@ -1859,7 +1863,9 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
         page->printBehavior() == PageItemDesignIntf::Split &&
         m_printer->pageLayout().pageSize() != QPageSize((QPageSize::PageSizeId)page->pageSize()) &&
         printerPageRect.width() < page->geometry().width()
-        ){
+
+    ){
+
 #endif
         qreal pageWidth = page->geometry().width();
         qreal pageHeight =  page->geometry().height();
@@ -1876,7 +1882,9 @@ bool PrintProcessor::printPage(PageItemDesignIntf::Ptr page)
                 currentPrintingRect = QRectF(
                     curWidth, 0,
                     printerPageRect.size().width() > (pageWidth - curWidth) ? (pageWidth - curWidth) : printerPageRect.size().width(),  pageHeight
-                    );
+
+                );
+
 
             }
             pageHeight -= printerPageRect.size().height();

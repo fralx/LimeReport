@@ -62,7 +62,6 @@ class PreviewReportWindow : public QMainWindow
 public:
     explicit PreviewReportWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=Qt::WindowFlags());
     ~PreviewReportWindow();
-    void setReportReader(ItemsReaderIntf::Ptr reader);
     void setPages(ReportPages pages);
     void setDefaultPrinter(QPrinter* printer);
     void exec();

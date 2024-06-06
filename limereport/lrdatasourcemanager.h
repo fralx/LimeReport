@@ -184,7 +184,10 @@ public:
     QVariant headerData(const QString &fieldName, const QString &roleName);
     QString columnName(const QString &datasourceName, int index);
     int columnCount(const QString &datasourceName);
+
     int columnIndex(const QString &datasourceName,const QString& columnName);
+
+
     void    reopenDatasource(const QString& datasourceName);
 
     QString extractDataSource(const QString& fieldName);

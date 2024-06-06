@@ -649,7 +649,9 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     QVariant varValue;
 
     if (script.contains(rx)){
+
 #else
+
     QRegularExpression rx = getScriptRegEx();
     QVariant varValue;
 
@@ -1977,11 +1979,13 @@ int ScriptFunctionsManager::getColumnCount(const QString &datasourceName)
     return dm->columnCount(datasourceName);
 }
 
+
 int ScriptFunctionsManager::columnIndexByName(const QString &datasourceName, const QString &columnName)
 {
     DataSourceManager *dm = scriptEngineManager()->dataManager();
     return dm->columnIndex(datasourceName,columnName);
 }
+
 
 #ifdef USE_QJSENGINE
 

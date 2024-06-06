@@ -2,8 +2,13 @@ cmake_minimum_required(VERSION 3.14)
 project(limereport)
 
 set(LIMEREPORT_VERSION_MAJOR 1)
+<<<<<<< HEAD
 set(LIMEREPORT_VERSION_MINOR 6)
 set(LIMEREPORT_VERSION_RELEASE 8)
+=======
+set(LIMEREPORT_VERSION_MINOR 7)
+set(LIMEREPORT_VERSION_RELEASE 7)
+>>>>>>> b4b2da83307b17610728ba18fba062abc897edc0
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
@@ -392,7 +397,6 @@ if(ENABLE_ZINT)
 endif(ENABLE_ZINT)
 
 target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_QT${QT_VERSION_MAJOR} -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -D_CRT_SECURE_NO_WARNINGS)
-
 
 target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/

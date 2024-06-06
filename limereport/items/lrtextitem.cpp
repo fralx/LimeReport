@@ -175,21 +175,25 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
 
     qreal hOffset = 0, vOffset = 0;
     switch (m_angle){
-    case Angle0:
-        hOffset = marginSize();
-        if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignVCenter)){
-            vOffset = tmpSize.height() / 2;
-        }
-        if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignBottom)) // allow html
-            vOffset = tmpSize.height();
-        painter->translate(hOffset,vOffset);
+
+
+
+        case Angle0:
+            hOffset = marginSize();
+            if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignVCenter)){
+                vOffset = tmpSize.height() / 2;
+            }
+            if ((tmpSize.height() > 0) && (m_alignment & Qt::AlignBottom)) // allow html
+                vOffset = tmpSize.height();
+            painter->translate(hOffset,vOffset);
         break;
-    case Angle90:
-        hOffset = width() - marginSize();
-        vOffset = marginSize();
-        if (m_alignment & Qt::AlignVCenter){
-            hOffset = (width() - text->size().height()) / 2 + text->size().height();
-        }
+        case Angle90:
+            hOffset = width() - marginSize();
+            vOffset = marginSize();
+            if (m_alignment & Qt::AlignVCenter){
+                hOffset = (width() - text->size().height()) / 2 + text->size().height();
+            }
+
 
         if (m_alignment & Qt::AlignBottom){
             hOffset = (text->size().height());
@@ -197,6 +201,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
         painter->translate(hOffset,vOffset);
         painter->rotate(90);
         break;
+
     case Angle180:
         hOffset = width() - marginSize();
         vOffset = height() - marginSize();
@@ -215,6 +220,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* style, Q
         if (m_alignment & Qt::AlignVCenter){
             hOffset = (width() - text->size().height())/2;
         }
+
 
         if (m_alignment & Qt::AlignBottom){
             hOffset = (width() - text->size().height());
@@ -385,7 +391,11 @@ void TextItem::setTextFont(TextPtr text, const QFont& value) const {
 void TextItem::adaptFontSize(TextPtr text) const{
     QFont _font = transformToSceneFont(font());
     do{
+
         //        qApp->processEvents();
+
+//        qApp->processEvents();
+
         setTextFont(text,_font);
         if (_font.pixelSize()>2)
             _font.setPixelSize(_font.pixelSize()-1);
@@ -486,23 +496,25 @@ QString TextItem::formatFieldValue()
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     switch (value.type()) {
-    case QVariant::Date:
-    case QVariant::DateTime:
-        return formatDateTime(value.toDateTime());
-    case QVariant::Double:
-        return formatNumber(value.toDouble());
-    default:
-        return value.toString();
+        case QVariant::Date:
+        case QVariant::DateTime:
+            return formatDateTime(value.toDateTime());
+        case QVariant::Double:
+            return formatNumber(value.toDouble());
+        default:
+            return value.toString();
     }
 #else
     switch (value.typeId()) {
-    case QMetaType::QDate:
-    case QMetaType::QDateTime:
-        return formatDateTime(value.toDateTime());
-    case QMetaType::Double:
-        return formatNumber(value.toDouble());
-    default:
-        return value.toString();
+
+        case QMetaType::QDate:
+        case QMetaType::QDateTime:
+            return formatDateTime(value.toDateTime());
+        case QMetaType::Double:
+            return formatNumber(value.toDouble());
+        default:
+            return value.toString();
+
     }
 #endif
 

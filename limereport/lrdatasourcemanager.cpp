@@ -1751,6 +1751,7 @@ int DataSourceManager::columnCount(const QString &datasourceName)
     return -1;
 }
 
+
 int DataSourceManager::columnIndex(const QString &datasourceName, const QString &columnName)
 {
     IDataSource *ds = dataSource(datasourceName);
