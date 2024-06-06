@@ -606,7 +606,7 @@ BandDesignIntf* ReportRender::renderBand(BandDesignIntf *patternBand, BandDesign
         if (patternBand->isFooter())
             m_lastRenderedFooter = patternBand;
 
-        bandClone->setBackgroundColor(makeBackgroundColor(patternBand));
+        bandClone->setBackgroundColor(makeBackgroundColor(bandClone));
         patternBand->emitBandRendered(bandClone);
         m_scriptEngineContext->setCurrentBand(bandClone);
 
