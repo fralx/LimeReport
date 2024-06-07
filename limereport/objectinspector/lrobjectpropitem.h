@@ -37,8 +37,8 @@
 #include <QAbstractItemModel>
 #include <QDebug>
 
-#include "lrattribsabstractfactory.h"
-#include "lrsingleton.h"
+#include "base/lrattribsabstractfactory.h"
+#include "base/lrsingleton.h"
 
 namespace LimeReport{
 

@@ -178,7 +178,11 @@ bool PropertyFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sou
 ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     :QWidget(parent), m_filterModel(0)
 {
+    auto f = qApp->font();
+    f.setPointSize(f.pointSize()*0.7);
+    setFont(f);
     m_objectInspectorView = new ObjectInspectorTreeView(this);
+    m_objectInspectorView->setFont(f);
     m_propertyModel = new BaseDesignPropertyModel(this);
     m_filterModel = new PropertyFilterModel(this);
     m_filterModel->setSourceModel(m_propertyModel);
@@ -190,6 +194,7 @@ ObjectInspectorWidget::ObjectInspectorWidget(QWidget *parent)
     m_objectInspectorView->setModel(m_filterModel);
     QVBoxLayout* l = new QVBoxLayout();
     QLineEdit* le = new QLineEdit(this);
+    le->setFont(f);
     QToolButton * pbClear = new QToolButton(this);
     pbClear->setToolTip(tr("Clear"));
     pbClear->setIcon(QIcon(":/items/clear.png"));
