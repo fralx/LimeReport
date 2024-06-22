@@ -5,7 +5,6 @@ set(LIMEREPORT_VERSION_MAJOR 1)
 
 set(LIMEREPORT_VERSION_MINOR 7)
 set(LIMEREPORT_VERSION_RELEASE 7)
->>>>>>> b4b2da83307b17610728ba18fba062abc897edc0
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
