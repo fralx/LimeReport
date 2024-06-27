@@ -1,6 +1,6 @@
 
 # LimeReport v1.7.5 [![Build status](https://ci.appveyor.com/api/projects/status/wna5429pix7ilcmo/branch/master?svg=true)](https://ci.appveyor.com/project/fralx/limereport/branch/master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc31412ea4814f30825b5ed3723e9a70)](https://app.codacy.com/app/fralx/LimeReport?utm_source=github.com&utm_medium=referral&utm_content=fralx/LimeReport&utm_campaign=Badge_Grade_Dashboard) ![Cmake Build Status](https://github.com/fralx/limereport/actions/workflows/cmake.yml/badge.svg)
->>>>>>> b4b2da83307b17610728ba18fba062abc897edc0
+
 
 ## Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 
