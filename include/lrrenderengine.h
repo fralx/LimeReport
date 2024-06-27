@@ -10,7 +10,7 @@
 #include "lrscriptenginemanagerintf.h"
 #include "lrpreviewreportwidget.h"
 
-namespace LimeReport;{
+namespace LimeReport{
 
 class PrintRange{
 public:
