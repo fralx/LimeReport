@@ -1124,6 +1124,7 @@ void BandDesignIntf::updateItemSize(DataSourceManager* dataManager, RenderPass p
                 item->setY(item->y() - minTop);
             }
         }
+
         setHeight(findMaxBottom() + spaceBorder);
     }
     if ((maxHeight > 0) && (height() > maxHeight)){

@@ -415,6 +415,9 @@ public:
     */
     Q_INVOKABLE int getColumnCount(const QString &datasourceName);
 
+    Q_INVOKABLE int columnIndexByName(const QString &datasourceName, const QString &columnName);
+
+
 #ifdef USE_QJSENGINE
     Q_INVOKABLE void addItemsToComboBox(QJSValue object, const QStringList& values);
     Q_INVOKABLE void addItemToComboBox(QJSValue object, const QString& value);

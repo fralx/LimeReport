@@ -102,6 +102,8 @@ qreal ItemsContainerDesignInft::findMaxBottom() const
         if(subItem)
            if ( subItem->isVisible() && (subItem->geometry().bottom()>maxBottom) )
                maxBottom = subItem->geometry().bottom();
+        if(subItem->objectName() == "VerticalLayout22")
+            qDebug()<<subItem->height();
     }
     return maxBottom;
 }

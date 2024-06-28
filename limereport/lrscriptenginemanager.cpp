@@ -649,7 +649,9 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     QVariant varValue;
 
     if (script.contains(rx)){
-#else    
+
+#else
+
     QRegularExpression rx = getScriptRegEx();
     QVariant varValue;
 
@@ -712,9 +714,12 @@ int ScriptEngineManager::getPageFreeSpace(PageItemDesignIntf* page){
                 height += band->geometry().height() * m_dataManager->dataSource(band->datasourceName())->model()->rowCount();
             }
             else height += band->height();
+
         }
+        height += (page->topMargin() + page->bottomMargin()) * Const::mmFACTOR;
+
         return page->height() - height - (page->pageFooter()?page->pageFooter()->height() : 0);
-    } else return -1;
+    } else return 0;
 }
 
 void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
@@ -1973,6 +1978,14 @@ int ScriptFunctionsManager::getColumnCount(const QString &datasourceName)
     DataSourceManager *dm = scriptEngineManager()->dataManager();
     return dm->columnCount(datasourceName);
 }
+
+
+int ScriptFunctionsManager::columnIndexByName(const QString &datasourceName, const QString &columnName)
+{
+    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    return dm->columnIndex(datasourceName,columnName);
+}
+
 
 #ifdef USE_QJSENGINE
 

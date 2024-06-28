@@ -107,7 +107,7 @@ public:
     void    setPort(QString port);
 public:
     static QString connectionNameForUser(const QString& connectionName);
-    static QString connectionNameForReport(const QString& connectionName);    
+    static QString connectionNameForReport(const QString& connectionName);
 signals:
     void nameChanged(const QString& oldName,const QString& newName);
 private:
@@ -325,7 +325,7 @@ private:
     QString m_name;
 };
 
-class MasterDetailProxyModel : public QSortFilterProxyModel{    
+class MasterDetailProxyModel : public QSortFilterProxyModel{
     Q_OBJECT
 public:
     MasterDetailProxyModel(DataSourceManager* dataManager):m_maps(0),m_dataManager(dataManager){}
@@ -392,6 +392,7 @@ public:
     QVariant dataByRowIndex(const QString &columnName, int rowIndex, const QString &roleName);
     QVariant dataByKeyField(const QString& columnName, const QString& keyColumnName, QVariant keyData);
     int columnCount();
+    int rowCount();
     QString columnNameByIndex(int columnIndex);
     int columnIndexByName(QString name);
     QVariant headerData(const QString &columnName, const QString &roleName);

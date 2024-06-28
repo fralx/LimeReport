@@ -120,10 +120,10 @@ void PageDesignIntf::updatePageRect()
     if (m_pageItem.isNull()) {
         m_pageItem =  PageItemDesignIntf::create(this);
         addItem(m_pageItem.data());
-        m_pageItem->setTopMargin(5);
-        m_pageItem->setBottomMargin(5);
-        m_pageItem->setLeftMargin(5);
-        m_pageItem->setRightMargin(5);
+        m_pageItem->setTopMargin(10);
+        m_pageItem->setBottomMargin(10);
+        m_pageItem->setLeftMargin(10);
+        m_pageItem->setRightMargin(10);
         m_pageItem->setObjectName("ReportPage1");
         connect(m_pageItem.data(), SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)), this, SIGNAL(itemSelected(LimeReport::BaseDesignIntf *)));
         connect(m_pageItem.data(), SIGNAL(geometryChanged(QObject *, QRectF, QRectF)), this, SLOT(slotPageGeometryChanged(QObject *, QRectF, QRectF)));
@@ -1746,6 +1746,11 @@ void PageDesignIntf::addVLayout()
         CommandIf::Ptr cm = InsertVLayoutCommand::create(this);
         saveCommand(cm,true);
     }
+}
+
+void PageDesignIntf::setItemAlign(BaseDesignIntf::ItemAlign itemAlign)
+{
+    changeSelectedGroupProperty("itemAlign",QVariant(itemAlign));
 }
 
 bool hLayoutLessThen(QGraphicsItem *c1, QGraphicsItem *c2)

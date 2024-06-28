@@ -169,12 +169,12 @@ public:
     bool canAcceptPaste() const{ return true;}
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
-    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);    
-    void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);    
+    void updateSubItemsSize(RenderPass pass, DataSourceManager *dataManager);
+    void swapBands(BandDesignIntf *band, BandDesignIntf *bandToSwap);
     void moveBandFromTo(int from, int to);
 
     QList<BandDesignIntf *> createBandGroup(int beginIndex, int endIndex);
-    
+
     bool isExtendedInDesignMode() const;
     void setExtendedInDesignMode(bool isExtendedInDesignMode);
     int  extendedHeight() const;
@@ -197,7 +197,7 @@ public:
     void placeTearOffBand();
     BandDesignIntf *pageFooter() const;
     void setPageFooter(BandDesignIntf *pageFooter);
-    
+
     PrintBehavior printBehavior() const;
     void setPrintBehavior(const PrintBehavior &printBehavior);
 
@@ -211,6 +211,8 @@ public:
 
     bool mixWithPriorPage() const;
     void setMixWithPriorPage(bool value);
+    QRectF& pageRect(){return m_pageRect;}
+
 
 signals:
     void beforeFirstPageRendered();
@@ -222,7 +224,6 @@ protected slots:
     void setUnitTypeProperty(BaseDesignIntf::UnitType value);
 protected:
     void    collectionLoadFinished(const QString& collectionName);
-    QRectF& pageRect(){return m_pageRect;}
     void    updateMarginRect();
     QSizeF  getRectByPageSize(const PageSize &size);
     void    initPageSize(const PageSize &size);

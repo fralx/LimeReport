@@ -177,7 +177,7 @@ public:
     void setTextLayoutDirection(const Qt::LayoutDirection &textLayoutDirection);
 
     void setWatermark(bool watermark);
-    
+
     bool isReplaceCarriageReturns() const;
     void setReplaceCarriageReturns(bool isReplaceCarriageReturns);
 

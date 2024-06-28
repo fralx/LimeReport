@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(limereport)
 
 set(LIMEREPORT_VERSION_MAJOR 1)
+
 set(LIMEREPORT_VERSION_MINOR 7)
 set(LIMEREPORT_VERSION_RELEASE 7)
 

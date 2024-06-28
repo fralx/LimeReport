@@ -329,6 +329,7 @@ bool DataSourceManager::addModel(const QString &name, QAbstractItemModel *model,
     } catch (ReportError &e){
         putError(e.what());
         setLastError(e.what());
+        delete model;
         return false;
     }
     emit datasourcesChanged();
@@ -466,7 +467,7 @@ QString DataSourceManager::replaceVariables(QString value){
             }
         }
     }
-    return value;    
+    return value;
 #endif
     return QString();
 }
@@ -612,13 +613,13 @@ QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &a
             query.replace(pos,rx.cap(0).length(),":"+extractField(field));
         }
     }
-    return query;    
+    return query;
 #endif
     return query;
 }
 
 void DataSourceManager::setReportVariable(const QString &name, const QVariant &value)
-{ 
+{
     if (!containsVariable(name)){
         addVariable(name,value);
     } else changeVariable(name,value);
@@ -1748,6 +1749,15 @@ int DataSourceManager::columnCount(const QString &datasourceName)
     }
 
     return -1;
+}
+
+
+int DataSourceManager::columnIndex(const QString &datasourceName, const QString &columnName)
+{
+    IDataSource *ds = dataSource(datasourceName);
+    if(ds && !ds->isInvalid()) {
+        return ds->columnIndexByName(columnName);
+    }
 }
 
 void DataSourceManager::reopenDatasource(const QString& datasourceName)

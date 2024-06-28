@@ -62,7 +62,7 @@ namespace LimeReport{
 
 GroupBandHeader::GroupBandHeader(QObject *owner, QGraphicsItem *parent)
     : BandDesignIntf(BandDesignIntf::GroupHeader, xmlTagHeader, owner,parent),
-      m_groupFiledName(""), m_groupStarted(false), m_resetPageNumber(false)
+    m_groupFiledName(""), m_groupStarted(false), m_resetPageNumber(false),m_sortFieldNameBy(Qt::AscendingOrder)
 {
     setBandTypeText(tr("GroupHeader"));
     setFixedPos(false);
@@ -95,7 +95,10 @@ void GroupBandHeader::startGroup(DataSourceManager* dataManager)
     if (dataManager->containsDatasource(datasourceName)){
         IDataSource* ds = dataManager->dataSource(datasourceName);
         if (ds && ds->columnIndexByName(m_groupFiledName)!=-1)
+        {
             m_groupFieldValue=ds->data(m_groupFiledName);
+
+        }
     }
 
     if (!m_condition.isEmpty()) m_conditionValue = calcCondition(dataManager);
@@ -149,6 +152,7 @@ bool GroupBandHeader::isNeedToClose(DataSourceManager* dataManager)
         QString datasourceName = findDataSourceName(parentBand());
         if (dataManager->containsDatasource(datasourceName)){
             IDataSource* ds = dataManager->dataSource(datasourceName);
+
             if (ds){
                 if (ds->data(m_groupFiledName).isNull() && m_groupFieldValue.isNull()) return false;
                 if (!ds->data(m_groupFiledName).isValid()) return false;

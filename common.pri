@@ -32,7 +32,7 @@ CONFIG(easy_profiler) {
     message(EasyProfiler)
     INCLUDEPATH *= $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
     DEPENDPATH *= $$PWD/3rdparty/easyprofiler/easy_profiler_core/include
-    unix|win32: LIBS *= -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler    
+    unix|win32: LIBS *= -L$$PWD/3rdparty/easyprofiler/build/bin/ -leasy_profiler
     equals(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 6) {
         DEFINES *= BUILD_WITH_EASY_PROFILER
     }
@@ -158,6 +158,7 @@ equals(QT_MAJOR_VERSION, 4) {
         DEFINES *= HAVE_UI_LOADER
     }
 }
+
 
 equals(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 6) {
     DEFINES *= HAVE_QT5

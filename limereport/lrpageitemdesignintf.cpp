@@ -91,13 +91,14 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         QRectF rect = pageRect();
         if (isExtendedInDesignMode()) rect.adjust(0,0,0,m_extendedHeight);
         ppainter->save();
-        ppainter->setOpacity(0.8);
+        ppainter->setOpacity(1);
         ppainter->fillRect(boundingRect(), pageBorderColor());
         ppainter->setOpacity(1);
         ppainter->fillRect(rect, Qt::white);
         paintGrid(ppainter, rect);
         ppainter->setPen(gridColor());
         ppainter->drawRect(boundingRect());
+        drawBorder(ppainter,pageRect());
         drawShadow(ppainter, boundingRect(), 10);
         ppainter->restore();
     }
@@ -113,6 +114,8 @@ void PageItemDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsIte
         QRectF tmpRect = rect();
         tmpRect.adjust(-4,-4,4,4);
         ppainter->drawRect(tmpRect);
+        //drawShadow(ppainter, tmpRect, 10);
+        drawBorder(ppainter,pageRect());
         ppainter->restore();
         BaseDesignIntf::paint(ppainter,option,widget);
     }
@@ -142,7 +145,7 @@ QColor PageItemDesignIntf::selectionColor() const
 
 QColor PageItemDesignIntf::pageBorderColor() const
 {
-    return QColor(100,150,50);
+    return QColor(255,255,255);
 }
 
 QColor PageItemDesignIntf::gridColor() const
