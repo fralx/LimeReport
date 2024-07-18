@@ -483,9 +483,8 @@ bool ReportDesignWidget::save()
     bool result = false;
 
     if (emitSaveReport()) {
-        result = true; // saved via signal
-    }
-    else if (!m_report->reportFileName().isEmpty()){
+        result = true;
+    } else if (!m_report->reportFileName().isEmpty()) {
         if (m_report->saveToFile()){
             m_report->emitSaveFinished();
             result = true;
@@ -495,7 +494,15 @@ bool ReportDesignWidget::save()
             m_report->emitSaveFinished();
             result = true;
         }
-        else if (m_report->saveToFile(QFileDialog::getSaveFileName(this,tr("Report file name"),"","Report files (*.lrxml);; All files (*)"))){
+        else if (
+            m_report->saveToFile(
+                QFileDialog::getSaveFileName(
+                    this, tr("Report file name"),
+                    m_report->currentReportsDir(),
+                    "Report files (*.lrxml);; All files (*)"
+                )
+            )
+        ){
             m_report->emitSaveFinished();
             result = true;
         };
