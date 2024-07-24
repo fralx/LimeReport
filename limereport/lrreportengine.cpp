@@ -1174,6 +1174,16 @@ void ReportEnginePrivate::setSuppressFieldAndVarError(bool suppressFieldAndVarEr
     m_reportSettings.setSuppressAbsentFieldsAndVarsWarnings(suppressFieldAndVarError);
 }
 
+int ReportEnginePrivate::baseItemPadding() const
+{
+    return m_reportSettings.baseItemPadding();
+}
+
+void ReportEnginePrivate::setBaseItemPadding(int baseTextItemPadding)
+{
+    m_reportSettings.setBaseItemPadding(baseTextItemPadding);
+}
+
 bool ReportEnginePrivate::isBusy()
 {
     return m_reportRendering;

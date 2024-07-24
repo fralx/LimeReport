@@ -1167,9 +1167,9 @@ void ReportDesignWindow::slotSaveReportAs()
 
 void ReportDesignWindow::slotLoadReport()
 {
-    if (!checkNeedToSave()) return; // don't need to save
+    if (!checkNeedToSave()) return;
 
-    if (m_reportDesignWidget->emitLoadReport()) return; // report loaded via signal
+    if (m_reportDesignWidget->emitLoadReport()) return;
 
     QString fileName = QFileDialog::getOpenFileName(
                 this,tr("Report file name"),

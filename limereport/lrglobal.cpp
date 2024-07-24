@@ -51,6 +51,16 @@ void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentF
     m_suppressAbsentFieldsAndVarsWarnings = suppressAbsentFieldsAndVarsWarnings;
 }
 
+int ReportSettings::baseItemPadding() const
+{
+    return m_baseItemPadding;
+}
+
+void ReportSettings::setBaseItemPadding(int newBaseTextItemPadding)
+{
+    m_baseItemPadding = newBaseTextItemPadding;
+}
+
 QString escapeSimbols(const QString &value)
 {
     QString result = value;

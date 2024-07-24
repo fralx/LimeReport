@@ -531,6 +531,7 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
         PageItemDesignIntf* page = pageItem() ? pageItem() : m_currentPage;
         if (page){
             BaseDesignIntf *reportItem = addReportItem(itemType, page, page);
+            reportItem->setReportSettings(m_reportSettings);
             reportItem->setPos(placePosOnGrid(page->mapFromScene(pos)));
             reportItem->setSize(placeSizeOnGrid(size));
             reportItem->setUnitType(pageItem()->unitType());

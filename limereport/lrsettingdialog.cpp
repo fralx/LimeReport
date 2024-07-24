@@ -73,8 +73,18 @@ QString SettingDialog::reportUnits()
     return ui->reportUnits->currentText();
 }
 
+int SettingDialog::baseItemPadding()
+{
+    return ui->neBaseItemPadding->value();
+}
+
 void SettingDialog::setSuppressAbsentFieldsAndVarsWarnings(bool value){
     ui->cbSuppressWarnings->setChecked(value);
+}
+
+void SettingDialog::setBaseItemPadding(int value)
+{
+    ui->neBaseItemPadding->setValue(value);
 }
 
 void SettingDialog::setHorizontalGridStep(int value)
