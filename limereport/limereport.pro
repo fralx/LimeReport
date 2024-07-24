@@ -1,3 +1,5 @@
+DEFINES += DEFAULT_ITEM_PADDING=0
+
 CONFIG(debug, debug|release) {
     TARGET = limereportd
 } else {

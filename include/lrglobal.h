@@ -132,12 +132,27 @@ namespace Const{
 
     class LIMEREPORT_EXPORT ReportSettings{
     public:
-        ReportSettings():m_suppressAbsentFieldsAndVarsWarnings(false){}
-        void setDefaultValues(){m_suppressAbsentFieldsAndVarsWarnings = false;}
+#ifdef DEFAULT_ITEM_PADDING
+        ReportSettings():m_suppressAbsentFieldsAndVarsWarnings(false), m_baseItemPadding(DEFAULT_ITEM_PADDING){}
+#else
+        ReportSettings():m_suppressAbsentFieldsAndVarsWarnings(false), m_baseItemPadding(0){}
+#endif
+        void setDefaultValues(){
+            m_suppressAbsentFieldsAndVarsWarnings = false;
+#ifdef DEFAULT_ITEM_PADDING
+            m_baseItemPadding = DEFAULT_ITEM_PADDING;
+#else
+            m_baseItemPadding = 0;
+#endif
+
+        }
         bool suppressAbsentFieldsAndVarsWarnings() const;
         void setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentFieldsAndVarsWarnings);
+        int baseItemPadding() const;
+        void setBaseItemPadding(int newBaseTextItemPadding);
     private:
         bool m_suppressAbsentFieldsAndVarsWarnings;
+        int m_baseItemPadding;
     };
 
     class LIMEREPORT_EXPORT IExternalPainter{

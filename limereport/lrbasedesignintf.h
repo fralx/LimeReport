@@ -295,7 +295,9 @@ public:
     int possibleMoveDirectionFlags() const;
     void setPossibleMoveFlags(int directionsFlags);
 
-    int marginSize() const {return m_margin;}
+    int marginSize() const {
+        return m_margin + m_reportSettings != 0 ? m_reportSettings->baseItemPadding() : 0;
+    }
     void setMarginSize(int value);
 
     QString itemTypeName() const;
@@ -494,7 +496,7 @@ private:
     bool     m_itemGeometryLocked;
     bool     m_isChangingPos;
     bool     m_isMoveable;
-    bool    m_shadow;
+    bool     m_shadow;
 
 signals:
     void geometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);

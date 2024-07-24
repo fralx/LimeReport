@@ -114,6 +114,8 @@ public:
     virtual void                    setShowProgressDialog(bool value) = 0;
     virtual bool                    isShowProgressDialog() const = 0;
     virtual bool                    isBusy() = 0;
+    virtual int                     baseItemPadding() const = 0;
+    virtual void                    setBaseItemPadding(int baseTextItemPadding) = 0;
 };
 
 class PrintProcessor{
@@ -142,6 +144,7 @@ class ReportEnginePrivate : public QObject,
     Q_PROPERTY(QObject* datasourcesManager READ dataManager)
     Q_PROPERTY(QObject* scriptContext READ scriptContext)
     Q_PROPERTY(bool suppressFieldAndVarError READ suppressFieldAndVarError WRITE setSuppressFieldAndVarError)
+    Q_PROPERTY(int baseItemPadding READ baseItemPadding WRITE setBaseItemPadding)
     Q_PROPERTY(ATranslationProperty translation READ fakeTranslationReader)
 
     enum AppendType{MixPages, AppendPages};
@@ -221,6 +224,8 @@ public:
 
     bool suppressFieldAndVarError() const;
     void setSuppressFieldAndVarError(bool suppressFieldAndVarError);
+    int baseItemPadding() const;
+    void setBaseItemPadding(int baseTextItemPadding);
     bool isBusy();
     bool resultIsEditable() const;
     void setResultEditable(bool value);

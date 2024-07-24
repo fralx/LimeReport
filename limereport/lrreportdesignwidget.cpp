@@ -801,6 +801,7 @@ void ReportDesignWidget::editSetting()
     setting.setHorizontalGridStep(m_horizontalGridStep);
     setting.setDefaultFont(m_defaultFont);
     setting.setSuppressAbsentFieldsAndVarsWarnings(m_report->suppressFieldAndVarError());
+    setting.setBaseItemPadding(m_report->baseItemPadding());
 
     QStringList themes;
     themes.append(QObject::tr("Default"));
@@ -833,6 +834,7 @@ void ReportDesignWidget::editSetting()
             m_theme = "Default";
         }
         m_report->setSuppressFieldAndVarError(setting.suppressAbsentFieldsAndVarsWarnings());
+        m_report->setBaseItemPadding(setting.baseItemPadding());
         if (m_report->currentDesignerLanguage() != setting.designerLanguage() ){
             m_report->setCurrentDesignerLanguage(setting.designerLanguage());
         }
