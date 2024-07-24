@@ -27,7 +27,9 @@ public:
     bool suppressAbsentFieldsAndVarsWarnings();
     QLocale::Language designerLanguage();
     QString reportUnits();
+    int baseItemPadding();
     void setSuppressAbsentFieldsAndVarsWarnings(bool value);
+    void setBaseItemPadding(int value);
     void setHorizontalGridStep(int value);
     void setVerticalGridStep(int value);
     void setDefaultFont(const QFont& value);
