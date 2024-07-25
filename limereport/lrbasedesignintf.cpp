@@ -432,13 +432,8 @@ void BaseDesignIntf::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *o
     drawBorder(ppainter, rect());
     if(m_shadow)
         drawShadow(ppainter, rect(), 6);
-    //    if (m_joinMarkerOn) { drawMarker(ppainter, Const::JOIN_COLOR);}
-    //    if (isSelected() && !m_joinMarkerOn) {drawMarker(ppainter, Const::SELECTION_COLOR);}
     drawResizeZone(ppainter);
     ppainter->restore();
-    //    if (m_hovered) ppainter->drawImage(
-    //                QRectF(QPointF(rect().topRight().x()-24, rect().bottomLeft().y()-24),
-    //                       QSizeF(24, 24)),QImage(":/items/images/settings.png"));
 }
 
 QColor calcColor(QColor color){

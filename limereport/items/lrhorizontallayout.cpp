@@ -238,16 +238,18 @@ void HorizontalLayout::placeItemInLayout(BaseDesignIntf* item)
         item->setPos(0, 0);
 }
 
-void HorizontalLayout::insertItemInLayout(BaseDesignIntf* item)
-{
-    foreach (BaseDesignIntf* child, childBaseItems()) {
-        if (child->pos() == item->pos()){
-            int index = layoutsChildren().indexOf(child)-1;
-            layoutsChildren().insert(index, item);
-            child->setPos(item->pos().x()+item->width(), 0);
-            break;
-        }
-    }
-}
+// void HorizontalLayout::insertItemInLayout(BaseDesignIntf* item)
+// {
+//     bool inserted = false;
+//     for (int i=0; i<layoutsChildren().length(); ++i){
+//         BaseDesignIntf* child = layoutsChildren()[i];
+//         if (child->pos() == item->pos()){
+//             layoutsChildren().insert(i, item);
+//             inserted = true;
+//             break;
+//         }
+//     }
+//     if (!inserted) layoutsChildren().append(item);
+// }
 
 } // namespace LimeReport
