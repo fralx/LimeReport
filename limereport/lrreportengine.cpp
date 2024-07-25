@@ -474,7 +474,8 @@ bool ReportEnginePrivate::exportReport(QString exporterName, const QString &file
             QFileInfo fi(fn);
             if (fi.suffix().isEmpty())
                 fn += QString(".%1").arg(e->exporterFileExt());
-
+            if (fi.absolutePath().compare(QDir::currentPath())==0)
+                fn = defaultExportDir() + fn;
             bool designTime = dataManager()->designTime();
             dataManager()->setDesignTime(false);
             ReportPages pages = renderToPages();
@@ -655,6 +656,15 @@ void ReportEnginePrivate::setCurrentReportsDir(const QString &dirName)
 {
     if (QDir(dirName).exists())
         m_reportsDir = dirName;
+}
+
+bool ReportEnginePrivate::setDefaultExportDir(const QString &dirName)
+{
+    if (QDir(dirName).exists()){
+        m_exportDir = dirName;
+        return true;
+    }
+    return false;
 }
 
 bool ReportEnginePrivate::slotLoadFromFile(const QString &fileName)
@@ -1768,6 +1778,12 @@ void ReportEngine::setCurrentReportsDir(const QString &dirName)
 {
     Q_D(ReportEngine);
     return d->setCurrentReportsDir(dirName);
+}
+
+bool ReportEngine::setDefaultExportDir(const QString &dirName)
+{
+    Q_D(ReportEngine);
+    return d->setDefaultExportDir(dirName);
 }
 
 void ReportEngine::setReportName(const QString &name)

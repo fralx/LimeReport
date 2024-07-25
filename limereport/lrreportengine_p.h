@@ -103,6 +103,8 @@ public:
     virtual void                    previewReport(PreviewHints hints = PreviewBarsUserSetting) = 0;
     virtual void                    setCurrentReportsDir(const QString& dirName) = 0;
     virtual QString                 currentReportsDir() = 0;
+    virtual bool                    setDefaultExportDir(const QString& dirName) = 0;
+    virtual QString                 defaultExportDir() = 0;
     virtual bool                    suppressFieldAndVarError() const = 0;
     virtual void                    setSuppressFieldAndVarError(bool suppressFieldAndVarError) = 0;
     virtual void                    setStyleSheet(const QString& styleSheet) = 0;
@@ -210,6 +212,8 @@ public:
     bool isSaved();
     void setCurrentReportsDir(const QString& dirName);
     QString currentReportsDir(){ return m_reportsDir;}
+    bool setDefaultExportDir(const QString& dirname);
+    QString defaultExportDir(){ return m_exportDir;}
     void setReportName(const QString& reportName){ m_reportName=reportName;}
     QString reportName(){ return m_reportName;}
     bool hasActivePreview(){return m_activePreview;}
@@ -336,6 +340,7 @@ private:
     bool m_printerSelected;
     bool m_showProgressDialog;
     QString m_reportsDir;
+    QString m_exportDir;
     QString m_reportName;
     QMainWindow* m_activePreview;
     QIcon m_previewWindowIcon;
