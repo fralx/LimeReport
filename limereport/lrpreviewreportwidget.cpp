@@ -125,7 +125,7 @@ bool PreviewReportWidget::exportReport(QString exporterName, const QMap<QString,
     if (ExportersFactory::instance().map().contains(exporterName)){
 
         ReportExporterInterface* e = ExportersFactory::instance().objectCreator(exporterName)(d_ptr->m_report);
-        QString defaultFileName = d_ptr->m_report->reportName().split(".")[0];
+        QString defaultFileName =  d_ptr->m_report->defaultExportDir() + d_ptr->m_report->reportName().split(".")[0];
         QString filter = QString("%1 (*.%2)").arg(e->exporterName()).arg(e->exporterFileExt());
         QString fileName = QFileDialog::getSaveFileName(this,tr("%1 file name").arg(e->exporterName()), defaultFileName, filter);
         if (!fileName.isEmpty()){
@@ -296,7 +296,7 @@ void PreviewReportWidget::saveToFile()
     PreparedPages pagesManager = PreparedPages(&d_ptr->m_reportPages);
     emit onSave(saved, &pagesManager);
     if (!saved){
-        QString fileName = QFileDialog::getSaveFileName(this,tr("Report file name"));
+        QString fileName = QFileDialog::getSaveFileName(this,tr("Report file name"), d_ptr->m_report->defaultExportDir());
         if (!fileName.isEmpty()){
             QScopedPointer< ItemsWriterIntf > writer(new XMLWriter());
             foreach (PageItemDesignIntf::Ptr page, d_ptr->m_reportPages){
