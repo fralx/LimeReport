@@ -449,7 +449,7 @@ private:
     QFont   m_font;
     QColor  m_fontColor;
     bool    m_fixedPos;
-    qreal     m_borderLineSize;
+    qreal   m_borderLineSize;
 
 
     QRectF  m_rect;

@@ -48,7 +48,7 @@ void AbstractLayout::setLayoutType(const LayoutType& layoutType)
 
 void AbstractLayout::addChild(BaseDesignIntf* item, bool updateSize)
 {
-    placeItemInLayout(item);
+    if (updateSize) placeItemInLayout(item);
 
     m_children.append(item);
     item->setParentItem(this);
@@ -319,6 +319,19 @@ BaseDesignIntf *AbstractLayout::findPrior(BaseDesignIntf *item)
         if (layoutsChildren()[i]==item && i!=0){ return layoutsChildren()[i-1];}
     }
     return 0;
+}
+
+void AbstractLayout::insertItemInLayout(BaseDesignIntf *item){
+    bool inserted = false;
+    for (int i=0; i<layoutsChildren().length(); ++i){
+        BaseDesignIntf* child = layoutsChildren()[i];
+        if (child->pos() == item->pos()){
+            layoutsChildren().insert(i, item);
+            inserted = true;
+            break;
+        }
+    }
+    if (!inserted) layoutsChildren().append(item);
 }
 
 void AbstractLayout::slotOnChildDestroy(QObject* child)

@@ -187,16 +187,4 @@ void VerticalLayout::placeItemInLayout(BaseDesignIntf* item)
         item->setPos(0, 0);
 }
 
-void VerticalLayout::insertItemInLayout(BaseDesignIntf* item)
-{
-    foreach (BaseDesignIntf* child, childBaseItems()) {
-        if (child->pos() == item->pos()){
-            int index = layoutsChildren().indexOf(child)-1;
-            layoutsChildren().insert(index, item);
-            child->setPos(0, item->pos().y()+item->height());
-            break;
-        }
-    }
-}
-
 } // namespace LimeReport
