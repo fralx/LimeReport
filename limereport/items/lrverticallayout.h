@@ -27,7 +27,6 @@ private:
     void sortChildren();
     void divideSpace();
     void placeItemInLayout(BaseDesignIntf* item);
-    // void insertItemInLayout(BaseDesignIntf* item);
 };
 
 } // namespace LimeReport
