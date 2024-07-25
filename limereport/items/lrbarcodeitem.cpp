@@ -49,7 +49,7 @@ BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
     : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
       m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
       m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE),
-      m_hideText(false), m_option3(0), m_hideIfEmpty(false)
+    m_escapeMode(false), m_hideText(false), m_option3(0), m_hideIfEmpty(false)
 {}
 
 BarcodeItem::~BarcodeItem()
@@ -66,7 +66,10 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     Zint::QZint bc;
     if (itemMode() & DesignMode) bc.setText(m_designTestValue);
     else bc.setText(m_content);
-    bc.setInputMode(m_inputMode);
+    if(m_escapeMode)
+        bc.setInputMode(m_inputMode | ESCAPE_MODE);
+    else
+        bc.setInputMode(m_inputMode);
     bc.setSymbol(m_barcodeType);
     bc.setWhitespace(m_whitespace);
     bc.setFgColor(m_foregroundColor);
@@ -278,6 +281,23 @@ void BarcodeItem::setInputMode(const InputMode &inputMode)
         if (!isLoading()){
             update();
             notify("inputMode",oldValue,inputMode);
+        }
+    }
+}
+
+bool LimeReport::BarcodeItem::escapeMode() const
+{
+    return m_escapeMode;
+}
+
+void LimeReport::BarcodeItem::setEscapeMode(bool escapeMode)
+{
+    if (m_escapeMode != escapeMode){
+        bool oldValue = m_escapeMode;
+        m_escapeMode = escapeMode;
+        if (!isLoading()){
+            update();
+            notify("escapeMode",oldValue,escapeMode);
         }
     }
 }

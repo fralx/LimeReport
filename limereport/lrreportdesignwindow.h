@@ -42,7 +42,7 @@
 #include "items/editors/lrtextalignmenteditorwidget.h"
 #include "items/editors/lritemsaligneditorwidget.h"
 #include "items/editors/lritemsborderseditorwidget.h"
-#include "lrobjectitemmodel.h"
+#include "objectinspector/lrobjectitemmodel.h"
 #include "lrreportdesignwindowintrerface.h"
 
 namespace LimeReport{
@@ -65,14 +65,18 @@ public:
     static ReportDesignWindow* instance(){return m_instance;}
 
     bool checkNeedToSave();
+    bool isNeedToSave();
     void showModal();
     void showNonModal();
     void setSettings(QSettings* value);
     QSettings* settings();
     void restoreSetting();
+    void saveSettings();
     void setShowProgressDialog(bool value){m_showProgressDialog = value;}
+    void newReport(bool needCheck = true) { slotNewReport(needCheck);}
+    QImage previewImage(int pageN = 0);
 private slots:
-    void slotNewReport();
+    void slotNewReport(bool needCheck = true);
     void slotNewPage();
     void slotDeletePage();
     void slotNewTextItem();
@@ -243,7 +247,7 @@ private:
     QAction* m_unlockSelectedItemsAction;
     QAction* m_selectOneLevelItems;
 
-    QMenu*   m_recentFilesMenu;
+    QMenu*   m_recentFilesMenu =nullptr;
 
     QSignalMapper* m_bandsAddSignalsMap;
     QSignalMapper* m_recentFilesSignalMap;

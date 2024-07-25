@@ -54,8 +54,8 @@
 #include "lrcollection.h"
 #include "lrdatasourceintf.h"
 #include "lrdatasourcemanagerintf.h"
-#include "lrhorizontallayout.h"
-#include "lrverticallayout.h"
+#include "items/lrhorizontallayout.h"
+#include "items/lrverticallayout.h"
 
 namespace LimeReport{
 
