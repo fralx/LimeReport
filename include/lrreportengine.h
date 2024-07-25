@@ -177,6 +177,7 @@ public:
     QString saveToString();
     QString lastError();
     void setCurrentReportsDir(const QString& dirName);
+    bool setDefaultExportDir(const QString& dirName);
     void setReportName(const QString& name);
     QString reportName();
     PreviewReportWidget *createPreviewWidget(QWidget *parent = 0);
