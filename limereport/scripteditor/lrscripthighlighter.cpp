@@ -248,16 +248,16 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument* parent):
     }
 
     if ( isColorDark(QPalette().window().color())){
-        m_formats[NumberFormat].setForeground(Qt::darkBlue);
+        m_formats[NumberFormat].setForeground(QColor("#45c6d1"));
         m_formats[StringFormat].setForeground(Qt::darkGreen);
-        m_formats[KeywordFormat].setForeground(Qt::darkYellow);
-        m_formats[CommentFormat].setForeground(Qt::darkGreen);
+        m_formats[KeywordFormat].setForeground(QColor("#cd5125"));
+        m_formats[CommentFormat].setForeground(QColor("#80807e"));
         m_formats[CommentFormat].setFontItalic(true);
     } else {
         m_formats[NumberFormat].setForeground(QColor("#ff6aad"));
         m_formats[StringFormat].setForeground(QColor("#b27f40"));
         m_formats[KeywordFormat].setForeground(QColor("#45c5d5"));
-        m_formats[CommentFormat].setForeground(QColor("#a1a4a9"));
+        m_formats[CommentFormat].setForeground(QColor("#a8aaab"));
         m_formats[CommentFormat].setFontItalic(true);
     }
 }

@@ -4,7 +4,7 @@ project(limereport)
 set(DEFAULT_ITEM_PADDING 0)
 set(LIMEREPORT_VERSION_MAJOR 1)
 set(LIMEREPORT_VERSION_MINOR 7)
-set(LIMEREPORT_VERSION_RELEASE 9)
+set(LIMEREPORT_VERSION_RELEASE 14)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)

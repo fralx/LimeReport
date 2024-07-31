@@ -422,11 +422,6 @@ void PageDesignIntf::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_selectionRect = 0;
         m_multiSelectStarted = false;
     }
-//    if(m_infoPosRect)
-//    {
-//        delete m_infoPosRect;
-//        m_infoPosRect = 0;
-//    }
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
@@ -524,6 +519,7 @@ BaseDesignIntf *PageDesignIntf::addReportItem(const QString &itemType, QPointF p
     if (band) {
         BaseDesignIntf *reportItem = addReportItem(itemType, band, band);
         reportItem->setPos(placePosOnGrid(band->mapFromScene(pos)));
+        reportItem->setReportSettings(m_reportSettings);
         reportItem->setSize(placeSizeOnGrid(size));
         reportItem->setUnitType(pageItem()->unitType());
         return reportItem;
