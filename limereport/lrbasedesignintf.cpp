@@ -1524,6 +1524,10 @@ void BaseDesignIntf::setPossibleMoveFlags(int directionsFlags)
     m_possibleMoveDirectionFlags = directionsFlags;
 }
 
+int BaseDesignIntf::marginSize() const {
+    return m_margin + (m_reportSettings != 0 ? m_reportSettings->baseItemPadding() : 0);
+}
+
 void BaseDesignIntf::setMarginSize(int value)
 {
     if (m_margin!=value){
