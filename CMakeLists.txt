@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.14)
 project(limereport)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" "${CMAKE_MODULE_PATH}")
+include(GenerateVersionHeader)
+
 set(DEFAULT_ITEM_PADDING 0)
-set(LIMEREPORT_VERSION_MAJOR 1)
-set(LIMEREPORT_VERSION_MINOR 7)
-set(LIMEREPORT_VERSION_RELEASE 14)
 
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
@@ -349,14 +349,12 @@ set(EXTRA_FILES
    ${PROJECT_NAME}/lrpreparedpagesintf.h
 )
 
-configure_file(config.h.in config.h @ONLY)
-
 set(GLOBAL_HEADERS
     ${PROJECT_NAME}/LimeReport
     ${PROJECT_NAME}/LRCallbackDS
     ${PROJECT_NAME}/LRDataManager
     ${PROJECT_NAME}/LRScriptManager
-    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    ${CMAKE_BINARY_DIR}/limereport/version.h
     )
 
 set(PROJECT_NAME ${PROJECT_NAME}-qt${QT_VERSION_MAJOR})
@@ -370,8 +368,6 @@ else()
     target_compile_definitions( ${PROJECT_NAME} PRIVATE -DLIMEREPORT_EXPORTS)
     target_compile_definitions( ${PROJECT_NAME} INTERFACE -DLIMEREPORT_IMPORTS)
 endif()
-
-target_compile_definitions(${PROJECT_NAME} PUBLIC -DCMAKE_CONFIG)
 
 if(Qt${QT_VERSION_MAJOR}UiTools_FOUND)
     target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_UI_LOADER)
@@ -396,6 +392,7 @@ target_compile_definitions( ${PROJECT_NAME} PRIVATE -DDEFAULT_ITEM_PADDING=${DEF
 
 target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/
+	${CMAKE_BINARY_DIR}/limereport
 	limereport/base
 	limereport/bands
 	limereport/databrowser

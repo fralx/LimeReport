@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QFile>
 #include <QCommandLineParser>
+#include "../limereport/version.h"
 
 #ifdef _WIN32
   #include <io.h>
