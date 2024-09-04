@@ -1,13 +1,17 @@
 #include "lrchartaxiseditor.h"
-
 #include "ui_lrchartaxiseditor.h"
-#include "lraxisdata.h"
 
+#include "lraxisdata.h"
 #include "lrbasedesignintf.h"
 
-ChartAxisEditor::ChartAxisEditor(LimeReport::ChartItem *item, LimeReport::PageDesignIntf *page, bool isXAxis, QSettings *settings, QWidget *parent):
-      QWidget(parent), ui(new Ui::ChartAxisEditor), m_chartItem(item), m_page(page),
-      m_settings(settings), m_isXAxis(isXAxis)
+ChartAxisEditor::ChartAxisEditor(LimeReport::ChartItem* item, LimeReport::PageDesignIntf* page,
+                                 bool isXAxis, QSettings* settings, QWidget* parent):
+    QWidget(parent),
+    ui(new Ui::ChartAxisEditor),
+    m_chartItem(item),
+    m_page(page),
+    m_settings(settings),
+    m_isXAxis(isXAxis)
 {
     ui->setupUi(this);
     readSetting();
@@ -24,16 +28,17 @@ ChartAxisEditor::~ChartAxisEditor()
 
 QSettings* ChartAxisEditor::settings()
 {
-    if (m_settings){
+    if (m_settings) {
         return m_settings;
     }
-    m_settings = new QSettings("LimeReport",QCoreApplication::applicationName());
+    m_settings = new QSettings("LimeReport", QCoreApplication::applicationName());
     return m_settings;
 }
 
 void ChartAxisEditor::readSetting()
 {
-    if (settings() == 0) return;
+    if (settings() == 0)
+        return;
 
     settings()->beginGroup("ChartAxisEditor");
     QVariant v = settings()->value("Geometry");
@@ -50,7 +55,7 @@ void ChartAxisEditor::writeSetting()
         return;
     }
     settings()->beginGroup("ChartAxisEditor");
-    settings()->setValue("Geometry",saveGeometry());
+    settings()->setValue("Geometry", saveGeometry());
     settings()->endGroup();
 }
 
@@ -59,7 +64,8 @@ void ChartAxisEditor::init()
     ui->gbAxis->setTitle(m_isXAxis ? QObject::tr("X Axis") : QObject::tr("Y Axis"));
     ui->direction_checkbox->setVisible(!m_isXAxis);
 
-    LimeReport::AxisData *axisData = m_isXAxis ? m_chartItem->xAxisData() : m_chartItem->yAxisData();
+    LimeReport::AxisData* axisData
+        = m_isXAxis ? m_chartItem->xAxisData() : m_chartItem->yAxisData();
 
     ui->minimumSpinBox->setValue(axisData->manualMinimum());
     ui->maximumSpinBox->setValue(axisData->manualMaximum());
@@ -96,7 +102,8 @@ void ChartAxisEditor::on_stepCheckBox_stateChanged(int arg1)
 
 void ChartAxisEditor::on_pushButtonOk_clicked()
 {
-    LimeReport::AxisData *axisData = m_isXAxis ? m_chartItem->xAxisData() : m_chartItem->yAxisData();
+    LimeReport::AxisData* axisData
+        = m_isXAxis ? m_chartItem->xAxisData() : m_chartItem->yAxisData();
     if (!m_isXAxis) {
         axisData->setReverseDirection(ui->direction_checkbox->isChecked());
     }
@@ -135,8 +142,4 @@ void ChartAxisEditor::on_enableScaleCalculation_checkbox_stateChanged(int arg1)
     ui->stepCheckBox->setEnabled(isEnabled);
 }
 
-void ChartAxisEditor::on_cancelButton_clicked()
-{
-    close();
-}
-
+void ChartAxisEditor::on_cancelButton_clicked() { close(); }

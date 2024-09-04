@@ -30,46 +30,49 @@
 #ifndef LROBJECTINSPECTORWIDGET_H
 #define LROBJECTINSPECTORWIDGET_H
 
-#include <QTreeView>
-#include <QMap>
-#include <QSortFilterProxyModel>
-
-#include "lrobjectitemmodel.h"
 #include "lrbasedesignobjectmodel.h"
+#include "lrobjectitemmodel.h"
 #include "lrpropertydelegate.h"
 
-namespace LimeReport{
+#include <QMap>
+#include <QSortFilterProxyModel>
+#include <QTreeView>
 
-class ObjectInspectorTreeView : public QTreeView
-{
+namespace LimeReport {
+
+class ObjectInspectorTreeView: public QTreeView {
     Q_OBJECT
 public:
-    ObjectInspectorTreeView(QWidget * parent=0);
+    ObjectInspectorTreeView(QWidget* parent = 0);
     ~ObjectInspectorTreeView();
     QColor getColor(const int index) const;
     virtual void reset();
     virtual void commitActiveEditorData();
+
 protected:
-    void mousePressEvent(QMouseEvent *event);
-    void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const;
-    void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent* event);
+    void drawRow(QPainter* painter, const QStyleOptionViewItem& options,
+                 const QModelIndex& index) const;
+    void keyPressEvent(QKeyEvent* event);
+
 private:
     void initColorMap();
     LimeReport::ObjectPropItem* nodeFromIndex(QModelIndex index) const;
 
 private:
     QVector<QColor> m_colors;
-    PropertyDelegate *m_propertyDelegate;
+    PropertyDelegate* m_propertyDelegate;
 };
 
-class PropertyFilterModel: public QSortFilterProxyModel{
+class PropertyFilterModel: public QSortFilterProxyModel {
 public:
-    PropertyFilterModel(QObject* parent = 0): QSortFilterProxyModel(parent){}
+    PropertyFilterModel(QObject* parent = 0): QSortFilterProxyModel(parent) { }
+
 protected:
-    bool filterAcceptsRow(int sourceRow,const QModelIndex &sourceParent) const;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const;
 };
 
-class ObjectInspectorWidget: public QWidget{
+class ObjectInspectorWidget: public QWidget {
     Q_OBJECT
 public:
     ObjectInspectorWidget(QWidget* parent = 0);
@@ -77,30 +80,30 @@ public:
     void setAlternatingRowColors(bool value);
     void setRootIsDecorated(bool value);
     void setColumnWidth(int column, int width);
-    int  columnWidth(int column);
+    int columnWidth(int column);
     void expandToDepth(int depth);
     void commitActiveEditorData();
-    void setValidator(ValidatorIntf *validator);
+    void setValidator(ValidatorIntf* validator);
     bool subclassesAsLevel();
     void setSubclassesAsLevel(bool value);
     bool translateProperties();
     void setTranslateProperties(bool value);
     void setObject(QObject* setObject);
     const QObject* object();
-    void setMultiObjects(QList<QObject *>* list);
+    void setMultiObjects(QList<QObject*>* list);
     void clearObjectsList();
-    void updateProperty(const QString &propertyName);
+    void updateProperty(const QString& propertyName);
 private slots:
     void slotFilterTextChanged(const QString& filter);
     void slotTranslatePropertiesChecked(bool value);
+
 private:
     ObjectInspectorTreeView* m_objectInspectorView;
     QSortFilterProxyModel* m_filterModel;
     BaseDesignPropertyModel* m_propertyModel;
     QAction* m_translateProperties;
-
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // LROBJECTINSPECTORWIDGET_H

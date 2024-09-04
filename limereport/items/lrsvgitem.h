@@ -1,12 +1,11 @@
 #ifndef SVGITEM_H
 #define SVGITEM_H
 
-#include "lritemdesignintf.h"
 #include "lreditableimageitemintf.h"
+#include "lritemdesignintf.h"
 
-namespace LimeReport{
-class SVGItem: public ItemDesignIntf, public IEditableImageItem
-{
+namespace LimeReport {
+class SVGItem: public ItemDesignIntf, public IEditableImageItem {
     Q_OBJECT
     Q_PROPERTY(QString resourcePath READ resourcePath WRITE setResourcePath)
     Q_PROPERTY(QByteArray image READ image WRITE setImage)
@@ -16,40 +15,42 @@ class SVGItem: public ItemDesignIntf, public IEditableImageItem
     Q_PROPERTY(QString variable READ variable WRITE setVariable)
     Q_PROPERTY(bool watermark READ isWatermark WRITE setWatermark)
 public:
-    SVGItem(QObject *owner, QGraphicsItem *parent);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    SVGItem(QObject* owner, QGraphicsItem* parent);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
     QByteArray imageAsByteArray() const;
     void setImageAsByteArray(QByteArray image);
     QString fileFilter() const;
 
-    void preparePopUpMenu(QMenu &menu);
-    void processPopUpAction(QAction *action);
+    void preparePopUpMenu(QMenu& menu);
+    void processPopUpAction(QAction* action);
     QWidget* defaultEditor();
 
     QString resourcePath() const;
-    void setResourcePath(const QString &resourcePath);
+    void setResourcePath(const QString& resourcePath);
     QByteArray image() const;
-    void setImage(const QByteArray &image);
+    void setImage(const QByteArray& image);
     QString datasource() const;
-    void setDatasource(const QString &datasource);
+    void setDatasource(const QString& datasource);
     QString field() const;
-    void setField(const QString &field);
+    void setField(const QString& field);
     QString variable() const;
-    void setVariable(const QString &variable);
+    void setVariable(const QString& variable);
     bool isNeedUpdateSize(RenderPass) const;
+
 protected:
-    BaseDesignIntf *createSameTypeItem(QObject *owner, QGraphicsItem *parent);
-    void updateItemSize(DataSourceManager *dataManager, RenderPass pass, int maxHeight);
+    BaseDesignIntf* createSameTypeItem(QObject* owner, QGraphicsItem* parent);
+    void updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight);
     QByteArray imageFromResource(QString resourcePath);
+
 private:
     QString m_resourcePath;
     QByteArray m_image;
     QString m_datasource;
     QString m_field;
     QString m_variable;
-public:
 
+public:
 };
 } // namespace LimeReport
 #endif // SVGITEM_H

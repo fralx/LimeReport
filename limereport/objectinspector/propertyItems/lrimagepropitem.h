@@ -31,21 +31,24 @@
 #define LRIMAGEPROPITEM_H
 
 #include "lrobjectpropitem.h"
-namespace LimeReport{
+namespace LimeReport {
 
-class ImagePropItem : public ObjectPropItem
-{
+class ImagePropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    ImagePropItem():ObjectPropItem(){}
-    ImagePropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-            :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
+    ImagePropItem(): ObjectPropItem() { }
+    ImagePropItem(QObject* object, ObjectsList* objects, const QString& name,
+                  const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                  bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
     QString displayValue() const;
-    void setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const;
-    void setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index);
+    void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    void setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex& index);
     virtual QIcon iconValue() const;
 };
 
-}
+} // namespace LimeReport
 #endif // LRIMAGEPROPITEM_H

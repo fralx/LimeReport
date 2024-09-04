@@ -33,48 +33,51 @@
 #include "lrobjectpropitem.h"
 #include "objectinspector/propertyItems/lrenumpropitem.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-typedef QMap<QString,Qt::Alignment> AlignMap;
+typedef QMap<QString, Qt::Alignment> AlignMap;
 
 class AlignmentItemEditor;
 
-class AlignmentPropItem : public ObjectPropItem
-{
+class AlignmentPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    AlignmentPropItem():ObjectPropItem(),m_horizEditor(NULL),m_vertEditor(NULL){}
-    AlignmentPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
+    AlignmentPropItem(): ObjectPropItem(), m_horizEditor(NULL), m_vertEditor(NULL) { }
+    AlignmentPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                      const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                      bool readonly = true);
     QString displayValue() const;
     void setPropertyValue(QVariant value);
+
 private:
     AlignMap m_vertMap;
     AlignMap m_horizMap;
     AlignmentItemEditor* m_horizEditor;
     AlignmentItemEditor* m_vertEditor;
-    QString associateValue(int value, const AlignMap *map) const;
+    QString associateValue(int value, const AlignMap* map) const;
 };
 
-class AlignmentItemEditor : public ObjectPropItem
-{
+class AlignmentItemEditor: public ObjectPropItem {
     Q_OBJECT
 public:
-    AlignmentItemEditor():ObjectPropItem(){}
-    AlignmentItemEditor(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly,
-                        AlignMap acceptableValues);
-    void        setModelData(QWidget * propertyEditor, QAbstractItemModel * model, const QModelIndex & index);
-    void        setPropertyEditorData(QWidget * propertyEditor, const QModelIndex &) const;
-    QWidget*    createProperyEditor(QWidget *parent) const;
-    QString     displayValue() const;
+    AlignmentItemEditor(): ObjectPropItem() { }
+    AlignmentItemEditor(QObject* object, ObjectsList* objects, const QString& name,
+                        const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                        bool readonly, AlignMap acceptableValues);
+    void setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex& index);
+    void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    QWidget* createProperyEditor(QWidget* parent) const;
+    QString displayValue() const;
     void setPropertyValue(QVariant value);
+
 protected:
-    QVector<int>    extractAcceptableValue(int flags);
-    int             clearAcceptableValues(int flags);
-    AlignMap        acceptableValues() const {return m_acceptableValues;}
+    QVector<int> extractAcceptableValue(int flags);
+    int clearAcceptableValues(int flags);
+    AlignMap acceptableValues() const { return m_acceptableValues; }
+
 private:
     AlignMap m_acceptableValues;
 };
 
-
-}
+} // namespace LimeReport
 #endif // LRALIGNPROPITEM_H

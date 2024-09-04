@@ -32,20 +32,23 @@
 
 #include "lrobjectpropitem.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class ColorPropItem : public ObjectPropItem
-{
+class ColorPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    ColorPropItem():ObjectPropItem(){}
-    ColorPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
-    void setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const;
-    void setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index);
-    bool paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index);
+    ColorPropItem(): ObjectPropItem() { }
+    ColorPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                  const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                  bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
+    void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    void setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex& index);
+    bool paint(QPainter* painter, const StyleOptionViewItem& option, const QModelIndex& index);
 };
 
-}
+} // namespace LimeReport
 #endif // LRCOLORPROPITEM_H

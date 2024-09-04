@@ -3,13 +3,13 @@
 
 #include "lrchartitem.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class HorizontalBarChart: public AbstractBarChart{
+class HorizontalBarChart: public AbstractBarChart {
 public:
-    HorizontalBarChart(ChartItem* chartItem):AbstractBarChart(chartItem){}
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintHorizontalBars(QPainter *painter, QRectF barsRect);
+    HorizontalBarChart(ChartItem* chartItem): AbstractBarChart(chartItem) { }
+    void paintChart(QPainter* painter, QRectF chartRect);
+    void paintHorizontalBars(QPainter* painter, QRectF barsRect);
 };
 
 } // namespace LimeReport

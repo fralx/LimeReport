@@ -1,10 +1,10 @@
 #ifndef DIALOGDESIGNER_H
 #define DIALOGDESIGNER_H
 
-#include <QObject>
-#include <QVector>
-#include <QToolBar>
 #include <QActionGroup>
+#include <QObject>
+#include <QToolBar>
+#include <QVector>
 
 class QDesignerFormEditorInterface;
 class QDesignerFormWindowInterface;
@@ -15,21 +15,22 @@ class QDesignerPropertyEditorInterface;
 class QDesignerObjectInspectorInterface;
 class QDesignerFormWindowManagerInterface;
 
-namespace SharedTools{
-    class WidgetHost;
+namespace SharedTools {
+class WidgetHost;
 }
 
-namespace LimeReport{
+namespace LimeReport {
 
-class DialogDesigner : public QWidget{
+class DialogDesigner: public QWidget {
     Q_OBJECT
 public:
-    DialogDesigner(QDesignerFormWindowInterface *wnd, QDesignerFormEditorInterface* formEditor, QWidget *parent = NULL, Qt::WindowFlags flags = Qt::WindowFlags());
+    DialogDesigner(QDesignerFormWindowInterface* wnd, QDesignerFormEditorInterface* formEditor,
+                   QWidget* parent = NULL, Qt::WindowFlags flags = Qt::WindowFlags());
     ~DialogDesigner();
     QString dialogName() const;
-    void    setDialogName(const QString &dialogName);
-    bool    isChanged();
-    void    setChanged(bool value);
+    void setDialogName(const QString& dialogName);
+    bool isChanged();
+    void setChanged(bool value);
     QByteArray dialogContent();
 public slots:
     void undo();
@@ -40,17 +41,17 @@ signals:
 private slots:
     void slotMainContainerNameChanged(QString newName);
     void slotDialogChanged();
+
 private:
     QString m_dialogName;
     SharedTools::WidgetHost* m_designerHolder;
     QDesignerFormEditorInterface* m_formEditor;
 };
 
-class DialogDesignerManager : public QObject
-{
+class DialogDesignerManager: public QObject {
     Q_OBJECT
 public:
-    explicit DialogDesignerManager(QObject *parent = 0);
+    explicit DialogDesignerManager(QObject* parent = 0);
     ~DialogDesignerManager();
     void initToolBar(QToolBar* tb);
     QWidget* createFormEditor(const QString& content);
@@ -69,9 +70,11 @@ signals:
 private slots:
     void slotObjectDestroyed(QObject* object);
     void slotEditWidgets();
-    void slotActiveFormWindowChanged(QDesignerFormWindowInterface *formWindow);
+    void slotActiveFormWindowChanged(QDesignerFormWindowInterface* formWindow);
+
 private:
     QString iconPathByName(const QString& name);
+
 private:
     QDesignerFormEditorInterface* m_formEditor;
     QDesignerIntegrationInterface* m_designerIntegration;

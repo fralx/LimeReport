@@ -30,25 +30,25 @@
 #ifndef LRREPORTDESIGNWIDGET_H
 #define LRREPORTDESIGNWIDGET_H
 
-#include <QObject>
-#include <QGraphicsView>
-#include <QMainWindow>
-#include <QTextEdit>
-
-#include "lrpagedesignintf.h"
+#include "lrcollection.h"
 #include "lrdatadesignintf.h"
 #include "lrdatasourcemanager.h"
-#include "lrcollection.h"
-#include "lrreportengine_p.h"
 #include "lrgraphicsviewzoom.h"
+#include "lrpagedesignintf.h"
+#include "lrreportengine_p.h"
+
+#include <QGraphicsView>
+#include <QMainWindow>
+#include <QObject>
+#include <QTextEdit>
 
 #if QT_VERSION < 0x050000
 QT_BEGIN_NAMESPACE
-class LimeReportTabWidget: public QTabWidget{
+class LimeReportTabWidget: public QTabWidget {
     Q_OBJECT
 public:
-    explicit LimeReportTabWidget(QWidget *parent = 0):QTabWidget(parent){}
-    QTabBar* tabBar() const{ return QTabWidget::tabBar();}
+    explicit LimeReportTabWidget(QWidget* parent = 0): QTabWidget(parent) { }
+    QTabBar* tabBar() const { return QTabWidget::tabBar(); }
 };
 QT_END_NAMESPACE
 #endif
@@ -63,51 +63,59 @@ class DialogDesigner;
 class TranslationEditor;
 class ScriptEditor;
 
-
-class Ruler: public QWidget{
+class Ruler: public QWidget {
 public:
-    enum RulerType{Horizontal, Vertical};
-    Ruler(RulerType type, QWidget* parent = 0): QWidget(parent), m_page(0), m_type(type){}
+    enum RulerType {
+        Horizontal,
+        Vertical
+    };
+    Ruler(RulerType type, QWidget* parent = 0): QWidget(parent), m_page(0), m_type(type) { }
     void setPage(PageItemDesignIntf* page);
-    void setMousePos(QPoint mousePos){ m_mousePos = mousePos;}
+    void setMousePos(QPoint mousePos) { m_mousePos = mousePos; }
+
 protected:
     void paintEvent(QPaintEvent* event);
-    void drawItemWithChildren(QPainter *painter, BaseDesignIntf* item);
-    void drawItem(QPainter *painter, BaseDesignIntf* item);
+    void drawItemWithChildren(QPainter* painter, BaseDesignIntf* item);
+    void drawItem(QPainter* painter, BaseDesignIntf* item);
+
 private:
     PageItemDesignIntf* m_page;
     RulerType m_type;
     QPoint m_mousePos;
 };
 
-class PageView: public QGraphicsView{
+class PageView: public QGraphicsView {
 public:
-    PageView(QWidget *parent = NULL): QGraphicsView(parent),
-        m_horizontalRuller(0), m_verticalRuller(0)
+    PageView(QWidget* parent = NULL):
+        QGraphicsView(parent),
+        m_horizontalRuller(0),
+        m_verticalRuller(0)
     {
-        setViewportMargins(20,20,0,0);
+        setViewportMargins(20, 20, 0, 0);
     }
-    PageView(QGraphicsScene *scene, QWidget *parent = NULL):
+    PageView(QGraphicsScene* scene, QWidget* parent = NULL):
         QGraphicsView(scene, parent),
-        m_horizontalRuller(0), m_verticalRuller(0)
+        m_horizontalRuller(0),
+        m_verticalRuller(0)
     {
-        setViewportMargins(20,20,0,0);
+        setViewportMargins(20, 20, 0, 0);
     }
     void setPageItem(PageItemDesignIntf* pageItem);
+
 protected:
-    bool viewportEvent(QEvent *event);
+    bool viewportEvent(QEvent* event);
+
 private:
     PageItemDesignIntf* m_pageItem;
     Ruler* m_horizontalRuller;
     Ruler* m_verticalRuller;
 };
 
-class ReportDesignWidget : public QWidget
-{
+class ReportDesignWidget: public QWidget {
     Q_OBJECT
     Q_PROPERTY(QObject* datasourcesManager READ dataManager)
 public:
-    enum ToolWindowType{
+    enum ToolWindowType {
         WidgetBox = 1,
         ObjectInspector = 2,
         ActionEditor = 3,
@@ -115,7 +123,7 @@ public:
         PropertyEditor = 5,
         ResourceEditor = 6
     };
-    enum EditorTabType{
+    enum EditorTabType {
         Page,
         Dialog,
         Script,
@@ -123,9 +131,9 @@ public:
         TabTypeCount
     };
     ReportDesignWidget(ReportEnginePrivateInterface* report, QSettings* settings,
-                       QMainWindow *mainWindow, QWidget *parent = 0);
+                       QMainWindow* mainWindow, QWidget* parent = 0);
     ~ReportDesignWidget();
-    PageDesignIntf *createStartPage();
+    PageDesignIntf* createStartPage();
     void createTabs();
     void clear();
     DataSourceManager* dataManager();
@@ -139,13 +147,13 @@ public:
     void updateSize();
     bool isCanUndo();
     bool isCanRedo();
-    void deleteItem(QGraphicsItem *item);
+    void deleteItem(QGraphicsItem* item);
     PageDesignIntf* activePage();
     QGraphicsView* activeView();
-    QList<QGraphicsItem *> selectedItems();
+    QList<QGraphicsItem*> selectedItems();
     QStringList datasourcesNames();
-    void scale( qreal sx, qreal sy);
-    ReportEnginePrivateInterface* report(){return m_report;}
+    void scale(qreal sx, qreal sy);
+    ReportEnginePrivateInterface* report() { return m_report; }
     QString reportFileName();
     bool isNeedToSave();
     bool emitSaveReport();
@@ -155,14 +163,14 @@ public:
     void loadState();
     void applySettings();
     void applyUseGrid();
-    bool useGrid(){ return m_useGrid;}
+    bool useGrid() { return m_useGrid; }
     bool useMagnet() const;
     void setUseMagnet(bool useMagnet);
     EditorTabType activeTabType();
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     void initDialogDesignerToolBar(QToolBar* toolBar);
     void updateDialogs();
-    DialogDesignerManager *dialogDesignerManager() const;
+    DialogDesignerManager* dialogDesignerManager() const;
     QString activeDialogName();
     DialogDesigner* activeDialogPage();
     QWidget* toolWindow(ToolWindowType windowType);
@@ -191,10 +199,10 @@ public slots:
     void editLayoutMode(bool value);
     void addHLayout();
     void addVLayout();
-    void setFont(const QFont &font);
-    void setTextAlign(const bool &horizontalAlign, const Qt::AlignmentFlag &alignment);
+    void setFont(const QFont& font);
+    void setTextAlign(const bool& horizontalAlign, const Qt::AlignmentFlag& alignment);
     void setBorders(const BaseDesignIntf::BorderLines& borders);
-    void setBordersExt(const BaseDesignIntf::BorderLines &border, const double borderWidth,
+    void setBordersExt(const BaseDesignIntf::BorderLines& border, const double borderWidth,
                        const LimeReport::BaseDesignIntf::BorderStyle style, const QString color);
     void editSetting();
     void setUseGrid(bool value);
@@ -211,7 +219,7 @@ public slots:
     void addNewDialog();
 #endif
 private slots:
-    void slotItemSelected(LimeReport::BaseDesignIntf *item);
+    void slotItemSelected(LimeReport::BaseDesignIntf* item);
     void slotSelectionChanged();
     void slotDatasourceCollectionLoaded(const QString&);
     void slotSceneRectChanged(QRectF);
@@ -227,10 +235,11 @@ private slots:
     void slotTabMoved(int from, int to);
 signals:
     void insertModeStarted();
-    void itemInserted(LimeReport::PageDesignIntf*,QPointF,const QString&);
+    void itemInserted(LimeReport::PageDesignIntf*, QPointF, const QString&);
     void itemInsertCanceled(const QString&);
-    void itemSelected(LimeReport::BaseDesignIntf *item);
-    void itemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue);
+    void itemSelected(LimeReport::BaseDesignIntf* item);
+    void itemPropertyChanged(const QString& objectName, const QString& propertyName,
+                             const QVariant& oldValue, const QVariant& newValue);
     void multiItemSelected();
     void commandHistoryChanged();
     void cleared();
@@ -243,24 +252,26 @@ signals:
     void itemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*);
     void pageAdded(PageDesignIntf* page);
     void pageDeleted();
+
 protected:
-    PageView *createPageView(PageDesignIntf *page);
+    PageView* createPageView(PageDesignIntf* page);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
-    void createNewDialogTab(const QString& dialogName,const QByteArray& description);
+    void createNewDialogTab(const QString& dialogName, const QByteArray& description);
 #endif
 private:
-    bool eventFilter(QObject *target, QEvent *event);
+    bool eventFilter(QObject* target, QEvent* event);
     void prepareReport();
     void initThemeIfExist(const QString& themeName, const QString& path);
+
 private:
     ReportEnginePrivateInterface* m_report;
-    QGraphicsView *m_view;
+    QGraphicsView* m_view;
     ScriptEditor* m_scriptEditor;
     TranslationEditor* m_traslationEditor;
 #ifdef HAVE_QTDESIGNER_INTEGRATION
     DialogDesignerManager* m_dialogDesignerManager;
 #endif
-    QMainWindow *m_mainWindow;
+    QMainWindow* m_mainWindow;
 #if QT_VERSION < 0x050000
     LimeReportTabWidget* m_tabWidget;
 #else
@@ -278,7 +289,6 @@ private:
     QMap<QString, QString> m_themes;
     QMap<QString, QString> m_localToEng;
     BaseDesignIntf::UnitType m_defaultUnits;
-
 };
 
 } // namespace LimeReport

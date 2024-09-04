@@ -30,70 +30,93 @@
 #ifndef LRDATASOURCEMANAGER_H
 #define LRDATASOURCEMANAGER_H
 
-#include <QObject>
-#include <QIcon>
-#include "lrdatadesignintf.h"
 #include "lrcollection.h"
-#include "lrglobal.h"
-#include "lrvariablesholder.h"
-#include "lrgroupfunctions.h"
-#include "lrdatasourcemanagerintf.h"
+#include "lrdatadesignintf.h"
 #include "lrdatasourceintf.h"
+#include "lrdatasourcemanagerintf.h"
+#include "lrglobal.h"
+#include "lrgroupfunctions.h"
+#include "lrvariablesholder.h"
 
-namespace LimeReport{
+#include <QIcon>
+#include <QObject>
 
+namespace LimeReport {
 
 class DataSourceManager;
 
 class DataNode {
 public:
-    enum NodeType{Root,Connection,DataSources,Query,SubQuery,Model,Field,Variables,Variable};
-    DataNode(const QString& name="", NodeType type=Root, DataNode* parent=0, const QIcon& icon=QIcon())
-        :m_name(name), m_icon(icon), m_type(type), m_parent(parent){}
+    enum NodeType {
+        Root,
+        Connection,
+        DataSources,
+        Query,
+        SubQuery,
+        Model,
+        Field,
+        Variables,
+        Variable
+    };
+    DataNode(const QString& name = "", NodeType type = Root, DataNode* parent = 0,
+             const QIcon& icon = QIcon()):
+        m_name(name),
+        m_icon(icon),
+        m_type(type),
+        m_parent(parent)
+    {
+    }
     virtual ~DataNode();
-    int       childCount(){return m_childs.count();}
-    DataNode* child(int index){return m_childs[index];}
-    DataNode* parent(){return m_parent;}
-    DataNode* addChild(const QString& name="", NodeType type=Root, const QIcon& icon=QIcon());
-    int       row();
-    QString   name(){return m_name;}
-    QIcon     icon(){return m_icon;}
-    void      clear();
-    NodeType  type(){return m_type;}
+    int childCount() { return m_childs.count(); }
+    DataNode* child(int index) { return m_childs[index]; }
+    DataNode* parent() { return m_parent; }
+    DataNode* addChild(const QString& name = "", NodeType type = Root, const QIcon& icon = QIcon());
+    int row();
+    QString name() { return m_name; }
+    QIcon icon() { return m_icon; }
+    void clear();
+    NodeType type() { return m_type; }
+
 private:
-    QString     m_name;
-    QIcon       m_icon;
-    NodeType    m_type;
-    DataNode*   m_parent;
+    QString m_name;
+    QIcon m_icon;
+    NodeType m_type;
+    DataNode* m_parent;
     QVector<DataNode*> m_childs;
 };
 
-class DataSourceModel : public QAbstractItemModel{
+class DataSourceModel: public QAbstractItemModel {
     Q_OBJECT
     friend class DataSourceManager;
+
 public:
-    DataSourceModel():m_dataManager(NULL),m_rootNode(new DataNode()){}
+    DataSourceModel(): m_dataManager(NULL), m_rootNode(new DataNode()) { }
     DataSourceModel(DataSourceManager* dataManager);
     ~DataSourceModel();
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    QModelIndex index(int row, int column, const QModelIndex& parent) const;
+    QModelIndex parent(const QModelIndex& child) const;
+    int rowCount(const QModelIndex& parent) const;
+    int columnCount(const QModelIndex& parent) const;
+    QVariant data(const QModelIndex& index, int role) const;
     void setDataSourceManager(DataSourceManager* dataManager);
 private slots:
     void slotDatasourcesChanged();
+
 private:
-    DataNode* nodeFromIndex(const QModelIndex &index) const;
+    DataNode* nodeFromIndex(const QModelIndex& index) const;
     void fillFields(DataNode* parent);
     void updateModel();
+
 private:
     DataSourceManager* m_dataManager;
     DataNode* m_rootNode;
 };
 
-class DataSourceManager : public QObject, public ICollectionContainer, public IVariablesContainer, public IDataSourceManager
-{
+class DataSourceManager:
+    public QObject,
+    public ICollectionContainer,
+    public IVariablesContainer,
+    public IDataSourceManager {
     Q_OBJECT
     Q_PROPERTY(ACollectionProperty connections READ fakeCollectionReader)
     Q_PROPERTY(ACollectionProperty queries READ fakeCollectionReader)
@@ -103,40 +126,48 @@ class DataSourceManager : public QObject, public ICollectionContainer, public IV
     Q_PROPERTY(ACollectionProperty csvs READ fakeCollectionReader)
     friend class ReportEnginePrivate;
     friend class ReportRender;
+
 public:
-    typedef QHash<QString,IDataSourceHolder*> DataSourcesMap;
-    enum ClearMethod {All,Owned};
+    typedef QHash<QString, IDataSourceHolder*> DataSourcesMap;
+    enum ClearMethod {
+        All,
+        Owned
+    };
     ~DataSourceManager();
     void connectAllDatabases();
     void addConnection(const QString& connectionName);
-    void addConnectionDesc(ConnectionDesc *);
-    bool checkConnectionDesc(ConnectionDesc *connection);
-    void addQuery(const QString& name, const QString& sqlText, const QString& connectionName="");
-    void addSubQuery(const QString& name, const QString& sqlText, const QString& connectionName, const QString& masterDatasource);
-    void addProxy(const QString& name, const QString& master, const QString& detail, QList<FieldsCorrelation> fields);
-    void addCSV(const QString& name, const QString& csvText, const QString& separator, bool firstRowIsHeader);
-    bool addModel(const QString& name, QAbstractItemModel *model, bool owned);
+    void addConnectionDesc(ConnectionDesc*);
+    bool checkConnectionDesc(ConnectionDesc* connection);
+    void addQuery(const QString& name, const QString& sqlText, const QString& connectionName = "");
+    void addSubQuery(const QString& name, const QString& sqlText, const QString& connectionName,
+                     const QString& masterDatasource);
+    void addProxy(const QString& name, const QString& master, const QString& detail,
+                  QList<FieldsCorrelation> fields);
+    void addCSV(const QString& name, const QString& csvText, const QString& separator,
+                bool firstRowIsHeader);
+    bool addModel(const QString& name, QAbstractItemModel* model, bool owned);
     void removeModel(const QString& name);
-    ICallbackDatasource* createCallbackDatasource(const QString &name);
-    void registerDbCredentialsProvider(IDbCredentialsProvider *provider);
-    void addCallbackDatasource(ICallbackDatasource *datasource, const QString &name);
+    ICallbackDatasource* createCallbackDatasource(const QString& name);
+    void registerDbCredentialsProvider(IDbCredentialsProvider* provider);
+    void addCallbackDatasource(ICallbackDatasource* datasource, const QString& name);
     void setReportVariable(const QString& name, const QVariant& value);
     void deleteVariable(const QString& name);
     bool containsVariable(const QString& variableName);
     void clearUserVariables();
-    void addVariable(const QString& name, const QVariant& value, VarDesc::VarType type=VarDesc::User, RenderPass pass=FirstPass);
-    void changeVariable(const QString& name,const QVariant& value);
-    QVariant    variable(const QString& variableName);
-    RenderPass  variablePass(const QString& name);
+    void addVariable(const QString& name, const QVariant& value,
+                     VarDesc::VarType type = VarDesc::User, RenderPass pass = FirstPass);
+    void changeVariable(const QString& name, const QVariant& value);
+    QVariant variable(const QString& variableName);
+    RenderPass variablePass(const QString& name);
     QStringList variableNames();
     QStringList variableNamesByRenderPass(RenderPass pass);
     QStringList userVariableNames();
-    VarDesc::VarType   variableType(const QString& name);
-    VariableDataType   variableDataType(const QString& name);
-    void setVariableDataType(const QString &name, VariableDataType value);
+    VarDesc::VarType variableType(const QString& name);
+    VariableDataType variableDataType(const QString& name);
+    void setVariableDataType(const QString& name, VariableDataType value);
     bool variableIsSystem(const QString& name);
     bool variableIsMandatory(const QString& name);
-    void setVarableMandatory(const QString &name, bool value);
+    void setVarableMandatory(const QString& name, bool value);
     QString queryText(const QString& dataSourceName);
     QString connectionName(const QString& dataSourceName);
     void removeDatasource(const QString& name);
@@ -148,21 +179,21 @@ public:
     bool isCSV(const QString& datasourceName);
     bool isConnection(const QString& connectionName);
     bool isConnectionConnected(const QString& connectionName);
-    bool connectConnection(const QString &connectionName);
+    bool connectConnection(const QString& connectionName);
     void connectAutoConnections();
-    void disconnectConnection(const QString &connectionName);
+    void disconnectConnection(const QString& connectionName);
     QueryDesc* queryByName(const QString& datasourceName);
     SubQueryDesc* subQueryByName(const QString& datasourceName);
     ProxyDesc* proxyByName(const QString& datasourceName);
     CSVDesc* csvByName(const QString& datasourceName);
-    ConnectionDesc *connectionByName(const QString& connectionName);
+    ConnectionDesc* connectionByName(const QString& connectionName);
     int queryIndexByName(const QString& dataSourceName);
     int subQueryIndexByName(const QString& dataSourceName);
     int proxyIndexByName(const QString& dataSourceName);
     int csvIndexByName(const QString& dataSourceName);
     int connectionIndexByName(const QString& connectionName);
 
-    QList<ConnectionDesc *> &conections();
+    QList<ConnectionDesc*>& conections();
     bool dataSourceIsValid(const QString& name);
     IDataSource* dataSource(const QString& name);
     IDataSourceHolder* dataSourceHolder(const QString& name);
@@ -170,81 +201,91 @@ public:
     QStringList dataSourceNames(const QString& connectionName);
     QStringList connectionNames();
     QStringList fieldNames(const QString& datasourceName);
-    bool        containsField(const QString& fieldName);
-    QVariant    fieldData(const QString& fieldName);
-    QVariant    fieldDataByRowIndex(const QString& fieldName, int rowIndex);
-    QVariant    fieldDataByRowIndex(const QString &fieldName, int rowIndex, int role);
-    QVariant    fieldDataByRowIndex(const QString &fieldName, int rowIndex, const QString &roleName);
-    QVariant    fieldDataByKey(
-            const QString& datasourceName,
-            const QString& valueFieldName,
-            const QString& keyFieldName,
-            QVariant keyValue
-    );
-    QVariant headerData(const QString &fieldName, const QString &roleName);
-    QString columnName(const QString &datasourceName, int index);
-    int columnCount(const QString &datasourceName);
-    void    reopenDatasource(const QString& datasourceName);
+    bool containsField(const QString& fieldName);
+    QVariant fieldData(const QString& fieldName);
+    QVariant fieldDataByRowIndex(const QString& fieldName, int rowIndex);
+    QVariant fieldDataByRowIndex(const QString& fieldName, int rowIndex, int role);
+    QVariant fieldDataByRowIndex(const QString& fieldName, int rowIndex, const QString& roleName);
+    QVariant fieldDataByKey(const QString& datasourceName, const QString& valueFieldName,
+                            const QString& keyFieldName, QVariant keyValue);
+    QVariant headerData(const QString& fieldName, const QString& roleName);
+    QString columnName(const QString& datasourceName, int index);
+    int columnCount(const QString& datasourceName);
+    void reopenDatasource(const QString& datasourceName);
 
     QString extractDataSource(const QString& fieldName);
     QString extractFieldName(const QString& fieldName);
     void setAllDatasourcesToFirst();
     void clear(ClearMethod method);
     void clearGroupFunction();
-    void clearGroupFunctionValues(const QString &bandObjectName);
+    void clearGroupFunctionValues(const QString& bandObjectName);
 
-    QList<QString> groupFunctionNames(){return m_groupFunctionFactory.functionNames();}
-    GroupFunction* addGroupFunction(const QString& name, const QString& expression, const QString& band, const QString &dataBand);
-    GroupFunction* groupFunction(const QString& name, const QString &expression, const QString& band);
+    QList<QString> groupFunctionNames() { return m_groupFunctionFactory.functionNames(); }
+    GroupFunction* addGroupFunction(const QString& name, const QString& expression,
+                                    const QString& band, const QString& dataBand);
+    GroupFunction* groupFunction(const QString& name, const QString& expression,
+                                 const QString& band);
     QList<GroupFunction*> groupFunctionsByBand(const QString& band);
     void updateChildrenData(const QString& datasourceName);
 
-    DataSourceModel* datasourcesModel(){return &m_datasourcesModel;}
-    QString lastError() const { return m_lastError;}
+    DataSourceModel* datasourcesModel() { return &m_datasourcesModel; }
+    QString lastError() const { return m_lastError; }
 
-    void putError(QString error){ if (!m_errorsList.contains(error)) m_errorsList.append(error);}
-    void clearErrors(){ m_errorsList.clear(); m_lastError = "";}
-    QStringList errorsList(){ return m_errorsList;}
+    void putError(QString error)
+    {
+        if (!m_errorsList.contains(error))
+            m_errorsList.append(error);
+    }
+    void clearErrors()
+    {
+        m_errorsList.clear();
+        m_lastError = "";
+    }
+    QStringList errorsList() { return m_errorsList; }
     bool designTime() const;
     void setDesignTime(bool designTime);
 
     QString extractField(QString source);
-    QString replaceVariables(QString query, QMap<QString, QString> &aliasesToParam);
+    QString replaceVariables(QString query, QMap<QString, QString>& aliasesToParam);
     QString replaceVariables(QString value);
-    QString replaceFields(QString query, QMap<QString, QString> &aliasesToParam, QString masterDatasource = "");
-    QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName, const QString& sqlText, QString masterDatasource="");
+    QString replaceFields(QString query, QMap<QString, QString>& aliasesToParam,
+                          QString masterDatasource = "");
+    QSharedPointer<QAbstractItemModel> previewSQL(const QString& connectionName,
+                                                  const QString& sqlText,
+                                                  QString masterDatasource = "");
     void updateDatasourceModel();
-    bool isNeedUpdateDatasourceModel(){ return m_needUpdate;}
+    bool isNeedUpdateDatasourceModel() { return m_needUpdate; }
     QString defaultDatabasePath() const;
-    void setDefaultDatabasePath(const QString &defaultDatabasePath);
+    void setDefaultDatabasePath(const QString& defaultDatabasePath);
 
     QString putGroupFunctionsExpressions(QString expression);
-    void    clearGroupFuntionsExpressions();
+    void clearGroupFuntionsExpressions();
     QString getExpression(QString index);
 
-    ReportSettings *reportSettings() const;
-    void setReportSettings(ReportSettings *reportSettings);
+    ReportSettings* reportSettings() const;
+    void setReportSettings(ReportSettings* reportSettings);
 
-    bool hasChanges(){ return m_hasChanges; }
-    void dropChanges(){ m_hasChanges = false; }
+    bool hasChanges() { return m_hasChanges; }
+    void dropChanges() { m_hasChanges = false; }
 signals:
     void loadCollectionFinished(const QString& collectionName);
     void cleared();
     void datasourcesChanged();
+
 protected:
     void putHolder(const QString& name, LimeReport::IDataSourceHolder* dataSource);
-    void putQueryDesc(QueryDesc *queryDesc);
-    void putSubQueryDesc(SubQueryDesc *subQueryDesc);
-    void putProxyDesc(ProxyDesc *proxyDesc);
+    void putQueryDesc(QueryDesc* queryDesc);
+    void putSubQueryDesc(SubQueryDesc* subQueryDesc);
+    void putProxyDesc(ProxyDesc* proxyDesc);
     void putCSVDesc(CSVDesc* csvDesc);
     bool connectConnection(ConnectionDesc* connectionDesc);
     void clearReportVariables();
     QList<QString> childDatasources(const QString& datasourceName);
     void invalidateChildren(const QString& parentDatasourceName);
-    //ICollectionContainer
-    virtual QObject* createElement(const QString& collectionName,const QString&);
+    // ICollectionContainer
+    virtual QObject* createElement(const QString& collectionName, const QString&);
     virtual int elementsCount(const QString& collectionName);
-    virtual QObject *elementAt(const QString& collectionName,int index);
+    virtual QObject* elementAt(const QString& collectionName, int index);
     virtual void collectionLoadFinished(const QString& collectionName);
 
     void setSystemVariable(const QString& name, const QVariant& value, RenderPass pass);
@@ -253,14 +294,15 @@ protected:
     bool checkConnection(QSqlDatabase db);
     void invalidateQueriesContainsVariable(const QString& variableName);
 private slots:
-    void slotConnectionRenamed(const QString& oldName,const QString& newName);
+    void slotConnectionRenamed(const QString& oldName, const QString& newName);
     void slotQueryTextChanged(const QString& queryName, const QString& queryText);
     void slotVariableHasBeenAdded(const QString& variableName);
     void slotVariableHasBeenChanged(const QString& variableName);
     void slotCSVTextChanged(const QString& csvName, const QString& csvText);
+
 private:
-    explicit DataSourceManager(QObject *parent = 0);
-    bool initAndOpenDB(QSqlDatabase &db, ConnectionDesc &connectionDesc);
+    explicit DataSourceManager(QObject* parent = 0);
+    bool initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc);
     Q_DISABLE_COPY(DataSourceManager)
 private:
     QList<ConnectionDesc*> m_connections;
@@ -270,7 +312,7 @@ private:
     QList<VarDesc*> m_tempVars;
     QList<CSVDesc*> m_csvs;
 
-    QMultiMap<QString,GroupFunction*> m_groupFunctions;
+    QMultiMap<QString, GroupFunction*> m_groupFunctions;
     GroupFunctionFactory m_groupFunctionFactory;
     VariablesHolder m_reportVariables;
     VariablesHolder m_userVariables;
@@ -282,15 +324,14 @@ private:
     bool m_needUpdate;
     QString m_defaultDatabasePath;
     ReportSettings* m_reportSettings;
-    QHash<QString,int> m_groupFunctionsExpressionsMap;
+    QHash<QString, int> m_groupFunctionsExpressionsMap;
     QVector<QString> m_groupFunctionsExpressions;
     IDbCredentialsProvider* m_dbCredentialsProvider;
 
-    QMap< QString, QVector<QString> > m_varToDataSource;
+    QMap<QString, QVector<QString>> m_varToDataSource;
 
     bool m_hasChanges;
 };
 
-}
+} // namespace LimeReport
 #endif // LRDATASOURCEMANAGER_H
-

@@ -31,19 +31,21 @@
 #define LRGROUPFIELDPROPITEM_H
 
 #include "lrobjectpropitem.h"
-namespace LimeReport{
+namespace LimeReport {
 
-class GroupFieldPropItem : public ObjectPropItem
-{
+class GroupFieldPropItem: public ObjectPropItem {
 public:
-    GroupFieldPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
-    void setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const;
-    void setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index);
+    GroupFieldPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                       const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                       bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
+    void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    void setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex& index);
 };
 
-}
-
+} // namespace LimeReport
 
 #endif // LRGROUPFIELDPROPITEM_H

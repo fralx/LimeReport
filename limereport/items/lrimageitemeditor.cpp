@@ -1,13 +1,15 @@
 #include "lrimageitemeditor.h"
 #include "ui_lrimageitemeditor.h"
+
 #include "lrimageitem.h"
 
-#include <QFileInfo>
 #include <QFileDialog>
+#include <QFileInfo>
 
-ImageItemEditor::ImageItemEditor(LimeReport::IEditableImageItem *item, QWidget *parent) :
+ImageItemEditor::ImageItemEditor(LimeReport::IEditableImageItem* item, QWidget* parent):
     QWidget(parent),
-    ui(new Ui::ImageItemEditor), m_item(item)
+    ui(new Ui::ImageItemEditor),
+    m_item(item)
 {
     ui->setupUi(this);
     m_image = item->imageAsByteArray();
@@ -15,15 +17,12 @@ ImageItemEditor::ImageItemEditor(LimeReport::IEditableImageItem *item, QWidget *
     updateImage();
 }
 
-ImageItemEditor::~ImageItemEditor()
-{
-    delete ui;
-}
+ImageItemEditor::~ImageItemEditor() { delete ui; }
 
 void ImageItemEditor::updateImage()
 {
     QPixmap image;
-    if (m_image.isEmpty() && !ui->resourcePath->text().isEmpty()){
+    if (m_image.isEmpty() && !ui->resourcePath->text().isEmpty()) {
         image.load(ui->resourcePath->text());
     } else {
         image.loadFromData(m_image);
@@ -33,9 +32,10 @@ void ImageItemEditor::updateImage()
 
 void ImageItemEditor::on_tbLoadImage_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select image file"), "", m_item->fileFilter());
+    QString fileName
+        = QFileDialog::getOpenFileName(this, tr("Select image file"), "", m_item->fileFilter());
     QFile file(fileName);
-    if (file.open(QIODevice::ReadOnly)){
+    if (file.open(QIODevice::ReadOnly)) {
         m_image = file.readAll();
     }
     updateImage();
@@ -55,10 +55,7 @@ void ImageItemEditor::on_buttonBox_accepted()
     this->close();
 }
 
-void ImageItemEditor::on_buttonBox_rejected()
-{
-    this->close();
-}
+void ImageItemEditor::on_buttonBox_rejected() { this->close(); }
 
 void ImageItemEditor::on_toolButton_clicked()
 {

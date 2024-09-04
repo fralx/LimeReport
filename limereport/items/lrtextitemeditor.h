@@ -30,61 +30,63 @@
 #ifndef LRTEXTITEMEDITOR_H
 #define LRTEXTITEMEDITOR_H
 
-#include <QWidget>
-#include <QTextEdit>
-#include <QCompleter>
-
-#include "lrtextitem.h"
 #include "lrpagedesignintf.h"
+#include "lrtextitem.h"
 
-namespace LimeReport{
+#include <QCompleter>
+#include <QTextEdit>
+#include <QWidget>
+
+namespace LimeReport {
 
 namespace Ui {
-class TextItemEditor;
+    class TextItemEditor;
 }
 
-//class CompleaterTextEditor :public QTextEdit
+// class CompleaterTextEditor :public QTextEdit
 //{
 //    Q_OBJECT
-//public:
+// public:
 //    CompleaterTextEditor(QWidget* parent=0);
 //    void setCompleter(QCompleter* value);
 //    QCompleter* compleater() const{ return m_compleater;}
-//protected:
+// protected:
 //    virtual void keyPressEvent(QKeyEvent *e);
 //    virtual void focusInEvent(QFocusEvent *e);
-//private:
+// private:
 //    QString textUnderCursor() const;
-//private slots:
+// private slots:
 //    void insertCompletion(const QString& completion);
-//private:
+// private:
 //    QCompleter* m_compleater;
 //};
 
-class TextItemEditor : public QWidget
-{
-    Q_OBJECT  
+class TextItemEditor: public QWidget {
+    Q_OBJECT
 public:
     explicit TextItemEditor(LimeReport::TextItem* item, LimeReport::PageDesignIntf* page,
-                             QSettings* settings=0, QWidget *parent = 0);
+                            QSettings* settings = 0, QWidget* parent = 0);
     ~TextItemEditor();
     void setSettings(QSettings* value);
-    QSettings* settings(); 
+    QSettings* settings();
+
 protected:
-    void resizeEvent(QResizeEvent *);
-    void moveEvent(QMoveEvent *);
-    void closeEvent(QCloseEvent *event);
+    void resizeEvent(QResizeEvent*);
+    void moveEvent(QMoveEvent*);
+    void closeEvent(QCloseEvent* event);
     BandDesignIntf* findParentBand();
 private slots:
     void on_pbOk_clicked();
     void on_pbCancel_clicked();
     void slotSplitterMoved(int, int);
+
 private:
     void initUI();
     void readSetting();
     void writeSetting();
+
 private:
-    Ui::TextItemEditor *ui;
+    Ui::TextItemEditor* ui;
     LimeReport::TextItem* m_textItem;
     LimeReport::PageDesignIntf* m_page;
     QSettings* m_settings;

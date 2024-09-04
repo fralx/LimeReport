@@ -31,13 +31,13 @@
 #define LRBASEDESIGNOBJECTSMODEL_H
 
 #include "lrobjectitemmodel.h"
+
 #include <QObject>
-namespace LimeReport{
-class BaseDesignPropertyModel : public QObjectPropertyModel
-{
+namespace LimeReport {
+class BaseDesignPropertyModel: public QObjectPropertyModel {
 public:
-    explicit BaseDesignPropertyModel(QObject* parent=0);
-    virtual void setObject(QObject *object);
+    explicit BaseDesignPropertyModel(QObject* parent = 0);
+    virtual void setObject(QObject* object);
 };
-}
+} // namespace LimeReport
 #endif // LRBASEDESIGNOBJECTSMODEL_H

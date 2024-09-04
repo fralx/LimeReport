@@ -32,24 +32,29 @@
 
 #include <QTreeWidget>
 
-namespace LimeReport{
+namespace LimeReport {
 
-
-class DataBrowserTree : public QTreeWidget
-{
+class DataBrowserTree: public QTreeWidget {
     Q_OBJECT
 public:
-    enum NodeType{Connection, Table, Row, Category, Variable, ExternalVariable};
-    explicit DataBrowserTree(QWidget *parent = 0);
+    enum NodeType {
+        Connection,
+        Table,
+        Row,
+        Category,
+        Variable,
+        ExternalVariable
+    };
+    explicit DataBrowserTree(QWidget* parent = 0);
+
 protected:
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> &items) const;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    virtual QMimeData* mimeData(const QList<QTreeWidgetItem*>& items) const;
 #else
-    virtual QMimeData *mimeData(const QList<QTreeWidgetItem*> items) const;
+    virtual QMimeData* mimeData(const QList<QTreeWidgetItem*> items) const;
 #endif
 
 public slots:
-
 };
 
 } // namespace LimeReport

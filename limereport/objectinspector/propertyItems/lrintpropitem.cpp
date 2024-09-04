@@ -28,56 +28,62 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrintpropitem.h"
-#include <limits>
+
 #include <QDoubleSpinBox>
 #include <QHBoxLayout>
 
-namespace{
-    LimeReport::ObjectPropItem * createIntPropItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
-    {
-        return new LimeReport::IntPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-    bool VARIABLE_IS_NOT_USED  registred = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("int",""),QObject::tr("int"),createIntPropItem);
+#include <limits>
+
+namespace {
+LimeReport::ObjectPropItem* createIntPropItem(QObject* object,
+                                              LimeReport::ObjectPropItem::ObjectsList* objects,
+                                              const QString& name, const QString& displayName,
+                                              const QVariant& data,
+                                              LimeReport::ObjectPropItem* parent, bool readonly)
+{
+    return new LimeReport::IntPropItem(object, objects, name, displayName, data, parent, readonly);
+}
+bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
+    LimeReport::APropIdent("int", ""), QObject::tr("int"), createIntPropItem);
 } // namespace
 
-namespace LimeReport{
+namespace LimeReport {
 
-QWidget *IntPropItem::createProperyEditor(QWidget *parent) const
+QWidget* IntPropItem::createProperyEditor(QWidget* parent) const
 {
-//    QWidget* base = new QWidget(parent);
-//    QHBoxLayout* layout = new QHBoxLayout();
-//    base->setLayout(layout);
+    //    QWidget* base = new QWidget(parent);
+    //    QHBoxLayout* layout = new QHBoxLayout();
+    //    base->setLayout(layout);
 
-//    QSpinBox *editor = new QSpinBox(parent);
-//    editor->setMaximum(std::numeric_limits<int>::max());
-//    editor->setMinimum(std::numeric_limits<int>::min());
+    //    QSpinBox *editor = new QSpinBox(parent);
+    //    editor->setMaximum(std::numeric_limits<int>::max());
+    //    editor->setMinimum(std::numeric_limits<int>::min());
 
-//    layout->addWidget(editor);
+    //    layout->addWidget(editor);
     return new SpinBoxEditor(parent);
 }
 
-void IntPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+void IntPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
-    SpinBoxEditor *editor =qobject_cast<SpinBoxEditor *>(propertyEditor);
+    SpinBoxEditor* editor = qobject_cast<SpinBoxEditor*>(propertyEditor);
     editor->setValue(propertyValue().toInt());
 }
 
-void IntPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void IntPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                               const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<SpinBoxEditor*>(propertyEditor)->value());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
-    if (objects()){
-        foreach(QObject* item, *objects()){
-            if (item->metaObject()->indexOfProperty(propertyName().toLatin1())!=-1){
-                item->setProperty(propertyName().toLatin1(),propertyValue());
+    model->setData(index, qobject_cast<SpinBoxEditor*>(propertyEditor)->value());
+    object()->setProperty(propertyName().toLatin1(), propertyValue());
+    if (objects()) {
+        foreach (QObject* item, *objects()) {
+            if (item->metaObject()->indexOfProperty(propertyName().toLatin1()) != -1) {
+                item->setProperty(propertyName().toLatin1(), propertyValue());
             }
         }
     }
 }
 
-SpinBoxEditor::SpinBoxEditor(QWidget *parent)
-    :QWidget(parent)
+SpinBoxEditor::SpinBoxEditor(QWidget* parent): QWidget(parent)
 {
     m_valueEditor = new QSpinBox(this);
     m_valueEditor->setMinimum(std::numeric_limits<int>::min());
@@ -85,20 +91,14 @@ SpinBoxEditor::SpinBoxEditor(QWidget *parent)
     setFocusProxy(m_valueEditor);
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->addWidget(m_valueEditor);
-    hLayout->setContentsMargins(1,1,1,1);
+    hLayout->setContentsMargins(1, 1, 1, 1);
     hLayout->setSpacing(0);
     setAutoFillBackground(true);
     connect(m_valueEditor, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
 }
 
-int SpinBoxEditor::value()
-{
-    return m_valueEditor->value();
-}
+int SpinBoxEditor::value() { return m_valueEditor->value(); }
 
-void SpinBoxEditor::setValue(int value)
-{
-    m_valueEditor->setValue(value);
-}
+void SpinBoxEditor::setValue(int value) { m_valueEditor->setValue(value); }
 
 } // namespace LimeReport

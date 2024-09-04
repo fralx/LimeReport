@@ -28,10 +28,12 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrflagspropitem.h"
-#include "lrenumpropitem.h"
-#include "lrboolpropitem.h"
+
 #include "../editors/lrcheckboxeditor.h"
+#include "lrboolpropitem.h"
+#include "lrenumpropitem.h"
 #include "lrobjectitemmodel.h"
+
 #include <QIcon>
 #include <QImage>
 #include <QPainter>
@@ -40,14 +42,17 @@
 
 namespace {
 
-LimeReport::ObjectPropItem * createFlagsPropItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
+LimeReport::ObjectPropItem* createFlagsPropItem(QObject* object,
+                                                LimeReport::ObjectPropItem::ObjectsList* objects,
+                                                const QString& name, const QString& displayName,
+                                                const QVariant& data,
+                                                LimeReport::ObjectPropItem* parent, bool readonly)
 {
-    return new LimeReport::FlagsPropItem(object, objects, name, displayName, data, parent, readonly);
+    return new LimeReport::FlagsPropItem(object, objects, name, displayName, data, parent,
+                                         readonly);
 }
 bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
-    LimeReport::APropIdent("flags",""),QObject::tr("flags"),createFlagsPropItem
-);
+    LimeReport::APropIdent("flags", ""), QObject::tr("flags"), createFlagsPropItem);
 
 } // namespace
 
@@ -55,52 +60,73 @@ namespace LimeReport {
 
 void FlagsPropItem::createChildren()
 {
-    QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
-    for (int i=0;i<propEnum.keyCount();i++)
-    {
-        if ( propEnum.keyToValue(propEnum.key(i)) !=0 ) {
+    QMetaEnum propEnum
+        = object()
+              ->metaObject()
+              ->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1()))
+              .enumerator();
+    for (int i = 0; i < propEnum.keyCount(); i++) {
+        if (propEnum.keyToValue(propEnum.key(i)) != 0) {
             this->appendItem(new LimeReport::FlagPropItem(
-                                 object(), objects(), QString(propEnum.key(i)), tr(propEnum.key(i)),
-                                 bool((propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))==propEnum.keyToValue(propEnum.key(i))),
-                                 this, false
-                                 )
-                             );
+                object(), objects(), QString(propEnum.key(i)), tr(propEnum.key(i)),
+                bool((propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))
+                     == propEnum.keyToValue(propEnum.key(i))),
+                this, false));
         }
     }
 }
 
 void FlagsPropItem::updateChildren()
 {
-    QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
-    for (int i=0;i<propEnum.keyCount();i++)
-    {
+    QMetaEnum propEnum
+        = object()
+              ->metaObject()
+              ->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1()))
+              .enumerator();
+    for (int i = 0; i < propEnum.keyCount(); i++) {
         ObjectPropItem* property = findChild(QString(propEnum.key(i)));
         if (property)
-            property->setPropertyValue(bool((propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))==propEnum.keyToValue(propEnum.key(i))));
+            property->setPropertyValue(
+                bool((propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))
+                     == propEnum.keyToValue(propEnum.key(i))));
     }
 }
 
-FlagsPropItem::FlagsPropItem(QObject *object, ObjectPropItem::ObjectsList *objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool readonly)
-    :ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+FlagsPropItem::FlagsPropItem(QObject* object, ObjectPropItem::ObjectsList* objects,
+                             const QString& name, const QString& displayName, const QVariant& value,
+                             ObjectPropItem* parent, bool readonly):
+    ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
 {
     createChildren();
 }
 
-FlagsPropItem::FlagsPropItem(QObject *object, ObjectPropItem::ObjectsList *objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool readonly, QSet<int> acceptableValues)
-    :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_acceptableValues(acceptableValues){}
+FlagsPropItem::FlagsPropItem(QObject* object, ObjectPropItem::ObjectsList* objects,
+                             const QString& name, const QString& displayName, const QVariant& value,
+                             ObjectPropItem* parent, bool readonly, QSet<int> acceptableValues):
+    ObjectPropItem(object, objects, name, displayName, value, parent, readonly),
+    m_acceptableValues(acceptableValues)
+{
+}
 
 QString FlagsPropItem::displayValue() const
 {
     QString result;
-    QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1())).enumerator();
-    for (int i=0;i<propEnum.keyCount();i++)
-    {
-        if ((propEnum.keyToValue(propEnum.key(i)) == 0) ? propertyValue().toInt() == 0 : (propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i))) == propEnum.keyToValue(propEnum.key(i)))
-        {
-            if (result.isEmpty()) result+= isTranslateProperty() ? tr(propEnum.key(i)) : propEnum.key(i);
-            else result=result+" | "+ (isTranslateProperty() ? tr(propEnum.key(i)) : propEnum.key(i));
+    QMetaEnum propEnum
+        = object()
+              ->metaObject()
+              ->property(object()->metaObject()->indexOfProperty(propertyName().toLatin1()))
+              .enumerator();
+    for (int i = 0; i < propEnum.keyCount(); i++) {
+        if ((propEnum.keyToValue(propEnum.key(i)) == 0)
+                ? propertyValue().toInt() == 0
+                : (propertyValue().toInt() & propEnum.keyToValue(propEnum.key(i)))
+                    == propEnum.keyToValue(propEnum.key(i))) {
+            if (result.isEmpty())
+                result += isTranslateProperty() ? tr(propEnum.key(i)) : propEnum.key(i);
+            else
+                result = result + " | "
+                    + (isTranslateProperty() ? tr(propEnum.key(i)) : propEnum.key(i));
         }
-
     }
     return result;
 }
@@ -111,9 +137,7 @@ void FlagsPropItem::setPropertyValue(QVariant value)
     updateChildren();
 }
 
-void FlagsPropItem::slotEnumChanged(QString /*text*/)
-{
-}
+void FlagsPropItem::slotEnumChanged(QString /*text*/) { }
 
 void FlagsPropItem::translateFlagsItem()
 {
@@ -125,34 +149,42 @@ void FlagsPropItem::translateFlagsItem()
     tr("AllLines");
 }
 
-FlagPropItem::FlagPropItem(QObject* object, ObjectsList* objects, const QString &propName, const QString &displayName, const QVariant &value, ObjectPropItem* parent, bool readonly)
-    :BoolPropItem(object, objects, propName,displayName,value,parent,readonly)
+FlagPropItem::FlagPropItem(QObject* object, ObjectsList* objects, const QString& propName,
+                           const QString& displayName, const QVariant& value,
+                           ObjectPropItem* parent, bool readonly):
+    BoolPropItem(object, objects, propName, displayName, value, parent, readonly)
 {
 }
 
-void FlagPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &/*index*/) const
+void FlagPropItem::setPropertyEditorData(QWidget* propertyEditor,
+                                         const QModelIndex& /*index*/) const
 {
-    CheckBoxEditor *editor = qobject_cast<CheckBoxEditor*>(propertyEditor);
+    CheckBoxEditor* editor = qobject_cast<CheckBoxEditor*>(propertyEditor);
     editor->setChecked(propertyValue().toBool());
 }
 
-void FlagPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void FlagPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                const QModelIndex& index)
 {
     bool value = qobject_cast<CheckBoxEditor*>(propertyEditor)->isChecked();
-    model->setData(index,value);
+    model->setData(index, value);
     int flags = object()->property(parent()->propertyName().toLatin1()).toInt();
-    if (value) flags = flags | valueByName(propertyName());
-    else if (flags & valueByName(propertyName())) flags = flags ^ valueByName(propertyName());
-    setValueToObject(parent()->propertyName(),flags);
+    if (value)
+        flags = flags | valueByName(propertyName());
+    else if (flags & valueByName(propertyName()))
+        flags = flags ^ valueByName(propertyName());
+    setValueToObject(parent()->propertyName(), flags);
     parent()->setPropertyValue(flags);
 }
 
 int FlagPropItem::valueByName(const QString& typeName)
 {
-    QMetaEnum propEnum = object()->metaObject()->property(object()->metaObject()->indexOfProperty(parent()->propertyName().toLatin1())).enumerator();
+    QMetaEnum propEnum = object()
+                             ->metaObject()
+                             ->property(object()->metaObject()->indexOfProperty(
+                                 parent()->propertyName().toLatin1()))
+                             .enumerator();
     return propEnum.keyToValue(typeName.toLatin1());
 }
 
 } // namespace LimeReport
-
-

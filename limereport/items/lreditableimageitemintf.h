@@ -5,16 +5,15 @@
 
 namespace LimeReport {
 
-class IEditableImageItem{
+class IEditableImageItem {
 public:
     virtual QByteArray imageAsByteArray() const = 0;
     virtual void setImageAsByteArray(QByteArray image) = 0;
-    virtual QString resourcePath() const  = 0;
-    virtual void setResourcePath(const QString &value) = 0;
+    virtual QString resourcePath() const = 0;
+    virtual void setResourcePath(const QString& value) = 0;
     virtual QString fileFilter() const = 0;
 };
 
-}
-
+} // namespace LimeReport
 
 #endif // LREDITABLEIMAGEITEMINTF_H

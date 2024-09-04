@@ -31,31 +31,37 @@
 #define LRDATASOURCEPROPITEM_H
 
 #include "lrobjectpropitem.h"
-namespace LimeReport{
+namespace LimeReport {
 
-class DatasourcePropItem : public LimeReport::ObjectPropItem
-{
+class DatasourcePropItem: public LimeReport::ObjectPropItem {
     Q_OBJECT
 
 public:
-    DatasourcePropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
-    void setPropertyEditorData(QWidget *, const QModelIndex &) const;
-    void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &);
+    DatasourcePropItem(QObject* object, ObjectsList* objects, const QString& name,
+                       const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                       bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
+    void setPropertyEditorData(QWidget*, const QModelIndex&) const;
+    void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&);
 };
 
-class FieldPropItem : public LimeReport::ObjectPropItem
-{
+class FieldPropItem: public LimeReport::ObjectPropItem {
     Q_OBJECT
 
 public:
-    FieldPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
-    void setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const;
-    void setModelData(QWidget *propertyEditor, QAbstractItemModel *, const QModelIndex &index);
+    FieldPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                  const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                  bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
+    void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    void setModelData(QWidget* propertyEditor, QAbstractItemModel*, const QModelIndex& index);
 };
 
-}
+} // namespace LimeReport
 #endif // LRDATASOURCEPROPITEM_H

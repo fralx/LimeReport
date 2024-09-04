@@ -1,17 +1,28 @@
 #include "lraxisdata.h"
 
-#include <cmath>
 #include <QDebug>
 
+#include <cmath>
+
 namespace LimeReport {
-AxisData::AxisData(AxisType type, QObject *parent)
-    : QObject(parent), m_rangeMin(0), m_rangeMax(0),
-      m_minValue(0), m_maxValue(0), m_step(0),
-      m_delta(0), m_segmentCount(4), m_calculateAxisScale(false),
-      m_reverseDirection(false), m_manualMaximum(0),
-      m_manualMinimum(0), m_manualStep(0), m_isMaximumAutomatic(true),
-      m_isMinimumAutomatic(true), m_isStepAutomatic(true),
-      m_type(type)
+AxisData::AxisData(AxisType type, QObject* parent):
+    QObject(parent),
+    m_rangeMin(0),
+    m_rangeMax(0),
+    m_minValue(0),
+    m_maxValue(0),
+    m_step(0),
+    m_delta(0),
+    m_segmentCount(4),
+    m_calculateAxisScale(false),
+    m_reverseDirection(false),
+    m_manualMaximum(0),
+    m_manualMinimum(0),
+    m_manualStep(0),
+    m_isMaximumAutomatic(true),
+    m_isMinimumAutomatic(true),
+    m_isStepAutomatic(true),
+    m_type(type)
 {
 }
 
@@ -22,16 +33,17 @@ QString AxisData::toString() const
     QTextStream stream(&str);
     stream << "{ "
            << "min: " << m_minValue << ", max: " << m_maxValue << ", step: " << m_step
-           << ", range min: " << m_rangeMin << ", range max: " << m_rangeMax << ", segments: " << m_segmentCount
-           << ", reverseDiection: " << m_reverseDirection << ", calculateAxisScale: " << m_calculateAxisScale
-           << ", manualMaxEnabled: " << !m_isMaximumAutomatic << ", manualMinEnabled: " << !m_isMinimumAutomatic
+           << ", range min: " << m_rangeMin << ", range max: " << m_rangeMax
+           << ", segments: " << m_segmentCount << ", reverseDiection: " << m_reverseDirection
+           << ", calculateAxisScale: " << m_calculateAxisScale
+           << ", manualMaxEnabled: " << !m_isMaximumAutomatic
+           << ", manualMinEnabled: " << !m_isMinimumAutomatic
            << ", manualStepEnabled: " << !m_isStepAutomatic << ", manualMax: " << m_manualMaximum
-           << ", manualMin: " << m_manualMinimum << ", manualStep: " << m_manualStep
-           << " }";
+           << ", manualMin: " << m_manualMinimum << ", manualStep: " << m_manualStep << " }";
     return str;
 }
 
-void AxisData::copy(AxisData *other)
+void AxisData::copy(AxisData* other)
 {
     m_calculateAxisScale = other->calculateAxisScale();
     m_reverseDirection = other->reverseDirection();
@@ -81,45 +93,21 @@ void AxisData::updateForDesignMode()
     m_calculateAxisScale = tmp;
 }
 
-int AxisData::segmentCount() const
-{
-    return m_segmentCount;
-}
+int AxisData::segmentCount() const { return m_segmentCount; }
 
-bool AxisData::calculateAxisScale() const
-{
-    return m_calculateAxisScale;
-}
+bool AxisData::calculateAxisScale() const { return m_calculateAxisScale; }
 
-qreal AxisData::rangeMin() const
-{
-    return m_rangeMin;
-}
+qreal AxisData::rangeMin() const { return m_rangeMin; }
 
-qreal AxisData::rangeMax() const
-{
-    return m_rangeMax;
-}
+qreal AxisData::rangeMax() const { return m_rangeMax; }
 
-qreal AxisData::minValue() const
-{
-    return m_minValue;
-}
+qreal AxisData::minValue() const { return m_minValue; }
 
-qreal AxisData::maxValue() const
-{
-    return m_maxValue;
-}
+qreal AxisData::maxValue() const { return m_maxValue; }
 
-qreal AxisData::step() const
-{
-    return m_step;
-}
+qreal AxisData::step() const { return m_step; }
 
-qreal AxisData::delta() const
-{
-    return m_delta;
-}
+qreal AxisData::delta() const { return m_delta; }
 
 void AxisData::calculateRoundedAxisScale()
 {
@@ -159,12 +147,12 @@ void AxisData::calculateRoundedAxisScale()
     bool isLoopFinished = false;
 
     // Calculate until segment count is below maximum
-    while( !isLoopFinished ) {
+    while (!isLoopFinished) {
         if (calculateStep) {
-            if(isStepNormalized) {
-                if( normalizedStep == 1.0 ) {
+            if (isStepNormalized) {
+                if (normalizedStep == 1.0) {
                     normalizedStep = 2.0;
-                } else if( normalizedStep == 2.0 ) {
+                } else if (normalizedStep == 2.0) {
                     normalizedStep = 5.0;
                 } else {
                     normalizedStep = 1.0;
@@ -172,14 +160,14 @@ void AxisData::calculateRoundedAxisScale()
                 }
             } else {
                 const double startingStep = (temporaryMax - temporaryMin) / maximumSegmentCount;
-                const int exponent = static_cast< int >( floor( log10( startingStep ) ) );
+                const int exponent = static_cast<int>(floor(log10(startingStep)));
                 stepMagnitude = pow(10.0, static_cast<double>(exponent));
                 normalizedStep = startingStep / stepMagnitude;
-                if( normalizedStep <= 1.0 ) {
+                if (normalizedStep <= 1.0) {
                     normalizedStep = 1.0;
-                } else if( normalizedStep <= 2.0 ) {
+                } else if (normalizedStep <= 2.0) {
                     normalizedStep = 2.0;
-                } else if( normalizedStep <= 5.0 ) {
+                } else if (normalizedStep <= 5.0) {
                     normalizedStep = 5.0;
                 } else {
                     normalizedStep = 1.0;
@@ -197,7 +185,8 @@ void AxisData::calculateRoundedAxisScale()
             currentAxisMinimum = calculateNewMinimum(currentAxisMinimum, m_step);
             const qreal currentDelta = currentAxisMaximum - currentAxisMinimum;
             const qreal actualDelta = currentAxisMaximum - minValue();
-            if ((currentAxisMinimum != 0.0) && ((actualDelta / currentDelta) > minAndMaxSpacingOffset)) {
+            if ((currentAxisMinimum != 0.0)
+                && ((actualDelta / currentDelta) > minAndMaxSpacingOffset)) {
                 currentAxisMinimum -= m_step;
             }
         }
@@ -206,12 +195,14 @@ void AxisData::calculateRoundedAxisScale()
             currentAxisMaximum = calculateNewMaximum(currentAxisMaximum, m_step);
             const qreal currentDelta = currentAxisMaximum - currentAxisMinimum;
             const qreal actualDelta = maxValue() - currentAxisMinimum;
-            if ((currentAxisMaximum != 0.0) && ((actualDelta / currentDelta) > minAndMaxSpacingOffset)) {
+            if ((currentAxisMaximum != 0.0)
+                && ((actualDelta / currentDelta) > minAndMaxSpacingOffset)) {
                 currentAxisMaximum += m_step;
             }
         }
 
-        m_segmentCount = static_cast<int>(round((currentAxisMaximum - currentAxisMinimum) / m_step));
+        m_segmentCount
+            = static_cast<int>(round((currentAxisMaximum - currentAxisMinimum) / m_step));
         m_rangeMin = currentAxisMinimum;
         m_rangeMax = currentAxisMaximum;
         // Check also if step is correctly calucalted. It is possible for float steps that
@@ -234,7 +225,7 @@ void AxisData::calculateSimpleAxisScale()
     m_segmentCount = 4;
     const int delta = maxValue() - min;
     int max = delta;
-    while (max % m_segmentCount != 0){
+    while (max % m_segmentCount != 0) {
         max++;
     }
     m_rangeMax = minValue() + max;
@@ -271,79 +262,43 @@ void AxisData::setCalculateAxisScale(bool newCalculateAxisScale)
     m_calculateAxisScale = newCalculateAxisScale;
 }
 
-bool AxisData::reverseDirection() const
-{
-    return m_reverseDirection;
-}
+bool AxisData::reverseDirection() const { return m_reverseDirection; }
 
-void AxisData::setReverseDirection(bool reverseDirection)
-{
-    m_reverseDirection = reverseDirection;
-}
+void AxisData::setReverseDirection(bool reverseDirection) { m_reverseDirection = reverseDirection; }
 
-qreal AxisData::manualMaximum() const
-{
-    return m_manualMaximum;
-}
+qreal AxisData::manualMaximum() const { return m_manualMaximum; }
 
-void AxisData::setManualMaximum(qreal newManualMaximum)
-{
-    m_manualMaximum = newManualMaximum;
-}
+void AxisData::setManualMaximum(qreal newManualMaximum) { m_manualMaximum = newManualMaximum; }
 
-qreal AxisData::manualMinimum() const
-{
-    return m_manualMinimum;
-}
+qreal AxisData::manualMinimum() const { return m_manualMinimum; }
 
-void AxisData::setManualMinimum(qreal newManualMinimum)
-{
-    m_manualMinimum = newManualMinimum;
-}
+void AxisData::setManualMinimum(qreal newManualMinimum) { m_manualMinimum = newManualMinimum; }
 
-qreal AxisData::manualStep() const
-{
-    return m_manualStep;
-}
+qreal AxisData::manualStep() const { return m_manualStep; }
 
-void AxisData::setManualStep(qreal newManualStep)
-{
-    m_manualStep = newManualStep;
-}
+void AxisData::setManualStep(qreal newManualStep) { m_manualStep = newManualStep; }
 
-bool AxisData::isMaximumAutomatic() const
-{
-    return m_isMaximumAutomatic;
-}
+bool AxisData::isMaximumAutomatic() const { return m_isMaximumAutomatic; }
 
 void AxisData::setIsMaximumAutomatic(bool newIsMaximumAutomatic)
 {
     m_isMaximumAutomatic = newIsMaximumAutomatic;
 }
 
-bool AxisData::isMinimumAutomatic() const
-{
-    return m_isMinimumAutomatic;
-}
+bool AxisData::isMinimumAutomatic() const { return m_isMinimumAutomatic; }
 
 void AxisData::setIsMinimumAutomatic(bool newIsMinimumAutomatic)
 {
     m_isMinimumAutomatic = newIsMinimumAutomatic;
 }
 
-bool AxisData::isStepAutomatic() const
-{
-    return m_isStepAutomatic;
-}
+bool AxisData::isStepAutomatic() const { return m_isStepAutomatic; }
 
 void AxisData::setIsStepAutomatic(bool newIsStepAutomatic)
 {
     m_isStepAutomatic = newIsStepAutomatic;
 }
 
-AxisData::AxisType AxisData::type() const
-{
-    return m_type;
-}
+AxisData::AxisType AxisData::type() const { return m_type; }
 
-}
+} // namespace LimeReport

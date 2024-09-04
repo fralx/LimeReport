@@ -8,16 +8,16 @@ namespace Ui {
 class LanguageSelectDialog;
 }
 
-class LanguageSelectDialog : public QDialog {
+class LanguageSelectDialog: public QDialog {
     Q_OBJECT
 
-  public:
-    explicit LanguageSelectDialog(QWidget *parent = 0);
+public:
+    explicit LanguageSelectDialog(QWidget* parent = 0);
     ~LanguageSelectDialog();
     QLocale::Language getSelectedLanguage();
 
-  private:
-    Ui::LanguageSelectDialog *ui;
+private:
+    Ui::LanguageSelectDialog* ui;
 };
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

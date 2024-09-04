@@ -30,71 +30,79 @@
 #ifndef LRSIMPLETAGPARSER_H
 #define LRSIMPLETAGPARSER_H
 
-#include <QVector>
 #include <QString>
 #include <QStringList>
+#include <QVector>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class Tag{
+class Tag {
 public:
-    Tag(QString text,int beginPos,int endPos)
-        :m_tagText(text),m_beginPos(beginPos),m_endPos(endPos){}
-    Tag():m_tagText(""),m_beginPos(-1),m_endPos(-1){}
-    bool isValid(){return (!m_tagText.isEmpty())&&(m_beginPos>0)&&(m_endPos>0);}
-    QString tagText() const {return m_tagText;}
-    int begin() const {return m_beginPos;}
-    int end() const {return m_endPos;}
+    Tag(QString text, int beginPos, int endPos):
+        m_tagText(text),
+        m_beginPos(beginPos),
+        m_endPos(endPos)
+    {
+    }
+    Tag(): m_tagText(""), m_beginPos(-1), m_endPos(-1) { }
+    bool isValid() { return (!m_tagText.isEmpty()) && (m_beginPos > 0) && (m_endPos > 0); }
+    QString tagText() const { return m_tagText; }
+    int begin() const { return m_beginPos; }
+    int end() const { return m_endPos; }
+
 private:
     QString m_tagText;
     int m_beginPos;
     int m_endPos;
 };
 
-class Symb{
+class Symb {
 public:
-    Symb(QString text, int pos):m_text(text),m_pos(pos){}
-    Symb():m_text(""),m_pos(-1){}
-    bool isValid(){return (!m_text.isEmpty())&&(m_pos>0);}
-    bool isTag(){return isValid()&&m_text.at(0)=='<';}
-    QString text(){return m_text;}
-    int pos(){return m_pos;}
+    Symb(QString text, int pos): m_text(text), m_pos(pos) { }
+    Symb(): m_text(""), m_pos(-1) { }
+    bool isValid() { return (!m_text.isEmpty()) && (m_pos > 0); }
+    bool isTag() { return isValid() && m_text.at(0) == '<'; }
+    QString text() { return m_text; }
+    int pos() { return m_pos; }
+
 private:
     QString m_text;
     int m_pos;
 };
 
-struct TagDiff{
+struct TagDiff {
     enum Direction {
-        Inner=0,
-        Outer=1
+        Inner = 0,
+        Outer = 1
     };
     Tag* tag;
     Direction direction;
 };
 
-class HtmlContext
-{
+class HtmlContext {
 public:
     HtmlContext(QString html);
     ~HtmlContext();
-    static QString extractWord(QString text,int index);
+    static QString extractWord(QString text, int index);
     static QVector<TagDiff> tagVectDiff(QVector<Tag*> source, QVector<Tag*> dest);
     static bool isVectorEqual(QVector<Tag*> source, QVector<Tag*> dest);
     void fillTagVector(QString html);
-    //QString extendTextByTags(QString text, int pos);
-    QVector<Tag *> tagsAt(int pos);
+    // QString extendTextByTags(QString text, int pos);
+    QVector<Tag*> tagsAt(int pos);
     Symb symbAt(int pos);
     void clearTags();
     void clearSymbs();
+
 private:
-    static QString parseTag(QVector<Tag*>& storage,QString text,int& curPos, bool createTag=true);
+    static QString parseTag(QVector<Tag*>& storage, QString text, int& curPos,
+                            bool createTag = true);
     void parseSymbs(QString text);
     void initSymbPatterns();
+
 private:
     QVector<Tag*> m_tags;
     QVector<Symb*> m_symbs;
     QStringList m_symbPatterns;
 };
-}
+} // namespace LimeReport
 #endif // LRSIMPLETAGPARSER_H

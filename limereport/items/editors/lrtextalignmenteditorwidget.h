@@ -30,30 +30,34 @@
 #ifndef LRTEXTALIGNMENTEDITORWIDGET_H
 #define LRTEXTALIGNMENTEDITORWIDGET_H
 
-#include "lrreportdesignwidget.h"
 #include "lritemeditorwidget.h"
-#include <QToolBar>
+#include "lrreportdesignwidget.h"
+
 #include <QAction>
+#include <QToolBar>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class TextAlignmentEditorWidget:public ItemEditorWidget
-{
+class TextAlignmentEditorWidget: public ItemEditorWidget {
     Q_OBJECT
 public:
-    explicit TextAlignmentEditorWidget(const QString &title, QWidget *parent = 0);
+    explicit TextAlignmentEditorWidget(const QString& title, QWidget* parent = 0);
     int flag() const;
+
 protected:
-    void setItemEvent(BaseDesignIntf *item);
+    void setItemEvent(BaseDesignIntf* item);
     void initEditor();
     bool m_textAttibutesIsChanging;
+
 private:
     void updateValues(const Qt::Alignment& align);
     Qt::Alignment createAlignment();
 protected slots:
     virtual void slotTextHAttribsChanged(bool);
     virtual void slotTextVAttribsChanged(bool);
-    virtual void slotPropertyChanged(const QString& objectName, const QString& property, const QVariant &oldValue, const QVariant &newValue);
+    virtual void slotPropertyChanged(const QString& objectName, const QString& property,
+                                     const QVariant& oldValue, const QVariant& newValue);
+
 private:
     QAction* m_textAliginLeft;
     QAction* m_textAliginRight;
@@ -65,36 +69,49 @@ private:
     int m_flag;
 };
 
-class TextAlignmentEditorWidgetForPage: public TextAlignmentEditorWidget{
+class TextAlignmentEditorWidgetForPage: public TextAlignmentEditorWidget {
     Q_OBJECT
 public:
-    TextAlignmentEditorWidgetForPage(PageDesignIntf* page, const QString &title, QWidget *parent = 0)
-        :TextAlignmentEditorWidget(title, parent), m_page(page){}
+    TextAlignmentEditorWidgetForPage(PageDesignIntf* page, const QString& title,
+                                     QWidget* parent = 0):
+        TextAlignmentEditorWidget(title, parent),
+        m_page(page)
+    {
+    }
+
 protected:
     void initEditor();
 protected slots:
     void slotTextHAttribsChanged(bool value);
     void slotTextVAttribsChanged(bool value);
+
 private:
     PageDesignIntf* m_page;
 };
 
 #ifdef HAVE_REPORT_DESIGNER
-class TextAlignmentEditorWidgetForDesigner: public TextAlignmentEditorWidget{
+class TextAlignmentEditorWidgetForDesigner: public TextAlignmentEditorWidget {
     Q_OBJECT
 public:
-    TextAlignmentEditorWidgetForDesigner(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0)
-        :TextAlignmentEditorWidget(title, parent), m_reportEditor(reportEditor){initEditor();}
+    TextAlignmentEditorWidgetForDesigner(ReportDesignWidget* reportEditor, const QString& title,
+                                         QWidget* parent = 0):
+        TextAlignmentEditorWidget(title, parent),
+        m_reportEditor(reportEditor)
+    {
+        initEditor();
+    }
+
 protected:
     void initEditor();
 protected slots:
     void slotTextHAttribsChanged(bool value);
     void slotTextVAttribsChanged(bool value);
+
 private:
     ReportDesignWidget* m_reportEditor;
 };
 #endif
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // LRTEXTALIGNMENTEDITORWIDGET_H
