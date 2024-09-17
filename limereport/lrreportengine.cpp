@@ -78,8 +78,6 @@
 
 namespace LimeReport{
 
-QSettings* ReportEngine::m_settings = 0;
-
 ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
     QObject(parent), m_preparedPagesManager(new PreparedPages(&m_preparedPages)), m_fileName(""), m_settings(0), m_ownedSettings(false),
     m_printer(new QPrinter(QPrinter::HighResolution)), m_printerSelected(false),
@@ -141,7 +139,7 @@ ReportEnginePrivate::ReportEnginePrivate(QObject *parent) :
 ReportEnginePrivate::~ReportEnginePrivate()
 {
     if (m_designerWindow) {
-        m_designerWindow->close();
+        m_designerWindow->deleteLater();
     }
     if (m_activePreview){
         m_activePreview->close();
@@ -325,7 +323,7 @@ void ReportEnginePrivate::internalPrintPages(ReportPages pages, QPrinter &printe
         {
               printProcessors["default"]->printPage(page);
               emit pagePrintingFinished(currenPage);
-              QApplication::processEvents();
+              // QApplication::processEvents();
         }
 
         currenPage++;
@@ -364,7 +362,7 @@ void ReportEnginePrivate::printPages(ReportPages pages, QMap<QString, QPrinter*>
             else currentPrinter = 0;
         }
         emit pagePrintingFinished(i+1);
-        QApplication::processEvents();
+        // QApplication::processEvents();
     }
 
     emit printingFinished();
@@ -565,7 +563,7 @@ ReportDesignWindowInterface*ReportEnginePrivate::getDesignerWindow()
         } else {
 #ifdef HAVE_REPORT_DESIGNER
             m_designerWindow = new LimeReport::ReportDesignWindow(this,QApplication::activeWindow(),settings());
-            m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
+            // m_designerWindow->setAttribute(Qt::WA_DeleteOnClose,true);
             m_designerWindow->setWindowIcon(QIcon(":report/images/logo32"));
             m_designerWindow->setShowProgressDialog(m_showProgressDialog);
 #endif
@@ -1520,12 +1518,16 @@ void ReportEngine::designReport()
 ReportDesignWindowInterface* ReportEngine::getDesignerWindow()
 {
     Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
     return d->getDesignerWindow();
 }
 
 PreviewReportWidget* ReportEngine::createPreviewWidget(QWidget *parent)
 {
     Q_D(ReportEngine);
+    if (m_settings)
+        d->setSettings(m_settings);
     return d->createPreviewWidget(parent);
 }
 
