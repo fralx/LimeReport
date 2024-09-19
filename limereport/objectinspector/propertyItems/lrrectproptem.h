@@ -30,49 +30,57 @@
 #ifndef LRRECTPROPTEM_H
 #define LRRECTPROPTEM_H
 #include "lrobjectpropitem.h"
-#include <QRectF>
+
 #include <QMetaProperty>
+#include <QRectF>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class RectPropItem : public ObjectPropItem{
+class RectPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    RectPropItem():ObjectPropItem(){}
-    RectPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
+    RectPropItem(): ObjectPropItem() { }
+    RectPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                 const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                 bool readonly = true);
     QString displayValue() const;
 };
 
-class RectUnitPropItem : public ObjectPropItem{
+class RectUnitPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    RectUnitPropItem():ObjectPropItem(){}
-    RectUnitPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly=true);
+    RectUnitPropItem(): ObjectPropItem() { }
+    RectUnitPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                     const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                     bool readonly = true);
     QString displayValue() const;
 public slots:
     void itemPosChanged(QObject* /*object*/, QPointF newPos, QPointF oldPos);
     void itemGeometryChanged(QObject* object, QRectF newGeometry, QRectF oldGeometry);
+
 private:
-    void    setValue(const QString& propertyName, qreal propertyValue);
-    QRectF  rectInUnits(QRectF rect) const;
+    void setValue(const QString& propertyName, qreal propertyValue);
+    QRectF rectInUnits(QRectF rect) const;
     QString unitShortName() const;
 };
 
-class RectUnitValuePropItem : public ObjectPropItem{
+class RectUnitValuePropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    RectUnitValuePropItem():ObjectPropItem(){}
-    RectUnitValuePropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly );
+    RectUnitValuePropItem(): ObjectPropItem() { }
+    RectUnitValuePropItem(QObject* object, ObjectsList* objects, const QString& name,
+                          const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                          bool readonly);
     QString displayValue() const;
-    QWidget* createProperyEditor(QWidget *) const;
-    void setPropertyEditorData(QWidget *, const QModelIndex &) const;
-    void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &);
+    QWidget* createProperyEditor(QWidget*) const;
+    void setPropertyEditorData(QWidget*, const QModelIndex&) const;
+    void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&);
+
 private:
     qreal valueInUnits(qreal value) const;
     qreal valueInReportUnits(qreal value) const;
     QString unitShortName() const;
-
 };
 
-}
+} // namespace LimeReport
 #endif // LRRECTPROPTEM_H

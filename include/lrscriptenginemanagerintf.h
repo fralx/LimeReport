@@ -32,15 +32,15 @@
 #include "qglobal.h"
 
 #if QT_VERSION >= 0x050600
-    #ifndef USE_QTSCRIPTENGINE
-        #ifndef USE_QJSENGINE
-            #define USE_QJSENGINE
-        #endif
-    #endif
+#ifndef USE_QTSCRIPTENGINE
+#ifndef USE_QJSENGINE
+#define USE_QJSENGINE
+#endif
+#endif
 #else
-    #ifndef USE_QTSCRIPTENGINE
-        #define USE_QTSCRIPTENGINE
-    #endif
+#ifndef USE_QTSCRIPTENGINE
+#define USE_QTSCRIPTENGINE
+#endif
 #endif
 
 #ifdef USE_QJSENGINE
@@ -49,38 +49,38 @@
 #include <QtScript/QScriptEngine>
 #endif
 
-namespace LimeReport{
+namespace LimeReport {
 
 #ifdef USE_QJSENGINE
-    typedef QJSEngine ScriptEngineType;
-    typedef QJSValue ScriptValueType;
-    template <typename T>
-    static inline QJSValue getJSValue(QJSEngine &e, T *p)
-    {
-        QJSValue res = e.newQObject(p);
-        QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
-        return res;
-    }
+typedef QJSEngine ScriptEngineType;
+typedef QJSValue ScriptValueType;
+template <typename T> static inline QJSValue getJSValue(QJSEngine& e, T* p)
+{
+    QJSValue res = e.newQObject(p);
+    QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
+    return res;
+}
 #else
-    typedef QScriptEngine ScriptEngineType;
-    typedef QScriptValue ScriptValueType;
+typedef QScriptEngine ScriptEngineType;
+typedef QScriptValue ScriptValueType;
 #endif
 
-class IScriptEngineManager{
+class IScriptEngineManager {
 public:
     virtual ScriptEngineType* scriptEngine() = 0;
 #ifdef USE_QTSCRIPTENGINE
     virtual bool addFunction(const QString& name, ScriptEngineType::FunctionSignature function,
-                             const QString& category="", const QString& description="") = 0;
+                             const QString& category = "", const QString& description = "")
+        = 0;
 #endif
-    virtual bool addFunction(const QString &name, const QString& script,
-                             const QString &category="", const QString &description="") = 0;
+    virtual bool addFunction(const QString& name, const QString& script,
+                             const QString& category = "", const QString& description = "")
+        = 0;
     virtual const QString& lastError() const = 0;
     virtual ScriptValueType moveQObjectToScript(QObject* object, const QString objectName) = 0;
-    virtual ~IScriptEngineManager(){}
-
+    virtual ~IScriptEngineManager() { }
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // LRSCRIPTENGINEMANAGERINTF_H

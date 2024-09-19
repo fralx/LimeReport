@@ -33,64 +33,73 @@
 #include "lrbanddesignintf.h"
 #include "lrbasedesignintf.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class SubDetailBand : public DataBandDesignIntf
-{
+class SubDetailBand: public DataBandDesignIntf {
     Q_OBJECT
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
-    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE
+                   setColumnsFillDirection)
     Q_PROPERTY(bool keepFooterTogether READ keepFooterTogether WRITE setKeepFooterTogether)
-    Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE setAlternateBackgroundColor)
-    Q_PROPERTY(bool useAlternateBackgroundColor READ useAlternateBackgroundColor WRITE setUseAlternateBackgroundColor)
+    Q_PROPERTY(QColor alternateBackgroundColor READ alternateBackgroundColor WRITE
+                   setAlternateBackgroundColor)
+    Q_PROPERTY(bool useAlternateBackgroundColor READ useAlternateBackgroundColor WRITE
+                   setUseAlternateBackgroundColor)
 public:
-    SubDetailBand(QObject* owner = 0, QGraphicsItem* parent=0);
-    bool isUnique() const {return false;}
-    int  bandNestingLevel(){ return 1;}
+    SubDetailBand(QObject* owner = 0, QGraphicsItem* parent = 0);
+    bool isUnique() const { return false; }
+    int bandNestingLevel() { return 1; }
     bool isHasHeader() const;
     bool isHasFooter() const;
+
 private:
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    virtual BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
+
 protected:
     virtual QColor bandColor() const;
 };
 
-class SubDetailHeaderBand : public BandDesignIntf
-{
+class SubDetailHeaderBand: public BandDesignIntf {
     Q_OBJECT
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
-    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE
+                   setColumnsFillDirection)
     Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
-    SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent=0);
+    SubDetailHeaderBand(QObject* owner = 0, QGraphicsItem* parent = 0);
     bool isUnique() const;
-    bool isHeader() const {return true;}
-    int  bandNestingLevel(){ return 1;}
+    bool isHeader() const { return true; }
+    int bandNestingLevel() { return 1; }
+
 protected:
     QColor bandColor() const;
+
 private:
-    BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
 };
 
-class SubDetailFooterBand : public BandDesignIntf
-{
+class SubDetailFooterBand: public BandDesignIntf {
     Q_OBJECT
     Q_PROPERTY(int columnsCount READ columnsCount WRITE setColumnsCount)
     Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
-    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE setColumnsFillDirection)
+    Q_PROPERTY(BandColumnsLayoutType columnsFillDirection READ columnsFillDirection WRITE
+                   setColumnsFillDirection)
     Q_PROPERTY(bool printAlways READ printAlways WRITE setPrintAlways)
 public:
-    SubDetailFooterBand(QObject* owner = 0, QGraphicsItem* parent=0);
+    SubDetailFooterBand(QObject* owner = 0, QGraphicsItem* parent = 0);
     virtual bool isUnique() const;
-    bool isFooter() const{return true;}
-    int  bandNestingLevel(){ return 1;}
+    bool isFooter() const { return true; }
+    int bandNestingLevel() { return 1; }
+
 protected:
     QColor bandColor() const;
+
 private:
-    BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
+
 private:
 };
 
-}
+} // namespace LimeReport
 #endif // LRSUBDETAILBAND_H

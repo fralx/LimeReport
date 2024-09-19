@@ -39,20 +39,26 @@
 
 namespace LimeReport {
 
-class ItemEditorWidget : public QToolBar
-{
+class ItemEditorWidget: public QToolBar {
     Q_OBJECT
 public:
-    explicit ItemEditorWidget(const QString &title, QWidget *parent = 0)
-        : QToolBar(title, parent), m_item(0){}
-    void setItem(BaseDesignIntf *item);
+    explicit ItemEditorWidget(const QString& title, QWidget* parent = 0):
+        QToolBar(title, parent),
+        m_item(0)
+    {
+    }
+    void setItem(BaseDesignIntf* item);
+
 protected:
-    virtual void setItemEvent(BaseDesignIntf*){}
-    virtual void properyChangedEvent(const QString& propertName, const QVariant& oldValue, const QVariant& newValue);
-    BaseDesignIntf* item(){return m_item;}
+    virtual void setItemEvent(BaseDesignIntf*) { }
+    virtual void properyChangedEvent(const QString& propertName, const QVariant& oldValue,
+                                     const QVariant& newValue);
+    BaseDesignIntf* item() { return m_item; }
 private slots:
     void slotItemDestroyed(QObject* item);
-    void slotPropertyChanged(const QString& propertName, const QVariant& oldValue, const QVariant& newValue);
+    void slotPropertyChanged(const QString& propertName, const QVariant& oldValue,
+                             const QVariant& newValue);
+
 private:
     BaseDesignIntf* m_item;
 };

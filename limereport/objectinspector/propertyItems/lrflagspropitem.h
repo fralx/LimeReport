@@ -30,43 +30,50 @@
 #ifndef LRFLAGSPROPEDITOR_H
 #define LRFLAGSPROPEDITOR_H
 
-#include "lrobjectpropitem.h"
 #include "lrboolpropitem.h"
+#include "lrobjectpropitem.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class FlagsPropItem : public ObjectPropItem
-{
+class FlagsPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    FlagsPropItem():ObjectPropItem(){}
-    FlagsPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly);
-    FlagsPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly, QSet<int> acceptableValues);
+    FlagsPropItem(): ObjectPropItem() { }
+    FlagsPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                  const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                  bool readonly);
+    FlagsPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                  const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                  bool readonly, QSet<int> acceptableValues);
     virtual QString displayValue() const;
-    virtual void    setPropertyValue(QVariant propertyValue);
+    virtual void setPropertyValue(QVariant propertyValue);
 private slots:
     void slotEnumChanged(QString);
+
 private:
     void translateFlagsItem();
+
 private:
     QSet<int> m_acceptableValues;
     QString nameByType(int propertyValue) const;
-    int     typeByName(QString propertyValue) const;
+    int typeByName(QString propertyValue) const;
     void createChildren();
     void updateChildren();
 };
 
-class FlagPropItem : public BoolPropItem{
+class FlagPropItem: public BoolPropItem {
 public:
-    FlagPropItem():BoolPropItem(){}
-    FlagPropItem(QObject* object, ObjectsList* objects, const QString& propName, const QString& displayName, const QVariant& propertyValue, ObjectPropItem* parent, bool readonly);
-    virtual void setPropertyEditorData(QWidget * propertyEditor, const QModelIndex & ) const;
-    virtual void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &);
-    virtual QString displayValue() const{return "";}
-private:
-    int valueByName(const QString &typeName);
-};
+    FlagPropItem(): BoolPropItem() { }
+    FlagPropItem(QObject* object, ObjectsList* objects, const QString& propName,
+                 const QString& displayName, const QVariant& propertyValue, ObjectPropItem* parent,
+                 bool readonly);
+    virtual void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    virtual void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&);
+    virtual QString displayValue() const { return ""; }
 
+private:
+    int valueByName(const QString& typeName);
+};
 
 } // namespace LimeReport
 

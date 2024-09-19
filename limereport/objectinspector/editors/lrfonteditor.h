@@ -30,28 +30,29 @@
 #ifndef LRFONTEDITOR_H
 #define LRFONTEDITOR_H
 
-#include <QWidget>
 #include <QPushButton>
 #include <QToolButton>
+#include <QWidget>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class FontEditor : public QWidget
-{
+class FontEditor: public QWidget {
     Q_OBJECT
 public:
-    explicit FontEditor(QWidget *parent = 0);
+    explicit FontEditor(QWidget* parent = 0);
     ~FontEditor();
-    void setFontValue(const QFont &font);
+    void setFontValue(const QFont& font);
     QFont fontValue();
 signals:
     void editingFinished();
 public slots:
     void slotButtonCliked();
+
 private:
     QString toString(const QFont& value) const;
+
 private:
-    //QPushButton* m_button;
+    // QPushButton* m_button;
     QToolButton* m_button;
     QFont m_font;
 };

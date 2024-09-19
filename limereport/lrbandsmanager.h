@@ -30,21 +30,23 @@
 #ifndef LRBANDSMANAGER_H
 #define LRBANDSMANAGER_H
 
-#include <QStringList>
-#include <QObject>
-#include <QMap>
-#include "lrdesignelementsfactory.h"
 #include "lrbanddesignintf.h"
 #include "lrbasedesignintf.h"
+#include "lrdesignelementsfactory.h"
 
-namespace LimeReport{
-class BandsManager
-{
+#include <QMap>
+#include <QObject>
+#include <QStringList>
+
+namespace LimeReport {
+class BandsManager {
 public:
     BandsManager();
     QStringList bandNames();
-    BandDesignIntf * createBand(const QString& type, QObject* owner, LimeReport::BaseDesignIntf*  parent );
-    BandDesignIntf * createBand(BandDesignIntf::BandsType bandType, QObject* owner, LimeReport::BaseDesignIntf*  parent );
+    BandDesignIntf* createBand(const QString& type, QObject* owner,
+                               LimeReport::BaseDesignIntf* parent);
+    BandDesignIntf* createBand(BandDesignIntf::BandsType bandType, QObject* owner,
+                               LimeReport::BaseDesignIntf* parent);
 };
-}
+} // namespace LimeReport
 #endif // LRBANDSMANAGER_H

@@ -30,32 +30,35 @@
 #ifndef LRVARIABLEDIALOG_H
 #define LRVARIABLEDIALOG_H
 
-#include <QDialog>
 #include "lrvariablesholder.h"
+
+#include <QDialog>
 
 namespace Ui {
 class LRVariableDialog;
 }
 
-class LRVariableDialog : public QDialog
-{
+class LRVariableDialog: public QDialog {
     Q_OBJECT
-    
+
 public:
-    explicit LRVariableDialog(QWidget *parent = 0);
+    explicit LRVariableDialog(QWidget* parent = 0);
     ~LRVariableDialog();
-    void setVariableContainer(LimeReport::IVariablesContainer *value);
-    void setVariableName(const QString &value);
+    void setVariableContainer(LimeReport::IVariablesContainer* value);
+    void setVariableName(const QString& value);
+
 protected:
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent*);
 private slots:
     void accept();
 signals:
-    void signalVariableAccepted(const QString &variable);
+    void signalVariableAccepted(const QString& variable);
+
 private:
     QVariant value();
+
 private:
-    Ui::LRVariableDialog *ui;
+    Ui::LRVariableDialog* ui;
     QString m_variableName;
     LimeReport::IVariablesContainer* m_variablesContainer;
     bool m_changeMode;

@@ -1,35 +1,34 @@
 #ifndef REPORTTRANSLATION_H
 #define REPORTTRANSLATION_H
 
-#include <QString>
+#include "lrpagedesignintf.h"
+
 #include <QList>
 #include <QLocale>
 #include <QMetaType>
+#include <QString>
 
-#include "lrpagedesignintf.h"
-
-
-class ATranslationProperty{
+class ATranslationProperty {
 public:
-    ATranslationProperty(){}
-    ATranslationProperty(const ACollectionProperty& ){}
-    virtual ~ATranslationProperty(){}
+    ATranslationProperty() { }
+    ATranslationProperty(const ACollectionProperty&) { }
+    virtual ~ATranslationProperty() { }
 };
 
 Q_DECLARE_METATYPE(ATranslationProperty)
 const int TRANSLATION_TYPE_ID = qMetaTypeId<ATranslationProperty>();
 
-namespace LimeReport{
+namespace LimeReport {
 
-struct PropertyTranslation{
+struct PropertyTranslation {
     QString propertyName;
     QString value;
     QString sourceValue;
-    bool    checked;
-    bool    sourceHasBeenChanged;
+    bool checked;
+    bool sourceHasBeenChanged;
 };
 
-struct ItemTranslation{
+struct ItemTranslation {
     QString itemName;
     bool checked;
     PropertyTranslation* findProperty(const QString& propertyName);
@@ -37,7 +36,7 @@ struct ItemTranslation{
     QList<PropertyTranslation*> propertyesTranslation;
 };
 
-struct PageTranslation{
+struct PageTranslation {
     QString pageName;
     bool checked;
     ~PageTranslation();
@@ -45,35 +44,36 @@ struct PageTranslation{
     QHash<QString, ItemTranslation*> itemsTranslation;
 };
 
-class ReportTranslation{
+class ReportTranslation {
 public:
-    ReportTranslation(QLocale::Language language) :m_language(language){}
+    ReportTranslation(QLocale::Language language): m_language(language) { }
     ReportTranslation(QLocale::Language language, QList<PageDesignIntf*> pages);
     ReportTranslation(const ReportTranslation& reportTranslation);
     ~ReportTranslation();
     QLocale::Language language() const;
-    QList<PageTranslation *> &pagesTranslation();
+    QList<PageTranslation*>& pagesTranslation();
     PageTranslation* createEmptyPageTranslation();
     void updatePageTranslation(PageDesignIntf* page);
     PageTranslation* findPageTranslation(const QString& pageName);
     void renamePage(const QString& oldName, const QString& newName);
     void invalidatePages();
     void clearInvalidPages();
+
 private:
     void createItemTranslation(BaseDesignIntf* item, PageTranslation* pageTranslation);
     PageTranslation* createPageTranslation(PageDesignIntf* page);
+
 private:
     QLocale::Language m_language;
     QLocale::Script m_script;
     QList<PageTranslation*> m_pagesTranslation;
 };
 
-
 typedef QMap<QLocale::Language, ReportTranslation*> Translations;
 
-class ITranslationContainer{
+class ITranslationContainer {
 public:
-    virtual ~ITranslationContainer(){}
+    virtual ~ITranslationContainer() { }
     virtual Translations* translations() = 0;
     virtual void updateTranslations() = 0;
     virtual bool addTranslationLanguage(QLocale::Language language) = 0;
@@ -83,6 +83,6 @@ public:
 
 } // namespace LimeReport
 
-//Q_DECLARE_METATYPE(ReportTranslation)
+// Q_DECLARE_METATYPE(ReportTranslation)
 
 #endif // REPORTTRANSLATION_H

@@ -27,35 +27,48 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#include <QFontDialog>
-
 #include "lrfontpropitem.h"
+
 #include "editors/lrbuttonlineeditor.h"
-#include "editors/lrfonteditor.h"
 #include "editors/lrcheckboxeditor.h"
+#include "editors/lrfonteditor.h"
 #include "lrobjectitemmodel.h"
 
-namespace{
-    LimeReport::ObjectPropItem * createFontPropItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
-    {
-        return new LimeReport::FontPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-    bool VARIABLE_IS_NOT_USED registredFontProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QFont",""),QObject::tr("QFont"),createFontPropItem);
+#include <QFontDialog>
+
+namespace {
+LimeReport::ObjectPropItem* createFontPropItem(QObject* object,
+                                               LimeReport::ObjectPropItem::ObjectsList* objects,
+                                               const QString& name, const QString& displayName,
+                                               const QVariant& data,
+                                               LimeReport::ObjectPropItem* parent, bool readonly)
+{
+    return new LimeReport::FontPropItem(object, objects, name, displayName, data, parent, readonly);
 }
+bool VARIABLE_IS_NOT_USED registredFontProp
+    = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("QFont", ""), QObject::tr("QFont"), createFontPropItem);
+} // namespace
 
+namespace LimeReport {
 
-namespace LimeReport{
-
-FontPropItem::FontPropItem(QObject *object, ObjectPropItem::ObjectsList *objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent, bool readonly)
-    :ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+FontPropItem::FontPropItem(QObject* object, ObjectPropItem::ObjectsList* objects,
+                           const QString& name, const QString& displayName, const QVariant& value,
+                           ObjectPropItem* parent, bool readonly):
+    ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
 {
 
-    m_bold = new FontAttribPropItem(object,objects,"bold",tr("bold"),propertyValue().value<QFont>().bold(),this,false);
-    m_italic = new FontAttribPropItem(object,objects,"italic",tr("italic"),propertyValue().value<QFont>().italic(),this,false);
-    m_underline = new FontAttribPropItem(object,objects,"underline",tr("underline"),propertyValue().value<QFont>().underline(),this,false);
-    m_pointSize = new FontPointSizePropItem(object,0,"pointSize",tr("size"),propertyValue().value<QFont>().pointSize(),this,false);
-    m_family = new FontFamilyPropItem(object,0,"family",tr("family"),propertyValue().value<QFont>(),this,false);
+    m_bold = new FontAttribPropItem(object, objects, "bold", tr("bold"),
+                                    propertyValue().value<QFont>().bold(), this, false);
+    m_italic = new FontAttribPropItem(object, objects, "italic", tr("italic"),
+                                      propertyValue().value<QFont>().italic(), this, false);
+    m_underline = new FontAttribPropItem(object, objects, "underline", tr("underline"),
+                                         propertyValue().value<QFont>().underline(), this, false);
+    m_pointSize
+        = new FontPointSizePropItem(object, 0, "pointSize", tr("size"),
+                                    propertyValue().value<QFont>().pointSize(), this, false);
+    m_family = new FontFamilyPropItem(object, 0, "family", tr("family"),
+                                      propertyValue().value<QFont>(), this, false);
 
     this->appendItem(m_family);
     this->appendItem(m_pointSize);
@@ -64,23 +77,24 @@ FontPropItem::FontPropItem(QObject *object, ObjectPropItem::ObjectsList *objects
     this->appendItem(m_underline);
 }
 
-QWidget *FontPropItem::createProperyEditor(QWidget *parent) const
-{
-    return new FontEditor(parent);
-}
+QWidget* FontPropItem::createProperyEditor(QWidget* parent) const { return new FontEditor(parent); }
 
 QString FontPropItem::displayValue() const
 {
-    return toString(propertyValue().value<QFont>());//propertyValue().toString();//toString(propertyValue().value<QFont>());
+    return toString(
+        propertyValue()
+            .value<
+                QFont>()); // propertyValue().toString();//toString(propertyValue().value<QFont>());
 }
 
-void FontPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex &) const
+void FontPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
-    FontEditor *editor =qobject_cast<FontEditor*>(propertyEditor);
+    FontEditor* editor = qobject_cast<FontEditor*>(propertyEditor);
     editor->setFontValue(propertyValue().value<QFont>());
 }
 
-void FontPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex &index)
+void FontPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                const QModelIndex& index)
 {
 
     QFont tmpFont = qobject_cast<FontEditor*>(propertyEditor)->fontValue();
@@ -89,8 +103,8 @@ void FontPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* mod
     font.setPointSize(tmpFont.pointSize());
     font.setItalic(tmpFont.italic());
     font.setUnderline(tmpFont.underline());
-    model->setData(index,font);
-    setValueToObject(propertyName(),propertyValue());
+    model->setData(index, font);
+    setValueToObject(propertyName(), propertyValue());
 }
 
 void FontPropItem::setPropertyValue(QVariant value)
@@ -105,11 +119,14 @@ void FontPropItem::setPropertyValue(QVariant value)
 
 QString FontPropItem::toString(QFont value) const
 {
-    QString attribs="";
-    if (value.bold()) (attribs=="") ? attribs+="b":attribs+=",b";
-    if (value.italic()) (attribs=="") ? attribs+="i":attribs+=",i";
-    if (attribs!="") attribs="["+attribs+"]";
-    return "\""+ value.family()+"\" "+QString::number(value.pointSize())+" "+attribs;
+    QString attribs = "";
+    if (value.bold())
+        (attribs == "") ? attribs += "b" : attribs += ",b";
+    if (value.italic())
+        (attribs == "") ? attribs += "i" : attribs += ",i";
+    if (attribs != "")
+        attribs = "[" + attribs + "]";
+    return "\"" + value.family() + "\" " + QString::number(value.pointSize()) + " " + attribs;
 }
 
 QString FontFamilyPropItem::displayValue() const
@@ -118,71 +135,70 @@ QString FontFamilyPropItem::displayValue() const
     return font.family();
 }
 
-QWidget *FontFamilyPropItem::createProperyEditor(QWidget *parent) const
+QWidget* FontFamilyPropItem::createProperyEditor(QWidget* parent) const
 {
     FontFamilyEditor* editor = new FontFamilyEditor(parent);
-//    QFontComboBox* editor = new QFontComboBox(parent);
+    //    QFontComboBox* editor = new QFontComboBox(parent);
     editor->setAutoFillBackground(true);
     editor->setFont(propertyValue().value<QFont>());
     return editor;
 }
 
-void FontFamilyPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+void FontFamilyPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
     FontFamilyEditor* editor = qobject_cast<FontFamilyEditor*>(propertyEditor);
-//    QFontComboBox* editor = qobject_cast<QFontComboBox*>(propertyEditor);
+    //    QFontComboBox* editor = qobject_cast<QFontComboBox*>(propertyEditor);
     editor->setFont(propertyValue().value<QFont>());
 }
 
-void FontFamilyPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void FontFamilyPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                      const QModelIndex& index)
 {
     QFont font = object()->property(parent()->propertyName().toLatin1()).value<QFont>();
-//    font.setFamily(qobject_cast<QFontComboBox*>(propertyEditor)->currentFont().family());
+    //    font.setFamily(qobject_cast<QFontComboBox*>(propertyEditor)->currentFont().family());
     font.setFamily(qobject_cast<FontFamilyEditor*>(propertyEditor)->currentFont().family());
-    model->setData(index,font);
-    setValueToObject(parent()->propertyName(),font);
+    model->setData(index, font);
+    setValueToObject(parent()->propertyName(), font);
 }
 
-void FontAttribPropItem::setModelData(QWidget *propertyEditor , QAbstractItemModel *model, const QModelIndex &index)
+void FontAttribPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                      const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<CheckBoxEditor*>(propertyEditor)->isChecked());
+    model->setData(index, qobject_cast<CheckBoxEditor*>(propertyEditor)->isChecked());
     QFont font = object()->property(parent()->propertyName().toLatin1()).value<QFont>();
-    if (propertyName()=="bold"){
+    if (propertyName() == "bold") {
         font.setBold(propertyValue().toBool());
     }
-    if (propertyName()=="italic"){
+    if (propertyName() == "italic") {
         font.setItalic(propertyValue().toBool());
     }
-    if (propertyName()=="underline"){
+    if (propertyName() == "underline") {
         font.setUnderline(propertyValue().toBool());
     }
-    setValueToObject(parent()->propertyName(),font);
+    setValueToObject(parent()->propertyName(), font);
 }
 
-void FontPointSizePropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void FontPointSizePropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                         const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<SpinBoxEditor*>(propertyEditor)->value());
+    model->setData(index, qobject_cast<SpinBoxEditor*>(propertyEditor)->value());
     QFont font = object()->property(parent()->propertyName().toLatin1()).value<QFont>();
     font.setPointSize(propertyValue().toInt());
-    setValueToObject(parent()->propertyName(),font);
+    setValueToObject(parent()->propertyName(), font);
 }
 
-FontFamilyEditor::FontFamilyEditor(QWidget *parent)
-    :QWidget(parent)
+FontFamilyEditor::FontFamilyEditor(QWidget* parent): QWidget(parent)
 {
     m_valueEditor = new QFontComboBox(this);
     setFocusProxy(m_valueEditor);
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->addWidget(m_valueEditor);
-    hLayout->setContentsMargins(1,1,1,1);
+    hLayout->setContentsMargins(1, 1, 1, 1);
     hLayout->setSpacing(0);
     setAutoFillBackground(true);
 }
 
-QFont FontFamilyEditor::currentFont()
-{
-    return m_valueEditor->currentFont();
-}
+QFont FontFamilyEditor::currentFont() { return m_valueEditor->currentFont(); }
 
 void FontFamilyEditor::setFont(QFont font)
 {
@@ -190,4 +206,4 @@ void FontFamilyEditor::setFont(QFont font)
     m_valueEditor->setFont(font);
 }
 
-}
+} // namespace LimeReport

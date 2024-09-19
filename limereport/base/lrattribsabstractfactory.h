@@ -30,54 +30,61 @@
 #ifndef LRATTRIBABSTRACTFACTORY_H
 #define LRATTRIBABSTRACTFACTORY_H
 
-#include "lrsingleton.h"
 #include "lrglobal.h"
-#include <stdexcept>
+#include "lrsingleton.h"
+
 #include <QMap>
 #include <QString>
 
-namespace LimeReport{
+#include <stdexcept>
 
-template
-<
-    typename AbstractProduct,
-    typename IdentifierType,
-    typename ProductCreator,
-    typename Attribs
->
-class AttribsAbstractFactory
-  : public Singleton< AttribsAbstractFactory< AbstractProduct,IdentifierType,ProductCreator,Attribs > >
-{
+namespace LimeReport {
+
+template <typename AbstractProduct, typename IdentifierType, typename ProductCreator,
+          typename Attribs>
+class AttribsAbstractFactory:
+    public Singleton<
+        AttribsAbstractFactory<AbstractProduct, IdentifierType, ProductCreator, Attribs>> {
 private:
-    typedef QMap<IdentifierType,ProductCreator> FactoryMap;
-    typedef QMap<IdentifierType,Attribs> AliasMap;
-    friend class Singleton< AttribsAbstractFactory< AbstractProduct,IdentifierType,ProductCreator,Attribs > >;
+    typedef QMap<IdentifierType, ProductCreator> FactoryMap;
+    typedef QMap<IdentifierType, Attribs> AliasMap;
+    friend class Singleton<
+        AttribsAbstractFactory<AbstractProduct, IdentifierType, ProductCreator, Attribs>>;
+
 public:
-    bool registerCreator(const IdentifierType& id, Attribs attribs, ProductCreator creator){
-        if (m_factoryMap.contains(id)) return true;
-        return (m_factoryMap.insert(id,creator).value() == creator) &&
-               (m_attribsMap.insert(id,attribs).value() == attribs);
+    bool registerCreator(const IdentifierType& id, Attribs attribs, ProductCreator creator)
+    {
+        if (m_factoryMap.contains(id))
+            return true;
+        return (m_factoryMap.insert(id, creator).value() == creator)
+            && (m_attribsMap.insert(id, attribs).value() == attribs);
     }
-    bool unregisterCreator(const IdentifierType& id){
+    bool unregisterCreator(const IdentifierType& id)
+    {
         return (m_factoryMap.remove(id) == 1) && (m_attribsMap.remove(id) == 1);
     }
-    ProductCreator objectCreator(const IdentifierType& id){
-        if (m_factoryMap.contains(id)){
+    ProductCreator objectCreator(const IdentifierType& id)
+    {
+        if (m_factoryMap.contains(id)) {
             return m_factoryMap[id];
-        } else return 0;
+        } else
+            return 0;
     }
-    QString attribs(const IdentifierType& id){
-        if (m_attribsMap.contains(id)){
+    QString attribs(const IdentifierType& id)
+    {
+        if (m_attribsMap.contains(id)) {
             return m_attribsMap.value(id);
-        } else return "";
+        } else
+            return "";
     }
-    const FactoryMap& map(){return m_factoryMap;}
-    const AliasMap& attribsMap(){return m_attribsMap;}
-    int mapElementCount(){return m_factoryMap.count();}
-private:    
+    const FactoryMap& map() { return m_factoryMap; }
+    const AliasMap& attribsMap() { return m_attribsMap; }
+    int mapElementCount() { return m_factoryMap.count(); }
+
+private:
     FactoryMap m_factoryMap;
     AliasMap m_attribsMap;
 };
 
-}
+} // namespace LimeReport
 #endif // LRATTRIBABSTRACTFACTORY_H

@@ -30,74 +30,76 @@
 #ifndef LRSIMPLEABSTRACTFACTORY_H
 #define LRSIMPLEABSTRACTFACTORY_H
 
-#include "lrsingleton.h"
 #include "lrglobal.h"
-#include <stdexcept>
+#include "lrsingleton.h"
+
 #include <QHash>
 #include <QMap>
 #include <QString>
-namespace LimeReport{
 
-template
-<
-    typename AbstractProduct,
-    typename IdentifierType,
-    typename ProductCreator
->
-class SimpleAbstractFactory
-  : public Singleton< SimpleAbstractFactory< AbstractProduct,IdentifierType,ProductCreator > >
-{
+#include <stdexcept>
+namespace LimeReport {
+
+template <typename AbstractProduct, typename IdentifierType, typename ProductCreator>
+class SimpleAbstractFactory:
+    public Singleton<SimpleAbstractFactory<AbstractProduct, IdentifierType, ProductCreator>> {
 private:
-    typedef QHash<IdentifierType,ProductCreator> FactoryMap;
-    friend class Singleton< SimpleAbstractFactory< AbstractProduct,IdentifierType,ProductCreator > >;
+    typedef QHash<IdentifierType, ProductCreator> FactoryMap;
+    friend class Singleton<SimpleAbstractFactory<AbstractProduct, IdentifierType, ProductCreator>>;
+
 public:
-    bool registerCreator(const IdentifierType& id, ProductCreator creator){
-        return (m_factoryMap.insert(id,creator).value()==creator);
+    bool registerCreator(const IdentifierType& id, ProductCreator creator)
+    {
+        return (m_factoryMap.insert(id, creator).value() == creator);
     }
-    bool unregisterCreator(const IdentifierType& id){
-        return (m_factoryMap.remove(id)==1);
-    }
-    ProductCreator objectCreator(const IdentifierType& id){
-        if (m_factoryMap.contains(id)){
+    bool unregisterCreator(const IdentifierType& id) { return (m_factoryMap.remove(id) == 1); }
+    ProductCreator objectCreator(const IdentifierType& id)
+    {
+        if (m_factoryMap.contains(id)) {
             return m_factoryMap[id];
         } else {
             return 0;
         }
     }
-    const FactoryMap& map(){return m_factoryMap;}
-    int mapElementCount(){return m_factoryMap.count();}
+    const FactoryMap& map() { return m_factoryMap; }
+    int mapElementCount() { return m_factoryMap.count(); }
+
 private:
     FactoryMap m_factoryMap;
 };
 
-template
-<
-        typename AbstractProduct,
-        typename IdentifierType,
-        typename ProductCreator,
-        typename Attribs
->
-class AttribAbstractFactory : public SimpleAbstractFactory< AbstractProduct,IdentifierType,ProductCreator >{
-    typedef SimpleAbstractFactory< AbstractProduct,IdentifierType,ProductCreator > SimpleFactory;
-    typedef QMap<IdentifierType,Attribs> AliasMap;
-    friend class Singleton<AttribAbstractFactory< AbstractProduct,IdentifierType,ProductCreator,Attribs > >;
-public :
-    bool registerCreator(const IdentifierType &id, Attribs attribs, ProductCreator creator){
-        return SimpleFactory::registerCreator(id,creator) &&  (m_attribsMap.insert(id,attribs).value()==attribs);
+template <typename AbstractProduct, typename IdentifierType, typename ProductCreator,
+          typename Attribs>
+class AttribAbstractFactory:
+    public SimpleAbstractFactory<AbstractProduct, IdentifierType, ProductCreator> {
+    typedef SimpleAbstractFactory<AbstractProduct, IdentifierType, ProductCreator> SimpleFactory;
+    typedef QMap<IdentifierType, Attribs> AliasMap;
+    friend class Singleton<
+        AttribAbstractFactory<AbstractProduct, IdentifierType, ProductCreator, Attribs>>;
+
+public:
+    bool registerCreator(const IdentifierType& id, Attribs attribs, ProductCreator creator)
+    {
+        return SimpleFactory::registerCreator(id, creator)
+            && (m_attribsMap.insert(id, attribs).value() == attribs);
     }
-    bool unregisterCreator(const IdentifierType &id){
-        return SimpleFactory::unregisterCreator(id)&&(m_attribsMap.remove(id)==1);
+    bool unregisterCreator(const IdentifierType& id)
+    {
+        return SimpleFactory::unregisterCreator(id) && (m_attribsMap.remove(id) == 1);
     }
-    QString attribs(const IdentifierType& id){
-        if (m_attribsMap.contains(id)){
+    QString attribs(const IdentifierType& id)
+    {
+        if (m_attribsMap.contains(id)) {
             return m_attribsMap.value(id);
-        } else return "";
+        } else
+            return "";
     }
-    const AliasMap& attribsMap(){return m_attribsMap;}
+    const AliasMap& attribsMap() { return m_attribsMap; }
+
 private:
     AliasMap m_attribsMap;
 };
 
-}
+} // namespace LimeReport
 
-#endif //LRSIMPLEABSTRACTFACTORY_H
+#endif // LRSIMPLEABSTRACTFACTORY_H

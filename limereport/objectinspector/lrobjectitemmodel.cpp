@@ -28,10 +28,11 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrobjectitemmodel.h"
-#include <QMetaProperty>
-#include <QPainter>
+
 #include <QDebug>
 #include <QMessageBox>
+#include <QMetaProperty>
+#include <QPainter>
 
 namespace LimeReport {
 
@@ -178,48 +179,48 @@ void QObjectPropertyModel::translatePropertyName()
     tr("borderStyle");
 }
 
-void QObjectPropertyModel::clearObjectsList()
+void QObjectPropertyModel::clearObjectsList() { m_objects.clear(); }
+
+QObjectPropertyModel::QObjectPropertyModel(QObject* parent /*=0*/):
+    QAbstractItemModel(parent),
+    m_rootNode(0),
+    m_object(0),
+    m_dataChanging(false),
+    m_subclassesAsLevel(true),
+    m_validator(0),
+    m_translateProperties(true)
 {
-    m_objects.clear();
 }
 
-QObjectPropertyModel::QObjectPropertyModel(QObject *parent/*=0*/)
-    :QAbstractItemModel(parent),m_rootNode(0), m_object(0), m_dataChanging(false),
-     m_subclassesAsLevel(true), m_validator(0), m_translateProperties(true)
-{}
-
-QObjectPropertyModel::~QObjectPropertyModel()
-{
-    delete m_rootNode;
-}
+QObjectPropertyModel::~QObjectPropertyModel() { delete m_rootNode; }
 
 void QObjectPropertyModel::initModel()
 {
     beginResetModel();
     delete m_rootNode;
-    m_rootNode=0;
+    m_rootNode = 0;
     if (m_object) {
-        connect(m_object,SIGNAL(destroyed(QObject*)),this,SLOT(slotObjectDestroyed(QObject*)));
-        m_rootNode=new ObjectPropItem(0,0,"root","root",QVariant(),0);
+        connect(m_object, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)));
+        m_rootNode = new ObjectPropItem(0, 0, "root", "root", QVariant(), 0);
         m_rootNode->setModel(this);
-        foreach(QObject* item, m_objects)
-            connect(item,SIGNAL(destroyed(QObject*)),this,SLOT(slotObjectDestroyed(QObject*)));
+        foreach (QObject* item, m_objects)
+            connect(item, SIGNAL(destroyed(QObject*)), this, SLOT(slotObjectDestroyed(QObject*)));
         addObjectProperties(m_object->metaObject(), m_object, &m_objects);
     }
     endResetModel();
 }
 
-void QObjectPropertyModel::setObject(QObject *object)
+void QObjectPropertyModel::setObject(QObject* object)
 {
     m_objects.clear();
-    if (m_object!=object){
+    if (m_object != object) {
         submit();
-        m_object=object;
+        m_object = object;
         initModel();
     }
 }
 
-void QObjectPropertyModel::setMultiObjects(QList<QObject *>* list)
+void QObjectPropertyModel::setMultiObjects(QList<QObject*>* list)
 {
     m_objects.clear();
     submit();
@@ -228,28 +229,29 @@ void QObjectPropertyModel::setMultiObjects(QList<QObject *>* list)
         return;
     }
 
-    if (!list->contains(m_object)){
-        m_object=list->at(0);
+    if (!list->contains(m_object)) {
+        m_object = list->at(0);
         list->removeAt(0);
     } else {
         list->removeOne(m_object);
     }
 
-    foreach(QObject* item, *list)
+    foreach (QObject* item, *list)
         m_objects.append(item);
-    //initModel();
+    // initModel();
 }
 
-void QObjectPropertyModel::slotObjectDestroyed(QObject *obj)
+void QObjectPropertyModel::slotObjectDestroyed(QObject* obj)
 {
     m_objects.removeOne(obj);
-    if (m_object == obj){
-       m_object=0;
-       initModel();
+    if (m_object == obj) {
+        m_object = 0;
+        initModel();
     }
 }
 
-void QObjectPropertyModel::slotPropertyChanged(const QString &propertyName, const QVariant& oldValue, const QVariant& newValue)
+void QObjectPropertyModel::slotPropertyChanged(const QString& propertyName,
+                                               const QVariant& oldValue, const QVariant& newValue)
 {
     Q_UNUSED(oldValue);
     Q_UNUSED(newValue);
@@ -257,7 +259,8 @@ void QObjectPropertyModel::slotPropertyChanged(const QString &propertyName, cons
         updateProperty(propertyName);
 }
 
-void QObjectPropertyModel::slotPropertyObjectNameChanged(const QString &oldName, const QString &newName)
+void QObjectPropertyModel::slotPropertyObjectNameChanged(const QString& oldName,
+                                                         const QString& newName)
 {
     Q_UNUSED(oldName)
     Q_UNUSED(newName)
@@ -265,45 +268,43 @@ void QObjectPropertyModel::slotPropertyObjectNameChanged(const QString &oldName,
         updateProperty("objectName");
 }
 
-
-int QObjectPropertyModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 2;
-}
+int QObjectPropertyModel::columnCount(const QModelIndex& /*parent*/) const { return 2; }
 
 QVariant QObjectPropertyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if(orientation==Qt::Horizontal&&role==Qt::DisplayRole){
-        if (section==0) return tr("Property Name");
-        else return tr("Property value");
-    } else return QVariant();
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        if (section == 0)
+            return tr("Property Name");
+        else
+            return tr("Property value");
+    } else
+        return QVariant();
 }
 
-ObjectPropItem * QObjectPropertyModel::nodeFromIndex(const QModelIndex &index) const
+ObjectPropItem* QObjectPropertyModel::nodeFromIndex(const QModelIndex& index) const
 {
-    if(index.isValid()){
+    if (index.isValid()) {
         return static_cast<ObjectPropItem*>(index.internalPointer());
-    } else return m_rootNode;
+    } else
+        return m_rootNode;
 }
 
-void QObjectPropertyModel::updateProperty(const QString &propertyName)
+void QObjectPropertyModel::updateProperty(const QString& propertyName)
 {
-    if (!m_dataChanging&&m_rootNode){
+    if (!m_dataChanging && m_rootNode) {
         ObjectPropItem* propItem = m_rootNode->findPropertyItem(propertyName);
         if (propItem)
-           propItem->updatePropertyValue();
+            propItem->updatePropertyValue();
     }
 }
 
-void QObjectPropertyModel::setSubclassesAsLevel(bool value)
-{
-    m_subclassesAsLevel = value;
-}
+void QObjectPropertyModel::setSubclassesAsLevel(bool value) { m_subclassesAsLevel = value; }
 
-int QObjectPropertyModel::rowCount(const QModelIndex &parent) const
+int QObjectPropertyModel::rowCount(const QModelIndex& parent) const
 {
-    if (!m_rootNode) return 0;
-    ObjectPropItem *parentNode;
+    if (!m_rootNode)
+        return 0;
+    ObjectPropItem* parentNode;
     if (parent.isValid())
         parentNode = nodeFromIndex(parent);
     else
@@ -311,23 +312,26 @@ int QObjectPropertyModel::rowCount(const QModelIndex &parent) const
     return parentNode->childCount();
 }
 
-QVariant QObjectPropertyModel::data(const QModelIndex &index, int role) const
+QVariant QObjectPropertyModel::data(const QModelIndex& index, int role) const
 {
-    ObjectPropItem *node = nodeFromIndex(index);
+    ObjectPropItem* node = nodeFromIndex(index);
     switch (role) {
     case Qt::DisplayRole:
-        if (!node) return QVariant();
+        if (!node)
+            return QVariant();
         node->setTranslateProperty(isTranslateProperties());
-        if (index.column()==0){
+        if (index.column() == 0) {
             return node->displayName();
         } else {
             return node->displayValue();
         }
-    case Qt::DecorationRole :
-        if (!node) return QIcon();
-        if (index.column()==1){
+    case Qt::DecorationRole:
+        if (!node)
+            return QIcon();
+        if (index.column() == 1) {
             return node->iconValue();
-        } else return QIcon();
+        } else
+            return QIcon();
     case Qt::UserRole:
         return QVariant::fromValue(node);
     default:
@@ -335,184 +339,179 @@ QVariant QObjectPropertyModel::data(const QModelIndex &index, int role) const
     }
 }
 
-QModelIndex QObjectPropertyModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex QObjectPropertyModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if(!m_rootNode)
+    if (!m_rootNode)
         return QModelIndex();
 
     if (!hasIndex(row, column, parent))
         return QModelIndex();
 
-    ObjectPropItem *parentNode;
+    ObjectPropItem* parentNode;
     if (parent.isValid())
         parentNode = nodeFromIndex(parent);
     else
         parentNode = m_rootNode;
 
-    ObjectPropItem *childItem=parentNode->child(row);
+    ObjectPropItem* childItem = parentNode->child(row);
 
-    if (childItem){
-        QModelIndex modelIndex=createIndex(row,column,childItem);
-        if (column==1){
-            if (childItem->modelIndex()!=modelIndex){
+    if (childItem) {
+        QModelIndex modelIndex = createIndex(row, column, childItem);
+        if (column == 1) {
+            if (childItem->modelIndex() != modelIndex) {
                 childItem->setModelIndex(modelIndex);
             }
         }
         return modelIndex;
-    }
-    else return QModelIndex();
+    } else
+        return QModelIndex();
 }
 
-QModelIndex QObjectPropertyModel::parent(const QModelIndex &child) const
-{  
-    if (!child.isValid()) return QModelIndex();
-
-    ObjectPropItem *childNode = nodeFromIndex(child);
-    if (!childNode) return QModelIndex();
-
-    ObjectPropItem *parentNode = childNode->parent();
-    if ((parentNode == m_rootNode) || (!parentNode)) return QModelIndex();
-
-    return createIndex(parentNode->row(),0,parentNode);
-}
-
-
-Qt::ItemFlags QObjectPropertyModel::flags(const QModelIndex &index) const
+QModelIndex QObjectPropertyModel::parent(const QModelIndex& child) const
 {
-    if ((index.column() == 1) && (!nodeFromIndex(index)->isValueReadonly())) return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
-    else return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    if (!child.isValid())
+        return QModelIndex();
+
+    ObjectPropItem* childNode = nodeFromIndex(child);
+    if (!childNode)
+        return QModelIndex();
+
+    ObjectPropItem* parentNode = childNode->parent();
+    if ((parentNode == m_rootNode) || (!parentNode))
+        return QModelIndex();
+
+    return createIndex(parentNode->row(), 0, parentNode);
+}
+
+Qt::ItemFlags QObjectPropertyModel::flags(const QModelIndex& index) const
+{
+    if ((index.column() == 1) && (!nodeFromIndex(index)->isValueReadonly()))
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+    else
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 CreatePropItem QObjectPropertyModel::propertyItemCreator(QMetaProperty prop)
 {
     CreatePropItem creator = 0;
-    creator = ObjectPropFactory::instance().objectCreator(APropIdent(prop.name(),prop.enclosingMetaObject()->className()));
-    if (!creator){
-        if (prop.isFlagType()){
-            creator=ObjectPropFactory::instance().objectCreator(APropIdent("flags",""));
-            if (creator){
-              return creator;
-            } else {
-                qDebug()<<"flags prop editor not found";
-                return 0;
-            }
-        }
-        if (prop.isEnumType()){       
-            creator=ObjectPropFactory::instance().objectCreator(APropIdent("enum",""));
-            if (creator){
+    creator = ObjectPropFactory::instance().objectCreator(
+        APropIdent(prop.name(), prop.enclosingMetaObject()->className()));
+    if (!creator) {
+        if (prop.isFlagType()) {
+            creator = ObjectPropFactory::instance().objectCreator(APropIdent("flags", ""));
+            if (creator) {
                 return creator;
             } else {
-                qDebug()<<"enum prop editor not found";
+                qDebug() << "flags prop editor not found";
                 return 0;
             }
         }
-        creator = ObjectPropFactory::instance().objectCreator(APropIdent(prop.typeName(),""));
-        if (!creator) {qDebug()<<"Editor for propperty name = \""<<prop.name()<<"\" & property type =\""<<prop.typeName()<<"\" not found!";}
+        if (prop.isEnumType()) {
+            creator = ObjectPropFactory::instance().objectCreator(APropIdent("enum", ""));
+            if (creator) {
+                return creator;
+            } else {
+                qDebug() << "enum prop editor not found";
+                return 0;
+            }
+        }
+        creator = ObjectPropFactory::instance().objectCreator(APropIdent(prop.typeName(), ""));
+        if (!creator) {
+            qDebug() << "Editor for propperty name = \"" << prop.name() << "\" & property type =\""
+                     << prop.typeName() << "\" not found!";
+        }
     }
     return creator;
 }
 
-ObjectPropItem * QObjectPropertyModel::createPropertyItem(QMetaProperty prop, QObject *object, ObjectPropItem::ObjectsList *objects, ObjectPropItem *parent)
+ObjectPropItem* QObjectPropertyModel::createPropertyItem(QMetaProperty prop, QObject* object,
+                                                         ObjectPropItem::ObjectsList* objects,
+                                                         ObjectPropItem* parent)
 {
-    ObjectPropItem* propertyItem=0;
-    CreatePropItem creator=propertyItemCreator(prop);
+    ObjectPropItem* propertyItem = 0;
+    CreatePropItem creator = propertyItemCreator(prop);
 
     if (creator) {
-        propertyItem=creator(
-                object,
-                objects,
-                QString(prop.name()),
-                QString(tr(prop.name())),
-                object->property(prop.name()),
-                parent,
-                !(prop.isWritable() && prop.isDesignable())
-             );
+        propertyItem = creator(object, objects, QString(prop.name()), QString(tr(prop.name())),
+                               object->property(prop.name()), parent,
+                               !(prop.isWritable() && prop.isDesignable()));
     } else {
-        propertyItem=new ObjectPropItem(
-                    0,
-                    0,
-                    QString(prop.name()),
-                    QString(tr(prop.name())),
-                    object->property(prop.name()),
-                    parent
-                 );
+        propertyItem = new ObjectPropItem(0, 0, QString(prop.name()), QString(tr(prop.name())),
+                                          object->property(prop.name()), parent);
     }
     return propertyItem;
 }
 
-bool QObjectPropertyModel::isTranslateProperties() const
-{
-    return m_translateProperties;
-}
+bool QObjectPropertyModel::isTranslateProperties() const { return m_translateProperties; }
 
 void QObjectPropertyModel::setTranslateProperties(bool translateProperties)
 {
     m_translateProperties = translateProperties;
 }
-ValidatorIntf *QObjectPropertyModel::validator() const
-{
-    return m_validator;
-}
+ValidatorIntf* QObjectPropertyModel::validator() const { return m_validator; }
 
-void QObjectPropertyModel::setValidator(ValidatorIntf *validator)
-{
-    m_validator = validator;
-}
+void QObjectPropertyModel::setValidator(ValidatorIntf* validator) { m_validator = validator; }
 
-void QObjectPropertyModel::addObjectProperties(const QMetaObject *metaObject, QObject *object, ObjectPropItem::ObjectsList *objects, int level)
+void QObjectPropertyModel::addObjectProperties(const QMetaObject* metaObject, QObject* object,
+                                               ObjectPropItem::ObjectsList* objects, int level)
 {
-    if (metaObject->propertyCount()>metaObject->propertyOffset()){
+    if (metaObject->propertyCount() > metaObject->propertyOffset()) {
         ObjectPropItem* objectNode;
-        if (m_subclassesAsLevel){
-            objectNode=new ObjectPropItem(0,0,metaObject->className(),metaObject->className(),m_rootNode,true);
+        if (m_subclassesAsLevel) {
+            objectNode = new ObjectPropItem(0, 0, metaObject->className(), metaObject->className(),
+                                            m_rootNode, true);
             m_rootNode->appendItem(objectNode);
         } else {
             objectNode = m_rootNode;
         }
 
-        for (int i=metaObject->propertyOffset();i<metaObject->propertyCount();i++){
-            if (metaObject->property(i).isDesignable()){
-                ObjectPropItem* prop=createPropertyItem(metaObject->property(i),object,objects,objectNode);
+        for (int i = metaObject->propertyOffset(); i < metaObject->propertyCount(); i++) {
+            if (metaObject->property(i).isDesignable()) {
+                ObjectPropItem* prop
+                    = createPropertyItem(metaObject->property(i), object, objects, objectNode);
                 objectNode->appendItem(prop);
             }
         }
-        if (m_subclassesAsLevel){
+        if (m_subclassesAsLevel) {
             objectNode->setColorIndex(level);
             objectNode->sortItem();
             level++;
         }
     }
 
-    if (metaObject->superClass()) addObjectProperties(metaObject->superClass(),object,objects,level);
+    if (metaObject->superClass())
+        addObjectProperties(metaObject->superClass(), object, objects, level);
     m_rootNode->sortItem();
 }
 
-bool QObjectPropertyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool QObjectPropertyModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if (index.isValid()&&role==Qt::EditRole){
-        m_dataChanging=true;
-        ObjectPropItem * propItem = nodeFromIndex(index);
-        if (propItem->propertyValue()!=value){
+    if (index.isValid() && role == Qt::EditRole) {
+        m_dataChanging = true;
+        ObjectPropItem* propItem = nodeFromIndex(index);
+        if (propItem->propertyValue() != value) {
             QString msg;
-            if (validator() && !validator()->validate(propItem->propertyName(),value.toString(),m_object,msg)){
-                QMessageBox::information(0,tr("Warning"),msg);
+            if (validator()
+                && !validator()->validate(propItem->propertyName(), value.toString(), m_object,
+                                          msg)) {
+                QMessageBox::information(0, tr("Warning"), msg);
                 return true;
             }
-            QVariant oldValue=propItem->propertyValue();
+            QVariant oldValue = propItem->propertyValue();
             propItem->setPropertyValue(value);
-            emit dataChanged(index,index);
-            emit objectPropetyChanged(propItem->propertyName(),oldValue,propItem->propertyValue());
+            emit dataChanged(index, index);
+            emit objectPropetyChanged(propItem->propertyName(), oldValue,
+                                      propItem->propertyValue());
         }
-        m_dataChanging=false;
+        m_dataChanging = false;
         return true;
     }
     return false;
 }
 
-void QObjectPropertyModel::itemDataChanged(const QModelIndex &index)
+void QObjectPropertyModel::itemDataChanged(const QModelIndex& index)
 {
-    emit dataChanged(index,index);
+    emit dataChanged(index, index);
 }
 
-}
-
+} // namespace LimeReport

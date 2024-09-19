@@ -28,54 +28,63 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lralignpropitem.h"
-#include "objectinspector/propertyItems/lrenumpropitem.h"
-#include "objectinspector/editors/lrcomboboxeditor.h"
+
 #include "lrtextitem.h"
+#include "objectinspector/editors/lrcomboboxeditor.h"
+#include "objectinspector/propertyItems/lrenumpropitem.h"
 
-namespace{
-    LimeReport::ObjectPropItem * createAlignItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly
-    ){
-        return new LimeReport::AlignmentPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-
-    bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
-                LimeReport::APropIdent("alignment","LimeReport::TextItem"),
-                QObject::tr("alignment"),
-                createAlignItem
-                );
+namespace {
+LimeReport::ObjectPropItem* createAlignItem(QObject* object,
+                                            LimeReport::ObjectPropItem::ObjectsList* objects,
+                                            const QString& name, const QString& displayName,
+                                            const QVariant& data,
+                                            LimeReport::ObjectPropItem* parent, bool readonly)
+{
+    return new LimeReport::AlignmentPropItem(object, objects, name, displayName, data, parent,
+                                             readonly);
 }
 
-namespace LimeReport{
+bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
+    LimeReport::APropIdent("alignment", "LimeReport::TextItem"), QObject::tr("alignment"),
+    createAlignItem);
+} // namespace
+
+namespace LimeReport {
 
 QString AlignmentPropItem::associateValue(int value, const AlignMap* map) const
 {
     QString result;
-    QMap<QString,Qt::Alignment>::const_iterator it = map->constBegin();
-    for(;it!= map->constEnd();++it){
+    QMap<QString, Qt::Alignment>::const_iterator it = map->constBegin();
+    for (; it != map->constEnd(); ++it) {
         if ((value & it.value())) {
-            if (result.isEmpty()) result+=it.key();
-            else result=result+" | "+it.key();
+            if (result.isEmpty())
+                result += it.key();
+            else
+                result = result + " | " + it.key();
         }
     }
     return result;
 }
 
-AlignmentPropItem::AlignmentPropItem(QObject *object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem *parent, bool readonly)
-    :ObjectPropItem(object, objects, name,displayName,value,parent,readonly)
+AlignmentPropItem::AlignmentPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                                     const QString& displayName, const QVariant& value,
+                                     ObjectPropItem* parent, bool readonly):
+    ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
 {
 
-    m_horizMap.insert(tr("Left"),Qt::AlignLeft);
-    m_horizMap.insert(tr("Right"),Qt::AlignRight);
-    m_horizMap.insert(tr("Center"),Qt::AlignHCenter);
-    m_horizMap.insert(tr("Justify"),Qt::AlignJustify);
+    m_horizMap.insert(tr("Left"), Qt::AlignLeft);
+    m_horizMap.insert(tr("Right"), Qt::AlignRight);
+    m_horizMap.insert(tr("Center"), Qt::AlignHCenter);
+    m_horizMap.insert(tr("Justify"), Qt::AlignJustify);
 
-    m_vertMap.insert(tr("Top"),Qt::AlignTop);
-    m_vertMap.insert(tr("Center"),Qt::AlignVCenter);
-    m_vertMap.insert(tr("Botom"),Qt::AlignBottom);
+    m_vertMap.insert(tr("Top"), Qt::AlignTop);
+    m_vertMap.insert(tr("Center"), Qt::AlignVCenter);
+    m_vertMap.insert(tr("Botom"), Qt::AlignBottom);
 
-    m_horizEditor = new AlignmentItemEditor(object, objects, name,tr("horizontal"),value.toInt(),this,false,m_horizMap);
-    m_vertEditor = new AlignmentItemEditor(object, objects, name,tr("vertical"), value.toInt(),this,false,m_vertMap);
+    m_horizEditor = new AlignmentItemEditor(object, objects, name, tr("horizontal"), value.toInt(),
+                                            this, false, m_horizMap);
+    m_vertEditor = new AlignmentItemEditor(object, objects, name, tr("vertical"), value.toInt(),
+                                           this, false, m_vertMap);
 
     this->appendItem(m_horizEditor);
     this->appendItem(m_vertEditor);
@@ -83,8 +92,8 @@ AlignmentPropItem::AlignmentPropItem(QObject *object, ObjectsList* objects, cons
 
 QString AlignmentPropItem::displayValue() const
 {
-    return associateValue(propertyValue().toInt(),&m_horizMap)+" | "+
-            associateValue(propertyValue().toInt(),&m_vertMap);
+    return associateValue(propertyValue().toInt(), &m_horizMap) + " | "
+        + associateValue(propertyValue().toInt(), &m_vertMap);
 }
 
 void AlignmentPropItem::setPropertyValue(QVariant value)
@@ -94,62 +103,67 @@ void AlignmentPropItem::setPropertyValue(QVariant value)
     ObjectPropItem::setPropertyValue(value);
 }
 
-AlignmentItemEditor::AlignmentItemEditor(QObject *object, ObjectsList* objects, const QString &name, const QString &displayName, const QVariant &value, ObjectPropItem *parent,
-                                         bool readonly, AlignMap acceptableValues)
-    :ObjectPropItem(object, objects, name, displayName, value, parent, readonly),m_acceptableValues(acceptableValues)
+AlignmentItemEditor::AlignmentItemEditor(QObject* object, ObjectsList* objects, const QString& name,
+                                         const QString& displayName, const QVariant& value,
+                                         ObjectPropItem* parent, bool readonly,
+                                         AlignMap acceptableValues):
+    ObjectPropItem(object, objects, name, displayName, value, parent, readonly),
+    m_acceptableValues(acceptableValues)
 {
-    if (! extractAcceptableValue(value.toInt()).isEmpty())
+    if (!extractAcceptableValue(value.toInt()).isEmpty())
         setPropertyValue(extractAcceptableValue(value.toInt())[0]);
-    else setPropertyValue(0);
+    else
+        setPropertyValue(0);
 }
 
-void AlignmentItemEditor::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void AlignmentItemEditor::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                       const QModelIndex& index)
 {
     int flags = object()->property(propertyName().toLatin1()).toInt();
     int align = m_acceptableValues.value(qobject_cast<ComboBoxEditor*>(propertyEditor)->text());
-    flags=clearAcceptableValues(flags) | align;
-    object()->setProperty(propertyName().toLatin1(),flags);
+    flags = clearAcceptableValues(flags) | align;
+    object()->setProperty(propertyName().toLatin1(), flags);
     if (objects())
-        foreach(QObject* item,*objects()){item->setProperty(propertyName().toLatin1(),flags);}
+        foreach (QObject* item, *objects()) {
+            item->setProperty(propertyName().toLatin1(), flags);
+        }
     parent()->setPropertyValue(flags);
-    model->setData(index,align);
+    model->setData(index, align);
 }
 
 QVector<int> AlignmentItemEditor::extractAcceptableValue(int flags)
 {
     QVector<int> result;
     AlignMap::const_iterator it = m_acceptableValues.constBegin();
-    for (;it != m_acceptableValues.constEnd();++it)
-    {
-        if (flags & it.value()) result<<it.value();
+    for (; it != m_acceptableValues.constEnd(); ++it) {
+        if (flags & it.value())
+            result << it.value();
     }
     return result;
 }
 
-
 int AlignmentItemEditor::clearAcceptableValues(int flags)
 {
     AlignMap::const_iterator it = m_acceptableValues.constBegin();
-    for (;it != m_acceptableValues.constEnd();++it)
-    {
+    for (; it != m_acceptableValues.constEnd(); ++it) {
         if (flags & it.value())
-           flags=flags^it.value();
+            flags = flags ^ it.value();
     }
     return flags;
 }
 
-QWidget *AlignmentItemEditor::createProperyEditor(QWidget *parent) const
+QWidget* AlignmentItemEditor::createProperyEditor(QWidget* parent) const
 {
-    ComboBoxEditor *editor = new ComboBoxEditor(parent);
+    ComboBoxEditor* editor = new ComboBoxEditor(parent);
     QStringList enumValues;
-    enumValues<<m_acceptableValues.keys();
+    enumValues << m_acceptableValues.keys();
     editor->addItems(enumValues);
     return editor;
 }
 
-void AlignmentItemEditor::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+void AlignmentItemEditor::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
-    ComboBoxEditor *editor=qobject_cast<ComboBoxEditor *>(propertyEditor);
+    ComboBoxEditor* editor = qobject_cast<ComboBoxEditor*>(propertyEditor);
     editor->setTextValue(m_acceptableValues.key(Qt::Alignment(propertyValue().toInt())));
 }
 
@@ -160,10 +174,11 @@ QString AlignmentItemEditor::displayValue() const
 
 void AlignmentItemEditor::setPropertyValue(QVariant value)
 {
-    QVector<int> _accpepttableValueList= extractAcceptableValue(value.toInt());
-    if(_accpepttableValueList.isEmpty()) return;
+    QVector<int> _accpepttableValueList = extractAcceptableValue(value.toInt());
+    if (_accpepttableValueList.isEmpty())
+        return;
 
     ObjectPropItem::setPropertyValue(_accpepttableValueList[0]);
 }
 
-}
+} // namespace LimeReport

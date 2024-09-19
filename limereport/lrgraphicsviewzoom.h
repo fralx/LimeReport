@@ -1,27 +1,28 @@
 #ifndef LRGRAPHICSVIEWZOOM_H
 #define LRGRAPHICSVIEWZOOM_H
 
-#include <QObject>
 #include <QGraphicsView>
+#include <QObject>
 
 namespace LimeReport {
 
-class GraphicsViewZoomer : public QObject {
-  Q_OBJECT
+class GraphicsViewZoomer: public QObject {
+    Q_OBJECT
 public:
-  GraphicsViewZoomer(QGraphicsView* view);
-  void gentleZoom(double factor);
-  void setModifiers(Qt::KeyboardModifiers modifiers);
-  void setZoomFactorBase(double value);
-  void setView(QGraphicsView* view);
+    GraphicsViewZoomer(QGraphicsView* view);
+    void gentleZoom(double factor);
+    void setModifiers(Qt::KeyboardModifiers modifiers);
+    void setZoomFactorBase(double value);
+    void setView(QGraphicsView* view);
+
 private:
-  QGraphicsView* m_view;
-  Qt::KeyboardModifiers m_modifiers;
-  double m_zoomFactorBase;
-  QPointF m_targetScenePos, m_targetViewportPos;
-  bool eventFilter(QObject* object, QEvent* event);
+    QGraphicsView* m_view;
+    Qt::KeyboardModifiers m_modifiers;
+    double m_zoomFactorBase;
+    QPointF m_targetScenePos, m_targetViewportPos;
+    bool eventFilter(QObject* object, QEvent* event);
 signals:
-  void zoomed(double factor);
+    void zoomed(double factor);
 };
 
 } // namespace LimeReport

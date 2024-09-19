@@ -30,41 +30,44 @@
 #ifndef LRBUTTONLINEEDIT_H
 #define LRBUTTONLINEEDIT_H
 
-#include <QWidget>
+#include "lrtextitempropertyeditor.h"
+
+#include <QDebug>
+#include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QToolButton>
-#include <QHBoxLayout>
-#include <QDebug>
-#include "lrtextitempropertyeditor.h"
+#include <QWidget>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class ButtonLineEditor : public QWidget
-{
+class ButtonLineEditor: public QWidget {
     Q_OBJECT
 public:
-    explicit ButtonLineEditor(const QString& propertyName,QWidget *parent = 0);
+    explicit ButtonLineEditor(const QString& propertyName, QWidget* parent = 0);
     ~ButtonLineEditor();
-    void setText(const QString &value);
+    void setText(const QString& value);
     QString text();
 signals:
     void editingFinished();
 public slots:
     virtual void editButtonClicked();
     void editingByEditorFinished();
+
 protected:
-    QString propertyName(){return m_propertyName;}
+    QString propertyName() { return m_propertyName; }
+
 private:
     QLineEdit* m_lineEdit;
     QToolButton* m_buttonEdit;
     bool m_overButton;
     QString m_propertyName;
+
 private:
-    bool eventFilter(QObject *, QEvent *);
-    //QHBoxLayout* m_layout;
+    bool eventFilter(QObject*, QEvent*);
+    // QHBoxLayout* m_layout;
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // LRBUTTONLINEEDIT_H

@@ -1,45 +1,45 @@
 #include "lrcodeeditor.h"
 
-#include <QAbstractItemView>
-#include <QWidget>
-#include <QCompleter>
-#include <QKeyEvent>
-#include <QScrollBar>
-#include <QPainter>
-#include <QTextBlock>
-#include <QDebug>
-
-#include "lrscripthighlighter.h"
 #include "lrglobal.h"
+#include "lrscripthighlighter.h"
 
-namespace LimeReport{
+#include <QAbstractItemView>
+#include <QCompleter>
+#include <QDebug>
+#include <QKeyEvent>
+#include <QPainter>
+#include <QScrollBar>
+#include <QTextBlock>
+#include <QWidget>
 
-CodeEditor::CodeEditor(QWidget *parent)
-    : QPlainTextEdit(parent), m_completer(0)
+namespace LimeReport {
+
+CodeEditor::CodeEditor(QWidget* parent): QPlainTextEdit(parent), m_completer(0)
 {
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
-    connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+    connect(this, SIGNAL(updateRequest(QRect, int)), this, SLOT(updateLineNumberArea(QRect, int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
     new ScriptHighlighter(document());
-    connect(this, SIGNAL(cursorPositionChanged()),
-            this, SLOT(matchParentheses()));
+    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchParentheses()));
 }
 
-void CodeEditor::setCompleter(QCompleter *value)
+void CodeEditor::setCompleter(QCompleter* value)
 {
-    if (value) disconnect(value,0,this,0);
+    if (value)
+        disconnect(value, 0, this, 0);
     m_completer = value;
-    if (!m_completer) return;
+    if (!m_completer)
+        return;
     m_completer->setWidget(this);
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
 
-    connect(m_completer,SIGNAL(activated(QString)),this,SLOT(insertCompletion(QString)));
+    connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 }
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
@@ -47,14 +47,14 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
     QPainter painter(lineNumberArea);
     QStyleOption option;
     option.initFrom(this);
-    //painter.fillRect(event->rect(), QPalette().window().color());
+    // painter.fillRect(event->rect(), QPalette().window().color());
     QColor bg = option.palette.window().color().darker(150);
     painter.fillRect(event->rect(), bg);
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
-    int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
-    int bottom = top + (int) blockBoundingRect(block).height();
+    int top = (int)blockBoundingGeometry(block).translated(contentOffset()).top();
+    int bottom = top + (int)blockBoundingRect(block).height();
 
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
@@ -66,7 +66,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 
         block = block.next();
         top = bottom;
-        bottom = top + (int) blockBoundingRect(block).height();
+        bottom = top + (int)blockBoundingRect(block).height();
         ++blockNumber;
     }
 }
@@ -80,12 +80,13 @@ int CodeEditor::lineNumberAreaWidth()
         ++digits;
     }
 
-    int space = fontMetrics().boundingRect(QLatin1Char('9')).width()*2 + fontMetrics().boundingRect(QLatin1Char('9')).width() * digits;
+    int space = fontMetrics().boundingRect(QLatin1Char('9')).width() * 2
+        + fontMetrics().boundingRect(QLatin1Char('9')).width() * digits;
 
     return space;
 }
 
-void CodeEditor::keyPressEvent(QKeyEvent *e)
+void CodeEditor::keyPressEvent(QKeyEvent* e)
 {
     if (m_completer && m_completer->popup()->isVisible()) {
         switch (e->key()) {
@@ -106,7 +107,8 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
     }
 
     bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Space);
-    if (!m_completer || !isShortcut) QPlainTextEdit::keyPressEvent(e);
+    if (!m_completer || !isShortcut)
+        QPlainTextEdit::keyPressEvent(e);
 
     const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
     if (!m_completer || (ctrlOrShift && e->text().isEmpty()))
@@ -116,10 +118,9 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
 
     QString completionPrefix = textUnderCursor();
 
-    if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3
-            || Const::EOW.contains(e->text().right(1)))
-       )
-    {
+    if (!isShortcut
+        && (hasModifier || e->text().isEmpty() || completionPrefix.length() < 3
+            || Const::EOW.contains(e->text().right(1)))) {
         m_completer->popup()->hide();
         return;
     }
@@ -129,8 +130,9 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
         m_completer->popup()->setCurrentIndex(m_completer->completionModel()->index(0, 0));
     }
 
-    QModelIndex ci = m_completer->completionModel()->index(0,0);
-    if (ci.isValid() && m_completer->completionModel()->data(ci).toString().compare(completionPrefix) == 0){
+    QModelIndex ci = m_completer->completionModel()->index(0, 0);
+    if (ci.isValid()
+        && m_completer->completionModel()->data(ci).toString().compare(completionPrefix) == 0) {
         m_completer->popup()->hide();
         return;
     }
@@ -140,16 +142,15 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
                 + m_completer->popup()->verticalScrollBar()->sizeHint().width());
     m_completer->complete(cr);
 
-    if (!completionPrefix.isEmpty() &&
-            completionPrefix.at(completionPrefix.length()-1) == '.')
-    {
+    if (!completionPrefix.isEmpty() && completionPrefix.at(completionPrefix.length() - 1) == '.') {
         m_completer->popup();
     }
 }
 
-void CodeEditor::focusInEvent(QFocusEvent *e)
+void CodeEditor::focusInEvent(QFocusEvent* e)
 {
-    if (m_completer) m_completer->setWidget(this);
+    if (m_completer)
+        m_completer->setWidget(this);
     QPlainTextEdit::focusInEvent(e);
 }
 
@@ -164,39 +165,40 @@ QString CodeEditor::textUnderCursor() const
 {
     QTextCursor tc = textCursor();
     QString currentText;
-    tc.movePosition(QTextCursor::StartOfBlock,QTextCursor::KeepAnchor);
+    tc.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor);
     QString blockText = tc.selectedText();
-    for(int i = blockText.length(); i>0; --i){
-        if (!Const::EOW.contains(blockText.at(i-1)))
-            currentText = blockText.at(i-1) + currentText;
-        else break;
+    for (int i = blockText.length(); i > 0; --i) {
+        if (!Const::EOW.contains(blockText.at(i - 1)))
+            currentText = blockText.at(i - 1) + currentText;
+        else
+            break;
     }
     return currentText.trimmed();
 }
 
-bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numLeftParentheses)
+bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i,
+                                      int numLeftParentheses)
 {
-    TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
-    if (data){
-        QVector<ParenthesisInfo *> infos = data->parentheses();
+    TextBlockData* data = static_cast<TextBlockData*>(currentBlock.userData());
+    if (data) {
+        QVector<ParenthesisInfo*> infos = data->parentheses();
 
         int docPos = currentBlock.position();
         for (; i < infos.size(); ++i) {
-            ParenthesisInfo *info = infos.at(i);
+            ParenthesisInfo* info = infos.at(i);
 
             if (info->character == parenthesisType) {
                 ++numLeftParentheses;
                 continue;
             }
 
-            if (info->character == getParenthesisReverceChar(parenthesisType)){
+            if (info->character == getParenthesisReverceChar(parenthesisType)) {
                 if (numLeftParentheses == 0) {
                     createParenthesisSelection(docPos + info->position);
                     return true;
                 } else
                     --numLeftParentheses;
             }
-
         }
     }
 
@@ -207,20 +209,22 @@ bool CodeEditor::matchLeftParenthesis(QTextBlock currentBlock, QChar parenthesis
     return false;
 }
 
-bool CodeEditor::matchRightParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i, int numRightParentheses)
+bool CodeEditor::matchRightParenthesis(QTextBlock currentBlock, QChar parenthesisType, int i,
+                                       int numRightParentheses)
 {
-    TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
-    if (data){
-        QVector<ParenthesisInfo *> parentheses = data->parentheses();
+    TextBlockData* data = static_cast<TextBlockData*>(currentBlock.userData());
+    if (data) {
+        QVector<ParenthesisInfo*> parentheses = data->parentheses();
         int docPos = currentBlock.position();
-        if (i == -2) i = parentheses.size()-1;
+        if (i == -2)
+            i = parentheses.size() - 1;
         for (; i > -1 && parentheses.size() > 0; --i) {
-            ParenthesisInfo *info = parentheses.at(i);
+            ParenthesisInfo* info = parentheses.at(i);
             if (info->character == parenthesisType) {
                 ++numRightParentheses;
                 continue;
             }
-            if (info->character == getParenthesisReverceChar(parenthesisType)){
+            if (info->character == getParenthesisReverceChar(parenthesisType)) {
                 if (numRightParentheses == 0) {
                     createParenthesisSelection(docPos + info->position);
                     return true;
@@ -259,7 +263,7 @@ void CodeEditor::createParenthesisSelection(int pos)
 
 bool CodeEditor::charIsParenthesis(QChar character, ParenthesisType type)
 {
-    for (int i = 0; i < PARENHEIS_COUNT; ++i){
+    for (int i = 0; i < PARENHEIS_COUNT; ++i) {
         if (character == parenthesisCharacters[type][i])
             return true;
     }
@@ -268,27 +272,27 @@ bool CodeEditor::charIsParenthesis(QChar character, ParenthesisType type)
 
 QChar CodeEditor::getParenthesisReverceChar(QChar parenthesisChar)
 {
-    for (int i = 0; i < PARENHEIS_COUNT; ++i){
-        if ( parenthesisCharacters[RightParenthesis][i] == parenthesisChar)
+    for (int i = 0; i < PARENHEIS_COUNT; ++i) {
+        if (parenthesisCharacters[RightParenthesis][i] == parenthesisChar)
             return parenthesisCharacters[LeftParenthesis][i];
-        if ( parenthesisCharacters[LeftParenthesis][i] == parenthesisChar)
+        if (parenthesisCharacters[LeftParenthesis][i] == parenthesisChar)
             return parenthesisCharacters[RightParenthesis][i];
     }
     return ' ';
 }
 
-void CodeEditor::insertCompletion(const QString &completion)
+void CodeEditor::insertCompletion(const QString& completion)
 {
     if (m_completer->widget() != this)
-             return;
+        return;
     QTextCursor tc = textCursor();
-//    QString prefix = m_completer->completionPrefix();
-//    int extra = completion.length() - prefix.length();
-    for (int i=0; i < m_completer->completionPrefix().length(); ++i ) {
+    //    QString prefix = m_completer->completionPrefix();
+    //    int extra = completion.length() - prefix.length();
+    for (int i = 0; i < m_completer->completionPrefix().length(); ++i) {
         tc.deletePreviousChar();
     }
     tc.insertText(completion);
-//    tc.insertText(completion.right(extra));
+    //    tc.insertText(completion.right(extra));
     setTextCursor(tc);
 }
 
@@ -332,27 +336,28 @@ void CodeEditor::matchParentheses()
     QList<QTextEdit::ExtraSelection> selections;
     setExtraSelections(selections);
 
-    TextBlockData *data = static_cast<TextBlockData *>(textCursor().block().userData());
+    TextBlockData* data = static_cast<TextBlockData*>(textCursor().block().userData());
 
     if (data) {
-        QVector<ParenthesisInfo *> infos = data->parentheses();
+        QVector<ParenthesisInfo*> infos = data->parentheses();
 
         int pos = textCursor().block().position();
         for (int i = 0; i < infos.size(); ++i) {
-            ParenthesisInfo *info = infos.at(i);
+            ParenthesisInfo* info = infos.at(i);
 
             int curPos = textCursor().position() - textCursor().block().position();
 
-            if ( (info->position == (curPos - 1)) && charIsParenthesis(info->character, LeftParenthesis))
-            {
+            if ((info->position == (curPos - 1))
+                && charIsParenthesis(info->character, LeftParenthesis)) {
                 if (matchLeftParenthesis(textCursor().block(), info->character, i + 1, 0))
                     createParenthesisSelection(pos + info->position);
-            } else if ( (info->position == (curPos - 1)) && charIsParenthesis(info->character, RightParenthesis)) {
+            } else if ((info->position == (curPos - 1))
+                       && charIsParenthesis(info->character, RightParenthesis)) {
                 if (matchRightParenthesis(textCursor().block(), info->character, i - 1, 0))
                     createParenthesisSelection(pos + info->position);
             }
-         }
+        }
     }
 }
 
-} //namespace LimeReport
+} // namespace LimeReport

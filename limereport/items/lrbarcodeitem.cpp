@@ -28,44 +28,59 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrbarcodeitem.h"
-#include "lrdesignelementsfactory.h"
-#include "qzint.h"
-#include "lrglobal.h"
 
-namespace{
+#include "lrdesignelementsfactory.h"
+#include "lrglobal.h"
+#include "qzint.h"
+
+namespace {
 
 const QString xmlTag = "BarcodeItem";
 
-LimeReport::BaseDesignIntf * createBarcodeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
-    return new LimeReport::BarcodeItem(owner,parent);
-}
-bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(xmlTag, LimeReport::ItemAttribs(QObject::tr("Barcode Item"),"Item"), createBarcodeItem);
-
-}
-
-namespace LimeReport{
-
-BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
-    : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
-      m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
-      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE),
-      m_hideText(false), m_option3(0), m_hideIfEmpty(false)
-{}
-
-BarcodeItem::~BarcodeItem()
-{}
-
-BaseDesignIntf *BarcodeItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
+LimeReport::BaseDesignIntf* createBarcodeItem(QObject* owner, LimeReport::BaseDesignIntf* parent)
 {
-    return new BarcodeItem(owner,parent);
+    return new LimeReport::BarcodeItem(owner, parent);
+}
+bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
+    xmlTag, LimeReport::ItemAttribs(QObject::tr("Barcode Item"), "Item"), createBarcodeItem);
+
+} // namespace
+
+namespace LimeReport {
+
+BarcodeItem::BarcodeItem(QObject* owner, QGraphicsItem* parent):
+    ContentItemDesignIntf(xmlTag, owner, parent),
+    m_designTestValue("1"),
+    m_barcodeType(CODE128),
+    m_foregroundColor(Qt::black),
+    m_backgroundColor(Qt::white),
+    m_whitespace(10),
+    m_angle(Angle0),
+    m_barcodeWidth(0),
+    m_securityLevel(0),
+    m_pdf417CodeWords(928),
+    m_inputMode(UNICODE_INPUT_MODE),
+    m_hideText(false),
+    m_option3(0),
+    m_hideIfEmpty(false)
+{
 }
 
-void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+BarcodeItem::~BarcodeItem() { }
+
+BaseDesignIntf* BarcodeItem::createSameTypeItem(QObject* owner, QGraphicsItem* parent)
+{
+    return new BarcodeItem(owner, parent);
+}
+
+void BarcodeItem::paint(QPainter* ppainter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     ppainter->save();
     Zint::QZint bc;
-    if (itemMode() & DesignMode) bc.setText(m_designTestValue);
-    else bc.setText(m_content);
+    if (itemMode() & DesignMode)
+        bc.setText(m_designTestValue);
+    else
+        bc.setText(m_content);
     bc.setInputMode(m_inputMode);
     bc.setSymbol(m_barcodeType);
     bc.setWhitespace(m_whitespace);
@@ -77,7 +92,8 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
     bc.setHideText(m_hideText);
     bc.setOption3(m_option3);
 
-    if (isSelected()) ppainter->setOpacity(Const::SELECTION_OPACITY);
+    if (isSelected())
+        ppainter->setOpacity(Const::SELECTION_OPACITY);
 
     QRectF bcRect;
 
@@ -86,45 +102,42 @@ void BarcodeItem::paint(QPainter *ppainter, const QStyleOptionGraphicsItem *opti
         bcRect = rect();
         break;
     case Angle90:
-        ppainter->translate(width(),0);
+        ppainter->translate(width(), 0);
         ppainter->rotate(90);
-        bcRect = QRectF(0,0,height(),width());
+        bcRect = QRectF(0, 0, height(), width());
         break;
     case Angle180:
         bcRect = rect();
-        ppainter->translate(width(),height());
+        ppainter->translate(width(), height());
         ppainter->rotate(180);
         break;
     case Angle270:
-        ppainter->translate(0,height());
+        ppainter->translate(0, height());
         ppainter->rotate(270);
-        bcRect = QRectF(0,0,height(),width());
+        bcRect = QRectF(0, 0, height(), width());
         break;
     }
 
-    bc.render(*ppainter,bcRect);
+    bc.render(*ppainter, bcRect);
     ppainter->restore();
-    ItemDesignIntf::paint(ppainter,option,widget);
+    ItemDesignIntf::paint(ppainter, option, widget);
 }
 
-void BarcodeItem::setContent(const QString &content)
+void BarcodeItem::setContent(const QString& content)
 {
-    if (m_content!=content){
+    if (m_content != content) {
         QString oldValue = m_content;
-        m_content=content;
+        m_content = content;
         update();
-        notify("content",oldValue,m_content);
+        notify("content", oldValue, m_content);
     }
 }
 
-QString BarcodeItem::datasource() const
-{
-    return m_datasource;
-}
+QString BarcodeItem::datasource() const { return m_datasource; }
 
-void BarcodeItem::setDatasource(const QString &datasource)
+void BarcodeItem::setDatasource(const QString& datasource)
 {
-    if (m_datasource != datasource){
+    if (m_datasource != datasource) {
         QString oldValue = m_datasource;
         m_datasource = datasource;
         update();
@@ -132,14 +145,11 @@ void BarcodeItem::setDatasource(const QString &datasource)
     }
 }
 
-QString BarcodeItem::field() const
-{
-    return m_field;
-}
+QString BarcodeItem::field() const { return m_field; }
 
-void BarcodeItem::setField(const QString &field)
+void BarcodeItem::setField(const QString& field)
 {
-    if (m_field != field){
+    if (m_field != field) {
         QString oldValue = m_field;
         m_field = field;
         update();
@@ -149,189 +159,162 @@ void BarcodeItem::setField(const QString &field)
 
 void BarcodeItem::setBarcodeType(BarcodeItem::BarcodeType value)
 {
-    if (m_barcodeType!=value){
+    if (m_barcodeType != value) {
         BarcodeType oldValue = m_barcodeType;
         m_barcodeType = value;
         update();
-        notify("barcodeType",oldValue,value);
+        notify("barcodeType", oldValue, value);
     }
 }
 
 void BarcodeItem::setDesignTestValue(QString value)
 {
-    if (m_designTestValue!=value){
+    if (m_designTestValue != value) {
         QString oldValue = m_designTestValue;
-        m_designTestValue=value;
+        m_designTestValue = value;
         update();
-        notify("testValue",oldValue,value);
+        notify("testValue", oldValue, value);
     }
 }
 
 void BarcodeItem::setForegroundColor(QColor value)
 {
-    if (m_foregroundColor != value){
+    if (m_foregroundColor != value) {
         QColor oldValue = m_foregroundColor;
-        m_foregroundColor=value;
+        m_foregroundColor = value;
         update();
-        notify("foregroundColor",oldValue,value);
+        notify("foregroundColor", oldValue, value);
     }
 }
 
 void BarcodeItem::setBackgroundColor(QColor value)
 {
-    if (m_backgroundColor != value){
+    if (m_backgroundColor != value) {
         QColor oldValue = m_backgroundColor;
-        m_backgroundColor=value;
+        m_backgroundColor = value;
         update();
-        notify("backgroundColor",oldValue,value);
+        notify("backgroundColor", oldValue, value);
     }
 }
 
 void BarcodeItem::setWhitespace(int value)
 {
-    if (m_whitespace != value){
+    if (m_whitespace != value) {
         int oldValue = m_whitespace;
         m_whitespace = value;
         update();
-        notify("whitespace",oldValue,value);
+        notify("whitespace", oldValue, value);
     }
 }
 
-BarcodeItem::AngleType BarcodeItem::angle() const
-{
-    return m_angle;
-}
+BarcodeItem::AngleType BarcodeItem::angle() const { return m_angle; }
 
-void BarcodeItem::setAngle(const AngleType &angle)
+void BarcodeItem::setAngle(const AngleType& angle)
 {
-    if (m_angle!=angle){
+    if (m_angle != angle) {
         AngleType oldValue = m_angle;
         m_angle = angle;
-        if (!isLoading()){
+        if (!isLoading()) {
             update();
-            notify("angle",oldValue,angle);
+            notify("angle", oldValue, angle);
         }
     }
 }
 
-int BarcodeItem::barcodeWidth() const
-{
-    return m_barcodeWidth;
-}
+int BarcodeItem::barcodeWidth() const { return m_barcodeWidth; }
 
 void BarcodeItem::setBarcodeWidth(int barcodeWidth)
 {
-    if (m_barcodeWidth != barcodeWidth){
+    if (m_barcodeWidth != barcodeWidth) {
         int oldValue = m_barcodeWidth;
         m_barcodeWidth = barcodeWidth;
-        if (!isLoading()){
+        if (!isLoading()) {
             update();
-            notify("barcodeWidth",oldValue,m_barcodeWidth);
+            notify("barcodeWidth", oldValue, m_barcodeWidth);
         }
     }
 }
 
-int BarcodeItem::securityLevel() const
-{
-    return m_securityLevel;
-}
+int BarcodeItem::securityLevel() const { return m_securityLevel; }
 
 void BarcodeItem::setSecurityLevel(int securityLevel)
 {
-    if (m_securityLevel != securityLevel){
+    if (m_securityLevel != securityLevel) {
         int oldValue = m_securityLevel;
         m_securityLevel = securityLevel;
-        if (!isLoading()){
+        if (!isLoading()) {
             update();
-            notify("securityLevel",oldValue,m_securityLevel);
+            notify("securityLevel", oldValue, m_securityLevel);
         }
     }
 }
 
-int BarcodeItem::pdf417CodeWords() const
-{
-    return m_pdf417CodeWords;
-}
+int BarcodeItem::pdf417CodeWords() const { return m_pdf417CodeWords; }
 
 void BarcodeItem::setPdf417CodeWords(int pdf417CodeWords)
 {
-    if (m_pdf417CodeWords != pdf417CodeWords){
+    if (m_pdf417CodeWords != pdf417CodeWords) {
         int oldValue = m_pdf417CodeWords;
         m_pdf417CodeWords = pdf417CodeWords;
-        if (!isLoading()){
+        if (!isLoading()) {
             update();
-            notify("pdf417CodeWords",oldValue,m_pdf417CodeWords);
+            notify("pdf417CodeWords", oldValue, m_pdf417CodeWords);
         }
     }
 }
 
-BarcodeItem::InputMode BarcodeItem::inputMode() const
-{
-    return m_inputMode;
-}
+BarcodeItem::InputMode BarcodeItem::inputMode() const { return m_inputMode; }
 
-void BarcodeItem::setInputMode(const InputMode &inputMode)
+void BarcodeItem::setInputMode(const InputMode& inputMode)
 {
-    if (m_inputMode != inputMode){
+    if (m_inputMode != inputMode) {
         InputMode oldValue = m_inputMode;
         m_inputMode = inputMode;
-        if (!isLoading()){
+        if (!isLoading()) {
             update();
-            notify("inputMode",oldValue,inputMode);
+            notify("inputMode", oldValue, inputMode);
         }
     }
 }
 
-bool BarcodeItem::hideText() const
-{
-    return m_hideText;
-}
+bool BarcodeItem::hideText() const { return m_hideText; }
 
 void BarcodeItem::setHideText(bool hideText)
 {
-    if (m_hideText != hideText){
+    if (m_hideText != hideText) {
         m_hideText = hideText;
-        if (!isLoading()){
+        if (!isLoading()) {
             update();
             notify("hideText", !m_hideText, m_hideText);
         }
     }
 }
 
-int BarcodeItem::option3() const
-{
-    return m_option3;
-}
+int BarcodeItem::option3() const { return m_option3; }
 
 void BarcodeItem::setOption3(int option3)
 {
-    if (m_option3 != option3){
+    if (m_option3 != option3) {
         int oldValue = m_option3;
         m_option3 = option3;
-        if(!isLoading()){
+        if (!isLoading()) {
             update();
             notify("option3", oldValue, m_option3);
         }
     }
 }
 
-bool BarcodeItem::hideIfEmpty() const
-{
-    return m_hideIfEmpty;
-}
+bool BarcodeItem::hideIfEmpty() const { return m_hideIfEmpty; }
 
 void BarcodeItem::setHideIfEmpty(bool hideIfEmpty)
 {
-    if (m_hideIfEmpty != hideIfEmpty){
+    if (m_hideIfEmpty != hideIfEmpty) {
         m_hideIfEmpty = hideIfEmpty;
-        notify("hideIfEmpty",!m_hideIfEmpty, m_hideIfEmpty);
+        notify("hideIfEmpty", !m_hideIfEmpty, m_hideIfEmpty);
     }
 }
 
-bool BarcodeItem::isEmpty() const
-{
-    return m_content.isEmpty();
-}
+bool BarcodeItem::isEmpty() const { return m_content.isEmpty(); }
 
 void BarcodeItem::expandContent(QString data, DataSourceManager* dataManager, RenderPass pass)
 {
@@ -342,28 +325,23 @@ void BarcodeItem::expandContent(QString data, DataSourceManager* dataManager, Re
 
 void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass, int maxHeight)
 {
-    if (content().isEmpty())
-    {
-        if (!m_datasource.isEmpty() && !m_field.isEmpty())
-        {
-           IDataSource* ds = dataManager->dataSource(m_datasource);
-           if (ds)
-           {
-               QVariant data = ds->data(m_field);
-               if (data.isValid())
-               {
-                   switch(pass)
-                   {
-                   case FirstPass:
-                       expandContent(data.toString(), dataManager, pass);
-                       break;
-                   default:;
-                   }
-               }
-           }
+    if (content().isEmpty()) {
+        if (!m_datasource.isEmpty() && !m_field.isEmpty()) {
+            IDataSource* ds = dataManager->dataSource(m_datasource);
+            if (ds) {
+                QVariant data = ds->data(m_field);
+                if (data.isValid()) {
+                    switch (pass) {
+                    case FirstPass:
+                        expandContent(data.toString(), dataManager, pass);
+                        break;
+                    default:;
+                    }
+                }
+            }
         }
     } else {
-        switch(pass){
+        switch (pass) {
         case FirstPass:
             expandContent(content(), dataManager, pass);
             break;
@@ -371,10 +349,13 @@ void BarcodeItem::updateItemSize(DataSourceManager* dataManager, RenderPass pass
         }
     }
     BaseDesignIntf::updateItemSize(dataManager, pass, maxHeight);
-    if (isEmpty() && hideIfEmpty()) setVisible(false);
+    if (isEmpty() && hideIfEmpty())
+        setVisible(false);
 }
 
 bool BarcodeItem::isNeedUpdateSize(RenderPass pass) const
-{return  (pass==FirstPass)?true:false;}
-
+{
+    return (pass == FirstPass) ? true : false;
 }
+
+} // namespace LimeReport

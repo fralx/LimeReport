@@ -30,10 +30,10 @@
 #ifndef LRFONTEDITORWIDGET_H
 #define LRFONTEDITORWIDGET_H
 
-#include <QToolBar>
+#include <QAction>
 #include <QFontComboBox>
 #include <QStringListModel>
-#include <QAction>
+#include <QToolBar>
 
 #ifdef HAVE_REPORT_DESIGNER
 #include "lrreportdesignwidget.h"
@@ -41,27 +41,30 @@
 
 #include "lritemeditorwidget.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class FontEditorWidget :public ItemEditorWidget{
+class FontEditorWidget: public ItemEditorWidget {
     Q_OBJECT
 public:
-    explicit FontEditorWidget(const QString &title, QWidget *parent = 0);
+    explicit FontEditorWidget(const QString& title, QWidget* parent = 0);
     bool ignoreSlots() const;
+
 protected:
-    void setItemEvent(BaseDesignIntf *item);
-    QFontComboBox* fontNameEditor(){return m_fontNameEditor;}
+    void setItemEvent(BaseDesignIntf* item);
+    QFontComboBox* fontNameEditor() { return m_fontNameEditor; }
     void initEditor();
 protected slots:
     virtual void slotFontChanged(const QFont&);
     virtual void slotFontSizeChanged(const QString& value);
     virtual void slotFontAttribsChanged(bool);
-    void slotPropertyChanged(const QString& objectName, const QString& property, const QVariant &oldValue, const QVariant &newValue);
-protected:
-    QFont resFont(){return m_resFont;}
-private:
+    void slotPropertyChanged(const QString& objectName, const QString& property,
+                             const QVariant& oldValue, const QVariant& newValue);
 
-    void updateValues(const QFont &font);
+protected:
+    QFont resFont() { return m_resFont; }
+
+private:
+    void updateValues(const QFont& font);
 
     QFontComboBox* m_fontNameEditor;
     QComboBox* m_fontSizeEditor;
@@ -73,28 +76,37 @@ private:
 
     bool m_ignoreSlots;
     QFont m_resFont;
-
 };
 
-class FontEditorWidgetForPage : public FontEditorWidget{
+class FontEditorWidgetForPage: public FontEditorWidget {
     Q_OBJECT
 public:
-    explicit FontEditorWidgetForPage(PageDesignIntf* page, const QString &title, QWidget *parent = 0)
-        : FontEditorWidget(title, parent), m_page(page){}
+    explicit FontEditorWidgetForPage(PageDesignIntf* page, const QString& title,
+                                     QWidget* parent = 0):
+        FontEditorWidget(title, parent),
+        m_page(page)
+    {
+    }
 protected slots:
     virtual void slotFontChanged(const QFont& font);
     virtual void slotFontSizeChanged(const QString& value);
     virtual void slotFontAttribsChanged(bool value);
+
 private:
     PageDesignIntf* m_page;
 };
 
 #ifdef HAVE_REPORT_DESIGNER
-class FontEditorWidgetForDesigner : public FontEditorWidget{
+class FontEditorWidgetForDesigner: public FontEditorWidget {
     Q_OBJECT
 public:
-    explicit FontEditorWidgetForDesigner(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0)
-        : FontEditorWidget(title, parent), m_reportEditor(reportEditor){initEditor();}
+    explicit FontEditorWidgetForDesigner(ReportDesignWidget* reportEditor, const QString& title,
+                                         QWidget* parent = 0):
+        FontEditorWidget(title, parent),
+        m_reportEditor(reportEditor)
+    {
+        initEditor();
+    }
 
 protected:
     void initEditor();
@@ -102,11 +114,12 @@ protected slots:
     virtual void slotFontChanged(const QFont& font);
     virtual void slotFontSizeChanged(const QString& value);
     virtual void slotFontAttribsChanged(bool value);
+
 private:
     ReportDesignWidget* m_reportEditor;
 };
 #endif
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // LRFONTEDITORWIDGET_H

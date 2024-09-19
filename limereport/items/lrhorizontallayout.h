@@ -29,34 +29,32 @@
  ****************************************************************************/
 #ifndef LRHORIZONTALLAYOUT_H
 #define LRHORIZONTALLAYOUT_H
+#include "lrabstractlayout.h"
 #include "lritemdesignintf.h"
 #include "lrlayoutmarker.h"
-#include "lrabstractlayout.h"
 
-namespace LimeReport
-{
+namespace LimeReport {
 
-class HorizontalLayout : public AbstractLayout
-{
+class HorizontalLayout: public AbstractLayout {
     Q_OBJECT
     Q_PROPERTY(LayoutType layoutType READ layoutType WRITE setLayoutType)
 public:
     friend class LayoutMarker;
     friend class BaseDesignIntf;
 
-    HorizontalLayout(QObject *owner = 0, QGraphicsItem *parent = 0);
+    HorizontalLayout(QObject* owner = 0, QGraphicsItem* parent = 0);
     ~HorizontalLayout();
-    BaseDesignIntf *createSameTypeItem(QObject *owner = 0, QGraphicsItem *parent = 0);
-    bool isSplittable() const { return true;}
-    bool canContainChildren() const { return true;}
+    BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
+    bool isSplittable() const { return true; }
+    bool canContainChildren() const { return true; }
 
 protected:
     void updateLayoutSize();
     void relocateChildren();
     bool canBeSplitted(int height) const;
-    BaseDesignIntf* cloneUpperPart(int height, QObject* owner=0, QGraphicsItem* parent=0);
-    BaseDesignIntf* cloneBottomPart(int height, QObject *owner=0, QGraphicsItem *parent=0);
-    void setItemAlign(const ItemAlign &itemAlign);
+    BaseDesignIntf* cloneUpperPart(int height, QObject* owner = 0, QGraphicsItem* parent = 0);
+    BaseDesignIntf* cloneBottomPart(int height, QObject* owner = 0, QGraphicsItem* parent = 0);
+    void setItemAlign(const ItemAlign& itemAlign);
 
 private:
     void sortChildren();
@@ -64,5 +62,5 @@ private:
     void placeItemInLayout(BaseDesignIntf* item);
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 #endif // LRHORIZONTALLAYOUT_H

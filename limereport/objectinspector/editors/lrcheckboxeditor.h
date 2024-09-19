@@ -32,33 +32,33 @@
 
 #include <QCheckBox>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class CheckBoxEditor : public QWidget
-{
+class CheckBoxEditor: public QWidget {
     Q_OBJECT
 
 public:
-    CheckBoxEditor(QWidget * parent = 0);
-    CheckBoxEditor(const QString & text, QWidget * parent = 0);
+    CheckBoxEditor(QWidget* parent = 0);
+    CheckBoxEditor(const QString& text, QWidget* parent = 0);
     ~CheckBoxEditor();
     void setEditing(bool value);
     void setChecked(bool value);
     bool isChecked();
+
 protected:
-    void mousePressEvent(QMouseEvent *);
-    void keyPressEvent(QKeyEvent *event);
-    void showEvent(QShowEvent *);
+    void mousePressEvent(QMouseEvent*);
+    void keyPressEvent(QKeyEvent* event);
+    void showEvent(QShowEvent*);
 signals:
     void editingFinished();
 private slots:
     void slotStateChanged(int);
+
 private:
     QCheckBox* m_checkBox;
     bool m_editing;
     void init();
-
 };
 
-}
+} // namespace LimeReport
 #endif // LRCHECKBOXEDITOR_H

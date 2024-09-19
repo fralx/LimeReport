@@ -33,20 +33,25 @@
 #include "lrobjectpropitem.h"
 
 namespace LimeReport {
-class BoolPropItem : public ObjectPropItem
-{
+class BoolPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    BoolPropItem():ObjectPropItem(){}
-    BoolPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    virtual QString displayValue() const {return "";}
-    virtual QWidget* createProperyEditor(QWidget *parent) const;
-    virtual void setPropertyEditorData(QWidget * propertyEditor, const QModelIndex &) const;
-    virtual void setModelData(QWidget * propertyEditor, QAbstractItemModel * model, const QModelIndex & index);
-    bool paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index);
+    BoolPropItem(): ObjectPropItem() { }
+    BoolPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                 const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                 bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    virtual QString displayValue() const { return ""; }
+    virtual QWidget* createProperyEditor(QWidget* parent) const;
+    virtual void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    virtual void setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                              const QModelIndex& index);
+    bool paint(QPainter* painter, const StyleOptionViewItem& option, const QModelIndex& index);
+
 protected:
-    QPixmap getIndicatorImage(const StyleOptionViewItem &option);
+    QPixmap getIndicatorImage(const StyleOptionViewItem& option);
 };
 } // namespace LimeReport
 

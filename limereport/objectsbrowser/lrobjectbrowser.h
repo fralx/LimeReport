@@ -30,62 +30,66 @@
 #ifndef LROBJECTBROWSER_H
 #define LROBJECTBROWSER_H
 
-#include <QWidget>
-#include <QTreeWidget>
-#include "lrreportdesignwidget.h"
 #include "lrbasedesignintf.h"
+#include "lrreportdesignwidget.h"
 
-namespace LimeReport{
+#include <QTreeWidget>
+#include <QWidget>
 
-class ObjectBrowserNode :public QTreeWidgetItem{
+namespace LimeReport {
+
+class ObjectBrowserNode: public QTreeWidgetItem {
 public:
     void setObject(QObject* value);
     QObject* object() const;
-    explicit ObjectBrowserNode(QTreeWidget *view);
-    explicit ObjectBrowserNode(QTreeWidgetItem *parent = 0);
-    bool operator <(const QTreeWidgetItem& other) const;
+    explicit ObjectBrowserNode(QTreeWidget* view);
+    explicit ObjectBrowserNode(QTreeWidgetItem* parent = 0);
+    bool operator<(const QTreeWidgetItem& other) const;
+
 private:
     QObject* m_object;
 };
 
-class ObjectBrowser :public QWidget
-{
+class ObjectBrowser: public QWidget {
     Q_OBJECT
 public:
-    ObjectBrowser(QWidget *parent=0);
+    ObjectBrowser(QWidget* parent = 0);
     void setReportEditor(LimeReport::ReportDesignWidget* designerWidget);
     void setMainWindow(QMainWindow* mainWindow);
+
 protected:
-    void fillNode(QTreeWidgetItem *parentNode, BaseDesignIntf *reportItem, BaseDesignIntf* ignoredItem = 0);
-    void buildTree(BaseDesignIntf *ignoredItem = 0);
+    void fillNode(QTreeWidgetItem* parentNode, BaseDesignIntf* reportItem,
+                  BaseDesignIntf* ignoredItem = 0);
+    void buildTree(BaseDesignIntf* ignoredItem = 0);
     void removeItem(BaseDesignIntf* item);
-    void findAndRemove(QTreeWidgetItem *node, BaseDesignIntf *item);
+    void findAndRemove(QTreeWidgetItem* node, BaseDesignIntf* item);
     void moveItemNode(BaseDesignIntf* item, BaseDesignIntf* parent);
 private slots:
-//    void slotObjectNameChanged(const QString& objectName);
+    //    void slotObjectNameChanged(const QString& objectName);
     void slotPropertyObjectNameChanged(const QString& oldName, const QString& newName);
     void slotClear();
     void slotReportLoaded();
     void slotActivePageChanged();
     void slotBandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*);
-    void slotBandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*item);
-    void slotItemAdded(LimeReport::PageDesignIntf*page, LimeReport::BaseDesignIntf*);
-    void slotItemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf*item);
+    void slotBandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf* item);
+    void slotItemAdded(LimeReport::PageDesignIntf* page, LimeReport::BaseDesignIntf*);
+    void slotItemDeleted(LimeReport::PageDesignIntf*, LimeReport::BaseDesignIntf* item);
     void slotObjectTreeItemSelectionChanged();
     void slotItemSelected(LimeReport::BaseDesignIntf* item);
     void slotMultiItemSelected();
-    void slotItemDoubleClicked(QTreeWidgetItem* item,int);
+    void slotItemDoubleClicked(QTreeWidgetItem* item, int);
     void slotActivePageUpdated(LimeReport::PageDesignIntf*);
     void slotItemParentChanged(BaseDesignIntf* item, BaseDesignIntf* parent);
+
 private:
     ReportDesignWidget* m_designerWidget;
-    QMainWindow*        m_mainWindow;
-    QTreeWidget*        m_treeView;
+    QMainWindow* m_mainWindow;
+    QTreeWidget* m_treeView;
     QMap<QObject*, ObjectBrowserNode*> m_itemsMap;
     bool m_changingItemSelection;
     bool m_movingItem;
     QList<QObject*> m_defferedItems;
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 #endif // LROBJECTBROWSER_H

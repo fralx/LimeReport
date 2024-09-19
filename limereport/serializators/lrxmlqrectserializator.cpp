@@ -28,76 +28,75 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrxmlqrectserializator.h"
+
 #include "lrserializatorintf.h"
 #include "lrxmlserializatorsfactory.h"
 
 #include <QRect>
 #include <QRectF>
 
-namespace{
+namespace {
 
-LimeReport::SerializatorIntf * createQRectSerializator(QDomDocument *doc, QDomElement *node){
-    return new LimeReport::XMLQRectSerializator(doc,node);
+LimeReport::SerializatorIntf* createQRectSerializator(QDomDocument* doc, QDomElement* node)
+{
+    return new LimeReport::XMLQRectSerializator(doc, node);
 }
 
-//LimeReport::SerializatorIntf * createQRectFSerializator(QDomDocument *doc, QDomElement *node){
+// LimeReport::SerializatorIntf * createQRectFSerializator(QDomDocument *doc, QDomElement
+// *node){
 //    return new LimeReport::XMLQRectFSerializator(doc,node);
 //}
 
-bool VARIABLE_IS_NOT_USED registredQRect = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QRect", createQRectSerializator);
-bool VARIABLE_IS_NOT_USED registredQRectF = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator("QRectF", createQRectSerializator);
+bool VARIABLE_IS_NOT_USED registredQRect
+    = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator(
+        "QRect", createQRectSerializator);
+bool VARIABLE_IS_NOT_USED registredQRectF
+    = LimeReport::XMLAbstractSerializatorFactory::instance().registerCreator(
+        "QRectF", createQRectSerializator);
 
-}
+} // namespace
 
 QVariant LimeReport::XMLQRectSerializator::loadValue()
 {
     QRect rect;
-    //QDomElement geometryNode = m_node->firstChildElement(name);
-    //if (!geometryNode.isNull()){
-        rect = QRect(
-                    m_node->attribute("x").toInt(),
-                    m_node->attribute("y").toInt(),
-                    m_node->attribute("width").toInt(),
-                    m_node->attribute("height").toInt()
-        );
+    // QDomElement geometryNode = m_node->firstChildElement(name);
+    // if (!geometryNode.isNull()){
+    rect = QRect(m_node->attribute("x").toInt(), m_node->attribute("y").toInt(),
+                 m_node->attribute("width").toInt(), m_node->attribute("height").toInt());
     //}
     return rect;
 }
 
-void LimeReport::XMLQRectSerializator::save(const QVariant &value, QString name)
+void LimeReport::XMLQRectSerializator::save(const QVariant& value, QString name)
 {
     QDomElement geometryNode = m_doc->createElement(name);
-    geometryNode.setAttribute("Type","QRect");
-    geometryNode.setAttribute("x",value.toRect().x());
-    geometryNode.setAttribute("x",value.toRect().x());
-    geometryNode.setAttribute("y",value.toRect().y());
-    geometryNode.setAttribute("width",value.toRect().width());
-    geometryNode.setAttribute("height",value.toRect().height());
+    geometryNode.setAttribute("Type", "QRect");
+    geometryNode.setAttribute("x", value.toRect().x());
+    geometryNode.setAttribute("x", value.toRect().x());
+    geometryNode.setAttribute("y", value.toRect().y());
+    geometryNode.setAttribute("width", value.toRect().width());
+    geometryNode.setAttribute("height", value.toRect().height());
     m_node->appendChild(geometryNode);
 }
 
-void LimeReport::XMLQRectFSerializator::save(const QVariant &value, QString name)
+void LimeReport::XMLQRectFSerializator::save(const QVariant& value, QString name)
 {
     QDomElement geometryNode = m_doc->createElement(name);
-    geometryNode.setAttribute("Type","QRectF");
-    geometryNode.setAttribute("x",value.toRect().x());
-    geometryNode.setAttribute("y",value.toRect().y());
-    geometryNode.setAttribute("width",value.toRect().width());
-    geometryNode.setAttribute("height",value.toRect().height());
+    geometryNode.setAttribute("Type", "QRectF");
+    geometryNode.setAttribute("x", value.toRect().x());
+    geometryNode.setAttribute("y", value.toRect().y());
+    geometryNode.setAttribute("width", value.toRect().width());
+    geometryNode.setAttribute("height", value.toRect().height());
     m_node->appendChild(geometryNode);
 }
 
 QVariant LimeReport::XMLQRectFSerializator::loadValue()
 {
     QRectF rect;
-    //QDomElement geometryNode = m_node->firstChildElement(name);
-    //if (!geometryNode.isNull()){
-        rect = QRect(
-                    m_node->attribute("x").toDouble(),
-                    m_node->attribute("y").toDouble(),
-                    m_node->attribute("width").toDouble(),
-                    m_node->attribute("height").toDouble()
-        );
+    // QDomElement geometryNode = m_node->firstChildElement(name);
+    // if (!geometryNode.isNull()){
+    rect = QRect(m_node->attribute("x").toDouble(), m_node->attribute("y").toDouble(),
+                 m_node->attribute("width").toDouble(), m_node->attribute("height").toDouble());
 
     //}
     return rect;

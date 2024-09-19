@@ -28,53 +28,51 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrshapeitem.h"
-#include "lrdesignelementsfactory.h"
-#include <QStyleOptionGraphicsItem>
-#include <QPainter>
 
-namespace{
+#include "lrdesignelementsfactory.h"
+
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+
+namespace {
 
 const QString xmlTag = "ShapeItem";
 
-LimeReport::BaseDesignIntf * createShapeItem(QObject* owner, LimeReport::BaseDesignIntf*  parent){
-    return new LimeReport::ShapeItem(owner,parent);
+LimeReport::BaseDesignIntf* createShapeItem(QObject* owner, LimeReport::BaseDesignIntf* parent)
+{
+    return new LimeReport::ShapeItem(owner, parent);
 }
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
-                     xmlTag, LimeReport::ItemAttribs(QObject::tr("Shape Item"),"Item"), createShapeItem
-                 );
-}
+    xmlTag, LimeReport::ItemAttribs(QObject::tr("Shape Item"), "Item"), createShapeItem);
+} // namespace
 
+namespace LimeReport {
 
-namespace LimeReport{
-
-ShapeItem::ShapeItem(QObject *owner, QGraphicsItem *parent)
-    :ItemDesignIntf(xmlTag,owner,parent),
-      m_shape(HorizontalLine),
-      m_shapeColor(Qt::black),
-      m_shapeBrushColor(Qt::black),
-      m_shapeBrushType(Qt::NoBrush),
-      m_lineWidth(1),
-      m_penStyle(Qt::SolidLine),
-      m_cornerRadius(0)
+ShapeItem::ShapeItem(QObject* owner, QGraphicsItem* parent):
+    ItemDesignIntf(xmlTag, owner, parent),
+    m_shape(HorizontalLine),
+    m_shapeColor(Qt::black),
+    m_shapeBrushColor(Qt::black),
+    m_shapeBrushType(Qt::NoBrush),
+    m_lineWidth(1),
+    m_penStyle(Qt::SolidLine),
+    m_cornerRadius(0)
 {
 }
 
-Qt::PenStyle ShapeItem::penStyle() const
-{
-    return m_penStyle;
-}
+Qt::PenStyle ShapeItem::penStyle() const { return m_penStyle; }
 
-void ShapeItem::setPenStyle(const Qt::PenStyle &value)
+void ShapeItem::setPenStyle(const Qt::PenStyle& value)
 {
-    if ((value!=m_penStyle)){
+    if ((value != m_penStyle)) {
         Qt::PenStyle oldValue = m_penStyle;
-        m_penStyle=value;
+        m_penStyle = value;
         update();
-        notify("penStyle",(int)oldValue,(int)value);
+        notify("penStyle", (int)oldValue, (int)value);
     }
 }
 
-void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void ShapeItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 
     painter->save();
@@ -84,32 +82,30 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     pen.setStyle(m_penStyle);
     pen.setJoinStyle(Qt::MiterJoin);
     painter->setPen(pen);
-    QBrush brush(m_shapeBrushColor,m_shapeBrushType);
+    QBrush brush(m_shapeBrushColor, m_shapeBrushType);
     brush.setTransform(painter->worldTransform().inverted());
     painter->setBrush(brush);
     painter->setBackground(QBrush(Qt::NoBrush));
-    painter->setOpacity(qreal(opacity())/100);
+    painter->setOpacity(qreal(opacity()) / 100);
 
-    QRectF rectangleRect = rect().adjusted((lineWidth() / 2),
-                                           (lineWidth() / 2),
-                                           -(lineWidth() / 2),
+    QRectF rectangleRect = rect().adjusted((lineWidth() / 2), (lineWidth() / 2), -(lineWidth() / 2),
                                            -(lineWidth() / 2));
 
-    switch (m_shape){
+    switch (m_shape) {
     case HorizontalLine:
-        painter->drawLine(0,rect().height()/2,rect().right(),rect().height()/2);
+        painter->drawLine(0, rect().height() / 2, rect().right(), rect().height() / 2);
         break;
     case VerticalLine:
-        painter->drawLine(rect().width()/2,0,rect().width()/2,rect().height());
+        painter->drawLine(rect().width() / 2, 0, rect().width() / 2, rect().height());
         break;
     case Ellipse:
         painter->setRenderHint(QPainter::Antialiasing);
         painter->drawEllipse(rect());
         break;
     case Rectangle:
-        if (m_cornerRadius != 0){
+        if (m_cornerRadius != 0) {
             painter->setRenderHint(QPainter::Antialiasing);
-            painter->drawRoundedRect(rectangleRect,m_cornerRadius,m_cornerRadius);
+            painter->drawRoundedRect(rectangleRect, m_cornerRadius, m_cornerRadius);
         } else {
             painter->drawRect(rectangleRect);
         }
@@ -117,79 +113,74 @@ void ShapeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 
     painter->restore();
-    ItemDesignIntf::paint(painter,option,widget);
-
+    ItemDesignIntf::paint(painter, option, widget);
 }
 
 void ShapeItem::setShapeColor(QColor value)
 {
-    if ((value!=m_shapeColor)){
+    if ((value != m_shapeColor)) {
         QColor oldValue = m_shapeColor;
-        m_shapeColor=value;
+        m_shapeColor = value;
         update();
-        notify("shapeColor",oldValue,value);
+        notify("shapeColor", oldValue, value);
     }
 }
 
 void ShapeItem::setShapeBrushColor(QColor value)
 {
-    if (value!=m_shapeBrushColor){
+    if (value != m_shapeBrushColor) {
         QColor oldValue = m_shapeBrushColor;
-        m_shapeBrushColor=value;
+        m_shapeBrushColor = value;
         update();
-        notify("shapeBrushColor",oldValue,value);
+        notify("shapeBrushColor", oldValue, value);
     }
 }
 
 void ShapeItem::setShapeBrushType(Qt::BrushStyle value)
 {
-    if (m_shapeBrushType!=value){
+    if (m_shapeBrushType != value) {
         Qt::BrushStyle oldValue = m_shapeBrushType;
-        m_shapeBrushType=value;
+        m_shapeBrushType = value;
         update(rect());
-        notify("shapeBrush",QBrush(oldValue),QBrush(value));
+        notify("shapeBrush", QBrush(oldValue), QBrush(value));
     }
 }
 
 void ShapeItem::setShapeType(ShapeItem::ShapeType value)
 {
-    if (m_shape!=value){
+    if (m_shape != value) {
         ShapeType oldValue = m_shape;
-        m_shape=value;
+        m_shape = value;
         update();
-        notify("shape",oldValue,value);
+        notify("shape", oldValue, value);
     }
 }
 
 void ShapeItem::setLineWidth(qreal value)
 {
-    if (m_lineWidth!=value){
+    if (m_lineWidth != value) {
         qreal oldValue = m_lineWidth;
-        m_lineWidth=value;
+        m_lineWidth = value;
         update();
-        notify("lineWidth",oldValue,value);
-
+        notify("lineWidth", oldValue, value);
     }
 }
 
-BaseDesignIntf *ShapeItem::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
+BaseDesignIntf* ShapeItem::createSameTypeItem(QObject* owner, QGraphicsItem* parent)
 {
-    return new ShapeItem(owner,parent);
+    return new ShapeItem(owner, parent);
 }
 
-int ShapeItem::cornerRadius() const
-{
-    return m_cornerRadius;
-}
+int ShapeItem::cornerRadius() const { return m_cornerRadius; }
 
 void ShapeItem::setCornerRadius(int borderRadius)
 {
-    if (m_cornerRadius != borderRadius){
+    if (m_cornerRadius != borderRadius) {
         int oldValue = m_cornerRadius;
         m_cornerRadius = borderRadius;
         update();
-        notify("cornerRadius",oldValue,m_cornerRadius);
+        notify("cornerRadius", oldValue, m_cornerRadius);
     }
 }
 
-}
+} // namespace LimeReport

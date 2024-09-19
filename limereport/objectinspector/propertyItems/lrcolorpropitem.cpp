@@ -28,60 +28,72 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrcolorpropitem.h"
-#include "lrglobal.h"
+
 #include "editors/lrcoloreditor.h"
-#include <QPainter>
+#include "lrglobal.h"
+
 #include <QApplication>
+#include <QPainter>
 
-namespace{
-    LimeReport::ObjectPropItem * createColorPropItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
-    {
-        return new LimeReport::ColorPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-    bool VARIABLE_IS_NOT_USED registredColorProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QColor",""),QObject::tr("QColor"),createColorPropItem);
-}
-
-namespace LimeReport{
-
-void ColorPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+namespace {
+LimeReport::ObjectPropItem* createColorPropItem(QObject* object,
+                                                LimeReport::ObjectPropItem::ObjectsList* objects,
+                                                const QString& name, const QString& displayName,
+                                                const QVariant& data,
+                                                LimeReport::ObjectPropItem* parent, bool readonly)
 {
-    ColorEditor *editor =qobject_cast<ColorEditor*>(propertyEditor);
+    return new LimeReport::ColorPropItem(object, objects, name, displayName, data, parent,
+                                         readonly);
+}
+bool VARIABLE_IS_NOT_USED registredColorProp
+    = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("QColor", ""), QObject::tr("QColor"), createColorPropItem);
+} // namespace
+
+namespace LimeReport {
+
+void ColorPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
+{
+    ColorEditor* editor = qobject_cast<ColorEditor*>(propertyEditor);
     editor->setColor(propertyValue().value<QColor>());
 }
 
-void ColorPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void ColorPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                 const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<ColorEditor*>(propertyEditor)->color());
-    setValueToObject(propertyName(),propertyValue());
+    model->setData(index, qobject_cast<ColorEditor*>(propertyEditor)->color());
+    setValueToObject(propertyName(), propertyValue());
 }
 
-bool ColorPropItem::paint(QPainter *painter, const StyleOptionViewItem &option, const QModelIndex &index)
+bool ColorPropItem::paint(QPainter* painter, const StyleOptionViewItem& option,
+                          const QModelIndex& index)
 {
-    if (index.column()==1){
+    if (index.column() == 1) {
         painter->save();
 
         QStyle* style = option.widget ? option.widget->style() : QApplication::style();
         QPen pen;
-        QColor penColor = isColorDark(propertyValue().value<QColor>()) ? Qt::transparent : Qt::darkGray;
+        QColor penColor
+            = isColorDark(propertyValue().value<QColor>()) ? Qt::transparent : Qt::darkGray;
         pen.setColor(penColor);
         painter->setPen(pen);
         painter->setBrush(propertyValue().value<QColor>());
-        int border = (option.rect.height() - style->pixelMetric(QStyle::PM_IndicatorWidth))/2;
+        int border = (option.rect.height() - style->pixelMetric(QStyle::PM_IndicatorWidth)) / 2;
 
-        QRect rect(option.rect.x()+border,option.rect.y()+border,
+        QRect rect(option.rect.x() + border, option.rect.y() + border,
                    style->pixelMetric(QStyle::PM_IndicatorWidth),
                    style->pixelMetric(QStyle::PM_IndicatorWidth));
         painter->drawRect(rect);
 
         painter->restore();
         return true;
-    } else return false;
+    } else
+        return false;
 }
 
-QWidget *ColorPropItem::createProperyEditor(QWidget *parent) const
+QWidget* ColorPropItem::createProperyEditor(QWidget* parent) const
 {
     return new ColorEditor(parent);
 }
 
-}
+} // namespace LimeReport

@@ -27,18 +27,21 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#include <QString>
-#include <QDebug>
 #include "lrglobal.h"
+
+#include <QDebug>
+#include <QString>
 
 namespace LimeReport {
 
 QString extractClassName(QString className)
 {
-    int startPos=className.lastIndexOf("::");
-    if(startPos==-1) startPos=0;
-    else startPos+=2;
-    return className.right(className.length()-startPos);
+    int startPos = className.lastIndexOf("::");
+    if (startPos == -1)
+        startPos = 0;
+    else
+        startPos += 2;
+    return className.right(className.length() - startPos);
 }
 
 bool ReportSettings::suppressAbsentFieldsAndVarsWarnings() const
@@ -46,31 +49,34 @@ bool ReportSettings::suppressAbsentFieldsAndVarsWarnings() const
     return m_suppressAbsentFieldsAndVarsWarnings;
 }
 
-void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentFieldsAndVarsWarnings)
+void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(
+    bool suppressAbsentFieldsAndVarsWarnings)
 {
     m_suppressAbsentFieldsAndVarsWarnings = suppressAbsentFieldsAndVarsWarnings;
 }
 
-QString escapeSimbols(const QString &value)
+QString escapeSimbols(const QString& value)
 {
     QString result = value;
-    result.replace("\"","\\\"");
-    result.replace('\n',"\\n");
+    result.replace("\"", "\\\"");
+    result.replace('\n', "\\n");
     return result;
 }
 
-QString replaceHTMLSymbols(const QString &value)
+QString replaceHTMLSymbols(const QString& value)
 {
     QString result = value;
-    result.replace("<","&lt;");
-    result.replace(">","&gt;");
+    result.replace("<", "&lt;");
+    result.replace(">", "&gt;");
     return result;
 }
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
-QVector<QString> normalizeCaptures(const QRegExp& reg){
+QVector<QString> normalizeCaptures(const QRegExp& reg)
+{
 #else
-QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg){
+QVector<QString> normalizeCaptures(const QRegularExpressionMatch& reg)
+{
 #endif
     QVector<QString> result;
     foreach (QString cap, reg.capturedTexts()) {
@@ -80,13 +86,14 @@ QVector<QString> normalizeCaptures(const QRegularExpressionMatch &reg){
     return result;
 }
 
-bool isColorDark(QColor color){
-    qreal darkness = 1-(0.299*color.red() + 0.587*color.green() + 0.114*color.blue())/255;
-    if(darkness<0.5){
+bool isColorDark(QColor color)
+{
+    qreal darkness = 1 - (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255;
+    if (darkness < 0.5) {
         return false;
     } else {
         return true;
     }
 }
 
-} //namespace LimeReport
+} // namespace LimeReport

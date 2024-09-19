@@ -37,50 +37,53 @@
 #endif
 #include <QMessageBox>
 #ifdef HAVE_UI_LOADER
-#include <QUiLoader>
 #include <QBuffer>
+#include <QUiLoader>
 #include <QWidget>
 #endif
-#include "lrdatasourcemanager.h"
-#include "lrbasedesignintf.h"
 #include "lrbanddesignintf.h"
+#include "lrbasedesignintf.h"
+#include "lrdatasourcemanager.h"
 #include "lrpageitemdesignintf.h"
 
 Q_DECLARE_METATYPE(QColor)
 Q_DECLARE_METATYPE(QFont)
-Q_DECLARE_METATYPE(LimeReport::ScriptEngineManager *)
+Q_DECLARE_METATYPE(LimeReport::ScriptEngineManager*)
 
 #ifdef USE_QTSCRIPTENGINE
-QScriptValue constructColor(QScriptContext *context, QScriptEngine *engine)
+QScriptValue constructColor(QScriptContext* context, QScriptEngine* engine)
 {
     QColor color(context->argument(0).toString());
     return engine->toScriptValue(color);
 }
 #endif
 
-namespace LimeReport{
+namespace LimeReport {
 
-ScriptEngineNode::ScriptEngineNode(const QString &name, const QString &description,
-                                   ScriptEngineNode::NodeType type, ScriptEngineNode *parent, const QIcon &icon)
-    :m_name(name), m_description(description), m_icon(icon), m_type(type), m_parent(parent)
-{}
-
-ScriptEngineNode::~ScriptEngineNode()
+ScriptEngineNode::ScriptEngineNode(const QString& name, const QString& description,
+                                   ScriptEngineNode::NodeType type, ScriptEngineNode* parent,
+                                   const QIcon& icon):
+    m_name(name),
+    m_description(description),
+    m_icon(icon),
+    m_type(type),
+    m_parent(parent)
 {
-    qDeleteAll(m_childs.begin(), m_childs.end());
 }
 
-ScriptEngineNode*ScriptEngineNode::addChild(const QString& name, const QString& description,
-                                            ScriptEngineNode::NodeType type, const QIcon& icon)
+ScriptEngineNode::~ScriptEngineNode() { qDeleteAll(m_childs.begin(), m_childs.end()); }
+
+ScriptEngineNode* ScriptEngineNode::addChild(const QString& name, const QString& description,
+                                             ScriptEngineNode::NodeType type, const QIcon& icon)
 {
-    ScriptEngineNode* res = new ScriptEngineNode(name, description, type,this,icon);
+    ScriptEngineNode* res = new ScriptEngineNode(name, description, type, this, icon);
     m_childs.push_back(res);
     return res;
 }
 
 int ScriptEngineNode::row()
 {
-    if (m_parent){
+    if (m_parent) {
         return m_parent->m_childs.indexOf(const_cast<ScriptEngineNode*>(this));
     }
     return 0;
@@ -88,32 +91,33 @@ int ScriptEngineNode::row()
 
 void ScriptEngineNode::clear()
 {
-    for (int i=0; i<m_childs.count(); ++i){
+    for (int i = 0; i < m_childs.count(); ++i) {
         delete m_childs[i];
     }
     m_childs.clear();
 }
 
-ScriptEngineModel::ScriptEngineModel(ScriptEngineManager* scriptManager)
-    :m_rootNode(new ScriptEngineNode())
+ScriptEngineModel::ScriptEngineModel(ScriptEngineManager* scriptManager):
+    m_rootNode(new ScriptEngineNode())
 {
     setScriptEngineManager(scriptManager);
 }
 
-ScriptEngineModel::~ScriptEngineModel() {
-    delete m_rootNode;
-}
+ScriptEngineModel::~ScriptEngineModel() { delete m_rootNode; }
 
 QModelIndex ScriptEngineModel::parent(const QModelIndex& child) const
 {
-    if (!child.isValid()) return QModelIndex();
+    if (!child.isValid())
+        return QModelIndex();
 
     ScriptEngineNode* childNode = nodeFromIndex(child);
-    if (!childNode) return QModelIndex();
+    if (!childNode)
+        return QModelIndex();
 
     ScriptEngineNode* parentNode = childNode->parent();
-    if ((parentNode == m_rootNode) || (!parentNode)) return QModelIndex();
-    return createIndex(parentNode->row(),0,parentNode);
+    if ((parentNode == m_rootNode) || (!parentNode))
+        return QModelIndex();
+    return createIndex(parentNode->row(), 0, parentNode);
 }
 
 QModelIndex ScriptEngineModel::index(int row, int column, const QModelIndex& parent) const
@@ -121,25 +125,27 @@ QModelIndex ScriptEngineModel::index(int row, int column, const QModelIndex& par
     if (!m_rootNode)
         return QModelIndex();
 
-    if (!hasIndex(row,column,parent))
+    if (!hasIndex(row, column, parent))
         return QModelIndex();
 
     ScriptEngineNode* parentNode;
-    if (parent.isValid()){
+    if (parent.isValid()) {
         parentNode = nodeFromIndex(parent);
     } else {
         parentNode = m_rootNode;
     }
 
     ScriptEngineNode* childNode = parentNode->child(row);
-    if (childNode){
-        return createIndex(row,column,childNode);
-    } else return QModelIndex();
+    if (childNode) {
+        return createIndex(row, column, childNode);
+    } else
+        return QModelIndex();
 }
 
 int ScriptEngineModel::rowCount(const QModelIndex& parent) const
 {
-    if (!m_rootNode) return 0;
+    if (!m_rootNode)
+        return 0;
     ScriptEngineNode* parentNode;
     if (parent.isValid())
         parentNode = nodeFromIndex(parent);
@@ -156,14 +162,16 @@ int ScriptEngineModel::columnCount(const QModelIndex& parent) const
 
 QVariant ScriptEngineModel::data(const QModelIndex& index, int role) const
 {
-    ScriptEngineNode *node = nodeFromIndex(index);
+    ScriptEngineNode* node = nodeFromIndex(index);
     switch (role) {
     case Qt::DisplayRole:
-        if (!node) return QVariant();
+        if (!node)
+            return QVariant();
         return node->name();
         break;
-    case Qt::DecorationRole :
-        if (!node) return QIcon();
+    case Qt::DecorationRole:
+        if (!node)
+            return QIcon();
         return node->icon();
         break;
     default:
@@ -177,33 +185,33 @@ void ScriptEngineModel::setScriptEngineManager(ScriptEngineManager* scriptManage
     updateModel();
 }
 
-void ScriptEngineModel::slotScriptEngineChanged()
-{
-    updateModel();
-}
+void ScriptEngineModel::slotScriptEngineChanged() { updateModel(); }
 
-ScriptEngineNode*ScriptEngineModel::nodeFromIndex(const QModelIndex& index) const
+ScriptEngineNode* ScriptEngineModel::nodeFromIndex(const QModelIndex& index) const
 {
-    if (index.isValid()){
+    if (index.isValid()) {
         return static_cast<ScriptEngineNode*>(index.internalPointer());
-    } else return m_rootNode;
+    } else
+        return m_rootNode;
 }
 
 void ScriptEngineModel::updateModel()
 {
     beginResetModel();
     m_rootNode->clear();
-    QMap<QString,ScriptEngineNode*> categories;
-    foreach(ScriptFunctionDesc funcDesc, m_scriptManager->functionsDescribers()){
+    QMap<QString, ScriptEngineNode*> categories;
+    foreach (ScriptFunctionDesc funcDesc, m_scriptManager->functionsDescribers()) {
         ScriptEngineNode* categ;
-        QString categoryName = (!funcDesc.category.isEmpty())?funcDesc.category:"NO CATEGORY";
-        if (categories.contains(categoryName)){
+        QString categoryName = (!funcDesc.category.isEmpty()) ? funcDesc.category : "NO CATEGORY";
+        if (categories.contains(categoryName)) {
             categ = categories.value(categoryName);
         } else {
-            categ = m_rootNode->addChild(categoryName,"",ScriptEngineNode::Category,QIcon(":/report/images/folder"));
-            categories.insert(categoryName,categ);
+            categ = m_rootNode->addChild(categoryName, "", ScriptEngineNode::Category,
+                                         QIcon(":/report/images/folder"));
+            categories.insert(categoryName, categ);
         }
-        categ->addChild(funcDesc.name,funcDesc.description,ScriptEngineNode::Function,QIcon(":/report/images/function"));
+        categ->addChild(funcDesc.name, funcDesc.description, ScriptEngineNode::Function,
+                        QIcon(":/report/images/function"));
     }
     endResetModel();
 }
@@ -215,7 +223,7 @@ ScriptEngineManager::~ScriptEngineManager()
     delete m_scriptEngine;
 }
 
-bool ScriptEngineManager::isFunctionExists(const QString &functionName) const
+bool ScriptEngineManager::isFunctionExists(const QString& functionName) const
 {
     return m_functions.contains(functionName);
     //    foreach (ScriptFunctionDesc desc, m_functions.values()) {
@@ -226,30 +234,30 @@ bool ScriptEngineManager::isFunctionExists(const QString &functionName) const
     //    return false;
 }
 
-void ScriptEngineManager::deleteFunction(const QString &functionsName)
+void ScriptEngineManager::deleteFunction(const QString& functionsName)
 {
     m_functions.remove(functionsName);
 }
 
-bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
+bool ScriptEngineManager::addFunction(const JSFunctionDesc& functionDescriber)
 {
-    if (m_functions.contains(functionDescriber.name())) return false;
-    ScriptValueType functionManager = scriptEngine()->globalObject().property(functionDescriber.managerName());
+    if (m_functions.contains(functionDescriber.name()))
+        return false;
+    ScriptValueType functionManager
+        = scriptEngine()->globalObject().property(functionDescriber.managerName());
 #ifdef USE_QJSENGINE
-    if (functionManager.isUndefined()){
+    if (functionManager.isUndefined()) {
 #else
-    if (!functionManager.isValid()){
+    if (!functionManager.isValid()) {
 #endif
         functionManager = scriptEngine()->newQObject(functionDescriber.manager());
-        scriptEngine()->globalObject().setProperty(
-                    functionDescriber.managerName(),
-                    functionManager
-                    );
+        scriptEngine()->globalObject().setProperty(functionDescriber.managerName(),
+                                                   functionManager);
     }
 
-    if (functionManager.toQObject() == functionDescriber.manager()){
+    if (functionManager.toQObject() == functionDescriber.manager()) {
         ScriptValueType checkWrapper = scriptEngine()->evaluate(functionDescriber.scriptWrapper());
-        if (!checkWrapper.isError()){
+        if (!checkWrapper.isError()) {
             ScriptFunctionDesc funct;
             funct.name = functionDescriber.name();
             funct.description = functionDescriber.description();
@@ -267,7 +275,6 @@ bool ScriptEngineManager::addFunction(const JSFunctionDesc &functionDescriber)
         m_lastError = tr("Function manager with name \"%1\" already exists!");
         return false;
     }
-
 }
 
 #ifdef USE_QTSCRIPTENGINE
@@ -276,10 +283,9 @@ Q_DECL_DEPRECATED
 #endif
 bool ScriptEngineManager::addFunction(const QString& name,
                                       QScriptEngine::FunctionSignature function,
-                                      const QString& category,
-                                      const QString& description)
+                                      const QString& category, const QString& description)
 {
-    if (!isFunctionExists(name)){
+    if (!isFunctionExists(name)) {
         ScriptFunctionDesc funct;
         funct.name = name;
         funct.description = description;
@@ -299,13 +305,14 @@ bool ScriptEngineManager::addFunction(const QString& name,
 }
 #endif
 
-bool ScriptEngineManager::addFunction(const QString& name, const QString& script, const QString& category, const QString& description)
+bool ScriptEngineManager::addFunction(const QString& name, const QString& script,
+                                      const QString& category, const QString& description)
 {
     ScriptValueType functionValue = m_scriptEngine->evaluate(script);
-    if (!functionValue.isError()){
+    if (!functionValue.isError()) {
         ScriptFunctionDesc funct;
         funct.scriptValue = functionValue;
-        funct.name =  name;
+        funct.name = name;
         funct.category = category;
         funct.description = description;
         funct.type = ScriptFunctionDesc::Script;
@@ -328,90 +335,92 @@ QStringList ScriptEngineManager::functionsNames()
     //    return res;
 }
 
-void ScriptEngineManager::setDataManager(DataSourceManager *dataManager){
-    if (dataManager && m_dataManager != dataManager){
+void ScriptEngineManager::setDataManager(DataSourceManager* dataManager)
+{
+    if (dataManager && m_dataManager != dataManager) {
         m_dataManager = dataManager;
-        if (m_dataManager){
-            foreach(QString func, m_dataManager->groupFunctionNames()){
+        if (m_dataManager) {
+            foreach (QString func, m_dataManager->groupFunctionNames()) {
                 JSFunctionDesc describer(
-                            func,
-                            tr("GROUP FUNCTIONS"),
-                            func+"(\""+tr("FieldName")+"\",\""+tr("BandName")+"\")",
-                            LimeReport::Const::FUNCTION_MANAGER_NAME,
-                            m_functionManager,
-                            QString("function %1(fieldName, bandName, pageitem){\
+                    func, tr("GROUP FUNCTIONS"),
+                    func + "(\"" + tr("FieldName") + "\",\"" + tr("BandName") + "\")",
+                    LimeReport::Const::FUNCTION_MANAGER_NAME, m_functionManager,
+                    QString("function %1(fieldName, bandName, pageitem){\
                                     if (typeof pageitem == 'undefined') return %2.calcGroupFunction(\"%1\", fieldName, bandName); \
-                                                                                                     else return %2.calcGroupFunction(\"%1\", fieldName, bandName, pageitem);}"
-                                                                                                                                       ).arg(func)
-                                                                                                     .arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                                                                                                     );
-                            addFunction(describer);
+                                                                                                     else return %2.calcGroupFunction(\"%1\", fieldName, bandName, pageitem);}")
+                        .arg(func)
+                        .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+                addFunction(describer);
             }
-            moveQObjectToScript(new DatasourceFunctions(dataManager), LimeReport::Const::DATAFUNCTIONS_MANAGER_NAME);
+            moveQObjectToScript(new DatasourceFunctions(dataManager),
+                                LimeReport::Const::DATAFUNCTIONS_MANAGER_NAME);
         }
     }
 }
 
-QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* pass */, ExpandType expandType, QVariant &varValue)
+QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* pass */,
+                                                 ExpandType expandType, QVariant& varValue)
 {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::VARIABLE_RX);
-    if (context.contains(rx)){
+    if (context.contains(rx)) {
         int pos = 0;
-        while ((pos = rx.indexIn(context,pos))!=-1){
-            QString variable=rx.cap(1);
+        while ((pos = rx.indexIn(context, pos)) != -1) {
+            QString variable = rx.cap(1);
             pos += rx.matchedLength();
-            if (dataManager()->containsVariable(variable) ){
+            if (dataManager()->containsVariable(variable)) {
                 try {
 
                     varValue = dataManager()->variable(variable);
-                    switch (expandType){
+                    switch (expandType) {
                     case EscapeSymbols:
-                        context.replace(rx.cap(0),escapeSimbols(varValue.toString()));
+                        context.replace(rx.cap(0), escapeSimbols(varValue.toString()));
                         break;
                     case NoEscapeSymbols:
-                        context.replace(rx.cap(0),varValue.toString());
+                        context.replace(rx.cap(0), varValue.toString());
                         break;
                     case ReplaceHTMLSymbols:
-                        context.replace(rx.cap(0),replaceHTMLSymbols(varValue.toString()));
+                        context.replace(rx.cap(0), replaceHTMLSymbols(varValue.toString()));
                         break;
                     }
-                    pos=0;
+                    pos = 0;
 
-                } catch (ReportError &e){
+                } catch (ReportError& e) {
                     dataManager()->putError(e.what());
-                    if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
-                        context.replace(rx.cap(0),e.what());
+                    if (!dataManager()->reportSettings()
+                        || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                        context.replace(rx.cap(0), e.what());
                     else
-                        context.replace(rx.cap(0),"");
+                        context.replace(rx.cap(0), "");
                 }
             } else {
                 QString error;
                 error = tr("Variable %1 not found").arg(variable);
                 dataManager()->putError(error);
-                if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
-                    context.replace(rx.cap(0),error);
+                if (!dataManager()->reportSettings()
+                    || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(rx.cap(0), error);
                 else
-                    context.replace(rx.cap(0),"");
+                    context.replace(rx.cap(0), "");
             }
         }
     }
     return context;
 #else
     QRegularExpression rx = getVariableRegEx();
-    if (context.contains(rx)){
+    if (context.contains(rx)) {
         int pos = 0;
         QRegularExpressionMatch match = rx.match(context, pos);
-        while (match.hasMatch()){
+        while (match.hasMatch()) {
 
-            QString variable=match.captured(1);
+            QString variable = match.captured(1);
             pos = match.capturedEnd();
 
-            if (dataManager()->containsVariable(variable) ){
+            if (dataManager()->containsVariable(variable)) {
                 try {
 
                     varValue = dataManager()->variable(variable);
-                    switch (expandType){
+                    switch (expandType) {
                     case EscapeSymbols:
                         context.replace(match.captured(0), escapeSimbols(varValue.toString()));
                         break;
@@ -425,9 +434,10 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
 
                     pos = 0;
 
-                } catch (ReportError &e){
+                } catch (ReportError& e) {
                     dataManager()->putError(e.what());
-                    if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    if (!dataManager()->reportSettings()
+                        || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
                         context.replace(match.captured(0), e.what());
                     else
                         context.replace(match.captured(0), "");
@@ -437,7 +447,8 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
                 QString error;
                 error = tr("Variable %1 not found").arg(variable);
                 dataManager()->putError(error);
-                if (!dataManager()->reportSettings() || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                if (!dataManager()->reportSettings()
+                    || dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
                     context.replace(match.captured(0), error);
                 else
                     context.replace(match.captured(0), "");
@@ -450,21 +461,22 @@ QString ScriptEngineManager::expandUserVariables(QString context, RenderPass /* 
 #endif
 }
 
-QString ScriptEngineManager::expandDataFields(QString context, ExpandType expandType, QVariant &varValue, QObject *reportItem)
+QString ScriptEngineManager::expandDataFields(QString context, ExpandType expandType,
+                                              QVariant& varValue, QObject* reportItem)
 {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::FIELD_RX);
 
-    if (context.contains(rx)){
-        while ((rx.indexIn(context))!=-1){
-            QString field=rx.cap(1);
+    if (context.contains(rx)) {
+        while ((rx.indexIn(context)) != -1) {
+            QString field = rx.cap(1);
 
             if (dataManager()->containsField(field)) {
                 QString fieldValue;
                 varValue = dataManager()->fieldData(field);
                 if (expandType == EscapeSymbols) {
                     if (varValue.isNull()) {
-                        fieldValue="\"\"";
+                        fieldValue = "\"\"";
                     } else {
                         fieldValue = escapeSimbols(varValue.toString());
                         switch (dataManager()->fieldData(field).type()) {
@@ -473,7 +485,7 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                         case QVariant::StringList:
                         case QVariant::Date:
                         case QVariant::DateTime:
-                            fieldValue = "\""+fieldValue+"\"";
+                            fieldValue = "\"" + fieldValue + "\"";
                             break;
                         default:
                             break;
@@ -482,22 +494,25 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
                 } else {
                     if (expandType == ReplaceHTMLSymbols)
                         fieldValue = replaceHTMLSymbols(varValue.toString());
-                    else fieldValue = varValue.toString();
+                    else
+                        fieldValue = varValue.toString();
                 }
 
-                context.replace(rx.cap(0),fieldValue);
+                context.replace(rx.cap(0), fieldValue);
 
             } else {
                 QString error;
-                if (reportItem){
-                    error = tr("Field %1 not found in %2!").arg(field).arg(reportItem->objectName());
+                if (reportItem) {
+                    error
+                        = tr("Field %1 not found in %2!").arg(field).arg(reportItem->objectName());
                     dataManager()->putError(error);
                 }
                 varValue = QVariant();
-                if (!dataManager()->reportSettings() || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
-                    context.replace(rx.cap(0),error);
+                if (!dataManager()->reportSettings()
+                    || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                    context.replace(rx.cap(0), error);
                 else
-                    context.replace(rx.cap(0),"");
+                    context.replace(rx.cap(0), "");
             }
         }
     }
@@ -505,63 +520,66 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
     return context;
 #else
     QRegularExpression rx = getFieldRegEx();
-    if (context.contains(rx)){
+    if (context.contains(rx)) {
         QRegularExpressionMatch match = rx.match(context);
-        while (match.hasMatch()){
+        while (match.hasMatch()) {
 
-            QString field=match.captured(1);
+            QString field = match.captured(1);
 
             if (dataManager()->containsField(field)) {
                 QString fieldValue;
                 varValue = dataManager()->fieldData(field);
                 if (expandType == EscapeSymbols) {
                     if (varValue.isNull()) {
-                        fieldValue="\"\"";
+                        fieldValue = "\"\"";
                     } else {
                         fieldValue = escapeSimbols(varValue.toString());
-                        //TODO: Migrate to QMetaType
+                        // TODO: Migrate to QMetaType
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                         switch (dataManager()->fieldData(field).typeId()) {
-                            case QMetaType::QChar:
-                            case QMetaType::QString:
-                            case QMetaType::QStringList:
-                            case QMetaType::QDate:
-                            case QMetaType::QDateTime:
-                                fieldValue = "\""+fieldValue+"\"";
-                                break;
-                            default:
-                                break;
+                        case QMetaType::QChar:
+                        case QMetaType::QString:
+                        case QMetaType::QStringList:
+                        case QMetaType::QDate:
+                        case QMetaType::QDateTime:
+                            fieldValue = "\"" + fieldValue + "\"";
+                            break;
+                        default:
+                            break;
                         }
 #else
                         switch (dataManager()->fieldData(field).type()) {
-                            case QVariant::Char:
-                            case QVariant::String:
-                            case QVariant::StringList:
-                            case QVariant::Date:
-                            case QVariant::DateTime:
-                                fieldValue = "\""+fieldValue+"\"";
-                                break;
-                            default:
-                                break;
+                        case QVariant::Char:
+                        case QVariant::String:
+                        case QVariant::StringList:
+                        case QVariant::Date:
+                        case QVariant::DateTime:
+                            fieldValue = "\"" + fieldValue + "\"";
+                            break;
+                        default:
+                            break;
                         }
 #endif
                     }
                 } else {
                     if (expandType == ReplaceHTMLSymbols)
                         fieldValue = replaceHTMLSymbols(varValue.toString());
-                    else fieldValue = varValue.toString();
+                    else
+                        fieldValue = varValue.toString();
                 }
 
-                context.replace(match.captured(0),fieldValue);
+                context.replace(match.captured(0), fieldValue);
 
             } else {
                 QString error;
-                if (reportItem){
-                    error = tr("Field %1 not found in %2!").arg(field).arg(reportItem->objectName());
+                if (reportItem) {
+                    error
+                        = tr("Field %1 not found in %2!").arg(field).arg(reportItem->objectName());
                     dataManager()->putError(error);
                 }
                 varValue = QVariant();
-                if (!dataManager()->reportSettings() || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
+                if (!dataManager()->reportSettings()
+                    || !dataManager()->reportSettings()->suppressAbsentFieldsAndVarsWarnings())
                     context.replace(match.captured(0), error);
                 else
                     context.replace(match.captured(0), "");
@@ -574,15 +592,15 @@ QString ScriptEngineManager::expandDataFields(QString context, ExpandType expand
 #endif
 }
 
-QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, QObject *reportItem)
+QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, QObject* reportItem)
 {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::SCRIPT_RX);
 
-    if (context.contains(rx)){
+    if (context.contains(rx)) {
 #else
     QRegularExpression rx = getScriptRegEx();
-    if(context.contains(rx)){
+    if (context.contains(rx)) {
 #endif
 
         if (ScriptEngineManager::instance().dataManager() != dataManager())
@@ -590,41 +608,43 @@ QString ScriptEngineManager::expandScripts(QString context, QVariant& varValue, 
 
         ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
-        if (reportItem){
+        if (reportItem) {
             ScriptValueType svThis;
 #ifdef USE_QJSENGINE
             svThis = getJSValue(*se, reportItem);
-            se->globalObject().setProperty("THIS",svThis);
+            se->globalObject().setProperty("THIS", svThis);
 #else
             svThis = se->globalObject().property("THIS");
-            if (svThis.isValid()){
+            if (svThis.isValid()) {
                 se->newQObject(svThis, reportItem);
             } else {
                 svThis = se->newQObject(reportItem);
-                se->globalObject().setProperty("THIS",svThis);
+                se->globalObject().setProperty("THIS", svThis);
             }
 #endif
         }
 
         ScriptExtractor scriptExtractor(context);
-        if (scriptExtractor.parse()){
-            context = replaceScripts(context, varValue, reportItem, se, scriptExtractor.scriptTree());
+        if (scriptExtractor.parse()) {
+            context
+                = replaceScripts(context, varValue, reportItem, se, scriptExtractor.scriptTree());
         }
-
     }
     return context;
 }
 
-QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue, QObject *reportItem, ScriptEngineType* se, ScriptNode::Ptr scriptTree)
+QString ScriptEngineManager::replaceScripts(QString context, QVariant& varValue,
+                                            QObject* reportItem, ScriptEngineType* se,
+                                            ScriptNode::Ptr scriptTree)
 {
-    foreach(ScriptNode::Ptr item, scriptTree->children()){
+    foreach (ScriptNode::Ptr item, scriptTree->children()) {
         QString scriptBody = expandDataFields(item->body(), EscapeSymbols, varValue, reportItem);
         if (item->children().size() > 0)
             scriptBody = replaceScripts(scriptBody, varValue, reportItem, se, item);
         scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
         ScriptValueType value = se->evaluate(scriptBody);
 #ifdef USE_QJSENGINE
-        if (!value.isError()){
+        if (!value.isError()) {
             varValue = value.toVariant();
             context.replace(item->script(), value.toString());
         } else {
@@ -642,32 +662,34 @@ QString ScriptEngineManager::replaceScripts(QString context, QVariant &varValue,
     return context;
 }
 
-QVariant ScriptEngineManager::evaluateScript(const QString& script){
+QVariant ScriptEngineManager::evaluateScript(const QString& script)
+{
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx(Const::SCRIPT_RX);
     QVariant varValue;
 
-    if (script.contains(rx)){
-#else    
+    if (script.contains(rx)) {
+#else
     QRegularExpression rx = getScriptRegEx();
     QVariant varValue;
 
-    if (script.contains(rx)){
+    if (script.contains(rx)) {
 #endif
 
-        if (ScriptEngineManager::instance().dataManager()!=dataManager())
+        if (ScriptEngineManager::instance().dataManager() != dataManager())
             ScriptEngineManager::instance().setDataManager(dataManager());
 
         ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
 
         ScriptExtractor scriptExtractor(script);
-        if (scriptExtractor.parse()){
-            QString scriptBody = expandDataFields(scriptExtractor.scriptTree()->body(), EscapeSymbols, varValue, 0);
+        if (scriptExtractor.parse()) {
+            QString scriptBody = expandDataFields(scriptExtractor.scriptTree()->body(),
+                                                  EscapeSymbols, varValue, 0);
             scriptBody = expandUserVariables(scriptBody, FirstPass, EscapeSymbols, varValue);
             ScriptValueType value = se->evaluate(scriptBody);
 #ifdef USE_QJSENGINE
-            if (!value.isError()){
+            if (!value.isError()) {
 #else
             if (!se->hasUncaughtException()) {
 #endif
@@ -678,9 +700,10 @@ QVariant ScriptEngineManager::evaluateScript(const QString& script){
     return QVariant();
 }
 
-void ScriptEngineManager::addBookMark(const QString& uniqKey, const QString& content){
+void ScriptEngineManager::addBookMark(const QString& uniqKey, const QString& content)
+{
     Q_ASSERT(m_context != 0);
-    if (m_context){
+    if (m_context) {
         BandDesignIntf* currentBand = m_context->currentBand();
         if (currentBand)
             currentBand->addBookmark(uniqKey, content);
@@ -690,43 +713,47 @@ void ScriptEngineManager::addBookMark(const QString& uniqKey, const QString& con
     }
 }
 
-int ScriptEngineManager::findPageIndexByBookmark(const QString &uniqKey)
+int ScriptEngineManager::findPageIndexByBookmark(const QString& uniqKey)
 {
-    for (int i=0; i < m_context->reportPages()->size(); ++i){
+    for (int i = 0; i < m_context->reportPages()->size(); ++i) {
         if (m_context->reportPages()->at(i)->bookmarks().contains(uniqKey))
-            return i+1;
-        foreach(BandDesignIntf* band, m_context->reportPages()->at(i)->bands()){
+            return i + 1;
+        foreach (BandDesignIntf* band, m_context->reportPages()->at(i)->bands()) {
             if (band->bookmarks().contains(uniqKey))
-                return i+1;
+                return i + 1;
         }
     }
     return -1;
 }
 
-int ScriptEngineManager::getPageFreeSpace(PageItemDesignIntf* page){
-    if (page){
+int ScriptEngineManager::getPageFreeSpace(PageItemDesignIntf* page)
+{
+    if (page) {
         int height = 0;
-        foreach(BandDesignIntf* band, page->bands()){
-            if(band->type() == BandDesignIntf::Data)
-            {
-                height += band->geometry().height() * m_dataManager->dataSource(band->datasourceName())->model()->rowCount();
-            }
-            else height += band->height();
+        foreach (BandDesignIntf* band, page->bands()) {
+            if (band->type() == BandDesignIntf::Data) {
+                height += band->geometry().height()
+                    * m_dataManager->dataSource(band->datasourceName())->model()->rowCount();
+            } else
+                height += band->height();
         }
-        return page->height() - height - (page->pageFooter()?page->pageFooter()->height() : 0);
-    } else return -1;
+        return page->height() - height - (page->pageFooter() ? page->pageFooter()->height() : 0);
+    } else
+        return -1;
 }
 
-void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
+void ScriptEngineManager::addTableOfContentsItem(const QString& uniqKey, const QString& content,
+                                                 int indent)
 {
     Q_ASSERT(m_context != 0);
-    if (m_context){
+    if (m_context) {
         m_context->tableOfContents()->setItem(uniqKey, content, 0, indent);
         addBookMark(uniqKey, content);
     }
 }
 
-void ScriptEngineManager::clearTableOfContents(){
+void ScriptEngineManager::clearTableOfContents()
+{
     if (m_context) {
         if (m_context->tableOfContents())
             m_context->tableOfContents()->clear();
@@ -736,16 +763,14 @@ void ScriptEngineManager::clearTableOfContents(){
 ScriptValueType ScriptEngineManager::moveQObjectToScript(QObject* object, const QString objectName)
 {
     ScriptValueType obj = scriptEngine()->globalObject().property(objectName);
-    if (!obj.isNull()) delete obj.toQObject();
+    if (!obj.isNull())
+        delete obj.toQObject();
     ScriptValueType result = scriptEngine()->newQObject(object);
     scriptEngine()->globalObject().setProperty(objectName, result);
     return result;
 }
 
-void ScriptEngineManager::updateModel()
-{
-
-}
+void ScriptEngineManager::updateModel() { }
 
 bool ScriptEngineManager::createLineFunction()
 {
@@ -755,11 +780,11 @@ bool ScriptEngineManager::createLineFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("SYSTEM"));
     fd.setName("line");
-    fd.setDescription("line(\""+tr("BandName")+"\")");
-    fd.setScriptWrapper(QString("function line(bandName){ return %1.line(bandName);}").arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    fd.setDescription("line(\"" + tr("BandName") + "\")");
+    fd.setScriptWrapper(QString("function line(bandName){ return %1.line(bandName);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
 
     return addFunction(fd);
-
 }
 
 bool ScriptEngineManager::createNumberFomatFunction()
@@ -770,65 +795,64 @@ bool ScriptEngineManager::createNumberFomatFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("NUMBER"));
     fd.setName("numberFormat");
-    fd.setDescription("numberFormat(\""+tr("Value")+"\",\""+tr("Format")+"\",\""+
-                      tr("Precision")+"\",\""+
-                      tr("Locale")+"\")"
-                      );
+    fd.setDescription("numberFormat(\"" + tr("Value") + "\",\"" + tr("Format") + "\",\""
+                      + tr("Precision") + "\",\"" + tr("Locale") + "\")");
     fd.setScriptWrapper(QString("function numberFormat(value, format, precision, locale){"
                                 " if(typeof(format)==='undefined') format = \"f\"; "
                                 " if(typeof(precision)==='undefined') precision=2; "
                                 " if(typeof(locale)==='undefined') locale=\"\"; "
-                                "return %1.numberFormat(value,format,precision,locale);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.numberFormat(value,format,precision,locale);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createDateFormatFunction(){
+bool ScriptEngineManager::createDateFormatFunction()
+{
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("DATE&TIME"));
     fd.setName("dateFormat");
-    fd.setDescription("dateFormat(\""+tr("Value")+"\",\""+tr("Format")+"\", \""+tr("Locale")+"\")");
+    fd.setDescription("dateFormat(\"" + tr("Value") + "\",\"" + tr("Format") + "\", \""
+                      + tr("Locale") + "\")");
     fd.setScriptWrapper(QString("function dateFormat(value, format, locale){"
                                 " if(typeof(format)==='undefined') format = \"dd.MM.yyyy\"; "
-                                "return %1.dateFormat(value,format, locale);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.dateFormat(value,format, locale);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createTimeFormatFunction(){
+bool ScriptEngineManager::createTimeFormatFunction()
+{
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("DATE&TIME"));
     fd.setName("timeFormat");
-    fd.setDescription("timeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    fd.setDescription("timeFormat(\"" + tr("Value") + "\",\"" + tr("Format") + "\")");
     fd.setScriptWrapper(QString("function timeFormat(value, format){"
                                 " if(typeof(format)==='undefined') format = \"hh:mm\"; "
-                                "return %1.timeFormat(value,format);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.timeFormat(value,format);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createDateTimeFormatFunction(){
+bool ScriptEngineManager::createDateTimeFormatFunction()
+{
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("DATE&TIME"));
     fd.setName("dateTimeFormat");
-    fd.setDescription("dateTimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\", \""+tr("Locale")+"\")");
+    fd.setDescription("dateTimeFormat(\"" + tr("Value") + "\",\"" + tr("Format") + "\", \""
+                      + tr("Locale") + "\")");
     fd.setScriptWrapper(QString("function dateTimeFormat(value, format, locale){"
                                 " if(typeof(format)==='undefined') format = \"dd.MM.yyyy hh:mm\"; "
-                                "return %1.dateTimeFormat(value, format, locale);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.dateTimeFormat(value, format, locale);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -840,16 +864,16 @@ bool ScriptEngineManager::createSectotimeFormatFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("DATE&TIME"));
     fd.setName("sectotimeFormat");
-    fd.setDescription("sectotimeFormat(\""+tr("Value")+"\",\""+tr("Format")+"\")");
+    fd.setDescription("sectotimeFormat(\"" + tr("Value") + "\",\"" + tr("Format") + "\")");
     fd.setScriptWrapper(QString("function sectotimeFormat(value, format){"
                                 " if(typeof(format)==='undefined') format = \"hh:mm:ss\"; "
-                                "return %1.sectotimeFormat(value,format);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.sectotimeFormat(value,format);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createDateFunction(){
+bool ScriptEngineManager::createDateFunction()
+{
     //    addFunction("date",date,"DATE&TIME","date()");
     JSFunctionDesc fd;
 
@@ -859,14 +883,13 @@ bool ScriptEngineManager::createDateFunction(){
     fd.setName("date");
     fd.setDescription("date()");
     fd.setScriptWrapper(QString("function date(){"
-                                "return %1.date();}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.date();}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-
-bool ScriptEngineManager::createNowFunction(){
+bool ScriptEngineManager::createNowFunction()
+{
     //    addFunction("now",now,"DATE&TIME","now()");
     JSFunctionDesc fd;
 
@@ -876,13 +899,13 @@ bool ScriptEngineManager::createNowFunction(){
     fd.setName("now");
     fd.setDescription("now()");
     fd.setScriptWrapper(QString("function now(){"
-                                "return %1.now();}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.now();}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createCurrencyFormatFunction(){
+bool ScriptEngineManager::createCurrencyFormatFunction()
+{
     //    addFunction("currencyFormat",currencyFormat,"NUMBER","currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
     JSFunctionDesc fd;
 
@@ -890,16 +913,16 @@ bool ScriptEngineManager::createCurrencyFormatFunction(){
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("NUMBER"));
     fd.setName("currencyFormat");
-    fd.setDescription("currencyFormat(\""+tr("Value")+"\",\""+tr("Locale")+"\")");
+    fd.setDescription("currencyFormat(\"" + tr("Value") + "\",\"" + tr("Locale") + "\")");
     fd.setScriptWrapper(QString("function currencyFormat(value, locale){"
                                 " if(typeof(locale)==='undefined') locale = \"\"; "
-                                "return %1.currencyFormat(value,locale);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.currencyFormat(value,locale);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createCurrencyUSBasedFormatFunction(){
+bool ScriptEngineManager::createCurrencyUSBasedFormatFunction()
+{
     //    addFunction("currencyUSBasedFormat",currencyUSBasedFormat,"NUMBER","currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
     JSFunctionDesc fd;
 
@@ -907,28 +930,29 @@ bool ScriptEngineManager::createCurrencyUSBasedFormatFunction(){
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("NUMBER"));
     fd.setName("currencyUSBasedFormat");
-    fd.setDescription("currencyUSBasedFormat(\""+tr("Value")+",\""+tr("CurrencySymbol")+"\")");
+    fd.setDescription("currencyUSBasedFormat(\"" + tr("Value") + ",\"" + tr("CurrencySymbol")
+                      + "\")");
     fd.setScriptWrapper(QString("function currencyUSBasedFormat(value, currencySymbol){"
                                 " if(typeof(currencySymbol)==='undefined') currencySymbol = \"\"; "
-                                "return %1.currencyUSBasedFormat(value,currencySymbol);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.currencyUSBasedFormat(value,currencySymbol);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
-bool ScriptEngineManager::createSetVariableFunction(){
-    //    addFunction("setVariable", setVariable, "GENERAL", "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
+bool ScriptEngineManager::createSetVariableFunction()
+{
+    //    addFunction("setVariable", setVariable, "GENERAL",
+    //    "setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
     JSFunctionDesc fd;
 
     fd.setManager(m_functionManager);
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("setVariable");
-    fd.setDescription("setVariable(\""+tr("Name")+"\",\""+tr("Value")+"\")");
+    fd.setDescription("setVariable(\"" + tr("Name") + "\",\"" + tr("Value") + "\")");
     fd.setScriptWrapper(QString("function setVariable(name, value){"
-                                "return %1.setVariable(name,value);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.setVariable(name,value);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -939,11 +963,10 @@ bool ScriptEngineManager::createGetVariableFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("getVariable");
-    fd.setDescription("getVariable(\""+tr("Name")+"\")");
+    fd.setDescription("getVariable(\"" + tr("Name") + "\")");
     fd.setScriptWrapper(QString("function getVariable(name){"
-                                "return %1.getVariable(name);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.getVariable(name);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -954,11 +977,10 @@ bool ScriptEngineManager::createGetFieldFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("getField");
-    fd.setDescription("getField(\""+tr("Name")+"\")");
+    fd.setDescription("getField(\"" + tr("Name") + "\")");
     fd.setScriptWrapper(QString("function getField(name){"
-                                "return %1.getField(name);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.getField(name);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -969,15 +991,13 @@ bool ScriptEngineManager::createGetFieldByKeyFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("getFieldByKeyField");
-    fd.setDescription("getFieldByKeyField(\""+tr("Datasource")+"\", \""+
-                      tr("ValueField")+"\",\""+
-                      tr("KeyField")+"\", \""+
-                      tr("KeyFieldValue")+"\")"
-                      );
-    fd.setScriptWrapper(QString("function getFieldByKeyField(datasource, valueFieldName, keyFieldName, keyValue){"
-                                "return %1.getFieldByKeyField(datasource, valueFieldName, keyFieldName, keyValue);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+    fd.setDescription("getFieldByKeyField(\"" + tr("Datasource") + "\", \"" + tr("ValueField")
+                      + "\",\"" + tr("KeyField") + "\", \"" + tr("KeyFieldValue") + "\")");
+    fd.setScriptWrapper(
+        QString("function getFieldByKeyField(datasource, valueFieldName, keyFieldName, keyValue){"
+                "return %1.getFieldByKeyField(datasource, valueFieldName, keyFieldName, "
+                "keyValue);}")
+            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -988,13 +1008,11 @@ bool ScriptEngineManager::createGetFieldByRowIndex()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("getFieldByRowIndex");
-    fd.setDescription("getFieldByRowIndex(\""+tr("FieldName")+"\", \""+
-                      tr("RowIndex")+"\")"
-                      );
+    fd.setDescription("getFieldByRowIndex(\"" + tr("FieldName") + "\", \"" + tr("RowIndex")
+                      + "\")");
     fd.setScriptWrapper(QString("function getFieldByRowIndex(fieldName, rowIndex){"
-                                "return %1.getFieldByRowIndex(fieldName, rowIndex);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.getFieldByRowIndex(fieldName, rowIndex);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1005,11 +1023,10 @@ bool ScriptEngineManager::createAddBookmarkFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("addBookmark");
-    fd.setDescription("addBookmark(\""+tr("Unique identifier")+" \""+tr("Content")+"\")");
+    fd.setDescription("addBookmark(\"" + tr("Unique identifier") + " \"" + tr("Content") + "\")");
     fd.setScriptWrapper(QString("function addBookmark(uniqKey, content){"
-                                "return %1.addBookmark(uniqKey, content);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.addBookmark(uniqKey, content);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1020,11 +1037,10 @@ bool ScriptEngineManager::createFindPageIndexByBookmark()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("findPageIndexByBookmark");
-    fd.setDescription("findPageIndexByBookmark(\""+tr("Unique identifier")+"\")");
+    fd.setDescription("findPageIndexByBookmark(\"" + tr("Unique identifier") + "\")");
     fd.setScriptWrapper(QString("function findPageIndexByBookmark(uniqKey){"
-                                "return %1.findPageIndexByBookmark(uniqKey);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.findPageIndexByBookmark(uniqKey);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1035,11 +1051,11 @@ bool ScriptEngineManager::createAddTableOfContentsItemFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("addTableOfContentsItem");
-    fd.setDescription("addTableOfContentsItem(\""+tr("Unique identifier")+" \""+tr("Content")+"\", \""+tr("Indent")+"\")");
+    fd.setDescription("addTableOfContentsItem(\"" + tr("Unique identifier") + " \"" + tr("Content")
+                      + "\", \"" + tr("Indent") + "\")");
     fd.setScriptWrapper(QString("function addTableOfContentsItem(uniqKey, content, indent){"
-                                "return %1.addTableOfContentsItem(uniqKey, content, indent);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.addTableOfContentsItem(uniqKey, content, indent);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1052,9 +1068,8 @@ bool ScriptEngineManager::createClearTableOfContentsFunction()
     fd.setName("clearTableOfContents");
     fd.setDescription("clearTableOfContents()");
     fd.setScriptWrapper(QString("function clearTableOfContents(){"
-                                "return %1.clearTableOfContents();}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.clearTableOfContents();}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1065,11 +1080,10 @@ bool ScriptEngineManager::createReopenDatasourceFunction()
     fd.setManagerName(LimeReport::Const::FUNCTION_MANAGER_NAME);
     fd.setCategory(tr("GENERAL"));
     fd.setName("reopenDatasource");
-    fd.setDescription("reopenDatasource(\""+tr("datasourceName")+"\")");
+    fd.setDescription("reopenDatasource(\"" + tr("datasourceName") + "\")");
     fd.setScriptWrapper(QString("function reopenDatasource(datasourceName){"
-                                "return %1.reopenDatasource(datasourceName);}"
-                                ).arg(LimeReport::Const::FUNCTION_MANAGER_NAME)
-                        );
+                                "return %1.reopenDatasource(datasourceName);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1081,10 +1095,10 @@ bool ScriptEngineManager::createGetFieldByRowIndexEx()
     fd.setCategory(tr("GENERAL"));
     fd.setName("getFieldByRowIndexEx");
     fd.setDescription("getFieldByRowIndexEx(\"" + tr("FieldName") + "\", \"" + tr("RowIndex")
-                    + "\", \"" + tr("RoleIndex") + "\")");
+                      + "\", \"" + tr("RoleIndex") + "\")");
     fd.setScriptWrapper(QString("function getFieldByRowIndexEx(fieldName, rowIndex, role){"
-                              "return %1.getFieldByRowIndexEx(fieldName, rowIndex, role);}")
-                          .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+                                "return %1.getFieldByRowIndexEx(fieldName, rowIndex, role);}")
+                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1126,9 +1140,10 @@ bool ScriptEngineManager::createHeaderColumnNameByIndex()
     fd.setName("getHeaderColumnNameByIndex");
     fd.setDescription("getHeaderColumnNameByIndex(\"" + tr("datasourceName") + "\", \""
                       + tr("columnIndex") + "\")");
-    fd.setScriptWrapper(QString("function getHeaderColumnNameByIndex(datasourceName, columnIndex){"
-                                "return %1.getHeaderColumnNameByIndex(datasourceName, columnIndex);}")
-                            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
+    fd.setScriptWrapper(
+        QString("function getHeaderColumnNameByIndex(datasourceName, columnIndex){"
+                "return %1.getHeaderColumnNameByIndex(datasourceName, columnIndex);}")
+            .arg(LimeReport::Const::FUNCTION_MANAGER_NAME));
     return addFunction(fd);
 }
 
@@ -1146,8 +1161,7 @@ bool ScriptEngineManager::createColumnCount()
     return addFunction(fd);
 }
 
-ScriptEngineManager::ScriptEngineManager()
-    :m_model(0), m_context(0), m_dataManager(0)
+ScriptEngineManager::ScriptEngineManager(): m_model(0), m_context(0), m_dataManager(0)
 {
     m_scriptEngine = new ScriptEngineType;
     m_functionManager = new ScriptFunctionsManager(this);
@@ -1164,7 +1178,7 @@ ScriptEngineManager::ScriptEngineManager()
     createSectotimeFormatFunction();
     createDateFunction();
     createNowFunction();
-#if QT_VERSION>0x040800
+#if QT_VERSION > 0x040800
     createCurrencyFormatFunction();
     createCurrencyUSBasedFormatFunction();
 #endif
@@ -1177,9 +1191,11 @@ ScriptEngineManager::ScriptEngineManager()
     QScriptValue colorCtor = m_scriptEngine->newFunction(constructColor);
     m_scriptEngine->globalObject().setProperty("QColor", colorCtor);
 
-    QScriptValue fontProto(m_scriptEngine->newQObject(new QFontPrototype,QScriptEngine::ScriptOwnership));
+    QScriptValue fontProto(
+        m_scriptEngine->newQObject(new QFontPrototype, QScriptEngine::ScriptOwnership));
     m_scriptEngine->setDefaultPrototype(qMetaTypeId<QFont>(), fontProto);
-    QScriptValue fontConstructor = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
+    QScriptValue fontConstructor
+        = m_scriptEngine->newFunction(QFontPrototype::constructorQFont, fontProto);
     m_scriptEngine->globalObject().setProperty("QFont", fontConstructor);
 #endif
     createAddBookmarkFunction();
@@ -1203,22 +1219,23 @@ bool ScriptExtractor::parse()
     return m_scriptTree->children().count() > 0;
 }
 
-bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode::Ptr scriptNode)
+bool ScriptExtractor::parse(int& curPos, const State& state, ScriptNode::Ptr scriptNode)
 {
-    while (curPos < m_context.length()){
+    while (curPos < m_context.length()) {
         switch (state) {
         case OpenBracketFound:
-            if (m_context[curPos]=='}'){
+            if (m_context[curPos] == '}') {
                 return true;
             } else {
-                if (m_context[curPos]=='{')
+                if (m_context[curPos] == '{')
                     extractBracket(curPos, scriptNode);
             }
         case None:
-            if (m_context[curPos]=='$'){
+            if (m_context[curPos] == '$') {
                 int startPos = curPos;
                 if (isStartScriptLexem(curPos))
-                    extractScript(curPos, substring(m_context,startPos,curPos), scriptNode->createChildNode());
+                    extractScript(curPos, substring(m_context, startPos, curPos),
+                                  scriptNode->createChildNode());
                 if (isStartFieldLexem(curPos) || isStartVariableLexem(curPos))
                     skipField(curPos);
             }
@@ -1230,19 +1247,21 @@ bool ScriptExtractor::parse(int &curPos, const State& state, ScriptNode::Ptr scr
     return false;
 }
 
-void ScriptExtractor::extractScript(int &curPos, const QString& startStr, ScriptNode::Ptr scriptNode)
+void ScriptExtractor::extractScript(int& curPos, const QString& startStr,
+                                    ScriptNode::Ptr scriptNode)
 {
     int startPos = curPos;
-    if (extractBracket(curPos, scriptNode)){
-        QString scriptBody = substring(m_context,startPos+1,curPos);
+    if (extractBracket(curPos, scriptNode)) {
+        QString scriptBody = substring(m_context, startPos + 1, curPos);
         scriptNode->setBody(scriptBody);
-        scriptNode->setStartLex(startStr+'{');
+        scriptNode->setStartLex(startStr + '{');
     }
 }
 
-void ScriptExtractor::skipField(int &curPos){
-    while (curPos<m_context.length()) {
-        if (m_context[curPos]=='}'){
+void ScriptExtractor::skipField(int& curPos)
+{
+    while (curPos < m_context.length()) {
+        if (m_context[curPos] == '}') {
             return;
         } else {
             curPos++;
@@ -1250,32 +1269,32 @@ void ScriptExtractor::skipField(int &curPos){
     }
 }
 
-bool ScriptExtractor::extractBracket(int &curPos, ScriptNode::Ptr scriptNode)
+bool ScriptExtractor::extractBracket(int& curPos, ScriptNode::Ptr scriptNode)
 {
     curPos++;
-    return parse(curPos,OpenBracketFound, scriptNode);
+    return parse(curPos, OpenBracketFound, scriptNode);
 }
 
-bool ScriptExtractor::isStartLexem(int& curPos, QChar value){
-    int pos = curPos+1;
+bool ScriptExtractor::isStartLexem(int& curPos, QChar value)
+{
+    int pos = curPos + 1;
     State ls = BuksFound;
-    while (pos<m_context.length()){
-        switch (ls){
+    while (pos < m_context.length()) {
+        switch (ls) {
         case BuksFound:
-            if (m_context[pos]==value){
+            if (m_context[pos] == value) {
                 ls = SignFound;
             } else {
-                if (m_context[pos]!=' ')
+                if (m_context[pos] != ' ')
                     return false;
             }
             break;
         case SignFound:
-            if (m_context[pos]=='{'){
-                curPos=pos;
+            if (m_context[pos] == '{') {
+                curPos = pos;
                 return true;
-            } else
-                if (m_context[pos]!=' ')
-                    return false;
+            } else if (m_context[pos] != ' ')
+                return false;
         default:
             break;
         }
@@ -1289,57 +1308,45 @@ bool ScriptExtractor::isStartScriptLexem(int& curPos)
     return isStartLexem(curPos, Const::SCRIPT_SIGN);
 }
 
-bool ScriptExtractor::isStartFieldLexem(int& curPos){
+bool ScriptExtractor::isStartFieldLexem(int& curPos)
+{
     return isStartLexem(curPos, Const::FIELD_SIGN);
 }
 
-bool ScriptExtractor::isStartVariableLexem(int &curPos)
+bool ScriptExtractor::isStartVariableLexem(int& curPos)
 {
     return isStartLexem(curPos, Const::VARIABLE_SIGN);
 }
 
-
-QString ScriptExtractor::substring(const QString &value, int start, int end)
+QString ScriptExtractor::substring(const QString& value, int start, int end)
 {
-    return value.mid(start,end-start);
+    return value.mid(start, end - start);
 }
 
-QString DialogDescriber::name() const
-{
-    return m_name;
-}
+QString DialogDescriber::name() const { return m_name; }
 
-void DialogDescriber::setName(const QString& name)
-{
-    m_name = name;
-}
+void DialogDescriber::setName(const QString& name) { m_name = name; }
 
-QByteArray DialogDescriber::description() const
-{
-    return m_description;
-}
+QByteArray DialogDescriber::description() const { return m_description; }
 
-void DialogDescriber::setDescription(const QByteArray &description)
-{
-    m_description = description;
-}
+void DialogDescriber::setDescription(const QByteArray& description) { m_description = description; }
 
 #ifdef HAVE_UI_LOADER
 void ScriptEngineContext::addDialog(const QString& name, const QByteArray& description)
 {
-    m_dialogs.push_back(DialogDescriber::create(name,description));
+    m_dialogs.push_back(DialogDescriber::create(name, description));
     emit dialogAdded(name);
 }
 
 bool ScriptEngineContext::changeDialog(const QString& name, const QByteArray& description)
 {
-    foreach( DialogDescriber::Ptr describer, m_dialogs){
-        if (describer->name().compare(name) == 0){
+    foreach (DialogDescriber::Ptr describer, m_dialogs) {
+        if (describer->name().compare(name) == 0) {
             describer->setDescription(description);
             {
                 QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
-                while(it!=m_createdDialogs.end()){
-                    if ((*it)->objectName()==name){
+                while (it != m_createdDialogs.end()) {
+                    if ((*it)->objectName() == name) {
                         it = m_createdDialogs.erase(it);
                     } else {
                         ++it;
@@ -1354,13 +1361,13 @@ bool ScriptEngineContext::changeDialog(const QString& name, const QByteArray& de
 
 bool ScriptEngineContext::changeDialogName(const QString& oldName, const QString& newName)
 {
-    foreach( DialogDescriber::Ptr describer, m_dialogs){
-        if (describer->name().compare(oldName) == 0){
+    foreach (DialogDescriber::Ptr describer, m_dialogs) {
+        if (describer->name().compare(oldName) == 0) {
             describer->setName(newName);
             {
                 QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
-                while(it!=m_createdDialogs.end()){
-                    if ((*it)->objectName()==oldName){
+                while (it != m_createdDialogs.end()) {
+                    if ((*it)->objectName() == oldName) {
                         it = m_createdDialogs.erase(it);
                     } else {
                         ++it;
@@ -1387,8 +1394,8 @@ bool ScriptEngineContext::previewDialog(const QString& dialogName)
 
 bool ScriptEngineContext::containsDialog(const QString& dialogName)
 {
-    foreach(DialogDescriber::Ptr dialog, m_dialogs){
-        if (dialog->name()==dialogName)
+    foreach (DialogDescriber::Ptr dialog, m_dialogs) {
+        if (dialog->name() == dialogName)
             return true;
     }
     return false;
@@ -1398,8 +1405,8 @@ void ScriptEngineContext::deleteDialog(const QString& dialogName)
 {
     {
         QVector<DialogDescriber::Ptr>::Iterator it = m_dialogs.begin();
-        while(it!=m_dialogs.end()){
-            if ((*it)->name()==dialogName){
+        while (it != m_dialogs.end()) {
+            if ((*it)->name() == dialogName) {
                 it = m_dialogs.erase(it);
                 emit dialogDeleted(dialogName);
             } else {
@@ -1409,8 +1416,8 @@ void ScriptEngineContext::deleteDialog(const QString& dialogName)
     }
     {
         QList<DialogPtr>::Iterator it = m_createdDialogs.begin();
-        while(it!=m_createdDialogs.end()){
-            if ((*it)->objectName()==dialogName){
+        while (it != m_createdDialogs.end()) {
+            if ((*it)->objectName() == dialogName) {
                 it = m_createdDialogs.erase(it);
             } else {
                 ++it;
@@ -1429,16 +1436,17 @@ void ScriptEngineContext::clear()
 #endif
     m_initScript.clear();
     m_tableOfContents->clear();
-    m_lastError="";
+    m_lastError = "";
 }
 
-QObject* ScriptEngineContext::createElement(const QString& collectionName, const QString& elementType)
+QObject* ScriptEngineContext::createElement(const QString& collectionName,
+                                            const QString& elementType)
 {
     Q_UNUSED(elementType)
 #ifdef HAVE_UI_LOADER
-    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+    if (collectionName.compare("dialogs", Qt::CaseInsensitive) == 0) {
         m_dialogs.push_back(DialogDescriber::create());
-        return m_dialogs.at(m_dialogs.count()-1).data();
+        return m_dialogs.at(m_dialogs.count() - 1).data();
     }
 #else
     Q_UNUSED(collectionName)
@@ -1449,7 +1457,7 @@ QObject* ScriptEngineContext::createElement(const QString& collectionName, const
 int ScriptEngineContext::elementsCount(const QString& collectionName)
 {
 #ifdef HAVE_UI_LOADER
-    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+    if (collectionName.compare("dialogs", Qt::CaseInsensitive) == 0) {
         return m_dialogs.count();
     };
 #else
@@ -1461,7 +1469,7 @@ int ScriptEngineContext::elementsCount(const QString& collectionName)
 QObject* ScriptEngineContext::elementAt(const QString& collectionName, int index)
 {
 #ifdef HAVE_UI_LOADER
-    if (collectionName.compare("dialogs",Qt::CaseInsensitive)==0){
+    if (collectionName.compare("dialogs", Qt::CaseInsensitive) == 0) {
         return m_dialogs.at(index).data();
     };
 #else
@@ -1476,15 +1484,9 @@ void ScriptEngineContext::collectionLoadFinished(const QString& collectionName)
     Q_UNUSED(collectionName);
 }
 
-ReportPages* ScriptEngineContext::reportPages() const
-{
-    return m_reportPages;
-}
+ReportPages* ScriptEngineContext::reportPages() const { return m_reportPages; }
 
-void ScriptEngineContext::setReportPages(ReportPages *value)
-{
-    m_reportPages = value;
-}
+void ScriptEngineContext::setReportPages(ReportPages* value) { m_reportPages = value; }
 
 #ifdef HAVE_UI_LOADER
 QDialog* ScriptEngineContext::createDialog(DialogDescriber* cont)
@@ -1495,7 +1497,7 @@ QDialog* ScriptEngineContext::createDialog(DialogDescriber* cont)
     buffer.open(QIODevice::ReadOnly);
     QDialog* dialog = dynamic_cast<QDialog*>(loader.load(&buffer));
     m_createdDialogs.push_back(QSharedPointer<QDialog>(dialog));
-    if (cont->name().compare(dialog->objectName())){
+    if (cont->name().compare(dialog->objectName())) {
         cont->setName(dialog->objectName());
         emit dialogNameChanged(dialog->objectName());
     }
@@ -1504,8 +1506,8 @@ QDialog* ScriptEngineContext::createDialog(DialogDescriber* cont)
 
 QDialog* ScriptEngineContext::findDialog(const QString& dialogName)
 {
-    foreach(DialogPtr dialog, m_createdDialogs){
-        if (dialog->objectName()==dialogName)
+    foreach (DialogPtr dialog, m_createdDialogs) {
+        if (dialog->objectName() == dialogName)
             return dialog.data();
     }
     return 0;
@@ -1513,8 +1515,8 @@ QDialog* ScriptEngineContext::findDialog(const QString& dialogName)
 
 DialogDescriber* ScriptEngineContext::findDialogContainer(const QString& dialogName)
 {
-    foreach (DialogDescriber::Ptr dialogCont , m_dialogs) {
-        if (dialogCont->name().compare(dialogName,Qt::CaseInsensitive)==0){
+    foreach (DialogDescriber::Ptr dialogCont, m_dialogs) {
+        if (dialogCont->name().compare(dialogName, Qt::CaseInsensitive) == 0) {
             return dialogCont.data();
         }
     }
@@ -1523,20 +1525,14 @@ DialogDescriber* ScriptEngineContext::findDialogContainer(const QString& dialogN
 
 #endif
 
-TableOfContents* ScriptEngineContext::tableOfContents() const
-{
-    return m_tableOfContents;
-}
+TableOfContents* ScriptEngineContext::tableOfContents() const { return m_tableOfContents; }
 
 void ScriptEngineContext::setTableOfContents(TableOfContents* tableOfContents)
 {
     m_tableOfContents = tableOfContents;
 }
 
-PageItemDesignIntf* ScriptEngineContext::currentPage() const
-{
-    return m_currentPage;
-}
+PageItemDesignIntf* ScriptEngineContext::currentPage() const { return m_currentPage; }
 
 void ScriptEngineContext::setCurrentPage(PageItemDesignIntf* currentPage)
 {
@@ -1544,10 +1540,7 @@ void ScriptEngineContext::setCurrentPage(PageItemDesignIntf* currentPage)
     m_currentBand = 0;
 }
 
-BandDesignIntf* ScriptEngineContext::currentBand() const
-{
-    return m_currentBand;
-}
+BandDesignIntf* ScriptEngineContext::currentBand() const { return m_currentBand; }
 
 void ScriptEngineContext::setCurrentBand(BandDesignIntf* currentBand)
 {
@@ -1559,11 +1552,11 @@ void ScriptEngineContext::setCurrentBand(BandDesignIntf* currentBand)
 QDialog* ScriptEngineContext::getDialog(const QString& dialogName)
 {
     QDialog* dialog = findDialog(dialogName);
-    if (dialog){
+    if (dialog) {
         return dialog;
     } else {
         DialogDescriber* cont = findDialogContainer(dialogName);
-        if (cont){
+        if (cont) {
             dialog = createDialog(cont);
             if (dialog)
                 return dialog;
@@ -1576,7 +1569,7 @@ QString ScriptEngineContext::getNewDialogName()
 {
     QString result = "Dialog";
     int index = m_dialogs.size() - 1;
-    while (containsDialog(result)){
+    while (containsDialog(result)) {
         index++;
         result = QString("Dialog%1").arg(index);
     }
@@ -1587,37 +1580,41 @@ QString ScriptEngineContext::getNewDialogName()
 
 void ScriptEngineContext::baseDesignIntfToScript(const QString& pageName, BaseDesignIntf* item)
 {
-    if ( item ) {
-        if (item->metaObject()->indexOfSignal("beforeRender()")!=-1)
+    if (item) {
+        if (item->metaObject()->indexOfSignal("beforeRender()") != -1)
             item->disconnect(SIGNAL(beforeRender()));
-        if (item->metaObject()->indexOfSignal("afterData()")!=-1)
+        if (item->metaObject()->indexOfSignal("afterData()") != -1)
             item->disconnect(SIGNAL(afterData()));
-        if (item->metaObject()->indexOfSignal("afterRender()")!=-1)
+        if (item->metaObject()->indexOfSignal("afterRender()") != -1)
             item->disconnect(SIGNAL(afterRender()));
 
         ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 
 #ifdef USE_QJSENGINE
         ScriptValueType sItem = getJSValue(*engine, item);
-        QString on = item->patternName().compare(pageName) == 0 ? pageName : pageName+"_"+item->patternName();
+        QString on = item->patternName().compare(pageName) == 0
+            ? pageName
+            : pageName + "_" + item->patternName();
         engine->globalObject().setProperty(on, sItem);
 #else
-        QString on = item->patternName().compare(pageName) == 0 ? pageName : pageName+"_"+item->patternName();
+        QString on = item->patternName().compare(pageName) == 0
+            ? pageName
+            : pageName + "_" + item->patternName();
         ScriptValueType sItem = engine->globalObject().property(on);
-        if (sItem.isValid()){
+        if (sItem.isValid()) {
             engine->newQObject(sItem, item);
         } else {
             sItem = engine->newQObject(item);
-            engine->globalObject().setProperty(on,sItem);
+            engine->globalObject().setProperty(on, sItem);
         }
 #endif
-        foreach(BaseDesignIntf* child, item->childBaseItems()){
+        foreach (BaseDesignIntf* child, item->childBaseItems()) {
             baseDesignIntfToScript(pageName, child);
         }
     }
 }
 
-void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
+void ScriptEngineContext::qobjectToScript(const QString& name, QObject* item)
 {
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
 #ifdef USE_QJSENGINE
@@ -1625,11 +1622,11 @@ void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
     engine->globalObject().setProperty(name, sItem);
 #else
     ScriptValueType sItem = engine->globalObject().property(name);
-    if (sItem.isValid()){
+    if (sItem.isValid()) {
         engine->newQObject(sItem, item);
     } else {
         sItem = engine->newQObject(item);
-        engine->globalObject().setProperty(name,sItem);
+        engine->globalObject().setProperty(name, sItem);
     }
 #endif
 }
@@ -1637,149 +1634,118 @@ void ScriptEngineContext::qobjectToScript(const QString& name, QObject *item)
 #ifdef HAVE_UI_LOADER
 
 #ifdef USE_QJSENGINE
-void registerChildObjects(ScriptEngineType* se, ScriptValueType* root, QObject* currObj){
-    foreach(QObject* obj, currObj->children()){
-        if (!obj->objectName().isEmpty()){
+void registerChildObjects(ScriptEngineType* se, ScriptValueType* root, QObject* currObj)
+{
+    foreach (QObject* obj, currObj->children()) {
+        if (!obj->objectName().isEmpty()) {
             ScriptValueType child = se->newQObject(obj);
-            root->setProperty(obj->objectName(),child);
+            root->setProperty(obj->objectName(), child);
         }
         registerChildObjects(se, root, obj);
     }
 }
 #endif
 
-void ScriptEngineContext::initDialogs(){
+void ScriptEngineContext::initDialogs()
+{
     ScriptEngineType* se = ScriptEngineManager::instance().scriptEngine();
-    foreach(DialogDescriber::Ptr dialog, dialogDescribers()){
+    foreach (DialogDescriber::Ptr dialog, dialogDescribers()) {
         ScriptValueType sv = se->newQObject(getDialog(dialog->name()));
 #ifdef USE_QJSENGINE
         registerChildObjects(se, &sv, sv.toQObject());
 #endif
-        se->globalObject().setProperty(dialog->name(),sv);
+        se->globalObject().setProperty(dialog->name(), sv);
     }
 }
 
 #endif
 
-
-bool ScriptEngineContext::runInitScript(){
+bool ScriptEngineContext::runInitScript()
+{
 
     ScriptEngineType* engine = ScriptEngineManager::instance().scriptEngine();
     ScriptEngineManager::instance().setContext(this);
     m_tableOfContents->clear();
 
     ScriptValueType res = engine->evaluate(initScript());
-    if (res.isBool()) return res.toBool();
-#ifdef  USE_QJSENGINE
-    if (res.isError()){
-        QMessageBox::critical(0,tr("Error"),
-                              QString("Line %1: %2 ").arg(res.property("lineNumber").toString())
-                              .arg(res.toString())
-                              );
+    if (res.isBool())
+        return res.toBool();
+#ifdef USE_QJSENGINE
+    if (res.isError()) {
+        QMessageBox::critical(
+            0, tr("Error"),
+            QString("Line %1: %2 ").arg(res.property("lineNumber").toString()).arg(res.toString()));
         return false;
     }
 #else
     if (engine->hasUncaughtException()) {
-        QMessageBox::critical(0,tr("Error"),
-                              QString("Line %1: %2 ").arg(engine->uncaughtExceptionLineNumber())
-                              .arg(engine->uncaughtException().toString())
-                              );
+        QMessageBox::critical(0, tr("Error"),
+                              QString("Line %1: %2 ")
+                                  .arg(engine->uncaughtExceptionLineNumber())
+                                  .arg(engine->uncaughtException().toString()));
         return false;
     }
 #endif
     return true;
 }
 
-QString ScriptEngineContext::initScript() const
-{
-    return m_initScript;
-}
+QString ScriptEngineContext::initScript() const { return m_initScript; }
 
 void ScriptEngineContext::setInitScript(const QString& initScript)
 {
-    if (m_initScript != initScript){
+    if (m_initScript != initScript) {
         m_initScript = initScript;
         m_hasChanges = true;
     }
 }
 
-DialogDescriber::Ptr DialogDescriber::create(const QString& name, const QByteArray& desc) {
+DialogDescriber::Ptr DialogDescriber::create(const QString& name, const QByteArray& desc)
+{
     Ptr res(new DialogDescriber());
     res->setName(name);
     res->setDescription(desc);
     return res;
 }
 
-QString JSFunctionDesc::name() const
-{
-    return m_name;
-}
+QString JSFunctionDesc::name() const { return m_name; }
 
-void JSFunctionDesc::setName(const QString &name)
-{
-    m_name = name;
-}
+void JSFunctionDesc::setName(const QString& name) { m_name = name; }
 
-QString JSFunctionDesc::category() const
-{
-    return m_category;
-}
+QString JSFunctionDesc::category() const { return m_category; }
 
-void JSFunctionDesc::setCategory(const QString &category)
-{
-    m_category = category;
-}
+void JSFunctionDesc::setCategory(const QString& category) { m_category = category; }
 
-QString JSFunctionDesc::description() const
-{
-    return m_description;
-}
+QString JSFunctionDesc::description() const { return m_description; }
 
-void JSFunctionDesc::setDescription(const QString &description)
-{
-    m_description = description;
-}
+void JSFunctionDesc::setDescription(const QString& description) { m_description = description; }
 
-QString JSFunctionDesc::managerName() const
-{
-    return m_managerName;
-}
+QString JSFunctionDesc::managerName() const { return m_managerName; }
 
-void JSFunctionDesc::setManagerName(const QString &managerName)
-{
-    m_managerName = managerName;
-}
+void JSFunctionDesc::setManagerName(const QString& managerName) { m_managerName = managerName; }
 
-QObject *JSFunctionDesc::manager() const
-{
-    return m_manager;
-}
+QObject* JSFunctionDesc::manager() const { return m_manager; }
 
-void JSFunctionDesc::setManager(QObject *manager)
-{
-    m_manager = manager;
-}
+void JSFunctionDesc::setManager(QObject* manager) { m_manager = manager; }
 
-QString JSFunctionDesc::scriptWrapper() const
-{
-    return m_scriptWrapper;
-}
+QString JSFunctionDesc::scriptWrapper() const { return m_scriptWrapper; }
 
-void JSFunctionDesc::setScriptWrapper(const QString &scriptWrapper)
+void JSFunctionDesc::setScriptWrapper(const QString& scriptWrapper)
 {
     m_scriptWrapper = scriptWrapper;
 }
 
-QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QString &expressionID, const QString &bandName, QObject* currentPage)
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString& name, const QString& expressionID,
+                                                   const QString& bandName, QObject* currentPage)
 {
-    if (m_scriptEngineManager->dataManager()){
+    if (m_scriptEngineManager->dataManager()) {
         PageItemDesignIntf* pageItem = dynamic_cast<PageItemDesignIntf*>(currentPage);
         QString expression = m_scriptEngineManager->dataManager()->getExpression(expressionID);
-        GroupFunction* gf =  m_scriptEngineManager->dataManager()->groupFunction(name,expression,bandName);
-        if (gf){
-            if (gf->isValid()){
+        GroupFunction* gf
+            = m_scriptEngineManager->dataManager()->groupFunction(name, expression, bandName);
+        if (gf) {
+            if (gf->isValid()) {
                 return gf->calculate(pageItem);
-            } else{
+            } else {
                 return gf->error();
             }
         } else {
@@ -1790,45 +1756,50 @@ QVariant ScriptFunctionsManager::calcGroupFunction(const QString &name, const QS
     }
 }
 
-QVariant ScriptFunctionsManager::calcGroupFunction(const QString& name, const QString& expressionID, const QString& bandName)
+QVariant ScriptFunctionsManager::calcGroupFunction(const QString& name, const QString& expressionID,
+                                                   const QString& bandName)
 {
     return calcGroupFunction(name, expressionID, bandName, 0);
 }
 
-QVariant ScriptFunctionsManager::line(const QString &bandName)
+QVariant ScriptFunctionsManager::line(const QString& bandName)
 {
-    QString varName = QLatin1String("line_")+bandName.toLower();
+    QString varName = QLatin1String("line_") + bandName.toLower();
     QVariant res;
-    if (scriptEngineManager()->dataManager()->variable(varName).isValid()){
-        res=scriptEngineManager()->dataManager()->variable(varName);
-    } else res=QString("Variable line for band %1 not found").arg(bandName);
+    if (scriptEngineManager()->dataManager()->variable(varName).isValid()) {
+        res = scriptEngineManager()->dataManager()->variable(varName);
+    } else
+        res = QString("Variable line for band %1 not found").arg(bandName);
     return res;
 }
 
-QVariant ScriptFunctionsManager::numberFormat(QVariant value, const char &format, int precision, const QString& locale)
+QVariant ScriptFunctionsManager::numberFormat(QVariant value, const char& format, int precision,
+                                              const QString& locale)
 {
-    return (locale.isEmpty()) ? QString::number(value.toDouble(),format,precision):
-                                QLocale(locale).toString(value.toDouble(),format,precision);
+    return (locale.isEmpty()) ? QString::number(value.toDouble(), format, precision)
+                              : QLocale(locale).toString(value.toDouble(), format, precision);
 }
 
-QVariant ScriptFunctionsManager::dateFormat(QVariant value, const QString &format, const QString& locale)
+QVariant ScriptFunctionsManager::dateFormat(QVariant value, const QString& format,
+                                            const QString& locale)
 {
-    return (locale.isEmpty()) ?  QLocale().toString(value.toDate(),format) :
-                                 QLocale(locale).toString(value.toDate(),format);
+    return (locale.isEmpty()) ? QLocale().toString(value.toDate(), format)
+                              : QLocale(locale).toString(value.toDate(), format);
 }
 
-QVariant ScriptFunctionsManager::timeFormat(QVariant value, const QString &format)
+QVariant ScriptFunctionsManager::timeFormat(QVariant value, const QString& format)
 {
-    return QLocale().toString(value.toTime(),format);
+    return QLocale().toString(value.toTime(), format);
 }
 
-QVariant ScriptFunctionsManager::dateTimeFormat(QVariant value, const QString &format, const QString& locale)
+QVariant ScriptFunctionsManager::dateTimeFormat(QVariant value, const QString& format,
+                                                const QString& locale)
 {
-    return (locale.isEmpty()) ? QLocale().toString(value.toDateTime(),format) :
-                                QLocale(locale).toString(value.toDateTime(),format);
+    return (locale.isEmpty()) ? QLocale().toString(value.toDateTime(), format)
+                              : QLocale(locale).toString(value.toDateTime(), format);
 }
 
-QVariant ScriptFunctionsManager::sectotimeFormat(QVariant value, const QString &format)
+QVariant ScriptFunctionsManager::sectotimeFormat(QVariant value, const QString& format)
 {
     int seconds = value.toInt();
     int minutes = seconds / 60;
@@ -1837,69 +1808,76 @@ QVariant ScriptFunctionsManager::sectotimeFormat(QVariant value, const QString &
     QString result = format;
     bool hasHour = format.contains("h");
     bool hasMinute = format.contains("m");
-    for(int len = 2; len; len--) {
-        if(hasHour)   result.replace(QString('h').repeated(len), QString::number(hours).rightJustified(len, '0'));
-        if(hasMinute) result.replace(QString('m').repeated(len), QString::number(hasHour ? minutes % 60 : minutes).rightJustified(len, '0'));
-        result.replace(QString('s').repeated(len), QString::number(hasMinute ? seconds % 60 : seconds).rightJustified(len, '0'));
+    for (int len = 2; len; len--) {
+        if (hasHour)
+            result.replace(QString('h').repeated(len),
+                           QString::number(hours).rightJustified(len, '0'));
+        if (hasMinute)
+            result.replace(
+                QString('m').repeated(len),
+                QString::number(hasHour ? minutes % 60 : minutes).rightJustified(len, '0'));
+        result.replace(
+            QString('s').repeated(len),
+            QString::number(hasMinute ? seconds % 60 : seconds).rightJustified(len, '0'));
     }
     return result;
 }
 
-QVariant ScriptFunctionsManager::date()
-{
-    return QDate::currentDate();
-}
+QVariant ScriptFunctionsManager::date() { return QDate::currentDate(); }
 
-QVariant ScriptFunctionsManager::now()
-{
-    return QDateTime::currentDateTime();
-}
+QVariant ScriptFunctionsManager::now() { return QDateTime::currentDateTime(); }
 
-QVariant ScriptFunctionsManager::currencyFormat(QVariant value, const QString &locale)
+QVariant ScriptFunctionsManager::currencyFormat(QVariant value, const QString& locale)
 {
-    QString l = (!locale.isEmpty())?locale:QLocale::system().name();
+    QString l = (!locale.isEmpty()) ? locale : QLocale::system().name();
     return QLocale(l).toCurrencyString(value.toDouble());
 }
 
-QVariant ScriptFunctionsManager::currencyUSBasedFormat(QVariant value, const QString &currencySymbol)
+QVariant ScriptFunctionsManager::currencyUSBasedFormat(QVariant value,
+                                                       const QString& currencySymbol)
 {
-    QString CurrencySymbol = (!currencySymbol.isEmpty())?currencySymbol:QLocale::system().currencySymbol();
+    QString CurrencySymbol
+        = (!currencySymbol.isEmpty()) ? currencySymbol : QLocale::system().currencySymbol();
     // Format it using USA locale
-    QString vTempStr=QLocale(QLocale::English, QLocale::UnitedStates).toCurrencyString(value.toDouble());
+    QString vTempStr
+        = QLocale(QLocale::English, QLocale::UnitedStates).toCurrencyString(value.toDouble());
     // Replace currency symbol if necesarry
-    if (CurrencySymbol!="") vTempStr.replace("$", CurrencySymbol);
+    if (CurrencySymbol != "")
+        vTempStr.replace("$", CurrencySymbol);
     return vTempStr;
 }
 
-void ScriptFunctionsManager::setVariable(const QString &name, QVariant value)
+void ScriptFunctionsManager::setVariable(const QString& name, QVariant value)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
-    if (dm->containsVariable(name)){
-        dm->changeVariable(name,value);
+    if (dm->containsVariable(name)) {
+        dm->changeVariable(name, value);
     } else {
         dm->addVariable(name, value, VarDesc::User);
     }
 }
 
-QVariant ScriptFunctionsManager::getVariable(const QString &name)
+QVariant ScriptFunctionsManager::getVariable(const QString& name)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->variable(name);
 }
 
-QVariant ScriptFunctionsManager::getField(const QString &field)
+QVariant ScriptFunctionsManager::getField(const QString& field)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldData(field);
 }
 
-QVariant ScriptFunctionsManager::getFieldByKeyField(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue)
+QVariant ScriptFunctionsManager::getFieldByKeyField(const QString& datasourceName,
+                                                    const QString& valueFieldName,
+                                                    const QString& keyFieldName, QVariant keyValue)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldDataByKey(datasourceName, valueFieldName, keyFieldName, keyValue);
 }
 
-QVariant ScriptFunctionsManager::getFieldByRowIndex(const QString &fieldName, int rowIndex)
+QVariant ScriptFunctionsManager::getFieldByRowIndex(const QString& fieldName, int rowIndex)
 {
     DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldDataByRowIndex(fieldName, rowIndex);
@@ -1911,21 +1889,23 @@ void ScriptFunctionsManager::reopenDatasource(const QString& datasourceName)
     return dm->reopenDatasource(datasourceName);
 }
 
-void ScriptFunctionsManager::addBookmark(const QString &uniqKey, const QString &content)
+void ScriptFunctionsManager::addBookmark(const QString& uniqKey, const QString& content)
 {
     scriptEngineManager()->addBookMark(uniqKey, content);
 }
 
-int ScriptFunctionsManager::findPageIndexByBookmark(const QString &uniqKey)
+int ScriptFunctionsManager::findPageIndexByBookmark(const QString& uniqKey)
 {
     return scriptEngineManager()->findPageIndexByBookmark(uniqKey);
 }
 
-int ScriptFunctionsManager::getPageFreeSpace(QObject* page){
+int ScriptFunctionsManager::getPageFreeSpace(QObject* page)
+{
     return scriptEngineManager()->getPageFreeSpace(dynamic_cast<PageItemDesignIntf*>(page));
 }
 
-void ScriptFunctionsManager::addTableOfContentsItem(const QString& uniqKey, const QString& content, int indent)
+void ScriptFunctionsManager::addTableOfContentsItem(const QString& uniqKey, const QString& content,
+                                                    int indent)
 {
     scriptEngineManager()->addTableOfContentsItem(uniqKey, content, indent);
 }
@@ -1935,59 +1915,63 @@ void ScriptFunctionsManager::clearTableOfContents()
     scriptEngineManager()->clearTableOfContents();
 }
 
-QFont ScriptFunctionsManager::font(const QString &family, int pointSize, bool italic, bool bold, bool underLine)
+QFont ScriptFunctionsManager::font(const QString& family, int pointSize, bool italic, bool bold,
+                                   bool underLine)
 {
-    QFont result (family, pointSize);
+    QFont result(family, pointSize);
     result.setBold(bold);
     result.setItalic(italic);
     result.setUnderline(underLine);
     return result;
 }
 
-QVariant ScriptFunctionsManager::getFieldByRowIndexEx(const QString &fieldName, int rowIndex, const int role)
+QVariant ScriptFunctionsManager::getFieldByRowIndexEx(const QString& fieldName, int rowIndex,
+                                                      const int role)
 {
-    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldDataByRowIndex(fieldName, rowIndex, role);
 }
 
-QVariant ScriptFunctionsManager::getFieldByRowIndexEx2(const QString &fieldName, int rowIndex, const QString &roleName)
+QVariant ScriptFunctionsManager::getFieldByRowIndexEx2(const QString& fieldName, int rowIndex,
+                                                       const QString& roleName)
 {
-    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->fieldDataByRowIndex(fieldName, rowIndex, roleName);
 }
 
-QVariant ScriptFunctionsManager::getHeaderData(const QString &fieldName, const QString &roleName)
+QVariant ScriptFunctionsManager::getHeaderData(const QString& fieldName, const QString& roleName)
 {
-    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->headerData(fieldName, roleName);
 }
 
-QVariant ScriptFunctionsManager::getHeaderColumnNameByIndex(const QString &datasourceName, const int columnIndex)
+QVariant ScriptFunctionsManager::getHeaderColumnNameByIndex(const QString& datasourceName,
+                                                            const int columnIndex)
 {
-    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->columnName(datasourceName, columnIndex);
 }
 
-int ScriptFunctionsManager::getColumnCount(const QString &datasourceName)
+int ScriptFunctionsManager::getColumnCount(const QString& datasourceName)
 {
-    DataSourceManager *dm = scriptEngineManager()->dataManager();
+    DataSourceManager* dm = scriptEngineManager()->dataManager();
     return dm->columnCount(datasourceName);
 }
 
 #ifdef USE_QJSENGINE
 
-void ScriptFunctionsManager::addItemsToComboBox(QJSValue object, const QStringList &values)
+void ScriptFunctionsManager::addItemsToComboBox(QJSValue object, const QStringList& values)
 {
     QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
-    if (comboBox){
+    if (comboBox) {
         comboBox->addItems(values);
     }
 }
 
-void ScriptFunctionsManager::addItemToComboBox(QJSValue object, const QString &value)
+void ScriptFunctionsManager::addItemToComboBox(QJSValue object, const QString& value)
 {
     QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
-    if (comboBox){
+    if (comboBox) {
         comboBox->addItem(value);
     }
 }
@@ -1995,7 +1979,7 @@ void ScriptFunctionsManager::addItemToComboBox(QJSValue object, const QString &v
 QJSValue ScriptFunctionsManager::createComboBoxWrapper(QJSValue comboBox)
 {
     QComboBox* item = dynamic_cast<QComboBox*>(comboBox.toQObject());
-    if (item){
+    if (item) {
         ComboBoxWrapper* wrapper = new ComboBoxWrapper(item);
         return m_scriptEngineManager->scriptEngine()->newQObject(wrapper);
     }
@@ -2005,10 +1989,11 @@ QJSValue ScriptFunctionsManager::createComboBoxWrapper(QJSValue comboBox)
 QJSValue ScriptFunctionsManager::createWrapper(QJSValue item)
 {
     QObject* object = item.toQObject();
-    if (object){
+    if (object) {
         IWrapperCreator* wrapper = m_wrappersFactory.value(object->metaObject()->className());
-        if (wrapper){
-            return m_scriptEngineManager->scriptEngine()->newQObject(wrapper->createWrapper(item.toQObject()));
+        if (wrapper) {
+            return m_scriptEngineManager->scriptEngine()->newQObject(
+                wrapper->createWrapper(item.toQObject()));
         }
     }
     return QJSValue();
@@ -2016,18 +2001,18 @@ QJSValue ScriptFunctionsManager::createWrapper(QJSValue item)
 
 #else
 
-void ScriptFunctionsManager::addItemsToComboBox(QScriptValue object, const QStringList &values)
+void ScriptFunctionsManager::addItemsToComboBox(QScriptValue object, const QStringList& values)
 {
     QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
-    if (comboBox){
+    if (comboBox) {
         comboBox->addItems(values);
     }
 }
 
-void ScriptFunctionsManager::addItemToComboBox(QScriptValue object, const QString &value)
+void ScriptFunctionsManager::addItemToComboBox(QScriptValue object, const QString& value)
 {
     QComboBox* comboBox = dynamic_cast<QComboBox*>(object.toQObject());
-    if (comboBox){
+    if (comboBox) {
         comboBox->addItem(value);
     }
 }
@@ -2035,7 +2020,7 @@ void ScriptFunctionsManager::addItemToComboBox(QScriptValue object, const QStrin
 QScriptValue ScriptFunctionsManager::createComboBoxWrapper(QScriptValue comboBox)
 {
     QComboBox* item = dynamic_cast<QComboBox*>(comboBox.toQObject());
-    if (item){
+    if (item) {
         ComboBoxWrapper* wrapper = new ComboBoxWrapper(item);
         return m_scriptEngineManager->scriptEngine()->newQObject(wrapper);
     }
@@ -2045,10 +2030,11 @@ QScriptValue ScriptFunctionsManager::createComboBoxWrapper(QScriptValue comboBox
 QScriptValue ScriptFunctionsManager::createWrapper(QScriptValue item)
 {
     QObject* object = item.toQObject();
-    if (object){
+    if (object) {
         IWrapperCreator* wrapper = m_wrappersFactory.value(object->metaObject()->className());
-        if (wrapper){
-            return m_scriptEngineManager->scriptEngine()->newQObject(wrapper->createWrapper(item.toQObject()));
+        if (wrapper) {
+            return m_scriptEngineManager->scriptEngine()->newQObject(
+                wrapper->createWrapper(item.toQObject()));
         }
     }
     return QScriptValue();
@@ -2056,8 +2042,9 @@ QScriptValue ScriptFunctionsManager::createWrapper(QScriptValue item)
 
 #endif
 
-QFont ScriptFunctionsManager::font(QVariantMap params){
-    if (!params.contains("family")){
+QFont ScriptFunctionsManager::font(QVariantMap params)
+{
+    if (!params.contains("family")) {
         return QFont();
     } else {
         QFont result(params.value("family").toString());
@@ -2073,29 +2060,27 @@ QFont ScriptFunctionsManager::font(QVariantMap params){
     }
 }
 
-ScriptEngineManager *ScriptFunctionsManager::scriptEngineManager() const
+ScriptEngineManager* ScriptFunctionsManager::scriptEngineManager() const
 {
     return m_scriptEngineManager;
 }
 
-void ScriptFunctionsManager::setScriptEngineManager(ScriptEngineManager *scriptEngineManager)
+void ScriptFunctionsManager::setScriptEngineManager(ScriptEngineManager* scriptEngineManager)
 {
     m_scriptEngineManager = scriptEngineManager;
 }
 
-TableOfContents::~TableOfContents()
-{
-    clear();
-}
+TableOfContents::~TableOfContents() { clear(); }
 
-void TableOfContents::setItem(const QString& uniqKey, const QString& content, int pageNumber, int indent)
+void TableOfContents::setItem(const QString& uniqKey, const QString& content, int pageNumber,
+                              int indent)
 {
-    ContentItem * item = 0;
-    if (m_hash.contains(uniqKey)){
+    ContentItem* item = 0;
+    if (m_hash.contains(uniqKey)) {
         item = m_hash.value(uniqKey);
         item->content = content;
         item->pageNumber = pageNumber;
-        if (indent>0)
+        if (indent > 0)
             item->indent = indent;
     } else {
         item = new ContentItem;
@@ -2106,13 +2091,14 @@ void TableOfContents::setItem(const QString& uniqKey, const QString& content, in
         m_tableOfContents.append(item);
         m_hash.insert(uniqKey, item);
     }
-
 }
 
 void TableOfContents::slotOneSlotDS(CallbackInfo info, QVariant& data)
 {
     QStringList columns;
-    columns << "Content" << "Page number" << "Content Key";
+    columns << "Content"
+            << "Page number"
+            << "Content Key";
 
     switch (info.dataType) {
     case LimeReport::CallbackInfo::RowCount:
@@ -2126,49 +2112,51 @@ void TableOfContents::slotOneSlotDS(CallbackInfo info, QVariant& data)
         break;
     }
     case LimeReport::CallbackInfo::ColumnData:
-        if (info.index < m_tableOfContents.count()){
+        if (info.index < m_tableOfContents.count()) {
             ContentItem* item = m_tableOfContents.at(info.index);
-            if (info.columnName.compare("Content",Qt::CaseInsensitive) == 0)
-                data = item->content.rightJustified(item->indent+item->content.size());
-            if (info.columnName.compare("Content Key",Qt::CaseInsensitive) == 0)
+            if (info.columnName.compare("Content", Qt::CaseInsensitive) == 0)
+                data = item->content.rightJustified(item->indent + item->content.size());
+            if (info.columnName.compare("Content Key", Qt::CaseInsensitive) == 0)
                 data = item->uniqKey;
-            if (info.columnName.compare("Page number",Qt::CaseInsensitive) == 0)
+            if (info.columnName.compare("Page number", Qt::CaseInsensitive) == 0)
                 data = QString::number(item->pageNumber);
         }
         break;
-    default: break;
+    default:
+        break;
     }
 }
 
-void LimeReport::TableOfContents::clear(){
+void LimeReport::TableOfContents::clear()
+{
 
     m_hash.clear();
-    foreach(ContentItem* item, m_tableOfContents){
+    foreach (ContentItem* item, m_tableOfContents) {
         delete item;
     }
     m_tableOfContents.clear();
-
 }
 
-QObject* ComboBoxWrapperCreator::createWrapper(QObject *item)
+QObject* ComboBoxWrapperCreator::createWrapper(QObject* item)
 {
     QComboBox* comboBox = dynamic_cast<QComboBox*>(item);
-    if (comboBox){
-        return  new ComboBoxWrapper(comboBox);
+    if (comboBox) {
+        return new ComboBoxWrapper(comboBox);
     }
     return 0;
 }
 
 bool DatasourceFunctions::first(const QString& datasourceName)
 {
-    if (m_dataManager && m_dataManager->dataSource(datasourceName)){
+    if (m_dataManager && m_dataManager->dataSource(datasourceName)) {
         m_dataManager->dataSource(datasourceName)->first();
         return true;
     }
     return false;
 }
 
-bool DatasourceFunctions::next(const QString &datasourceName){
+bool DatasourceFunctions::next(const QString& datasourceName)
+{
     if (m_dataManager && m_dataManager->dataSource(datasourceName))
         return m_dataManager->dataSource(datasourceName)->next();
     return false;
@@ -2181,14 +2169,14 @@ bool DatasourceFunctions::prior(const QString& datasourceName)
     return false;
 }
 
-bool DatasourceFunctions::isEOF(const QString &datasourceName)
+bool DatasourceFunctions::isEOF(const QString& datasourceName)
 {
     if (m_dataManager && m_dataManager->dataSource(datasourceName))
         return m_dataManager->dataSource(datasourceName)->eof();
     return true;
 }
 
-int DatasourceFunctions::rowCount(const QString &datasourceName)
+int DatasourceFunctions::rowCount(const QString& datasourceName)
 {
     if (m_dataManager && m_dataManager->dataSource(datasourceName))
         return m_dataManager->dataSource(datasourceName)->model()->rowCount();
@@ -2197,7 +2185,7 @@ int DatasourceFunctions::rowCount(const QString &datasourceName)
 
 bool DatasourceFunctions::invalidate(const QString& datasourceName)
 {
-    if (m_dataManager && m_dataManager->dataSource(datasourceName)){
+    if (m_dataManager && m_dataManager->dataSource(datasourceName)) {
         m_dataManager->dataSourceHolder(datasourceName)->invalidate(IDataSource::RENDER_MODE);
         return true;
     }
@@ -2212,41 +2200,45 @@ QObject* DatasourceFunctions::createTableBuilder(QObject* horizontalLayout)
     return 0;
 }
 
-TableBuilder::TableBuilder(HorizontalLayout* layout, DataSourceManager* dataManager)
-    : m_horizontalLayout(layout), m_baseLayout(0), m_dataManager(dataManager)
+TableBuilder::TableBuilder(HorizontalLayout* layout, DataSourceManager* dataManager):
+    m_horizontalLayout(layout),
+    m_baseLayout(0),
+    m_dataManager(dataManager)
 {
     if (m_horizontalLayout)
-        m_patternLayout = dynamic_cast<HorizontalLayout*>(m_horizontalLayout->cloneItem(m_horizontalLayout->itemMode()));
+        m_patternLayout = dynamic_cast<HorizontalLayout*>(
+            m_horizontalLayout->cloneItem(m_horizontalLayout->itemMode()));
 }
 
 QObject* TableBuilder::addRow()
 {
     checkBaseLayout();
-    if (m_baseLayout && m_patternLayout){
+    if (m_baseLayout && m_patternLayout) {
         HorizontalLayout* newRow = new HorizontalLayout(m_baseLayout, m_baseLayout);
         newRow->setLayoutSpacing(m_horizontalLayout->layoutSpacing());
-        for(int i = 0; i < m_horizontalLayout->childrenCount(); ++i){
+        for (int i = 0; i < m_horizontalLayout->childrenCount(); ++i) {
             BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(m_patternLayout->at(i));
             BaseDesignIntf* cloneItem = item->cloneItem(item->itemMode(), newRow, newRow);
             newRow->addChild(cloneItem);
         }
         m_baseLayout->addChild(newRow);
         return newRow;
-    } else return 0;
+    } else
+        return 0;
 }
 
 QObject* TableBuilder::currentRow()
 {
     checkBaseLayout();
-    if (m_baseLayout && m_baseLayout->childrenCount()>0)
-        return m_baseLayout->at(m_baseLayout->childrenCount()-1);
+    if (m_baseLayout && m_baseLayout->childrenCount() > 0)
+        return m_baseLayout->at(m_baseLayout->childrenCount() - 1);
     return 0;
 }
 
 void TableBuilder::fillInRowData(QObject* row)
 {
     HorizontalLayout* layout = dynamic_cast<HorizontalLayout*>(row);
-    if (layout){
+    if (layout) {
         for (int i = 0; i < layout->childrenCount(); ++i) {
             BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(layout->at(i));
             DataSourceManager* dm = dynamic_cast<DataSourceManager*>(m_dataManager);
@@ -2263,12 +2255,14 @@ void TableBuilder::buildTable(const QString& datasourceName)
     if (dh) {
         dh->invalidate(IDataSource::RENDER_MODE);
         IDataSource* ds = m_dataManager->dataSource(datasourceName);
-        if (ds){
+        if (ds) {
             bool firstTime = true;
             QObject* row = m_horizontalLayout;
-            while(!ds->eof()){
-                if (!firstTime) row = addRow();
-                else firstTime = false;
+            while (!ds->eof()) {
+                if (!firstTime)
+                    row = addRow();
+                else
+                    firstTime = false;
                 fillInRowData(row);
                 ds->next();
             }
@@ -2278,10 +2272,11 @@ void TableBuilder::buildTable(const QString& datasourceName)
 
 void TableBuilder::checkBaseLayout()
 {
-    if (!m_baseLayout){
+    if (!m_baseLayout) {
         m_baseLayout = dynamic_cast<VerticalLayout*>(m_horizontalLayout->parentItem());
-        if (!m_baseLayout){
-            m_baseLayout = new VerticalLayout(m_horizontalLayout->parent(), m_horizontalLayout->parentItem());
+        if (!m_baseLayout) {
+            m_baseLayout = new VerticalLayout(m_horizontalLayout->parent(),
+                                              m_horizontalLayout->parentItem());
             m_baseLayout->setItemLocation(m_horizontalLayout->itemLocation());
             m_baseLayout->setPos(m_horizontalLayout->pos());
             m_baseLayout->setWidth(m_horizontalLayout->width());
@@ -2294,22 +2289,21 @@ void TableBuilder::checkBaseLayout()
 }
 
 #ifdef USE_QTSCRIPTENGINE
-void ComboBoxPrototype::addItem(const QString &text)
+void ComboBoxPrototype::addItem(const QString& text)
 {
     QComboBox* comboBox = qscriptvalue_cast<QComboBox*>(thisObject());
-    if (comboBox){
+    if (comboBox) {
         comboBox->addItem(text);
     }
 }
 
-void ComboBoxPrototype::addItems(const QStringList &texts)
+void ComboBoxPrototype::addItems(const QStringList& texts)
 {
     QComboBox* comboBox = qscriptvalue_cast<QComboBox*>(thisObject());
-    if (comboBox){
+    if (comboBox) {
         comboBox->addItems(texts);
     }
 }
 #endif
 
-} //namespace LimeReport
-
+} // namespace LimeReport

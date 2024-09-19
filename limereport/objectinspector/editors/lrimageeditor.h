@@ -29,24 +29,24 @@
  ****************************************************************************/
 #ifndef LRIMAGEEDITOR_H
 #define LRIMAGEEDITOR_H
-#include <QWidget>
 #include <QPushButton>
+#include <QWidget>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class ImageEditor : public QWidget
-{
+class ImageEditor: public QWidget {
     Q_OBJECT
 
 public:
-    ImageEditor(QWidget *parent=0);
+    ImageEditor(QWidget* parent = 0);
     QImage image();
-    void setImage(const QImage& image){m_image=image;}
+    void setImage(const QImage& image) { m_image = image; }
 signals:
     void editingFinished();
 private slots:
     void slotButtonClicked();
     void slotClearButtonClicked();
+
 private:
     QPushButton m_button;
     QPushButton m_clearButton;

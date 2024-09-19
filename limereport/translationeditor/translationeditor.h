@@ -1,25 +1,24 @@
 #ifndef TRANSLATIONEDITOR_H
 #define TRANSLATIONEDITOR_H
 
-#include <QWidget>
-#include <QLocale>
-#include <QTreeWidgetItem>
-#include <QShortcut>
 #include "lrreporttranslation.h"
+
+#include <QLocale>
+#include <QShortcut>
+#include <QTreeWidgetItem>
+#include <QWidget>
 
 namespace LimeReport {
 
 namespace Ui {
-class TranslationEditor;
+    class TranslationEditor;
 }
 
-
-class TranslationEditor : public QWidget
-{
+class TranslationEditor: public QWidget {
     Q_OBJECT
 
 public:
-    explicit TranslationEditor(QWidget *parent = 0);
+    explicit TranslationEditor(QWidget* parent = 0);
     void setReportEngine(ITranslationContainer* translationContainer);
     ~TranslationEditor();
     void updateUi();
@@ -30,7 +29,7 @@ private slots:
     void on_tbStrings_itemSelectionChanged();
     void on_teTranslation_textChanged();
     void on_cbChecked_toggled(bool checked);
-    void on_twPages_itemSelectionChanged();   
+    void on_twPages_itemSelectionChanged();
     void on_tbAddLanguage_clicked();
     void on_tbDeleteLanguage_clicked();
     void slotItemChecked();
@@ -38,8 +37,9 @@ private slots:
 
 private:
     QLocale::Language getLanguageByName(const QString& languageName);
+
 private:
-    Ui::TranslationEditor *ui;
+    Ui::TranslationEditor* ui;
     ITranslationContainer* m_translationContainer;
     QMap<QString, ReportTranslation*> m_reportTranslations;
     QMap<QString, PageTranslation> m_pageTranslations;
@@ -50,6 +50,6 @@ private:
     QShortcut* m_clrReturn;
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // TRANSLATIONEDITOR_H

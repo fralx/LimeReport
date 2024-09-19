@@ -28,21 +28,20 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrvariablesholder.h"
-#include <stdexcept>
-#include <QStringList>
+
 #include <QDebug>
+#include <QStringList>
 
-namespace LimeReport{
+#include <stdexcept>
 
-VariablesHolder::VariablesHolder(QObject *parent) :
-    QObject(parent)
-{
-}
+namespace LimeReport {
+
+VariablesHolder::VariablesHolder(QObject* parent): QObject(parent) { }
 
 VariablesHolder::~VariablesHolder()
 {
-    QMap<QString,VarDesc*>::iterator it = m_varNames.begin();
-    while(it!=m_varNames.end()){
+    QMap<QString, VarDesc*>::iterator it = m_varNames.begin();
+    while (it != m_varNames.end()) {
         delete *it;
         ++it;
     }
@@ -50,38 +49,41 @@ VariablesHolder::~VariablesHolder()
     m_userVariables.clear();
 }
 
-void VariablesHolder::addVariable(const QString& name, const QVariant& value, VarDesc::VarType type, RenderPass pass)
+void VariablesHolder::addVariable(const QString& name, const QVariant& value, VarDesc::VarType type,
+                                  RenderPass pass)
 {
-    if (!m_varNames.contains(name)){
+    if (!m_varNames.contains(name)) {
         VarDesc* varValue = new VarDesc;
         varValue->setName(name);
         varValue->setValue(value);
         varValue->setVarType(type);
         varValue->setRenderPass(pass);
-        m_varNames.insert(name,varValue);
-        if (type==VarDesc::Report)
+        m_varNames.insert(name, varValue);
+        if (type == VarDesc::Report)
             m_userVariables.append(varValue);
         emit variableHasBeenAdded(name);
     } else {
-        throw ReportError(tr("variable with name ")+name+tr(" already exists!"));
+        throw ReportError(tr("variable with name ") + name + tr(" already exists!"));
     }
 }
 
-QVariant VariablesHolder::variable(const QString &name)
+QVariant VariablesHolder::variable(const QString& name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->value();
-    else return QVariant();
+    else
+        return QVariant();
 }
 
-VarDesc::VarType VariablesHolder::variableType(const QString &name)
+VarDesc::VarType VariablesHolder::variableType(const QString& name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->varType();
-    else throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
+    else
+        throw ReportError(tr("variable with name ") + name + tr(" does not exists!"));
 }
 
-void VariablesHolder::deleteVariable(const QString &name)
+void VariablesHolder::deleteVariable(const QString& name)
 {
     if (m_varNames.contains(name)) {
         m_userVariables.removeOne(m_varNames.value(name));
@@ -91,73 +93,63 @@ void VariablesHolder::deleteVariable(const QString &name)
     }
 }
 
-void VariablesHolder::changeVariable(const QString &name, const QVariant &value)
+void VariablesHolder::changeVariable(const QString& name, const QVariant& value)
 {
-    if(m_varNames.contains(name)) {
+    if (m_varNames.contains(name)) {
         m_varNames.value(name)->setValue(value);
         emit variableHasBeenChanged(name);
     } else
-        throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
+        throw ReportError(tr("variable with name ") + name + tr(" does not exists!"));
 }
 
 void VariablesHolder::clearUserVariables()
 {
-    QMap<QString,VarDesc*>::iterator it = m_varNames.begin();
-    while (it != m_varNames.end()){
-        if (it.value()->varType()==VarDesc::User ||
-            it.value()->varType()==VarDesc::Report){
+    QMap<QString, VarDesc*>::iterator it = m_varNames.begin();
+    while (it != m_varNames.end()) {
+        if (it.value()->varType() == VarDesc::User || it.value()->varType() == VarDesc::Report) {
             m_userVariables.removeAll(it.value());
             delete it.value();
             it = m_varNames.erase(it);
         } else {
             ++it;
         }
-
     }
-
 }
 
-bool VariablesHolder::containsVariable(const QString &name)
-{
-    return m_varNames.contains(name);
-}
+bool VariablesHolder::containsVariable(const QString& name) { return m_varNames.contains(name); }
 
-int VariablesHolder::variablesCount()
-{
-    return m_userVariables.count();
-}
+int VariablesHolder::variablesCount() { return m_userVariables.count(); }
 
 VarDesc* VariablesHolder::variableByName(const QString& name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name);
-    else return 0;
+    else
+        return 0;
 }
 
-VarDesc *VariablesHolder::variableAt(int index)
-{
-    return m_userVariables.at(index);
-}
+VarDesc* VariablesHolder::variableAt(int index) { return m_userVariables.at(index); }
 
 bool VariablesHolder::variableIsMandatory(const QString& name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->isMandatory();
-    else return false;
+    else
+        return false;
 }
 
 void VariablesHolder::setVarableMandatory(const QString& name, bool value)
 {
     if (m_varNames.contains(name))
         m_varNames.value(name)->setMandatory(value);
-
 }
 
 VariableDataType VariablesHolder::variableDataType(const QString& name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->dataType();
-    else return Enums::Undefined;
+    else
+        return Enums::Undefined;
 }
 
 void VariablesHolder::setVariableDataType(const QString& name, VariableDataType value)
@@ -169,28 +161,23 @@ void VariablesHolder::setVariableDataType(const QString& name, VariableDataType 
 QStringList VariablesHolder::variableNames()
 {
     QStringList result;
-    foreach(QString varName,m_varNames.keys()){
-        result<<varName;
+    foreach (QString varName, m_varNames.keys()) {
+        result << varName;
     }
     return result;
 }
 
-RenderPass VariablesHolder::variablePass(const QString &name)
+RenderPass VariablesHolder::variablePass(const QString& name)
 {
     if (m_varNames.contains(name))
         return m_varNames.value(name)->renderPass();
-    else throw ReportError(tr("variable with name ")+name+tr(" does not exists!"));
+    else
+        throw ReportError(tr("variable with name ") + name + tr(" does not exists!"));
 }
 
-bool VarDesc::isMandatory() const
-{
-    return m_mandatory;
-}
+bool VarDesc::isMandatory() const { return m_mandatory; }
 
-void VarDesc::setMandatory(bool mandatory)
-{
-    m_mandatory = mandatory;
-}
+void VarDesc::setMandatory(bool mandatory) { m_mandatory = mandatory; }
 
 void VarDesc::initFrom(VarDesc* value)
 {
@@ -198,24 +185,12 @@ void VarDesc::initFrom(VarDesc* value)
     m_dataType = value->dataType();
 }
 
-VariableDataType VarDesc::dataType() const
-{
-    return m_dataType;
-}
+VariableDataType VarDesc::dataType() const { return m_dataType; }
 
-void VarDesc::setDataType(const VariableDataType& dataType)
-{
-    m_dataType = dataType;
-}
+void VarDesc::setDataType(const VariableDataType& dataType) { m_dataType = dataType; }
 
-int VarDesc::readDataTypeProperty() const
-{
-    return static_cast<int>(m_dataType);
-}
+int VarDesc::readDataTypeProperty() const { return static_cast<int>(m_dataType); }
 
-void VarDesc::setDataTypeProperty(int value)
-{
-    m_dataType = static_cast<VariableDataType>(value);
-}
+void VarDesc::setDataTypeProperty(int value) { m_dataType = static_cast<VariableDataType>(value); }
 
-}// namespace LimeReport
+} // namespace LimeReport

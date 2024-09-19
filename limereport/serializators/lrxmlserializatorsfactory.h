@@ -35,21 +35,25 @@
 
 #include <QtXml>
 
-namespace LimeReport{
+namespace LimeReport {
 
-typedef SerializatorIntf* (*CreateSerializator)(QDomDocument *doc, QDomElement *parentNode);
+typedef SerializatorIntf* (*CreateSerializator)(QDomDocument* doc, QDomElement* parentNode);
 
-class XMLAbstractSerializatorFactory: public SimpleAbstractFactory<SerializatorIntf,QString,CreateSerializator>
-{
+class XMLAbstractSerializatorFactory:
+    public SimpleAbstractFactory<SerializatorIntf, QString, CreateSerializator> {
 private:
     friend class Singleton<XMLAbstractSerializatorFactory>;
+
 public:
-    XMLAbstractSerializatorFactory(){}
-    ~XMLAbstractSerializatorFactory(){}
-    XMLAbstractSerializatorFactory(const XMLAbstractSerializatorFactory&){}
-    XMLAbstractSerializatorFactory& operator = (const XMLAbstractSerializatorFactory&){return *this;}
+    XMLAbstractSerializatorFactory() { }
+    ~XMLAbstractSerializatorFactory() { }
+    XMLAbstractSerializatorFactory(const XMLAbstractSerializatorFactory&) { }
+    XMLAbstractSerializatorFactory& operator=(const XMLAbstractSerializatorFactory&)
+    {
+        return *this;
+    }
 };
 
-}
+} // namespace LimeReport
 
 #endif // LRXMLABSTRACTSERIALIZATORFABRIC_H

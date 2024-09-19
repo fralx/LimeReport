@@ -28,55 +28,66 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrgroupfieldpropitem.h"
+
 #include "../editors/lrcomboboxeditor.h"
 #include "lrgroupbands.h"
 #include "lrreportengine_p.h"
 
-namespace  {
-    LimeReport::ObjectPropItem* createFieldPropItem(QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly){
-        return new LimeReport::GroupFieldPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-    bool VARIABLE_IS_NOT_USED registredGroupFieldProp = LimeReport::ObjectPropFactory::instance().registerCreator(
-        LimeReport::APropIdent("groupFieldName","LimeReport::GroupBandHeader"),QObject::tr("field"),createFieldPropItem
-    );
+namespace {
+LimeReport::ObjectPropItem* createFieldPropItem(QObject* object,
+                                                LimeReport::ObjectPropItem::ObjectsList* objects,
+                                                const QString& name, const QString& displayName,
+                                                const QVariant& data,
+                                                LimeReport::ObjectPropItem* parent, bool readonly)
+{
+    return new LimeReport::GroupFieldPropItem(object, objects, name, displayName, data, parent,
+                                              readonly);
 }
+bool VARIABLE_IS_NOT_USED registredGroupFieldProp
+    = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("groupFieldName", "LimeReport::GroupBandHeader"),
+        QObject::tr("field"), createFieldPropItem);
+} // namespace
 namespace LimeReport {
 
-
-QString findDatasourceName(BandDesignIntf* band){
-    if (!band) return "";
-    if (!band->datasourceName().isEmpty()) return band->datasourceName();
-    else return findDatasourceName(band->parentBand());
+QString findDatasourceName(BandDesignIntf* band)
+{
+    if (!band)
+        return "";
+    if (!band->datasourceName().isEmpty())
+        return band->datasourceName();
+    else
+        return findDatasourceName(band->parentBand());
 }
 
-QWidget *GroupFieldPropItem::createProperyEditor(QWidget *parent) const
+QWidget* GroupFieldPropItem::createProperyEditor(QWidget* parent) const
 {
-    ComboBoxEditor *editor = new ComboBoxEditor(parent,true);
+    ComboBoxEditor* editor = new ComboBoxEditor(parent, true);
     editor->setEditable(true);
-    GroupBandHeader *item=dynamic_cast<GroupBandHeader*>(object());
-    if (item){
+    GroupBandHeader* item = dynamic_cast<GroupBandHeader*>(object());
+    if (item) {
         BandDesignIntf* dataBand = dynamic_cast<BandDesignIntf*>(item->parentBand());
-        if (dataBand){
+        if (dataBand) {
             QString datasourceName = findDatasourceName(dataBand);
-            if (!datasourceName.isEmpty()){
-               editor->addItems(item->reportEditor()->dataManager()->fieldNames(datasourceName));
+            if (!datasourceName.isEmpty()) {
+                editor->addItems(item->reportEditor()->dataManager()->fieldNames(datasourceName));
             }
         }
     }
     return editor;
 }
 
-void GroupFieldPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+void GroupFieldPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
-    ComboBoxEditor *editor=qobject_cast<ComboBoxEditor *>(propertyEditor);
+    ComboBoxEditor* editor = qobject_cast<ComboBoxEditor*>(propertyEditor);
     editor->setTextValue(propertyValue().toString());
 }
 
-void GroupFieldPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void GroupFieldPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                      const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<ComboBoxEditor*>(propertyEditor)->text());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
+    model->setData(index, qobject_cast<ComboBoxEditor*>(propertyEditor)->text());
+    object()->setProperty(propertyName().toLatin1(), propertyValue());
 }
 
-}
-
+} // namespace LimeReport

@@ -3,16 +3,17 @@
 
 #include "lrchartitem.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class PieChart : public AbstractChart{
+class PieChart: public AbstractChart {
 public:
-    PieChart(ChartItem* chartItem):AbstractChart(chartItem){}
-    QSizeF calcChartLegendSize(const QFont &font, qreal maxWidth = 0);
-    void paintChart(QPainter *painter, QRectF chartRect);
-    void paintChartLegend(QPainter *painter, QRectF legendRect);
+    PieChart(ChartItem* chartItem): AbstractChart(chartItem) { }
+    QSizeF calcChartLegendSize(const QFont& font, qreal maxWidth = 0);
+    void paintChart(QPainter* painter, QRectF chartRect);
+    void paintChartLegend(QPainter* painter, QRectF legendRect);
+
 protected:
-    void drawPercent(QPainter *painter, QRectF chartRect, qreal startAngle, qreal angle);
+    void drawPercent(QPainter* painter, QRectF chartRect, qreal startAngle, qreal angle);
 };
 
 } // namespace LimeReport

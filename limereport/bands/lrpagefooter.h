@@ -32,19 +32,19 @@
 
 #include "lrbanddesignintf.h"
 #include "lrbasedesignintf.h"
+
 #include <QObject>
 
-namespace LimeReport{
-class PageFooter : public BandDesignIntf
-{
+namespace LimeReport {
+class PageFooter: public BandDesignIntf {
     Q_OBJECT
     Q_PROPERTY(bool printOnFirstPage READ printOnFirstPage WRITE setPrintOnFirstPage)
     Q_PROPERTY(bool printOnLastPage READ printOnLastPage WRITE setPrintOnLastPage)
     Q_PROPERTY(bool removeGap READ removeGap WRITE setRemoveGap)
 public:
-    PageFooter(QObject* owner = 0, QGraphicsItem* parent=0);
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
-    virtual bool isFooter() const {return true;}
+    PageFooter(QObject* owner = 0, QGraphicsItem* parent = 0);
+    virtual BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
+    virtual bool isFooter() const { return true; }
     bool printOnLastPage() const;
     void setPrintOnLastPage(bool printOnLastPage);
     bool printOnFirstPage() const;
@@ -53,14 +53,15 @@ public:
     void setRemoveGap(bool removeGap);
 
 protected:
-    QColor  bandColor() const;
-    void    preparePopUpMenu(QMenu &menu);
-    void    processPopUpAction(QAction *action);
+    QColor bandColor() const;
+    void preparePopUpMenu(QMenu& menu);
+    void processPopUpAction(QAction* action);
+
 private:
     bool m_printOnFirstPage;
     bool m_printOnLastPage;
     bool m_removeGap;
 };
-}
+} // namespace LimeReport
 
 #endif // LRPAGEFOOTER_H

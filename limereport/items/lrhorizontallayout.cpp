@@ -28,101 +28,105 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrhorizontallayout.h"
+
+#include "lrbasedesignintf.h"
 #include "lrdesignelementsfactory.h"
 
 #include <QDebug>
-#include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-
-#include "lrbasedesignintf.h"
+#include <QObject>
 
 const QString xmlTag = "HLayout";
 
 namespace {
 
-LimeReport::BaseDesignIntf *createHLayout(QObject *owner, LimeReport::BaseDesignIntf  *parent)
+LimeReport::BaseDesignIntf* createHLayout(QObject* owner, LimeReport::BaseDesignIntf* parent)
 {
     return new LimeReport::HorizontalLayout(owner, parent);
 }
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
-                     xmlTag,
-                     LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::Const::bandTAG),
-                     createHLayout
-                 );
-}
-
+    xmlTag, LimeReport::ItemAttribs(QObject::tr("HLayout"), LimeReport::Const::bandTAG),
+    createHLayout);
+} // namespace
 
 namespace LimeReport {
 
-bool horizontalLessThen(BaseDesignIntf *c1, BaseDesignIntf* c2){
-    return c1->pos().x()<c2->pos().x();
+bool horizontalLessThen(BaseDesignIntf* c1, BaseDesignIntf* c2)
+{
+    return c1->pos().x() < c2->pos().x();
 }
 
-HorizontalLayout::HorizontalLayout(QObject *owner, QGraphicsItem *parent)
-    : AbstractLayout(xmlTag, owner, parent)
-{}
+HorizontalLayout::HorizontalLayout(QObject* owner, QGraphicsItem* parent):
+    AbstractLayout(xmlTag, owner, parent)
+{
+}
 
-HorizontalLayout::~HorizontalLayout()
-{}
+HorizontalLayout::~HorizontalLayout() { }
 
-BaseDesignIntf *HorizontalLayout::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
+BaseDesignIntf* HorizontalLayout::createSameTypeItem(QObject* owner, QGraphicsItem* parent)
 {
     return new LimeReport::HorizontalLayout(owner, parent);
 }
 
 bool HorizontalLayout::canBeSplitted(int height) const
 {
-    foreach(QGraphicsItem* qgItem,childItems()){
-        BaseDesignIntf* item=dynamic_cast<BaseDesignIntf*>(qgItem);
+    foreach (QGraphicsItem* qgItem, childItems()) {
+        BaseDesignIntf* item = dynamic_cast<BaseDesignIntf*>(qgItem);
         if (item)
-            if (!item->canBeSplitted(height - item->pos().y())) return false;
+            if (!item->canBeSplitted(height - item->pos().y()))
+                return false;
     }
     return true;
 }
 
-BaseDesignIntf *HorizontalLayout::cloneUpperPart(int height, QObject *owner, QGraphicsItem *parent)
+BaseDesignIntf* HorizontalLayout::cloneUpperPart(int height, QObject* owner, QGraphicsItem* parent)
 {
-    HorizontalLayout* upperPart = dynamic_cast<HorizontalLayout*>(createSameTypeItem(owner,parent));
+    HorizontalLayout* upperPart
+        = dynamic_cast<HorizontalLayout*>(createSameTypeItem(owner, parent));
     upperPart->initFromItem(this);
     qreal maxHeight = 0;
-    foreach(BaseDesignIntf* item,childBaseItems()){
+    foreach (BaseDesignIntf* item, childBaseItems()) {
 
-        if ((item->geometry().top()<height) && (item->geometry().bottom()>height)){
-            int sliceHeight = height-item->geometry().top();
-            if (item->canBeSplitted(sliceHeight)){
-                BaseDesignIntf* slicedPart = item->cloneUpperPart(sliceHeight,upperPart,upperPart);
-                if (maxHeight<slicedPart->height()) maxHeight = slicedPart->height();
+        if ((item->geometry().top() < height) && (item->geometry().bottom() > height)) {
+            int sliceHeight = height - item->geometry().top();
+            if (item->canBeSplitted(sliceHeight)) {
+                BaseDesignIntf* slicedPart
+                    = item->cloneUpperPart(sliceHeight, upperPart, upperPart);
+                if (maxHeight < slicedPart->height())
+                    maxHeight = slicedPart->height();
             } else {
-                item->cloneEmpty(sliceHeight,upperPart,upperPart);
-                item->setPos(item->pos().x(),item->pos().y()+((height+1)-item->geometry().top()));
+                item->cloneEmpty(sliceHeight, upperPart, upperPart);
+                item->setPos(item->pos().x(),
+                             item->pos().y() + ((height + 1) - item->geometry().top()));
             }
         }
     }
 
-    foreach(BaseDesignIntf* item, upperPart->childBaseItems()){
-        item->setHeight((maxHeight<height)?maxHeight:height);
+    foreach (BaseDesignIntf* item, upperPart->childBaseItems()) {
+        item->setHeight((maxHeight < height) ? maxHeight : height);
     }
     upperPart->setHeight(height);
 
     return upperPart;
 }
 
-BaseDesignIntf *HorizontalLayout::cloneBottomPart(int height, QObject *owner, QGraphicsItem *parent)
+BaseDesignIntf* HorizontalLayout::cloneBottomPart(int height, QObject* owner, QGraphicsItem* parent)
 {
     qreal maxHeight = 0;
-    HorizontalLayout* bottomPart = dynamic_cast<HorizontalLayout*>(createSameTypeItem(owner,parent));
+    HorizontalLayout* bottomPart
+        = dynamic_cast<HorizontalLayout*>(createSameTypeItem(owner, parent));
     bottomPart->initFromItem(this);
-    foreach(BaseDesignIntf* item,childBaseItems()){
-        if ((item->geometry().top()<height) && (item->geometry().bottom()>height)){
-            BaseDesignIntf* tmpItem=item->cloneBottomPart(height,bottomPart,bottomPart);
-            tmpItem->setPos(tmpItem->pos().x(),0);
-            if (maxHeight<tmpItem->height())
+    foreach (BaseDesignIntf* item, childBaseItems()) {
+        if ((item->geometry().top() < height) && (item->geometry().bottom() > height)) {
+            BaseDesignIntf* tmpItem = item->cloneBottomPart(height, bottomPart, bottomPart);
+            tmpItem->setPos(tmpItem->pos().x(), 0);
+            if (maxHeight < tmpItem->height())
                 maxHeight = tmpItem->height();
         }
     }
 
-    if (!bottomPart->isEmpty()){
+    if (!bottomPart->isEmpty()) {
         foreach (BaseDesignIntf* item, bottomPart->childBaseItems()) {
             item->setHeight(maxHeight);
         }
@@ -131,7 +135,7 @@ BaseDesignIntf *HorizontalLayout::cloneBottomPart(int height, QObject *owner, QG
     return bottomPart;
 }
 
-void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
+void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign& itemAlign)
 {
     if (itemAlign == ParentWidthItemAlign)
         setLayoutType(Table);
@@ -140,29 +144,32 @@ void HorizontalLayout::setItemAlign(const BaseDesignIntf::ItemAlign &itemAlign)
 
 void HorizontalLayout::sortChildren()
 {
-    std::sort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+    std::sort(layoutsChildren().begin(), layoutsChildren().end(), horizontalLessThen);
 }
 
 void HorizontalLayout::updateLayoutSize()
 {
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
-    qreal w = spaceBorder*2;
+    qreal w = spaceBorder * 2;
     qreal h = 0;
     int visibleItemCount = 0;
-    foreach(BaseDesignIntf* item, layoutsChildren()){
-        if (item->isEmpty() && hideEmptyItems()) item->setVisible(false);
-        if (item->isVisible()){
-            if (h<item->height()) h=item->height();
-            w+=item->width();
+    foreach (BaseDesignIntf* item, layoutsChildren()) {
+        if (item->isEmpty() && hideEmptyItems())
+            item->setVisible(false);
+        if (item->isVisible()) {
+            if (h < item->height())
+                h = item->height();
+            w += item->width();
             visibleItemCount++;
         }
     }
-    if (h>0) setHeight(h+spaceBorder*2);    
+    if (h > 0)
+        setHeight(h + spaceBorder * 2);
     if (layoutType() == Layout)
-        setWidth(w + layoutSpacingMM() * (visibleItemCount-1));
-    else{
+        setWidth(w + layoutSpacingMM() * (visibleItemCount - 1));
+    else {
         relocateChildren();
-        if (!isRelocating()){
+        if (!isRelocating()) {
             divideSpace();
         }
     }
@@ -172,7 +179,7 @@ void HorizontalLayout::relocateChildren()
 {
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
     QList<BaseDesignIntf*> newChildren;
-    if (layoutsChildren().count() < childItems().size()-1){
+    if (layoutsChildren().count() < childItems().size() - 1) {
         auto oldChildren = layoutsChildren();
         layoutsChildren().clear();
         foreach (BaseDesignIntf* item, childBaseItems()) {
@@ -182,14 +189,14 @@ void HorizontalLayout::relocateChildren()
             layoutsChildren().append(item);
         }
     }
-    std::sort(layoutsChildren().begin(),layoutsChildren().end(),horizontalLessThen);
+    std::sort(layoutsChildren().begin(), layoutsChildren().end(), horizontalLessThen);
     qreal curX = spaceBorder;
     setIsRelocating(true);
     foreach (BaseDesignIntf* item, layoutsChildren()) {
-        if (item->isVisible() || itemMode() == DesignMode){
-            item->setPos(curX,spaceBorder);
+        if (item->isVisible() || itemMode() == DesignMode) {
+            item->setPos(curX, spaceBorder);
             curX += item->width() + layoutSpacingMM();
-            item->setHeight(height()-(spaceBorder * 2));
+            item->setHeight(height() - (spaceBorder * 2));
         }
     }
     setIsRelocating(false);
@@ -199,32 +206,36 @@ void HorizontalLayout::relocateChildren()
     }
 }
 
-void HorizontalLayout::divideSpace(){
+void HorizontalLayout::divideSpace()
+{
     setIsRelocating(true);
     qreal itemsSumSize = 0;
     int visibleItemsCount = 0;
     int spaceBorder = (borderLines() != 0) ? borderLineSize() : 0;
 
-    foreach(BaseDesignIntf* item, layoutsChildren()){
-        if (item->isVisible() || itemMode() == DesignMode ){
+    foreach (BaseDesignIntf* item, layoutsChildren()) {
+        if (item->isVisible() || itemMode() == DesignMode) {
             itemsSumSize += item->width();
             visibleItemsCount++;
         }
     }
 
-    itemsSumSize += layoutSpacingMM() * (visibleItemsCount-1);
+    itemsSumSize += layoutSpacingMM() * (visibleItemsCount - 1);
 
-    if (itemMode() == DesignMode && !layoutsChildren().isEmpty()){
-        qreal delta = (width() - (itemsSumSize+spaceBorder*2));
-        layoutsChildren().last()->setWidth(layoutsChildren().last()->width()+delta);
+    if (itemMode() == DesignMode && !layoutsChildren().isEmpty()) {
+        qreal delta = (width() - (itemsSumSize + spaceBorder * 2));
+        layoutsChildren().last()->setWidth(layoutsChildren().last()->width() + delta);
     } else {
-        qreal delta = (width() - (itemsSumSize+spaceBorder*2)) / (visibleItemsCount!=0 ? visibleItemsCount : 1);
-        for (int i=0; i<layoutsChildren().size(); ++i){
+        qreal delta = (width() - (itemsSumSize + spaceBorder * 2))
+            / (visibleItemsCount != 0 ? visibleItemsCount : 1);
+        for (int i = 0; i < layoutsChildren().size(); ++i) {
             if (layoutsChildren()[i]->isVisible() || itemMode() == DesignMode)
-                layoutsChildren()[i]->setWidth(layoutsChildren()[i]->width()+delta);
-            if ((i+1)<layoutsChildren().size())
-                if (layoutsChildren()[i+1]->isVisible() || itemMode() == DesignMode)
-                    layoutsChildren()[i+1]->setPos(layoutsChildren()[i+1]->pos().x()+delta*(i+1),layoutsChildren()[i+1]->pos().y());
+                layoutsChildren()[i]->setWidth(layoutsChildren()[i]->width() + delta);
+            if ((i + 1) < layoutsChildren().size())
+                if (layoutsChildren()[i + 1]->isVisible() || itemMode() == DesignMode)
+                    layoutsChildren()[i + 1]->setPos(layoutsChildren()[i + 1]->pos().x()
+                                                         + delta * (i + 1),
+                                                     layoutsChildren()[i + 1]->pos().y());
         }
     }
     setIsRelocating(false);

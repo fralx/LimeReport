@@ -31,17 +31,21 @@
 #define LRSTRINGPROPITEM_H
 #include "lrobjectpropitem.h"
 
-namespace LimeReport{
-class StringPropItem : public LimeReport::ObjectPropItem{
+namespace LimeReport {
+class StringPropItem: public LimeReport::ObjectPropItem {
     Q_OBJECT
 public:
-    StringPropItem():ObjectPropItem(){}
-    StringPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
+    StringPropItem(): ObjectPropItem() { }
+    StringPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                   const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                   bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
     QString displayValue() const;
-    void setPropertyEditorData(QWidget *, const QModelIndex &) const;
-    void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &);
+    void setPropertyEditorData(QWidget*, const QModelIndex&) const;
+    void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&);
 };
 } // namespace LimeReport
 #endif // LRSTRINGPROPITEM_H

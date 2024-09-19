@@ -28,33 +28,34 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrcheckboxeditor.h"
-#include <QDebug>
-#include <QPainter>
-#include <QVBoxLayout>
-#include <QKeyEvent>
+
 #include <QApplication>
+#include <QDebug>
+#include <QKeyEvent>
+#include <QPainter>
 #include <QStyle>
+#include <QVBoxLayout>
 
-namespace LimeReport{
+namespace LimeReport {
 
-CheckBoxEditor::CheckBoxEditor(QWidget *parent)
-    :QWidget(parent), m_editing(false)
-{   
+CheckBoxEditor::CheckBoxEditor(QWidget* parent): QWidget(parent), m_editing(false)
+{
     m_checkBox = new QCheckBox(this);
     init();
 }
-CheckBoxEditor::CheckBoxEditor(const QString &text, QWidget *parent)
-    :QWidget(parent), m_editing(false)
+CheckBoxEditor::CheckBoxEditor(const QString& text, QWidget* parent):
+    QWidget(parent),
+    m_editing(false)
 {
-    m_checkBox = new QCheckBox(text,this);
+    m_checkBox = new QCheckBox(text, this);
     init();
 }
 
-CheckBoxEditor::~CheckBoxEditor(){}
+CheckBoxEditor::~CheckBoxEditor() { }
 
 void CheckBoxEditor::init()
-{    
-    QVBoxLayout *layout=new QVBoxLayout(this);
+{
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addStretch();
     layout->addWidget(m_checkBox);
 #ifdef HAVE_QT5
@@ -62,56 +63,45 @@ void CheckBoxEditor::init()
 #endif
     connect(m_checkBox, SIGNAL(stateChanged(int)), this, SLOT(slotStateChanged(int)));
     layout->addStretch();
-    layout->setContentsMargins(2,1,1,1);
+    layout->setContentsMargins(2, 1, 1, 1);
     layout->setSpacing(0);
     setLayout(layout);
     setAutoFillBackground(true);
-    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 }
 
-void CheckBoxEditor::setEditing(bool value)
-{
-    m_editing=value;
-}
+void CheckBoxEditor::setEditing(bool value) { m_editing = value; }
 
-void CheckBoxEditor::setChecked(bool value)
-{
-    m_checkBox->setChecked(value);
-}
+void CheckBoxEditor::setChecked(bool value) { m_checkBox->setChecked(value); }
 
-bool CheckBoxEditor::isChecked()
-{
-    return m_checkBox->isChecked();
-}
+bool CheckBoxEditor::isChecked() { return m_checkBox->isChecked(); }
 
-void CheckBoxEditor::mousePressEvent(QMouseEvent *)
+void CheckBoxEditor::mousePressEvent(QMouseEvent*)
 {
     m_checkBox->setChecked(!m_checkBox->isChecked());
     emit editingFinished();
 }
 
-void CheckBoxEditor::keyPressEvent(QKeyEvent *event)
+void CheckBoxEditor::keyPressEvent(QKeyEvent* event)
 {
-    if (event->key()==Qt::Key_Space) m_checkBox->setChecked(!m_checkBox->isChecked());
-    if ((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down)){
+    if (event->key() == Qt::Key_Space)
+        m_checkBox->setChecked(!m_checkBox->isChecked());
+    if ((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down)) {
         emit editingFinished();
     }
     QWidget::keyPressEvent(event);
 }
 
-void CheckBoxEditor::showEvent(QShowEvent *)
+void CheckBoxEditor::showEvent(QShowEvent*)
 {
-    int border = (height() - QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth))/2
+    int border = (height() - QApplication::style()->pixelMetric(QStyle::PM_IndicatorWidth)) / 2
 #ifdef Q_OS_MAC
-            +QApplication::style()->pixelMetric(QStyle::PM_FocusFrameVMargin)
+        + QApplication::style()->pixelMetric(QStyle::PM_FocusFrameVMargin)
 #endif
-    ;
-    layout()->setContentsMargins(border,0,0,0);
+        ;
+    layout()->setContentsMargins(border, 0, 0, 0);
 }
 
-void CheckBoxEditor::slotStateChanged(int)
-{
-    emit editingFinished();
-}
+void CheckBoxEditor::slotStateChanged(int) { emit editingFinished(); }
 
-}
+} // namespace LimeReport

@@ -6,9 +6,9 @@
 
 namespace LimeReport {
 
-class ReportDesignWindowInterface: public QMainWindow{
+class ReportDesignWindowInterface: public QMainWindow {
 public:
-    ReportDesignWindowInterface(QWidget* parent = 0): QMainWindow(parent){}
+    ReportDesignWindowInterface(QWidget* parent = 0): QMainWindow(parent) { }
     virtual bool checkNeedToSave() = 0;
     virtual void showModal() = 0;
     virtual void showNonModal() = 0;

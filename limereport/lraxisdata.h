@@ -4,8 +4,7 @@
 #include <QObject>
 
 namespace LimeReport {
-class AxisData : public QObject
-{
+class AxisData: public QObject {
     Q_OBJECT
     Q_PROPERTY(bool reverseDirection READ reverseDirection WRITE setReverseDirection)
     Q_PROPERTY(bool calculateAxisScale READ calculateAxisScale WRITE setCalculateAxisScale)
@@ -21,10 +20,10 @@ public:
         XAxis = 1
     };
 
-    AxisData(AxisType type, QObject *parent = nullptr);
+    AxisData(AxisType type, QObject* parent = nullptr);
 
     QString toString() const;
-    void copy(AxisData *other);
+    void copy(AxisData* other);
     void update();
     void update(qreal minValue, qreal maxValue);
     void updateForDesignMode();
@@ -88,6 +87,6 @@ private:
     bool m_isStepAutomatic;
     const AxisType m_type;
 };
-};
+}; // namespace LimeReport
 
 #endif // AXISDATA_H

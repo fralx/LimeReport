@@ -27,46 +27,50 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#include <QLineEdit>
-#include <QDebug>
-#include <QString>
-
 #include "lrstringpropitem.h"
+
 #include "lrobjectpropitem.h"
 #include "objectinspector/editors/lrbuttonlineeditor.h"
 
-namespace{
-    LimeReport::ObjectPropItem * createStringPropItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
-    {
-        return new LimeReport::StringPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-    bool VARIABLE_IS_NOT_USED registredStringProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("QString",""),QObject::tr("QString"),createStringPropItem);
+#include <QDebug>
+#include <QLineEdit>
+#include <QString>
+
+namespace {
+LimeReport::ObjectPropItem* createStringPropItem(QObject* object,
+                                                 LimeReport::ObjectPropItem::ObjectsList* objects,
+                                                 const QString& name, const QString& displayName,
+                                                 const QVariant& data,
+                                                 LimeReport::ObjectPropItem* parent, bool readonly)
+{
+    return new LimeReport::StringPropItem(object, objects, name, displayName, data, parent,
+                                          readonly);
+}
+bool VARIABLE_IS_NOT_USED registredStringProp
+    = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("QString", ""), QObject::tr("QString"), createStringPropItem);
 } // namespace
 
-namespace LimeReport{
+namespace LimeReport {
 
-
-QWidget * StringPropItem::createProperyEditor(QWidget *parent) const
+QWidget* StringPropItem::createProperyEditor(QWidget* parent) const
 {
-    return new ButtonLineEditor(object()->objectName()+"."+displayName(),parent);
+    return new ButtonLineEditor(object()->objectName() + "." + displayName(), parent);
 }
 
-void StringPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+void StringPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
-    ButtonLineEditor *editor = qobject_cast<ButtonLineEditor *>(propertyEditor);
+    ButtonLineEditor* editor = qobject_cast<ButtonLineEditor*>(propertyEditor);
     editor->setText(propertyValue().toString());
 }
 
-void StringPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void StringPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                  const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<ButtonLineEditor*>(propertyEditor)->text());
-    object()->setProperty(propertyName().toLatin1(),propertyValue());
+    model->setData(index, qobject_cast<ButtonLineEditor*>(propertyEditor)->text());
+    object()->setProperty(propertyName().toLatin1(), propertyValue());
 }
 
-QString StringPropItem::displayValue() const
-{
-    return propertyValue().toString().simplified();
-}
+QString StringPropItem::displayValue() const { return propertyValue().toString().simplified(); }
 
 } // namespace LimeReport

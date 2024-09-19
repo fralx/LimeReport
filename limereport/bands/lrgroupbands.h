@@ -33,61 +33,64 @@
 #include "lrbanddesignintf.h"
 #include "lrdesignelementsfactory.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-class GroupBandHeader : public BandDesignIntf, public IGroupBand{
+class GroupBandHeader: public BandDesignIntf, public IGroupBand {
     Q_OBJECT
     Q_PROPERTY(QString groupFieldName READ groupFieldName WRITE setGroupFieldName)
-    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable )
+    Q_PROPERTY(bool splittable READ isSplittable WRITE setSplittable)
     Q_PROPERTY(bool keepGroupTogether READ tryToKeepTogether WRITE setTryToKeepTogether)
     Q_PROPERTY(bool startNewPage READ startNewPage WRITE setStartNewPage)
     Q_PROPERTY(bool resetPageNumber READ resetPageNumber WRITE setResetPageNumber)
     Q_PROPERTY(bool reprintOnEachPage READ reprintOnEachPage WRITE setReprintOnEachPage)
     Q_PROPERTY(QString condition READ condition WRITE setCondition)
 public:
-    GroupBandHeader(QObject* owner = 0, QGraphicsItem* parent=0);
+    GroupBandHeader(QObject* owner = 0, QGraphicsItem* parent = 0);
     virtual bool isUnique() const;
-    QVariant groupFieldValue(){return m_groupFieldValue;}
-    void setGroupFieldValue(QVariant value){m_groupFieldValue=value;}
-    QString groupFieldName(){return m_groupFiledName;}
-    void setGroupFieldName(QString fieldName){m_groupFiledName=fieldName;}
+    QVariant groupFieldValue() { return m_groupFieldValue; }
+    void setGroupFieldValue(QVariant value) { m_groupFieldValue = value; }
+    QString groupFieldName() { return m_groupFiledName; }
+    void setGroupFieldName(QString fieldName) { m_groupFiledName = fieldName; }
     QColor bandColor() const;
     bool startNewPage() const;
     void setStartNewPage(bool startNewPage);
     bool resetPageNumber() const;
     void setResetPageNumber(bool resetPageNumber);
-    bool isHeader() const{return true;}
-    bool isGroupHeader() const {return true;}
+    bool isHeader() const { return true; }
+    bool isGroupHeader() const { return true; }
     QString condition() const;
-    void setCondition(const QString &condition);
+    void setCondition(const QString& condition);
+
 private:
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    virtual BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
     void startGroup(DataSourceManager* dataManager);
-    bool isNeedToClose(DataSourceManager *dataManager);
+    bool isNeedToClose(DataSourceManager* dataManager);
     bool isStarted();
     void closeGroup();
     int index();
-    QString findDataSourceName(BandDesignIntf *parentBand);
-    QString calcCondition(DataSourceManager *dataManager);
+    QString findDataSourceName(BandDesignIntf* parentBand);
+    QString calcCondition(DataSourceManager* dataManager);
+
 private:
     QVariant m_groupFieldValue;
     QString m_groupFiledName;
     bool m_groupStarted;
-    //bool m_startNewPage;
+    // bool m_startNewPage;
     bool m_resetPageNumber;
     QString m_condition;
     QString m_conditionValue;
 };
 
-class GroupBandFooter : public BandDesignIntf{
+class GroupBandFooter: public BandDesignIntf {
     Q_OBJECT
 public:
-    GroupBandFooter(QObject* owner = 0, QGraphicsItem* parent=0);
+    GroupBandFooter(QObject* owner = 0, QGraphicsItem* parent = 0);
     virtual bool isUnique() const;
     QColor bandColor() const;
-    virtual bool isFooter() const{return true;}
+    virtual bool isFooter() const { return true; }
+
 private:
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    virtual BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
 };
 
 } // namespace LimeReport

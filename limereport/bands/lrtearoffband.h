@@ -4,16 +4,16 @@
 
 namespace LimeReport {
 
-class TearOffBand : public BandDesignIntf
-{
+class TearOffBand: public BandDesignIntf {
     Q_OBJECT
 public:
-    TearOffBand(QObject* owner = 0, QGraphicsItem *parent=0);
-    virtual BaseDesignIntf* createSameTypeItem(QObject* owner=0, QGraphicsItem* parent=0);
+    TearOffBand(QObject* owner = 0, QGraphicsItem* parent = 0);
+    virtual BaseDesignIntf* createSameTypeItem(QObject* owner = 0, QGraphicsItem* parent = 0);
+
 protected:
     QColor bandColor() const;
-    bool isUnique() const {return true;}
-    bool isFooter() const{ return true;}
+    bool isUnique() const { return true; }
+    bool isFooter() const { return true; }
 };
 
 } // namespace LimeReport

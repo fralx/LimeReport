@@ -30,29 +30,36 @@
 #ifndef LRSUBITEMPARENTPROPITEM_H
 #define LRSUBITEMPARENTPROPITEM_H
 
+#include "lritemdesignintf.h"
+#include "lrobjectpropitem.h"
+
 #include <QMap>
 
-#include "lrobjectpropitem.h"
-#include "lritemdesignintf.h"
-
-namespace LimeReport{
-class ItemLocationPropItem : public LimeReport::ObjectPropItem{
+namespace LimeReport {
+class ItemLocationPropItem: public LimeReport::ObjectPropItem {
     Q_OBJECT
 public:
-    ItemLocationPropItem():ObjectPropItem(){}
-    ItemLocationPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value, ObjectPropItem* parent, bool readonly);
-    QWidget* createProperyEditor(QWidget *parent) const;
+    ItemLocationPropItem(): ObjectPropItem() { }
+    ItemLocationPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                         const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                         bool readonly);
+    QWidget* createProperyEditor(QWidget* parent) const;
     QString displayValue() const;
-    void setPropertyEditorData(QWidget *, const QModelIndex &) const;
-    void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &);
+    void setPropertyEditorData(QWidget*, const QModelIndex&) const;
+    void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&);
 private slots:
     void slotLocationChanged(const QString& text);
+
 private:
     QString locationToString(LimeReport::ItemDesignIntf::LocationType location) const;
-    QString locationToString(int location) const {return locationToString(static_cast<LimeReport::ItemDesignIntf::LocationType>(location));}
+    QString locationToString(int location) const
+    {
+        return locationToString(static_cast<LimeReport::ItemDesignIntf::LocationType>(location));
+    }
     LimeReport::ItemDesignIntf::LocationType stringToLocation(const QString& locationName);
+
 private:
-    QMap<QString,LimeReport::ItemDesignIntf::LocationType> m_locationMap;
+    QMap<QString, LimeReport::ItemDesignIntf::LocationType> m_locationMap;
 };
-}
+} // namespace LimeReport
 #endif // LRSUBITEMPARENTPROPITEM_H
