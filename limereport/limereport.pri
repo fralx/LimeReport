@@ -213,3 +213,19 @@ FORMS += \
 RESOURCES += \
     $$REPORT_PATH/report.qrc \
     $$REPORT_PATH/items/items.qrc
+
+system("git --version") {
+    LR_VERSION = $$system("git --git-dir=$$PWD/../.git describe --tags --dirty")
+} else {
+    LR_VERSION = "0.0.0-unknown"
+}
+
+VERSION_TEMPLATE = $$PWD/version.h.in
+
+generateversion.depends = FORCE
+generateversion.input = VERSION_TEMPLATE
+generateversion.output = $$OUT_PWD/version.h
+generateversion.commands = $$QMAKE_STREAM_EDITOR \'s/@GIT_VERSION@/$$LR_VERSION/\' ${QMAKE_FILE_IN} > ${QMAKE_FILE_OUT}
+generateversion.CONFIG = no_link target_predeps
+
+QMAKE_EXTRA_COMPILERS += generateversion

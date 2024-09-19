@@ -23,7 +23,14 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      with:
+        fetch-tags: true
+    
+    # https://github.com/actions/checkout/issues/1781
+    # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
+    - name: Fetch tags
+      run: git fetch --prune --unshallow --tags
                 
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -57,7 +64,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      # https://github.com/actions/checkout/issues/1781
+      # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -94,8 +108,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+    
       - name: Install MinGW-w64 packages Qt5
         if: "startsWith(matrix.qt_version, '5')"
         uses: msys2/setup-msys2@v2
@@ -107,6 +123,7 @@ jobs:
             cc:p
             cmake:p
             ninja:p
+            git:
             qt${{ matrix.qt_version }}-base:p
             qt${{ matrix.qt_version }}-svg:p
             qt${{ matrix.qt_version }}-tools:p
@@ -123,10 +140,16 @@ jobs:
             cc:p
             cmake:p
             ninja:p
+            git:
             qt${{ matrix.qt_version }}-base:p
             qt${{ matrix.qt_version }}-svg:p
             qt${{ matrix.qt_version }}-tools:p
             qt${{ matrix.qt_version }}-declarative:p
+      
+      # https://github.com/actions/checkout/issues/1781
+      # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
 
       - name: Configure CMake for Qt5
         if: "startsWith(matrix.qt_version, '5')"
@@ -151,7 +174,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+      
+      # https://github.com/actions/checkout/issues/1781
+      # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3

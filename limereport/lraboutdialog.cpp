@@ -27,9 +27,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#ifdef CMAKE_CONFIG
-#include <config.h>
-#endif
+#include "version.h"
 #include "lraboutdialog.h"
 #include "ui_lraboutdialog.h"
 
