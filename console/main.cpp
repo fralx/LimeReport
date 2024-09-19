@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QCommandLineParser>
 #include <QPrinterInfo>
+#include "../limereport/version.h"
 
 #ifdef _WIN32
   #include <io.h>
