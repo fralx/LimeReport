@@ -559,58 +559,58 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1450"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1445"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1451"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1446"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1452"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1447"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1473"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1468"/>
         <source>Bring to top</source>
         <translation>На передний план</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1474"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1469"/>
         <source>Send to back</source>
         <translation>На задний план</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1484"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1479"/>
         <source>No borders</source>
         <translation>Удалить границы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1485"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1480"/>
         <source>All borders</source>
         <translation>Внешние границы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1477"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1472"/>
         <source>Create Horizontal Layout</source>
         <translation>Создать Горизонтальную Компановку</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1481"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1476"/>
         <source>Create Vertical Layout</source>
         <translation>Создать Вертикальную Компановку</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1444"/>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1889"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1439"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1888"/>
         <source>Lock item geometry</source>
         <translation>Заблокировать геометрию элемента</translation>
     </message>
     <message>
-        <location filename="../limereport/lrbasedesignintf.cpp" line="1486"/>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="1481"/>
         <source>Edit borders...</source>
         <translation type="unfinished">Редактор границ ...</translation>
     </message>
@@ -763,8 +763,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="377"/>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="382"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="402"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="407"/>
         <source>defaultConnection</source>
         <translation>Соединение по умолчанию</translation>
     </message>
@@ -1879,12 +1879,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="598"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="623"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
         <translation>Поле &quot;%1&quot; не найдено в подчиненном источнике данных &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="612"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="637"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
         <translation>Поле &quot;%1&quot; не найдено в главном источнике данных &quot;%2&quot;</translation>
     </message>
@@ -1892,7 +1892,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="338"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="363"/>
         <source>model is destroyed</source>
         <translation>модель уничтожена</translation>
     </message>
@@ -2213,12 +2213,12 @@ p, li { white-space: pre-wrap; }
         <translation>Печать в PDF</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="83"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="81"/>
         <source>Page: </source>
         <translation>Страница: </translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="188"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="185"/>
         <source> of %1</source>
         <translation> из %1</translation>
     </message>
@@ -2258,12 +2258,12 @@ p, li { white-space: pre-wrap; }
         <translation>Показать панель инструментов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="106"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="104"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="109"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="107"/>
         <source>Text align</source>
         <translation>Выравнивание текста</translation>
     </message>
@@ -2313,17 +2313,17 @@ p, li { white-space: pre-wrap; }
         <translation>Панель инструментов редактирования</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="65"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="63"/>
         <source>Printing</source>
         <translation>Печатается</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="306"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="292"/>
         <source>Attention</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpreviewreportwindow.cpp" line="306"/>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="292"/>
         <source>The printing is in process</source>
         <translation>Отчет находится в процессе печати</translation>
     </message>
@@ -2331,7 +2331,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="537"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="562"/>
         <source>Datasource has been invalidated</source>
         <translation>Источник данных недействителен</translation>
     </message>
@@ -3074,7 +3074,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="498"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="500"/>
         <source>Report file name</source>
         <translation>Имя файла отчета</translation>
     </message>
@@ -3084,12 +3084,12 @@ p, li { white-space: pre-wrap; }
         <translation>Скрипт</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="524"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="531"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="524"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="531"/>
         <source>Wrong file format</source>
         <translation>Неверный формат файла</translation>
     </message>
@@ -3483,24 +3483,24 @@ p, li { white-space: pre-wrap; }
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="670"/>
+        <location filename="../limereport/lrreportengine.cpp" line="680"/>
         <source>Report File Change</source>
         <translation>Монитор изменений файлов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="671"/>
+        <location filename="../limereport/lrreportengine.cpp" line="681"/>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
         <translation>Файл отчета &quot;%1&quot; изменил имя или был удален.</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="754"/>
+        <location filename="../limereport/lrreportengine.cpp" line="764"/>
         <source>Designer not found!</source>
         <translation>Дизайнер не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="1049"/>
+        <location filename="../limereport/lrreportengine.cpp" line="1059"/>
         <source>Language %1 already exists</source>
         <translation>Язык %1 уже существует</translation>
     </message>
@@ -3814,13 +3814,13 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1305"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1383"/>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>Диалог %1 не может быть создан</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1597"/>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1605"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1675"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1683"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -3923,6 +3923,11 @@ This preview is no longer valid.</source>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1036"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1051"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1066"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1081"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1096"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1111"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1125"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1140"/>
         <source>GENERAL</source>
         <translation>ОБЩИЕ</translation>
     </message>
@@ -3934,6 +3939,9 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="339"/>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="991"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1083"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1098"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1113"/>
         <source>FieldName</source>
         <translation>Имя поля</translation>
     </message>
@@ -3983,11 +3991,31 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="1068"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1127"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1142"/>
         <source>datasourceName</source>
         <translation>Имя источника данных</translation>
     </message>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1084"/>
+        <source>RoleIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1099"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1113"/>
+        <source>RoleName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1128"/>
+        <source>columnIndex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../limereport/lrscriptenginemanager.cpp" line="992"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1083"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1098"/>
         <source>RowIndex</source>
         <translation>Индекс строки</translation>
     </message>
@@ -4023,6 +4051,11 @@ This preview is no longer valid.</source>
         <location filename="../limereport/lrsettingdialog.ui" line="318"/>
         <source>Suppress absent fields and variables warning</source>
         <translation>Не выводить сообщения об отсутствии полей или переменных</translation>
+    </message>
+    <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="327"/>
+        <source>Base Item Padding: </source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="134"/>
@@ -4134,66 +4167,66 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextItem</name>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="86"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="124"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="82"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="120"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="92"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="128"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="88"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="124"/>
         <source>Auto height</source>
         <translation>Автоматическая высота</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="96"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="131"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="92"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="127"/>
         <source>Allow HTML</source>
         <translation>Разрешить HTML</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="100"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="134"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="96"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="130"/>
         <source>Allow HTML in fields</source>
         <translation>Разрешить HTML в полях</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="104"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="137"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="100"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="133"/>
         <source>Stretch to max height</source>
         <translation>Растягивать до максимальной высоты</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="678"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="688"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="674"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="684"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="679"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="675"/>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
         <translation>Текстовый элемент %1 уже следует за %2 </translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="689"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="685"/>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>Текстовый элемент %1 не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="108"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="141"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="104"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="137"/>
         <source>Transparent</source>
         <translation>Прозрачный</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="112"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="148"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="108"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="144"/>
         <source>Watermark</source>
         <translation>Водный знак</translation>
     </message>
     <message>
-        <location filename="../limereport/items/lrtextitem.cpp" line="116"/>
-        <location filename="../limereport/items/lrtextitem.cpp" line="152"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="112"/>
+        <location filename="../limereport/items/lrtextitem.cpp" line="148"/>
         <source>Hide if empty</source>
         <translation>Скрывать, если пустое</translation>
     </message>
@@ -4440,34 +4473,34 @@ This preview is no longer valid.</source>
         <translation>Неверное соединение %1</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="509"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="534"/>
         <source>Child</source>
         <translation>Подчиненный</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="509"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="534"/>
         <source> and child </source>
         <translation> и подчиненный </translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="510"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="535"/>
         <source>datasouce &quot;%1&quot; not found!</source>
         <translation>источник данных  %1 не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1700"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1742"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1697"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1739"/>
         <source>Attention!</source>
         <translation>Внимание!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1700"/>
-        <location filename="../limereport/lrpagedesignintf.cpp" line="1742"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1697"/>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="1739"/>
         <source>Selected elements have different parent containers</source>
         <translation>Выделенные элементы имеют различные родительские контейнеры</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1708"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1786"/>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>Функция %1 не найдена или вызвана с неверными аргументами</translation>
     </message>
@@ -4532,7 +4565,7 @@ This preview is no longer valid.</source>
         <translation>содержимое</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="508"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="533"/>
         <source>Master datasouce &quot;%1&quot; not found!</source>
         <translation>Главный источник данных %1 не найден!</translation>
     </message>
@@ -4614,7 +4647,7 @@ This preview is no longer valid.</source>
         <translation>Неверный формат файла</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatadesignintf.cpp" line="425"/>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="450"/>
         <source>Master datasource &quot;%1&quot; not found!</source>
         <translation>Главный источник данных %1 не найден!</translation>
     </message>
@@ -4645,7 +4678,7 @@ This preview is no longer valid.</source>
         <translation>Третий</translation>
     </message>
     <message>
-        <location filename="../limereport/lrscriptenginemanager.cpp" line="1711"/>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="1789"/>
         <source>Datasource manager not found</source>
         <translation>Менеджер источников данных не найден</translation>
     </message>
@@ -4666,20 +4699,20 @@ This preview is no longer valid.</source>
         <translation>Светаля</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="799"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="807"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="808"/>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="811"/>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="818"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="816"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="819"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="826"/>
         <source>Millimeters</source>
         <translation>Миллиметры</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="808"/>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="812"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="816"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="820"/>
         <source>Inches</source>
         <translation>Дюймы</translation>
     </message>
