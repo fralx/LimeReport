@@ -215,7 +215,7 @@ RESOURCES += \
     $$REPORT_PATH/items/items.qrc
 
 system("git --version") {
-    LR_VERSION = $$system("git --git-dir=$$PWD/../.git describe --tags --dirty")
+    LR_VERSION = $$system("git --git-dir=$$PWD/../.git --work-tree=$$PWD/.. describe --tags --dirty")
 } else {
     LR_VERSION = "0.0.0-unknown"
 }
