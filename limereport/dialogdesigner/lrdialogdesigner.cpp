@@ -1,7 +1,6 @@
 #include "lrdialogdesigner.h"
 
 #include <QAction>
-#include <QDebug>
 #include <QDesignerActionEditorInterface>
 #include <QDesignerComponents>
 #include <QDesignerFormEditorInterface>
@@ -14,7 +13,7 @@
 #include <QPluginLoader>
 #include <QVBoxLayout>
 
-#if HAVE_QT5
+#if (QT_VERSION > QT_VERSION_CHECK(5, 0, 0))
 #include <QDesignerIntegration>
 #endif
 #if HAVE_QT4

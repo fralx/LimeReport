@@ -9,22 +9,42 @@ set(DEFAULT_ITEM_PADDING 0)
 option(ENABLE_ZINT "Enable libzint build for barcode support" OFF)
 option(LIMEREPORT_STATIC "Build LimeReport as static library" OFF)
 option(LIMEREPORT_DEMO "Build LimeReport demos" OFF)
+option(ENABLE_DIALOG_DESIGNER "Enable dialog designer" OFF)
+option(HAVE_UI_LOADER "Enable ui loader" OFF)
 option(USE_QT6 "Use Qt6" OFF)
+
+if (ENABLE_DIALOG_DESIGNER AND NOT HAVE_UI_LOADER)
+    message(FATAL_ERROR "You need to enable HAVE_UI_LOADER")
+endif()
 
 if(USE_QT6)
     find_package(QT NAMES Qt6)
 else()
     find_package(QT NAMES Qt5)
 endif(USE_QT6)
-find_package(
-  Qt${QT_VERSION_MAJOR}
-  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED
-  )
 
 find_package(
   Qt${QT_VERSION_MAJOR}
-  COMPONENTS UiTools
-  )
+  COMPONENTS Core Widgets Sql Network Xml Svg Qml PrintSupport REQUIRED)
+
+if(HAVE_UI_LOADER)
+    find_package(
+       Qt${QT_VERSION_MAJOR}
+       COMPONENTS UiTools REQUIRED)
+ endif()
+
+if(ENABLE_DIALOG_DESIGNER)
+    if(USE_QT6)
+        if(ENABLE_DIALOG_DESIGNER)
+            find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponentsPrivate REQUIRED)
+        endif()
+    else()
+        if(ENABLE_DIALOG_DESIGNER)
+             find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponents REQUIRED)
+         endif()
+    endif(USE_QT6)
+ endif()
+
 # Old Qt does not provide QT_VERSION_MAJOR
 if (NOT QT_VERSION_MAJOR)
     string(SUBSTRING ${QT_VERSION} 0 1 QT_VERSION_MAJOR)
@@ -41,8 +61,10 @@ endif()
 add_subdirectory(3rdparty)
 
 if (LIMEREPORT_DEMO)
+    add_subdirectory(console)
     add_subdirectory(designer)
     add_subdirectory(demo_r1)
+    add_subdirectory(demo_r2)
 endif()
 
 set(CMAKE_AUTOMOC ON)
@@ -318,13 +340,34 @@ ${PROJECT_NAME}/translationeditor/translationeditor.ui
 
 
 ${PROJECT_NAME}/databrowser/lrdatabrowser.qrc
-${PROJECT_NAME}/dialogdesigner/dialogdesigner.qrc
 ${PROJECT_NAME}/items/items.qrc
 ${PROJECT_NAME}/objectinspector/lobjectinspector.qrc
 ${PROJECT_NAME}/report.qrc
 ${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.qrc
 ${PROJECT_NAME}/translationeditor/translationeditor.qrc
 )
+
+if(ENABLE_DIALOG_DESIGNER)
+    set(DIALOG_DESIGNER_SOURCES
+        ${PROJECT_NAME}/dialogdesigner/lrdialogdesigner.h
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/namespace_global.h
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/formresizer.h
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/sizehandlerect.h
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/widgethost.h
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/widgethostconstants.h
+
+        ${PROJECT_NAME}/dialogdesigner/lrdialogdesigner.cpp
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/formresizer.cpp
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/sizehandlerect.cpp
+        ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/widgethost.cpp
+
+        ${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
+        ${PROJECT_NAME}/dialogdesigner/dialogdesigner.qrc)
+
+    message(STATUS "DesignerComponents found")
+    list( APPEND LIMEREPORT_SOURCES ${DIALOG_DESIGNER_SOURCES} )
+
+endif()
 
 if (ENABLE_ZINT)
     list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/items/lrbarcodeitem.cpp)
@@ -369,11 +412,11 @@ else()
     target_compile_definitions( ${PROJECT_NAME} INTERFACE -DLIMEREPORT_IMPORTS)
 endif()
 
-if(Qt${QT_VERSION_MAJOR}UiTools_FOUND)
+if(HAVE_UI_LOADER)
     target_compile_definitions( ${PROJECT_NAME} PRIVATE -DHAVE_UI_LOADER)
     target_link_libraries( ${PROJECT_NAME} PUBLIC
         Qt${QT_VERSION_MAJOR}::UiTools)
-endif()
+ endif()
 
 target_link_libraries( ${PROJECT_NAME} PUBLIC
 	Qt${QT_VERSION_MAJOR}::Core
@@ -384,6 +427,30 @@ target_link_libraries( ${PROJECT_NAME} PUBLIC
 	Qt${QT_VERSION_MAJOR}::PrintSupport
 	Qt${QT_VERSION_MAJOR}::Svg)
 
+if(ENABLE_DIALOG_DESIGNER)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC -DHAVE_QTDESIGNER_INTEGRATION)
+    if(${QT_VERSION_MAJOR} STREQUAL 5)
+        target_link_libraries( ${PROJECT_NAME} PUBLIC
+            Qt${QT_VERSION_MAJOR}::Designer
+            Qt${QT_VERSION_MAJOR}::DesignerComponents)
+    endif()
+
+    if(${QT_VERSION_MAJOR} STREQUAL 6)
+        target_link_libraries( ${PROJECT_NAME} PUBLIC
+            Qt${QT_VERSION_MAJOR}::Designer
+            Qt${QT_VERSION_MAJOR}::DesignerComponentsPrivate)
+    endif()
+
+    target_include_directories( ${PROJECT_NAME} PRIVATE
+        limereport/dialogdesigner/3rdparty/qtcreator
+        limereport/dialogdesigner/3rdparty/designer
+        limereport/dialogdesigner/3rdparty/qtcreator/designerintegrationv2)
+
+    target_include_directories( ${PROJECT_NAME} PRIVATE
+        ${CMAKE_PREFIX_PATH}/include/QtDesigner/${QT_VERSION}/QtDesigner/private)
+
+endif(ENABLE_DIALOG_DESIGNER)
+
 if(ENABLE_ZINT)
     target_link_libraries( ${PROJECT_NAME} PRIVATE QZint)
 endif(ENABLE_ZINT)
@@ -391,8 +458,7 @@ endif(ENABLE_ZINT)
 target_compile_definitions( ${PROJECT_NAME} PRIVATE -DDEFAULT_ITEM_PADDING=${DEFAULT_ITEM_PADDING} -DHAVE_QT${QT_VERSION_MAJOR} -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -D_CRT_SECURE_NO_WARNINGS)
 
 target_include_directories( ${PROJECT_NAME} PRIVATE
-	limereport/
-	${CMAKE_BINARY_DIR}/limereport
+        limereport/
 	limereport/base
 	limereport/bands
 	limereport/databrowser
@@ -402,6 +468,9 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/scriptbrowser
 	limereport/serializators
 	limereport/scripteditor )
+
+target_include_directories( ${PROJECT_NAME} PUBLIC
+    ${CMAKE_BINARY_DIR}/limereport )
 
 target_include_directories( ${PROJECT_NAME} INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
