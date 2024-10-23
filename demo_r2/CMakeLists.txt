@@ -1,4 +1,4 @@
-project(demo_r1)
+project(demo_r2)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -9,7 +9,7 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        r1.qrc
+        demo_r2.qrc
 )
 
 add_executable(${PROJECT_NAME} main.cpp ${PROJECT_SOURCES})
