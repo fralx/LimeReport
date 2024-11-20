@@ -148,7 +148,7 @@ class LIMEREPORT_EXPORT ReportEngine : public QObject{
     friend class PreviewReportWidget;
     friend class TranslationEditor;
 public:
-    static void setSettings(QSettings *value){m_settings=value;}
+    void setSettings(QSettings *value){m_settings=value;}
 public:
     explicit ReportEngine(QObject *parent = 0);
     ~ReportEngine();
@@ -156,6 +156,7 @@ public:
     bool    printReport(QMap<QString, QPrinter*> printers, bool printToAllPrinters = false);
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
+    ReportPages renderToPages();
     QGraphicsScene* createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);
     bool    exportReport(QString exporterName, const QString &fileName = "", const QMap<QString, QVariant>& params = QMap<QString, QVariant>());
@@ -243,7 +244,7 @@ protected:
     ReportEngine(ReportEnginePrivate &dd, QObject * parent=0);
 private:
     Q_DECLARE_PRIVATE(ReportEngine)
-    static QSettings* m_settings;
+    QSettings* m_settings = nullptr;
     bool m_showDesignerModal;
 };
 

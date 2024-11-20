@@ -112,9 +112,7 @@ void VariablesHolder::clearUserVariables()
         } else {
             ++it;
         }
-
     }
-
 }
 
 bool VariablesHolder::containsVariable(const QString &name)

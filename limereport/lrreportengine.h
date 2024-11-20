@@ -156,6 +156,7 @@ public:
     bool    printReport(QMap<QString, QPrinter*> printers, bool printToAllPrinters = false);
     bool    printPages(ReportPages pages, QPrinter *printer);
     void    printToFile(const QString& fileName);
+    ReportPages renderToPages();
     QGraphicsScene* createPreviewScene(QObject *parent = 0);
     bool    printToPDF(const QString& fileName);
     bool    exportReport(QString exporterName, const QString &fileName = "", const QMap<QString, QVariant>& params = QMap<QString, QVariant>());

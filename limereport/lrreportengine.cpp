@@ -1459,6 +1459,12 @@ void ReportEngine::printToFile(const QString &fileName)
     d->printToFile(fileName);
 }
 
+ReportPages ReportEngine::renderToPages()
+{
+    Q_D(ReportEngine);
+    return d->renderToPages();
+}
+
 bool ReportEngine::printToPDF(const QString &fileName)
 {
     Q_D(ReportEngine);

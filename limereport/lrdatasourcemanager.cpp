@@ -160,7 +160,8 @@ QVariant DataSourceModel::data(const QModelIndex& index, int role) const
 void DataSourceModel::setDataSourceManager(DataSourceManager* dataManager)
 {
     m_dataManager = dataManager;
-    connect(m_dataManager,SIGNAL(datasourcesChanged()),this,SLOT(slotDatasourcesChanged()));
+    connect(m_dataManager, &DataSourceManager::datasourcesChanged,
+            this, &DataSourceModel::slotDatasourcesChanged);
     updateModel();
 }
 

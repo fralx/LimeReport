@@ -13,36 +13,43 @@
     <name>ChartAxisEditor</name>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="185"/>
         <source>Axis editor</source>
         <translation>Редактор осей</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="26"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="186"/>
         <source>Axis</source>
         <translation>Оси</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="35"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="187"/>
         <source>Reverse direction</source>
         <translation type="unfinished">Обратное направление</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="45"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="188"/>
         <source>Enable scale calculation</source>
         <translation type="unfinished">Вычисление масштаба</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="57"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="189"/>
         <source>Step</source>
         <translation>Шаг</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="64"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="190"/>
         <source>Maximum</source>
         <translation>Максимум</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="84"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="191"/>
         <source>Minimum</source>
         <translation>Минимум</translation>
     </message>
@@ -50,16 +57,21 @@
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="91"/>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="101"/>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="111"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="192"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="193"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="194"/>
         <source>Automatic</source>
         <translation>Автоматически</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="189"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="195"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="196"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="196"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
@@ -68,51 +80,61 @@
     <name>ChartItemEditor</name>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="227"/>
         <source>Series editor</source>
         <translation>Редактор рядов данных</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="26"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="228"/>
         <source>Series</source>
         <translation>Ряды данных</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="47"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="229"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="54"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="230"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="82"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="231"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="92"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="232"/>
         <source>Values field</source>
         <translation>Поле значений</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="106"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="233"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="116"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="234"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="158"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="236"/>
         <source>Labels field</source>
         <translation>Поле меток</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="198"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="238"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
@@ -123,6 +145,7 @@
     </message>
     <message>
         <location filename="../limereport/items/lrchartitemeditor.ui" line="165"/>
+        <location filename="../limereport/win64/release/ui/ui_lrchartitemeditor.h" line="237"/>
         <source>X data field</source>
         <translation>Поле оси X</translation>
     </message>
@@ -131,11 +154,13 @@
     <name>ImageItemEditor</name>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="20"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="155"/>
         <source>Image Item Editor</source>
         <translation>Редакор изображения</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="36"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="156"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
@@ -144,11 +169,16 @@
         <location filename="../limereport/items/lrimageitemeditor.ui" line="58"/>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="121"/>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="135"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="157"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="158"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="161"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="162"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitemeditor.ui" line="111"/>
+        <location filename="../limereport/win64/release/ui/ui_lrimageitemeditor.h" line="160"/>
         <source>Resource path</source>
         <translation>Путь к русурсам</translation>
     </message>
@@ -163,21 +193,25 @@
     <name>LRVariableDialog</name>
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrvariabledialog.h" line="108"/>
         <source>Variable</source>
         <translation>Переменная</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.ui" line="26"/>
+        <location filename="../limereport/win64/release/ui/ui_lrvariabledialog.h" line="109"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.ui" line="36"/>
+        <location filename="../limereport/win64/release/ui/ui_lrvariabledialog.h" line="110"/>
         <source>Value</source>
         <translation>Значение</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.ui" line="46"/>
+        <location filename="../limereport/win64/release/ui/ui_lrvariabledialog.h" line="111"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
@@ -188,6 +222,7 @@
     </message>
     <message>
         <location filename="../limereport/databrowser/lrvariabledialog.ui" line="58"/>
+        <location filename="../limereport/win64/release/ui/ui_lrvariabledialog.h" line="112"/>
         <source>Mandatory</source>
         <translation>Обязательная</translation>
     </message>
@@ -196,11 +231,13 @@
     <name>LanguageSelectDialog</name>
     <message>
         <location filename="../limereport/translationeditor/languageselectdialog.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_languageselectdialog.h" line="77"/>
         <source>Dialog</source>
         <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/languageselectdialog.ui" line="28"/>
+        <location filename="../limereport/win64/release/ui/ui_languageselectdialog.h" line="78"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
@@ -209,36 +246,43 @@
     <name>LimeReport::AboutDialog</name>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="122"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="53"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="145"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="75"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="308"/>
         <source>License</source>
         <translation>Лицензия</translation>
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="223"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="309"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="232"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="310"/>
         <source>Version 1.1.1</source>
         <translation>Версия 1.1.1</translation>
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="24"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="138"/>
         <source>Lime Report</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="62"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="139"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -254,6 +298,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="84"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="146"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -372,6 +417,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/lraboutdialog.ui" line="33"/>
+        <location filename="../limereport/win64/release/ui/ui_lraboutdialog.h" line="123"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -619,26 +665,31 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::BorderEditor</name>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="270"/>
         <source>Edit border</source>
         <translation>Редактор границ</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="22"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="271"/>
         <source>Presets</source>
         <translation>Пресеты</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="31"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="272"/>
         <source>No lines</source>
         <translation>Нет</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="51"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="273"/>
         <source>Outline</source>
         <translation>Все</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="68"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="274"/>
         <source>Border</source>
         <translation>Границы</translation>
     </message>
@@ -647,102 +698,126 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/items/lrbordereditor.ui" line="108"/>
         <location filename="../limereport/items/lrbordereditor.ui" line="129"/>
         <location filename="../limereport/items/lrbordereditor.ui" line="156"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="275"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="276"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="277"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="278"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="191"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="279"/>
         <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="219"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="284"/>
         <source>No style</source>
         <translation>Прозрачная</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="224"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="286"/>
         <source>Solid</source>
         <translation>Сплошная</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="229"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="288"/>
         <source>Dash</source>
         <translation>Пунктир</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="234"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="290"/>
         <source>Dot</source>
         <translation>Точка</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="239"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="292"/>
         <source>Dash dot</source>
         <translation>Тире Точка</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="244"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="294"/>
         <source>Dash dot dot</source>
         <translation>Тире Точка Точка</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="252"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="297"/>
         <source>Width:</source>
         <translation>Толщина:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="262"/>
         <location filename="../limereport/items/lrbordereditor.ui" line="279"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="300"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="308"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="269"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="298"/>
         <source>0.25</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="274"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="299"/>
         <source>0.5</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="284"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="301"/>
         <source>1.5</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="289"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="302"/>
         <source>2</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="294"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="303"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="299"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="304"/>
         <source>4</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="304"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="305"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="309"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="306"/>
         <source>6</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="317"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="309"/>
         <source>Color:</source>
         <translation>Цвет:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbordereditor.ui" line="345"/>
+        <location filename="../limereport/win64/release/ui/ui_lrbordereditor.h" line="310"/>
         <source>Select</source>
         <translation>Выбрать</translation>
     </message>
@@ -751,6 +826,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::BorderFrameEditor</name>
     <message>
         <location filename="../limereport/items/lrborderframeeditor.ui" line="20"/>
+        <location filename="../limereport/win64/release/ui/ui_lrborderframeeditor.h" line="60"/>
         <source>BorderFrameEditor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -774,56 +850,67 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="14"/>
         <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="88"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="262"/>
         <source>Connection</source>
         <translation>Соединение</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="42"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="265"/>
         <source>Use default application connection</source>
         <translation>Использовать соединение по умолчанию</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="26"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="263"/>
         <source>Connection Name</source>
         <translation>Наименование Соединения</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="53"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="266"/>
         <source>Driver</source>
         <translation>Драйвер</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="60"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="267"/>
         <source>Server </source>
         <translation>Сервер </translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="74"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="269"/>
         <source>User</source>
         <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="81"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="270"/>
         <source>Password</source>
         <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="88"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="271"/>
         <source>Database</source>
         <translation>База данных</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="182"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="278"/>
         <source>Auto connect</source>
         <translation>Автоматическое соединение</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="211"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="280"/>
         <source>Check connection</source>
         <translation>Проверить соединение</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="234"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="281"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -850,11 +937,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="169"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="277"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="244"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="282"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
@@ -870,11 +959,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="67"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="268"/>
         <source>Port</source>
         <translation>Порт</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="189"/>
+        <location filename="../limereport/win64/release/ui/ui_lrconnectiondialog.h" line="279"/>
         <source>Don&apos;t keep credentials in lrxml</source>
         <translation>Не хранить учетные данные в lrxml</translation>
     </message>
@@ -927,123 +1018,149 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::DataBrowser</name>
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="14"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="42"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="69"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="203"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="76"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="300"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="346"/>
         <source>Datasources</source>
         <translation>Источники данных</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="65"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="226"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="319"/>
         <source>Add database connection</source>
         <translation>Добавить соединение с базой</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="170"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="331"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="327"/>
         <source>Add new datasource</source>
         <translation>Добавить источник данных</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="196"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="357"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="331"/>
         <source>View data</source>
         <translation>Просмотр данных в источнике</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="222"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="383"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="335"/>
         <source>Change datasource</source>
         <translation>Изменить источник данных</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="248"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="409"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="339"/>
         <source>Delete datasource</source>
         <translation>Удалить источник данных</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="274"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="435"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="343"/>
         <source>Show error</source>
         <translation>Показать ошибки</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="334"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="42"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="317"/>
         <source>Variables</source>
         <translation>Переменные</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="357"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="65"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="302"/>
         <source>Add new variable</source>
         <translation>Добавить переменную</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="386"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="94"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="306"/>
         <source>Edit variable</source>
         <translation>Редактировать переменную</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="412"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="120"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="310"/>
         <source>Delete variable</source>
         <translation>Удалить переменную</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="114"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="378"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="546"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="838"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="121"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="385"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="553"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="845"/>
         <source>Attention</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="197"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="204"/>
         <source>System variables</source>
         <translation>Системные переменные</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="875"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="882"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="68"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="91"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="114"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="137"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="173"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="199"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="225"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="251"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="277"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="97"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="123"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="149"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="229"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="252"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="275"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="298"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="334"/>
         <location filename="../limereport/databrowser/lrdatabrowser.ui" line="360"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="389"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="415"/>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="441"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="386"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="412"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="438"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="304"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="308"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="312"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="316"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="321"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="322"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="323"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="324"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="329"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="333"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="337"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="341"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="345"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="438"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="146"/>
+        <location filename="../limereport/win64/release/ui/ui_lrdatabrowser.h" line="314"/>
         <source>Grab variable</source>
         <translation>Захватить переменную</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="195"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="202"/>
         <source>Report variables</source>
         <translation>Переменные отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="199"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="206"/>
         <source>External variables</source>
         <translation>Внешние переменные</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="115"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="122"/>
         <source>Do you really want to delete &quot;%1&quot; connection?</source>
         <translation>Вы действительно хотите удалить соединение &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="379"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="386"/>
         <source>Do you really want to delete &quot;%1&quot; datasource?</source>
         <translation>Вы действительно хотите удалить источник данных &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="838"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="845"/>
         <source>Do you really want to delete variable &quot;%1&quot;?</source>
         <translation>Вы действительно хотите удалить переменную &quot;%1&quot;?</translation>
     </message>
@@ -1091,51 +1208,51 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="410"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="411"/>
         <source>Connection &quot;%1&quot; is not open</source>
         <translation>Соединение &quot;%1&quot; не открыто</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="1120"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1121"/>
         <source>invalid connection</source>
         <translation>нет соединения</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="446"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="465"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="510"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="549"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="447"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="466"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="511"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="550"/>
         <source>Variable &quot;%1&quot; not found!</source>
         <translation>Переменная &quot;%1&quot; не найдена!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="939"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="940"/>
         <source>Database &quot;%1&quot; not found</source>
         <translation>База данных &quot;%1&quot; не найдена</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="752"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="1148"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="753"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="1149"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation>Источник данных &quot;%1&quot; не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="849"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="850"/>
         <source>Connection with name &quot;%1&quot; already exists!</source>
         <translation>Соединение &quot;%1&quot; уже существует!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="874"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="883"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="892"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="899"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="908"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="875"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="884"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="893"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="900"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="909"/>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation>Источник данных &quot;%1&quot; уже существует!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="504"/>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="543"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="505"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="544"/>
         <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
         <translation>Обнаружен неизвестный параметр &quot;%1&quot; для переменной &quot;%2&quot;!</translation>
     </message>
@@ -1143,19 +1260,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceModel</name>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="193"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="194"/>
         <source>Datasources</source>
         <translation>Источники данных</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="217"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="218"/>
         <source>Variables</source>
         <translation>Переменные</translation>
     </message>
     <message>
-        <location filename="../limereport/lrdatasourcemanager.cpp" line="222"/>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="223"/>
         <source>External variables</source>
-        <translation>Внешние переменные</translation>
+        <translation type="unfinished">Внешние переменные</translation>
     </message>
 </context>
 <context>
@@ -1908,17 +2025,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ObjectInspectorWidget</name>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="194"/>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="199"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="197"/>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="202"/>
         <source>Filter</source>
         <translation>Фильтр</translation>
     </message>
     <message>
-        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="203"/>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="208"/>
         <source>Translate properties</source>
         <translation>Свойства перевода</translation>
     </message>
@@ -1935,26 +2052,31 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PageEditor</name>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="293"/>
         <source>Page setup</source>
         <translation type="unfinished">Настройки страницы</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="24"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="303"/>
         <source>Paper</source>
         <translation>Бумага</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="32"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="294"/>
         <source>Format</source>
         <translation>Формат</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="44"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="295"/>
         <source>Dimension</source>
         <translation>Размеры</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="50"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="296"/>
         <source>Width:</source>
         <translation>Ширина:</translation>
     </message>
@@ -1965,81 +2087,102 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/items/lrpageeditor.ui" line="185"/>
         <location filename="../limereport/items/lrpageeditor.ui" line="192"/>
         <location filename="../limereport/items/lrpageeditor.ui" line="206"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="297"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="299"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="307"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="308"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="309"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="311"/>
         <source> mm</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="79"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="298"/>
         <source>Height:</source>
         <translation>Высота:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="111"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="300"/>
         <source>Orientation</source>
         <translation>Ориентация</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="117"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="301"/>
         <source>Portrait</source>
         <translation>Портретная</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="127"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="302"/>
         <source>Landscape</source>
         <translation>Альбомная</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="151"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="313"/>
         <source>Margins</source>
         <translation>Отступы</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="157"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="304"/>
         <source>Bottom:</source>
         <translation>Нижний:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="164"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="305"/>
         <source>Top:</source>
         <translation>Верхний:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="171"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="306"/>
         <source>Right:</source>
         <translation>Правый:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="199"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="310"/>
         <source>Left:</source>
         <translation>Левый:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="220"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="312"/>
         <source>Drop printer margins</source>
         <translation>Сбрасывать отступы на принтере</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="241"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="318"/>
         <source>Other</source>
         <translation>Другое</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="247"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="314"/>
         <source>Height options</source>
         <translation>Высота страницы</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="253"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="315"/>
         <source>Endless Height</source>
         <translation>Бесконечная</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="266"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="316"/>
         <source>Extended Height:</source>
         <translation>Дополнительная высота:</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="286"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="317"/>
         <source>Full page</source>
         <translation>На всю страницу</translation>
     </message>
@@ -2120,6 +2263,7 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PreviewReportWidget</name>
     <message>
         <location filename="../limereport/lrpreviewreportwidget.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwidget.h" line="54"/>
         <source>Form</source>
         <translation>Форма</translation>
     </message>
@@ -2138,77 +2282,97 @@ p, li { white-space: pre-wrap; }
     <name>LimeReport::PreviewReportWindow</name>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="43"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="295"/>
         <source>View</source>
         <translation>Просмотр</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="52"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="296"/>
         <source>Report</source>
         <translation>Отчет</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="120"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="240"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="132"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="244"/>
         <source>Zoom In</source>
         <translation>Увеличить</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="141"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="245"/>
         <source>Zoom Out</source>
         <translation>Уменьшить</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="150"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="153"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="246"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="248"/>
         <source>Prior Page</source>
         <translation>Предыдущая страница</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="162"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="165"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="250"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="252"/>
         <source>Next Page</source>
         <translation>Следующая страница</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="174"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="177"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="254"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="256"/>
         <source>Close Preview</source>
         <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="192"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="261"/>
         <source>Edit Mode</source>
         <translation>Режим редактирования</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="201"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="204"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="262"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="264"/>
         <source>Save to file</source>
         <translation>Сохранить в файл</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="216"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="219"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="266"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="268"/>
         <source>Show errors</source>
         <translation>Показать ошибки</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="228"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="270"/>
         <source>First Page</source>
         <translation>Первая страница</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="240"/>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="243"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="274"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="276"/>
         <source>Last Page</source>
         <translation>Последняя страница</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="252"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="278"/>
         <source>Print To PDF</source>
         <translation>Печать в PDF</translation>
     </message>
@@ -2224,36 +2388,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="239"/>
         <source>Preview</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="123"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="242"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="261"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="279"/>
         <source>Fit page width</source>
         <translation>По ширине страницы</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="270"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="280"/>
         <source>Fit page</source>
         <translation>Страница целиком</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="279"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="281"/>
         <source>One to one</source>
         <translation>Один к одному</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="180"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="259"/>
         <source>Esc</source>
         <translation>Esc</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="294"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="282"/>
         <source>Show Toolbar</source>
         <translation>Показать панель инструментов</translation>
     </message>
@@ -2269,46 +2440,55 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="231"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="272"/>
         <source>First page</source>
         <translation>Первая страница</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="297"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="284"/>
         <source>Show toolbar</source>
         <translation>Показать панель инструментов</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="309"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="286"/>
         <source>InsertTextItem</source>
         <translation>Вставить текстовый элемент</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="312"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="288"/>
         <source>Add new TextItem</source>
         <translation>Текстовый элемент</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="327"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="290"/>
         <source>Selection Mode</source>
         <translation>Режим выбора</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="336"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="291"/>
         <source>Delete Item</source>
         <translation>Удалить элемент</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="339"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="293"/>
         <source>Del</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="63"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="297"/>
         <source>MainToolBar</source>
         <translation>Основная панель инструментов</translation>
     </message>
     <message>
         <location filename="../limereport/lrpreviewreportwindow.ui" line="101"/>
+        <location filename="../limereport/win64/release/ui/ui_lrpreviewreportwindow.h" line="298"/>
         <source>EditModeTools</source>
         <translation>Панель инструментов редактирования</translation>
     </message>
@@ -3074,27 +3254,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="498"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="501"/>
         <source>Report file name</source>
         <translation>Имя файла отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="317"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="320"/>
         <source>Script</source>
         <translation>Скрипт</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="524"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="527"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="524"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="527"/>
         <source>Wrong file format</source>
         <translation>Неверный формат файла</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="331"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="334"/>
         <source>Translations</source>
         <translation>Переводы</translation>
     </message>
@@ -3102,355 +3282,355 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="154"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="155"/>
         <source>New Report</source>
         <translation>Новый отчет</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="168"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="169"/>
         <source>Edit Mode</source>
         <translation>Режим редактирования</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="175"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="176"/>
         <source>Undo</source>
         <translation>Отменить действие</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="181"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="182"/>
         <source>Redo</source>
         <translation>Повторить действие</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="159"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="160"/>
         <source>New Report Page</source>
         <translation>Новая страница отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="163"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="164"/>
         <source>Delete Report Page</source>
         <translation>Удалить страницу отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="187"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="188"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="192"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="193"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="197"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="198"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="202"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="203"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="206"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="207"/>
         <source>Use grid</source>
         <translation>Использовать сетку</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="219"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="220"/>
         <source>Text Item</source>
         <translation>Текстовый элемент</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="224"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="225"/>
         <source>Save Report</source>
         <translation>Сохранить отчет</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="229"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="230"/>
         <source>Save Report As</source>
         <translation>Сохранить отчет как</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="234"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="235"/>
         <source>Load Report</source>
         <translation>Загрузить отчет</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="239"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="240"/>
         <source>Delete item</source>
         <translation>Удалить элемент</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="244"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="245"/>
         <source>Zoom In</source>
         <translation>Увеличить</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="248"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="249"/>
         <source>Zoom Out</source>
         <translation>Уменьшить</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="252"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="253"/>
         <source>Render Report</source>
         <translation>Сгенерировать отчет</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="261"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="262"/>
         <source>Edit layouts mode</source>
         <translation>Режим редактирования компоновок</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="266"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="267"/>
         <source>Horizontal layout</source>
         <translation>Горизонтальная компоновка</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="270"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="271"/>
         <source>Vertical layout</source>
         <translation>Вертикальная компоновка</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="274"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="275"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="320"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="321"/>
         <source>Report Tools</source>
         <translation>Элементы отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="347"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="348"/>
         <source>Main Tools</source>
         <translation>Основные инструменты</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="383"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="384"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="387"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="388"/>
         <source>Text alignment</source>
         <translation>Выравнивание текста</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="391"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="392"/>
         <source>Items alignment</source>
         <translation>Выравнивание объектов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="398"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="399"/>
         <source>Borders</source>
         <translation>Границы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="430"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="431"/>
         <source>Report bands</source>
         <translation>Разделы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="434"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="435"/>
         <source>Report Header</source>
         <translation>Заголовок отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="439"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="440"/>
         <source>Report Footer</source>
         <translation>Завершение отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="444"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="445"/>
         <source>Page Header</source>
         <translation>Верхний колонтитул</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="449"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="450"/>
         <source>Page Footer</source>
         <translation>Нижний колонтитул</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="454"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="455"/>
         <source>Data</source>
         <translation>Данные</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="459"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="460"/>
         <source>Data Header</source>
         <translation>Заголовок данных</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="465"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="466"/>
         <source>Data Footer</source>
         <translation>Завершение данных</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="471"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="472"/>
         <source>SubDetail</source>
         <translation>Подчиненные данные</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="477"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="478"/>
         <source>SubDetailHeader</source>
         <translation>Заголовок подчиненных данных</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="483"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="484"/>
         <source>SubDetailFooter</source>
         <translation>Завершение подчиненных данных</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="489"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="490"/>
         <source>GroupHeader</source>
         <translation>Заголовок группы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="495"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="496"/>
         <source>GroupFooter</source>
         <translation>Завершение группы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="501"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="502"/>
         <source>Tear-off Band</source>
         <translation>Полоса отрыва</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="514"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="515"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="521"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="522"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="532"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="533"/>
         <source>Info</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="583"/>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="628"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="584"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="630"/>
         <source>Object Inspector</source>
         <translation>Инспектор объектов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="593"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="594"/>
         <source>Report structure</source>
         <translation>Структура отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="686"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="688"/>
         <source>Data Browser</source>
         <translation>Инспектор данных</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="700"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="702"/>
         <source>Script Browser</source>
         <translation>Инспектор скриптов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1159"/>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1175"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1183"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1199"/>
         <source>Report file name</source>
         <translation>Файл отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1538"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1564"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="212"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="213"/>
         <source>Use magnet</source>
         <translation>Использовать магнит</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="534"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="535"/>
         <source>Recent Files</source>
         <translation>Последние файлы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1538"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1564"/>
         <source>File &quot;%1&quot; not found!</source>
         <translation>Файл &quot;%1&quot; не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="922"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="935"/>
         <source>Report has been modified! Do you want save the report?</source>
         <translation>Отчет был изменен! Сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="278"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="279"/>
         <source>Hide left panel | Alt+L</source>
         <translation>Спрятать левую панель | Alt+L</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="284"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="285"/>
         <source>Hide right panel | Alt+R</source>
         <translation>Спрятать правую панель | Alt+R</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="290"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="291"/>
         <source>Delete dialog</source>
         <translation>Удалить диалог</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="294"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="295"/>
         <source>Add new dialog</source>
         <translation>Добавить диалог</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="608"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="610"/>
         <source>Widget Box</source>
         <translation>Панель Виджетов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="618"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="620"/>
         <source>Property Editor</source>
         <translation>Редактор Свойств</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="638"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="640"/>
         <source>Action Editor</source>
         <translation>Редактор Действий</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="649"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="651"/>
         <source>Resource Editor</source>
         <translation>Обозреватель Ресурсов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="660"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="662"/>
         <source>SignalSlot Editor</source>
         <translation>Редактор Сигналов и Слотов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="670"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="672"/>
         <source>Dialog Designer Tools</source>
         <translation>Панель Инструментов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="299"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="300"/>
         <source>Lock selected items</source>
         <translation>Заблокировать выделенные элементы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="305"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="306"/>
         <source>Unlock selected items</source>
         <translation>Разблокировать выделенные элементы</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="311"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="312"/>
         <source>Select one level items</source>
         <translation>Выделить элементы одного уровня</translation>
     </message>
     <message>
         <location filename="../limereport/lrreportdesignwindow.cpp" line="77"/>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1443"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1469"/>
         <source>Rendered %1 pages</source>
         <translation>Сформировано %1 страниц</translation>
     </message>
@@ -3460,12 +3640,12 @@ p, li { white-space: pre-wrap; }
         <translation>Отменить построение отчета</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1600"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1626"/>
         <source>Attention</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1600"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1626"/>
         <source>The rendering is in process</source>
         <translation>Отчет находится в процессе создания</translation>
     </message>
@@ -3473,39 +3653,39 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="228"/>
+        <location filename="../limereport/lrreportengine.cpp" line="226"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="87"/>
+        <location filename="../limereport/lrreportengine.cpp" line="85"/>
         <source>Preview</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="670"/>
+        <location filename="../limereport/lrreportengine.cpp" line="668"/>
         <source>Report File Change</source>
         <translation>Монитор изменений файлов</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="671"/>
+        <location filename="../limereport/lrreportengine.cpp" line="669"/>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
         <translation>Файл отчета &quot;%1&quot; изменил имя или был удален.</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="754"/>
+        <location filename="../limereport/lrreportengine.cpp" line="752"/>
         <source>Designer not found!</source>
         <translation>Дизайнер не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="1049"/>
+        <location filename="../limereport/lrreportengine.cpp" line="1047"/>
         <source>Language %1 already exists</source>
         <translation>Язык %1 уже существует</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportengine.cpp" line="471"/>
+        <location filename="../limereport/lrreportengine.cpp" line="469"/>
         <source>%1 file name</source>
         <translation>%1 имя файла</translation>
     </message>
@@ -3557,67 +3737,81 @@ This preview is no longer valid.</source>
     <name>LimeReport::SQLEditDialog</name>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="458"/>
         <source>Datasource</source>
         <translation>Источник данных</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="491"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="464"/>
         <source>Connection</source>
         <translation>Соединение</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="31"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="462"/>
         <source>Datasource Name</source>
         <translation>Имя источника</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="515"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="465"/>
         <source>Subdetail</source>
         <translation>Подчиненный</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="524"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="466"/>
         <source>Master datasource</source>
         <translation>Главный источник</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="543"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="467"/>
         <source>Subquery mode</source>
         <translation>Режим подзапроса</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="553"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="468"/>
         <source>Filter mode</source>
         <translation>Режим фильтрации</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="483"/>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="562"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="469"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="477"/>
         <source>SQL</source>
         <translation>SQL запрос</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="608"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="471"/>
         <source>Hide Preview</source>
         <translation>Скрыть</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="646"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="472"/>
         <source>Child datasource</source>
         <translation>Подчиненный источник</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="661"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="473"/>
         <source>Fields map</source>
         <translation>Поля для связи источников</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="736"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="476"/>
         <source>Data preview</source>
         <translation>Данные</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="842"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="482"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -3645,17 +3839,21 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="601"/>
         <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="349"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="470"/>
         <source>Preview</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="690"/>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="704"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="474"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="475"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="852"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="483"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
@@ -3687,21 +3885,25 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="764"/>
         <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="272"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="481"/>
         <source>CSV</source>
         <translation>CSV</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="772"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="478"/>
         <source>Separator</source>
         <translation>Разделитель</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="791"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="479"/>
         <source>;</source>
         <translation>;</translation>
     </message>
     <message>
         <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="798"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsqleditdialog.h" line="480"/>
         <source>Use first row as header</source>
         <translation>Использовать первую строку в качестве заголовка</translation>
     </message>
@@ -3735,16 +3937,19 @@ This preview is no longer valid.</source>
     <name>LimeReport::ScriptBrowser</name>
     <message>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="42"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="141"/>
         <source>Functions</source>
         <translation>Функции</translation>
     </message>
     <message>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="76"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="148"/>
         <source>Dialogs</source>
         <translation>Диалоги</translation>
     </message>
     <message>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="140"/>
         <source>Form</source>
         <translation>Форма</translation>
     </message>
@@ -3752,16 +3957,21 @@ This preview is no longer valid.</source>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="102"/>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="122"/>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="142"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="142"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="143"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="144"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="187"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="147"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
         <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="192"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscriptbrowser.h" line="146"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
@@ -3797,16 +4007,19 @@ This preview is no longer valid.</source>
     <name>LimeReport::ScriptEditor</name>
     <message>
         <location filename="../limereport/scripteditor/lrscripteditor.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscripteditor.h" line="116"/>
         <source>Form</source>
         <translation>Форма</translation>
     </message>
     <message>
         <location filename="../limereport/scripteditor/lrscripteditor.ui" line="50"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscripteditor.h" line="117"/>
         <source>Data</source>
         <translation>Данные</translation>
     </message>
     <message>
         <location filename="../limereport/scripteditor/lrscripteditor.ui" line="79"/>
+        <location filename="../limereport/win64/release/ui/ui_lrscripteditor.h" line="119"/>
         <source>Functions</source>
         <translation>Функции</translation>
     </message>
@@ -3996,71 +4209,85 @@ This preview is no longer valid.</source>
     <name>LimeReport::SettingDialog</name>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="20"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="331"/>
         <source>Designer setting</source>
         <translation>Настройки дизайнера</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="46"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="332"/>
         <source>Default font</source>
         <translation>Шрифт по умолчанию</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="78"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="333"/>
         <source>Grid</source>
         <translation>Сетка</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="86"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="334"/>
         <source>Vertical grid step</source>
         <translation>Вертикальный шаг сетки</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="100"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="335"/>
         <source>Horizontal grid step</source>
         <translation>Горизонтальный шаг сетки</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="318"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="343"/>
         <source>Suppress absent fields and variables warning</source>
         <translation>Не выводить сообщения об отсутствии полей или переменных</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="134"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="336"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="38"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="339"/>
         <source>Designer settings</source>
         <translation>Настройки дизайнера</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="223"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="342"/>
         <source>Script editor settings</source>
         <translation>Настройки редактора скриптов</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="231"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="340"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="265"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="341"/>
         <source>Indent size</source>
         <translation>Отступ</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="312"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="344"/>
         <source>Report settings</source>
         <translation>Настройки отчета</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="161"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="337"/>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
     <message>
         <location filename="../limereport/lrsettingdialog.ui" line="182"/>
+        <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="338"/>
         <source>Report units</source>
         <translation>Еденицы измерения</translation>
     </message>
@@ -4202,26 +4429,31 @@ This preview is no longer valid.</source>
     <name>LimeReport::TextItemEditor</name>
     <message>
         <location filename="../limereport/items/lrtextitemeditor.ui" line="17"/>
+        <location filename="../limereport/win64/release/ui/ui_lrtextitemeditor.h" line="95"/>
         <source>Text Item Editor</source>
         <translation>Редактор текстового элемента</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitemeditor.ui" line="33"/>
+        <location filename="../limereport/win64/release/ui/ui_lrtextitemeditor.h" line="96"/>
         <source>Content</source>
         <translation>Содержимое</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitemeditor.ui" line="89"/>
+        <location filename="../limereport/win64/release/ui/ui_lrtextitemeditor.h" line="101"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitemeditor.ui" line="79"/>
+        <location filename="../limereport/win64/release/ui/ui_lrtextitemeditor.h" line="97"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitemeditor.ui" line="82"/>
+        <location filename="../limereport/win64/release/ui/ui_lrtextitemeditor.h" line="99"/>
         <source>Ctrl+Return</source>
         <translation></translation>
     </message>
@@ -4230,42 +4462,51 @@ This preview is no longer valid.</source>
     <name>LimeReport::TranslationEditor</name>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="14"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="213"/>
         <source>Form</source>
         <translation>Форма</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="37"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="214"/>
         <source>Languages</source>
         <translation>Языки</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="61"/>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="75"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="215"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="216"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="95"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="217"/>
         <source>Pages</source>
         <translation>Страницы</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="137"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="218"/>
         <source>Strings</source>
         <translation>Строки</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="168"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="220"/>
         <source>Source Text</source>
         <translation>Исходный текст</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="177"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="221"/>
         <source>Translation</source>
         <translation>Перевод</translation>
     </message>
     <message>
         <location filename="../limereport/translationeditor/translationeditor.ui" line="204"/>
+        <location filename="../limereport/win64/release/ui/ui_translationeditor.h" line="222"/>
         <source>Checked</source>
         <translation>Проверенный</translation>
     </message>
@@ -4291,7 +4532,7 @@ This preview is no longer valid.</source>
         <location filename="../limereport/lrvariablesholder.cpp" line="66"/>
         <location filename="../limereport/lrvariablesholder.cpp" line="81"/>
         <location filename="../limereport/lrvariablesholder.cpp" line="100"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="182"/>
+        <location filename="../limereport/lrvariablesholder.cpp" line="180"/>
         <source>variable with name </source>
         <translation>переменная </translation>
     </message>
@@ -4303,7 +4544,7 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/lrvariablesholder.cpp" line="81"/>
         <location filename="../limereport/lrvariablesholder.cpp" line="100"/>
-        <location filename="../limereport/lrvariablesholder.cpp" line="182"/>
+        <location filename="../limereport/lrvariablesholder.cpp" line="180"/>
         <source> does not exists!</source>
         <translation> не существует!</translation>
     </message>
@@ -4619,7 +4860,7 @@ This preview is no longer valid.</source>
         <translation>Главный источник данных %1 не найден!</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwindow.cpp" line="1651"/>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="1677"/>
         <source>Object with name %1 already exists!</source>
         <translation>Объект %1 уже существует!</translation>
     </message>
@@ -4656,30 +4897,30 @@ This preview is no longer valid.</source>
         <translation>Экспортировать в PDF</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="113"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="116"/>
         <source>Dark</source>
         <translation>Темная</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="114"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="117"/>
         <source>Light</source>
         <translation>Светаля</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="799"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="802"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="808"/>
         <location filename="../limereport/lrreportdesignwidget.cpp" line="811"/>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="818"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="814"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="821"/>
         <source>Millimeters</source>
         <translation>Миллиметры</translation>
     </message>
     <message>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="808"/>
-        <location filename="../limereport/lrreportdesignwidget.cpp" line="812"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="811"/>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="815"/>
         <source>Inches</source>
         <translation>Дюймы</translation>
     </message>
