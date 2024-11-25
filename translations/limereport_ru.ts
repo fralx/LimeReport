@@ -27,13 +27,13 @@
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="35"/>
         <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="187"/>
         <source>Reverse direction</source>
-        <translation type="unfinished">Обратное направление</translation>
+        <translation>Обратное направление</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="45"/>
         <location filename="../limereport/win64/release/ui/ui_lrchartaxiseditor.h" line="188"/>
         <source>Enable scale calculation</source>
-        <translation type="unfinished">Вычисление масштаба</translation>
+        <translation>Вычисление масштаба</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.ui" line="57"/>
@@ -431,7 +431,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright 2021 Arin Alexander. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -658,7 +658,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrbasedesignintf.cpp" line="1486"/>
         <source>Edit borders...</source>
-        <translation type="unfinished">Редактор границ ...</translation>
+        <translation>Редактор границ ...</translation>
     </message>
 </context>
 <context>
@@ -828,12 +828,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/items/lrborderframeeditor.ui" line="20"/>
         <location filename="../limereport/win64/release/ui/ui_lrborderframeeditor.h" line="60"/>
         <source>BorderFrameEditor</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактор границ</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrborderframeeditor.cpp" line="39"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст</translation>
     </message>
 </context>
 <context>
@@ -1272,7 +1272,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/lrdatasourcemanager.cpp" line="223"/>
         <source>External variables</source>
-        <translation type="unfinished">Внешние переменные</translation>
+        <translation>Внешние переменные</translation>
     </message>
 </context>
 <context>
@@ -1578,7 +1578,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="147"/>
         <source>GridLines</source>
-        <translation type="unfinished">Линейная на сетке</translation>
+        <translation>Линейная на сетке</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="148"/>
@@ -1683,17 +1683,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="168"/>
         <source>DashDotLine</source>
-        <translation type="unfinished">Тире Точка</translation>
+        <translation>Тире Точка</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="169"/>
         <source>DashDotDotLine</source>
-        <translation type="unfinished">Тире Точка Точка</translation>
+        <translation>Тире Точка Точка</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="170"/>
         <source>CustomDashLine</source>
-        <translation type="unfinished">Пользовательский курсив</translation>
+        <translation>Пользовательский курсив</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="138"/>
@@ -2054,7 +2054,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../limereport/items/lrpageeditor.ui" line="14"/>
         <location filename="../limereport/win64/release/ui/ui_lrpageeditor.h" line="293"/>
         <source>Page setup</source>
-        <translation type="unfinished">Настройки страницы</translation>
+        <translation>Настройки страницы</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrpageeditor.ui" line="24"/>
@@ -3153,7 +3153,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="164"/>
         <source>units</source>
-        <translation>Еденицы измерения</translation>
+        <translation>Единицы измерения</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="165"/>
@@ -3198,27 +3198,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="147"/>
         <source>xAxisField</source>
-        <translation type="unfinished">Поле X оси</translation>
+        <translation>Поле X оси</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="169"/>
         <source>seriesLineWidth</source>
-        <translation type="unfinished">Толщина линии</translation>
+        <translation>Толщина линии</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="170"/>
         <source>drawPoints</source>
-        <translation type="unfinished">Точки</translation>
+        <translation>Точки</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="174"/>
         <source>gridChartLines</source>
-        <translation type="unfinished"></translation>
+        <translation>Линии сетки</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="175"/>
         <source>horizontalAxisOnTop</source>
-        <translation type="unfinished"></translation>
+        <translation>Горизонтальные оси сверху</translation>
     </message>
 </context>
 <context>
@@ -4289,7 +4289,7 @@ This preview is no longer valid.</source>
         <location filename="../limereport/lrsettingdialog.ui" line="182"/>
         <location filename="../limereport/win64/release/ui/ui_lrsettingdialog.h" line="338"/>
         <source>Report units</source>
-        <translation>Еденицы измерения</translation>
+        <translation>Единицы измерения</translation>
     </message>
 </context>
 <context>
@@ -4967,27 +4967,27 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.cpp" line="59"/>
         <source>X Axis</source>
-        <translation type="unfinished">Ось X</translation>
+        <translation>Ось X</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartaxiseditor.cpp" line="59"/>
         <source>Y Axis</source>
-        <translation type="unfinished">Ось Y</translation>
+        <translation>Ось Y</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lraxispropitem.cpp" line="21"/>
         <source>X axis</source>
-        <translation type="unfinished">Ось X</translation>
+        <translation>Ось X</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lraxispropitem.cpp" line="22"/>
         <source>Y axis</source>
-        <translation type="unfinished">Ось X</translation>
+        <translation>Ось X</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lraxispropitem.cpp" line="34"/>
         <source>Axis</source>
-        <translation type="unfinished">Ось</translation>
+        <translation>Ось</translation>
     </message>
 </context>
 </TS>
