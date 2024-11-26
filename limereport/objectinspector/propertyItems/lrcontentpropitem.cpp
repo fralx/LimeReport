@@ -3,6 +3,7 @@
 #include "editors/lrbuttonlineeditor.h"
 #include "items/lrtextitemeditor.h"
 #include <QApplication>
+#include <QMessageBox>
 
 namespace{
     LimeReport::ObjectPropItem * createContentPropItem(
@@ -11,6 +12,7 @@ namespace{
         return new LimeReport::ContentPropItem(object, objects, name, displayName, data, parent, readonly);
     }
     bool VARIABLE_IS_NOT_USED registredContentProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("content","LimeReport::TextItem"),QObject::tr("content"),createContentPropItem);
+    bool VARIABLE_IS_NOT_USED registredContentBProp = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("content","LimeReport::BarcodeItem"),QObject::tr("content"),createContentPropItem);
 } // namespace
 
 namespace LimeReport {
@@ -22,12 +24,17 @@ QWidget *ContentPropItem::createProperyEditor(QWidget *parent) const
 
 void ContentEditor::editButtonClicked()
 {
+    qDebug() << Q_FUNC_INFO;
     QDialog* dialog = new QDialog(QApplication::activeWindow());
     dialog->setLayout(new QVBoxLayout());
     dialog->layout()->setContentsMargins(1,1,1,1);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setWindowTitle(propertyName());
     QWidget* editor = dynamic_cast<BaseDesignIntf*>(m_object)->defaultEditor();
+    if(!editor) {
+        QMessageBox::critical(QApplication::activeWindow(), tr("Error"), tr("No default editor set"));
+        return;
+    }
     dialog->layout()->addWidget(editor);
     dialog->resize(editor->size());
     connect(editor,SIGNAL(destroyed()),dialog,SLOT(close()));

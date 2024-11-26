@@ -51,7 +51,6 @@ LimeReport::BaseDesignIntf * createTextItem(QObject* owner, LimeReport::BaseDesi
     return new LimeReport::TextItem(owner,parent);
 }
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(xmlTag, LimeReport::ItemAttribs(QObject::tr("Text Item"),"TextItem"), createTextItem);
-
 }
 
 namespace LimeReport{

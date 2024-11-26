@@ -75,6 +75,8 @@ public:
     void setShowProgressDialog(bool value){m_showProgressDialog = value;}
     void newReport(bool needCheck = true) { slotNewReport(needCheck);}
     QImage previewImage(int pageN = 0);
+    virtual void setBarcodeVariables(const QStringList &value);
+    QStringList barcodeVariables() const {return m_barcodeVars;};
 private slots:
     void slotNewReport(bool needCheck = true);
     void slotNewPage();
@@ -292,7 +294,7 @@ private:
     QWidget* m_progressWidget;
     QProgressBar* m_progressBar;
     QLabel* m_progressLabel;
-
+    QStringList m_barcodeVars;
     void createProgressBar();
 };
 

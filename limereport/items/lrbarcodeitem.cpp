@@ -31,6 +31,9 @@
 #include "lrdesignelementsfactory.h"
 #include "qzint.h"
 #include "lrglobal.h"
+#include "objectinspector/editors/lrtextitempropertyeditor.h"
+#include <QApplication>
+#include "lrreportdesignwindow.h"
 
 namespace{
 
@@ -46,9 +49,9 @@ bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instanc
 namespace LimeReport{
 
 BarcodeItem::BarcodeItem(QObject* owner,QGraphicsItem* parent)
-    : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(CODE128),
+    : ContentItemDesignIntf(xmlTag,owner,parent),m_designTestValue("1"), m_barcodeType(EAN128),
       m_foregroundColor(Qt::black), m_backgroundColor(Qt::white), m_whitespace(10), m_angle(Angle0),
-      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(UNICODE_INPUT_MODE),
+      m_barcodeWidth(0), m_securityLevel(0), m_pdf417CodeWords(928), m_inputMode(GS1_INPUT_MODE),
     m_escapeMode(false), m_hideText(false), m_option3(0), m_hideIfEmpty(false)
 {}
 
@@ -351,6 +354,21 @@ void BarcodeItem::setHideIfEmpty(bool hideIfEmpty)
 bool BarcodeItem::isEmpty() const
 {
     return m_content.isEmpty();
+}
+
+QWidget *BarcodeItem::defaultEditor()
+{
+    ReportDesignWindow* dw = nullptr;
+    auto re = reportEditor();
+    if(re)
+        dw = dynamic_cast<ReportDesignWindow*>(re->getDesignerWindow());
+    qDebug() << re << dw;
+    auto editor =
+        new TextItemPropertyEditor(QApplication::activeWindow(),
+                                             dw ? dw->barcodeVariables() : QStringList{});
+    editor->setText(m_content);
+    editor->setAttribute(Qt::WA_DeleteOnClose);
+    return editor;
 }
 
 void BarcodeItem::expandContent(QString data, DataSourceManager* dataManager, RenderPass pass)

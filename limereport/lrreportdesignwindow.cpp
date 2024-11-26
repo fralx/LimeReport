@@ -928,6 +928,13 @@ QImage ReportDesignWindow::previewImage(int pageN)
     return QImage{};
 }
 
+void LimeReport::ReportDesignWindow::setBarcodeVariables(const QStringList &value)
+{
+    m_barcodeVars.clear();
+    for(const auto &v: value)
+        m_barcodeVars << QString("$V{%1}").arg(v);
+}
+
 bool ReportDesignWindow::checkNeedToSave()
 {
     if (m_reportDesignWidget->isNeedToSave()){

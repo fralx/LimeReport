@@ -203,7 +203,7 @@ public:
     bool hideIfEmpty() const;
     void setHideIfEmpty(bool hideIfEmpty);
     bool isEmpty() const;
-
+    QWidget * defaultEditor();
 private:
     void expandContent(QString data, DataSourceManager *dataManager, RenderPass pass);
 

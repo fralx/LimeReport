@@ -20,6 +20,7 @@ public:
     virtual void saveSettings() = 0;
     virtual void setShowProgressDialog(bool value) = 0;
     virtual void newReport(bool needCheck = true) = 0;
+    virtual void setBarcodeVariables(const QStringList &) = 0;
 };
 
 } // namespace LimeReport

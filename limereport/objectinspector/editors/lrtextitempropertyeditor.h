@@ -43,7 +43,7 @@ class TextItemPropertyEditor : public QDialog
 {
     Q_OBJECT
 public:
-    explicit TextItemPropertyEditor(QWidget *parent = 0);
+    explicit TextItemPropertyEditor(QWidget *parent = 0, const QStringList &availVars ={});
     ~TextItemPropertyEditor();
     void setText(const QString &value);
     QString text();

@@ -30,15 +30,22 @@
 #include "lrtextitempropertyeditor.h"
 #include "ui_ltextitempropertyeditor.h"
 #include <QCompleter>
+#include <QListWidget>
 
 namespace LimeReport{
 
-TextItemPropertyEditor::TextItemPropertyEditor(QWidget *parent) :
+TextItemPropertyEditor::TextItemPropertyEditor(QWidget *parent, const QStringList &availVars) :
     QDialog(parent),
     ui(new Ui::TextItemPropertyEditor)
 {
     ui->setupUi(this);
     ui->textEdit->setAcceptRichText(false);
+    ui->listVars->setVisible(!availVars.isEmpty());
+    ui->listVars->addItems(availVars);
+    connect(ui->listVars, &QListWidget::itemClicked, this,
+            [this](QListWidgetItem *item) {
+                ui->textEdit->setPlainText(item->text());
+    });
 }
 
 TextItemPropertyEditor::~TextItemPropertyEditor()
