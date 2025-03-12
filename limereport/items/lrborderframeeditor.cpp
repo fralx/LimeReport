@@ -94,16 +94,24 @@ void BorderFrameEditor::unSetAllLines()
 
 void BorderFrameEditor::mousePressEvent(QMouseEvent* event)
 {
-    if (event->x() >= 10 && event->y() < 30)
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
+    int x = event->x();
+    int y = event->y();
+#else
+    int x = event->position().x();
+    int y = event->position().y();
+#endif
+
+    if (x >= 10 && y < 30)
         emit borderSideClicked(BaseDesignIntf::BorderSide::TopLine, !topLine);
 
-    if ((event->x() >= 10 && event->x() < 30) && (event->y() > 10))
+    if ((x >= 10 && x < 30) && (y > 10))
         emit borderSideClicked(BaseDesignIntf::BorderSide::LeftLine, !leftLine);
 
-    if (event->x() >= 10 && (event->y() > 80 && event->y() < rect().bottom()))
+    if (x >= 10 && (y > 80 && y < rect().bottom()))
         emit borderSideClicked(BaseDesignIntf::BorderSide::BottomLine, !bottomLine);
 
-    if ((event->x() >= 130 && event->x() < rect().width()) && event->y() > 10)
+    if ((x >= 130 && x < rect().width()) && y > 10)
         emit borderSideClicked(BaseDesignIntf::BorderSide::RightLine, !rightLine);
 }
 
@@ -172,6 +180,7 @@ QGraphicsLineItem* BorderFrameEditor::createSideLine(LimeReport::BaseDesignIntf:
         return scene->addLine(
             QLineF(10, rect().bottom() - 10, rect().width() - 10, rect().bottom() - 10), m_pen);
     }
+    return nullptr;
 }
 
 void BorderFrameEditor::updateBorders()

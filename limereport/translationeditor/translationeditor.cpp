@@ -36,7 +36,7 @@ TranslationEditor::TranslationEditor(QWidget* parent):
     ui->tbStrings->setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Source text")));
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
     m_clrReturn
-        = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return), this, SLOT(slotItemChecked()));
+        = new QShortcut(QKeySequence(Qt::Key(Qt::CTRL) | Qt::Key_Return), this, SLOT(slotItemChecked()));
 #else
     m_clrReturn
         = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return), this, SLOT(slotItemChecked()));

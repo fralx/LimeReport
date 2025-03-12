@@ -770,26 +770,26 @@ QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont& font, const qreal m
     }
     default: {
         qreal cw = 0;
-        qreal maxWidth = 0;
+        qreal mw = 0;
 
         if (m_chartItem->series().isEmpty()) {
             foreach (QString label, m_designLabels) {
                 cw += fm.height();
-                if (maxWidth < fm.boundingRect(label).width())
-                    maxWidth = fm.boundingRect(label).width() + 10;
+                if (mw < fm.boundingRect(label).width())
+                    mw = fm.boundingRect(label).width() + 10;
             }
         } else {
             foreach (SeriesItem* series, m_chartItem->series()) {
                 cw += fm.height();
-                if (maxWidth < fm.boundingRect(series->name()).width())
-                    maxWidth = fm.boundingRect(series->name()).width() + 10;
+                if (mw < fm.boundingRect(series->name()).width())
+                    mw = fm.boundingRect(series->name()).width() + 10;
             }
         }
         cw += fm.height();
-        return QSizeF(maxWidth + fm.height() * 2, cw);
+        return QSizeF(mw + fm.height() * 2, cw);
     }
     }
-    return QSizeF();
+
 }
 
 bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect)

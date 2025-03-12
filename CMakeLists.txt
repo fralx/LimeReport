@@ -35,13 +35,9 @@ if(HAVE_UI_LOADER)
 
 if(ENABLE_DIALOG_DESIGNER)
     if(USE_QT6)
-        if(ENABLE_DIALOG_DESIGNER)
-            find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponentsPrivate REQUIRED)
-        endif()
+        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponentsPrivate REQUIRED)
     else()
-        if(ENABLE_DIALOG_DESIGNER)
-             find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponents REQUIRED)
-         endif()
+        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponents REQUIRED)
     endif(USE_QT6)
  endif()
 
@@ -397,7 +393,7 @@ set(GLOBAL_HEADERS
     ${PROJECT_NAME}/LRCallbackDS
     ${PROJECT_NAME}/LRDataManager
     ${PROJECT_NAME}/LRScriptManager
-    ${CMAKE_BINARY_DIR}/limereport/version.h
+    ${CMAKE_CURRENT_BINARY_DIR}/limereport/version.h
     )
 
 set(PROJECT_NAME ${PROJECT_NAME}-qt${QT_VERSION_MAJOR})
@@ -470,7 +466,7 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/scripteditor )
 
 target_include_directories( ${PROJECT_NAME} PUBLIC
-    ${CMAKE_BINARY_DIR}/limereport )
+    ${CMAKE_CURRENT_BINARY_DIR}/limereport )
 
 target_include_directories( ${PROJECT_NAME} INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -484,4 +480,3 @@ install(TARGETS
 	LIBRARY DESTINATION lib
 	RUNTIME DESTINATION bin
 	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/limereport)
-
