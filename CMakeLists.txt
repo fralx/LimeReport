@@ -12,7 +12,7 @@ option(LIMEREPORT_DEMO "Build LimeReport demos" OFF)
 option(ENABLE_DIALOG_DESIGNER "Enable dialog designer" OFF)
 option(HAVE_UI_LOADER "Enable ui loader" OFF)
 option(USE_QT6 "Use Qt6" OFF)
-option(LIMEREPORT_TRANSLATIONS "Update LimeReport TS files" OFF)
+option(UPDATE_TRANSLATIONS "Update TS files" OFF)
 
 if (ENABLE_DIALOG_DESIGNER AND NOT HAVE_UI_LOADER)
     message(FATAL_ERROR "You need to enable HAVE_UI_LOADER")
@@ -481,7 +481,7 @@ list (APPEND GLOBAL_HEADERS ${EXTRA_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GLOBAL_HEADERS}")
 
 
-message(STATUS "LIMEREPORT_TRANSLATIONS: ${LIMEREPORT_TRANSLATIONS}")
+message(STATUS "${PROJECT_NAME} UPDATE_TRANSLATIONS: ${UPDATE_TRANSLATIONS}")
 list(APPEND LANGUAGES ru es fr pl zh ar)
 foreach(lang ${LANGUAGES})
     list(APPEND TS_FILES translations/limereport_${lang}.ts)
@@ -496,7 +496,7 @@ if (${QT_VERSION} GREATER_EQUAL 6.7.0)
         OPTIONS -removeidentical
     )
 
-    if (LIMEREPORT_TRANSLATIONS)
+    if (UPDATE_TRANSLATIONS)
         qt_add_lupdate(
             TS_FILES ${TS_FILES}
             SOURCES ${LIMEREPORT_SOURCES}
@@ -514,7 +514,7 @@ elseif (${QT_VERSION} GREATER_EQUAL 6.2.0)
        OPTIONS -removeidentical
    )
 
-   if (LIMEREPORT_TRANSLATIONS)
+   if (UPDATE_TRANSLATIONS)
         qt_add_lupdate(
             ${PROJECT_NAME}
             TS_FILES ${TS_FILES}
@@ -526,7 +526,7 @@ elseif (${QT_VERSION} GREATER_EQUAL 6.2.0)
 
 else()
 
-    if (LIMEREPORT_TRANSLATIONS)
+    if (UPDATE_TRANSLATIONS)
         qt5_create_translation(
             QM_FILES
             ${LIMEREPORT_SOURCES}
