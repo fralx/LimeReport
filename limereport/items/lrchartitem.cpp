@@ -789,7 +789,6 @@ QSizeF AbstractSeriesChart::calcChartLegendSize(const QFont& font, const qreal m
         return QSizeF(mw + fm.height() * 2, cw);
     }
     }
-
 }
 
 bool AbstractSeriesChart::verticalLabels(QPainter* painter, QRectF labelsRect)
