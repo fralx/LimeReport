@@ -365,15 +365,15 @@ void TextItem::updateLayout()
 
 bool TextItem::isNeedExpandContent() const
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
-    QRegExp rx("$*\\{[^{]*\\}");
-#else
     bool result = false;
-    QRegularExpression rx("\\$*\\{[^{]*\\}");
+    const QString pattern = "\\$*\\{[^{]*\\}";
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
+    QRegExp rx(pattern);
+#else
+    QRegularExpression rx(pattern);
+#endif
     result = content().contains(rx) || isContentBackedUp();
     return result;
-#endif
-    return content().contains(rx) || isContentBackedUp();
 }
 
 QString TextItem::replaceBR(QString text) const { return text.replace("<br/>", "\n"); }
