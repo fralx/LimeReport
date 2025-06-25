@@ -28,23 +28,26 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrbuttonlineeditor.h"
-#include <QMessageBox>
-#include <QEvent>
-#include <QKeyEvent>
-#include <QFocusEvent>
+
 #include <QApplication>
+#include <QEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QMessageBox>
 #include <QStyle>
-#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
+#if QT_VERSION < QT_VERSION_CHECK(5, 12, 3)
 #include <QDesktopWidget>
 #else
 #include <QScreen>
 #endif
 #include "lrtextitempropertyeditor.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-ButtonLineEditor::ButtonLineEditor(const QString &propertyName, QWidget *parent) :
-    QWidget(parent), m_overButton(false), m_propertyName(propertyName)
+ButtonLineEditor::ButtonLineEditor(const QString& propertyName, QWidget* parent):
+    QWidget(parent),
+    m_overButton(false),
+    m_propertyName(propertyName)
 {
     m_lineEdit = new QLineEdit(this);
     m_lineEdit->installEventFilter(this);
@@ -54,55 +57,53 @@ ButtonLineEditor::ButtonLineEditor(const QString &propertyName, QWidget *parent)
     m_buttonEdit->installEventFilter(this);
     m_buttonEdit->setAttribute(Qt::WA_Hover);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(m_lineEdit);
     layout->addWidget(m_buttonEdit);
-    layout->setContentsMargins(1,1,1,1);
+    layout->setContentsMargins(1, 1, 1, 1);
     layout->setSpacing(0);
     setAutoFillBackground(true);
-    connect(m_buttonEdit,SIGNAL(clicked()),this,SLOT(editButtonClicked()));
-    //connect(m_lineEdit,SIGNAL(editingFinished()),this,SLOT(lineEditEditingFinished()));
+    connect(m_buttonEdit, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
+    // connect(m_lineEdit,SIGNAL(editingFinished()),this,SLOT(lineEditEditingFinished()));
 }
 
-ButtonLineEditor::~ButtonLineEditor(){}
+ButtonLineEditor::~ButtonLineEditor() { }
 
 void ButtonLineEditor::editButtonClicked()
 {
     TextItemPropertyEditor* editor = new TextItemPropertyEditor(QApplication::activeWindow());
     editor->setAttribute(Qt::WA_DeleteOnClose);
-#if QT_VERSION < QT_VERSION_CHECK(5,12,3)
-    editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QApplication::desktop()->availableGeometry()));
+#if QT_VERSION < QT_VERSION_CHECK(5, 12, 3)
+    editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(),
+                                            QApplication::desktop()->availableGeometry()));
 #else
-    editor->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(), QGuiApplication::screens().first()->availableGeometry()));
+    editor->setGeometry(
+        QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, editor->size(),
+                            QGuiApplication::screens().first()->availableGeometry()));
 #endif
     editor->setWindowTitle(m_propertyName);
     editor->setText(m_lineEdit->text());
-    connect(editor,SIGNAL(accepted()),this,SLOT(editingByEditorFinished()));
+    connect(editor, SIGNAL(accepted()), this, SLOT(editingByEditorFinished()));
     editor->exec();
 }
 
-void ButtonLineEditor::setText(const QString &value){
-    m_lineEdit->setText(value);
-}
+void ButtonLineEditor::setText(const QString& value) { m_lineEdit->setText(value); }
 
-QString ButtonLineEditor::text()
-{
-    return m_lineEdit->text();
-}
+QString ButtonLineEditor::text() { return m_lineEdit->text(); }
 
-bool ButtonLineEditor::eventFilter(QObject *target, QEvent *event)
+bool ButtonLineEditor::eventFilter(QObject* target, QEvent* event)
 {
 
-    if (target==m_buttonEdit) {
+    if (target == m_buttonEdit) {
 
-        if (event->type()==QEvent::HoverEnter){
-            m_overButton=true;
+        if (event->type() == QEvent::HoverEnter) {
+            m_overButton = true;
         }
-        if (event->type()==QEvent::HoverLeave){
-            m_overButton=false;
+        if (event->type() == QEvent::HoverLeave) {
+            m_overButton = false;
         }
-        if (event->type()==QEvent::FocusOut){
-            if (static_cast<QFocusEvent*>(event)->reason()!=Qt::MouseFocusReason){
+        if (event->type() == QEvent::FocusOut) {
+            if (static_cast<QFocusEvent*>(event)->reason() != Qt::MouseFocusReason) {
                 m_lineEdit->setFocus();
             }
         }
@@ -110,29 +111,27 @@ bool ButtonLineEditor::eventFilter(QObject *target, QEvent *event)
         enterKeys.insert(Qt::Key_Enter);
         enterKeys.insert(Qt::Key_Return);
 
-        if (event->type()==QEvent::KeyPress){
-            if (enterKeys.contains(static_cast<QKeyEvent*>(event)->key())){
+        if (event->type() == QEvent::KeyPress) {
+            if (enterKeys.contains(static_cast<QKeyEvent*>(event)->key())) {
                 m_buttonEdit->click();
                 return true;
             }
         }
     }
-    if (target==m_lineEdit){
-        if (event->type()==QEvent::FocusOut){
-            switch (static_cast<QFocusEvent*>(event)->reason()){
+    if (target == m_lineEdit) {
+        if (event->type() == QEvent::FocusOut) {
+            switch (static_cast<QFocusEvent*>(event)->reason()) {
             case Qt::TabFocusReason:
-                m_overButton=true;
+                m_overButton = true;
                 break;
             case Qt::MouseFocusReason:
                 break;
             default:
-                m_overButton=false;
+                m_overButton = false;
             }
-
         }
     }
-    return QWidget::eventFilter(target,event);
-
+    return QWidget::eventFilter(target, event);
 }
 
 void ButtonLineEditor::editingByEditorFinished()
@@ -142,4 +141,4 @@ void ButtonLineEditor::editingByEditorFinished()
     emit editingFinished();
 }
 
-} //namespace LimeReport
+} // namespace LimeReport

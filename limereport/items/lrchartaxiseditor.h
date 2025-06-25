@@ -1,22 +1,22 @@
 #ifndef CHARTAXISEDITOR_H
 #define CHARTAXISEDITOR_H
 
-#include <QWidget>
 #include "lrchartitem.h"
+
+#include <QWidget>
 
 namespace Ui {
 class ChartAxisEditor;
 }
 
-class ChartAxisEditor : public QWidget
-{
+class ChartAxisEditor: public QWidget {
     Q_OBJECT
-    public:
+public:
     ChartAxisEditor(LimeReport::ChartItem* item, LimeReport::PageDesignIntf* page, bool isXAxis,
-                    QSettings* settings=0, QWidget *parent = 0);
+                    QSettings* settings = 0, QWidget* parent = 0);
     ~ChartAxisEditor();
 
-    QSettings *settings();
+    QSettings* settings();
 private slots:
     void on_minimumCheckBox_stateChanged(int arg1);
     void on_maximumCheckBox_stateChanged(int arg1);
@@ -31,7 +31,7 @@ private:
     void writeSetting();
     void init();
 
-    Ui::ChartAxisEditor *ui;
+    Ui::ChartAxisEditor* ui;
     LimeReport::ChartItem* m_chartItem;
     LimeReport::PageDesignIntf* m_page;
     QSettings* m_settings;

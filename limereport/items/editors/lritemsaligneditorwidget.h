@@ -31,19 +31,21 @@
 #define LRITEMSALIGNEDITORWIDGET_H
 
 #include "lrreportdesignwidget.h"
-#include <QToolBar>
+
 #include <QAction>
+#include <QToolBar>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class ItemsAlignmentEditorWidget : public QToolBar
-{
+class ItemsAlignmentEditorWidget: public QToolBar {
     Q_OBJECT
 public:
-    explicit ItemsAlignmentEditorWidget(ReportDesignWidget* reportEditor, const QString &title, QWidget *parent = 0);
-    explicit ItemsAlignmentEditorWidget(ReportDesignWidget* reportEditor, QWidget *parent = 0);
-    explicit ItemsAlignmentEditorWidget(PageDesignIntf* page, const QString &title, QWidget *parent = 0);
-    explicit ItemsAlignmentEditorWidget(PageDesignIntf* page, QWidget *parent = 0);
+    explicit ItemsAlignmentEditorWidget(ReportDesignWidget* reportEditor, const QString& title,
+                                        QWidget* parent = 0);
+    explicit ItemsAlignmentEditorWidget(ReportDesignWidget* reportEditor, QWidget* parent = 0);
+    explicit ItemsAlignmentEditorWidget(PageDesignIntf* page, const QString& title,
+                                        QWidget* parent = 0);
+    explicit ItemsAlignmentEditorWidget(PageDesignIntf* page, QWidget* parent = 0);
 private slots:
     void slotBringToFront();
     void slotSendToBack();
@@ -55,6 +57,7 @@ private slots:
     void slotAlignToHCenter();
     void slotSameHeight();
     void slotSameWidth();
+
 private:
     void initEditor();
     ReportDesignWidget* m_reportEditor;
@@ -72,6 +75,6 @@ private:
     QAction* m_sameWidth;
 };
 
-} //namespace LimeReport
+} // namespace LimeReport
 
 #endif // LRITEMSALIGNEDITORWIDGET_H

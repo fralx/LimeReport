@@ -1,0 +1,41 @@
+---
+BasedOnStyle: WebKit
+Language: Cpp
+AlignAfterOpenBracket: Align
+AllowShortEnumsOnASingleLine: false
+BreakInheritanceList: AfterColon
+BreakConstructorInitializers: AfterColon
+SpaceBeforeCtorInitializerColon: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+AllowAllConstructorInitializersOnNextLine: false
+SpaceBeforeInheritanceColon: false
+PointerAlignment: Left
+ReflowComments: true
+FixNamespaceComments: true
+SortIncludes: true
+SortUsingDeclarations: true
+IncludeBlocks: Regroup
+# regular expressions are matched against the filename of an include (including the <> or “”) in order:
+# topmost: main header file (the one that has the same name as .cpp-file) and ui_XXX.h, if exists
+# second group: local header files (i.e. "something.h")
+# third group: external header files (i.e. <smth/other.h>)
+# fourth group: Qt toolkit headers (actually, anything that starts with a 'Q')
+# last group: all other external header files
+# headers in all groups are sorted by name
+IncludeCategories:
+  - Regex:           '"ui_.*'
+    Priority:        0
+  - Regex:           '^".*'
+    Priority:        1
+  - Regex:           '^<Qt.*'
+    Priority:        3
+  - Regex:           '^<.*/.*\.h>'
+    Priority:        2
+  - Regex:           '^<Q.*'
+    Priority:        3
+  - Regex:           '^<.*'
+    Priority:        4
+ColumnLimit: 100
+TabWidth: 4
+UseTab: Never
+MaxEmptyLinesToKeep: 1

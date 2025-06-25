@@ -30,39 +30,48 @@
 #include "lrqrealpropitem.h"
 
 #include <QDoubleSpinBox>
+
 #include <limits>
 
-namespace{
-    LimeReport::ObjectPropItem * createQRealPropItem(
-        QObject *object, LimeReport::ObjectPropItem::ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& data, LimeReport::ObjectPropItem* parent, bool readonly)
-    {
-        return new LimeReport::QRealPropItem(object, objects, name, displayName, data, parent, readonly);
-    }
-
-    bool VARIABLE_IS_NOT_USED  registred = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("qreal",""),QObject::tr("qreal"),createQRealPropItem);
-    bool VARIABLE_IS_NOT_USED  registredDouble = LimeReport::ObjectPropFactory::instance().registerCreator(LimeReport::APropIdent("double",""),QObject::tr("qreal"),createQRealPropItem);    
+namespace {
+LimeReport::ObjectPropItem* createQRealPropItem(QObject* object,
+                                                LimeReport::ObjectPropItem::ObjectsList* objects,
+                                                const QString& name, const QString& displayName,
+                                                const QVariant& data,
+                                                LimeReport::ObjectPropItem* parent, bool readonly)
+{
+    return new LimeReport::QRealPropItem(object, objects, name, displayName, data, parent,
+                                         readonly);
 }
 
-namespace LimeReport{
+bool VARIABLE_IS_NOT_USED registred = LimeReport::ObjectPropFactory::instance().registerCreator(
+    LimeReport::APropIdent("qreal", ""), QObject::tr("qreal"), createQRealPropItem);
+bool VARIABLE_IS_NOT_USED registredDouble
+    = LimeReport::ObjectPropFactory::instance().registerCreator(
+        LimeReport::APropIdent("double", ""), QObject::tr("qreal"), createQRealPropItem);
+} // namespace
 
-QWidget *QRealPropItem::createProperyEditor(QWidget *parent) const
+namespace LimeReport {
+
+QWidget* QRealPropItem::createProperyEditor(QWidget* parent) const
 {
-    QDoubleSpinBox *editor= new QDoubleSpinBox(parent);
+    QDoubleSpinBox* editor = new QDoubleSpinBox(parent);
     editor->setMaximum(std::numeric_limits<qreal>::max());
-    editor->setMinimum(std::numeric_limits<qreal>::max()*-1);
+    editor->setMinimum(std::numeric_limits<qreal>::max() * -1);
     return editor;
 }
 
-void QRealPropItem::setPropertyEditorData(QWidget *propertyEditor, const QModelIndex &) const
+void QRealPropItem::setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const
 {
-    QDoubleSpinBox *editor =qobject_cast<QDoubleSpinBox*>(propertyEditor);
+    QDoubleSpinBox* editor = qobject_cast<QDoubleSpinBox*>(propertyEditor);
     editor->setValue(propertyValue().toDouble());
 }
 
-void QRealPropItem::setModelData(QWidget *propertyEditor, QAbstractItemModel *model, const QModelIndex &index)
+void QRealPropItem::setModelData(QWidget* propertyEditor, QAbstractItemModel* model,
+                                 const QModelIndex& index)
 {
-    model->setData(index,qobject_cast<QDoubleSpinBox*>(propertyEditor)->value());
-    setValueToObject(propertyName(),propertyValue());
+    model->setData(index, qobject_cast<QDoubleSpinBox*>(propertyEditor)->value());
+    setValueToObject(propertyName(), propertyValue());
 }
 
-}
+} // namespace LimeReport

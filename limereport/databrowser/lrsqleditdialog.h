@@ -30,15 +30,17 @@
 #ifndef LRSQLEDITDIALOG_H
 #define LRSQLEDITDIALOG_H
 
-#include <stdexcept>
-#include <QDialog>
-#include <QCompleter>
-#include <QSettings>
-#include "lrreportengine_p.h"
-#include "lrdatasourcemanager.h"
 #include "lrdatadesignintf.h"
+#include "lrdatasourcemanager.h"
+#include "lrreportengine_p.h"
 
-namespace LimeReport{
+#include <QCompleter>
+#include <QDialog>
+#include <QSettings>
+
+#include <stdexcept>
+
+namespace LimeReport {
 
 namespace Ui {
     class SQLEditDialog;
@@ -46,22 +48,26 @@ namespace Ui {
 
 struct SQLEditResult;
 
-class SQLEditDialog : public QDialog
-{
+class SQLEditDialog: public QDialog {
     Q_OBJECT
 
 public:
-    enum SQLDialogMode {AddMode,EditMode};
-    explicit SQLEditDialog(QWidget *parent, LimeReport::DataSourceManager* dataSources,SQLDialogMode dialogMode);
-    void setDataSources(LimeReport::DataSourceManager *dataSources,QString datasourceName="");
+    enum SQLDialogMode {
+        AddMode,
+        EditMode
+    };
+    explicit SQLEditDialog(QWidget* parent, LimeReport::DataSourceManager* dataSources,
+                           SQLDialogMode dialogMode);
+    void setDataSources(LimeReport::DataSourceManager* dataSources, QString datasourceName = "");
     void setDefaultConnection(QString defaultConnection);
     ~SQLEditDialog();
     QSettings* settings();
     void setSettings(QSettings* value, bool owned = false);
 signals:
     void signalSqlEditingFinished(SQLEditResult result);
+
 protected:
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent*);
     void closeEvent(QCloseEvent*);
     void hideEvent(QHideEvent*);
     void check();
@@ -80,12 +86,14 @@ private slots:
     void initCSVMode();
     void slotPreviewData();
     void slotHidePreview();
+
 private:
     void writeSetting();
     void readSettings();
     void hidePreview();
+
 private:
-    Ui::SQLEditDialog *ui;
+    Ui::SQLEditDialog* ui;
     LimeReport::DataSourceManager* m_datasources;
     SQLDialogMode m_dialogMode;
     QString m_oldDatasourceName;
@@ -96,8 +104,14 @@ private:
     QSharedPointer<QAbstractItemModel> m_previewModel;
 };
 
-struct SQLEditResult{
-    enum ResultMode{Query, SubQuery, SubProxy, CSVText, Undefined};
+struct SQLEditResult {
+    enum ResultMode {
+        Query,
+        SubQuery,
+        SubProxy,
+        CSVText,
+        Undefined
+    };
     QString connectionName;
     QString datasourceName;
     QString oldDatasourceName;

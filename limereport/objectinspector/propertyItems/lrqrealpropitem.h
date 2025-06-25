@@ -34,17 +34,20 @@
 
 namespace LimeReport {
 
-class QRealPropItem : public ObjectPropItem
-{
+class QRealPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
-    QRealPropItem():ObjectPropItem(){}
-    QRealPropItem(QObject* object, ObjectsList* objects, const QString& name, const QString& displayName, const QVariant& value,ObjectPropItem* parent, bool readonly)
-        :ObjectPropItem(object, objects, name, displayName, value, parent, readonly){}
-    QWidget* createProperyEditor(QWidget *parent) const;
-    void setPropertyEditorData(QWidget * propertyEditor, const QModelIndex &) const;
-    void setModelData(QWidget * propertyEditor, QAbstractItemModel * model, const QModelIndex & index);
+    QRealPropItem(): ObjectPropItem() { }
+    QRealPropItem(QObject* object, ObjectsList* objects, const QString& name,
+                  const QString& displayName, const QVariant& value, ObjectPropItem* parent,
+                  bool readonly):
+        ObjectPropItem(object, objects, name, displayName, value, parent, readonly)
+    {
+    }
+    QWidget* createProperyEditor(QWidget* parent) const;
+    void setPropertyEditorData(QWidget* propertyEditor, const QModelIndex&) const;
+    void setModelData(QWidget* propertyEditor, QAbstractItemModel* model, const QModelIndex& index);
 };
 
-}
+} // namespace LimeReport
 #endif // LRQREALPROPITEM_H

@@ -28,43 +28,46 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrdatasourcemanager.h"
+
 #include "lrdatadesignintf.h"
-#include <QStringList>
+
 #include <QSqlQuery>
+#include <QStringList>
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
 #include <QRegExp>
 #endif
+#include <QFileInfo>
 #include <QSqlError>
 #include <QSqlQueryModel>
-#include <QFileInfo>
+
 #include <stdexcept>
 
 #ifdef BUILD_WITH_EASY_PROFILER
 #include "easy/profiler.h"
 #else
-# define EASY_BLOCK(...)
-# define EASY_END_BLOCK
+#define EASY_BLOCK(...)
+#define EASY_END_BLOCK
 #endif
 
-namespace LimeReport{
+namespace LimeReport {
 
 DataNode::~DataNode()
 {
-    for (int i = 0; i<m_childs.count(); ++i){
+    for (int i = 0; i < m_childs.count(); ++i) {
         delete m_childs[i];
     }
 }
 
-DataNode*DataNode::addChild(const QString& name, DataNode::NodeType type, const QIcon& icon)
+DataNode* DataNode::addChild(const QString& name, DataNode::NodeType type, const QIcon& icon)
 {
-    DataNode* res = new DataNode(name,type,this,icon);
+    DataNode* res = new DataNode(name, type, this, icon);
     m_childs.push_back(res);
     return res;
 }
 
 int DataNode::row()
 {
-    if (m_parent){
+    if (m_parent) {
         return m_parent->m_childs.indexOf(const_cast<DataNode*>(this));
     }
     return 0;
@@ -72,60 +75,62 @@ int DataNode::row()
 
 void DataNode::clear()
 {
-    for (int i=0; i<m_childs.count(); ++i){
+    for (int i = 0; i < m_childs.count(); ++i) {
         delete m_childs[i];
     }
     m_childs.clear();
 }
 
-
-DataSourceModel::DataSourceModel(DataSourceManager* dataManager)
-    :m_dataManager(0), m_rootNode(new DataNode())
+DataSourceModel::DataSourceModel(DataSourceManager* dataManager):
+    m_dataManager(0),
+    m_rootNode(new DataNode())
 {
     setDataSourceManager(dataManager);
 }
 
-DataSourceModel::~DataSourceModel()
-{
-    delete m_rootNode;
-}
+DataSourceModel::~DataSourceModel() { delete m_rootNode; }
 
 QModelIndex DataSourceModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!m_rootNode)
         return QModelIndex();
 
-    if (!hasIndex(row,column,parent))
+    if (!hasIndex(row, column, parent))
         return QModelIndex();
 
     DataNode* parentNode;
-    if (parent.isValid()){
+    if (parent.isValid()) {
         parentNode = nodeFromIndex(parent);
     } else {
         parentNode = m_rootNode;
     }
 
     DataNode* childNode = parentNode->child(row);
-    if (childNode){
-        return createIndex(row,column,childNode);
-    } else return QModelIndex();
+    if (childNode) {
+        return createIndex(row, column, childNode);
+    } else
+        return QModelIndex();
 }
 
 QModelIndex DataSourceModel::parent(const QModelIndex& child) const
 {
-    if (!child.isValid()) return QModelIndex();
+    if (!child.isValid())
+        return QModelIndex();
 
     DataNode* childNode = nodeFromIndex(child);
-    if (!childNode) return QModelIndex();
+    if (!childNode)
+        return QModelIndex();
 
     DataNode* parentNode = childNode->parent();
-    if ((parentNode == m_rootNode) || (!parentNode)) return QModelIndex();
-    return createIndex(parentNode->row(),0,parentNode);
+    if ((parentNode == m_rootNode) || (!parentNode))
+        return QModelIndex();
+    return createIndex(parentNode->row(), 0, parentNode);
 }
 
 int DataSourceModel::rowCount(const QModelIndex& parent) const
 {
-    if (!m_rootNode) return 0;
+    if (!m_rootNode)
+        return 0;
     DataNode* parentNode;
     if (parent.isValid())
         parentNode = nodeFromIndex(parent);
@@ -142,14 +147,16 @@ int DataSourceModel::columnCount(const QModelIndex& parent) const
 
 QVariant DataSourceModel::data(const QModelIndex& index, int role) const
 {
-    DataNode *node = nodeFromIndex(index);
+    DataNode* node = nodeFromIndex(index);
     switch (role) {
     case Qt::DisplayRole:
-        if (!node) return QVariant();
+        if (!node)
+            return QVariant();
         return node->name();
         break;
-    case Qt::DecorationRole :
-        if (!node) return QIcon();
+    case Qt::DecorationRole:
+        if (!node)
+            return QIcon();
         return node->icon();
         break;
     default:
@@ -160,7 +167,7 @@ QVariant DataSourceModel::data(const QModelIndex& index, int role) const
 void DataSourceModel::setDataSourceManager(DataSourceManager* dataManager)
 {
     m_dataManager = dataManager;
-    connect(m_dataManager,SIGNAL(datasourcesChanged()),this,SLOT(slotDatasourcesChanged()));
+    connect(m_dataManager, SIGNAL(datasourcesChanged()), this, SLOT(slotDatasourcesChanged()));
     updateModel();
 }
 
@@ -173,103 +180,119 @@ void DataSourceModel::slotDatasourcesChanged()
 
 DataNode* DataSourceModel::nodeFromIndex(const QModelIndex& index) const
 {
-    if (index.isValid()){
+    if (index.isValid()) {
         return static_cast<DataNode*>(index.internalPointer());
-    } else return m_rootNode;
+    } else
+        return m_rootNode;
 }
 
 void DataSourceModel::fillFields(DataNode* parent)
 {
-    foreach(QString name, m_dataManager->fieldNames(parent->name())){
-        parent->addChild(name, DataNode::Field,QIcon(":/report/images/field"));
+    foreach (QString name, m_dataManager->fieldNames(parent->name())) {
+        parent->addChild(name, DataNode::Field, QIcon(":/report/images/field"));
     }
 }
 
 void DataSourceModel::updateModel()
 {
-    QMap<QString,DataNode*> connections;
+    QMap<QString, DataNode*> connections;
 
     m_rootNode->clear();
-    DataNode* ds = m_rootNode->addChild(tr("Datasources"),DataNode::DataSources,QIcon(":/report/images/databases"));
+    DataNode* ds = m_rootNode->addChild(tr("Datasources"), DataNode::DataSources,
+                                        QIcon(":/report/images/databases"));
 
-
-    foreach (QString name,m_dataManager->connectionNames()) {
-        DataNode* connection = ds->addChild(name,DataNode::Connection,QIcon(":/report/images/database"));
-        connections.insert(name,connection);
+    foreach (QString name, m_dataManager->connectionNames()) {
+        DataNode* connection
+            = ds->addChild(name, DataNode::Connection, QIcon(":/report/images/database"));
+        connections.insert(name, connection);
     }
 
     foreach (QString name, m_dataManager->dataSourceNames()) {
         DataNode* datasource;
-        if (m_dataManager->isQuery(name)){
-            DataNode* connection = connections.value(m_dataManager->queryByName(name)->connectionName());
-            if (connection) datasource=connection->addChild(name,DataNode::Query,QIcon(":/report/images/table"));
-            else datasource=ds->addChild(name,DataNode::Query);
-        } else if (m_dataManager->isSubQuery(name)){
-            DataNode* connection = connections.value(m_dataManager->subQueryByName(name)->connectionName());
-            if (connection) datasource=connection->addChild(name,DataNode::SubQuery,QIcon(":/report/images/table"));
-            else datasource=ds->addChild(name,DataNode::SubQuery);
+        if (m_dataManager->isQuery(name)) {
+            DataNode* connection
+                = connections.value(m_dataManager->queryByName(name)->connectionName());
+            if (connection)
+                datasource
+                    = connection->addChild(name, DataNode::Query, QIcon(":/report/images/table"));
+            else
+                datasource = ds->addChild(name, DataNode::Query);
+        } else if (m_dataManager->isSubQuery(name)) {
+            DataNode* connection
+                = connections.value(m_dataManager->subQueryByName(name)->connectionName());
+            if (connection)
+                datasource = connection->addChild(name, DataNode::SubQuery,
+                                                  QIcon(":/report/images/table"));
+            else
+                datasource = ds->addChild(name, DataNode::SubQuery);
         } else {
-            datasource=ds->addChild(name,DataNode::Model,QIcon(":/report/images/table"));
+            datasource = ds->addChild(name, DataNode::Model, QIcon(":/report/images/table"));
         }
         fillFields(datasource);
     }
 
-    DataNode* vars = m_rootNode->addChild(tr("Variables"),DataNode::Variables,QIcon(":/report/images/folder"));
-    foreach (QString name, m_dataManager->variableNames()){
-        vars->addChild(name,DataNode::Variable,QIcon(":/report/images/value"));
+    DataNode* vars = m_rootNode->addChild(tr("Variables"), DataNode::Variables,
+                                          QIcon(":/report/images/folder"));
+    foreach (QString name, m_dataManager->variableNames()) {
+        vars->addChild(name, DataNode::Variable, QIcon(":/report/images/value"));
     }
 
-    vars = m_rootNode->addChild(tr("External variables"),DataNode::Variables,QIcon(":/report/images/folder"));
-    foreach (QString name, m_dataManager->userVariableNames()){
-        vars->addChild(name,DataNode::Variable,QIcon(":/report/images/value"));
+    vars = m_rootNode->addChild(tr("External variables"), DataNode::Variables,
+                                QIcon(":/report/images/folder"));
+    foreach (QString name, m_dataManager->userVariableNames()) {
+        vars->addChild(name, DataNode::Variable, QIcon(":/report/images/value"));
     }
 }
 
-DataSourceManager::DataSourceManager(QObject *parent) :
-    QObject(parent), m_lastError(""), m_designTime(false), m_needUpdate(false),
-    m_dbCredentialsProvider(0), m_hasChanges(false)
+DataSourceManager::DataSourceManager(QObject* parent):
+    QObject(parent),
+    m_lastError(""),
+    m_designTime(false),
+    m_needUpdate(false),
+    m_dbCredentialsProvider(0),
+    m_hasChanges(false)
 {
-    m_groupFunctionFactory.registerFunctionCreator(QLatin1String("COUNT"),new ConstructorGroupFunctionCreator<CountGroupFunction>);
-    m_groupFunctionFactory.registerFunctionCreator(QLatin1String("SUM"),new ConstructorGroupFunctionCreator<SumGroupFunction>);
-    m_groupFunctionFactory.registerFunctionCreator(QLatin1String("AVG"),new ConstructorGroupFunctionCreator<AvgGroupFunction>);
-    m_groupFunctionFactory.registerFunctionCreator(QLatin1String("MIN"),new ConstructorGroupFunctionCreator<MinGroupFunction>);
-    m_groupFunctionFactory.registerFunctionCreator(QLatin1String("MAX"),new ConstructorGroupFunctionCreator<MaxGroupFunction>);
-    setSystemVariable(QLatin1String("#PAGE"),1,SecondPass);
-    setSystemVariable(QLatin1String("#PAGE_COUNT"),0,SecondPass);
-    setSystemVariable(QLatin1String("#IS_LAST_PAGEFOOTER"),false,FirstPass);
-    setSystemVariable(QLatin1String("#IS_FIRST_PAGEFOOTER"),false,FirstPass);
+    m_groupFunctionFactory.registerFunctionCreator(
+        QLatin1String("COUNT"), new ConstructorGroupFunctionCreator<CountGroupFunction>);
+    m_groupFunctionFactory.registerFunctionCreator(
+        QLatin1String("SUM"), new ConstructorGroupFunctionCreator<SumGroupFunction>);
+    m_groupFunctionFactory.registerFunctionCreator(
+        QLatin1String("AVG"), new ConstructorGroupFunctionCreator<AvgGroupFunction>);
+    m_groupFunctionFactory.registerFunctionCreator(
+        QLatin1String("MIN"), new ConstructorGroupFunctionCreator<MinGroupFunction>);
+    m_groupFunctionFactory.registerFunctionCreator(
+        QLatin1String("MAX"), new ConstructorGroupFunctionCreator<MaxGroupFunction>);
+    setSystemVariable(QLatin1String("#PAGE"), 1, SecondPass);
+    setSystemVariable(QLatin1String("#PAGE_COUNT"), 0, SecondPass);
+    setSystemVariable(QLatin1String("#IS_LAST_PAGEFOOTER"), false, FirstPass);
+    setSystemVariable(QLatin1String("#IS_FIRST_PAGEFOOTER"), false, FirstPass);
     m_datasourcesModel.setDataSourceManager(this);
 
-    connect(&m_reportVariables, SIGNAL(variableHasBeenAdded(QString)),
-            this, SLOT(slotVariableHasBeenAdded(QString)));
-    connect(&m_reportVariables, SIGNAL(variableHasBeenChanged(QString)),
-            this, SLOT(slotVariableHasBeenChanged(QString)));
-    connect(&m_userVariables, SIGNAL(variableHasBeenAdded(QString)),
-            this, SLOT(slotVariableHasBeenAdded(QString)));
-    connect(&m_userVariables, SIGNAL(variableHasBeenChanged(QString)),
-            this, SLOT(slotVariableHasBeenChanged(QString)));
-
-
+    connect(&m_reportVariables, SIGNAL(variableHasBeenAdded(QString)), this,
+            SLOT(slotVariableHasBeenAdded(QString)));
+    connect(&m_reportVariables, SIGNAL(variableHasBeenChanged(QString)), this,
+            SLOT(slotVariableHasBeenChanged(QString)));
+    connect(&m_userVariables, SIGNAL(variableHasBeenAdded(QString)), this,
+            SLOT(slotVariableHasBeenAdded(QString)));
+    connect(&m_userVariables, SIGNAL(variableHasBeenChanged(QString)), this,
+            SLOT(slotVariableHasBeenChanged(QString)));
 }
 
-QString DataSourceManager::defaultDatabasePath() const
-{
-    return m_defaultDatabasePath;
-}
+QString DataSourceManager::defaultDatabasePath() const { return m_defaultDatabasePath; }
 
-void DataSourceManager::setDefaultDatabasePath(const QString &defaultDatabasePath)
+void DataSourceManager::setDefaultDatabasePath(const QString& defaultDatabasePath)
 {
     m_defaultDatabasePath = defaultDatabasePath;
 }
 
 QString DataSourceManager::putGroupFunctionsExpressions(QString expression)
 {
-    if (m_groupFunctionsExpressionsMap.contains(expression)){
+    if (m_groupFunctionsExpressionsMap.contains(expression)) {
         return QString::number(m_groupFunctionsExpressionsMap.value(expression));
     } else {
         m_groupFunctionsExpressions.append(expression);
-        m_groupFunctionsExpressionsMap.insert(expression, m_groupFunctionsExpressions.size()-1);
-        return QString::number(m_groupFunctionsExpressions.size()-1);
+        m_groupFunctionsExpressionsMap.insert(expression, m_groupFunctionsExpressions.size() - 1);
+        return QString::number(m_groupFunctionsExpressions.size() - 1);
     }
 }
 
@@ -283,21 +306,15 @@ QString DataSourceManager::getExpression(QString index)
 {
     bool ok = false;
     int i = index.toInt(&ok);
-    if (ok && m_groupFunctionsExpressions.size()>i)
+    if (ok && m_groupFunctionsExpressions.size() > i)
         return m_groupFunctionsExpressions.at(index.toInt());
-    else return "";
+    else
+        return "";
 }
 
-bool DataSourceManager::designTime() const
-{
-    return m_designTime;
-}
+bool DataSourceManager::designTime() const { return m_designTime; }
 
-void DataSourceManager::setDesignTime(bool designTime)
-{
-    m_designTime = designTime;
-}
-
+void DataSourceManager::setDesignTime(bool designTime) { m_designTime = designTime; }
 
 DataSourceManager::~DataSourceManager()
 {
@@ -307,26 +324,26 @@ DataSourceManager::~DataSourceManager()
 
 void DataSourceManager::connectAllDatabases()
 {
-    foreach(ConnectionDesc* conn,m_connections){
-        try{
+    foreach (ConnectionDesc* conn, m_connections) {
+        try {
             connectConnection(conn);
-        } catch (ReportError &e){
+        } catch (ReportError& e) {
             putError(e.what());
             setLastError(e.what());
-            qDebug()<<e.what();
+            qDebug() << e.what();
         }
     }
 }
 
-bool DataSourceManager::addModel(const QString &name, QAbstractItemModel *model, bool owned)
+bool DataSourceManager::addModel(const QString& name, QAbstractItemModel* model, bool owned)
 {
     if (m_datasources.contains(name.toLower()))
         removeDatasource(name.toLower());
-    ModelHolder* mh = new ModelHolder(model,owned);
-    try{
+    ModelHolder* mh = new ModelHolder(model, owned);
+    try {
         putHolder(name, mh);
         connect(mh, SIGNAL(modelStateChanged()), this, SIGNAL(datasourcesChanged()));
-    } catch (ReportError &e){
+    } catch (ReportError& e) {
         putError(e.what());
         setLastError(e.what());
         return false;
@@ -335,60 +352,62 @@ bool DataSourceManager::addModel(const QString &name, QAbstractItemModel *model,
     return true;
 }
 
-void DataSourceManager::removeModel(const QString &name)
+void DataSourceManager::removeModel(const QString& name)
 {
     if (m_datasources.contains(name.toLower()))
         removeDatasource(name.toLower());
 }
 
-ICallbackDatasource *DataSourceManager::createCallbackDatasource(const QString& name)
+ICallbackDatasource* DataSourceManager::createCallbackDatasource(const QString& name)
 {
     ICallbackDatasource* ds = new CallbackDatasource();
-    IDataSourceHolder* holder = new CallbackDatasourceHolder(dynamic_cast<IDataSource*>(ds),true);
-    putHolder(name,holder);
+    IDataSourceHolder* holder = new CallbackDatasourceHolder(dynamic_cast<IDataSource*>(ds), true);
+    putHolder(name, holder);
     emit datasourcesChanged();
     m_needUpdate = true;
     return ds;
 }
 
-void DataSourceManager::registerDbCredentialsProvider(IDbCredentialsProvider *provider)
+void DataSourceManager::registerDbCredentialsProvider(IDbCredentialsProvider* provider)
 {
     m_dbCredentialsProvider = provider;
 }
 
-void DataSourceManager::addCallbackDatasource(ICallbackDatasource *datasource, const QString& name)
+void DataSourceManager::addCallbackDatasource(ICallbackDatasource* datasource, const QString& name)
 {
     IDataSource* datasourceIntf = dynamic_cast<IDataSource*>(datasource);
-    if (datasourceIntf){
-        IDataSourceHolder* holder = new CallbackDatasourceHolder(datasourceIntf,true);
-        putHolder(name,holder);
+    if (datasourceIntf) {
+        IDataSourceHolder* holder = new CallbackDatasourceHolder(datasourceIntf, true);
+        putHolder(name, holder);
         emit datasourcesChanged();
     }
 }
 
-QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &connectionName, const QString &sqlText, QString masterDatasource)
+QSharedPointer<QAbstractItemModel> DataSourceManager::previewSQL(const QString& connectionName,
+                                                                 const QString& sqlText,
+                                                                 QString masterDatasource)
 {
     QSqlDatabase db = QSqlDatabase::database(connectionName);
 
-    if (db.isValid() && db.isOpen()){
+    if (db.isValid() && db.isOpen()) {
 
         QSqlQueryModel* model = new QSqlQueryModel();
-        QMap<QString,QString> aliasesToParam;
-        QString queryText = replaceVariables(sqlText,aliasesToParam);
-        queryText = replaceFields(queryText,aliasesToParam,masterDatasource);
+        QMap<QString, QString> aliasesToParam;
+        QString queryText = replaceVariables(sqlText, aliasesToParam);
+        queryText = replaceFields(queryText, aliasesToParam, masterDatasource);
         QSqlQuery query(db);
         query.prepare(queryText);
 
-        foreach(QString param,aliasesToParam.keys()){
+        foreach (QString param, aliasesToParam.keys()) {
             QVariant value;
-            if (param.contains(".")){
+            if (param.contains(".")) {
                 value = fieldData(aliasesToParam.value(param));
-                param=param.right(param.length()-param.indexOf('.')-1);
+                param = param.right(param.length() - param.indexOf('.') - 1);
             } else {
                 value = variable(aliasesToParam.value(param));
             }
             if (value.isValid() || m_designTime)
-                query.bindValue(':'+param,value);
+                query.bindValue(':' + param, value);
         }
 
         query.exec();
@@ -406,7 +425,7 @@ QSharedPointer<QAbstractItemModel>DataSourceManager::previewSQL(const QString &c
         else
             return QSharedPointer<QAbstractItemModel>(0);
     }
-    if (!db.isOpen()){
+    if (!db.isOpen()) {
         m_lastError = tr("Connection \"%1\" is not open").arg(connectionName);
         putError(m_lastError);
     }
@@ -423,12 +442,13 @@ void DataSourceManager::updateDatasourceModel()
 QString DataSourceManager::extractField(QString source)
 {
     if (source.contains('.')) {
-        return source.right(source.length()-(source.indexOf('.')+1));
+        return source.right(source.length() - (source.indexOf('.') + 1));
     }
     return source;
 }
 
-QString DataSourceManager::replaceVariables(QString value){
+QString DataSourceManager::replaceVariables(QString value)
+{
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
     QRegularExpression rx = getVariableRegEx();
     QRegularExpressionMatchIterator iter = rx.globalMatch(value);
@@ -440,7 +460,7 @@ QString DataSourceManager::replaceVariables(QString value){
         var.remove("$V{");
         var.remove("}");
         result += value.mid(pos, match.capturedStart(0));
-        if (variable(var).isValid()){
+        if (variable(var).isValid()) {
             result += variable(var).toString();
         } else {
             result += QString(tr("Variable \"%1\" not found!").arg(var));
@@ -452,62 +472,66 @@ QString DataSourceManager::replaceVariables(QString value){
 #else
     QRegExp rx(Const::VARIABLE_RX);
 
-    if (value.contains(rx)){
+    if (value.contains(rx)) {
         int pos = -1;
-        while ((pos=rx.indexIn(value))!=-1){
-            QString var=rx.cap(0);
+        while ((pos = rx.indexIn(value)) != -1) {
+            QString var = rx.cap(0);
             var.remove("$V{");
             var.remove("}");
 
-            if (variable(var).isValid()){
-                value.replace(pos,rx.cap(0).length(),variable(var).toString());
+            if (variable(var).isValid()) {
+                value.replace(pos, rx.cap(0).length(), variable(var).toString());
             } else {
-                value.replace(pos,rx.cap(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+                value.replace(pos, rx.cap(0).length(),
+                              QString(tr("Variable \"%1\" not found!").arg(var)));
             }
         }
     }
-    return value;    
+    return value;
 #endif
     return QString();
 }
 
-QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString> &aliasesToParam)
+QString DataSourceManager::replaceVariables(QString query, QMap<QString, QString>& aliasesToParam)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
     QRegularExpression rx = getVariableRegEx();
     int curentAliasIndex = 0;
-    if (query.contains(rx)){
+    if (query.contains(rx)) {
         int pos = -1;
         QRegularExpressionMatch match = rx.match(query);
-        while ((pos=match.capturedStart())!=-1){
+        while ((pos = match.capturedStart()) != -1) {
 
-            QString var=match.captured(0);
+            QString var = match.captured(0);
             var.remove("$V{");
             var.remove("}");
-            if (!match.captured(1).isEmpty()){
-                if (aliasesToParam.contains(var)){
+            if (!match.captured(1).isEmpty()) {
+                if (aliasesToParam.contains(var)) {
                     curentAliasIndex++;
-                    aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
-                    var += "_v_alias"+QString::number(curentAliasIndex);
+                    aliasesToParam.insert(var + "_v_alias" + QString::number(curentAliasIndex),
+                                          var);
+                    var += "_v_alias" + QString::number(curentAliasIndex);
                 } else {
-                    aliasesToParam.insert(var,var);
+                    aliasesToParam.insert(var, var);
                 }
-                query.replace(pos,match.captured(0).length(),":"+var);
+                query.replace(pos, match.captured(0).length(), ":" + var);
             } else {
                 QString varName = match.captured(2).trimmed();
                 QString varParam = match.captured(3).trimmed();
-                if (!varName.isEmpty()){
-                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0 ){
-                        query.replace(pos,match.captured(0).length(), variable(varName).toString());
+                if (!varName.isEmpty()) {
+                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0) {
+                        query.replace(pos, match.captured(0).length(),
+                                      variable(varName).toString());
                     } else {
-                        query.replace(pos,match.captured(0).length(),
-                                      QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
-                                              .arg(varName)
-                                              .arg(varParam))
-                                      );
+                        query.replace(
+                            pos, match.captured(0).length(),
+                            QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
+                                        .arg(varName)
+                                        .arg(varParam)));
                     }
                 } else {
-                    query.replace(pos,match.captured(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+                    query.replace(pos, match.captured(0).length(),
+                                  QString(tr("Variable \"%1\" not found!").arg(var)));
                 }
             }
             match = rx.match(query);
@@ -516,37 +540,39 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
 #else
     QRegExp rx(Const::VARIABLE_RX);
     int curentAliasIndex = 0;
-    if (query.contains(rx)){
+    if (query.contains(rx)) {
         int pos = -1;
-        while ((pos=rx.indexIn(query))!=-1){
+        while ((pos = rx.indexIn(query)) != -1) {
 
-            QString var=rx.cap(0);
+            QString var = rx.cap(0);
             var.remove("$V{");
             var.remove("}");
-            if (!rx.cap(1).isEmpty()){
-                if (aliasesToParam.contains(var)){
+            if (!rx.cap(1).isEmpty()) {
+                if (aliasesToParam.contains(var)) {
                     curentAliasIndex++;
-                    aliasesToParam.insert(var+"_v_alias"+QString::number(curentAliasIndex),var);
-                    var += "_v_alias"+QString::number(curentAliasIndex);
+                    aliasesToParam.insert(var + "_v_alias" + QString::number(curentAliasIndex),
+                                          var);
+                    var += "_v_alias" + QString::number(curentAliasIndex);
                 } else {
-                    aliasesToParam.insert(var,var);
+                    aliasesToParam.insert(var, var);
                 }
-                query.replace(pos,rx.cap(0).length(),":"+var);
+                query.replace(pos, rx.cap(0).length(), ":" + var);
             } else {
                 QString varName = rx.cap(2).trimmed();
                 QString varParam = rx.cap(3).trimmed();
-                if (!varName.isEmpty()){
-                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0 ){
-                        query.replace(pos,rx.cap(0).length(), variable(varName).toString());
+                if (!varName.isEmpty()) {
+                    if (!varParam.isEmpty() && varParam.compare("nobind") == 0) {
+                        query.replace(pos, rx.cap(0).length(), variable(varName).toString());
                     } else {
-                        query.replace(pos,rx.cap(0).length(),
-                                      QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
-                                              .arg(varName)
-                                              .arg(varParam))
-                                      );
+                        query.replace(
+                            pos, rx.cap(0).length(),
+                            QString(tr("Unknown parameter \"%1\" for variable \"%2\" found!")
+                                        .arg(varName)
+                                        .arg(varParam)));
                     }
                 } else {
-                    query.replace(pos,rx.cap(0).length(),QString(tr("Variable \"%1\" not found!").arg(var)));
+                    query.replace(pos, rx.cap(0).length(),
+                                  QString(tr("Variable \"%1\" not found!").arg(var)));
                 }
             }
         }
@@ -555,111 +581,122 @@ QString DataSourceManager::replaceVariables(QString query, QMap<QString,QString>
     return query;
 }
 
-QString DataSourceManager::replaceFields(QString query, QMap<QString,QString> &aliasesToParam, QString masterDatasource)
+QString DataSourceManager::replaceFields(QString query, QMap<QString, QString>& aliasesToParam,
+                                         QString masterDatasource)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
     QRegularExpression rx = getFieldRegEx();
     int curentAliasIndex = 0;
-    if (query.contains(rx)){
+    if (query.contains(rx)) {
         int pos = -1;
         QRegularExpressionMatch match = rx.match(query);
-        while ((pos=match.capturedStart())!=-1){
+        while ((pos = match.capturedStart()) != -1) {
 
-            QString field=match.captured(0);
+            QString field = match.captured(0);
             field.remove("$D{");
             field.remove("}");
 
-            if (!aliasesToParam.contains(field)){
+            if (!aliasesToParam.contains(field)) {
                 if (field.contains("."))
                     aliasesToParam.insert(field, field);
                 else
-                    aliasesToParam.insert(field, masterDatasource+"."+field);
+                    aliasesToParam.insert(field, masterDatasource + "." + field);
             } else {
                 curentAliasIndex++;
                 if (field.contains("."))
-                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex), field);
+                    aliasesToParam.insert(field + "_f_alias" + QString::number(curentAliasIndex),
+                                          field);
                 else
-                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex), masterDatasource+"."+field);
-                field+="_f_alias"+QString::number(curentAliasIndex);
+                    aliasesToParam.insert(field + "_f_alias" + QString::number(curentAliasIndex),
+                                          masterDatasource + "." + field);
+                field += "_f_alias" + QString::number(curentAliasIndex);
             }
-            query.replace(pos,match.capturedLength(),":"+extractField(field));
+            query.replace(pos, match.capturedLength(), ":" + extractField(field));
             match = rx.match(query);
         }
     }
 #else
     QRegExp rx(Const::FIELD_RX);
-    if (query.contains(rx)){
-        int curentAliasIndex=0;
+    if (query.contains(rx)) {
+        int curentAliasIndex = 0;
         int pos;
-        while ((pos=rx.indexIn(query))!=-1){
-            QString field=rx.cap(0);
+        while ((pos = rx.indexIn(query)) != -1) {
+            QString field = rx.cap(0);
             field.remove("$D{");
             field.remove("}");
 
-            if (!aliasesToParam.contains(field)){
+            if (!aliasesToParam.contains(field)) {
                 if (field.contains("."))
-                    aliasesToParam.insert(field,field);
+                    aliasesToParam.insert(field, field);
                 else
-                    aliasesToParam.insert(field,masterDatasource+"."+field);
+                    aliasesToParam.insert(field, masterDatasource + "." + field);
             } else {
                 curentAliasIndex++;
                 if (field.contains("."))
-                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex),field);
+                    aliasesToParam.insert(field + "_f_alias" + QString::number(curentAliasIndex),
+                                          field);
                 else
-                    aliasesToParam.insert(field+"_f_alias"+QString::number(curentAliasIndex),masterDatasource+"."+field);
-                field+="_f_alias"+QString::number(curentAliasIndex);
+                    aliasesToParam.insert(field + "_f_alias" + QString::number(curentAliasIndex),
+                                          masterDatasource + "." + field);
+                field += "_f_alias" + QString::number(curentAliasIndex);
             }
-            query.replace(pos,rx.cap(0).length(),":"+extractField(field));
+            query.replace(pos, rx.cap(0).length(), ":" + extractField(field));
         }
     }
-    return query;    
+    return query;
 #endif
     return query;
 }
 
-void DataSourceManager::setReportVariable(const QString &name, const QVariant &value)
-{ 
-    if (!containsVariable(name)){
-        addVariable(name,value);
-    } else changeVariable(name,value);
+void DataSourceManager::setReportVariable(const QString& name, const QVariant& value)
+{
+    if (!containsVariable(name)) {
+        addVariable(name, value);
+    } else
+        changeVariable(name, value);
 }
 
-void DataSourceManager::addQuery(const QString &name, const QString &sqlText, const QString &connectionName)
+void DataSourceManager::addQuery(const QString& name, const QString& sqlText,
+                                 const QString& connectionName)
 {
-    QueryDesc *queryDecs = new QueryDesc(name,sqlText,connectionName);
+    QueryDesc* queryDecs = new QueryDesc(name, sqlText, connectionName);
     putQueryDesc(queryDecs);
-    putHolder(name,new QueryHolder(sqlText, connectionName, this));
+    putHolder(name, new QueryHolder(sqlText, connectionName, this));
     m_hasChanges = true;
     m_varToDataSource.clear();
     emit datasourcesChanged();
 }
 
-void DataSourceManager::addSubQuery(const QString &name, const QString &sqlText, const QString &connectionName, const QString &masterDatasource)
+void DataSourceManager::addSubQuery(const QString& name, const QString& sqlText,
+                                    const QString& connectionName, const QString& masterDatasource)
 {
-    SubQueryDesc *subQueryDesc = new SubQueryDesc(name.toLower(),sqlText,connectionName,masterDatasource);
+    SubQueryDesc* subQueryDesc
+        = new SubQueryDesc(name.toLower(), sqlText, connectionName, masterDatasource);
     putSubQueryDesc(subQueryDesc);
-    putHolder(name,new SubQueryHolder(sqlText, connectionName, masterDatasource, this));
+    putHolder(name, new SubQueryHolder(sqlText, connectionName, masterDatasource, this));
     m_hasChanges = true;
     m_varToDataSource.clear();
     emit datasourcesChanged();
 }
 
-void DataSourceManager::addProxy(const QString &name, const QString &master, const QString &detail, QList<FieldsCorrelation> fields)
+void DataSourceManager::addProxy(const QString& name, const QString& master, const QString& detail,
+                                 QList<FieldsCorrelation> fields)
 {
-    ProxyDesc *proxyDesc = new ProxyDesc();
+    ProxyDesc* proxyDesc = new ProxyDesc();
     proxyDesc->setName(name);
     proxyDesc->setMaster(master);
     proxyDesc->setDetail(detail);
-    foreach(FieldsCorrelation correlation,fields){
+    foreach (FieldsCorrelation correlation, fields) {
         proxyDesc->addFieldsCorrelation(correlation);
     }
     putProxyDesc(proxyDesc);
-    putHolder(name,new ProxyHolder(proxyDesc, this));
+    putHolder(name, new ProxyHolder(proxyDesc, this));
     m_hasChanges = true;
     emit datasourcesChanged();
 }
 
-void DataSourceManager::addCSV(const QString& name, const QString& csvText, const QString &separator, bool firstRowIsHeader)
+void DataSourceManager::addCSV(const QString& name, const QString& csvText,
+                               const QString& separator, bool firstRowIsHeader)
 {
     CSVDesc* csvDesc = new CSVDesc(name, csvText, separator, firstRowIsHeader);
     putCSVDesc(csvDesc);
@@ -668,141 +705,157 @@ void DataSourceManager::addCSV(const QString& name, const QString& csvText, cons
     emit datasourcesChanged();
 }
 
-QString DataSourceManager::queryText(const QString &dataSourceName)
+QString DataSourceManager::queryText(const QString& dataSourceName)
 {
-    if (isQuery(dataSourceName)) return queryByName(dataSourceName)->queryText();
-    if (isSubQuery(dataSourceName)) return subQueryByName(dataSourceName)->queryText();
-    else return QString();
+    if (isQuery(dataSourceName))
+        return queryByName(dataSourceName)->queryText();
+    if (isSubQuery(dataSourceName))
+        return subQueryByName(dataSourceName)->queryText();
+    else
+        return QString();
 }
 
-QueryDesc *DataSourceManager::queryByName(const QString &datasourceName)
+QueryDesc* DataSourceManager::queryByName(const QString& datasourceName)
 {
     int queryIndex = queryIndexByName(datasourceName);
-    if (queryIndex!=-1) return m_queries.at(queryIndex);
+    if (queryIndex != -1)
+        return m_queries.at(queryIndex);
     return 0;
 }
 
-SubQueryDesc* DataSourceManager::subQueryByName(const QString &datasourceName)
+SubQueryDesc* DataSourceManager::subQueryByName(const QString& datasourceName)
 {
     int queryIndex = subQueryIndexByName(datasourceName);
-    if (queryIndex!=-1) return m_subqueries.at(queryIndex);
+    if (queryIndex != -1)
+        return m_subqueries.at(queryIndex);
     return 0;
 }
 
-ConnectionDesc* DataSourceManager::connectionByName(const QString &connectionName)
+ConnectionDesc* DataSourceManager::connectionByName(const QString& connectionName)
 {
     int queryIndex = connectionIndexByName(connectionName);
-    if (queryIndex!=-1) return m_connections.at(queryIndex);
+    if (queryIndex != -1)
+        return m_connections.at(queryIndex);
     return 0;
 }
 
-int DataSourceManager::queryIndexByName(const QString &dataSourceName)
+int DataSourceManager::queryIndexByName(const QString& dataSourceName)
 {
-    for(int i=0;i<m_queries.count();i++){
-        QueryDesc* desc=m_queries.at(i);
-        if (desc->queryName().compare(dataSourceName,Qt::CaseInsensitive)==0) return i;
+    for (int i = 0; i < m_queries.count(); i++) {
+        QueryDesc* desc = m_queries.at(i);
+        if (desc->queryName().compare(dataSourceName, Qt::CaseInsensitive) == 0)
+            return i;
     }
     return -1;
 }
 
-int DataSourceManager::subQueryIndexByName(const QString &dataSourceName)
+int DataSourceManager::subQueryIndexByName(const QString& dataSourceName)
 {
-    for(int i=0;i<m_subqueries.count();++i){
-        QueryDesc* desc=m_subqueries.at(i);
-        if (desc->queryName().compare(dataSourceName,Qt::CaseInsensitive)==0) return i;
+    for (int i = 0; i < m_subqueries.count(); ++i) {
+        QueryDesc* desc = m_subqueries.at(i);
+        if (desc->queryName().compare(dataSourceName, Qt::CaseInsensitive) == 0)
+            return i;
     }
     return -1;
 }
 
-int DataSourceManager::proxyIndexByName(const QString &dataSourceName)
+int DataSourceManager::proxyIndexByName(const QString& dataSourceName)
 {
-    for(int i=0;i<m_proxies.count();++i){
-        ProxyDesc* desc=m_proxies.at(i);
-        if (desc->name().compare(dataSourceName,Qt::CaseInsensitive)==0) return i;
+    for (int i = 0; i < m_proxies.count(); ++i) {
+        ProxyDesc* desc = m_proxies.at(i);
+        if (desc->name().compare(dataSourceName, Qt::CaseInsensitive) == 0)
+            return i;
     }
     return -1;
 }
 
-int DataSourceManager::csvIndexByName(const QString &dataSourceName)
+int DataSourceManager::csvIndexByName(const QString& dataSourceName)
 {
-    for(int i=0; i < m_csvs.count();++i){
-        CSVDesc* desc=m_csvs.at(i);
-        if (desc->name().compare(dataSourceName,Qt::CaseInsensitive)==0) return i;
+    for (int i = 0; i < m_csvs.count(); ++i) {
+        CSVDesc* desc = m_csvs.at(i);
+        if (desc->name().compare(dataSourceName, Qt::CaseInsensitive) == 0)
+            return i;
     }
     return -1;
 }
 
-int DataSourceManager::connectionIndexByName(const QString &connectionName)
+int DataSourceManager::connectionIndexByName(const QString& connectionName)
 {
-    for(int i=0;i<m_connections.count();++i){
-        ConnectionDesc* desc=m_connections.at(i);
-        if (desc->name().compare(connectionName,Qt::CaseInsensitive)==0) return i;
+    for (int i = 0; i < m_connections.count(); ++i) {
+        ConnectionDesc* desc = m_connections.at(i);
+        if (desc->name().compare(connectionName, Qt::CaseInsensitive) == 0)
+            return i;
     }
     return -1;
 }
 
-QList<ConnectionDesc *>& DataSourceManager::conections()
+QList<ConnectionDesc*>& DataSourceManager::conections() { return m_connections; }
+
+bool DataSourceManager::dataSourceIsValid(const QString& name)
 {
-    return m_connections;
+    if (m_datasources.value(name.toLower()))
+        return !m_datasources.value(name.toLower())->isInvalid();
+    else
+        throw ReportError(tr("Datasource \"%1\" not found!").arg(name));
 }
 
-bool DataSourceManager::dataSourceIsValid(const QString &name)
-{
-    if (m_datasources.value(name.toLower())) return !m_datasources.value(name.toLower())->isInvalid();
-    else throw ReportError(tr("Datasource \"%1\" not found!").arg(name));
-}
-
-bool DataSourceManager::isQuery(const QString &dataSourceName)
+bool DataSourceManager::isQuery(const QString& dataSourceName)
 {
     return (queryByName(dataSourceName));
 }
 
-QString DataSourceManager::connectionName(const QString &dataSourceName)
+QString DataSourceManager::connectionName(const QString& dataSourceName)
 {
-    if (isQuery(dataSourceName)) return queryByName(dataSourceName)->connectionName();
-    if (isSubQuery(dataSourceName)) return subQueryByName(dataSourceName)->connectionName();
+    if (isQuery(dataSourceName))
+        return queryByName(dataSourceName)->connectionName();
+    if (isSubQuery(dataSourceName))
+        return subQueryByName(dataSourceName)->connectionName();
     return QString();
 }
 
-ProxyDesc *DataSourceManager::proxyByName(const QString &datasourceName)
+ProxyDesc* DataSourceManager::proxyByName(const QString& datasourceName)
 {
     int proxyIndex = proxyIndexByName(datasourceName);
-    if (proxyIndex > -1) return m_proxies.at(proxyIndex);
-    else return 0;
+    if (proxyIndex > -1)
+        return m_proxies.at(proxyIndex);
+    else
+        return 0;
 }
 
-CSVDesc *DataSourceManager::csvByName(const QString &datasourceName)
+CSVDesc* DataSourceManager::csvByName(const QString& datasourceName)
 {
-    int csvIndex =  csvIndexByName(datasourceName);
-    if (csvIndex > -1) return m_csvs.at(csvIndex);
-    else return 0;
+    int csvIndex = csvIndexByName(datasourceName);
+    if (csvIndex > -1)
+        return m_csvs.at(csvIndex);
+    else
+        return 0;
 }
 
-void DataSourceManager::removeDatasource(const QString &name)
+void DataSourceManager::removeDatasource(const QString& name)
 {
-    if (m_datasources.contains(name)){
-        IDataSourceHolder *holder;
-        holder=m_datasources.value(name);
+    if (m_datasources.contains(name)) {
+        IDataSourceHolder* holder;
+        holder = m_datasources.value(name);
         m_datasources.remove(name);
         delete holder;
     }
-    if (isQuery(name)){
-        int queryIndex=queryIndexByName(name);
+    if (isQuery(name)) {
+        int queryIndex = queryIndexByName(name);
         delete m_queries.at(queryIndex);
         m_queries.removeAt(queryIndex);
     }
-    if (isSubQuery(name)){
-        int queryIndex=subQueryIndexByName(name);
+    if (isSubQuery(name)) {
+        int queryIndex = subQueryIndexByName(name);
         delete m_subqueries.at(queryIndex);
         m_subqueries.removeAt(queryIndex);
     }
-    if (isProxy(name)){
-        int proxyIndex=proxyIndexByName(name);
+    if (isProxy(name)) {
+        int proxyIndex = proxyIndexByName(name);
         delete m_proxies.at(proxyIndex);
         m_proxies.removeAt(proxyIndex);
     }
-    if (isCSV(name)){
-        int csvIndex=csvIndexByName(name);
+    if (isCSV(name)) {
+        int csvIndex = csvIndexByName(name);
         delete m_csvs.at(csvIndex);
         m_csvs.removeAt(csvIndex);
     }
@@ -811,13 +864,12 @@ void DataSourceManager::removeDatasource(const QString &name)
     emit datasourcesChanged();
 }
 
-void DataSourceManager::removeConnection(const QString &connectionName)
+void DataSourceManager::removeConnection(const QString& connectionName)
 {
     QList<ConnectionDesc*>::iterator cit = m_connections.begin();
-    while( cit != m_connections.end() ){
-        if ( ((*cit)->name().compare(connectionName) == 0) ){
-            if ((*cit)->isInternal())
-            {
+    while (cit != m_connections.end()) {
+        if (((*cit)->name().compare(connectionName) == 0)) {
+            if ((*cit)->isInternal()) {
                 QSqlDatabase db = QSqlDatabase::database(connectionName);
                 db.close();
             }
@@ -832,30 +884,33 @@ void DataSourceManager::removeConnection(const QString &connectionName)
     emit datasourcesChanged();
 }
 
-void DataSourceManager::addConnectionDesc(ConnectionDesc * connection)
+void DataSourceManager::addConnectionDesc(ConnectionDesc* connection)
 {
     if (!isConnection(connection->name())) {
-        connect(connection,SIGNAL(nameChanged(QString,QString)),this,SLOT(slotConnectionRenamed(QString,QString)));
+        connect(connection, SIGNAL(nameChanged(QString, QString)), this,
+                SLOT(slotConnectionRenamed(QString, QString)));
         m_connections.append(connection);
         m_hasChanges = true;
-        if (connection->autoconnect()){
-            try{
-              connectConnection(connection);
-            } catch(ReportError &exception) {
-                qDebug()<<exception.what();
+        if (connection->autoconnect()) {
+            try {
+                connectConnection(connection);
+            } catch (ReportError& exception) {
+                qDebug() << exception.what();
             }
         }
     } else {
-       throw ReportError(tr("Connection with name \"%1\" already exists!").arg(connection->name()));
+        throw ReportError(
+            tr("Connection with name \"%1\" already exists!").arg(connection->name()));
     }
 }
 
-bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
+bool DataSourceManager::checkConnectionDesc(ConnectionDesc* connection)
 {
-    if (connectConnection(connection)){
-        if (connection->isInternal()){
+    if (connectConnection(connection)) {
+        if (connection->isInternal()) {
             QSqlDatabase::removeDatabase(connection->name());
-            if (designTime()) emit datasourcesChanged();
+            if (designTime())
+                emit datasourcesChanged();
         }
         return true;
     }
@@ -864,51 +919,56 @@ bool DataSourceManager::checkConnectionDesc(ConnectionDesc *connection)
     return false;
 }
 
-void DataSourceManager::putHolder(const QString& name, IDataSourceHolder *dataSource)
+void DataSourceManager::putHolder(const QString& name, IDataSourceHolder* dataSource)
 {
-    if (!m_datasources.contains(name.toLower())){
-        m_datasources.insert(
-            name.toLower(),
-            dataSource
-        );
-    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(name));
+    if (!m_datasources.contains(name.toLower())) {
+        m_datasources.insert(name.toLower(), dataSource);
+    } else
+        throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(name));
 }
 
 void DataSourceManager::putQueryDesc(QueryDesc* queryDesc)
 {
-    if (!containsDatasource(queryDesc->queryName())){
+    if (!containsDatasource(queryDesc->queryName())) {
         m_queries.append(queryDesc);
-        connect(queryDesc, SIGNAL(queryTextChanged(QString,QString)),
-                this, SLOT(slotQueryTextChanged(QString,QString)));
-    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(queryDesc->queryName()));
+        connect(queryDesc, SIGNAL(queryTextChanged(QString, QString)), this,
+                SLOT(slotQueryTextChanged(QString, QString)));
+    } else
+        throw ReportError(
+            tr("Datasource with name \"%1\" already exists!").arg(queryDesc->queryName()));
 }
 
-void DataSourceManager::putSubQueryDesc(SubQueryDesc *subQueryDesc)
+void DataSourceManager::putSubQueryDesc(SubQueryDesc* subQueryDesc)
 {
-    if (!containsDatasource(subQueryDesc->queryName())){
+    if (!containsDatasource(subQueryDesc->queryName())) {
         m_subqueries.append(subQueryDesc);
-        connect(subQueryDesc, SIGNAL(queryTextChanged(QString,QString)),
-                this, SLOT(slotQueryTextChanged(QString,QString)));
-    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(subQueryDesc->queryName()));
+        connect(subQueryDesc, SIGNAL(queryTextChanged(QString, QString)), this,
+                SLOT(slotQueryTextChanged(QString, QString)));
+    } else
+        throw ReportError(
+            tr("Datasource with name \"%1\" already exists!").arg(subQueryDesc->queryName()));
 }
 
-void DataSourceManager::putProxyDesc(ProxyDesc *proxyDesc)
+void DataSourceManager::putProxyDesc(ProxyDesc* proxyDesc)
 {
-    if (!containsDatasource(proxyDesc->name())){
+    if (!containsDatasource(proxyDesc->name())) {
         m_proxies.append(proxyDesc);
-    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(proxyDesc->name()));
+    } else
+        throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(proxyDesc->name()));
 }
 
-void DataSourceManager::putCSVDesc(CSVDesc *csvDesc)
+void DataSourceManager::putCSVDesc(CSVDesc* csvDesc)
 {
-    if (!containsDatasource(csvDesc->name())){
+    if (!containsDatasource(csvDesc->name())) {
         m_csvs.append(csvDesc);
-        connect(csvDesc, SIGNAL(cvsTextChanged(QString, QString)),
-                this, SLOT(slotCSVTextChanged(QString, QString)));
-    } else throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(csvDesc->name()));
+        connect(csvDesc, SIGNAL(cvsTextChanged(QString, QString)), this,
+                SLOT(slotCSVTextChanged(QString, QString)));
+    } else
+        throw ReportError(tr("Datasource with name \"%1\" already exists!").arg(csvDesc->name()));
 }
 
-bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc){
+bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connectionDesc)
+{
 
     bool connected = false;
 
@@ -916,10 +976,10 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     db.setUserName(replaceVariables(connectionDesc.userName()));
     db.setPassword(replaceVariables(connectionDesc.password()));
     db.setDatabaseName(replaceVariables(connectionDesc.databaseName()));
-    if (connectionDesc.port()!="")
+    if (connectionDesc.port() != "")
         db.setPort(replaceVariables(connectionDesc.port()).toInt());
 
-    if (!connectionDesc.keepDBCredentials() && m_dbCredentialsProvider){
+    if (!connectionDesc.keepDBCredentials() && m_dbCredentialsProvider) {
         if (!m_dbCredentialsProvider->getUserName(connectionDesc.name()).isEmpty())
             db.setUserName(m_dbCredentialsProvider->getUserName(connectionDesc.name()));
         if (!m_dbCredentialsProvider->getPassword(connectionDesc.name()).isEmpty())
@@ -927,13 +987,13 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
     }
 
     QString dbName = replaceVariables(connectionDesc.databaseName());
-    if (connectionDesc.driver().compare("QSQLITE")==0){
-        if (!defaultDatabasePath().isEmpty()){
-            dbName = !QFileInfo(dbName).exists() ?
-                    defaultDatabasePath()+QFileInfo(dbName).fileName() :
-                    dbName;
+    if (connectionDesc.driver().compare("QSQLITE") == 0) {
+        if (!defaultDatabasePath().isEmpty()) {
+            dbName = !QFileInfo(dbName).exists()
+                ? defaultDatabasePath() + QFileInfo(dbName).fileName()
+                : dbName;
         }
-        if (QFileInfo(dbName).exists()){
+        if (QFileInfo(dbName).exists()) {
             db.setDatabaseName(dbName);
         } else {
             setLastError(tr("Database \"%1\" not found").arg(dbName));
@@ -943,46 +1003,46 @@ bool DataSourceManager::initAndOpenDB(QSqlDatabase& db, ConnectionDesc& connecti
         db.setDatabaseName(dbName);
     }
 
-    connected=db.open();
-    if (!connected) setLastError(db.lastError().text());
-    return  connected;
+    connected = db.open();
+    if (!connected)
+        setLastError(db.lastError().text());
+    return connected;
 }
 
-ReportSettings *DataSourceManager::reportSettings() const
-{
-    return m_reportSettings;
-}
+ReportSettings* DataSourceManager::reportSettings() const { return m_reportSettings; }
 
-void DataSourceManager::setReportSettings(ReportSettings *reportSettings)
+void DataSourceManager::setReportSettings(ReportSettings* reportSettings)
 {
     m_reportSettings = reportSettings;
 }
 
-bool DataSourceManager::checkConnection(QSqlDatabase db){
-    QSqlQuery query("Select 1",db);
+bool DataSourceManager::checkConnection(QSqlDatabase db)
+{
+    QSqlQuery query("Select 1", db);
     return query.first();
 }
 
-bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
+bool DataSourceManager::connectConnection(ConnectionDesc* connectionDesc)
 {
 
     bool connected = false;
     clearErrors();
-    QString lastError ="";
+    QString lastError = "";
 
-    foreach(QString datasourceName, dataSourceNames()){
+    foreach (QString datasourceName, dataSourceNames()) {
         dataSourceHolder(datasourceName)->clearErrors();
     }
 
-    if (!QSqlDatabase::contains(connectionDesc->name())){
+    if (!QSqlDatabase::contains(connectionDesc->name())) {
         QString dbError;
         {
-            QSqlDatabase db = QSqlDatabase::addDatabase(connectionDesc->driver(),connectionDesc->name());
+            QSqlDatabase db
+                = QSqlDatabase::addDatabase(connectionDesc->driver(), connectionDesc->name());
             connectionDesc->setInternal(true);
-            connected=initAndOpenDB(db, *connectionDesc);
+            connected = initAndOpenDB(db, *connectionDesc);
             dbError = db.lastError().text();
         }
-        if (!connected){
+        if (!connected) {
             if (!dbError.trimmed().isEmpty())
                 setLastError(dbError);
             QSqlDatabase::removeDatabase(connectionDesc->name());
@@ -990,7 +1050,7 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
         }
     } else {
         QSqlDatabase db = QSqlDatabase::database(connectionDesc->name());
-        if (!connectionDesc->isEqual(db) && connectionDesc->isInternal()){
+        if (!connectionDesc->isEqual(db) && connectionDesc->isInternal()) {
             db.close();
             connected = initAndOpenDB(db, *connectionDesc);
         } else {
@@ -1005,55 +1065,56 @@ bool DataSourceManager::connectConnection(ConnectionDesc *connectionDesc)
             QSqlDatabase::removeDatabase(connectionDesc->name());
         return false;
     } else {
-        foreach(QString datasourceName, dataSourceNames()){
-            if (isQuery(datasourceName)){
-               QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
-               if (qh){
-                   qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
-                   invalidateChildren(datasourceName);
-               }
+        foreach (QString datasourceName, dataSourceNames()) {
+            if (isQuery(datasourceName)) {
+                QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
+                if (qh) {
+                    qh->invalidate(designTime() ? IDataSource::DESIGN_MODE
+                                                : IDataSource::RENDER_MODE);
+                    invalidateChildren(datasourceName);
+                }
             }
         }
-        foreach(QString datasourceName, dataSourceNames()){
-            if (isProxy(datasourceName)){
-               ProxyHolder* ph = dynamic_cast<ProxyHolder*>(dataSourceHolder(datasourceName));
-               if (ph){
-                   ph->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
-               }
+        foreach (QString datasourceName, dataSourceNames()) {
+            if (isProxy(datasourceName)) {
+                ProxyHolder* ph = dynamic_cast<ProxyHolder*>(dataSourceHolder(datasourceName));
+                if (ph) {
+                    ph->invalidate(designTime() ? IDataSource::DESIGN_MODE
+                                                : IDataSource::RENDER_MODE);
+                }
             }
         }
-        if (designTime()) emit datasourcesChanged();
+        if (designTime())
+            emit datasourcesChanged();
     }
     return true;
 }
 
-void DataSourceManager::clearReportVariables()
-{
-    m_reportVariables.clearUserVariables();
-}
+void DataSourceManager::clearReportVariables() { m_reportVariables.clearUserVariables(); }
 
 void DataSourceManager::connectAutoConnections()
 {
-    foreach(ConnectionDesc* conn,m_connections){
+    foreach (ConnectionDesc* conn, m_connections) {
         if (conn->autoconnect()) {
             try {
                 connectConnection(conn);
-            } catch(ReportError &e){
+            } catch (ReportError& e) {
                 setLastError(e.what());
                 putError(e.what());
-                qDebug()<<e.what();
+                qDebug() << e.what();
             }
         }
     }
 }
 
-QList<QString> DataSourceManager::childDatasources(const QString &parentDatasourceName)
+QList<QString> DataSourceManager::childDatasources(const QString& parentDatasourceName)
 {
     QList<QString> result;
-    foreach(QString datasourceName, dataSourceNames()){
-        if (isSubQuery(datasourceName)){
+    foreach (QString datasourceName, dataSourceNames()) {
+        if (isSubQuery(datasourceName)) {
             SubQueryHolder* sh = dynamic_cast<SubQueryHolder*>(dataSourceHolder(datasourceName));
-            if (sh && sh->masterDatasource().compare(parentDatasourceName,Qt::CaseInsensitive)==0){
+            if (sh
+                && sh->masterDatasource().compare(parentDatasourceName, Qt::CaseInsensitive) == 0) {
                 result.append(datasourceName);
             }
         }
@@ -1061,44 +1122,44 @@ QList<QString> DataSourceManager::childDatasources(const QString &parentDatasour
     return result;
 }
 
-void DataSourceManager::invalidateChildren(const QString &parentDatasourceName)
+void DataSourceManager::invalidateChildren(const QString& parentDatasourceName)
 {
-    foreach(QString datasourceName, childDatasources(parentDatasourceName)){
+    foreach (QString datasourceName, childDatasources(parentDatasourceName)) {
         SubQueryHolder* sh = dynamic_cast<SubQueryHolder*>(dataSourceHolder(datasourceName));
         if (sh)
-            sh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+            sh->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
         invalidateChildren(datasourceName);
     }
 }
 
-bool DataSourceManager::containsDatasource(const QString &dataSourceName)
+bool DataSourceManager::containsDatasource(const QString& dataSourceName)
 {
     return m_datasources.contains(dataSourceName.toLower());
 }
 
-bool DataSourceManager::isSubQuery(const QString &dataSourceName)
+bool DataSourceManager::isSubQuery(const QString& dataSourceName)
 {
     return subQueryIndexByName(dataSourceName) != -1;
 }
 
-bool DataSourceManager::isProxy(const QString &dataSourceName)
+bool DataSourceManager::isProxy(const QString& dataSourceName)
 {
     return proxyIndexByName(dataSourceName) != -1;
 }
 
-bool DataSourceManager::isCSV(const QString &datasourceName)
+bool DataSourceManager::isCSV(const QString& datasourceName)
 {
     return csvIndexByName(datasourceName) != -1;
 }
 
-bool DataSourceManager::isConnection(const QString &connectionName)
+bool DataSourceManager::isConnection(const QString& connectionName)
 {
     return connectionIndexByName(connectionName) != -1;
 }
 
-bool DataSourceManager::isConnectionConnected(const QString &connectionName)
+bool DataSourceManager::isConnectionConnected(const QString& connectionName)
 {
-    if (isConnection(connectionName) && QSqlDatabase::contains(connectionName)){
+    if (isConnection(connectionName) && QSqlDatabase::contains(connectionName)) {
         QSqlDatabase db = QSqlDatabase::database(connectionName);
         return db.isValid() && QSqlDatabase::database(connectionName).isOpen();
     }
@@ -1112,11 +1173,12 @@ bool DataSourceManager::connectConnection(const QString& connectionName)
 
 void DataSourceManager::disconnectConnection(const QString& connectionName)
 {
-    foreach(QString datasourceName, dataSourceNames()){
-        if (isQuery(datasourceName) || isSubQuery(datasourceName)){
+    foreach (QString datasourceName, dataSourceNames()) {
+        if (isQuery(datasourceName) || isSubQuery(datasourceName)) {
             QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
-            if (qh && qh->connectionName().compare(connectionName, Qt::CaseInsensitive) == 0){
-                qh->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE, true);
+            if (qh && qh->connectionName().compare(connectionName, Qt::CaseInsensitive) == 0) {
+                qh->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE,
+                               true);
                 qh->setLastError(tr("invalid connection"));
             }
         }
@@ -1124,25 +1186,27 @@ void DataSourceManager::disconnectConnection(const QString& connectionName)
 
     ConnectionDesc* connectionDesc = connectionByName(connectionName);
 
-    if (connectionDesc->isInternal()){
+    if (connectionDesc->isInternal()) {
         {
             QSqlDatabase db = QSqlDatabase::database(connectionName);
-            if (db.isOpen()) db.close();
+            if (db.isOpen())
+                db.close();
         }
-        if (QSqlDatabase::contains(connectionName)) QSqlDatabase::removeDatabase(connectionName);
+        if (QSqlDatabase::contains(connectionName))
+            QSqlDatabase::removeDatabase(connectionName);
     }
-
 }
 
-IDataSource *DataSourceManager::dataSource(const QString &name)
+IDataSource* DataSourceManager::dataSource(const QString& name)
 {
     IDataSourceHolder* holder = m_datasources.value(name.toLower());
     if (holder) {
         if (holder->isInvalid()) {
-            setLastError(name+" : "+holder->lastError());
+            setLastError(name + " : " + holder->lastError());
             return 0;
         } else {
-            return holder->dataSource(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+            return holder->dataSource(designTime() ? IDataSource::DESIGN_MODE
+                                                   : IDataSource::RENDER_MODE);
         }
     } else {
         setLastError(tr("Datasource \"%1\" not found!").arg(name));
@@ -1150,17 +1214,19 @@ IDataSource *DataSourceManager::dataSource(const QString &name)
     }
 }
 
-IDataSourceHolder *DataSourceManager::dataSourceHolder(const QString &name)
+IDataSourceHolder* DataSourceManager::dataSourceHolder(const QString& name)
 {
-    if (m_datasources.value(name.toLower())) return m_datasources.value(name.toLower());
-    else return 0;
+    if (m_datasources.value(name.toLower()))
+        return m_datasources.value(name.toLower());
+    else
+        return 0;
 }
 
 QStringList DataSourceManager::dataSourceNames()
 {
     QStringList result;
-    for (int i=0;i<m_datasources.keys().count();i++){
-       result.append(m_datasources.keys().at(i));
+    for (int i = 0; i < m_datasources.keys().count(); i++) {
+        result.append(m_datasources.keys().at(i));
     }
     result.sort();
     return result;
@@ -1170,12 +1236,12 @@ QStringList DataSourceManager::dataSourceNames(const QString& connectionName)
 {
     QStringList result;
     foreach (QueryDesc* query, m_queries) {
-        if (query->connectionName().compare(connectionName,Qt::CaseInsensitive)==0){
+        if (query->connectionName().compare(connectionName, Qt::CaseInsensitive) == 0) {
             result.append(query->queryName());
         }
     }
     foreach (QueryDesc* query, m_subqueries) {
-        if (query->connectionName().compare(connectionName,Qt::CaseInsensitive)==0){
+        if (query->connectionName().compare(connectionName, Qt::CaseInsensitive) == 0) {
             result.append(query->queryName());
         }
     }
@@ -1185,18 +1251,18 @@ QStringList DataSourceManager::dataSourceNames(const QString& connectionName)
 QStringList DataSourceManager::connectionNames()
 {
     QStringList result;
-    foreach(ConnectionDesc* conDesc,m_connections){
-       result.append(conDesc->name());
+    foreach (ConnectionDesc* conDesc, m_connections) {
+        result.append(conDesc->name());
     }
     return result;
 }
 
-QStringList DataSourceManager::fieldNames(const QString &datasourceName)
+QStringList DataSourceManager::fieldNames(const QString& datasourceName)
 {
     QStringList result;
     IDataSource* ds = dataSource(datasourceName);
-    if (ds && !ds->isInvalid()){
-        for(int i=0; i < ds->columnCount(); i++){
+    if (ds && !ds->isInvalid()) {
+        for (int i = 0; i < ds->columnCount(); i++) {
             result.append(ds->columnNameByIndex(i));
         }
         result.sort();
@@ -1204,151 +1270,146 @@ QStringList DataSourceManager::fieldNames(const QString &datasourceName)
     return result;
 }
 
-void DataSourceManager::addConnection(const QString &connectionName)
+void DataSourceManager::addConnection(const QString& connectionName)
 {
     addConnectionDesc(new ConnectionDesc(QSqlDatabase::database(connectionName)));
     m_hasChanges = true;
     emit datasourcesChanged();
 }
 
-QObject *DataSourceManager::createElement(const QString& collectionName, const QString&)
+QObject* DataSourceManager::createElement(const QString& collectionName, const QString&)
 {
-    if (collectionName=="connections"){
+    if (collectionName == "connections") {
         ConnectionDesc* connection = new ConnectionDesc;
         m_connections.append(connection);
         return connection;
     }
-    if (collectionName=="queries"){
+    if (collectionName == "queries") {
         QueryDesc* queryDesc = new QueryDesc;
         m_queries.append(queryDesc);
         return queryDesc;
     }
-    if (collectionName=="subqueries"){
+    if (collectionName == "subqueries") {
         SubQueryDesc* subQueryDesc = new SubQueryDesc;
         m_subqueries.append(subQueryDesc);
         return subQueryDesc;
     }
-    if (collectionName=="subproxies"){
+    if (collectionName == "subproxies") {
         ProxyDesc* proxyDesc = new ProxyDesc;
         m_proxies.append(proxyDesc);
         return proxyDesc;
     }
 
-    if (collectionName=="variables"){
+    if (collectionName == "variables") {
         VarDesc* var = new VarDesc;
         m_tempVars.append(var);
         return var;
     }
 
-    if (collectionName=="csvs"){
+    if (collectionName == "csvs") {
         CSVDesc* csvDesc = new CSVDesc;
         m_csvs.append(csvDesc);
-        return  csvDesc;
+        return csvDesc;
     }
 
     return 0;
 }
 
-int DataSourceManager::elementsCount(const QString &collectionName)
+int DataSourceManager::elementsCount(const QString& collectionName)
 {
-    if (collectionName=="connections"){
-       return m_connections.count();
+    if (collectionName == "connections") {
+        return m_connections.count();
     }
-    if (collectionName=="queries"){
+    if (collectionName == "queries") {
         return m_queries.count();
     }
-    if (collectionName=="subqueries"){
+    if (collectionName == "subqueries") {
         return m_subqueries.count();
     }
-    if (collectionName=="subproxies"){
+    if (collectionName == "subproxies") {
         return m_proxies.count();
     }
-    if (collectionName=="variables"){
+    if (collectionName == "variables") {
         return m_reportVariables.variablesCount();
     }
-    if (collectionName=="csvs"){
+    if (collectionName == "csvs") {
         return m_csvs.count();
     }
     return 0;
 }
 
-QObject* DataSourceManager::elementAt(const QString &collectionName, int index)
+QObject* DataSourceManager::elementAt(const QString& collectionName, int index)
 {
-    if (collectionName=="connections"){
+    if (collectionName == "connections") {
         return m_connections.at(index);
     }
-    if (collectionName=="queries"){
+    if (collectionName == "queries") {
         return m_queries.at(index);
     }
-    if (collectionName=="subqueries"){
+    if (collectionName == "subqueries") {
         return m_subqueries.at(index);
     }
-    if (collectionName=="subproxies"){
+    if (collectionName == "subproxies") {
         return m_proxies.at(index);
     }
-    if (collectionName=="variables"){
+    if (collectionName == "variables") {
         return m_reportVariables.variableAt(index);
     }
-    if (collectionName=="csvs"){
+    if (collectionName == "csvs") {
         return m_csvs.at(index);
     }
     return 0;
 }
 
-void DataSourceManager::collectionLoadFinished(const QString &collectionName)
+void DataSourceManager::collectionLoadFinished(const QString& collectionName)
 {
     EASY_BLOCK("DataSourceManager::collectionLoadFinished");
-    if (collectionName.compare("connections",Qt::CaseInsensitive) == 0){
-
-    }
+    if (collectionName.compare("connections", Qt::CaseInsensitive) == 0) { }
     EASY_BLOCK("queryes");
-    if (collectionName.compare("queries",Qt::CaseInsensitive) == 0){
+    if (collectionName.compare("queries", Qt::CaseInsensitive) == 0) {
 
         QMutableListIterator<QueryDesc*> it(m_queries);
-        while (it.hasNext()){
+        while (it.hasNext()) {
             it.next();
-            if (!m_datasources.contains(it.value()->queryName().toLower())){
-                connect(it.value(), SIGNAL(queryTextChanged(QString,QString)),
-                        this, SLOT(slotQueryTextChanged(QString,QString)));
-                putHolder(it.value()->queryName(),new QueryHolder(it.value()->queryText(), it.value()->connectionName(), this));
+            if (!m_datasources.contains(it.value()->queryName().toLower())) {
+                connect(it.value(), SIGNAL(queryTextChanged(QString, QString)), this,
+                        SLOT(slotQueryTextChanged(QString, QString)));
+                putHolder(
+                    it.value()->queryName(),
+                    new QueryHolder(it.value()->queryText(), it.value()->connectionName(), this));
             } else {
                 delete it.value();
                 it.remove();
             }
         }
-
     }
     EASY_END_BLOCK;
     EASY_BLOCK("subqueries")
-    if (collectionName.compare("subqueries",Qt::CaseInsensitive) == 0){
+    if (collectionName.compare("subqueries", Qt::CaseInsensitive) == 0) {
 
         QMutableListIterator<SubQueryDesc*> it(m_subqueries);
-        while (it.hasNext()){
+        while (it.hasNext()) {
             it.next();
-            if (!m_datasources.contains(it.value()->queryName().toLower())){
-                connect(it.value(), SIGNAL(queryTextChanged(QString,QString)),
-                        this, SLOT(slotQueryTextChanged(QString,QString)));
-                putHolder(it.value()->queryName(),new SubQueryHolder(
-                              it.value()->queryText(),
-                              it.value()->connectionName(),
-                              it.value()->master(),
-                              this)
-                );
+            if (!m_datasources.contains(it.value()->queryName().toLower())) {
+                connect(it.value(), SIGNAL(queryTextChanged(QString, QString)), this,
+                        SLOT(slotQueryTextChanged(QString, QString)));
+                putHolder(it.value()->queryName(),
+                          new SubQueryHolder(it.value()->queryText(), it.value()->connectionName(),
+                                             it.value()->master(), this));
             } else {
                 delete it.value();
                 it.remove();
             }
         }
-
     }
     EASY_END_BLOCK;
     EASY_BLOCK("subproxies");
-    if (collectionName.compare("subproxies",Qt::CaseInsensitive) == 0){
+    if (collectionName.compare("subproxies", Qt::CaseInsensitive) == 0) {
         QMutableListIterator<ProxyDesc*> it(m_proxies);
-        while (it.hasNext()){
+        while (it.hasNext()) {
             it.next();
-            if (!m_datasources.contains(it.value()->name().toLower())){
-                putHolder(it.value()->name(),new ProxyHolder(it.value(), this));
+            if (!m_datasources.contains(it.value()->name().toLower())) {
+                putHolder(it.value()->name(), new ProxyHolder(it.value(), this));
             } else {
                 delete it.value();
                 it.remove();
@@ -1357,10 +1418,11 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
     }
     EASY_END_BLOCK;
     EASY_BLOCK("variables");
-    if (collectionName.compare("variables",Qt::CaseInsensitive) == 0){
+    if (collectionName.compare("variables", Qt::CaseInsensitive) == 0) {
         foreach (VarDesc* item, m_tempVars) {
-            if (!m_reportVariables.containsVariable(item->name())){
-                m_reportVariables.addVariable(item->name(),item->value(),VarDesc::Report,FirstPass);
+            if (!m_reportVariables.containsVariable(item->name())) {
+                m_reportVariables.addVariable(item->name(), item->value(), VarDesc::Report,
+                                              FirstPass);
                 VarDesc* currentVar = m_reportVariables.variableByName(item->name());
                 currentVar->initFrom(item);
             }
@@ -1370,17 +1432,14 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
     }
     EASY_END_BLOCK;
 
-    if (collectionName.compare("csvs", Qt::CaseInsensitive) == 0){
+    if (collectionName.compare("csvs", Qt::CaseInsensitive) == 0) {
         QMutableListIterator<CSVDesc*> it(m_csvs);
-        while (it.hasNext()){
+        while (it.hasNext()) {
             it.next();
-            if (!m_datasources.contains(it.value()->name().toLower())){
-                connect(it.value(), SIGNAL(cvsTextChanged(QString,QString)),
-                        this, SLOT(slotCSVTextChanged(QString,QString)));
-                putHolder(
-                    it.value()->name(),
-                    new CSVHolder(*it.value(), this)
-                );
+            if (!m_datasources.contains(it.value()->name().toLower())) {
+                connect(it.value(), SIGNAL(cvsTextChanged(QString, QString)), this,
+                        SLOT(slotCSVTextChanged(QString, QString)));
+                putHolder(it.value()->name(), new CSVHolder(*it.value(), this));
             } else {
                 delete it.value();
                 it.remove();
@@ -1388,7 +1447,7 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
         }
     }
 
-    if (designTime()){
+    if (designTime()) {
         EASY_BLOCK("emit datasourcesChanged()");
         emit datasourcesChanged();
         EASY_END_BLOCK;
@@ -1399,14 +1458,15 @@ void DataSourceManager::collectionLoadFinished(const QString &collectionName)
     EASY_END_BLOCK;
 }
 
-void DataSourceManager::addVariable(const QString &name, const QVariant &value, VarDesc::VarType type, RenderPass pass)
+void DataSourceManager::addVariable(const QString& name, const QVariant& value,
+                                    VarDesc::VarType type, RenderPass pass)
 {
-    if (type == VarDesc::User){
+    if (type == VarDesc::User) {
         m_userVariables.addVariable(name, value, type, pass);
     } else {
-        m_reportVariables.addVariable(name,value,type,pass);
+        m_reportVariables.addVariable(name, value, type, pass);
     }
-    if (designTime()){
+    if (designTime()) {
         EASY_BLOCK("DataSourceManager::addVariable emit ds changed");
         emit datasourcesChanged();
         EASY_END_BLOCK;
@@ -1416,33 +1476,35 @@ void DataSourceManager::addVariable(const QString &name, const QVariant &value, 
 void DataSourceManager::deleteVariable(const QString& name)
 {
     m_userVariables.deleteVariable(name);
-    if (m_reportVariables.containsVariable(name)&&m_reportVariables.variableType(name)==VarDesc::Report){
+    if (m_reportVariables.containsVariable(name)
+        && m_reportVariables.variableType(name) == VarDesc::Report) {
         m_reportVariables.deleteVariable(name);
-        if (designTime()){
+        if (designTime()) {
             m_hasChanges = true;
             emit datasourcesChanged();
         }
     }
 }
 
-void DataSourceManager::changeVariable(const QString& name,const QVariant& value)
+void DataSourceManager::changeVariable(const QString& name, const QVariant& value)
 {
-    if (m_userVariables.containsVariable(name)){
-        m_userVariables.changeVariable(name,value);
+    if (m_userVariables.containsVariable(name)) {
+        m_userVariables.changeVariable(name, value);
     }
-    if (m_reportVariables.containsVariable(name)){
-        m_reportVariables.changeVariable(name,value);
+    if (m_reportVariables.containsVariable(name)) {
+        m_reportVariables.changeVariable(name, value);
     }
-
 }
 
-void DataSourceManager::setSystemVariable(const QString &name, const QVariant &value, RenderPass pass)
+void DataSourceManager::setSystemVariable(const QString& name, const QVariant& value,
+                                          RenderPass pass)
 {
-    addVariable(name,value,VarDesc::System,pass);
+    addVariable(name, value, VarDesc::System, pass);
 }
 
-void DataSourceManager::setLastError(const QString &value){
-    m_lastError =  value;
+void DataSourceManager::setLastError(const QString& value)
+{
+    m_lastError = value;
     if (!value.isEmpty() && !m_errorsList.contains(value)) {
         m_errorsList.append(value);
     }
@@ -1450,34 +1512,38 @@ void DataSourceManager::setLastError(const QString &value){
 
 void DataSourceManager::invalidateLinkedDatasources(QString datasourceName)
 {
-    foreach(QString name, dataSourceNames()){
-        if (isSubQuery(name)){
-           if (subQueryByName(name)->master().compare(datasourceName) == 0)
-               dataSourceHolder(name)->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+    foreach (QString name, dataSourceNames()) {
+        if (isSubQuery(name)) {
+            if (subQueryByName(name)->master().compare(datasourceName) == 0)
+                dataSourceHolder(name)->invalidate(designTime() ? IDataSource::DESIGN_MODE
+                                                                : IDataSource::RENDER_MODE);
         }
-        if (isProxy(name)){
+        if (isProxy(name)) {
             ProxyDesc* proxy = proxyByName(name);
-            if ((proxy->master().compare(datasourceName) == 0) || (proxy->child().compare(datasourceName) == 0))
-                dataSourceHolder(name)->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
-
+            if ((proxy->master().compare(datasourceName) == 0)
+                || (proxy->child().compare(datasourceName) == 0))
+                dataSourceHolder(name)->invalidate(designTime() ? IDataSource::DESIGN_MODE
+                                                                : IDataSource::RENDER_MODE);
         }
     }
 }
 
-void DataSourceManager::slotConnectionRenamed(const QString &oldName, const QString &newName)
+void DataSourceManager::slotConnectionRenamed(const QString& oldName, const QString& newName)
 {
-    foreach(QueryDesc* query, m_queries){
-        if (query->connectionName().compare(oldName,Qt::CaseInsensitive)==0) query->setConnectionName(newName);
+    foreach (QueryDesc* query, m_queries) {
+        if (query->connectionName().compare(oldName, Qt::CaseInsensitive) == 0)
+            query->setConnectionName(newName);
     }
-    foreach(SubQueryDesc* query, m_subqueries){
-        if (query->connectionName().compare(oldName,Qt::CaseInsensitive)==0) query->setConnectionName(newName);
+    foreach (SubQueryDesc* query, m_subqueries) {
+        if (query->connectionName().compare(oldName, Qt::CaseInsensitive) == 0)
+            query->setConnectionName(newName);
     }
 }
 
-void DataSourceManager::slotQueryTextChanged(const QString &queryName, const QString &queryText)
+void DataSourceManager::slotQueryTextChanged(const QString& queryName, const QString& queryText)
 {
     QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(queryName));
-    if (holder){
+    if (holder) {
         holder->setQueryText(queryText);
     }
     m_varToDataSource.clear();
@@ -1485,25 +1551,30 @@ void DataSourceManager::slotQueryTextChanged(const QString &queryName, const QSt
 
 void DataSourceManager::invalidateQueriesContainsVariable(const QString& variableName)
 {
-    if (!variableIsSystem(variableName)){
+    if (!variableIsSystem(variableName)) {
 
-        if (m_varToDataSource.contains(variableName)){
-            foreach(QString datasourceName, m_varToDataSource.value(variableName)){
-                QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
-                if (holder) holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
+        if (m_varToDataSource.contains(variableName)) {
+            foreach (QString datasourceName, m_varToDataSource.value(variableName)) {
+                QueryHolder* holder
+                    = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
+                if (holder)
+                    holder->invalidate(designTime() ? IDataSource::DESIGN_MODE
+                                                    : IDataSource::RENDER_MODE);
             }
         } else {
             QVector<QString> datasources;
-            foreach (const QString& datasourceName, dataSourceNames()){
-                QueryHolder* holder = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
-                if (holder){
+            foreach (const QString& datasourceName, dataSourceNames()) {
+                QueryHolder* holder
+                    = dynamic_cast<QueryHolder*>(m_datasources.value(datasourceName));
+                if (holder) {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
                     QRegExp rx(QString(Const::NAMED_VARIABLE_RX).arg(variableName));
 #else
                     QRegularExpression rx = getNamedVariableRegEx(variableName);
 #endif
-                    if  (holder->queryText().contains(rx)){
-                        holder->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
+                    if (holder->queryText().contains(rx)) {
+                        holder->invalidate(designTime() ? IDataSource::DESIGN_MODE
+                                                        : IDataSource::RENDER_MODE);
                         datasources.append(datasourceName);
                     }
                 }
@@ -1527,10 +1598,10 @@ void DataSourceManager::slotVariableHasBeenChanged(const QString& variableName)
         m_hasChanges = true;
 }
 
-void DataSourceManager::slotCSVTextChanged(const QString &csvName, const QString &csvText)
+void DataSourceManager::slotCSVTextChanged(const QString& csvName, const QString& csvText)
 {
     CSVHolder* holder = dynamic_cast<CSVHolder*>(m_datasources.value(csvName));
-    if (holder){
+    if (holder) {
         holder->setCSVText(csvText);
     }
 }
@@ -1540,16 +1611,16 @@ void DataSourceManager::clear(ClearMethod method)
     m_varToDataSource.clear();
 
     DataSourcesMap::iterator dit;
-    for( dit = m_datasources.begin(); dit != m_datasources.end(); ){
+    for (dit = m_datasources.begin(); dit != m_datasources.end();) {
         bool owned = (*dit)->isOwned() && (*dit)->isRemovable();
-        switch(method){
+        switch (method) {
         case All:
             invalidateLinkedDatasources(dit.key());
             delete dit.value();
             dit = m_datasources.erase(dit);
             break;
         default:
-            if (owned){
+            if (owned) {
                 invalidateLinkedDatasources(dit.key());
                 delete dit.value();
                 dit = m_datasources.erase(dit);
@@ -1557,27 +1628,29 @@ void DataSourceManager::clear(ClearMethod method)
                 ++dit;
             }
         }
-
     }
 
     QList<ConnectionDesc*>::iterator cit = m_connections.begin();
-    while( cit != m_connections.end() ){
-        if ( (*cit)->isInternal() )
-            QSqlDatabase::removeDatabase( (*cit)->name() );
+    while (cit != m_connections.end()) {
+        if ((*cit)->isInternal())
+            QSqlDatabase::removeDatabase((*cit)->name());
         delete (*cit);
         cit = m_connections.erase(cit);
     }
 
-    //TODO: add smart pointes to collections
-    foreach(QueryDesc *desc, m_queries) delete desc;
-    foreach(SubQueryDesc* desc, m_subqueries) delete desc;
-    foreach(ProxyDesc* desc, m_proxies) delete desc;
+    // TODO: add smart pointes to collections
+    foreach (QueryDesc* desc, m_queries)
+        delete desc;
+    foreach (SubQueryDesc* desc, m_subqueries)
+        delete desc;
+    foreach (ProxyDesc* desc, m_proxies)
+        delete desc;
 
     m_queries.clear();
     m_subqueries.clear();
     m_proxies.clear();
-//    if (method == All)
-//        clearUserVariables();
+    //    if (method == All)
+    //        clearUserVariables();
     clearReportVariables();
 
     emit cleared();
@@ -1585,7 +1658,7 @@ void DataSourceManager::clear(ClearMethod method)
 
 void DataSourceManager::clearGroupFunction()
 {
-    foreach(GroupFunction* gf ,m_groupFunctions.values()){
+    foreach (GroupFunction* gf, m_groupFunctions.values()) {
         delete gf;
     }
     m_groupFunctions.clear();
@@ -1593,73 +1666,79 @@ void DataSourceManager::clearGroupFunction()
 
 void DataSourceManager::clearGroupFunctionValues(const QString& bandObjectName)
 {
-    foreach(GroupFunction* gf, m_groupFunctions.values(bandObjectName)){
+    foreach (GroupFunction* gf, m_groupFunctions.values(bandObjectName)) {
         gf->values().clear();
     }
 }
 
-GroupFunction* DataSourceManager::addGroupFunction(const QString &name, const QString &expression, const QString &band, const QString& dataBand)
+GroupFunction* DataSourceManager::addGroupFunction(const QString& name, const QString& expression,
+                                                   const QString& band, const QString& dataBand)
 {
-    GroupFunction* gf = m_groupFunctionFactory.createGroupFunction(name,expression,dataBand,this);
-    if (gf){
-        m_groupFunctions.insert(band,gf);
+    GroupFunction* gf
+        = m_groupFunctionFactory.createGroupFunction(name, expression, dataBand, this);
+    if (gf) {
+        m_groupFunctions.insert(band, gf);
     }
     return gf;
 }
 
-GroupFunction *DataSourceManager::groupFunction(const QString &name, const QString &expression, const QString &band)
+GroupFunction* DataSourceManager::groupFunction(const QString& name, const QString& expression,
+                                                const QString& band)
 {
-    foreach(GroupFunction* gf,m_groupFunctions.values(band)){
-        if ((gf->name().compare(name,Qt::CaseInsensitive)==0)&&
-            (gf->data().compare(expression,Qt::CaseInsensitive)==0)
-           ) return gf;
+    foreach (GroupFunction* gf, m_groupFunctions.values(band)) {
+        if ((gf->name().compare(name, Qt::CaseInsensitive) == 0)
+            && (gf->data().compare(expression, Qt::CaseInsensitive) == 0))
+            return gf;
     }
     return 0;
 }
 
-QList<GroupFunction *> DataSourceManager::groupFunctionsByBand(const QString &band)
+QList<GroupFunction*> DataSourceManager::groupFunctionsByBand(const QString& band)
 {
     return m_groupFunctions.values(band);
 }
 
-void DataSourceManager::updateChildrenData(const QString &datasourceName)
+void DataSourceManager::updateChildrenData(const QString& datasourceName)
 {
-    foreach(SubQueryDesc* subquery,m_subqueries){
-        if (subquery->master().compare(datasourceName,Qt::CaseInsensitive)==0){
-            SubQueryHolder* holder=dynamic_cast<SubQueryHolder*>(dataSourceHolder(subquery->queryName()));
-            if (holder) holder->runQuery();
+    foreach (SubQueryDesc* subquery, m_subqueries) {
+        if (subquery->master().compare(datasourceName, Qt::CaseInsensitive) == 0) {
+            SubQueryHolder* holder
+                = dynamic_cast<SubQueryHolder*>(dataSourceHolder(subquery->queryName()));
+            if (holder)
+                holder->runQuery();
         }
     }
-    foreach(ProxyDesc* subproxy,m_proxies){
-        if(subproxy->master().compare(datasourceName,Qt::CaseInsensitive)==0){
+    foreach (ProxyDesc* subproxy, m_proxies) {
+        if (subproxy->master().compare(datasourceName, Qt::CaseInsensitive) == 0) {
             ProxyHolder* holder = dynamic_cast<ProxyHolder*>(dataSourceHolder(subproxy->name()));
             holder->filterModel();
         }
     }
 }
 
-QString DataSourceManager::extractDataSource(const QString &fieldName)
+QString DataSourceManager::extractDataSource(const QString& fieldName)
 {
     return fieldName.left(fieldName.indexOf('.'));
 }
 
-QString DataSourceManager::extractFieldName(const QString &fieldName)
+QString DataSourceManager::extractFieldName(const QString& fieldName)
 {
-    return fieldName.right((fieldName.length()-fieldName.indexOf('.'))-1);
+    return fieldName.right((fieldName.length() - fieldName.indexOf('.')) - 1);
 }
 
-bool DataSourceManager::containsField(const QString &fieldName)
+bool DataSourceManager::containsField(const QString& fieldName)
 {
     IDataSource* ds = dataSource(extractDataSource(fieldName));
     if (ds) {
-        return ds->columnIndexByName(extractFieldName(fieldName))!=-1;
+        return ds->columnIndexByName(extractFieldName(fieldName)) != -1;
     }
     return false;
 }
 
 bool DataSourceManager::containsVariable(const QString& variableName)
 {
-    if (m_userVariables.containsVariable(variableName)) return true;
+    if (m_userVariables.containsVariable(variableName))
+        return true;
     return m_reportVariables.containsVariable(variableName);
 }
 
@@ -1669,81 +1748,85 @@ void DataSourceManager::clearUserVariables()
     m_reportVariables.clearUserVariables();
 }
 
-QVariant DataSourceManager::fieldData(const QString &fieldName)
+QVariant DataSourceManager::fieldData(const QString& fieldName)
 {
-    if (containsField(fieldName)){
+    if (containsField(fieldName)) {
         IDataSource* ds = dataSource(extractDataSource(fieldName));
-        if (ds) return ds->data(extractFieldName(fieldName));
+        if (ds)
+            return ds->data(extractFieldName(fieldName));
     }
     return QVariant();
 }
 
-QVariant DataSourceManager::fieldDataByRowIndex(const QString &fieldName, int rowIndex)
+QVariant DataSourceManager::fieldDataByRowIndex(const QString& fieldName, int rowIndex)
 {
-    if (containsField(fieldName)){
+    if (containsField(fieldName)) {
         IDataSource* ds = dataSource(extractDataSource(fieldName));
-        if (ds){
+        if (ds) {
             return ds->dataByRowIndex(extractFieldName(fieldName), rowIndex);
         }
     }
     return QVariant();
 }
 
-QVariant DataSourceManager::fieldDataByRowIndex(const QString &fieldName, int rowIndex, int role)
+QVariant DataSourceManager::fieldDataByRowIndex(const QString& fieldName, int rowIndex, int role)
 {
-    if(containsField(fieldName)) {
-        IDataSource *ds = dataSource(extractDataSource(fieldName));
-        if(ds) {
+    if (containsField(fieldName)) {
+        IDataSource* ds = dataSource(extractDataSource(fieldName));
+        if (ds) {
             return ds->dataByRowIndex(extractFieldName(fieldName), rowIndex, role);
         }
     }
     return QVariant();
 }
 
-QVariant DataSourceManager::fieldDataByRowIndex(const QString &fieldName, int rowIndex, const QString &roleName)
+QVariant DataSourceManager::fieldDataByRowIndex(const QString& fieldName, int rowIndex,
+                                                const QString& roleName)
 {
-    if(containsField(fieldName)) {
-        IDataSource *ds = dataSource(extractDataSource(fieldName));
-        if(ds) {
+    if (containsField(fieldName)) {
+        IDataSource* ds = dataSource(extractDataSource(fieldName));
+        if (ds) {
             return ds->dataByRowIndex(extractFieldName(fieldName), rowIndex, roleName);
         }
     }
     return QVariant();
 }
 
-QVariant DataSourceManager::fieldDataByKey(const QString& datasourceName, const QString& valueFieldName, const QString& keyFieldName, QVariant keyValue)
+QVariant DataSourceManager::fieldDataByKey(const QString& datasourceName,
+                                           const QString& valueFieldName,
+                                           const QString& keyFieldName, QVariant keyValue)
 {
     IDataSource* ds = dataSource(datasourceName);
-    if (ds){
+    if (ds) {
         return ds->dataByKeyField(valueFieldName, keyFieldName, keyValue);
     }
     return QVariant();
 }
 
-QVariant DataSourceManager::headerData(const QString &fieldName, const QString &roleName)
+QVariant DataSourceManager::headerData(const QString& fieldName, const QString& roleName)
 {
-    if(containsField(fieldName)) {
-        IDataSource *ds = dataSource(extractDataSource(fieldName));
-        if(ds) {
+    if (containsField(fieldName)) {
+        IDataSource* ds = dataSource(extractDataSource(fieldName));
+        if (ds) {
             return ds->headerData(extractFieldName(fieldName), roleName);
         }
     }
     return QVariant();
 }
 
-QString DataSourceManager::columnName(const QString &datasourceName, int index)
+QString DataSourceManager::columnName(const QString& datasourceName, int index)
 {
-    IDataSource *ds = dataSource(datasourceName);
-    if(ds && !ds->isInvalid() && ds->columnCount() > index) {
+    IDataSource* ds = dataSource(datasourceName);
+    if (ds && !ds->isInvalid() && ds->columnCount() > index) {
         return ds->columnNameByIndex(index);
     }
     return QString("unknown");
 }
 
-int DataSourceManager::columnCount(const QString &datasourceName)
+int DataSourceManager::columnCount(const QString& datasourceName)
 {
-    IDataSource *ds = dataSource(datasourceName);
-    if(ds && !ds->isInvalid()) {
+    IDataSource* ds = dataSource(datasourceName);
+    if (ds && !ds->isInvalid()) {
         return ds->columnCount();
     }
 
@@ -1753,30 +1836,30 @@ int DataSourceManager::columnCount(const QString &datasourceName)
 void DataSourceManager::reopenDatasource(const QString& datasourceName)
 {
     QueryHolder* qh = dynamic_cast<QueryHolder*>(dataSourceHolder(datasourceName));
-    if (qh){
-        qh->invalidate(designTime()?IDataSource::DESIGN_MODE:IDataSource::RENDER_MODE);
+    if (qh) {
+        qh->invalidate(designTime() ? IDataSource::DESIGN_MODE : IDataSource::RENDER_MODE);
         invalidateChildren(datasourceName);
     }
 }
 
-QVariant DataSourceManager::variable(const QString &variableName)
+QVariant DataSourceManager::variable(const QString& variableName)
 {
     if (m_userVariables.containsVariable(variableName))
         return m_userVariables.variable(variableName);
     return m_reportVariables.variable(variableName);
 }
 
-RenderPass DataSourceManager::variablePass(const QString &name)
+RenderPass DataSourceManager::variablePass(const QString& name)
 {
     if (m_userVariables.containsVariable(name))
         return m_userVariables.variablePass(name);
     return m_reportVariables.variablePass(name);
 }
 
-bool DataSourceManager::variableIsSystem(const QString &name)
+bool DataSourceManager::variableIsSystem(const QString& name)
 {
     if (m_reportVariables.containsVariable(name))
-        return (m_reportVariables.variableType(name)==VarDesc::System);
+        return (m_reportVariables.variableType(name) == VarDesc::System);
     return false;
 }
 
@@ -1793,27 +1876,22 @@ void DataSourceManager::setVarableMandatory(const QString& name, bool value)
         m_reportVariables.variableByName(name)->setMandatory(value);
 }
 
-QStringList DataSourceManager::variableNames()
-{
-    return m_reportVariables.variableNames();
-}
+QStringList DataSourceManager::variableNames() { return m_reportVariables.variableNames(); }
 
 QStringList DataSourceManager::variableNamesByRenderPass(RenderPass pass)
 {
     QStringList result;
-    foreach(QString variableName, m_reportVariables.variableNames()){
-        if (m_reportVariables.variablePass(variableName) == pass){
+    foreach (QString variableName, m_reportVariables.variableNames()) {
+        if (m_reportVariables.variablePass(variableName) == pass) {
             result.append(variableName);
         }
     }
     return result;
 }
 
-QStringList DataSourceManager::userVariableNames(){
-    return m_userVariables.variableNames();
-}
+QStringList DataSourceManager::userVariableNames() { return m_userVariables.variableNames(); }
 
-VarDesc::VarType DataSourceManager::variableType(const QString &name)
+VarDesc::VarType DataSourceManager::variableType(const QString& name)
 {
     if (m_reportVariables.containsVariable(name))
         return m_reportVariables.variableType(name);
@@ -1835,9 +1913,10 @@ void DataSourceManager::setVariableDataType(const QString& name, VariableDataTyp
 
 void DataSourceManager::setAllDatasourcesToFirst()
 {
-    foreach(IDataSourceHolder* ds,m_datasources.values()) {
-        if (ds->dataSource()) ds->dataSource()->first();
+    foreach (IDataSourceHolder* ds, m_datasources.values()) {
+        if (ds->dataSource())
+            ds->dataSource()->first();
     }
 }
 
-} //namespace LimeReport
+} // namespace LimeReport

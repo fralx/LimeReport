@@ -1,22 +1,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "XmlModel.h"
+#include "lrpagedesignintf.h"
+#include "lrreportengine.h"
+
 #include <QMainWindow>
 #include <QPrinterInfo>
-#include "lrreportengine.h"
-#include "lrpagedesignintf.h"
-#include "XmlModel.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow: public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 private slots:
@@ -29,7 +29,8 @@ private slots:
     void on_actionSetting_triggered();
 
 protected:
-     void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent* event);
+
 private:
     void loadReport(QString fileName);
     void writeSetting();
@@ -42,8 +43,8 @@ private slots:
     void on_action_PDF_triggered();
 
 private:
-    Ui::MainWindow *ui;
-    LimeReport::PageDesignIntf*  m_previewScene;
+    Ui::MainWindow* ui;
+    LimeReport::PageDesignIntf* m_previewScene;
     LimeReport::ReportEngine m_report;
     XmlModel m_model;
     QByteArray m_reportData;

@@ -30,22 +30,22 @@
 #ifndef LRPREVIEWREPORTWINDOW_H
 #define LRPREVIEWREPORTWINDOW_H
 
-#include <QMainWindow>
-#include <QDomComment>
-#include <QSpinBox>
+#include "lrpreparedpagesintf.h"
+#include "serializators/lrxmlreader.h"
+
 #include <QComboBox>
-#include <QSettings>
+#include <QDomComment>
 #include <QEventLoop>
+#include <QMainWindow>
 #include <QPrinter>
 #include <QProgressBar>
-
-#include "serializators/lrxmlreader.h"
-#include "lrpreparedpagesintf.h"
+#include <QSettings>
+#include <QSpinBox>
 
 namespace LimeReport {
 
 namespace Ui {
-class PreviewReportWindow;
+    class PreviewReportWindow;
 }
 
 class PreviewReportWidget;
@@ -53,14 +53,13 @@ class FontEditorWidget;
 class TextAlignmentEditorWidget;
 class ReportEngine;
 class PageItemDesignIntf;
-typedef QList< QSharedPointer<PageItemDesignIntf> > ReportPages;
+typedef QList<QSharedPointer<PageItemDesignIntf>> ReportPages;
 
-
-class PreviewReportWindow : public QMainWindow
-{
-    Q_OBJECT   
+class PreviewReportWindow: public QMainWindow {
+    Q_OBJECT
 public:
-    explicit PreviewReportWindow(ReportEngine *report, QWidget *parent = 0, QSettings* settings=0, Qt::WindowFlags flags=Qt::WindowFlags());
+    explicit PreviewReportWindow(ReportEngine* report, QWidget* parent = 0, QSettings* settings = 0,
+                                 Qt::WindowFlags flags = Qt::WindowFlags());
     ~PreviewReportWindow();
     void setPages(ReportPages pages);
     void setDefaultPrinter(QPrinter* printer);
@@ -79,16 +78,17 @@ public:
     void setEnablePrintMenu(bool value);
     QSettings* settings();
     ScaleType previewScaleType() const;
-    void setPreviewScaleType(const ScaleType &previewScaleType, int percent = 0);
+    void setPreviewScaleType(const ScaleType& previewScaleType, int percent = 0);
     QColor previewPageBackgroundColor();
     void setPreviewPageBackgroundColor(QColor color);
+
 protected:
     void writeSetting();
     void restoreSetting();
-    void closeEvent(QCloseEvent *);
-    void resizeEvent(QResizeEvent *e);
-    void moveEvent(QMoveEvent *e);
-    void showEvent(QShowEvent *);
+    void closeEvent(QCloseEvent*);
+    void resizeEvent(QResizeEvent* e);
+    void moveEvent(QMoveEvent* e);
+    void showEvent(QShowEvent*);
     void selectStateIcon();
 public slots:
     void slotPrint();
@@ -114,7 +114,7 @@ private slots:
     void on_actionFit_page_triggered();
     void on_actionOne_to_one_triggered();
     void scaleComboboxChanged(QString text);
-    void slotScalePercentChanged(int percent);    
+    void slotScalePercentChanged(int percent);
     void on_actionShowMessages_toggled(bool value);
     void on_actionShow_Toolbar_triggered();
     void slotCurrentPageChanged(int page);
@@ -125,11 +125,13 @@ private slots:
     void slotCancelPrinting(bool);
 signals:
     void onSave(bool& saved, LimeReport::IPreparedPages* pages);
+
 private:
     ItemsReaderIntf* reader();
     void initPercentCombobox();
+
 private:
-    Ui::PreviewReportWindow *ui;
+    Ui::PreviewReportWindow* ui;
     QSpinBox* m_pagesNavigator;
     QSharedPointer<ItemsReaderIntf> m_reader;
     QEventLoop m_eventLoop;
@@ -147,5 +149,5 @@ private:
     QProgressBar* m_progressBar;
     QWidget* m_progressWidget;
 };
-} //namespace LimeReport
+} // namespace LimeReport
 #endif // LRPREVIEWREPORTWINDOW_H

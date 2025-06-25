@@ -1,7 +1,7 @@
 #include "lrgridlineschart.h"
 
 namespace LimeReport {
-void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
+void GridLinesChart::paintChart(QPainter* painter, QRectF chartRect)
 {
     updateMinAndMaxValues();
 
@@ -10,22 +10,18 @@ void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
 
     const qreal valuesVMargin = this->valuesVMargin(painter);
 
-    QRectF gridRect = chartRect.adjusted(
-        hPadding,
-        vPadding + valuesVMargin * 2,
-        -hPadding * 3,
-        -vPadding * 3
-        );
+    QRectF gridRect
+        = chartRect.adjusted(hPadding, vPadding + valuesVMargin * 2, -hPadding * 3, -vPadding * 3);
 
     if (!m_chartItem->horizontalAxisOnTop()) {
         // If horizontal axis is on the bottom, move grid a little up
-        gridRect.adjust(0, -valuesVMargin, 0 , -valuesVMargin);
+        gridRect.adjust(0, -valuesVMargin, 0, -valuesVMargin);
     }
 
     // Adapt font for horizontal axis
-    painter->setFont(adaptFont((gridRect.width() - this->valuesHMargin(painter)) / xAxisData().segmentCount() * 0.8,
-                               painter->font(),
-                               xAxisData()));
+    painter->setFont(adaptFont((gridRect.width() - this->valuesHMargin(painter))
+                                   / xAxisData().segmentCount() * 0.8,
+                               painter->font(), xAxisData()));
 
     const qreal valuesHMargin = this->valuesHMargin(painter);
 
@@ -34,23 +30,21 @@ void GridLinesChart::paintChart(QPainter *painter, QRectF chartRect)
 
     paintGrid(painter, gridRect);
 
-    paintSerialLines(
-        painter,
-        gridRect.adjusted(hPadding + valuesHMargin, 0, 0, 0)
-        );
+    paintSerialLines(painter, gridRect.adjusted(hPadding + valuesHMargin, 0, 0, 0));
 }
 
 void GridLinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)
 {
-    if (valuesCount() == 0) return;
+    if (valuesCount() == 0)
+        return;
 
     painter->save();
-    painter->setRenderHint(QPainter::Antialiasing,true);
+    painter->setRenderHint(QPainter::Antialiasing, true);
 
-    const AxisData &yAxisData = this->yAxisData();
+    const AxisData& yAxisData = this->yAxisData();
     const qreal delta = yAxisData.delta();
 
-    if (m_chartItem->itemMode() == DesignMode){
+    if (m_chartItem->itemMode() == DesignMode) {
         const qreal hStep = barsRect.width() / valuesCount();
         const qreal vStep = barsRect.height() / delta;
         const qreal topShift = (delta - (maxValue() - minValue())) * vStep + barsRect.top();
@@ -59,7 +53,7 @@ void GridLinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)
         return;
     }
 
-    const AxisData &xAxisData = this->xAxisData();
+    const AxisData& xAxisData = this->xAxisData();
     const qreal hStep = barsRect.width() / (xAxisData.rangeMax() - xAxisData.rangeMin());
 
     qreal leftMargin = 0;
@@ -70,8 +64,8 @@ void GridLinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)
         pen.setWidth(m_chartItem->seriesLineWidth());
         painter->setPen(pen);
 
-        const QList<qreal> &xAxisValues = series->data()->xAxisValues();
-        const QList<qreal> &values = series->data()->values();
+        const QList<qreal>& xAxisValues = series->data()->xAxisValues();
+        const QList<qreal>& values = series->data()->values();
         const int xAxisValuesSize = xAxisValues.size();
         qreal lastXPos = 0;
         qreal lastYPos = 0;
@@ -85,16 +79,16 @@ void GridLinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)
             leftMargin = barsRect.left();
             lastXPos = calculatePos(xAxisData, xAxisValues.first(), barsRect.width());
         }
-        for (int i = 0; i < values.count() - 1; ++i ) {
+        for (int i = 0; i < values.count() - 1; ++i) {
             const qreal startY = lastYPos;
-            const qreal endY = calculatePos(yAxisData, values.at(i+1), barsRect.height());
+            const qreal endY = calculatePos(yAxisData, values.at(i + 1), barsRect.height());
             // Record last used Y position to only calculate new one
             lastYPos = endY;
 
             qreal startX = lastXPos;
             qreal endX = 0;
             if (i + 1 < xAxisValuesSize) {
-                endX = calculatePos(xAxisData, xAxisValues.at(i+1), barsRect.width());
+                endX = calculatePos(xAxisData, xAxisValues.at(i + 1), barsRect.width());
             } else {
                 endX = startX + hStep;
             }
@@ -109,4 +103,4 @@ void GridLinesChart::paintSerialLines(QPainter* painter, QRectF barsRect)
 
     painter->restore();
 }
-}
+} // namespace LimeReport

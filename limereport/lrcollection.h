@@ -30,33 +30,33 @@
 #ifndef LRCOLLECTION_H
 #define LRCOLLECTION_H
 
-#include <QObject>
-#include <QMetaType>
-
 #include "lrglobal.h"
 
-class LIMEREPORT_EXPORT ACollectionProperty{
+#include <QMetaType>
+#include <QObject>
+
+class LIMEREPORT_EXPORT ACollectionProperty {
 public:
-    ACollectionProperty(){}
-    ACollectionProperty(const ACollectionProperty& ){}
-    virtual ~ACollectionProperty(){}
+    ACollectionProperty() { }
+    ACollectionProperty(const ACollectionProperty&) { }
+    virtual ~ACollectionProperty() { }
 };
 Q_DECLARE_METATYPE(ACollectionProperty)
 
-namespace LimeReport{
+namespace LimeReport {
 #if __cplusplus >= 201703L
 const int inline COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
 #else
 const int COLLECTION_TYPE_ID = qMetaTypeId<ACollectionProperty>();
 #endif
-class LIMEREPORT_EXPORT ICollectionContainer{
+class LIMEREPORT_EXPORT ICollectionContainer {
 public:
-    virtual QObject* createElement(const QString& collectionName,const QString& elementType)=0;
-    virtual int elementsCount(const QString& collectionName)=0;
-    virtual QObject* elementAt(const QString& collectionName,int index)=0;
-    virtual void collectionLoadFinished(const QString& collectionName){Q_UNUSED(collectionName)}
-    ACollectionProperty fakeCollectionReader(){return ACollectionProperty();}
+    virtual QObject* createElement(const QString& collectionName, const QString& elementType) = 0;
+    virtual int elementsCount(const QString& collectionName) = 0;
+    virtual QObject* elementAt(const QString& collectionName, int index) = 0;
+    virtual void collectionLoadFinished(const QString& collectionName) { Q_UNUSED(collectionName) }
+    ACollectionProperty fakeCollectionReader() { return ACollectionProperty(); }
 };
 
-}
+} // namespace LimeReport
 #endif // LRCOLLECTION_H

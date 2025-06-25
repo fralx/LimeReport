@@ -30,22 +30,23 @@
 #ifndef LRREPORTEDITORWINDOW_H
 #define LRREPORTEDITORWINDOW_H
 
-#include <QMainWindow>
-#include <QSignalMapper>
-#include <QToolButton>
-#include <QLabel>
-#include <QFontComboBox>
-#include <QSpinBox>
-#include <QProgressDialog>
-#include "lrbanddesignintf.h"
 #include "items/editors/lrfonteditorwidget.h"
-#include "items/editors/lrtextalignmenteditorwidget.h"
 #include "items/editors/lritemsaligneditorwidget.h"
 #include "items/editors/lritemsborderseditorwidget.h"
+#include "items/editors/lrtextalignmenteditorwidget.h"
+#include "lrbanddesignintf.h"
 #include "lrobjectitemmodel.h"
 #include "lrreportdesignwindowintrerface.h"
 
-namespace LimeReport{
+#include <QFontComboBox>
+#include <QLabel>
+#include <QMainWindow>
+#include <QProgressDialog>
+#include <QSignalMapper>
+#include <QSpinBox>
+#include <QToolButton>
+
+namespace LimeReport {
 
 class ObjectInspectorWidget;
 class QObjectPropertyModel;
@@ -56,13 +57,13 @@ class BaseDesignIntf;
 class PageDesignIntf;
 class ObjectBrowser;
 
-class ReportDesignWindow : public ReportDesignWindowInterface
-{
+class ReportDesignWindow: public ReportDesignWindowInterface {
     Q_OBJECT
 public:
-    explicit ReportDesignWindow(ReportEnginePrivateInterface *report, QWidget *parent = 0, QSettings* settings=0);
+    explicit ReportDesignWindow(ReportEnginePrivateInterface* report, QWidget* parent = 0,
+                                QSettings* settings = 0);
     ~ReportDesignWindow();
-    static ReportDesignWindow* instance(){return m_instance;}
+    static ReportDesignWindow* instance() { return m_instance; }
 
     bool checkNeedToSave();
     void showModal();
@@ -70,7 +71,7 @@ public:
     void setSettings(QSettings* value);
     QSettings* settings();
     void restoreSetting();
-    void setShowProgressDialog(bool value){m_showProgressDialog = value;}
+    void setShowProgressDialog(bool value) { m_showProgressDialog = value; }
 private slots:
     void slotNewReport();
     void slotNewPage();
@@ -93,11 +94,12 @@ private slots:
     void slotEditLayoutMode();
     void slotHLayout();
     void slotVLayout();
-    void slotItemSelected(LimeReport::BaseDesignIntf *item);
-    void slotItemPropertyChanged(const QString& objectName, const QString& propertyName, const QVariant &oldValue, const QVariant &newValue);
+    void slotItemSelected(LimeReport::BaseDesignIntf* item);
+    void slotItemPropertyChanged(const QString& objectName, const QString& propertyName,
+                                 const QVariant& oldValue, const QVariant& newValue);
     void slotMultiItemSelected();
     void slotInsertModeStarted();
-    void slotItemInserted(LimeReport::PageDesignIntf* , QPointF, const QString& ItemType);
+    void slotItemInserted(LimeReport::PageDesignIntf*, QPointF, const QString& ItemType);
     void slotItemInsertCanceled(const QString& ItemType);
     void slotUpdateDataBrowser(const QString& collectionName);
     void slotCommandHistoryChanged();
@@ -105,8 +107,8 @@ private slots:
     void slotPrintReport();
     void slotPreviewReport();
     void slotItemActionCliked();
-    void slotBandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*band);
-    void slotBandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf*band);
+    void slotBandAdded(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf* band);
+    void slotBandDeleted(LimeReport::PageDesignIntf*, LimeReport::BandDesignIntf* band);
     void slotActivePageChanged();
     void renderStarted();
     void renderPageFinished(int renderedPageCount);
@@ -118,7 +120,7 @@ private slots:
     void slotUseGrid(bool value);
     void slotUseMagnet(bool value);
     void slotLoadRecentFile(const QString fileName);
-    void slotPageAdded(PageDesignIntf* );
+    void slotPageAdded(PageDesignIntf*);
     void slotPageDeleted();
     void slotFilterTextChanged(const QString& filter);
 #ifdef HAVE_QTDESIGNER_INTEGRATION
@@ -131,14 +133,14 @@ private slots:
     void slotCancelRendering(bool);
 
 protected:
-    void closeEvent(QCloseEvent *event);
-    void resizeEvent(QResizeEvent *);
+    void closeEvent(QCloseEvent* event);
+    void resizeEvent(QResizeEvent*);
     void showEvent(QShowEvent* event);
-    void moveEvent(QMoveEvent *);
+    void moveEvent(QMoveEvent*);
     void hideDockWidgets(Qt::DockWidgetArea area, bool value);
     bool isDockAreaVisible(Qt::DockWidgetArea area);
     void setDocWidgetsVisibility(bool visible);
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent* event);
 
 private:
     void initReportEditor(ReportEnginePrivate* report);
@@ -173,6 +175,7 @@ private:
     void addRecentFile(const QString& fileName);
     void showDefaultToolBars();
     void showDefaultEditors();
+
 private:
     static ReportDesignWindow* m_instance;
     QStatusBar* m_statusBar;
@@ -243,26 +246,26 @@ private:
     QAction* m_unlockSelectedItemsAction;
     QAction* m_selectOneLevelItems;
 
-    QMenu*   m_recentFilesMenu;
+    QMenu* m_recentFilesMenu;
 
     QSignalMapper* m_bandsAddSignalsMap;
     QSignalMapper* m_recentFilesSignalMap;
 
     ObjectInspectorWidget* m_objectInspector;
     ReportDesignWidget* m_reportDesignWidget;
-    DataBrowser * m_dataBrowser;
+    DataBrowser* m_dataBrowser;
     ScriptBrowser* m_scriptBrowser;
 
     ObjectBrowser* m_objectsBrowser;
 
-    QHash<QString,QAction*> m_actionMap;
+    QHash<QString, QAction*> m_actionMap;
     QLabel* m_lblReportName;
     QEventLoop m_eventLoop;
     QFontComboBox* m_fontNameEditor;
     QComboBox* m_fontSizeEditor;
     QStringListModel m_fontSizeModel;
     bool m_textAttibutesIsChanging;
-    BaseDesignIntf const * m_fontItem;
+    BaseDesignIntf const* m_fontItem;
     FontEditorWidget* m_fontEditorBar;
     TextAlignmentEditorWidget* m_textAlignmentEditorBar;
     ItemsAlignmentEditorWidget* m_itemsAlignmentEditorBar;
@@ -272,12 +275,12 @@ private:
     ValidatorIntf* m_validator;
     QProgressDialog* m_progressDialog;
     bool m_showProgressDialog;
-    QMap<QString,QDateTime> m_recentFiles;
+    QMap<QString, QDateTime> m_recentFiles;
     QVector<QDockWidget*> m_pageEditors;
     QVector<QDockWidget*> m_dialogEditors;
     QVector<QDockWidget*> m_docksToTabify;
     ReportDesignWidget::EditorTabType m_editorTabType;
-    QByteArray         m_editorsStates[ReportDesignWidget::TabTypeCount];
+    QByteArray m_editorsStates[ReportDesignWidget::TabTypeCount];
     QVector<QToolBar*> m_pageTools;
     QVector<QToolBar*> m_dialogTools;
     bool m_reportItemIsLocked;
@@ -292,9 +295,10 @@ private:
     void createProgressBar();
 };
 
-class ObjectNameValidator : public ValidatorIntf{
-    bool validate(const QString &propName, const QVariant &propValue, QObject *object, QString &msg);
+class ObjectNameValidator: public ValidatorIntf {
+    bool validate(const QString& propName, const QVariant& propValue, QObject* object,
+                  QString& msg);
 };
 
-}
+} // namespace LimeReport
 #endif // LRREPORTEDITORWINDOW_H

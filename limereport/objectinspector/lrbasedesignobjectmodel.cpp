@@ -28,24 +28,21 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrbasedesignobjectmodel.h"
+
 #include "lrbasedesignintf.h"
 
-namespace LimeReport{
+namespace LimeReport {
 
-BaseDesignPropertyModel::BaseDesignPropertyModel(QObject *parent)
-    : QObjectPropertyModel(parent)
-{}
+BaseDesignPropertyModel::BaseDesignPropertyModel(QObject* parent): QObjectPropertyModel(parent) { }
 
-void BaseDesignPropertyModel::setObject(QObject *object)
+void BaseDesignPropertyModel::setObject(QObject* object)
 {
     BaseDesignIntf* reportItem = dynamic_cast<BaseDesignIntf*>(object);
-    if (reportItem){
-        connect(reportItem,SIGNAL(propertyChanged(QString,QVariant,QVariant)),this,SLOT(slotPropertyChanged(QString,QVariant,QVariant)));
-
+    if (reportItem) {
+        connect(reportItem, SIGNAL(propertyChanged(QString, QVariant, QVariant)), this,
+                SLOT(slotPropertyChanged(QString, QVariant, QVariant)));
     }
     QObjectPropertyModel::setObject(object);
 }
 
-}
-
-
+} // namespace LimeReport

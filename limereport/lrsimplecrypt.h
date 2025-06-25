@@ -30,24 +30,25 @@
 #ifndef LRSIMPLECRYPT_H
 #define LRSIMPLECRYPT_H
 
-#include <QString>
 #include <QByteArray>
 #include <QScopedPointer>
+#include <QString>
 
 namespace LimeReport {
 
 class ChipperPrivate;
-class Chipper{
+class Chipper {
 public:
     QByteArray cryptString(QString value);
     QString decryptByteArray(QByteArray value);
     Chipper();
     Chipper(QString passphrase);
     ~Chipper();
+
 private:
     ChipperPrivate* d;
 };
 
-}
+} // namespace LimeReport
 
 #endif // LRSIMPLECRYPT_H

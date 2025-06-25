@@ -28,64 +28,54 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrpageheader.h"
-#include "lrdesignelementsfactory.h"
+
 #include "lrbanddesignintf.h"
 #include "lrbasedesignintf.h"
-#include "lrpageitemdesignintf.h"
+#include "lrdesignelementsfactory.h"
 #include "lrglobal.h"
+#include "lrpageitemdesignintf.h"
 
-const QString xmlTag ="PageHeader";
+const QString xmlTag = "PageHeader";
 
-namespace{
+namespace {
 
-LimeReport::BaseDesignIntf * createBand(QObject* owner, LimeReport::BaseDesignIntf*  parent){
-    return new LimeReport::PageHeader(owner,parent);
+LimeReport::BaseDesignIntf* createBand(QObject* owner, LimeReport::BaseDesignIntf* parent)
+{
+    return new LimeReport::PageHeader(owner, parent);
 }
 
 bool VARIABLE_IS_NOT_USED registred = LimeReport::DesignElementsFactory::instance().registerCreator(
-        xmlTag,
-        LimeReport::ItemAttribs(QObject::tr("Page Header"),LimeReport::Const::bandTAG),
-        createBand
-    );
-}
+    xmlTag, LimeReport::ItemAttribs(QObject::tr("Page Header"), LimeReport::Const::bandTAG),
+    createBand);
+} // namespace
 
-namespace LimeReport{
+namespace LimeReport {
 
-PageHeader::PageHeader(QObject* owner, QGraphicsItem *parent)
-: BandDesignIntf(LimeReport::BandDesignIntf::PageHeader,xmlTag,owner,parent),
-  m_printOnFirstPage(true), m_printOnLastPage(true) {
+PageHeader::PageHeader(QObject* owner, QGraphicsItem* parent):
+    BandDesignIntf(LimeReport::BandDesignIntf::PageHeader, xmlTag, owner, parent),
+    m_printOnFirstPage(true),
+    m_printOnLastPage(true)
+{
     setBandTypeText(tr("Page Header"));
     setMarkerColor(bandColor());
 }
 
-BaseDesignIntf *PageHeader::createSameTypeItem(QObject *owner, QGraphicsItem *parent)
+BaseDesignIntf* PageHeader::createSameTypeItem(QObject* owner, QGraphicsItem* parent)
 {
-    return new PageHeader(owner,parent);
+    return new PageHeader(owner, parent);
 }
 
-QColor PageHeader::bandColor() const
-{
-    return QColor(246,120,12);
-}
+QColor PageHeader::bandColor() const { return QColor(246, 120, 12); }
 
-bool PageHeader::printOnLastPage() const
-{
-    return m_printOnLastPage;
-}
+bool PageHeader::printOnLastPage() const { return m_printOnLastPage; }
 
-void PageHeader::setPrintOnLastPage(bool printOnLastPage)
-{
-    m_printOnLastPage = printOnLastPage;
-}
+void PageHeader::setPrintOnLastPage(bool printOnLastPage) { m_printOnLastPage = printOnLastPage; }
 
-bool PageHeader::printOnFirstPage() const
-{
-    return m_printOnFirstPage;
-}
+bool PageHeader::printOnFirstPage() const { return m_printOnFirstPage; }
 
 void PageHeader::setPrintOnFirstPage(bool printOnFirstPage)
 {
     m_printOnFirstPage = printOnFirstPage;
 }
 
-}
+} // namespace LimeReport

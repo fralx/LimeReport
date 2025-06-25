@@ -4,14 +4,14 @@
 #include "lrlineschart.h"
 
 namespace LimeReport {
-class GridLinesChart : public LinesChart{
+class GridLinesChart: public LinesChart {
 public:
-    GridLinesChart(ChartItem* chartItem):LinesChart(chartItem){}
-    void paintChart(QPainter *painter, QRectF chartRect);
+    GridLinesChart(ChartItem* chartItem): LinesChart(chartItem) { }
+    void paintChart(QPainter* painter, QRectF chartRect);
 
 private:
-    void paintSerialLines(QPainter *painter, QRectF barsRect);
+    void paintSerialLines(QPainter* painter, QRectF barsRect);
 };
-}
+} // namespace LimeReport
 
 #endif // GRIDLINESCHART_H

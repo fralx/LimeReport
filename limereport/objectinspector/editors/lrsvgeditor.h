@@ -1,27 +1,27 @@
 #ifndef SVGEDITOR_H
 #define SVGEDITOR_H
-#include <QWidget>
 #include <QPushButton>
+#include <QWidget>
 
-namespace LimeReport{
+namespace LimeReport {
 
-class SvgEditor : public QWidget
-{
+class SvgEditor: public QWidget {
     Q_OBJECT
 
 public:
-    SvgEditor(QWidget *parent=0);
+    SvgEditor(QWidget* parent = 0);
     QByteArray image();
-    void setImage(const QByteArray& image){m_image=image;}
+    void setImage(const QByteArray& image) { m_image = image; }
 signals:
     void editingFinished();
 private slots:
     void slotButtonClicked();
     void slotClearButtonClicked();
+
 private:
     QPushButton m_button;
     QPushButton m_clearButton;
-    QByteArray  m_image;
+    QByteArray m_image;
 };
 
 } // namespace LimeReport

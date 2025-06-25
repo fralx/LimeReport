@@ -27,23 +27,19 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#include "version.h"
 #include "lraboutdialog.h"
 #include "ui_lraboutdialog.h"
 
-namespace LimeReport{
+#include "version.h"
 
-AboutDialog::AboutDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::AboutDialog)
+namespace LimeReport {
+
+AboutDialog::AboutDialog(QWidget* parent): QDialog(parent), ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
     ui->lblVersion->setText(QString("Version %1").arg(LIMEREPORT_VERSION_STR));
 }
 
-AboutDialog::~AboutDialog()
-{
-    delete ui;
-}
+AboutDialog::~AboutDialog() { delete ui; }
 
-} //namespace LimeReport
+} // namespace LimeReport

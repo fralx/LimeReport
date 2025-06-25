@@ -1,34 +1,28 @@
 #include "lrsettingdialog.h"
 #include "ui_lrsettingdialog.h"
+
 #include "lrglobal.h"
+
 #include <QFile>
 #include <QFileInfo>
 
-namespace LimeReport{
+namespace LimeReport {
 
-SettingDialog::SettingDialog(QWidget *parent) :
+SettingDialog::SettingDialog(QWidget* parent):
     QDialog(parent),
-    ui(new Ui::SettingDialog), m_settings(0)
+    ui(new Ui::SettingDialog),
+    m_settings(0)
 {
     ui->setupUi(this);
     ui->toolBox->setCurrentIndex(0);
-    ui->indentSize->setRange(0,10);
+    ui->indentSize->setRange(0, 10);
 }
 
-SettingDialog::~SettingDialog()
-{
-    delete ui;
-}
+SettingDialog::~SettingDialog() { delete ui; }
 
-int SettingDialog::verticalGridStep()
-{
-    return ui->verticalGridStep->value();
-}
+int SettingDialog::verticalGridStep() { return ui->verticalGridStep->value(); }
 
-int SettingDialog::horizontalGridStep()
-{
-    return ui->horizontalGridStep->value();
-}
+int SettingDialog::horizontalGridStep() { return ui->horizontalGridStep->value(); }
 
 QFont SettingDialog::defaultFont()
 {
@@ -44,15 +38,9 @@ QFont SettingDialog::scriptFont()
     return result;
 }
 
-int SettingDialog::tabIndention()
-{
-    return ui->indentSize->value();
-}
+int SettingDialog::tabIndention() { return ui->indentSize->value(); }
 
-QString SettingDialog::theme()
-{
-    return ui->cbTheme->currentText();
-}
+QString SettingDialog::theme() { return ui->cbTheme->currentText(); }
 
 bool SettingDialog::suppressAbsentFieldsAndVarsWarnings()
 {
@@ -68,36 +56,22 @@ QLocale::Language SettingDialog::designerLanguage()
     return QLocale().language();
 }
 
-QString SettingDialog::reportUnits()
-{
-    return ui->reportUnits->currentText();
-}
+QString SettingDialog::reportUnits() { return ui->reportUnits->currentText(); }
 
-int SettingDialog::baseItemPadding()
-{
-    return ui->neBaseItemPadding->value();
-}
+int SettingDialog::baseItemPadding() { return ui->neBaseItemPadding->value(); }
 
-void SettingDialog::setSuppressAbsentFieldsAndVarsWarnings(bool value){
+void SettingDialog::setSuppressAbsentFieldsAndVarsWarnings(bool value)
+{
     ui->cbSuppressWarnings->setChecked(value);
 }
 
-void SettingDialog::setBaseItemPadding(int value)
-{
-    ui->neBaseItemPadding->setValue(value);
-}
+void SettingDialog::setBaseItemPadding(int value) { ui->neBaseItemPadding->setValue(value); }
 
-void SettingDialog::setHorizontalGridStep(int value)
-{
-    ui->horizontalGridStep->setValue(value);
-}
+void SettingDialog::setHorizontalGridStep(int value) { ui->horizontalGridStep->setValue(value); }
 
-void SettingDialog::setVerticalGridStep(int value)
-{
-    ui->verticalGridStep->setValue(value);
-}
+void SettingDialog::setVerticalGridStep(int value) { ui->verticalGridStep->setValue(value); }
 
-void SettingDialog::setDefaultFont(const QFont &value)
+void SettingDialog::setDefaultFont(const QFont& value)
 {
     ui->defaultFont->setCurrentFont(value);
     ui->defaultFontSize->setValue(value.pointSize());
@@ -109,12 +83,9 @@ void SettingDialog::setScriptFont(const QFont& value)
     ui->scriptFontSize->setValue(value.pointSize());
 }
 
-void SettingDialog::setScritpTabIndention(int size)
-{
-    ui->indentSize->setValue(size);
-}
+void SettingDialog::setScritpTabIndention(int size) { ui->indentSize->setValue(size); }
 
-void SettingDialog::setTheme(const QString &theme)
+void SettingDialog::setTheme(const QString& theme)
 {
 #if QT_VERSION < 0x050000
     ui->cbTheme->setCurrentIndex(ui->cbTheme->findText(theme));
@@ -123,7 +94,8 @@ void SettingDialog::setTheme(const QString &theme)
 #endif
 }
 
-void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLocale::Language currentLanguage)
+void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages,
+                                         QLocale::Language currentLanguage)
 {
     m_aviableLanguages = languages;
     m_currentLanguage = currentLanguage;
@@ -139,13 +111,14 @@ void SettingDialog::setDesignerLanguages(QList<QLocale::Language> languages, QLo
             ui->designerLanguage->addItem(QLocale::languageToString(language));
     }
 #if QT_VERSION < 0x050000
-    ui->designerLanguage->setCurrentIndex(ui->designerLanguage->findText(QLocale::languageToString(currentLanguage)));
+    ui->designerLanguage->setCurrentIndex(
+        ui->designerLanguage->findText(QLocale::languageToString(currentLanguage)));
 #else
     ui->designerLanguage->setCurrentText(QLocale::languageToString(currentLanguage));
 #endif
 }
 
-void SettingDialog::setDesignerThemes(QList<QString> themes, const QString &currentTheme)
+void SettingDialog::setDesignerThemes(QList<QString> themes, const QString& currentTheme)
 {
     ui->cbTheme->clear();
     ui->cbTheme->addItems(themes);
@@ -167,18 +140,19 @@ void SettingDialog::setDesignerUnites(QList<QString> unitTypes, const QString cu
 #endif
 }
 
-void SettingDialog::setSettings(QSettings* settings){
+void SettingDialog::setSettings(QSettings* settings)
+{
     m_settings = settings;
-    if (m_settings){
+    if (m_settings) {
         m_settings->beginGroup("ScriptEditor");
         QVariant fontName = m_settings->value("DefaultFontName");
-        if (fontName.isValid()){
+        if (fontName.isValid()) {
             QVariant fontSize = m_settings->value("DefaultFontSize");
-            ui->scriptFont->setCurrentFont(QFont(fontName.toString(),fontSize.toInt()));
+            ui->scriptFont->setCurrentFont(QFont(fontName.toString(), fontSize.toInt()));
             ui->scriptFontSize->setValue(fontSize.toInt());
         }
         QVariant indentSize = m_settings->value("TabIndention");
-        if (indentSize.isValid()){
+        if (indentSize.isValid()) {
             ui->indentSize->setValue(indentSize.toInt());
         } else {
             ui->indentSize->setValue(LimeReport::Const::DEFAULT_TAB_INDENTION);
@@ -189,7 +163,7 @@ void SettingDialog::setSettings(QSettings* settings){
 
 void SettingDialog::on_bbOkCancel_accepted()
 {
-    if (m_settings){
+    if (m_settings) {
         m_settings->beginGroup("ScriptEditor");
         m_settings->setValue("DefaultFontName", ui->scriptFont->currentFont().family());
         m_settings->setValue("DefaultFontSize", ui->scriptFontSize->value());
@@ -198,12 +172,10 @@ void SettingDialog::on_bbOkCancel_accepted()
     }
 }
 
-bool SettingDialog::isFileExists(const QString &path)
+bool SettingDialog::isFileExists(const QString& path)
 {
     QFileInfo check_file(path);
     return check_file.exists() && check_file.isFile();
 }
 
 } // namespace LimeReport
-
-

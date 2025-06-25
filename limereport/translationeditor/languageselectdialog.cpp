@@ -1,16 +1,18 @@
 #include "languageselectdialog.h"
 #include "ui_languageselectdialog.h"
+
+#include <QDebug>
 #include <QLocale>
 #include <QSet>
-#include <QDebug>
 
-LanguageSelectDialog::LanguageSelectDialog(QWidget *parent) :
+LanguageSelectDialog::LanguageSelectDialog(QWidget* parent):
     QDialog(parent),
     ui(new Ui::LanguageSelectDialog)
 {
     ui->setupUi(this);
-    for (int i = 2; i<QLocale::LastLanguage; ++i){
-        ui->comboBox->addItem(QLocale::languageToString(static_cast<QLocale::Language>(i)),static_cast<QLocale::Language>(i));
+    for (int i = 2; i < QLocale::LastLanguage; ++i) {
+        ui->comboBox->addItem(QLocale::languageToString(static_cast<QLocale::Language>(i)),
+                              static_cast<QLocale::Language>(i));
     }
 #if QT_VERSION < 0x050000
     ui->comboBox->setEditText("");
@@ -19,10 +21,7 @@ LanguageSelectDialog::LanguageSelectDialog(QWidget *parent) :
 #endif
 }
 
-LanguageSelectDialog::~LanguageSelectDialog()
-{
-    delete ui;
-}
+LanguageSelectDialog::~LanguageSelectDialog() { delete ui; }
 
 QLocale::Language LanguageSelectDialog::getSelectedLanguage()
 {

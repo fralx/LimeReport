@@ -1,23 +1,22 @@
 #ifndef LRBORDEREDITOR_H
 #define LRBORDEREDITOR_H
 
-#include <QDialog>
 #include "lrbasedesignintf.h"
 
-namespace LimeReport{
+#include <QDialog>
+
+namespace LimeReport {
 
 namespace Ui {
     class BorderEditor;
 }
 
-
-class LIMEREPORT_EXPORT BorderEditor : public QDialog
-{
+class LIMEREPORT_EXPORT BorderEditor: public QDialog {
     Q_OBJECT
 
 public:
-    explicit BorderEditor(QWidget *parent = nullptr);
-    void loadItem(LimeReport::BaseDesignIntf *item);
+    explicit BorderEditor(QWidget* parent = nullptr);
+    void loadItem(LimeReport::BaseDesignIntf* item);
     LimeReport::BaseDesignIntf::BorderLines borderSides();
     LimeReport::BaseDesignIntf::BorderStyle borderStyle();
     QString borderColor();
@@ -26,7 +25,7 @@ public:
 
 private slots:
     void on_listWidget_currentRowChanged(int currentRow);
-    void on_comboBox_currentTextChanged(const QString &arg1);
+    void on_comboBox_currentTextChanged(const QString& arg1);
     void on_noLines_clicked();
     void on_topLine_clicked(bool checked);
     void on_bottomLine_clicked(bool checked);
@@ -37,8 +36,8 @@ private slots:
     void on_selectColor_clicked();
 
 private:
-    Ui::BorderEditor *ui;
-    LimeReport::BaseDesignIntf *m_item;
+    Ui::BorderEditor* ui;
+    LimeReport::BaseDesignIntf* m_item;
     QString m_borderColor;
     int m_borderStyle;
     double m_borderWidth;

@@ -27,18 +27,21 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
-#include <QString>
-#include <QDebug>
 #include "lrglobal.h"
+
+#include <QDebug>
+#include <QString>
 
 namespace LimeReport {
 
 QString extractClassName(QString className)
 {
-    int startPos=className.lastIndexOf("::");
-    if(startPos==-1) startPos=0;
-    else startPos+=2;
-    return className.right(className.length()-startPos);
+    int startPos = className.lastIndexOf("::");
+    if (startPos == -1)
+        startPos = 0;
+    else
+        startPos += 2;
+    return className.right(className.length() - startPos);
 }
 
 bool ReportSettings::suppressAbsentFieldsAndVarsWarnings() const
@@ -46,41 +49,41 @@ bool ReportSettings::suppressAbsentFieldsAndVarsWarnings() const
     return m_suppressAbsentFieldsAndVarsWarnings;
 }
 
-void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(bool suppressAbsentFieldsAndVarsWarnings)
+void ReportSettings::setSuppressAbsentFieldsAndVarsWarnings(
+    bool suppressAbsentFieldsAndVarsWarnings)
 {
     m_suppressAbsentFieldsAndVarsWarnings = suppressAbsentFieldsAndVarsWarnings;
 }
 
-int ReportSettings::baseItemPadding() const
-{
-    return m_baseItemPadding;
-}
+int ReportSettings::baseItemPadding() const { return m_baseItemPadding; }
 
 void ReportSettings::setBaseItemPadding(int newBaseTextItemPadding)
 {
     m_baseItemPadding = newBaseTextItemPadding;
 }
 
-QString escapeSimbols(const QString &value)
+QString escapeSimbols(const QString& value)
 {
     QString result = value;
-    result.replace("\"","\\\"");
-    result.replace('\n',"\\n");
+    result.replace("\"", "\\\"");
+    result.replace('\n', "\\n");
     return result;
 }
 
-QString replaceHTMLSymbols(const QString &value)
+QString replaceHTMLSymbols(const QString& value)
 {
     QString result = value;
-    result.replace("<","&lt;");
-    result.replace(">","&gt;");
+    result.replace("<", "&lt;");
+    result.replace(">", "&gt;");
     return result;
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
-QVector<QString> normalizeCaptures(const QRegularExpressionMatch& reg){
+QVector<QString> normalizeCaptures(const QRegularExpressionMatch& reg)
+{
 #else
-QVector<QString> normalizeCaptures(const QRegExp& reg){
+QVector<QString> normalizeCaptures(const QRegExp& reg)
+{
 #endif
     QVector<QString> result;
     foreach (QString cap, reg.capturedTexts()) {
@@ -90,66 +93,60 @@ QVector<QString> normalizeCaptures(const QRegExp& reg){
     return result;
 }
 
-bool isColorDark(QColor color){
-    qreal darkness = 1-(0.299*color.red() + 0.587*color.green() + 0.114*color.blue())/255;
-    if(darkness<0.5){
+bool isColorDark(QColor color)
+{
+    qreal darkness = 1 - (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255;
+    if (darkness < 0.5) {
         return false;
     } else {
         return true;
     }
 }
 
-ReportError::ReportError(const QString& message):std::runtime_error(message.toStdString()){}
-IExternalPainter::~IExternalPainter(){}
-IPainterProxy::~IPainterProxy(){}
-
+ReportError::ReportError(const QString& message): std::runtime_error(message.toStdString()) { }
+IExternalPainter::~IExternalPainter() { }
+IPainterProxy::~IPainterProxy() { }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 1)
-QRegularExpression getRegEx(QString expression){
+QRegularExpression getRegEx(QString expression)
+{
     return QRegularExpression(expression, QRegularExpression::DotMatchesEverythingOption);
 }
-QRegularExpression getVariableRegEx(){
-    return QRegularExpression(
-                Const::VARIABLE_RX,
-                QRegularExpression::DotMatchesEverythingOption |
-                QRegularExpression::CaseInsensitiveOption
-           );
+QRegularExpression getVariableRegEx()
+{
+    return QRegularExpression(Const::VARIABLE_RX,
+                              QRegularExpression::DotMatchesEverythingOption
+                                  | QRegularExpression::CaseInsensitiveOption);
 }
-QRegularExpression getFieldRegEx(){
-    return QRegularExpression(
-                Const::FIELD_RX,
-                QRegularExpression::DotMatchesEverythingOption |
-                QRegularExpression::CaseInsensitiveOption
-           );
+QRegularExpression getFieldRegEx()
+{
+    return QRegularExpression(Const::FIELD_RX,
+                              QRegularExpression::DotMatchesEverythingOption
+                                  | QRegularExpression::CaseInsensitiveOption);
 }
-QRegularExpression getScriptRegEx(){
-    return QRegularExpression(
-                Const::SCRIPT_RX,
-                QRegularExpression::DotMatchesEverythingOption |
-                QRegularExpression::CaseInsensitiveOption
-           );
+QRegularExpression getScriptRegEx()
+{
+    return QRegularExpression(Const::SCRIPT_RX,
+                              QRegularExpression::DotMatchesEverythingOption
+                                  | QRegularExpression::CaseInsensitiveOption);
 }
-QRegularExpression getGroupFunctionRegEx(QString functionName){
-    return QRegularExpression(
-                QString(Const::GROUP_FUNCTION_RX).arg(functionName),
-                QRegularExpression::DotMatchesEverythingOption |
-                QRegularExpression::InvertedGreedinessOption
-           );
+QRegularExpression getGroupFunctionRegEx(QString functionName)
+{
+    return QRegularExpression(QString(Const::GROUP_FUNCTION_RX).arg(functionName),
+                              QRegularExpression::DotMatchesEverythingOption
+                                  | QRegularExpression::InvertedGreedinessOption);
 }
-QRegularExpression getGroupFunctionNameRegEx(QString functionName){
-    return QRegularExpression(
-                QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName),
-                QRegularExpression::DotMatchesEverythingOption |
-                QRegularExpression::InvertedGreedinessOption
-           );
+QRegularExpression getGroupFunctionNameRegEx(QString functionName)
+{
+    return QRegularExpression(QString(Const::GROUP_FUNCTION_NAME_RX).arg(functionName),
+                              QRegularExpression::DotMatchesEverythingOption
+                                  | QRegularExpression::InvertedGreedinessOption);
 }
-QRegularExpression getNamedVariableRegEx(QString variableName){
-    return QRegularExpression(
-                QString(Const::NAMED_VARIABLE_RX).arg(variableName),
-                QRegularExpression::DotMatchesEverythingOption
-           );
+QRegularExpression getNamedVariableRegEx(QString variableName)
+{
+    return QRegularExpression(QString(Const::NAMED_VARIABLE_RX).arg(variableName),
+                              QRegularExpression::DotMatchesEverythingOption);
 }
 #endif
 
-
-} //namespace LimeReport
+} // namespace LimeReport

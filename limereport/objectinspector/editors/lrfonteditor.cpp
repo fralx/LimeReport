@@ -28,58 +28,57 @@
  *   GNU General Public License for more details.                          *
  ****************************************************************************/
 #include "lrfonteditor.h"
-#include <QHBoxLayout>
-#include <QFontDialog>
+
 #include <QDebug>
+#include <QFontDialog>
+#include <QHBoxLayout>
 
-namespace LimeReport{
+namespace LimeReport {
 
-FontEditor::FontEditor(QWidget *parent) :
-    QWidget(parent)
+FontEditor::FontEditor(QWidget* parent): QWidget(parent)
 {
-    //m_button = new QPushButton(this);
+    // m_button = new QPushButton(this);
     m_button = new QToolButton(this);
-    m_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    m_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(m_button);
     layout->setSpacing(0);
-    layout->setContentsMargins(1,1,1,1);
+    layout->setContentsMargins(1, 1, 1, 1);
     setFocusProxy(m_button);
     setLayout(layout);
     setAutoFillBackground(true);
-    connect(m_button,SIGNAL(clicked()),this,SLOT(slotButtonCliked()));
+    connect(m_button, SIGNAL(clicked()), this, SLOT(slotButtonCliked()));
 }
 
-FontEditor::~FontEditor()
-{}
+FontEditor::~FontEditor() { }
 
-void FontEditor::setFontValue(const QFont &font)
+void FontEditor::setFontValue(const QFont& font)
 {
-    m_font=font;
+    m_font = font;
     m_button->setText(toString(font));
 }
 
-QFont FontEditor::fontValue()
-{
-    return m_font;
-}
+QFont FontEditor::fontValue() { return m_font; }
 
 void FontEditor::slotButtonCliked()
 {
     QFontDialog* dialog = new QFontDialog(this);
     dialog->setCurrentFont(m_font);
-    if (dialog->exec()) m_font=dialog->currentFont();
+    if (dialog->exec())
+        m_font = dialog->currentFont();
     delete dialog;
     emit(editingFinished());
 }
 
-QString FontEditor::toString(const QFont &value) const
+QString FontEditor::toString(const QFont& value) const
 {
-    QString attribs="[";
-    if (value.bold()) (attribs=="[") ? attribs+="b":attribs+=",b";
-    if (value.italic()) (attribs=="[") ? attribs+="i":attribs+=",i";
-    attribs+="]";
-    return value.family()+" "+QString::number(value.pointSize())+" "+attribs;
+    QString attribs = "[";
+    if (value.bold())
+        (attribs == "[") ? attribs += "b" : attribs += ",b";
+    if (value.italic())
+        (attribs == "[") ? attribs += "i" : attribs += ",i";
+    attribs += "]";
+    return value.family() + " " + QString::number(value.pointSize()) + " " + attribs;
 }
 
 } // namespace LimeReport

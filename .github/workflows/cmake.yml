@@ -11,9 +11,19 @@ env:
   BUILD_TYPE: Release
 
 jobs:
+  check-code-style:
+    runs-on: ubuntu-22.04
+    name: "Check code style"
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Perform check
+      run: ./tools/check_code_style.sh
+
   build:
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
     name: Ubuntu-${{ matrix.ubuntu_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    needs: check-code-style
     strategy:
       fail-fast: false
       matrix:
@@ -55,6 +65,7 @@ jobs:
   MSVC:
     name: windows-${{ matrix.win_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
     runs-on: windows-${{ matrix.win_version }}
+    needs: check-code-style
     strategy:
       fail-fast: false
       matrix:
@@ -96,6 +107,7 @@ jobs:
   MinGW-w64:
     runs-on: windows-2022
     name: msys2-${{ matrix.msystem }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    needs: check-code-style
     strategy:
       fail-fast: false
       matrix:
@@ -165,6 +177,7 @@ jobs:
   macos:
     runs-on: macos-${{ matrix.macos_version }}
     name: macos-${{ matrix.macos_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    needs: check-code-style
     strategy:
       fail-fast: false
       matrix:
