@@ -71,6 +71,7 @@ public:
         DPLEIT = 21,
         DPIDENT = 22,
         CODE16K = 23,
+        CODE49 = 24,
         CODE93 = 25,
         FLAT = 28,
         RSS14 = 29,
@@ -98,9 +99,11 @@ public:
         ISBNX = 69,
         RM4SCC = 70,
         DATAMATRIX = 71,
-        ITF14 = 72,
+        ENAN14 = 72,
+        VIN = 73,
         CODABLOCKF = 74,
         NVE18 = 75,
+        JAPANPOST = 76,
         KOREAPOST = 77,
         RSS14STACK = 79,
         RSS14STACK_OMNI = 80,
@@ -109,12 +112,15 @@ public:
         MICROPDF417 = 84,
         ONECODE = 85,
         PLESSEY = 86,
+        // TELEPEN_NUM = 87,
+        ITF14 = 89,
         KIX = 90,
         AZTEC = 92,
         DAFT = 93,
         ITALYPOST = 94,
         DPD = 96,
         MICROQR = 97,
+
         HIBC_128 = 98,
         HIBC_39 = 99,
         HIBC_DM = 102,
@@ -123,6 +129,7 @@ public:
         HIBC_MICPDF = 108,
         HIBC_BLOCKF = 110,
         HIBC_AZTEC = 112,
+
         DOTCODE = 115,
         HANXIN = 116,
         TELEPEN_NUM = 128,
@@ -140,7 +147,9 @@ public:
         CHANNEL = 140,
         CODEONE = 141,
         GRIDMATRIX = 142,
-        UPNQR = 143
+        UPNQR = 143,
+        ULTRA = 144,
+        RMQR = 145
     };
 
     enum AngleType {
