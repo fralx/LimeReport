@@ -465,7 +465,7 @@ void PreviewReportWindow::scaleComboboxChanged(QString text)
     if (m_scalePercentChanging)
         return;
     m_scalePercentChanging = true;
-    m_previewReportWidget->setScalePercent(text.remove(text.count() - 1, 1).toInt());
+    m_previewReportWidget->setScalePercent(text.remove(text.length() - 1, 1).toInt());
     m_scalePercentChanging = false;
 }
 

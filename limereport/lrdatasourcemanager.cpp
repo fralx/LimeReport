@@ -489,7 +489,6 @@ QString DataSourceManager::replaceVariables(QString value)
     }
     return value;
 #endif
-    return QString();
 }
 
 QString DataSourceManager::replaceVariables(QString query, QMap<QString, QString>& aliasesToParam)

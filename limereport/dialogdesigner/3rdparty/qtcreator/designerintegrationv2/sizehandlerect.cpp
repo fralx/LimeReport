@@ -103,7 +103,7 @@ void SizeHandleRect::mousePressEvent(QMouseEvent *e)
         return;
 
     m_startSize = m_curSize = m_resizable->size();
-#if QT_VERSION < QT_VERSION_CHECK(5,15,3)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     m_startPos = m_curPos = m_resizable->mapFromGlobal(e->globalPos());
 #else
     m_startPos = m_curPos = m_resizable->mapFromGlobal(e->globalPosition());
@@ -121,7 +121,11 @@ void SizeHandleRect::mouseMoveEvent(QMouseEvent *e)
     // causes the handle and the mouse cursor to become out of sync
     // once a min/maxSize limit is hit. When the cursor reenters the valid
     // areas, it will now snap to it.
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_curPos = m_resizable->mapFromGlobal(e->globalPos());
+#else
+    m_curPos = m_resizable->mapFromGlobal(e->globalPosition());
+#endif
     QSize delta = QSize(m_curPos.x() - m_startPos.x(), m_curPos.y() -  m_startPos.y());
     switch (m_dir) {
     case Right:
