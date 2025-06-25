@@ -429,8 +429,7 @@ void PreviewReportWindow::slotFirstPage() { m_previewReportWidget->firstPage(); 
 
 void PreviewReportWindow::slotLastPage() { m_previewReportWidget->lastPage(); }
 
-void PreviewReportWindow::slotPrintToPDF() { m_previewReportWidget->printToPDF(); }
-
+void PreviewReportWindow::slotPrintToPDF()
 {
     m_previewReportWidget->printToPDF();
 }
@@ -439,13 +438,10 @@ void PreviewReportWindow::slotPrintToExcel()
 {
     m_previewReportWidget->printToExcel();
 }
-
 void PreviewReportWindow::slotPageChanged(int pageIndex)
 {
     m_pagesNavigator->setValue(pageIndex);
 }
-
-void PreviewReportWindow::slotPageChanged(int pageIndex) { m_pagesNavigator->setValue(pageIndex); }
 void PreviewReportWindow::slotInsertNewTextItem()
 {
     m_previewReportWidget->startInsertTextItem();
