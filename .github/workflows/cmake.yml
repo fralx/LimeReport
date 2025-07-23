@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [20.04, 22.04]
+        ubuntu_version: [22.04]
         qt_version: [5.15.2, 6.4.0]
         static: [ON, OFF]
 
