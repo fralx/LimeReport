@@ -25,8 +25,8 @@ QModelIndex CompleterModel::index(int row, int column, const QModelIndex& parent
 QModelIndex CompleterModel::parent(const QModelIndex& child) const
 {
     if (child.isValid()) {
-        if (CompleterItem* childItem = static_cast<CompleterItem*>(child.internalPointer());
-            childItem) {
+        CompleterItem* childItem = static_cast<CompleterItem*>(child.internalPointer());
+        if (childItem) {
             CompleterItem* parentItem = childItem->parent();
             if (parentItem != &m_root) {
                 return indexFromItem(parentItem);
