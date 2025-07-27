@@ -221,11 +221,19 @@ system("git --version") {
 }
 
 VERSION_TEMPLATE = $$PWD/version.h.in
+VERSION_OUTPUT = $$OUT_PWD/version.h
+
+defineReplace(generateHeader){
+    VERSION_TEMPLATE = $$1
+    OUTPUT_FILE = $$2
+    LINES = $$cat($$VERSION_TEMPLATE, lines)
+    LINES = $$replace(LINES, @GIT_VERSION@, $$LR_VERSION)
+    system(echo '// Auto generated version header' > $$OUTPUT_FILE)
+    for (a, LINES): system(echo '$${a}' >> $$OUTPUT_FILE)
+}
 
 generateversion.depends = FORCE
-generateversion.input = VERSION_TEMPLATE
-generateversion.output = $$OUT_PWD/version.h
-generateversion.commands = $$QMAKE_STREAM_EDITOR \'s/@GIT_VERSION@/$$LR_VERSION/\' ${QMAKE_FILE_IN} > ${QMAKE_FILE_OUT}
+generateversion.commands = $$generateHeader($$VERSION_TEMPLATE, $$VERSION_OUTPUT)
 generateversion.CONFIG = no_link target_predeps
 
 QMAKE_EXTRA_COMPILERS += generateversion
