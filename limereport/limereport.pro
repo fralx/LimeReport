@@ -35,6 +35,12 @@ CONFIG(staticlib) {
     DEFINES -= LIMEREPORT_EXPORTS
 }
 
+contains(CONFIG, x86_64) {
+    message(Цель: 64 бита)
+} else {
+    message(Цель: 32 бита)
+}
+
 EXTRA_FILES += \
     $$PWD/lrglobal.h \
     $$PWD/lrdatasourceintf.h \
