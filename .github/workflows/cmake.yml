@@ -20,7 +20,7 @@ jobs:
     - name: Perform check
       run: ./tools/check_code_style.sh
 
-  build:
+  ubuntu:
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
     name: Ubuntu-${{ matrix.ubuntu_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
     needs: check-code-style
@@ -62,118 +62,118 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
-  # MSVC:
-  #   name: windows-${{ matrix.win_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
-  #   runs-on: windows-${{ matrix.win_version }}
-  #   needs: check-code-style
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       win_version: [2022]
-  #       qt_version: [5.15.2, 6.4.0]
-  #       static: [ON, OFF]
+  MSVC:
+    name: windows-${{ matrix.win_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    runs-on: windows-${{ matrix.win_version }}
+    needs: check-code-style
+    strategy:
+      fail-fast: false
+      matrix:
+        win_version: [2022]
+        qt_version: [5.15.2, 6.4.0]
+        static: [ON, OFF]
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-tags: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
 
-  #     # https://github.com/actions/checkout/issues/1781
-  #     # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
-  #     - name: Fetch tags
-  #       run: git fetch --prune --unshallow --tags
+      # https://github.com/actions/checkout/issues/1781
+      # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
 
-  #     - name: Install Qt
-  #       uses: jurplel/install-qt-action@v3
-  #       with:
-  #           version: ${{ matrix.qt_version }}
-  #           cache: 'true'
-  #           cache-key-prefix: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
-  #           dir: ${{ github.workspace }}/Qt      
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+            version: ${{ matrix.qt_version }}
+            cache: 'true'
+            cache-key-prefix: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+            dir: ${{ github.workspace }}/Qt      
 
-  #     - name: Configure CMake for Qt5
-  #       if: "startsWith(matrix.qt_version, '5.')"
-  #       run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+      - name: Configure CMake for Qt5
+        if: "startsWith(matrix.qt_version, '5.')"
+        run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
 
 
-  #     - name: Configure CMake for Qt6
-  #       if: "startsWith(matrix.qt_version, '6.')"
-  #       run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+      - name: Configure CMake for Qt6
+        if: "startsWith(matrix.qt_version, '6.')"
+        run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
 
-  #     - name: Build
-  #       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-  # MinGW-w64:
-  #   runs-on: windows-2022
-  #   name: msys2-${{ matrix.msystem }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
-  #   needs: check-code-style
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       qt_version: [5, 6]
-  #       msystem: [UCRT64, CLANG64]
-  #       static: [ON, OFF]
-  #   defaults:
-  #     run:
-  #       shell: msys2 {0}
+  MinGW-w64:
+    runs-on: windows-2022
+    name: msys2-${{ matrix.msystem }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    needs: check-code-style
+    strategy:
+      fail-fast: false
+      matrix:
+        qt_version: [5, 6]
+        msystem: [UCRT64, CLANG64]
+        static: [ON, OFF]
+    defaults:
+      run:
+        shell: msys2 {0}
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-tags: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
     
-  #     - name: Install MinGW-w64 packages Qt5
-  #       if: "startsWith(matrix.qt_version, '5')"
-  #       uses: msys2/setup-msys2@v2
-  #       with:
-  #         msystem: ${{ matrix.msystem }}
-  #         release: false
-  #         update: true
-  #         pacboy: >-
-  #           cc:p
-  #           cmake:p
-  #           ninja:p
-  #           git:
-  #           qt${{ matrix.qt_version }}-base:p
-  #           qt${{ matrix.qt_version }}-svg:p
-  #           qt${{ matrix.qt_version }}-tools:p
-  #           qt${{ matrix.qt_version }}-quickcontrols:p
+      - name: Install MinGW-w64 packages Qt5
+        if: "startsWith(matrix.qt_version, '5')"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          release: false
+          update: true
+          pacboy: >-
+            cc:p
+            cmake:p
+            ninja:p
+            git:
+            qt${{ matrix.qt_version }}-base:p
+            qt${{ matrix.qt_version }}-svg:p
+            qt${{ matrix.qt_version }}-tools:p
+            qt${{ matrix.qt_version }}-quickcontrols:p
 
-  #     - name: Install MinGW-w64 packages Qt6
-  #       if: "startsWith(matrix.qt_version, '6')"
-  #       uses: msys2/setup-msys2@v2
-  #       with:
-  #         msystem: ${{ matrix.msystem }}
-  #         release: false
-  #         update: true
-  #         pacboy: >-
-  #           cc:p
-  #           cmake:p
-  #           ninja:p
-  #           git:
-  #           qt${{ matrix.qt_version }}-base:p
-  #           qt${{ matrix.qt_version }}-svg:p
-  #           qt${{ matrix.qt_version }}-tools:p
-  #           qt${{ matrix.qt_version }}-declarative:p
+      - name: Install MinGW-w64 packages Qt6
+        if: "startsWith(matrix.qt_version, '6')"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          release: false
+          update: true
+          pacboy: >-
+            cc:p
+            cmake:p
+            ninja:p
+            git:
+            qt${{ matrix.qt_version }}-base:p
+            qt${{ matrix.qt_version }}-svg:p
+            qt${{ matrix.qt_version }}-tools:p
+            qt${{ matrix.qt_version }}-declarative:p
       
-  #     # https://github.com/actions/checkout/issues/1781
-  #     # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
-  #     - name: Fetch tags
-  #       run: git fetch --prune --unshallow --tags
+      # https://github.com/actions/checkout/issues/1781
+      # workaround https://github.com/actions/checkout/issues/1471#issuecomment-1755560284
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
 
-  #     - name: Configure CMake for Qt5
-  #       if: "startsWith(matrix.qt_version, '5')"
-  #       run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+      - name: Configure CMake for Qt5
+        if: "startsWith(matrix.qt_version, '5')"
+        run: cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
 
 
-  #     - name: Configure CMake for Qt6
-  #       if: "startsWith(matrix.qt_version, '6')"
-  #       run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
+      - name: Configure CMake for Qt6
+        if: "startsWith(matrix.qt_version, '6')"
+        run: cmake -DUSE_QT6=ON -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}" -DLIMEREPORT_STATIC=${{ matrix.static }} -DLIMEREPORT_DEMO=ON -B "${{github.workspace}}/build" 
 
-  #     - name: Build
-  #       run: cmake --build '${{github.workspace}}/build' --config ${{env.BUILD_TYPE}}
+      - name: Build
+        run: cmake --build '${{github.workspace}}/build' --config ${{env.BUILD_TYPE}}
   macos:
     runs-on: macos-latest
     name: macos-latest-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
