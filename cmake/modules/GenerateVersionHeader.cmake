@@ -4,7 +4,7 @@ if(GIT_EXECUTABLE)
   # Generate a git-describe version string from Git repository tags
   execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     OUTPUT_VARIABLE GIT_DESCRIBE_VERSION
     RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -22,7 +22,7 @@ if(NOT DEFINED GIT_VERSION)
 endif()
 
 configure_file(
-  ${CMAKE_SOURCE_DIR}/limereport/version.h.in
-  ${CMAKE_BINARY_DIR}/limereport/version.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/limereport/version.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/limereport/version.h
   @ONLY)
 

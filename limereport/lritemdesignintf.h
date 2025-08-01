@@ -36,7 +36,7 @@
 
 namespace LimeReport {
 class BaseDesignIntf;
-class ItemDesignIntf: public BaseDesignIntf {
+class LIMEREPORT_EXPORT ItemDesignIntf: public BaseDesignIntf {
     Q_OBJECT
     Q_PROPERTY(LocationType itemLocation READ itemLocation WRITE setItemLocation)
     Q_PROPERTY(bool stretchToMaxHeight READ stretchToMaxHeight WRITE setStretchToMaxHeight)
@@ -81,7 +81,7 @@ protected:
     }
 };
 
-class ContentItemDesignIntf: public ItemDesignIntf {
+class LIMEREPORT_EXPORT ContentItemDesignIntf: public ItemDesignIntf {
     Q_OBJECT
 public:
     ContentItemDesignIntf(const QString& xmlTypeName, QObject* owner = 0,
