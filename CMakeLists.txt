@@ -397,7 +397,7 @@ set(GLOBAL_HEADERS
     ${PROJECT_NAME}/LRCallbackDS
     ${PROJECT_NAME}/LRDataManager
     ${PROJECT_NAME}/LRScriptManager
-    ${CMAKE_BINARY_DIR}/limereport/version.h
+    ${CMAKE_CURRENT_BINARY_DIR}/limereport/version.h
     )
 
 set(PROJECT_NAME ${PROJECT_NAME}-qt${QT_VERSION_MAJOR})
@@ -470,7 +470,7 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 	limereport/scripteditor )
 
 target_include_directories( ${PROJECT_NAME} PUBLIC
-    ${CMAKE_BINARY_DIR}/limereport )
+    ${CMAKE_CURRENT_BINARY_DIR}/limereport )
 
 target_include_directories( ${PROJECT_NAME} INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)

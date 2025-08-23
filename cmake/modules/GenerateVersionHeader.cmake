@@ -22,7 +22,7 @@ if(NOT DEFINED GIT_VERSION)
 endif()
 
 configure_file(
-  ${CMAKE_SOURCE_DIR}/limereport/version.h.in
-  ${CMAKE_BINARY_DIR}/limereport/version.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/limereport/version.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/limereport/version.h
   @ONLY)
 
