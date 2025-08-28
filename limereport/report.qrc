@@ -107,6 +107,10 @@
         <file alias="/images/alignToVCenter">images/toCenter.png</file>
         <file alias="/images/alignToLeft">images/toLeft1.png</file>
         <file alias="/images/alignToRight">images/toRight.png</file>
+        <file alias="/images/alignToLeftOf">images/toLeftOf.png</file>
+        <file alias="/images/alignToRightOf">images/toRightOf.png</file>
+        <file alias="/images/alignToTopOf">images/toTopOf.png</file>
+        <file alias="/images/alignToBottomOf">images/toBottomOf.png</file>
         <file alias="/images/sameHeight">images/toSameHeight.png</file>
         <file alias="/images/sameWidth">images/toSameWidth.png</file>
         <file alias="/images/alignToTop">images/toTop.png</file>

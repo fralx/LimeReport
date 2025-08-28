@@ -1649,6 +1649,99 @@ void PageDesignIntf::alignToHCenter()
         saveCommand(cm, false);
     }
 }
+void PageDesignIntf::alignToLeftOf()
+{
+    if ((selectedItems().count() > 0) && m_firstSelectedItem) {
+        CommandGroup::Ptr cm = CommandGroup::create();
+        QPointF previousItemLeftEdge;
+        foreach (QGraphicsItem* item, selectedItems()) {
+            BaseDesignIntf* bdItem = dynamic_cast<BaseDesignIntf*>(item);
+            if (bdItem && !bdItem->isGeometryLocked()) {
+                QRectF oldGeometry = bdItem->geometry();
+                if (previousItemLeftEdge.isNull()) {
+                    bdItem->setPos(m_firstSelectedItem->pos().x() - bdItem->width(), bdItem->pos().y());
+                } else {
+                    bdItem->setPos(previousItemLeftEdge.x() - bdItem->width(), bdItem->pos().y());
+                }
+                previousItemLeftEdge = bdItem->pos();
+                CommandIf::Ptr command = PropertyChangedCommand::create(
+                    this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
+                cm->addCommand(command, false);
+            }
+        }
+        saveCommand(cm, false);
+    }
+}
+
+void PageDesignIntf::alignToRigthOf()
+{
+    if ((selectedItems().count() > 0) && m_firstSelectedItem) {
+        CommandGroup::Ptr cm = CommandGroup::create();
+        QPointF previousItemRightEdge;
+        foreach (QGraphicsItem* item, selectedItems()) {
+            BaseDesignIntf* bdItem = dynamic_cast<BaseDesignIntf*>(item);
+            if (bdItem && !bdItem->isGeometryLocked()) {
+                QRectF oldGeometry = bdItem->geometry();
+                if (previousItemRightEdge.isNull()) {
+                    bdItem->setPos(m_firstSelectedItem->pos().x() + bdItem->width(), bdItem->pos().y());
+                } else {
+                    bdItem->setPos(previousItemRightEdge.x() + bdItem->width(), bdItem->pos().y());
+                }
+                previousItemRightEdge = bdItem->pos();
+                CommandIf::Ptr command = PropertyChangedCommand::create(
+                    this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
+                cm->addCommand(command, false);
+            }
+        }
+        saveCommand(cm, false);
+    }
+}
+void PageDesignIntf::alignToTopOf()
+{
+    if ((selectedItems().count() > 0) && m_firstSelectedItem) {
+        CommandGroup::Ptr cm = CommandGroup::create();
+        QPointF previousItemTopEdge;
+        foreach (QGraphicsItem* item, selectedItems()) {
+            BaseDesignIntf* bdItem = dynamic_cast<BaseDesignIntf*>(item);
+            if (bdItem && !bdItem->isGeometryLocked()) {
+                QRectF oldGeometry = bdItem->geometry();
+                if (previousItemTopEdge.isNull()) {
+                    bdItem->setPos(bdItem->pos().x(), m_firstSelectedItem->pos().y() + bdItem->height());
+                } else {
+                    bdItem->setPos(bdItem->pos().x(), previousItemTopEdge.y() + bdItem->height());
+                }
+                previousItemTopEdge = bdItem->pos();
+                CommandIf::Ptr command = PropertyChangedCommand::create(
+                    this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
+                cm->addCommand(command, false);
+            }
+        }
+        saveCommand(cm, false);
+    }
+}
+void PageDesignIntf::alignToBottomOf()
+{
+    if ((selectedItems().count() > 0) && m_firstSelectedItem) {
+        CommandGroup::Ptr cm = CommandGroup::create();
+        QPointF previousItemBottomEdge;
+        foreach (QGraphicsItem* item, selectedItems()) {
+            BaseDesignIntf* bdItem = dynamic_cast<BaseDesignIntf*>(item);
+            if (bdItem && !bdItem->isGeometryLocked()) {
+                QRectF oldGeometry = bdItem->geometry();
+                if (previousItemBottomEdge.isNull()) {
+                    bdItem->setPos(bdItem->pos().x(), m_firstSelectedItem->pos().y() - bdItem->height());
+                } else {
+                    bdItem->setPos(bdItem->pos().x(), previousItemBottomEdge.y() - bdItem->height());
+                }
+                previousItemBottomEdge = bdItem->pos();
+                CommandIf::Ptr command = PropertyChangedCommand::create(
+                    this, bdItem->objectName(), "geometry", oldGeometry, bdItem->geometry());
+                cm->addCommand(command, false);
+            }
+        }
+        saveCommand(cm, false);
+    }
+}
 
 void PageDesignIntf::sameWidth()
 {

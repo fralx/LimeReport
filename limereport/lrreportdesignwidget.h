@@ -194,6 +194,10 @@ public slots:
     void alignToTop();
     void alignToBottom();
     void alignToHCenter();
+    void alignToLeftOf();
+    void alignToRightOf();
+    void alignToTopOf();
+    void alignToBottomOf();
     void sameHeight();
     void sameWidth();
     void editLayoutMode(bool value);
