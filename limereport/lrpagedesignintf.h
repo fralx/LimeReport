@@ -250,6 +250,10 @@ public slots:
     void alignToTop();
     void alignToBottom();
     void alignToHCenter();
+    void alignToLeftOf();
+    void alignToRigthOf();
+    void alignToTopOf();
+    void alignToBottomOf();
     void sameWidth();
     void sameHeight();
     void addHLayout();

@@ -130,6 +130,38 @@ void ItemsAlignmentEditorWidget::slotAlignToHCenter()
         m_page->alignToHCenter();
 }
 
+void ItemsAlignmentEditorWidget::slotAlignToTopOf()
+{
+    if (m_reportEditor)
+        m_reportEditor->alignToTopOf();
+    if (m_page)
+        m_page->alignToTopOf();
+}
+
+void ItemsAlignmentEditorWidget::slotAlignToBottomOf()
+{
+    if (m_reportEditor)
+        m_reportEditor->alignToBottomOf();
+    if (m_page)
+        m_page->alignToBottomOf();
+}
+
+void ItemsAlignmentEditorWidget::slotAlignToLeftOf()
+{
+    if (m_reportEditor)
+        m_reportEditor->alignToLeftOf();
+    if (m_page)
+        m_page->alignToLeftOf();
+}
+
+void ItemsAlignmentEditorWidget::slotAlignToRightOf()
+{
+    if (m_reportEditor)
+        m_reportEditor->alignToRightOf();
+    if (m_page)
+        m_page->alignToRigthOf();
+}
+
 void ItemsAlignmentEditorWidget::slotSameHeight()
 {
     if (m_reportEditor)
@@ -188,6 +220,26 @@ void ItemsAlignmentEditorWidget::initEditor()
     connect(m_alignToHCenter, SIGNAL(triggered()), this, SLOT(slotAlignToHCenter()));
     addAction(m_alignToHCenter);
 
+    m_alignToLeftOf = new QAction(tr("Align to left of"), this);
+    m_alignToLeftOf->setIcon(QIcon(":/report/images/alignToLeftOf"));
+    connect(m_alignToLeftOf, SIGNAL(triggered()), this, SLOT(slotAlignToLeftOf()));
+    addAction(m_alignToLeftOf);
+
+    m_alignToRightOf = new QAction(tr("Align to right of"), this);
+    m_alignToRightOf->setIcon(QIcon(":/report/images/alignToRightOf"));
+    connect(m_alignToRightOf, SIGNAL(triggered()), this, SLOT(slotAlignToRightOf()));
+    addAction(m_alignToRightOf);
+
+    m_alignToTopOf = new QAction(tr("Align to top of"), this);
+    m_alignToTopOf->setIcon(QIcon(":/report/images/alignToTopOf"));
+    connect(m_alignToTopOf, SIGNAL(triggered()), this, SLOT(slotAlignToTopOf()));
+    addAction(m_alignToTopOf);
+
+    m_alignToBottomOf = new QAction(tr("Align to bottom of"), this);
+    m_alignToBottomOf->setIcon(QIcon(":/report/images/alignToBottomOf"));
+    connect(m_alignToBottomOf, SIGNAL(triggered()), this, SLOT(slotAlignToBottomOf()));
+    addAction(m_alignToBottomOf);
+
     m_sameHeight = new QAction(tr("Set same height"), this);
     m_sameHeight->setIcon(QIcon(":/report/images/sameHeight"));
     connect(m_sameHeight, SIGNAL(triggered()), this, SLOT(slotSameHeight()));
@@ -197,6 +249,8 @@ void ItemsAlignmentEditorWidget::initEditor()
     m_sameWidth->setIcon(QIcon(":/report/images/sameWidth"));
     connect(m_sameWidth, SIGNAL(triggered()), this, SLOT(slotSameWidth()));
     addAction(m_sameWidth);
+
+
 }
 
 } // namespace LimeReport

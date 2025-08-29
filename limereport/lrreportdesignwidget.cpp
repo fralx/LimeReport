@@ -654,6 +654,30 @@ void ReportDesignWidget::alignToHCenter()
         activePage()->alignToHCenter();
 }
 
+void ReportDesignWidget::alignToLeftOf()
+{
+    if (activePage())
+        activePage()->alignToLeftOf();
+}
+
+void ReportDesignWidget::alignToRightOf()
+{
+    if (activePage())
+        activePage()->alignToRigthOf();
+}
+
+void ReportDesignWidget::alignToTopOf()
+{
+    if (activePage())
+        activePage()->alignToTopOf();
+}
+
+void ReportDesignWidget::alignToBottomOf()
+{
+    if (activePage())
+        activePage()->alignToBottomOf();
+}
+
 void ReportDesignWidget::sameHeight()
 {
     if (activePage())

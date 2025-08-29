@@ -55,6 +55,10 @@ private slots:
     void slotAlignToTop();
     void slotAlignToBottom();
     void slotAlignToHCenter();
+    void slotAlignToTopOf();
+    void slotAlignToBottomOf();
+    void slotAlignToLeftOf();
+    void slotAlignToRightOf();
     void slotSameHeight();
     void slotSameWidth();
 
@@ -71,8 +75,13 @@ private:
     QAction* m_alignToTop;
     QAction* m_alignToBottom;
     QAction* m_alignToHCenter;
+    QAction* m_alignToTopOf;
+    QAction* m_alignToBottomOf;
+    QAction* m_alignToRightOf;
+    QAction* m_alignToLeftOf;
     QAction* m_sameHeight;
     QAction* m_sameWidth;
+
 };
 
 } // namespace LimeReport
