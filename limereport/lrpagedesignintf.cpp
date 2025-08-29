@@ -33,7 +33,7 @@
 #include "lrhorizontallayout.h"
 #include "lrtextitem.h"
 #include "lrverticallayout.h"
-//#include "lrbarcodeitem.h"
+// #include "lrbarcodeitem.h"
 #include "lrbanddesignintf.h"
 #include "lrbandsmanager.h"
 #include "lrdesignelementsfactory.h"
@@ -1659,7 +1659,12 @@ void PageDesignIntf::alignToLeftOf()
             if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 if (previousItemLeftEdge.isNull()) {
+<<<<<<< HEAD
+                    bdItem->setPos(m_firstSelectedItem->pos().x() - bdItem->width(),
+                                   bdItem->pos().y());
+=======
                     bdItem->setPos(m_firstSelectedItem->pos().x() - bdItem->width(), bdItem->pos().y());
+>>>>>>> 949828080160d360b920e913c3b17eb9c30a23bc
                 } else {
                     bdItem->setPos(previousItemLeftEdge.x() - bdItem->width(), bdItem->pos().y());
                 }
@@ -1683,7 +1688,12 @@ void PageDesignIntf::alignToRigthOf()
             if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 if (previousItemRightEdge.isNull()) {
+<<<<<<< HEAD
+                    bdItem->setPos(m_firstSelectedItem->pos().x() + bdItem->width(),
+                                   bdItem->pos().y());
+=======
                     bdItem->setPos(m_firstSelectedItem->pos().x() + bdItem->width(), bdItem->pos().y());
+>>>>>>> 949828080160d360b920e913c3b17eb9c30a23bc
                 } else {
                     bdItem->setPos(previousItemRightEdge.x() + bdItem->width(), bdItem->pos().y());
                 }
@@ -1706,7 +1716,12 @@ void PageDesignIntf::alignToTopOf()
             if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 if (previousItemTopEdge.isNull()) {
+<<<<<<< HEAD
+                    bdItem->setPos(bdItem->pos().x(),
+                                   m_firstSelectedItem->pos().y() + bdItem->height());
+=======
                     bdItem->setPos(bdItem->pos().x(), m_firstSelectedItem->pos().y() + bdItem->height());
+>>>>>>> 949828080160d360b920e913c3b17eb9c30a23bc
                 } else {
                     bdItem->setPos(bdItem->pos().x(), previousItemTopEdge.y() + bdItem->height());
                 }
@@ -1729,9 +1744,17 @@ void PageDesignIntf::alignToBottomOf()
             if (bdItem && !bdItem->isGeometryLocked()) {
                 QRectF oldGeometry = bdItem->geometry();
                 if (previousItemBottomEdge.isNull()) {
+<<<<<<< HEAD
+                    bdItem->setPos(bdItem->pos().x(),
+                                   m_firstSelectedItem->pos().y() - bdItem->height());
+                } else {
+                    bdItem->setPos(bdItem->pos().x(),
+                                   previousItemBottomEdge.y() - bdItem->height());
+=======
                     bdItem->setPos(bdItem->pos().x(), m_firstSelectedItem->pos().y() - bdItem->height());
                 } else {
                     bdItem->setPos(bdItem->pos().x(), previousItemBottomEdge.y() - bdItem->height());
+>>>>>>> 949828080160d360b920e913c3b17eb9c30a23bc
                 }
                 previousItemBottomEdge = bdItem->pos();
                 CommandIf::Ptr command = PropertyChangedCommand::create(
