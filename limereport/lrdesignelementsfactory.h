@@ -50,7 +50,7 @@ struct ItemAttribs {
     }
 };
 
-class DesignElementsFactory:
+class LIMEREPORT_EXPORT DesignElementsFactory:
     public AttribsAbstractFactory<LimeReport::BaseDesignIntf, QString, CreateBand, ItemAttribs> {
 private:
     friend class Singleton<DesignElementsFactory>;
