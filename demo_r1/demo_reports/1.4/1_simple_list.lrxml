@@ -805,9 +805,10 @@
    }
 }
 
-DataBand1.beforeRender.connect(BeforeDataRender)</initScript>
+ReportPage1_DataBand1.beforeRender.connect(BeforeDataRender)</initScript>
     </scriptContext>
     <suppressFieldAndVarError Type="bool" Value="0"/>
+    <baseItemPadding Type="int" Value="0"/>
     <translation Type="Translation"/>
   </object>
 </Report>
