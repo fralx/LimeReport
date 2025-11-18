@@ -252,8 +252,7 @@ defineReplace(generateHeader){
     OUTPUT_FILE = $$2
     LINES = $$cat($$VERSION_TEMPLATE, lines)
     LINES = $$replace(LINES, @GIT_VERSION@, $$LR_VERSION)
-    system(echo '// Auto generated version header' > $$OUTPUT_FILE)
-    for (a, LINES): system(echo '$${a}' >> $$OUTPUT_FILE)
+    write_file($$OUTPUT_FILE, LINES)
 }
 
 generateversion.depends = FORCE
