@@ -20,7 +20,7 @@ jobs:
     - name: Perform check
       run: ./tools/check_code_style.sh
 
-  build:
+  ubuntu:
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
     name: Ubuntu-${{ matrix.ubuntu_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
     needs: check-code-style
@@ -175,8 +175,8 @@ jobs:
       - name: Build
         run: cmake --build '${{github.workspace}}/build' --config ${{env.BUILD_TYPE}}
   macos:
-    runs-on: macos-${{ matrix.macos_version }}
-    name: macos-${{ matrix.macos_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    runs-on: macos-latest
+    name: macos-latest-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
     needs: check-code-style
     strategy:
       fail-fast: false
