@@ -18,7 +18,7 @@
 #include <io.h>
 #endif
 
-enum PrintType{ Printer, PDF, Display};
+enum PrintType{ Printer, PDF, Screen};
 
 int main(int argc, char *argv[])
 {
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
         if (parser.value(typeOption).compare("Printer",Qt::CaseInsensitive) == 0)
             printType = Printer;
         if (parser.value(typeOption).compare("Display",Qt::CaseInsensitive) == 0)
-            printType = Display;
+            printType = Screen;
     }
 
 
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
             report.printReport(&printer);
         }
         break;
-    case Display:
+    case Screen:
         report.previewReport();
         break;
     }
