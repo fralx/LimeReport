@@ -45,8 +45,8 @@
 #include <QLocale>
 #include <QMainWindow>
 #include <QObject>
-#include <QSharedPointer>
 #include <QProgressDialog>
+#include <QSharedPointer>
 
 class QFileSystemWatcher;
 
