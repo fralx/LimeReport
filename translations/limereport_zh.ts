@@ -4,6 +4,7 @@
 <context>
     <name>$ClassName$</name>
     <message>
+        <location filename="../limereport/dialogdesigner/templates/Dialog.ui" line="+13"/>
         <source>$ClassName$</source>
         <translation>$ClassName$</translation>
     </message>
@@ -11,42 +12,54 @@
 <context>
     <name>ChartAxisEditor</name>
     <message>
+        <location filename="../limereport/items/lrchartaxiseditor.ui" line="+14"/>
         <source>Axis editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Reverse direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Enable scale calculation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Maximum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Minimum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location line="+10"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+78"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Ok</source>
         <translation type="unfinished">确定</translation>
     </message>
@@ -54,50 +67,62 @@
 <context>
     <name>ChartItemEditor</name>
     <message>
+        <location filename="../limereport/items/lrchartitemeditor.ui" line="+14"/>
         <source>Series editor</source>
         <translation>数据系列编辑器</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Series</source>
         <translation>数据系列</translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Add</source>
         <translation>增加</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Values field</source>
         <translation>取值字段</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
+        <location line="+42"/>
         <source>Labels field</source>
         <translation>标签字段</translation>
     </message>
     <message>
+        <location line="+40"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartitemeditor.cpp" line="+107"/>
         <source>Series name</source>
         <translation>系列名称</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartitemeditor.ui" line="-33"/>
         <source>X data field</source>
         <translation type="unfinished"></translation>
     </message>
@@ -105,22 +130,31 @@
 <context>
     <name>ImageItemEditor</name>
     <message>
+        <location filename="../limereport/items/lrimageitemeditor.ui" line="+20"/>
         <source>Image Item Editor</source>
         <translation>图像组件编辑</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Image</source>
         <translation>图像</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <location line="+14"/>
+        <location line="+63"/>
+        <location line="+14"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
+        <location line="-24"/>
         <source>Resource path</source>
         <translation>资源路径</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrimageitemeditor.cpp" line="+36"/>
+        <location line="+26"/>
         <source>Select image file</source>
         <translation>选择图像文件</translation>
     </message>
@@ -128,26 +162,32 @@
 <context>
     <name>LRVariableDialog</name>
     <message>
+        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="+14"/>
         <source>Variable</source>
         <translation>变量</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Value</source>
         <translation>值</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrvariabledialog.cpp" line="+125"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="+12"/>
         <source>Mandatory</source>
         <translation>必要</translation>
     </message>
@@ -155,10 +195,12 @@
 <context>
     <name>LanguageSelectDialog</name>
     <message>
+        <location filename="../limereport/translationeditor/languageselectdialog.ui" line="+14"/>
         <source>Dialog</source>
         <translation>对话框</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
@@ -166,18 +208,22 @@
 <context>
     <name>LimeReport::AboutDialog</name>
     <message>
+        <location filename="../limereport/lraboutdialog.ui" line="+14"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Lime Report</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -187,10 +233,12 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>License</source>
         <translation>许可</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -308,14 +356,17 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <location line="+139"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Version 1.1.1</source>
         <translation>版本 1.1.1</translation>
     </message>
     <message>
+        <location line="-199"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -347,34 +398,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::AlignmentPropItem</name>
     <message>
+        <location filename="../limereport/items/lralignpropitem.cpp" line="+75"/>
         <source>Left</source>
         <translation>左</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Right</source>
         <translation>右</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+4"/>
         <source>Center</source>
         <translation>居中</translation>
     </message>
     <message>
+        <location line="-3"/>
         <source>Justify</source>
         <translation>对齐</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Top</source>
         <translation>顶</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Botom</source>
         <translation>底</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>horizontal</source>
         <translation>水平</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>vertical</source>
         <translation>垂直</translation>
     </message>
@@ -382,94 +442,123 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BandDesignIntf</name>
     <message>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="+314"/>
         <source>DataBand</source>
         <translation>数据带</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DataHeaderBand</source>
         <translation>数据带头</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DataFooterBand</source>
         <translation>数据带脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ReportHeader</source>
         <translation>表头</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ReportFooter</source>
         <translation>表脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PageHeader</source>
         <translation>页眉</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PageFooter</source>
         <translation>页脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SubDetailBand</source>
         <translation>子细节带</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SubDetailHeaderBand</source>
         <translation>子细节带头</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SubDetailFooterBand</source>
         <translation>子细节带脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>GroupBandHeader</source>
         <translation>组带头</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>GroupBandFooter</source>
         <translation>组带脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TearOffBand</source>
         <translation>分离带</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source> connected to </source>
         <translation> 连接到 </translation>
     </message>
     <message>
+        <location line="+253"/>
         <source>Bring to top</source>
         <translation>置顶</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Send to back</source>
         <translation>置底</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+24"/>
         <source>Auto height</source>
         <translation>自动高度</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Splittable</source>
         <translation>可拆分</translation>
     </message>
     <message>
+        <location line="-15"/>
+        <location line="+23"/>
         <source>Keep bottom space</source>
         <translation>保持底部距离</translation>
     </message>
     <message>
+        <location line="-43"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
+        <location line="+24"/>
+        <location line="+26"/>
         <source>Print if empty</source>
         <translation>为空时打印</translation>
     </message>
     <message>
+        <location line="-34"/>
+        <location line="+23"/>
+        <location line="+7"/>
         <source>Keep top space</source>
         <translation>保持顶部距离</translation>
     </message>
@@ -477,46 +566,58 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="+1351"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>Bring to top</source>
         <translation>置顶</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Send to back</source>
         <translation>置底</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>No borders</source>
         <translation>无边框</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>All borders</source>
         <translation>所有边框</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Create Horizontal Layout</source>
         <translation>创建水平布局</translation>
     </message>
     <message>
+        <location line="-36"/>
+        <location line="+484"/>
         <source>Lock item geometry</source>
         <translation>锁定组件形状</translation>
     </message>
     <message>
+        <location line="-443"/>
         <source>Create Vertical Layout</source>
         <translation>创建水平布局</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Edit borders...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -524,102 +625,131 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BorderEditor</name>
     <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="+14"/>
         <source>Edit border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>No lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Outline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+17"/>
         <source>Border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+13"/>
+        <location line="+27"/>
+        <location line="+21"/>
+        <location line="+27"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location line="+35"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>No style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dash dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dash dot dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Width:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
+        <location line="+17"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>0.25</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>0.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>1.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -627,10 +757,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BorderFrameEditor</name>
     <message>
+        <location filename="../limereport/items/lrborderframeeditor.ui" line="+20"/>
         <source>BorderFrameEditor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrborderframeeditor.cpp" line="+43"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
@@ -638,6 +770,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="+428"/>
+        <location line="+6"/>
         <source>defaultConnection</source>
         <translation>默认连接</translation>
     </message>
@@ -645,86 +779,109 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDialog</name>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="+14"/>
+        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="+89"/>
         <source>Connection</source>
         <translation>数据连接</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Connection Name</source>
         <translation>连接名称</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Use default application connection</source>
         <translation>使用默认应用连接</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Driver</source>
         <translation>驱动</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Server </source>
         <translation>服务器 </translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>User</source>
         <translation>用户名</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Database</source>
         <translation>数据库</translation>
     </message>
     <message>
+        <location line="+81"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Auto connect</source>
         <translation>自动连接</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Check connection</source>
         <translation>检查连接</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="-8"/>
+        <location line="+11"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="-2"/>
         <source>Connection succsesfully established!</source>
         <translation>连接成功建立!</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Connection Name is empty</source>
         <translation>连接名为空</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Connection with name </source>
         <translation>连接 </translation>
     </message>
     <message>
+        <location line="+1"/>
         <source> already exists! </source>
         <translation> 已经存在! </translation>
     </message>
     <message>
+        <location line="+60"/>
         <source>defaultConnection</source>
         <translation>默认连接</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="-55"/>
         <source>Don&apos;t keep credentials in lrxml</source>
         <translation>不在lrxml文件中保存凭证</translation>
     </message>
@@ -732,30 +889,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataBand</name>
     <message>
+        <location filename="../limereport/bands/lrdataband.cpp" line="+74"/>
         <source>Data</source>
         <translation>数据带</translation>
     </message>
     <message>
+        <location line="+13"/>
+        <location line="+40"/>
         <source>Use alternate background color</source>
         <translation>使用交替背景色</translation>
     </message>
     <message>
+        <location line="-36"/>
+        <location line="+24"/>
         <source>Keep footer together</source>
         <translation>保持页脚</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Keep subdetail together</source>
         <translation>保持子细节脚</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Slice last row</source>
         <translation>分割末行</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+32"/>
         <source>Start from new page</source>
         <translation>从新页开始</translation>
     </message>
     <message>
+        <location line="-28"/>
+        <location line="+24"/>
         <source>Start new page</source>
         <translation>开始新页</translation>
     </message>
@@ -763,86 +933,124 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataBrowser</name>
     <message>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="+14"/>
+        <location line="+28"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="+74"/>
         <source>Datasources</source>
         <translation>数据源</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Add database connection</source>
         <translation>新建数据库连接</translation>
     </message>
     <message>
+        <location line="+3"/>
+        <location line="+23"/>
+        <location line="+23"/>
+        <location line="+23"/>
+        <location line="+36"/>
+        <location line="+26"/>
+        <location line="+26"/>
+        <location line="+26"/>
+        <location line="+26"/>
+        <location line="+83"/>
+        <location line="+29"/>
+        <location line="+26"/>
+        <location line="+26"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
+        <location line="-271"/>
         <source>Add new datasource</source>
         <translation>新建数据源</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>View data</source>
         <translation>查看数据</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Change datasource</source>
         <translation>编辑数据源</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Delete datasource</source>
         <translation>删除数据源</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Show error</source>
         <translation>显示错误</translation>
     </message>
     <message>
+        <location line="+60"/>
         <source>Variables</source>
         <translation>变量</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Add new variable</source>
         <translation>新增变量</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Edit variable</source>
         <translation>编辑变量</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Delete variable</source>
         <translation>删除变量</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Grab variable</source>
         <translation>取得变量</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="+39"/>
+        <location line="+277"/>
+        <location line="+163"/>
+        <location line="+298"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
+        <location line="-737"/>
         <source>Do you really want to delete &quot;%1&quot; connection?</source>
         <translation>是否确认删除&quot;%1&quot;连接?</translation>
     </message>
     <message>
+        <location line="+85"/>
         <source>Report variables</source>
         <translation>报表变量</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>System variables</source>
         <translation>系统变量</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>External variables</source>
         <translation>外部变量</translation>
     </message>
     <message>
+        <location line="+186"/>
         <source>Do you really want to delete &quot;%1&quot; datasource?</source>
         <translation>是否确认删除&quot;%1&quot;数据源?</translation>
     </message>
     <message>
+        <location line="+461"/>
         <source>Do you really want to delete variable &quot;%1&quot;?</source>
         <translation>是否确认删除变量&quot;%1&quot;?</translation>
     </message>
     <message>
+        <location line="+40"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -850,10 +1058,13 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataFooterBand</name>
     <message>
+        <location filename="../limereport/bands/lrdataband.cpp" line="+56"/>
         <source>DataFooter</source>
         <translation>数据带脚</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+8"/>
         <source>Print always</source>
         <translation>始终打印</translation>
     </message>
@@ -861,18 +1072,25 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
+        <location line="-54"/>
         <source>DataHeader</source>
         <translation>数据带头</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+16"/>
         <source>Reprint on each page</source>
         <translation>重新打印每页</translation>
     </message>
     <message>
+        <location line="-12"/>
+        <location line="+16"/>
         <source>Repeat on each row</source>
         <translation>每行重复</translation>
     </message>
     <message>
+        <location line="-12"/>
+        <location line="+16"/>
         <source>Print always</source>
         <translation>始终打印</translation>
     </message>
@@ -880,34 +1098,51 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="+429"/>
         <source>Connection &quot;%1&quot; is not open</source>
         <translation>连接&quot;%1&quot;没有打开</translation>
     </message>
     <message>
+        <location line="+37"/>
+        <location line="+20"/>
+        <location line="+47"/>
+        <location line="+41"/>
         <source>Variable &quot;%1&quot; not found!</source>
         <translation>未找到变量&quot;%1&quot;!</translation>
     </message>
     <message>
+        <location line="+224"/>
+        <location line="+413"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation>未找到数据源&quot;%1&quot;!</translation>
     </message>
     <message>
+        <location line="-309"/>
         <source>Connection with name &quot;%1&quot; already exists!</source>
         <translation>连接 &quot;%1&quot; 已存在!</translation>
     </message>
     <message>
+        <location line="+24"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <location line="+8"/>
+        <location line="+10"/>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation>数据源 &quot;%1&quot; 已存在!</translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Database &quot;%1&quot; not found</source>
         <translation>未找到数据库 &quot;%1&quot;</translation>
     </message>
     <message>
+        <location line="+183"/>
         <source>invalid connection</source>
         <translation>无效连接</translation>
     </message>
     <message>
+        <location line="-654"/>
+        <location line="+41"/>
         <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
         <translation>变量&quot;%2&quot;参数&quot;%1&quot;未知!</translation>
     </message>
@@ -915,14 +1150,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceModel</name>
     <message>
+        <location line="-367"/>
         <source>Datasources</source>
         <translation>数据源</translation>
     </message>
     <message>
+        <location line="+33"/>
         <source>Variables</source>
         <translation>变量</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>External variables</source>
         <translation>外部变量</translation>
     </message>
@@ -930,30 +1168,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DialogDesignerManager</name>
     <message>
+        <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="+38"/>
         <source>Edit Widgets</source>
         <translation>编辑组件</translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Widget Box</source>
         <translation>组件盒</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Object Inspector</source>
         <translation>对象观察器</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Property Editor</source>
         <translation>属性编辑器</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Signals &amp;&amp; Slots Editor</source>
         <translation>信号槽编辑器</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Resource Editor</source>
         <translation>资源编辑器</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Action Editor</source>
         <translation>动作编辑器</translation>
     </message>
@@ -961,334 +1206,417 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::EnumPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="+100"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Portrait</source>
         <translation>纵向</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Landscape</source>
         <translation>横向</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoneAutoWidth</source>
         <translation>无自动宽度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>MaxWordLength</source>
         <translation>最大词长</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>MaxStringLength</source>
         <translation>最大字符串长</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TransparentMode</source>
         <translation>透明模式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>OpaqueMode</source>
         <translation>不透明模式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle0</source>
         <translation>0度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle90</source>
         <translation>90度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle180</source>
         <translation>180度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle270</source>
         <translation>270度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle45</source>
         <translation>45度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle315</source>
         <translation>315度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DateTime</source>
         <translation>日期时间</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Double</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoBrush</source>
         <translation>无</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SolidPattern</source>
         <translation>填充</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense1Pattern</source>
         <translation>密集1</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense2Pattern</source>
         <translation>密集2</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense3Pattern</source>
         <translation>密集3</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense4Pattern</source>
         <translation>密集4</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense5Pattern</source>
         <translation>密集5</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense6Pattern</source>
         <translation>密集6</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense7Pattern</source>
         <translation>密集7</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>HorPattern</source>
         <translation>横条纹</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerPattern</source>
         <translation>竖条纹</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>CrossPattern</source>
         <translation>交叉条纹</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>BDiagPattern</source>
         <translation>斜条纹</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>FDiagPattern</source>
         <translation>反斜条纹</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftToRight</source>
         <translation>从左到右</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightToLeft</source>
         <translation>从右到左</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LayoutDirectionAuto</source>
         <translation>自动布局方向</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftItemAlign</source>
         <translation>左对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightItemAlign</source>
         <translation>右对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>CenterItemAlign</source>
         <translation>居中对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ParentWidthItemAlign</source>
         <translation>上层宽度对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DesignedItemAlign</source>
         <translation>保持设计对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>HorizontalLine</source>
         <translation>水平线</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerticalLine</source>
         <translation>垂直线</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Ellipse</source>
         <translation>椭圆</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Rectangle</source>
         <translation>矩形</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Page</source>
         <translation>页</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Band</source>
         <translation>带</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Horizontal</source>
         <translation>水平</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Vertical</source>
         <translation>垂直</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerticalUniform</source>
         <translation>均匀垂直</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Pie</source>
         <translation>饼状图</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerticalBar</source>
         <translation>柱状图</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>HorizontalBar</source>
         <translation>条形图</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TitleAlignLeft</source>
         <translation>标题左对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TitleAlignRight</source>
         <translation>标题右对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TitleAlignCenter</source>
         <translation>标题居中</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Layout</source>
         <translation>布局</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Table</source>
         <translation>表</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Millimeters</source>
         <translation>毫米</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Inches</source>
         <translation>英寸</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Scale</source>
         <translation>比例</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Split</source>
         <translation>划分</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>GridLines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoStyle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDotDot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Doubled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendPoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendLines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignRightCenter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignRightTop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignRightBottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignBottomRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignBottomCenter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignBottomLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SolidLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoPen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DotLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDotLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDotDotLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>CustomDashLine</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1296,26 +1624,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::FlagsPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="+144"/>
         <source>NoLine</source>
         <translation>无边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TopLine</source>
         <translation>顶边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>BottomLine</source>
         <translation>底边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftLine</source>
         <translation>左边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightLine</source>
         <translation>右边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>AllLines</source>
         <translation>所有边框</translation>
     </message>
@@ -1323,14 +1657,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::FontEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="+96"/>
         <source>Font bold</source>
         <translation>粗体</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Font Italic</source>
         <translation>斜体</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Font Underline</source>
         <translation>下划线</translation>
     </message>
@@ -1338,22 +1675,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::FontPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="+61"/>
         <source>bold</source>
         <translation>粗体</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>italic</source>
         <translation>斜体</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>underline</source>
         <translation>下划线</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>size</source>
         <translation>字号</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>family</source>
         <translation>系列</translation>
     </message>
@@ -1361,6 +1703,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupBandFooter</name>
     <message>
+        <location filename="../limereport/bands/lrgroupbands.cpp" line="+195"/>
         <source>GroupFooter</source>
         <translation>组带脚</translation>
     </message>
@@ -1368,14 +1711,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupBandHeader</name>
     <message>
+        <location line="-123"/>
         <source>GroupHeader</source>
         <translation>组带头</translation>
     </message>
     <message>
+        <location line="+67"/>
         <source>Group field not found</source>
         <translation>未找到组字段</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation>未找到数据源 &quot;%1&quot;!</translation>
     </message>
@@ -1383,18 +1729,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupFunction</name>
     <message>
+        <location filename="../limereport/lrgroupfunctions.cpp" line="+70"/>
         <source>Field &quot;%1&quot; not found</source>
         <translation>未找到字段 &quot;%1&quot;</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Variable &quot;%1&quot; not found</source>
         <translation>未找到变量 &quot;%1&quot;</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Wrong script syntax &quot;%1&quot; </source>
         <translation>脚本语法错误 &quot;%1&quot; </translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Item &quot;%1&quot; not found</source>
         <translation>未找到目标项 &quot;%1&quot;</translation>
     </message>
@@ -1402,22 +1752,29 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ImageItem</name>
     <message>
+        <location filename="../limereport/items/lrimageitem.cpp" line="+375"/>
         <source>Image</source>
         <translation>图像</translation>
     </message>
     <message>
+        <location line="-270"/>
+        <location line="+7"/>
         <source>Watermark</source>
         <translation>水印</translation>
     </message>
     <message>
+        <location line="+261"/>
         <source>Ext.</source>
         <translation>扩展名.</translation>
     </message>
     <message>
+        <location line="-273"/>
+        <location line="+15"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
+        <location line="+58"/>
         <source>Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1425,10 +1782,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
     <message>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="+59"/>
         <source>Band</source>
         <translation>带</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Page</source>
         <translation>页</translation>
     </message>
@@ -1436,42 +1795,52 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemsAlignmentEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="+151"/>
         <source>Bring to top</source>
         <translation>置顶</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Send to back</source>
         <translation>置底</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to left</source>
         <translation>左对齐</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to right</source>
         <translation>右对齐</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to vertical center</source>
         <translation>居中对齐</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to top</source>
         <translation>顶部对齐</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to bottom</source>
         <translation>底部对齐</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to horizontal center</source>
         <translation>水平居中</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Set same height</source>
         <translation>相同高度</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Set same width</source>
         <translation>相同宽度</translation>
     </message>
@@ -1479,30 +1848,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemsBordersEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="+91"/>
         <source>Top line</source>
         <translation>顶边框</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Bottom line</source>
         <translation>底边框</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Left line</source>
         <translation>左边框</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Right line</source>
         <translation>右边框</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>No borders</source>
         <translation>无边框</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>All borders</source>
         <translation>所有边框</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Edit border</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1510,10 +1886,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="+228"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
         <translation>从数据源 &quot;%2&quot; 中未找到字段: &quot;%1&quot;</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
         <translation>主数据源 &quot;%2&quot; 中未找到字段: &quot;%1&quot;</translation>
     </message>
@@ -1521,6 +1899,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
+        <location line="-303"/>
         <source>model is destroyed</source>
         <translation>数据模型已销毁</translation>
     </message>
@@ -1528,6 +1907,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ObjectBrowser</name>
     <message>
+        <location filename="../limereport/objectsbrowser/lrobjectbrowser.cpp" line="+52"/>
         <source>Objects</source>
         <translation>对象</translation>
     </message>
@@ -1535,14 +1915,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ObjectInspectorWidget</name>
     <message>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="+196"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Filter</source>
         <translation>筛选</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Translate properties</source>
         <translation>翻译属性</translation>
     </message>
@@ -1550,6 +1933,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PDFExporter</name>
     <message>
+        <location filename="../limereport/exporters/lrpdfexporter.h" line="+20"/>
         <source>Export to PDF</source>
         <translation>导出为PDF文件</translation>
     </message>
@@ -1557,86 +1941,112 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageEditor</name>
     <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="+14"/>
         <source>Page setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Paper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Format</source>
         <translation type="unfinished">格式</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Dimension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Width:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+16"/>
+        <location line="+29"/>
+        <location line="+83"/>
+        <location line="+7"/>
+        <location line="+7"/>
+        <location line="+14"/>
         <source> mm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-127"/>
         <source>Height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Portrait</source>
         <translation type="unfinished">纵向</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Landscape</source>
         <translation type="unfinished">横向</translation>
     </message>
     <message>
+        <location line="+24"/>
         <source>Margins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Bottom:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Top:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Right:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Left:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Drop printer margins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Height options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Endless Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Extended Height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Full page</source>
         <translation type="unfinished">全页</translation>
     </message>
@@ -1644,14 +2054,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageFooter</name>
     <message>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="+57"/>
         <source>Page Footer</source>
         <translation>页脚</translation>
     </message>
     <message>
+        <location line="+14"/>
+        <location line="+11"/>
         <source>Print on first page</source>
         <translation>首页时打印</translation>
     </message>
     <message>
+        <location line="-7"/>
+        <location line="+10"/>
         <source>Print on last page</source>
         <translation>末页时打印</translation>
     </message>
@@ -1659,6 +2074,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageHeader</name>
     <message>
+        <location filename="../limereport/bands/lrpageheader.cpp" line="+59"/>
         <source>Page Header</source>
         <translation>页眉</translation>
     </message>
@@ -1666,30 +2082,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="+727"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <location line="+27"/>
         <source>Page is TOC</source>
         <translation>目录页面</translation>
     </message>
     <message>
+        <location line="-23"/>
+        <location line="+26"/>
         <source>Reset page number</source>
         <translation>重置页数</translation>
     </message>
     <message>
+        <location line="-22"/>
+        <location line="+25"/>
         <source>Full page</source>
         <translation>全页</translation>
     </message>
     <message>
+        <location line="-21"/>
+        <location line="+24"/>
         <source>Set page size to printer</source>
         <translation>适合打印机纸张大小</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Mix with prior page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-44"/>
+        <location line="+47"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
@@ -1697,14 +2126,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PreviewReportWidget</name>
     <message>
+        <location filename="../limereport/lrpreviewreportwidget.ui" line="+14"/>
         <source>Form</source>
         <translation>表格</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="+287"/>
         <source>Report file name</source>
         <translation>报表文件名</translation>
     </message>
     <message>
+        <location line="-158"/>
         <source>%1 file name</source>
         <translation>文件名 %1</translation>
     </message>
@@ -1712,150 +2144,193 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PreviewReportWindow</name>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="+14"/>
         <source>Preview</source>
         <translation>预览</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Report</source>
         <translation>报表</translation>
     </message>
     <message>
+        <location line="+68"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Zoom In</source>
         <translation>放大</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Zoom Out</source>
         <translation>缩小</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Prior Page</source>
         <translation>上一页</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Next Page</source>
         <translation>下一页</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Close Preview</source>
         <translation>关闭预览</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Esc</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Edit Mode</source>
         <translation>编辑模式</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Save to file</source>
         <translation>保存</translation>
     </message>
     <message>
+        <location line="+12"/>
+        <location line="+3"/>
         <source>Show errors</source>
         <translation>显示错误</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>First Page</source>
         <translation>首页</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>First page</source>
         <translation>首页</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Last Page</source>
         <translation>末页</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Print To PDF</source>
         <translation>打印到PDF文件</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Fit page width</source>
         <translation>适合页宽</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Fit page</source>
         <translation>适合页高</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>One to one</source>
         <translation>原始尺寸</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Show Toolbar</source>
         <translation>显示工具栏</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Show toolbar</source>
         <translation>显示工具栏</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="+85"/>
         <source>Page: </source>
         <translation>页数: </translation>
     </message>
     <message>
+        <location line="+25"/>
         <source>Font</source>
         <translation>字体</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Text align</source>
         <translation>文本对齐</translation>
     </message>
     <message>
+        <location line="+79"/>
         <source> of %1</source>
         <translation> / %1</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="+12"/>
         <source>InsertTextItem</source>
         <translation>插入文本组件</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Add new TextItem</source>
         <translation>新增文本组件</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Selection Mode</source>
         <translation>选择模式</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Delete Item</source>
         <translation>删除组件</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Del</source>
         <translation>删除</translation>
     </message>
     <message>
+        <location line="-276"/>
         <source>MainToolBar</source>
         <translation>工具条</translation>
     </message>
     <message>
+        <location line="+38"/>
         <source>EditModeTools</source>
         <translation>编辑工具</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="-126"/>
         <source>Printing</source>
         <translation>正在打印</translation>
     </message>
     <message>
+        <location line="+220"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>The printing is in process</source>
         <translation>打印正在处理</translation>
     </message>
@@ -1863,6 +2338,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="+226"/>
         <source>Datasource has been invalidated</source>
         <translation>数据源已失效</translation>
     </message>
@@ -1870,562 +2346,704 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::QObjectPropertyModel</name>
     <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="+41"/>
         <source>leftMargin</source>
         <translation>左边距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>rightMargin</source>
         <translation>右边距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>topMargin</source>
         <translation>顶边距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>bottomMargin</source>
         <translation>底边距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>objectName</source>
         <translation>对象名称</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borders</source>
         <translation>边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>geometry</source>
         <translation>形状</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>itemAlign</source>
         <translation>对齐方式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pageOrientation</source>
         <translation>页面布局</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pageSize</source>
         <translation>页面规格</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TopLine</source>
         <translation>顶边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>BottomLine</source>
         <translation>底边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftLine</source>
         <translation>左边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightLine</source>
         <translation>右边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>reprintOnEachPage</source>
         <translation>重新打印每页</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borderLineSize</source>
         <translation>边框线宽</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>autoHeight</source>
         <translation>自动高度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>backgroundColor</source>
         <translation>背景颜色</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+35"/>
         <source>columnCount</source>
         <translation>列数</translation>
     </message>
     <message>
+        <location line="-34"/>
         <source>columnsFillDirection</source>
         <translation>列填充方向</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>datasource</source>
         <translation>数据源</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepBottomSpace</source>
         <translation>保持底部空间</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepFooterTogether</source>
         <translation>保持页脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepSubdetailTogether</source>
         <translation>保持子细节脚</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printIfEmpty</source>
         <translation>为空时打印</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>sliceLastRow</source>
         <translation>分割末行</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>splittable</source>
         <translation>可拆分</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>alignment</source>
         <translation>对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>angle</source>
         <translation>角度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>autoWidth</source>
         <translation>自动宽度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>backgroundMode</source>
         <translation>背景模式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>backgroundOpacity</source>
         <translation>背景不透明度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>content</source>
         <translation>内容</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>font</source>
         <translation>字体</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fontColor</source>
         <translation>字体颜色</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>foregroundOpacity</source>
         <translation>背景不透明度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>itemLocation</source>
         <translation>组件位置</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>margin</source>
         <translation>边距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>stretchToMaxHeight</source>
         <translation>拉伸到最大高度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>trimValue</source>
         <translation>裁剪值</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>lineWidth</source>
         <translation>线宽</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>opacity</source>
         <translation>不透明度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>penStyle</source>
         <translation>画笔样式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shape</source>
         <translation>形状</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shapeBrush</source>
         <translation>画刷</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shapeBrushColor</source>
         <translation>画刷颜色</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>gridStep</source>
         <translation>栅格长</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fullPage</source>
         <translation>全页</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>oldPrintMode</source>
         <translation>旧打印模式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borderColor</source>
         <translation>边框颜色</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>resetPageNumber</source>
         <translation>重置页号</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>alternateBackgroundColor</source>
         <translation>变更背景色</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+7"/>
         <source>backgroundBrushStyle</source>
         <translation>背景画刷样式</translation>
     </message>
     <message>
+        <location line="-5"/>
         <source>startFromNewPage</source>
         <translation>从新页开始</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>startNewPage</source>
         <translation>开始新页</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>adaptFontToSize</source>
         <translation>字体适应字号</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>allowHTML</source>
         <translation>允许HTML</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>allowHTMLInFields</source>
         <translation>允许字段HTML</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>followTo</source>
         <translation>跟随</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>format</source>
         <translation>格式</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>lineSpacing</source>
         <translation>线距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>textIndent</source>
         <translation>文本缩进</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>textLayoutDirection</source>
         <translation>文本布局方向</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>underlineLineSize</source>
         <translation>下划线宽</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>underlines</source>
         <translation>下划线</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>valueType</source>
         <translation>值类型</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>securityLevel</source>
         <translation>安全级别</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>testValue</source>
         <translation>测试值</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>whitespace</source>
         <translation>空格</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>resourcePath</source>
         <translation>资源路径</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>scale</source>
         <translation>比例</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>cornerRadius</source>
         <translation>圆角半径</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shapeColor</source>
         <translation>颜色</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>layoutType</source>
         <translation>布局类型</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>barcodeType</source>
         <translation>条码类型</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>barcodeWidth</source>
         <translation>条码宽度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>foregroundColor</source>
         <translation>颜色</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>inputMode</source>
         <translation>输入法</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pdf417CodeWords</source>
         <translation>PDF417码</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>autoSize</source>
         <translation>自动大小</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>center</source>
         <translation>居中</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>field</source>
         <translation>字段</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>image</source>
         <translation>图像</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepAspectRatio</source>
         <translation>保持比例</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>columnsCount</source>
         <translation>列数</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>useAlternateBackgroundColor</source>
         <translation>使用变更背景色</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printBeforePageHeader</source>
         <translation>页眉前打印</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>maxScalePercent</source>
         <translation>最大百分比</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printOnFirstPage</source>
         <translation>打印到首页</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printOnLastPage</source>
         <translation>打印到尾页</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printAlways</source>
         <translation>始终打印</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>repeatOnEachRow</source>
         <translation>每行重复</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>condition</source>
         <translation>条件</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>groupFieldName</source>
         <translation>组字段名</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepGroupTogether</source>
         <translation>保持组脚</translation>
     </message>
     <message>
+        <location line="+140"/>
         <source>Property Name</source>
         <translation>属性名</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Property value</source>
         <translation>属性值</translation>
     </message>
     <message>
+        <location line="+218"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
+        <location line="-359"/>
         <source>endlessHeight</source>
         <translation>无限高度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>extendedHeight</source>
         <translation>扩展高度</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>isExtendedInDesignMode</source>
         <translation>设计模式扩展</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pageIsTOC</source>
         <translation>目录页面</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>setPageSizeToPrinter</source>
         <translation>适合打印机纸张</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fillInSecondPass</source>
         <translation>二次填充</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>chartTitle</source>
         <translation>图表标题</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>chartType</source>
         <translation>图表类型</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>drawLegendBorder</source>
         <translation>显示图例边框</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>labelsField</source>
         <translation>标签字段</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>legendAlign</source>
         <translation>图例对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>series</source>
         <translation>数据系列</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>titleAlign</source>
         <translation>标题对齐</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>watermark</source>
         <translation>水印</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepTopSpace</source>
         <translation>保持顶部距离</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printable</source>
         <translation>可打印</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>variable</source>
         <translation>变量</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>replaceCRwithBR</source>
         <translation>替换回车换行</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>hideIfEmpty</source>
         <translation>为空时打印</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>hideEmptyItems</source>
         <translation>隐藏空组件</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>useExternalPainter</source>
         <translation>使用外部绘图</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>layoutSpacing</source>
         <translation>布局间距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printerName</source>
         <translation>打印机名称</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fontLetterSpacing</source>
         <translation>字母间距</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>hideText</source>
         <translation>隐藏文本</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>option3</source>
         <translation>选项3</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>units</source>
         <translation>单位</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>geometryLocked</source>
         <translation>形状锁定</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printBehavior</source>
         <translation>打印行为</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shiftItems</source>
         <translation>偏移组件</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>showLegend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>removeGap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-24"/>
         <source>xAxisField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>seriesLineWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>drawPoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>dropPrinterMargins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>notPrintIfEmpty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>gridChartLines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>horizontalAxisOnTop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>mixWithPriorPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borderStyle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2433,10 +3051,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::RectPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="+116"/>
         <source>width</source>
         <translation>宽</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>height</source>
         <translation>高</translation>
     </message>
@@ -2444,10 +3064,16 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::RectUnitPropItem</name>
     <message>
+        <location line="+44"/>
+        <location line="+8"/>
+        <location line="+10"/>
         <source>width</source>
         <translation>宽</translation>
     </message>
     <message>
+        <location line="-16"/>
+        <location line="+8"/>
+        <location line="+10"/>
         <source>height</source>
         <translation>高</translation>
     </message>
@@ -2455,22 +3081,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="+331"/>
         <source>Script</source>
         <translation>脚本</translation>
     </message>
     <message>
+        <location line="+175"/>
         <source>Report file name</source>
         <translation>报表文件名</translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Wrong file format</source>
         <translation>文件格式错误</translation>
     </message>
     <message>
+        <location line="-188"/>
         <source>Translations</source>
         <translation>翻译</translation>
     </message>
@@ -2478,294 +3109,370 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="+163"/>
         <source>New Report</source>
         <translation>新建报表</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>New Report Page</source>
         <translation>新建页</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Delete Report Page</source>
         <translation>删除页</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Edit Mode</source>
         <translation>编辑模式</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Undo</source>
         <translation>撤销</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Redo</source>
         <translation>重做</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Use grid</source>
         <translation>使用栅格</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Use magnet</source>
         <translation>使用磁力</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Text Item</source>
         <translation>文本组件</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Save Report</source>
         <translation>保存报表</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Save Report As</source>
         <translation>另存为</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Load Report</source>
         <translation>读取报表</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Delete item</source>
         <translation>删除组件</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Zoom In</source>
         <translation>放大</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Zoom Out</source>
         <translation>缩小</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Render Report</source>
         <translation>生成报表</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Edit layouts mode</source>
         <translation>编辑布局模式</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Horizontal layout</source>
         <translation>水平布局</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Hide left panel | Alt+L</source>
         <translation>隐藏左面板 | Alt+L</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Hide right panel | Alt+R</source>
         <translation>隐藏右面板 | Alt+R</translation>
     </message>
     <message>
+        <location line="+34"/>
         <source>Report Tools</source>
         <translation>报表工具</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Main Tools</source>
         <translation>工具</translation>
     </message>
     <message>
+        <location line="+36"/>
         <source>Font</source>
         <translation>字体</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Text alignment</source>
         <translation>文本对齐</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Items alignment</source>
         <translation>组件对齐</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Borders</source>
         <translation>边框</translation>
     </message>
     <message>
+        <location line="+30"/>
         <source>Report bands</source>
         <translation>报表带</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Report Header</source>
         <translation>表头</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Report Footer</source>
         <translation>表脚</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Page Header</source>
         <translation>页眉</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Page Footer</source>
         <translation>页脚</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Data</source>
         <translation>数据带</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Data Header</source>
         <translation>数据带头</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Data Footer</source>
         <translation>数据带脚</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>SubDetail</source>
         <translation>子细节带</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>SubDetailHeader</source>
         <translation>子细节带头</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>SubDetailFooter</source>
         <translation>子细节带脚</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>GroupHeader</source>
         <translation>组带头</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>GroupFooter</source>
         <translation>组带脚</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Tear-off Band</source>
         <translation>分离带</translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Recent Files</source>
         <translation>最近打开文件</translation>
     </message>
     <message>
+        <location line="+58"/>
+        <location line="+45"/>
         <source>Object Inspector</source>
         <translation>对象观察器</translation>
     </message>
     <message>
+        <location line="-35"/>
         <source>Report structure</source>
         <translation>报表结构</translation>
     </message>
     <message>
+        <location line="+93"/>
         <source>Data Browser</source>
         <translation>数据浏览器</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Script Browser</source>
         <translation>脚本浏览器</translation>
     </message>
     <message>
+        <location line="+225"/>
         <source>Report has been modified! Do you want save the report?</source>
         <translation>报表已修改! 是否保存?</translation>
     </message>
     <message>
+        <location line="+251"/>
+        <location line="+19"/>
         <source>Report file name</source>
         <translation>报表文件名</translation>
     </message>
     <message>
+        <location line="+327"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>File &quot;%1&quot; not found!</source>
         <translation>未找到文件 &quot;%1&quot;!</translation>
     </message>
     <message>
+        <location line="-1242"/>
         <source>Delete dialog</source>
         <translation>删除对话框</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Add new dialog</source>
         <translation>新增对话框</translation>
     </message>
     <message>
+        <location line="+323"/>
         <source>Widget Box</source>
         <translation>组件盒</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Property Editor</source>
         <translation>属性编辑器</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Action Editor</source>
         <translation>动作编辑器</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Resource Editor</source>
         <translation>资源编辑器</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>SignalSlot Editor</source>
         <translation>信号槽编辑器</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Dialog Designer Tools</source>
         <translation>对话框设计工具</translation>
     </message>
     <message>
+        <location line="-409"/>
         <source>Vertical layout</source>
         <translation>水平布局</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Lock selected items</source>
         <translation>锁定选定组件</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Unlock selected items</source>
         <translation>解锁选定组件</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Select one level items</source>
         <translation>选择一级组件</translation>
     </message>
     <message>
+        <location line="-243"/>
+        <location line="+1377"/>
         <source>Rendered %1 pages</source>
         <translation>已处理%1页</translation>
     </message>
     <message>
+        <location line="-1365"/>
         <source>Cancel report rendering</source>
         <translation>取消打印</translation>
     </message>
     <message>
+        <location line="+1505"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>The rendering is in process</source>
         <translation>正在处理中</translation>
     </message>
@@ -2773,18 +3480,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
+        <location filename="../limereport/lrreportengine.cpp" line="+93"/>
         <source>Preview</source>
         <translation>预览</translation>
     </message>
     <message>
+        <location line="+141"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="+455"/>
         <source>Report File Change</source>
         <translation>报表文件改变</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
@@ -2793,14 +3504,17 @@ This preview is no longer valid.</source>
 预览已无效。</translation>
     </message>
     <message>
+        <location line="+83"/>
         <source>Designer not found!</source>
         <translation>设计器未找到！</translation>
     </message>
     <message>
+        <location line="+280"/>
         <source>Language %1 already exists</source>
         <translation>语言 %1 已存在</translation>
     </message>
     <message>
+        <location line="-568"/>
         <source>%1 file name</source>
         <translation>文件名 %1</translation>
     </message>
@@ -2808,6 +3522,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ReportFooter</name>
     <message>
+        <location filename="../limereport/bands/lrreportfooter.cpp" line="+53"/>
         <source>Report Footer</source>
         <translation>表脚</translation>
     </message>
@@ -2815,6 +3530,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ReportHeader</name>
     <message>
+        <location filename="../limereport/bands/lrreportheader.cpp" line="+52"/>
         <source>Report Header</source>
         <translation>表头</translation>
     </message>
@@ -2822,18 +3538,26 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ReportRender</name>
     <message>
+        <location filename="../limereport/lrreportrender.cpp" line="+192"/>
+        <location line="+14"/>
+        <location line="+83"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="+35"/>
         <source>page index out of range</source>
         <translation>页索引越界</translation>
     </message>
     <message>
+        <location line="+136"/>
+        <location line="+47"/>
         <source>Databand &quot;%1&quot; not found</source>
         <translation>未找到数据带 &quot;%1&quot;</translation>
     </message>
     <message>
+        <location line="-38"/>
+        <location line="+46"/>
         <source>Wrong using function %1</source>
         <translation>函数 %1 使用错误</translation>
     </message>
@@ -2841,118 +3565,152 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SQLEditDialog</name>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="+14"/>
         <source>Datasource</source>
         <translation>数据源</translation>
     </message>
     <message>
+        <location line="+477"/>
         <source>Connection</source>
         <translation>数据连接</translation>
     </message>
     <message>
+        <location line="-460"/>
         <source>Datasource Name</source>
         <translation>数据源名</translation>
     </message>
     <message>
+        <location line="+484"/>
         <source>Subdetail</source>
         <translation>子细节</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Master datasource</source>
         <translation>主数据源</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>Subquery mode</source>
         <translation>子查询模式</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Filter mode</source>
         <translation>筛选模式</translation>
     </message>
     <message>
+        <location line="-70"/>
+        <location line="+79"/>
         <source>SQL</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+39"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="+389"/>
         <source>Preview</source>
         <translation>预览</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Hide Preview</source>
         <translation>隐藏预览</translation>
     </message>
     <message>
+        <location line="+38"/>
         <source>Child datasource</source>
         <translation>子数据源</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Fields map</source>
         <translation>字段映射</translation>
     </message>
     <message>
+        <location line="+29"/>
+        <location line="+14"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Data preview</source>
         <translation>数据预览</translation>
     </message>
     <message>
+        <location line="+106"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="-244"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Datasource Name is empty!</source>
         <translation>数据源名为空!</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>SQL is empty!</source>
         <translation>SQL语句为空!</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Datasource with name: &quot;%1&quot; already exists!</source>
         <translation>数据源 &quot;%1&quot; 已存在!</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>defaultConnection</source>
         <translation>默认连接</translation>
     </message>
     <message>
+        <location line="+66"/>
         <source>Datasource with name %1 already exist</source>
         <translation>数据源 &quot;%1&quot; 已存在</translation>
     </message>
     <message>
+        <location line="+95"/>
+        <location line="+14"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
+        <location line="-14"/>
         <source>Connection is not specified</source>
         <translation>未指定连接</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Refresh</source>
         <translation>刷新</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="-88"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="-48"/>
         <source>CSV</source>
         <translation>CSV</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Separator</source>
         <translation>分隔符</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>;</source>
         <translation>；</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Use first row as header</source>
         <translation>第一行为头</translation>
     </message>
@@ -2960,18 +3718,24 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SVGItem</name>
     <message>
+        <location filename="../limereport/items/lrsvgitem.cpp" line="+36"/>
         <source>SVG Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>SVG (*.svg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+4"/>
+        <location line="+15"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
+        <location line="-10"/>
+        <location line="+7"/>
         <source>Watermark</source>
         <translation type="unfinished">水印</translation>
     </message>
@@ -2979,46 +3743,61 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptBrowser</name>
     <message>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="+14"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Functions</source>
         <translation>函数</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+20"/>
+        <location line="+20"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
+        <location line="-66"/>
         <source>Dialogs</source>
         <translation>对话框</translation>
     </message>
     <message>
+        <location line="+111"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="+72"/>
         <source>NO CATEGORY</source>
         <translation>无类别</translation>
     </message>
     <message>
+        <location line="+99"/>
+        <location line="+7"/>
+        <location line="+4"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Dialog with name: %1 already exists</source>
         <translation>对话框 %1 已存在</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
         <translation>ui 文件必须包含 QDialog 而不是 QWidget 或 QMainWindow</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>wrong file format</source>
         <translation>文件格式错误</translation>
     </message>
@@ -3026,14 +3805,17 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEditor</name>
     <message>
+        <location filename="../limereport/scripteditor/lrscripteditor.ui" line="+14"/>
         <source>Form</source>
         <translation>表格</translation>
     </message>
     <message>
+        <location line="+36"/>
         <source>Data</source>
         <translation>数据</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Functions</source>
         <translation>函数</translation>
     </message>
@@ -3041,10 +3823,13 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="+1390"/>
         <source>Dialog with name: %1 can`t be created</source>
         <translation>无法创建对话框 %1</translation>
     </message>
     <message>
+        <location line="+286"/>
+        <location line="+6"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -3052,114 +3837,194 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
+        <location line="-1337"/>
         <source>GROUP FUNCTIONS</source>
         <translation>组函数</translation>
     </message>
     <message>
+        <location line="+453"/>
+        <location line="+19"/>
+        <location line="+17"/>
+        <location line="+16"/>
+        <location line="+17"/>
+        <location line="+49"/>
+        <location line="+17"/>
+        <location line="+19"/>
         <source>Value</source>
         <translation>值</translation>
     </message>
     <message>
+        <location line="-606"/>
+        <location line="+437"/>
         <source>BandName</source>
         <translation>带名称</translation>
     </message>
     <message>
+        <location line="-385"/>
+        <location line="+50"/>
         <source>Variable %1 not found</source>
         <translation>未找到变量 %1</translation>
     </message>
     <message>
+        <location line="+333"/>
         <source>SYSTEM</source>
         <translation>系统</translation>
     </message>
     <message>
+        <location line="+15"/>
+        <location line="+118"/>
+        <location line="+17"/>
         <source>NUMBER</source>
         <translation>数字</translation>
     </message>
     <message>
+        <location line="-133"/>
+        <location line="+19"/>
+        <location line="+17"/>
+        <location line="+16"/>
+        <location line="+17"/>
         <source>Format</source>
         <translation>格式</translation>
     </message>
     <message>
+        <location line="-68"/>
         <source>Precision</source>
         <translation>精度</translation>
     </message>
     <message>
+        <location line="+0"/>
+        <location line="+19"/>
+        <location line="+33"/>
+        <location line="+65"/>
         <source>Locale</source>
         <translation>区域</translation>
     </message>
     <message>
+        <location line="-101"/>
+        <location line="+17"/>
+        <location line="+16"/>
+        <location line="+17"/>
+        <location line="+17"/>
+        <location line="+16"/>
         <source>DATE&amp;TIME</source>
         <translation>日期&amp;时间</translation>
     </message>
     <message>
+        <location line="+35"/>
         <source>CurrencySymbol</source>
         <translation>货币符号</translation>
     </message>
     <message>
+        <location line="+17"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+17"/>
+        <location line="+15"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+15"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+15"/>
+        <location line="+15"/>
+        <location line="+14"/>
+        <location line="+16"/>
         <source>GENERAL</source>
         <translation>通用</translation>
     </message>
     <message>
+        <location line="-203"/>
+        <location line="+14"/>
+        <location line="+14"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
+        <location line="-705"/>
         <source>Function manager with name &quot;%1&quot; already exists!</source>
         <translation>函数管理器 %1 已存在！</translation>
     </message>
     <message>
+        <location line="+71"/>
+        <location line="+665"/>
+        <location line="+86"/>
+        <location line="+15"/>
+        <location line="+15"/>
         <source>FieldName</source>
         <translation>字段名</translation>
     </message>
     <message>
+        <location line="-620"/>
+        <location line="+70"/>
         <source>Field %1 not found in %2!</source>
         <translation>在 %2 中找不到字段 %1 ！</translation>
     </message>
     <message>
+        <location line="+417"/>
         <source>Datasource</source>
         <translation>数据源</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>ValueField</source>
         <translation>值字段</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>KeyField</source>
         <translation>键名字段</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>KeyFieldValue</source>
         <translation>键字段值</translation>
     </message>
     <message>
+        <location line="+31"/>
+        <location line="+14"/>
+        <location line="+14"/>
         <source>Unique identifier</source>
         <translation>唯一标识符</translation>
     </message>
     <message>
+        <location line="-28"/>
+        <location line="+28"/>
         <source>Content</source>
         <translation>内容内容</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Indent</source>
         <translation>缩进</translation>
     </message>
     <message>
+        <location line="+28"/>
+        <location line="+58"/>
+        <location line="+16"/>
         <source>datasourceName</source>
         <translation>数据源名称</translation>
     </message>
     <message>
+        <location line="-146"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>RowIndex</source>
         <translation>行索引</translation>
     </message>
     <message>
+        <location line="-14"/>
         <source>RoleIndex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
+        <location line="+14"/>
         <source>RoleName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>columnIndex</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3167,62 +4032,77 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SettingDialog</name>
     <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="+20"/>
         <source>Designer setting</source>
         <translation>设计器设置</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Default font</source>
         <translation>默认字体</translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Grid</source>
         <translation>栅格</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Vertical grid step</source>
         <translation>竖栅格</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Horizontal grid step</source>
         <translation>横栅格</translation>
     </message>
     <message>
+        <location line="+218"/>
         <source>Suppress absent fields and variables warning</source>
         <translation>抑制缺失字段及变量警告</translation>
     </message>
     <message>
+        <location line="-184"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
+        <location line="-96"/>
         <source>Designer settings</source>
         <translation>设计器设置</translation>
     </message>
     <message>
+        <location line="+123"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Report units</source>
         <translation>报表单位</translation>
     </message>
     <message>
+        <location line="+41"/>
         <source>Script editor settings</source>
         <translation>脚本编辑器设置</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Font</source>
         <translation>字体</translation>
     </message>
     <message>
+        <location line="+34"/>
         <source>Indent size</source>
         <translation>缩进尺寸</translation>
     </message>
     <message>
+        <location line="+47"/>
         <source>Report settings</source>
         <translation>报表设置</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Base Item Padding: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3230,6 +4110,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SubDetailBand</name>
     <message>
+        <location filename="../limereport/bands/lrsubdetailband.cpp" line="+82"/>
         <source>SubDetail</source>
         <translation>子细节</translation>
     </message>
@@ -3237,6 +4118,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SubDetailHeaderBand</name>
     <message>
+        <location line="+27"/>
         <source>SubDetailHeader</source>
         <translation>子细节头</translation>
     </message>
@@ -3244,6 +4126,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SvgEditor</name>
     <message>
+        <location filename="../limereport/objectinspector/editors/lrsvgeditor.cpp" line="+31"/>
         <source>Select image file</source>
         <translation type="unfinished">选择图像文件</translation>
     </message>
@@ -3251,6 +4134,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TearOffBand</name>
     <message>
+        <location filename="../limereport/bands/lrtearoffband.cpp" line="+23"/>
         <source>Tear-off Band</source>
         <translation>分离带</translation>
     </message>
@@ -3258,26 +4142,33 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextAlignmentEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="+52"/>
         <source>Text align left</source>
         <translation>文本左对齐</translation>
     </message>
     <message>
+        <location line="+6"/>
+        <location line="+26"/>
         <source>Text align center</source>
         <translation>文本居中对齐</translation>
     </message>
     <message>
+        <location line="-20"/>
         <source>Text align right</source>
         <translation>文本右对齐</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Text align justify</source>
         <translation>文本行对齐</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Text align top</source>
         <translation>文本顶部对齐</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Text align bottom</source>
         <translation>文本底部对齐</translation>
     </message>
@@ -3285,46 +4176,66 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextItem</name>
     <message>
+        <location filename="../limereport/items/lrtextitem.cpp" line="+95"/>
+        <location line="+37"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
+        <location line="-31"/>
+        <location line="+35"/>
         <source>Auto height</source>
         <translation>自动高度</translation>
     </message>
     <message>
+        <location line="-31"/>
+        <location line="+34"/>
         <source>Allow HTML</source>
         <translation>允许HTML</translation>
     </message>
     <message>
+        <location line="-30"/>
+        <location line="+33"/>
         <source>Allow HTML in fields</source>
         <translation>允许字段HTML</translation>
     </message>
     <message>
+        <location line="-29"/>
+        <location line="+32"/>
         <source>Stretch to max height</source>
         <translation>拉伸至最大高度</translation>
     </message>
     <message>
+        <location line="+510"/>
+        <location line="+7"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
+        <location line="-6"/>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
         <translation>文本框 &quot;%1 &quot; 已有 &quot;%2 &quot; </translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation>未找到文本框 &quot;%1&quot;!</translation>
     </message>
     <message>
+        <location line="-546"/>
+        <location line="+32"/>
         <source>Transparent</source>
         <translation>透明</translation>
     </message>
     <message>
+        <location line="-28"/>
+        <location line="+35"/>
         <source>Watermark</source>
         <translation>水印</translation>
     </message>
     <message>
+        <location line="-31"/>
+        <location line="+35"/>
         <source>Hide if empty</source>
         <translation>为空时隐藏</translation>
     </message>
@@ -3332,22 +4243,27 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextItemEditor</name>
     <message>
+        <location filename="../limereport/items/lrtextitemeditor.ui" line="+17"/>
         <source>Text Item Editor</source>
         <translation>文本编辑器</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Content</source>
         <translation>内容</translation>
     </message>
     <message>
+        <location line="+46"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Ctrl+Return</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -3355,46 +4271,58 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TranslationEditor</name>
     <message>
+        <location filename="../limereport/translationeditor/translationeditor.ui" line="+14"/>
         <source>Form</source>
         <translation>表格</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Languages</source>
         <translation>语言</translation>
     </message>
     <message>
+        <location line="+24"/>
+        <location line="+14"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Pages</source>
         <translation>页</translation>
     </message>
     <message>
+        <location line="+42"/>
         <source>Strings</source>
         <translation>字符串</translation>
     </message>
     <message>
+        <location line="+31"/>
         <source>Source Text</source>
         <translation>源文</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Translation</source>
         <translation>译文</translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Checked</source>
         <translation>选中</translation>
     </message>
     <message>
+        <location filename="../limereport/translationeditor/translationeditor.cpp" line="+34"/>
         <source>Report Item</source>
         <translation>报表组件</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Source text</source>
         <translation>源文</translation>
     </message>
@@ -3402,14 +4330,22 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::VariablesHolder</name>
     <message>
+        <location filename="../limereport/lrvariablesholder.cpp" line="+66"/>
+        <location line="+17"/>
+        <location line="+19"/>
+        <location line="+73"/>
         <source>variable with name </source>
         <translation>变量 </translation>
     </message>
     <message>
+        <location line="-109"/>
         <source> already exists!</source>
         <translation> 已存在!</translation>
     </message>
     <message>
+        <location line="+17"/>
+        <location line="+19"/>
+        <location line="+73"/>
         <source> does not exists!</source>
         <translation> 不存在!</translation>
     </message>
@@ -3417,295 +4353,384 @@ This preview is no longer valid.</source>
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../limereport/bands/lrdataband.cpp" line="-124"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+50"/>
         <source>Data</source>
         <translation>数据带</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>DataHeader</source>
         <translation>数据带头</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>DataFooter</source>
         <translation>数据带脚</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrgroupbands.cpp" line="-109"/>
         <source>GroupHeader</source>
         <translation>组带头</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>GroupFooter</source>
         <translation>组带脚</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="-40"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+0"/>
         <source>Page Footer</source>
         <translation>页脚</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrpageheader.cpp" line="-11"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
         <source>Page Header</source>
         <translation>页眉</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrreportfooter.cpp" line="-9"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+1"/>
         <source>Report Footer</source>
         <translation>表脚</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrreportheader.cpp" line="-9"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
         <source>Report Header</source>
         <translation>表头</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrsubdetailband.cpp" line="-61"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+2"/>
         <source>SubDetail</source>
         <translation>子细节</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>SubDetailHeader</source>
         <translation>子细节头</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>SubDetailFooter</source>
         <translation>子细节带脚</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrtearoffband.cpp" line="-9"/>
         <source>Tear-off Band</source>
         <translation>分离带</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lralignpropitem.cpp" line="-38"/>
         <source>alignment</source>
         <translation>对齐</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrbarcodeitem.cpp" line="+45"/>
         <source>Barcode Item</source>
         <translation>条码组件</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrhorizontallayout.cpp" line="+49"/>
         <source>HLayout</source>
         <translation>水平布局</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrimageitem.cpp" line="-126"/>
         <source>Image Item</source>
         <translation>图像组件</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrshapeitem.cpp" line="+46"/>
         <source>Shape Item</source>
         <translation>图形组件</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="-11"/>
         <source>itemLocation</source>
         <translation>组件位置</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrtextitem.cpp" line="-103"/>
         <source>Text Item</source>
         <translation>文本组件</translation>
     </message>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="-520"/>
+        <location line="+45"/>
         <source>Invalid connection! %1</source>
         <translation>无效连接 %1</translation>
     </message>
     <message>
+        <location line="+350"/>
         <source>Master datasource &quot;%1&quot; not found!</source>
         <translation>未找到主数据源 &quot;%1&quot;!</translation>
     </message>
     <message>
+        <location line="+94"/>
         <source>Master datasouce &quot;%1&quot; not found!</source>
         <translation>未找到主数据源 &quot;%1&quot;!</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Child</source>
         <translation>子</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source> and child </source>
         <translation> 子数据源 </translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>datasouce &quot;%1&quot; not found!</source>
         <translation>未找到子数据源&quot;%1&quot;!</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrboolpropitem.cpp" line="+50"/>
         <source>bool</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrcolorpropitem.cpp" line="+50"/>
         <source>QColor</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrcontentpropitem.cpp" line="+21"/>
         <source>content</source>
         <translation>内容</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="+62"/>
+        <location line="+4"/>
+        <location line="+10"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>datasource</source>
         <translation>数据源</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+15"/>
+        <location line="+10"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="+49"/>
         <source>field</source>
         <translation>字段映射</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="-136"/>
         <source>enum</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="-94"/>
         <source>flags</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="-20"/>
         <source>QFont</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+46"/>
         <source>QImage</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrintpropitem.cpp" line="+47"/>
         <source>int</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="+48"/>
+        <location line="+3"/>
         <source>qreal</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-119"/>
         <source>QRect</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>QRectF</source>
         <translation></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>geometry</source>
         <translation>形状</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrstringpropitem.cpp" line="+51"/>
         <source>QString</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="+1724"/>
+        <location line="+44"/>
         <source>Attention!</source>
         <translation>注意!</translation>
     </message>
     <message>
+        <location line="-43"/>
+        <location line="+44"/>
         <source>Selected elements have different parent containers</source>
         <translation>选中元素有不同的容器</translation>
     </message>
     <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="+53"/>
         <source>Object with name %1 already exists!</source>
         <translation>对象 %1 已存在!</translation>
     </message>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="+610"/>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>未找到函数 %1 或参数错误</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="+45"/>
+        <location line="+62"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="+200"/>
+        <location line="+80"/>
         <source>mm</source>
         <translation>毫米</translation>
     </message>
     <message>
+        <location filename="../limereport/serializators/lrxmlreader.cpp" line="+256"/>
         <source>Wrong file format</source>
         <translation>文件格式错误</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>File %1 not opened</source>
         <translation>无法打开文件 %1</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Content string is empty</source>
         <translation>字符串为空</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Content is empty</source>
         <translation>字符串为空</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartitem.cpp" line="+28"/>
         <source>Chart Item</source>
         <translation>图表组件</translation>
     </message>
     <message>
+        <location line="+526"/>
         <source>First</source>
         <translation>第一</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Second</source>
         <translation>第二</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Thrid</source>
         <translation>第三</translation>
     </message>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="+3"/>
         <source>Datasource manager not found</source>
         <translation>数据源管理器未找到</translation>
     </message>
     <message>
+        <location filename="../limereport/exporters/lrpdfexporter.cpp" line="+16"/>
         <source>Export to PDF</source>
         <translation>导出为PDF文件</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrverticallayout.cpp" line="+15"/>
         <source>VLayout</source>
         <translation>水平布局</translation>
     </message>
     <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="-221"/>
         <source>Dark</source>
         <translation>暗</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Light</source>
         <translation>亮</translation>
     </message>
     <message>
+        <location line="+682"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
+        <location line="+10"/>
+        <location line="+3"/>
+        <location line="+7"/>
         <source>Millimeters</source>
         <translation>毫米</translation>
     </message>
     <message>
+        <location line="-10"/>
+        <location line="+4"/>
         <source>Inches</source>
         <translation>英寸</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="-85"/>
+        <location line="+4"/>
+        <location line="+4"/>
+        <location line="+4"/>
         <source>margin</source>
         <translation>边距</translation>
     </message>
     <message>
+        <location line="+16"/>
+        <location line="+59"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-78"/>
+        <location line="+80"/>
         <source>&apos;&apos;</source>
         <translation>&apos;&apos;</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrsvgitem.cpp" line="-51"/>
         <source>SVG Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+12"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="+16"/>
+        <location line="+10"/>
         <source>image</source>
         <translation type="unfinished">图像</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrseriespropitem.cpp" line="+21"/>
         <source>series</source>
         <translation type="unfinished">数据系列</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Series</source>
         <translation type="unfinished">数据系列</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartaxiseditor.cpp" line="+64"/>
         <source>X Axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Y Axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Axis</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

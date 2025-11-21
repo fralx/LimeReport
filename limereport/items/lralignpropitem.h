@@ -39,7 +39,7 @@ typedef QMap<QString, Qt::Alignment> AlignMap;
 
 class AlignmentItemEditor;
 
-class AlignmentPropItem: public ObjectPropItem {
+class LIMEREPORT_EXPORT AlignmentPropItem: public ObjectPropItem {
     Q_OBJECT
 public:
     AlignmentPropItem(): ObjectPropItem(), m_horizEditor(NULL), m_vertEditor(NULL) { }
