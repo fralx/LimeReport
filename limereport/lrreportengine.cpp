@@ -286,7 +286,7 @@ void ReportEnginePrivate::slotPageRenderFinished(int renderedPageCount)
 
 void ReportEnginePrivate::slotRenderFinished()
 {
-    if (m_progressDialog){
+    if (m_progressDialog) {
         m_progressDialog->close();
         delete m_progressDialog;
         m_progressDialog = 0;

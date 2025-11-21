@@ -80,9 +80,9 @@ int main(int argc, char* argv[])
     //    QFile out;
     //    out.open(stdout, QFile::WriteOnly);
     //    in.open(QIODevice::ReadOnly);
-    //#ifdef _WIN32
+    // #ifdef _WIN32
     //    _setmode(fileno(stdout),O_BINARY);
-    //#endif
+    // #endif
     //    QByteArray buffer = in.readAll();
     //    fwrite(buffer,1,buffer.size(),stdout);
     //    in.close();
