@@ -130,6 +130,8 @@ ReportEnginePrivate::ReportEnginePrivate(QObject* parent):
             SLOT(slotDataSourceCollectionLoaded(QString)));
     connect(m_fileWatcher, SIGNAL(fileChanged(const QString&)), this,
             SLOT(slotLoadFromFile(const QString&)));
+    connect(this, SIGNAL(renderPageFinished(int)), this, SLOT(slotPageRenderFinished(int)));
+    connect(this, SIGNAL(renderFinished()), this, SLOT(slotRenderFinished()));
 
 #ifndef HAVE_REPORT_DESIGNER
 
@@ -261,6 +263,34 @@ void ReportEnginePrivate::slotDesignerWindowDestroyed(QObject* window)
 {
     Q_UNUSED(window)
     dataManager()->setDesignTime(false);
+}
+
+void ReportEnginePrivate::slotRenderStarted()
+{
+    if (m_showProgressDialog) {
+        if (!m_progressDialog) {
+            m_progressDialog = new QProgressDialog(tr("Start render"), tr("Cancel"), 0, 0, 0);
+            connect(m_progressDialog, SIGNAL(canceled()), this, SLOT(cancelRender()));
+        }
+        m_progressDialog->show();
+    }
+}
+
+void ReportEnginePrivate::slotPageRenderFinished(int renderedPageCount)
+{
+    if (m_progressDialog) {
+        m_progressDialog->setLabelText(QString::number(renderedPageCount) + tr(" page rendered"));
+        m_progressDialog->setValue(renderedPageCount);
+    }
+}
+
+void ReportEnginePrivate::slotRenderFinished()
+{
+    if (m_progressDialog){
+        m_progressDialog->close();
+        delete m_progressDialog;
+        m_progressDialog = 0;
+    }
 }
 
 void ReportEnginePrivate::clearReport()
@@ -560,6 +590,7 @@ void ReportEnginePrivate::previewReport(QPrinter* printer, PreviewHints hints)
 {
     try {
         dataManager()->setDesignTime(false);
+        connect(this, SIGNAL(renderStarted()), this, SLOT(slotRenderStarted()));
         ReportPages pages = renderToPages();
         dataManager()->setDesignTime(true);
         showPreviewWindow(pages, hints, printer);

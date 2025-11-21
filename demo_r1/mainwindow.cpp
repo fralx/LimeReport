@@ -162,24 +162,18 @@ void MainWindow::on_pushButton_2_clicked()
 #ifdef BUILD_WITH_EASY_PROFILER
         profiler::dumpBlocksToFile("test.prof");
 #endif
-        //        QPrinter* printer = new QPrinter;
-        //        QPrintDialog dialog(printer);
-        //        if (dialog.exec()){
-        //            QMap<QString, QPrinter*> printers;
-        //            printers.insert("default",printer);
-        //            report->printReport(printers);
-        //        }
-        report->setShowProgressDialog(true);
+        report->setShowProgressDialog(ui->rb_builtInIndicator->isChecked());
         report->previewReport();
     }
 }
 
 void MainWindow::renderStarted()
 {
-    if (report->isShowProgressDialog()) {
+    if (ui->rb_customIndicator->isChecked()) {
         m_currentPage = 0;
-        m_progressDialog = new QProgressDialog(tr("Start render"), tr("Cancel"), 0, 0, this);
-        // m_progressDialog->setWindowModality(Qt::WindowModal);
+        m_progressDialog = new QProgressDialog(tr("Custom indicator"), tr("Cancel"), 0, 0, this);
+        m_progressDialog->setWindowTitle(tr("Custom indicator"));
+        m_progressDialog->setGeometry(QRect(0, 0, 300, 100));
         connect(m_progressDialog, SIGNAL(canceled()), report, SLOT(cancelRender()));
         QApplication::processEvents();
         m_progressDialog->show();
