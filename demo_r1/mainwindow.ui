@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>369</width>
-    <height>192</height>
+    <height>289</height>
    </rect>
   </property>
   <property name="font">
@@ -94,6 +94,30 @@
               </widget>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="rb_builtInIndicator">
+             <property name="text">
+              <string>Buildin progress indicator</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="rb_customIndicator">
+             <property name="text">
+              <string>Custom  progress indicator</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="rb_noIndicator">
+             <property name="text">
+              <string>No progress indicator</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

@@ -46,6 +46,7 @@
 #include <QMainWindow>
 #include <QObject>
 #include <QSharedPointer>
+#include <QProgressDialog>
 
 class QFileSystemWatcher;
 
@@ -315,11 +316,16 @@ protected:
     PageDesignIntf* createPage(const QString& pageName = "", bool preview = false);
     bool showPreviewWindow(ReportPages pages, PreviewHints hints, QPrinter* printer);
     void internalPrintPages(ReportPages pages, QPrinter& printer);
+
 protected slots:
     void slotDataSourceCollectionLoaded(const QString& collectionName);
+
 private slots:
     void slotPreviewWindowDestroyed(QObject* window);
     void slotDesignerWindowDestroyed(QObject* window);
+    void slotRenderStarted();
+    void slotPageRenderFinished(int renderedPageCount);
+    void slotRenderFinished();
 
 private:
     // ICollectionContainer
@@ -391,6 +397,7 @@ private:
     QColor m_previewPageBackgroundColor;
     QVector<WatermarkSetting> m_watermarks;
     BaseDesignIntf* createWatermark(PageDesignIntf* page, WatermarkSetting watermarkSetting);
+    QProgressDialog* m_progressDialog = 0;
     bool m_saveToFileVisible;
     bool m_printToPdfVisible;
     bool m_printVisible;
