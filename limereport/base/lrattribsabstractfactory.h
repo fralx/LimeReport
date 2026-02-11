@@ -42,7 +42,7 @@ namespace LimeReport {
 
 template <typename AbstractProduct, typename IdentifierType, typename ProductCreator,
           typename Attribs>
-class AttribsAbstractFactory:
+class LIMEREPORT_EXPORT AttribsAbstractFactory:
     public Singleton<
         AttribsAbstractFactory<AbstractProduct, IdentifierType, ProductCreator, Attribs>> {
 private:
@@ -56,8 +56,11 @@ public:
     {
         if (m_factoryMap.contains(id))
             return true;
-        return (m_factoryMap.insert(id, creator).value() == creator)
+        bool res = (m_factoryMap.insert(id, creator).value() == creator)
             && (m_attribsMap.insert(id, attribs).value() == attribs);
+        // if (res)
+        //     qDebug() << id  << "Registered";
+        return res;
     }
     bool unregisterCreator(const IdentifierType& id)
     {

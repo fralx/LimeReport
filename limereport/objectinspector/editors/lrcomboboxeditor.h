@@ -33,6 +33,7 @@
 #include <QComboBox>
 #include <QWidget>
 //#include <QPushButton>
+#include "lrglobal.h"
 
 class QToolButton;
 
@@ -58,7 +59,7 @@ private:
     bool m_popup;
 };
 
-class ComboBoxEditor: public QWidget {
+class LIMEREPORT_EXPORT ComboBoxEditor: public QWidget {
     Q_OBJECT
 public:
     // explicit ComboBoxEditor(QWidget *parent = 0);

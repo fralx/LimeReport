@@ -12,6 +12,7 @@ option(LIMEREPORT_DEMO "Build LimeReport demos" OFF)
 option(ENABLE_DIALOG_DESIGNER "Enable dialog designer" OFF)
 option(HAVE_UI_LOADER "Enable ui loader" OFF)
 option(USE_QT6 "Use Qt6" OFF)
+option(UPDATE_TRANSLATIONS "Update TS files" OFF)
 
 if (ENABLE_DIALOG_DESIGNER AND NOT HAVE_UI_LOADER)
     message(FATAL_ERROR "You need to enable HAVE_UI_LOADER")
@@ -35,13 +36,9 @@ if(HAVE_UI_LOADER)
 
 if(ENABLE_DIALOG_DESIGNER)
     if(USE_QT6)
-        if(ENABLE_DIALOG_DESIGNER)
-            find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponentsPrivate REQUIRED)
-        endif()
+        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponentsPrivate REQUIRED)
     else()
-        if(ENABLE_DIALOG_DESIGNER)
-             find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponents REQUIRED)
-         endif()
+        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Designer DesignerComponents REQUIRED)
     endif(USE_QT6)
  endif()
 
@@ -455,10 +452,15 @@ if(ENABLE_ZINT)
     target_link_libraries( ${PROJECT_NAME} PRIVATE QZint)
 endif(ENABLE_ZINT)
 
-target_compile_definitions( ${PROJECT_NAME} PRIVATE -DDEFAULT_ITEM_PADDING=${DEFAULT_ITEM_PADDING} -DHAVE_QT${QT_VERSION_MAJOR} -DHAVE_REPORT_DESIGNER -DUSE_QJSENGINE -D_CRT_SECURE_NO_WARNINGS)
+target_compile_definitions( ${PROJECT_NAME} PRIVATE
+    -DDEFAULT_ITEM_PADDING=${DEFAULT_ITEM_PADDING}
+    -DHAVE_QT${QT_VERSION_MAJOR}
+    -DHAVE_REPORT_DESIGNER
+    -DUSE_QJSENGINE
+    -D_CRT_SECURE_NO_WARNINGS)
 
 target_include_directories( ${PROJECT_NAME} PRIVATE
-        limereport/
+    limereport/
 	limereport/base
 	limereport/bands
 	limereport/databrowser
@@ -478,10 +480,73 @@ target_include_directories( ${PROJECT_NAME} INTERFACE
 list (APPEND GLOBAL_HEADERS ${EXTRA_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${GLOBAL_HEADERS}")
 
+
+message(STATUS "${PROJECT_NAME} UPDATE_TRANSLATIONS: ${UPDATE_TRANSLATIONS}")
+list(APPEND LANGUAGES ru es fr pl zh ar)
+foreach(lang ${LANGUAGES})
+    list(APPEND TS_FILES translations/limereport_${lang}.ts)
+endforeach()
+
+if (${QT_VERSION} GREATER_EQUAL 6.7.0)
+
+    qt_add_lrelease(
+        TS_FILES ${TS_FILES}
+        EXCLUDE_FROM_ALL
+        LRELEASE_TARGET ${PROJECT_NAME}_lrelease
+        OPTIONS -removeidentical
+    )
+
+    if (UPDATE_TRANSLATIONS)
+        qt_add_lupdate(
+            TS_FILES ${TS_FILES}
+            SOURCES ${LIMEREPORT_SOURCES}
+            LUPDATE_TARGET ${PROJECT_NAME}_lupdate
+            OPTIONS -noobsolete
+        )
+        add_dependencies(${PROJECT_NAME}_lrelease ${PROJECT_NAME}_lupdate)
+    endif()
+
+elseif (${QT_VERSION} GREATER_EQUAL 6.2.0)
+
+    qt_add_lrelease(
+       ${PROJECT_NAME}
+       TS_FILES ${TS_FILES}
+       OPTIONS -removeidentical
+   )
+
+   if (UPDATE_TRANSLATIONS)
+        qt_add_lupdate(
+            ${PROJECT_NAME}
+            TS_FILES ${TS_FILES}
+            SOURCES ${LIMEREPORT_SOURCES}
+            OPTIONS -noobsolete
+        )
+        add_dependencies(${PROJECT_NAME}_lrelease ${PROJECT_NAME}_lupdate)
+    endif()
+
+else()
+
+    if (UPDATE_TRANSLATIONS)
+        qt5_create_translation(
+            QM_FILES
+            ${LIMEREPORT_SOURCES}
+            ${TS_FILES}
+            OPTIONS -noobsolete -locations relative
+        )
+    else()
+        qt5_add_translation(QM_FILES ${TS_FILES} OPTIONS -removeidentical)
+    endif()
+
+    add_custom_target(${PROJECT_NAME}_lrelease DEPENDS ${QM_FILES})
+
+endif()
+
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_lrelease)
+
+
 install(TARGETS
 	${PROJECT_NAME}
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib
 	RUNTIME DESTINATION bin
 	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/limereport)
-

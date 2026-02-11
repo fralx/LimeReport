@@ -1354,10 +1354,10 @@ void BaseDesignIntf::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     pasteAction->setEnabled(false);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_L));
-    copyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_C));
-    cutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_X));
-    pasteAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_V));
+    lockGeometryAction->setShortcut(QKeySequence(Qt::Key(Qt::CTRL) | Qt::Key_L));
+    copyAction->setShortcut(QKeySequence(Qt::Key(Qt::CTRL) | Qt::Key_C));
+    cutAction->setShortcut(QKeySequence(Qt::Key(Qt::CTRL) | Qt::Key_X));
+    pasteAction->setShortcut(QKeySequence(Qt::Key(Qt::CTRL) | Qt::Key_V));
 #else
     lockGeometryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     copyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_C));

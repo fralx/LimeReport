@@ -250,9 +250,10 @@ void XMLWriter::saveTranslation(QString propertyName, QObject* item, QDomElement
             foreach (PageTranslation* page, curTranslation->pagesTranslation()) {
                 QDomElement pageNode = m_doc->createElement(page->pageName);
                 languageNode.appendChild(pageNode);
-                foreach (ItemTranslation* item, page->itemsTranslation) {
-                    QDomElement itemNode = m_doc->createElement(item->itemName);
-                    foreach (PropertyTranslation* property, item->propertyesTranslation) {
+                foreach (ItemTranslation* translationItem, page->itemsTranslation) {
+                    QDomElement itemNode = m_doc->createElement(translationItem->itemName);
+                    foreach (PropertyTranslation* property,
+                             translationItem->propertyesTranslation) {
                         if (property->sourceValue.compare(property->value) != 0) {
                             QDomElement propertyNode = m_doc->createElement(property->propertyName);
                             propertyNode.setAttribute("Value", property->value);

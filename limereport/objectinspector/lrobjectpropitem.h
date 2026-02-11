@@ -42,7 +42,7 @@
 
 namespace LimeReport {
 
-class ObjectPropItem: public QObject {
+class LIMEREPORT_EXPORT ObjectPropItem: public QObject {
     Q_OBJECT
 
 public:

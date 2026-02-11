@@ -4,6 +4,7 @@
 <context>
     <name>$ClassName$</name>
     <message>
+        <location filename="../limereport/dialogdesigner/templates/Dialog.ui" line="+13"/>
         <source>$ClassName$</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11,42 +12,54 @@
 <context>
     <name>ChartAxisEditor</name>
     <message>
+        <location filename="../limereport/items/lrchartaxiseditor.ui" line="+14"/>
         <source>Axis editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Reverse direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Enable scale calculation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Maximum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Minimum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location line="+10"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+78"/>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء الأمر</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Ok</source>
         <translation type="unfinished">موافق</translation>
     </message>
@@ -54,50 +67,62 @@
 <context>
     <name>ChartItemEditor</name>
     <message>
+        <location filename="../limereport/items/lrchartitemeditor.ui" line="+26"/>
         <source>Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Name</source>
         <translation type="unfinished">الأسم</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Values field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Type</source>
         <translation type="unfinished">النوع</translation>
     </message>
     <message>
+        <location line="+42"/>
         <source>Labels field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+40"/>
         <source>Ok</source>
         <translation type="unfinished">موافق</translation>
     </message>
     <message>
+        <location line="-184"/>
         <source>Series editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartitemeditor.cpp" line="+107"/>
         <source>Series name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartitemeditor.ui" line="+151"/>
         <source>X data field</source>
         <translation type="unfinished"></translation>
     </message>
@@ -105,22 +130,31 @@
 <context>
     <name>ImageItemEditor</name>
     <message>
+        <location filename="../limereport/items/lrimageitemeditor.ui" line="+20"/>
         <source>Image Item Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Image</source>
         <translation type="unfinished">صورة</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <location line="+14"/>
+        <location line="+63"/>
+        <location line="+14"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-24"/>
         <source>Resource path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrimageitemeditor.cpp" line="+36"/>
+        <location line="+26"/>
         <source>Select image file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -128,26 +162,32 @@
 <context>
     <name>LRVariableDialog</name>
     <message>
+        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="+14"/>
         <source>Variable</source>
         <translation>متغير</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Name</source>
         <translation>الأسم</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Value</source>
         <translation>القيمة</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Type</source>
         <translation>النوع</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrvariabledialog.cpp" line="+125"/>
         <source>Attention</source>
         <translation>Attention</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrvariabledialog.ui" line="+12"/>
         <source>Mandatory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -155,10 +195,12 @@
 <context>
     <name>LanguageSelectDialog</name>
     <message>
+        <location filename="../limereport/translationeditor/languageselectdialog.ui" line="+14"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
@@ -166,30 +208,37 @@
 <context>
     <name>LimeReport::AboutDialog</name>
     <message>
+        <location filename="../limereport/lraboutdialog.ui" line="+14"/>
         <source>About</source>
         <translation type="unfinished">حول البرنامج</translation>
     </message>
     <message>
+        <location line="+39"/>
         <source>Author</source>
         <translation type="unfinished">المؤلف</translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>License</source>
         <translation type="unfinished">إتفاقية الترخيص</translation>
     </message>
     <message>
+        <location line="+148"/>
         <source>Close</source>
         <translation type="unfinished">إغلاق</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Version 1.1.1</source>
         <translation type="unfinished">الإصدار 1.1.1</translation>
     </message>
     <message>
+        <location line="-208"/>
         <source>Lime Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+38"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -199,6 +248,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -316,6 +366,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-51"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -335,34 +386,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::AlignmentPropItem</name>
     <message>
+        <location filename="../limereport/items/lralignpropitem.cpp" line="+75"/>
         <source>Left</source>
         <translation>محاذاة يسار</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Right</source>
         <translation>محاذاة يمين</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+4"/>
         <source>Center</source>
         <translation>محاذاة وسط</translation>
     </message>
     <message>
+        <location line="-3"/>
         <source>Justify</source>
         <translation>ملأ السطر</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Top</source>
         <translation>محاذاة لأعلى</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Botom</source>
         <translation>محاذاة لأسفل</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>horizontal</source>
         <translation>أفقي</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>vertical</source>
         <translation>عمودي</translation>
     </message>
@@ -370,94 +430,123 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BandDesignIntf</name>
     <message>
+        <location filename="../limereport/lrbanddesignintf.cpp" line="+335"/>
         <source> connected to </source>
         <translation> إتصال ب</translation>
     </message>
     <message>
+        <location line="+253"/>
         <source>Bring to top</source>
         <translation type="unfinished">إحضار للأمام</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Send to back</source>
         <translation type="unfinished">إرسال للخلف</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+24"/>
         <source>Auto height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Splittable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-309"/>
         <source>DataBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DataHeaderBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DataFooterBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ReportHeader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ReportFooter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PageHeader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PageFooter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SubDetailBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SubDetailHeaderBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SubDetailFooterBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>GroupBandHeader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>GroupBandFooter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TearOffBand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+282"/>
+        <location line="+23"/>
         <source>Keep bottom space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-27"/>
+        <location line="+23"/>
+        <location line="+7"/>
         <source>Keep top space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-46"/>
         <source>Cut</source>
         <translation type="unfinished">قص</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Copy</source>
         <translation type="unfinished">نسخ</translation>
     </message>
     <message>
+        <location line="+24"/>
+        <location line="+26"/>
         <source>Print if empty</source>
         <translation type="unfinished"></translation>
     </message>
@@ -465,46 +554,58 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BaseDesignIntf</name>
     <message>
+        <location filename="../limereport/lrbasedesignintf.cpp" line="+1351"/>
         <source>Copy</source>
         <translation type="unfinished">نسخ</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Cut</source>
         <translation type="unfinished">قص</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Paste</source>
         <translation type="unfinished">لصق</translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>Bring to top</source>
         <translation type="unfinished">إحضار للأمام</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Send to back</source>
         <translation type="unfinished">إرسال للخلف</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>No borders</source>
         <translation type="unfinished">بدون إطار</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>All borders</source>
         <translation type="unfinished">محاط بإطار</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Create Horizontal Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-36"/>
+        <location line="+484"/>
         <source>Lock item geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-443"/>
         <source>Create Vertical Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Edit borders...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -512,102 +613,131 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BorderEditor</name>
     <message>
+        <location filename="../limereport/items/lrbordereditor.ui" line="+14"/>
         <source>Edit border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>No lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Outline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+17"/>
         <source>Border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+13"/>
+        <location line="+27"/>
+        <location line="+21"/>
+        <location line="+27"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+35"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>No style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dash dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Dash dot dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Width:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
+        <location line="+17"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>0.25</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>0.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>1.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -615,10 +745,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::BorderFrameEditor</name>
     <message>
+        <location filename="../limereport/items/lrborderframeeditor.ui" line="+20"/>
         <source>BorderFrameEditor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrborderframeeditor.cpp" line="+43"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
@@ -626,6 +758,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDesc</name>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="+428"/>
+        <location line="+6"/>
         <source>defaultConnection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -633,86 +767,109 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ConnectionDialog</name>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="+14"/>
+        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="+89"/>
         <source>Connection</source>
         <translation type="unfinished">إتصال بقاعدة بيانات</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Connection Name</source>
         <translation type="unfinished">أسم الإتصال</translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Driver</source>
         <translation type="unfinished">المشغل</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Server </source>
         <translation type="unfinished">الخادم</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>User</source>
         <translation type="unfinished">المستخدم</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Password</source>
         <translation type="unfinished">كلمة المرور</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Database</source>
         <translation type="unfinished">قاعدة البيانات</translation>
     </message>
     <message>
+        <location line="+94"/>
         <source>Auto connect</source>
         <translation type="unfinished">إتصال تلقائي</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Check connection</source>
         <translation type="unfinished">فحص الإتصال</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء الأمر</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="-8"/>
+        <location line="+11"/>
         <source>Error</source>
         <translation type="unfinished">خطأ</translation>
     </message>
     <message>
+        <location line="-2"/>
         <source>Connection succsesfully established!</source>
         <translation type="unfinished">تم الإتصال بنجاح!</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Connection Name is empty</source>
         <translation type="unfinished">أسم الإتصال فارغ</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Connection with name </source>
         <translation type="unfinished">إتصال بأسم</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="-65"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+75"/>
         <source>Ok</source>
         <translation type="unfinished">موافق</translation>
     </message>
     <message>
+        <location line="-202"/>
         <source>Use default application connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.cpp" line="+61"/>
         <source>defaultConnection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-60"/>
         <source> already exists! </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrconnectiondialog.ui" line="+25"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+122"/>
         <source>Don&apos;t keep credentials in lrxml</source>
         <translation type="unfinished"></translation>
     </message>
@@ -720,30 +877,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataBand</name>
     <message>
+        <location filename="../limereport/bands/lrdataband.cpp" line="+74"/>
         <source>Data</source>
         <translation>بيانات</translation>
     </message>
     <message>
+        <location line="+13"/>
+        <location line="+40"/>
         <source>Use alternate background color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-36"/>
+        <location line="+24"/>
         <source>Keep footer together</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Keep subdetail together</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Slice last row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+32"/>
         <source>Start from new page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-28"/>
+        <location line="+24"/>
         <source>Start new page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -751,86 +921,124 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataBrowser</name>
     <message>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="+14"/>
+        <location line="+28"/>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="+74"/>
         <source>Datasources</source>
         <translation>مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Add database connection</source>
         <translation type="unfinished">إضافة إتصال قاعدة بيانات</translation>
     </message>
     <message>
+        <location line="+105"/>
         <source>Add new datasource</source>
         <translation type="unfinished">إضافة مصدر بيانات جديد</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>View data</source>
         <translation type="unfinished">عرض البيانات</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Change datasource</source>
         <translation type="unfinished">تغيير مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Delete datasource</source>
         <translation type="unfinished">حذف مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Show error</source>
         <translation type="unfinished">عرض الأخطاء</translation>
     </message>
     <message>
+        <location line="+60"/>
         <source>Variables</source>
         <translation type="unfinished">المتغيرات</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Add new variable</source>
         <translation type="unfinished">إضافة متغير جديد</translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Edit variable</source>
         <translation type="unfinished">تعديل متغير</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Delete variable</source>
         <translation type="unfinished">حذف متغير</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="+39"/>
+        <location line="+277"/>
+        <location line="+163"/>
+        <location line="+298"/>
         <source>Attention</source>
         <translation>Attention</translation>
     </message>
     <message>
+        <location line="-649"/>
         <source>System variables</source>
         <translation>متغيرات النظام</translation>
     </message>
     <message>
+        <location line="+690"/>
         <source>Error</source>
         <translation>خطأ</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrdatabrowser.ui" line="-344"/>
+        <location line="+23"/>
+        <location line="+23"/>
+        <location line="+23"/>
+        <location line="+36"/>
+        <location line="+26"/>
+        <location line="+26"/>
+        <location line="+26"/>
+        <location line="+26"/>
+        <location line="+83"/>
+        <location line="+29"/>
+        <location line="+26"/>
+        <location line="+26"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-3"/>
         <source>Grab variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrdatabrowser.cpp" line="-693"/>
         <source>Report variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>External variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-91"/>
         <source>Do you really want to delete &quot;%1&quot; connection?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+277"/>
         <source>Do you really want to delete &quot;%1&quot; datasource?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+461"/>
         <source>Do you really want to delete variable &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -838,10 +1046,13 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataFooterBand</name>
     <message>
+        <location filename="../limereport/bands/lrdataband.cpp" line="+56"/>
         <source>DataFooter</source>
         <translation>ذيل جدول البيانات</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+8"/>
         <source>Print always</source>
         <translation type="unfinished"></translation>
     </message>
@@ -849,18 +1060,25 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataHeaderBand</name>
     <message>
+        <location line="-54"/>
         <source>DataHeader</source>
         <translation>رأس جدول البيانات</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+16"/>
         <source>Reprint on each page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-12"/>
+        <location line="+16"/>
         <source>Repeat on each row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-12"/>
+        <location line="+16"/>
         <source>Print always</source>
         <translation type="unfinished"></translation>
     </message>
@@ -868,34 +1086,51 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceManager</name>
     <message>
+        <location filename="../limereport/lrdatasourcemanager.cpp" line="+429"/>
         <source>Connection &quot;%1&quot; is not open</source>
         <translation>الإتصال &quot;%1&quot; غير مفتوح</translation>
     </message>
     <message>
+        <location line="+752"/>
         <source>invalid connection</source>
         <translation>خطأ بالإتصال</translation>
     </message>
     <message>
+        <location line="-715"/>
+        <location line="+20"/>
+        <location line="+47"/>
+        <location line="+41"/>
         <source>Variable &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+424"/>
         <source>Database &quot;%1&quot; not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-200"/>
+        <location line="+413"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-309"/>
         <source>Connection with name &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+24"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <location line="+8"/>
+        <location line="+10"/>
         <source>Datasource with name &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-439"/>
+        <location line="+41"/>
         <source>Unknown parameter &quot;%1&quot; for variable &quot;%2&quot; found!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -903,14 +1138,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DataSourceModel</name>
     <message>
+        <location line="-367"/>
         <source>Datasources</source>
         <translation>مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+33"/>
         <source>Variables</source>
         <translation>المتغيرات</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>External variables</source>
         <translation type="unfinished"></translation>
     </message>
@@ -918,30 +1156,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::DialogDesignerManager</name>
     <message>
+        <location filename="../limereport/dialogdesigner/lrdialogdesigner.cpp" line="+38"/>
         <source>Edit Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Widget Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Object Inspector</source>
         <translation type="unfinished">فاحص الكائن</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Property Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Signals &amp;&amp; Slots Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Resource Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Action Editor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -949,334 +1194,417 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::EnumPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="+100"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Portrait</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Landscape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoneAutoWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>MaxWordLength</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>MaxStringLength</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TransparentMode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>OpaqueMode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle90</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle180</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle270</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle45</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Angle315</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DateTime</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Double</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoBrush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SolidPattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense1Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense2Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense3Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense4Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense5Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense6Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dense7Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>HorPattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerPattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>CrossPattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>BDiagPattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>FDiagPattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftToRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightToLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LayoutDirectionAuto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftItemAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightItemAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>CenterItemAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ParentWidthItemAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DesignedItemAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>HorizontalLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerticalLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Rectangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Vertical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerticalUniform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Pie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>VerticalBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>HorizontalBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TitleAlignLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TitleAlignRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TitleAlignCenter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Millimeters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Inches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Split</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>GridLines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoStyle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Dot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDotDot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Doubled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendPoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendLines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignRightCenter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignRightTop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignRightBottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignBottomRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignBottomCenter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LegendAlignBottomLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>SolidLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>NoPen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DotLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDotLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>DashDotDotLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>CustomDashLine</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1284,26 +1612,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::FlagsPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="+144"/>
         <source>NoLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TopLine</source>
         <translation type="unfinished">خط علوي</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>BottomLine</source>
         <translation type="unfinished">خط سفلي</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftLine</source>
         <translation type="unfinished">خط أيسر</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightLine</source>
         <translation type="unfinished">خط أيمن</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>AllLines</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1311,14 +1645,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::FontEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lrfonteditorwidget.cpp" line="+96"/>
         <source>Font bold</source>
         <translation>خط ثخين</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Font Italic</source>
         <translation>خط مائل</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Font Underline</source>
         <translation>تحته خط</translation>
     </message>
@@ -1326,22 +1663,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::FontPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="+61"/>
         <source>bold</source>
         <translation>ثخين</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>italic</source>
         <translation>مائل</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>underline</source>
         <translation>تحته خط</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>size</source>
         <translation>حجم</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>family</source>
         <translation>الفئة</translation>
     </message>
@@ -1349,6 +1691,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupBandFooter</name>
     <message>
+        <location filename="../limereport/bands/lrgroupbands.cpp" line="+195"/>
         <source>GroupFooter</source>
         <translation>ذيل المجموعة</translation>
     </message>
@@ -1356,14 +1699,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupBandHeader</name>
     <message>
+        <location line="-123"/>
         <source>GroupHeader</source>
         <translation>رأس المجموعة</translation>
     </message>
     <message>
+        <location line="+67"/>
         <source>Group field not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Datasource &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1371,18 +1717,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::GroupFunction</name>
     <message>
+        <location filename="../limereport/lrgroupfunctions.cpp" line="+70"/>
         <source>Field &quot;%1&quot; not found</source>
         <translation>الحقل &quot;%1&quot; غير موجود</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Variable &quot;%1&quot; not found</source>
         <translation>المتغير &quot;%1&quot; غير موجود</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Item &quot;%1&quot; not found</source>
         <translation>العنصر &quot;%1&quot; غير موجود</translation>
     </message>
     <message>
+        <location line="-15"/>
         <source>Wrong script syntax &quot;%1&quot; </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1390,22 +1740,29 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ImageItem</name>
     <message>
+        <location filename="../limereport/items/lrimageitem.cpp" line="+375"/>
         <source>Image</source>
         <translation>صورة</translation>
     </message>
     <message>
+        <location line="-270"/>
+        <location line="+7"/>
         <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-12"/>
+        <location line="+15"/>
         <source>Edit</source>
         <translation type="unfinished">تحرير</translation>
     </message>
     <message>
+        <location line="+58"/>
         <source>Images (*.gif *.icns *.ico *.jpeg *.tga *.tiff *.wbmp *.webp *.png *.jpg *.bmp);;All(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+200"/>
         <source>Ext.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1413,10 +1770,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemLocationPropItem</name>
     <message>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="+59"/>
         <source>Band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1424,42 +1783,52 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemsAlignmentEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lritemsaligneditorwidget.cpp" line="+151"/>
         <source>Bring to top</source>
         <translation>إحضار للأمام</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Send to back</source>
         <translation>إرسال للخلف</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to left</source>
         <translation>محاذاة يسار</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to right</source>
         <translation>محاذاة يمين</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to vertical center</source>
         <translation>محاذاة وسط(عمودي)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to top</source>
         <translation>محاذاة لأعلى</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to bottom</source>
         <translation>محاذاة لأسفل</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Align to horizontal center</source>
         <translation>محاذاة وسط (أفقي)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Set same height</source>
         <translation>مساواة الارتفاع</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Set same width</source>
         <translation>مساواة العرض</translation>
     </message>
@@ -1467,30 +1836,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ItemsBordersEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lritemsborderseditorwidget.cpp" line="+91"/>
         <source>Top line</source>
         <translation>خط علوي</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Bottom line</source>
         <translation>خط سفلي</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Left line</source>
         <translation>خط أيسر</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Right line</source>
         <translation>خط أيمن</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>No borders</source>
         <translation>بدون إطار</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>All borders</source>
         <translation>محاط بإطار</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Edit border</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1498,10 +1874,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::MasterDetailProxyModel</name>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="+228"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; child datasource</source>
         <translation>الحقل: &quot;%1&quot; غير موجود في مصدر البيانات الفرعي &quot;%2&quot;</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Field: &quot;%1&quot; not found in &quot;%2&quot; master datasource</source>
         <translation>الحقل: &quot;%1&quot; غير موجود في مصدر البيانات الرئيسي &quot;%2&quot;</translation>
     </message>
@@ -1509,6 +1887,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ModelToDataSource</name>
     <message>
+        <location line="-303"/>
         <source>model is destroyed</source>
         <translation></translation>
     </message>
@@ -1516,6 +1895,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ObjectBrowser</name>
     <message>
+        <location filename="../limereport/objectsbrowser/lrobjectbrowser.cpp" line="+52"/>
         <source>Objects</source>
         <translation>الكائن</translation>
     </message>
@@ -1523,14 +1903,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ObjectInspectorWidget</name>
     <message>
+        <location filename="../limereport/objectinspector/lrobjectinspectorwidget.cpp" line="+196"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Translate properties</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1538,6 +1921,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PDFExporter</name>
     <message>
+        <location filename="../limereport/exporters/lrpdfexporter.h" line="+20"/>
         <source>Export to PDF</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1545,86 +1929,112 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageEditor</name>
     <message>
+        <location filename="../limereport/items/lrpageeditor.ui" line="+14"/>
         <source>Page setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Paper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Format</source>
         <translation type="unfinished">الصيغة</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Dimension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Width:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+16"/>
+        <location line="+29"/>
+        <location line="+83"/>
+        <location line="+7"/>
+        <location line="+7"/>
+        <location line="+14"/>
         <source> mm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-127"/>
         <source>Height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Portrait</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Landscape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+24"/>
         <source>Margins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Bottom:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Top:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Right:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Left:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Drop printer margins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Height options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Endless Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Extended Height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Full page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1632,14 +2042,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageFooter</name>
     <message>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="+57"/>
         <source>Page Footer</source>
         <translation>ذيل الصفحة</translation>
     </message>
     <message>
+        <location line="+14"/>
+        <location line="+11"/>
         <source>Print on first page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-7"/>
+        <location line="+10"/>
         <source>Print on last page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1647,6 +2062,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageHeader</name>
     <message>
+        <location filename="../limereport/bands/lrpageheader.cpp" line="+59"/>
         <source>Page Header</source>
         <translation>رأس الصفحة</translation>
     </message>
@@ -1654,30 +2070,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PageItemDesignIntf</name>
     <message>
+        <location filename="../limereport/lrpageitemdesignintf.cpp" line="+727"/>
         <source>Paste</source>
         <translation type="unfinished">لصق</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <location line="+27"/>
         <source>Page is TOC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-23"/>
+        <location line="+26"/>
         <source>Reset page number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-22"/>
+        <location line="+25"/>
         <source>Full page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-21"/>
+        <location line="+24"/>
         <source>Set page size to printer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+24"/>
         <source>Mix with prior page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-44"/>
+        <location line="+47"/>
         <source>Edit</source>
         <translation type="unfinished">تحرير</translation>
     </message>
@@ -1685,14 +2114,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PreviewReportWidget</name>
     <message>
+        <location filename="../limereport/lrpreviewreportwidget.ui" line="+14"/>
         <source>Form</source>
         <translation type="unfinished">نموذج</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwidget.cpp" line="+287"/>
         <source>Report file name</source>
         <translation type="unfinished">أسم التقرير</translation>
     </message>
     <message>
+        <location line="-158"/>
         <source>%1 file name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1700,150 +2132,193 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::PreviewReportWindow</name>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="+43"/>
         <source>View</source>
         <translation type="unfinished">عرض</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Report</source>
         <translation type="unfinished">تقرير</translation>
     </message>
     <message>
+        <location line="+68"/>
         <source>Print</source>
         <translation type="unfinished">طباعة</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Zoom In</source>
         <translation type="unfinished">تكبير</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Zoom Out</source>
         <translation type="unfinished">تصغير</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Prior Page</source>
         <translation type="unfinished">الصفحة السابقة</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Next Page</source>
         <translation type="unfinished">الصفحة التالية</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Close Preview</source>
         <translation type="unfinished">أغلاق</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Edit Mode</source>
         <translation type="unfinished">وضع التعديل</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Save to file</source>
         <translation type="unfinished">حفظ إلى ملف</translation>
     </message>
     <message>
+        <location line="+12"/>
+        <location line="+3"/>
         <source>Show errors</source>
         <translation type="unfinished">عرض الأخطاء</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>First Page</source>
         <translation type="unfinished">الصفحة الأولى</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>First page</source>
         <translation type="unfinished">الصفحة الأولى</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+3"/>
         <source>Last Page</source>
         <translation type="unfinished">الصفحة الأخيرة</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Print To PDF</source>
         <translation type="unfinished">تحويل إلى PDF</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="+85"/>
         <source>Page: </source>
         <translation type="unfinished">صفحة: </translation>
     </message>
     <message>
+        <location line="+108"/>
         <source> of %1</source>
         <translation type="unfinished"> من %1</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="-238"/>
         <source>Preview</source>
         <translation type="unfinished">معاينة</translation>
     </message>
     <message>
+        <location line="+109"/>
         <source>Ctrl+P</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+138"/>
         <source>Fit page width</source>
         <translation type="unfinished">تمديد ليتاسب عرض الصفحة</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Fit page</source>
         <translation type="unfinished">تمديد ليناسب الصفحة بالكامل</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>One to one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Show Toolbar</source>
         <translation type="unfinished">عرض شريط الأدوات</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Show toolbar</source>
         <translation type="unfinished">عرض شريط الأدوات</translation>
     </message>
     <message>
+        <location line="-117"/>
         <source>Esc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="-83"/>
         <source>Font</source>
         <translation type="unfinished">خط</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Text align</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.ui" line="-117"/>
         <source>MainToolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+38"/>
         <source>EditModeTools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+208"/>
         <source>InsertTextItem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Add new TextItem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Selection Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Delete Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Del</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/lrpreviewreportwindow.cpp" line="-47"/>
         <source>Printing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+220"/>
         <source>Attention</source>
         <translation type="unfinished">Attention</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>The printing is in process</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1851,6 +2326,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ProxyHolder</name>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="+226"/>
         <source>Datasource has been invalidated</source>
         <translation type="unfinished">مصدر البيانات غير صحيح</translation>
     </message>
@@ -1858,562 +2334,704 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::QObjectPropertyModel</name>
     <message>
+        <location filename="../limereport/objectinspector/lrobjectitemmodel.cpp" line="+277"/>
         <source>Property Name</source>
         <translation>الخاصية</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Property value</source>
         <translation>القيمة</translation>
     </message>
     <message>
+        <location line="-238"/>
         <source>leftMargin</source>
         <translation>الهامش الأيسر</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>rightMargin</source>
         <translation>الهامش الأيمن</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>topMargin</source>
         <translation>الهامش العلوي</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>objectName</source>
         <translation>أسم الكائن</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borders</source>
         <translation>الإطار</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>geometry</source>
         <translation>الأبعاد</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>itemAlign</source>
         <translation>محاذاة</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pageOrientation</source>
         <translation>أتجاة الصفحة</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pageSize</source>
         <translation>حجم الصفحة</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>TopLine</source>
         <translation>خط علوي</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>BottomLine</source>
         <translation>خط سفلي</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>LeftLine</source>
         <translation>خط أيسر</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>RightLine</source>
         <translation>خط أيمن</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>datasource</source>
         <translation type="unfinished">مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>alignment</source>
         <translation type="unfinished">расположение</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>content</source>
         <translation type="unfinished">المحتوى</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>itemLocation</source>
         <translation type="unfinished">قفل</translation>
     </message>
     <message>
+        <location line="+420"/>
         <source>Warning</source>
         <translation>تحذير</translation>
     </message>
     <message>
+        <location line="-442"/>
         <source>reprintOnEachPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borderLineSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>autoHeight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>backgroundColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+35"/>
         <source>columnCount</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-34"/>
         <source>columnsFillDirection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>keepBottomSpace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepFooterTogether</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepSubdetailTogether</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printIfEmpty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>sliceLastRow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>splittable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>autoWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>backgroundMode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>backgroundOpacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fontColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>foregroundOpacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>margin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>stretchToMaxHeight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>trimValue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>lineWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>penStyle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shapeBrush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shapeBrushColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-42"/>
         <source>bottomMargin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+43"/>
         <source>gridStep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fullPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>oldPrintMode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borderColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>resetPageNumber</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>alternateBackgroundColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+7"/>
         <source>backgroundBrushStyle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-5"/>
         <source>startFromNewPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>startNewPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>adaptFontToSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>allowHTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>allowHTMLInFields</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>followTo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>lineSpacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>textIndent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>textLayoutDirection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>underlineLineSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>underlines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>valueType</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>securityLevel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>testValue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>whitespace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>resourcePath</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>cornerRadius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shapeColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>layoutType</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>barcodeType</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>barcodeWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>foregroundColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>inputMode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pdf417CodeWords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>autoSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>field</source>
         <translation type="unfinished">الحقل</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepAspectRatio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>columnsCount</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>useAlternateBackgroundColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printBeforePageHeader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>maxScalePercent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printOnFirstPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printOnLastPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printAlways</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>repeatOnEachRow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>groupFieldName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepGroupTogether</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>endlessHeight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>extendedHeight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>isExtendedInDesignMode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>pageIsTOC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>setPageSizeToPrinter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fillInSecondPass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>chartTitle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>chartType</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>drawLegendBorder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>labelsField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>legendAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>titleAlign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>watermark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>keepTopSpace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>replaceCRwithBR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>hideIfEmpty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>hideEmptyItems</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>useExternalPainter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>layoutSpacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printerName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>fontLetterSpacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>hideText</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>option3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>geometryLocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>printBehavior</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shiftItems</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>showLegend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>removeGap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-24"/>
         <source>xAxisField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>seriesLineWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>drawPoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>dropPrinterMargins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>notPrintIfEmpty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>gridChartLines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>horizontalAxisOnTop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>mixWithPriorPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>borderStyle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2421,10 +3039,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::RectPropItem</name>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="+116"/>
         <source>width</source>
         <translation>العرض</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>height</source>
         <translation>الأرتفاع</translation>
     </message>
@@ -2432,10 +3052,16 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::RectUnitPropItem</name>
     <message>
+        <location line="+44"/>
+        <location line="+8"/>
+        <location line="+10"/>
         <source>width</source>
         <translation type="unfinished">العرض</translation>
     </message>
     <message>
+        <location line="-16"/>
+        <location line="+8"/>
+        <location line="+10"/>
         <source>height</source>
         <translation type="unfinished">الأرتفاع</translation>
     </message>
@@ -2443,22 +3069,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWidget</name>
     <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="+506"/>
         <source>Report file name</source>
         <translation>أسم التقرير</translation>
     </message>
     <message>
+        <location line="-175"/>
         <source>Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+202"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Wrong file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-188"/>
         <source>Translations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2466,294 +3097,370 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportDesignWindow</name>
     <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="+163"/>
         <source>New Report</source>
         <translation>تقرير جديد</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Edit Mode</source>
         <translation>وضع التعديل</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Undo</source>
         <translation>تراجع</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Redo</source>
         <translation>أعادة التراجع</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Copy</source>
         <translation>نسخ</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Paste</source>
         <translation>لصق</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Cut</source>
         <translation>قص</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Settings</source>
         <translation>إعدادات</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Use grid</source>
         <translation>عرض الشبكة</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Text Item</source>
         <translation>نص</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Save Report</source>
         <translation>حفظ التقرير</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Save Report As</source>
         <translation>حفظ التقرير بأسم</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Load Report</source>
         <translation>تحميل التقرير</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Delete item</source>
         <translation>حذف</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Zoom In</source>
         <translation>تكبير</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Zoom Out</source>
         <translation>تصغير</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Render Report</source>
         <translation>إنشاء التقرير</translation>
     </message>
     <message>
+        <location line="+66"/>
         <source>Report Tools</source>
         <translation>أدوات التقرير</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Main Tools</source>
         <translation>الأدوات الرئيسة</translation>
     </message>
     <message>
+        <location line="+36"/>
         <source>Font</source>
         <translation>خط</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Text alignment</source>
         <translation>محاذاة النص</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Items alignment</source>
         <translation>محاذاة</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Borders</source>
         <translation>الإطار</translation>
     </message>
     <message>
+        <location line="+30"/>
         <source>Report bands</source>
         <translation>فقرات التقرير</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Report Header</source>
         <translation>رأس التقرير</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Report Footer</source>
         <translation>ذيل التقرير</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Page Header</source>
         <translation>رأس الصفحة</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Page Footer</source>
         <translation>ذيل الصفحة</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Data</source>
         <translation>جدول البيانات</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Data Header</source>
         <translation>رأس جدول البيانات</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Data Footer</source>
         <translation>ذيل جدول البيانات</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>SubDetail</source>
         <translation>بيانات فرعية</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>SubDetailHeader</source>
         <translation>رأس البيانات الفرعية</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>SubDetailFooter</source>
         <translation>ذيل البيانات الفرعية</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>GroupHeader</source>
         <translation>رأس المجموعة</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>GroupFooter</source>
         <translation>ذيل المجموعة</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>File</source>
         <translation>ملف</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Edit</source>
         <translation>تحرير</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Info</source>
         <translation>معلومات</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+45"/>
         <source>Object Inspector</source>
         <translation>فاحص الكائن</translation>
     </message>
     <message>
+        <location line="-35"/>
         <source>Report structure</source>
         <translation>بنية التقرير</translation>
     </message>
     <message>
+        <location line="+93"/>
         <source>Data Browser</source>
         <translation>إستعراض البيانات</translation>
     </message>
     <message>
+        <location line="+490"/>
+        <location line="+19"/>
         <source>Report file name</source>
         <translation>أسم التقرير</translation>
     </message>
     <message>
+        <location line="+327"/>
         <source>Warning</source>
         <translation type="unfinished">تحذير</translation>
     </message>
     <message>
+        <location line="-1318"/>
         <source>Use magnet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+321"/>
         <source>Recent Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+998"/>
         <source>File &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-1031"/>
         <source>Tear-off Band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-341"/>
         <source>New Report Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Delete Report Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+97"/>
         <source>Edit layouts mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Horizontal layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>About</source>
         <translation type="unfinished">حول البرنامج</translation>
     </message>
     <message>
+        <location line="+435"/>
         <source>Script Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-419"/>
         <source>Delete dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Add new dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+323"/>
         <source>Widget Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Property Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Action Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Resource Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>SignalSlot Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Dialog Designer Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+255"/>
         <source>Report has been modified! Do you want save the report?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-656"/>
         <source>Hide left panel | Alt+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Hide right panel | Alt+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-217"/>
+        <location line="+1377"/>
         <source>Rendered %1 pages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-1365"/>
         <source>Cancel report rendering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+191"/>
         <source>Vertical layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Lock selected items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Unlock selected items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Select one level items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1274"/>
         <source>Attention</source>
         <translation type="unfinished">Attention</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>The rendering is in process</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2761,32 +3468,39 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LimeReport::ReportEnginePrivate</name>
     <message>
+        <location filename="../limereport/lrreportengine.cpp" line="+234"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
+        <location line="-141"/>
         <source>Preview</source>
         <translation type="unfinished">معاينة</translation>
     </message>
     <message>
+        <location line="+596"/>
         <source>Report File Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>The report file &quot;%1&quot; has changed names or been deleted.
 
 This preview is no longer valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+363"/>
         <source>Language %1 already exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-280"/>
         <source>Designer not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-288"/>
         <source>%1 file name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2794,6 +3508,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ReportFooter</name>
     <message>
+        <location filename="../limereport/bands/lrreportfooter.cpp" line="+53"/>
         <source>Report Footer</source>
         <translation>Завершение отчета</translation>
     </message>
@@ -2801,6 +3516,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ReportHeader</name>
     <message>
+        <location filename="../limereport/bands/lrreportheader.cpp" line="+52"/>
         <source>Report Header</source>
         <translation>رأس التقرير</translation>
     </message>
@@ -2808,18 +3524,26 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ReportRender</name>
     <message>
+        <location filename="../limereport/lrreportrender.cpp" line="+192"/>
+        <location line="+14"/>
+        <location line="+83"/>
         <source>Error</source>
         <translation>خطأ</translation>
     </message>
     <message>
+        <location line="+171"/>
+        <location line="+47"/>
         <source>Databand &quot;%1&quot; not found</source>
         <translation>فقرة جدول البيانات &quot;%1&quot; غير موجودة</translation>
     </message>
     <message>
+        <location line="-38"/>
+        <location line="+46"/>
         <source>Wrong using function %1</source>
         <translation>خطأ في إستخدام الدالة %1</translation>
     </message>
     <message>
+        <location line="-191"/>
         <source>page index out of range</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2827,118 +3551,152 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SQLEditDialog</name>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="+14"/>
         <source>Datasource</source>
         <translation type="unfinished">مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+477"/>
         <source>Connection</source>
         <translation type="unfinished">الإتصال</translation>
     </message>
     <message>
+        <location line="-460"/>
         <source>Datasource Name</source>
         <translation type="unfinished">أسم مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+484"/>
         <source>Subdetail</source>
         <translation type="unfinished">البيانات الفرعية</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Master datasource</source>
         <translation type="unfinished">مصدر البيانات الرئيسي</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>Subquery mode</source>
         <translation type="unfinished">وضع الاستعلام الفرعي</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Filter mode</source>
         <translation type="unfinished">وضع التصفية</translation>
     </message>
     <message>
+        <location line="-70"/>
+        <location line="+79"/>
         <source>SQL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+46"/>
         <source>Hide Preview</source>
         <translation type="unfinished">إخفاء المعاينة</translation>
     </message>
     <message>
+        <location line="+38"/>
         <source>Child datasource</source>
         <translation type="unfinished">مصدر البيانات الفرعي</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Fields map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+75"/>
         <source>Data preview</source>
         <translation type="unfinished">معاينة البيانات</translation>
     </message>
     <message>
+        <location line="+106"/>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء الأمر</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="+145"/>
         <source>Error</source>
         <translation type="unfinished">خطأ</translation>
     </message>
     <message>
+        <location line="+105"/>
         <source>Datasource with name %1 already exist</source>
         <translation type="unfinished">مصدر البيانات بأسم: &quot;%1&quot; موجود مسبقاً</translation>
     </message>
     <message>
+        <location line="+95"/>
+        <location line="+14"/>
         <source>Attention</source>
         <translation type="unfinished">Attention</translation>
     </message>
     <message>
+        <location line="-14"/>
         <source>Connection is not specified</source>
         <translation type="unfinished">إتصال غير محدد</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Refresh</source>
         <translation type="unfinished">تحديث</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="-241"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="+35"/>
         <source>Preview</source>
         <translation type="unfinished">معاينة</translation>
     </message>
     <message>
+        <location line="+89"/>
+        <location line="+14"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+148"/>
         <source>Ok</source>
         <translation type="unfinished">موافق</translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="-205"/>
         <source>defaultConnection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-21"/>
         <source>Datasource Name is empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>SQL is empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Datasource with name: &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/databrowser/lrsqleditdialog.ui" line="-88"/>
+        <location filename="../limereport/databrowser/lrsqleditdialog.cpp" line="+137"/>
         <source>CSV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Separator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Use first row as header</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2946,18 +3704,24 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SVGItem</name>
     <message>
+        <location filename="../limereport/items/lrsvgitem.cpp" line="+36"/>
         <source>SVG Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>SVG (*.svg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+4"/>
+        <location line="+15"/>
         <source>Edit</source>
         <translation type="unfinished">تحرير</translation>
     </message>
     <message>
+        <location line="-10"/>
+        <location line="+7"/>
         <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2965,46 +3729,61 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptBrowser</name>
     <message>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.ui" line="+14"/>
         <source>Form</source>
         <translation type="unfinished">نموذج</translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Functions</source>
         <translation type="unfinished">الدوال</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+20"/>
+        <location line="+20"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-66"/>
         <source>Dialogs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+111"/>
         <source>Type</source>
         <translation type="unfinished">النوع</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Name</source>
         <translation type="unfinished">الأسم</translation>
     </message>
     <message>
+        <location filename="../limereport/scriptbrowser/lrscriptbrowser.cpp" line="+72"/>
         <source>NO CATEGORY</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+99"/>
+        <location line="+7"/>
+        <location line="+4"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Dialog with name: %1 already exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>ui file must cointain QDialog instead QWidget or QMainWindow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>wrong file format</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3012,14 +3791,17 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEditor</name>
     <message>
+        <location filename="../limereport/scripteditor/lrscripteditor.ui" line="+14"/>
         <source>Form</source>
         <translation type="unfinished">نموذج</translation>
     </message>
     <message>
+        <location line="+36"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+29"/>
         <source>Functions</source>
         <translation type="unfinished">الدوال</translation>
     </message>
@@ -3027,10 +3809,13 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEngineContext</name>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="+1390"/>
         <source>Dialog with name: %1 can`t be created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+286"/>
+        <location line="+6"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3038,114 +3823,194 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::ScriptEngineManager</name>
     <message>
+        <location line="-1336"/>
+        <location line="+665"/>
+        <location line="+86"/>
+        <location line="+15"/>
+        <location line="+15"/>
         <source>FieldName</source>
         <translation>Имя поля</translation>
     </message>
     <message>
+        <location line="-781"/>
+        <location line="+437"/>
         <source>BandName</source>
         <translation>أسم الفقرة</translation>
     </message>
     <message>
+        <location line="+15"/>
+        <location line="+19"/>
+        <location line="+17"/>
+        <location line="+16"/>
+        <location line="+17"/>
+        <location line="+49"/>
+        <location line="+17"/>
+        <location line="+19"/>
         <source>Value</source>
         <translation>القيمة</translation>
     </message>
     <message>
+        <location line="-154"/>
+        <location line="+19"/>
+        <location line="+17"/>
+        <location line="+16"/>
+        <location line="+17"/>
         <source>Format</source>
         <translation>الصيغة</translation>
     </message>
     <message>
+        <location line="-68"/>
         <source>Precision</source>
         <translation>الموقع</translation>
     </message>
     <message>
+        <location line="+0"/>
+        <location line="+19"/>
+        <location line="+33"/>
+        <location line="+65"/>
         <source>Locale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+17"/>
         <source>CurrencySymbol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+19"/>
+        <location line="+14"/>
+        <location line="+14"/>
         <source>Name</source>
         <translation type="unfinished">الأسم</translation>
     </message>
     <message>
+        <location line="-582"/>
+        <location line="+50"/>
         <source>Variable %1 not found</source>
         <translation type="unfinished">المتغير %1 غير موجود</translation>
     </message>
     <message>
+        <location line="-103"/>
         <source>GROUP FUNCTIONS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+162"/>
+        <location line="+70"/>
         <source>Field %1 not found in %2!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+204"/>
         <source>SYSTEM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
+        <location line="+118"/>
+        <location line="+17"/>
         <source>NUMBER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-116"/>
+        <location line="+17"/>
+        <location line="+16"/>
+        <location line="+17"/>
+        <location line="+17"/>
+        <location line="+16"/>
         <source>DATE&amp;TIME</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+52"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+17"/>
+        <location line="+15"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+15"/>
+        <location line="+14"/>
+        <location line="+14"/>
+        <location line="+15"/>
+        <location line="+15"/>
+        <location line="+14"/>
+        <location line="+16"/>
         <source>GENERAL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-161"/>
         <source>Datasource</source>
         <translation type="unfinished">مصدر البيانات</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>ValueField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>KeyField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>KeyFieldValue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+31"/>
+        <location line="+14"/>
+        <location line="+14"/>
         <source>Unique identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-28"/>
+        <location line="+28"/>
         <source>Content</source>
         <translation type="unfinished">المحتوى</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Indent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+28"/>
+        <location line="+58"/>
+        <location line="+16"/>
         <source>datasourceName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-882"/>
         <source>Function manager with name &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+736"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>RowIndex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-14"/>
         <source>RoleIndex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
+        <location line="+14"/>
         <source>RoleName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>columnIndex</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3153,62 +4018,77 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SettingDialog</name>
     <message>
+        <location filename="../limereport/lrsettingdialog.ui" line="+20"/>
         <source>Designer setting</source>
         <translation type="unfinished">إعدادات</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>Default font</source>
         <translation type="unfinished">الخط الإفتراضي</translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Grid</source>
         <translation type="unfinished">شبكة</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Vertical grid step</source>
         <translation type="unfinished">تباعد الشبكة العمودي</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Horizontal grid step</source>
         <translation type="unfinished">تباعد الشبكة الأفقي</translation>
     </message>
     <message>
+        <location line="+218"/>
         <source>Suppress absent fields and variables warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-184"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-96"/>
         <source>Designer settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+123"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+21"/>
         <source>Report units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+41"/>
         <source>Script editor settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Font</source>
         <translation type="unfinished">خط</translation>
     </message>
     <message>
+        <location line="+34"/>
         <source>Indent size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+47"/>
         <source>Report settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Base Item Padding: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3216,6 +4096,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SubDetailBand</name>
     <message>
+        <location filename="../limereport/bands/lrsubdetailband.cpp" line="+82"/>
         <source>SubDetail</source>
         <translation>البيانات الفرعية</translation>
     </message>
@@ -3223,6 +4104,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SubDetailHeaderBand</name>
     <message>
+        <location line="+27"/>
         <source>SubDetailHeader</source>
         <translation>رأس البيانات الفرعية</translation>
     </message>
@@ -3230,6 +4112,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::SvgEditor</name>
     <message>
+        <location filename="../limereport/objectinspector/editors/lrsvgeditor.cpp" line="+31"/>
         <source>Select image file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3237,6 +4120,7 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TearOffBand</name>
     <message>
+        <location filename="../limereport/bands/lrtearoffband.cpp" line="+23"/>
         <source>Tear-off Band</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3244,26 +4128,33 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextAlignmentEditorWidget</name>
     <message>
+        <location filename="../limereport/items/editors/lrtextalignmenteditorwidget.cpp" line="+52"/>
         <source>Text align left</source>
         <translation>محاذاة النص لليسار</translation>
     </message>
     <message>
+        <location line="+6"/>
+        <location line="+26"/>
         <source>Text align center</source>
         <translation>محاذاة النص للوسط</translation>
     </message>
     <message>
+        <location line="-20"/>
         <source>Text align right</source>
         <translation>محاذاة النص لليمين</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Text align justify</source>
         <translation>ملأ السطر</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Text align top</source>
         <translation>محاذاة النص لأعلى</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Text align bottom</source>
         <translation>محاذاة السطر لأسفل</translation>
     </message>
@@ -3271,46 +4162,66 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextItem</name>
     <message>
+        <location filename="../limereport/items/lrtextitem.cpp" line="+95"/>
+        <location line="+37"/>
         <source>Edit</source>
         <translation type="unfinished">تحرير</translation>
     </message>
     <message>
+        <location line="-31"/>
+        <location line="+35"/>
         <source>Auto height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-31"/>
+        <location line="+34"/>
         <source>Allow HTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-30"/>
+        <location line="+33"/>
         <source>Allow HTML in fields</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-29"/>
+        <location line="+32"/>
         <source>Stretch to max height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+510"/>
+        <location line="+7"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-6"/>
         <source>TextItem &quot; %1 &quot; already has folower &quot; %2 &quot; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-539"/>
+        <location line="+32"/>
         <source>Transparent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+514"/>
         <source>TextItem &quot; %1 &quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-542"/>
+        <location line="+35"/>
         <source>Watermark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-31"/>
+        <location line="+35"/>
         <source>Hide if empty</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3318,22 +4229,27 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TextItemEditor</name>
     <message>
+        <location filename="../limereport/items/lrtextitemeditor.ui" line="+17"/>
         <source>Text Item Editor</source>
         <translation type="unfinished">تحرير النص</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Content</source>
         <translation type="unfinished">المحتوى</translation>
     </message>
     <message>
+        <location line="+56"/>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء الأمر</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Ok</source>
         <translation type="unfinished">موافق</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Ctrl+Return</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3341,46 +4257,58 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::TranslationEditor</name>
     <message>
+        <location filename="../limereport/translationeditor/translationeditor.ui" line="+14"/>
         <source>Form</source>
         <translation type="unfinished">نموذج</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Languages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+24"/>
+        <location line="+14"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Pages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+42"/>
         <source>Strings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+31"/>
         <source>Source Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Checked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/translationeditor/translationeditor.cpp" line="+34"/>
         <source>Report Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Source text</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3388,14 +4316,22 @@ This preview is no longer valid.</source>
 <context>
     <name>LimeReport::VariablesHolder</name>
     <message>
+        <location filename="../limereport/lrvariablesholder.cpp" line="+66"/>
+        <location line="+17"/>
+        <location line="+19"/>
+        <location line="+73"/>
         <source>variable with name </source>
         <translation type="unfinished">متغير بأسم</translation>
     </message>
     <message>
+        <location line="-109"/>
         <source> already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+17"/>
+        <location line="+19"/>
+        <location line="+73"/>
         <source> does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3403,295 +4339,384 @@ This preview is no longer valid.</source>
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../limereport/bands/lrdataband.cpp" line="-124"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+50"/>
         <source>Data</source>
         <translation>جدول البرنامج</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>DataHeader</source>
         <translation>رأس جدول البيانات</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>DataFooter</source>
         <translation>ذيل جدول البيانات</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrgroupbands.cpp" line="-109"/>
         <source>GroupHeader</source>
         <translation>رأس المجموعة</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>GroupFooter</source>
         <translation>ذيل المجموعة</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrpagefooter.cpp" line="-40"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+0"/>
         <source>Page Footer</source>
         <translation>ذيل الصفحة</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrpageheader.cpp" line="-11"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
         <source>Page Header</source>
         <translation>رأس الصفحة</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrreportfooter.cpp" line="-9"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+1"/>
         <source>Report Footer</source>
         <translation>ذيل التقرير</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrreportheader.cpp" line="-9"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
         <source>Report Header</source>
         <translation>رأس التقرير</translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrsubdetailband.cpp" line="-61"/>
+        <location filename="../limereport/lrbandsmanager.cpp" line="+2"/>
         <source>SubDetail</source>
         <translation>البيانات الفرعية</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>SubDetailHeader</source>
         <translation>رأس البيانات الفرعية</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>SubDetailFooter</source>
         <translation>ذيل البيانات الفرعية</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lralignpropitem.cpp" line="-38"/>
         <source>alignment</source>
         <translation>محاذاة</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrbarcodeitem.cpp" line="+45"/>
         <source>Barcode Item</source>
         <translation>باركود</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrhorizontallayout.cpp" line="+49"/>
         <source>HLayout</source>
         <translation>نسق أفقي</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrimageitem.cpp" line="-326"/>
         <source>Image Item</source>
         <translation>صورة</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrshapeitem.cpp" line="+46"/>
         <source>Shape Item</source>
         <translation>رسم</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="-11"/>
         <source>itemLocation</source>
         <translation>الموقع</translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrtextitem.cpp" line="-103"/>
         <source>Text Item</source>
         <translation>نص</translation>
     </message>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="-520"/>
+        <location line="+45"/>
         <source>Invalid connection! %1</source>
         <translation>خطأ بإتصال %1</translation>
     </message>
     <message>
+        <location line="+350"/>
         <source>Master datasource &quot;%1&quot; not found!</source>
         <translation>مصدر البيانات الرئيسي &quot;%1&quot; غير موجود!</translation>
     </message>
     <message>
+        <location line="+96"/>
         <source>Child</source>
         <translation>بيانات فرعية</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source> and child </source>
         <translation>و بيانات فرعية</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>datasouce &quot;%1&quot; not found!</source>
         <translation>مصدر البيانات الرئيسي &quot;%1&quot; غير موجود !</translation>
     </message>
     <message>
+        <location filename="../limereport/lrpagedesignintf.cpp" line="+1724"/>
+        <location line="+44"/>
         <source>Attention!</source>
         <translation></translation>
     </message>
     <message>
+        <location line="-43"/>
+        <location line="+44"/>
         <source>Selected elements have different parent containers</source>
         <translation>العناصر المحددة مختلفة البنية</translation>
     </message>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="+610"/>
         <source>Function %1 not found or have wrong arguments</source>
         <translation>الدالة %1 غير موجودة او الباريميترات خاطئة</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrdatasourcepropitem.cpp" line="+62"/>
+        <location line="+4"/>
+        <location line="+10"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>datasource</source>
         <translation>مصدر البيانات</translation>
     </message>
     <message>
+        <location line="-20"/>
+        <location line="+15"/>
+        <location line="+10"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="+49"/>
         <source>field</source>
         <translation>الحقل</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="-136"/>
         <source>enum</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="-94"/>
         <source>flags</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-113"/>
         <source>geometry</source>
         <translation>الأبعاد</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="+45"/>
+        <location line="+62"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="+200"/>
+        <location line="+80"/>
         <source>mm</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../limereport/serializators/lrxmlreader.cpp" line="+260"/>
         <source>File %1 not opened</source>
         <translation>الحقل %1 غير مفتوح</translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrcontentpropitem.cpp" line="+21"/>
         <source>content</source>
         <translation>المحتوى</translation>
     </message>
     <message>
+        <location filename="../limereport/lrdatadesignintf.cpp" line="-4"/>
         <source>Master datasouce &quot;%1&quot; not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrboolpropitem.cpp" line="+50"/>
         <source>bool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrcolorpropitem.cpp" line="+50"/>
         <source>QColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="-20"/>
         <source>QFont</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+46"/>
         <source>QImage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrintpropitem.cpp" line="+47"/>
         <source>int</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="+48"/>
+        <location line="+3"/>
         <source>qreal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-286"/>
         <source>QRect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>QRectF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrstringpropitem.cpp" line="+51"/>
         <source>QString</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/serializators/lrxmlreader.cpp" line="+12"/>
         <source>Content string is empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Content is empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/bands/lrtearoffband.cpp" line="-9"/>
         <source>Tear-off Band</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/serializators/lrxmlreader.cpp" line="-27"/>
         <source>Wrong file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartitem.cpp" line="+28"/>
         <source>Chart Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+526"/>
         <source>First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Second</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Thrid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/lrreportdesignwindow.cpp" line="+53"/>
         <source>Object with name %1 already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/lrscriptenginemanager.cpp" line="+3"/>
         <source>Datasource manager not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/exporters/lrpdfexporter.cpp" line="+16"/>
         <source>Export to PDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrsvgitem.cpp" line="-51"/>
         <source>SVG Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrverticallayout.cpp" line="+15"/>
         <source>VLayout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+12"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="+16"/>
+        <location line="+10"/>
         <source>image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/lrreportdesignwidget.cpp" line="-221"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+682"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+10"/>
+        <location line="+3"/>
+        <location line="+7"/>
         <source>Millimeters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="-10"/>
+        <location line="+4"/>
         <source>Inches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrmarginpropitem.cpp" line="-85"/>
+        <location line="+4"/>
+        <location line="+4"/>
+        <location line="+4"/>
         <source>margin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+16"/>
+        <location line="+59"/>
+        <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="+205"/>
+        <location line="+80"/>
         <source>&apos;&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/objectinspector/propertyItems/lrseriespropitem.cpp" line="+21"/>
         <source>series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../limereport/items/lrchartaxiseditor.cpp" line="+64"/>
         <source>X Axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Y Axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>X axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Axis</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
