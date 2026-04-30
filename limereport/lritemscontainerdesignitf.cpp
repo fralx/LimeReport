@@ -55,16 +55,16 @@ void ItemsContainerDesignInft::snapshotItemsLayout(SnapshotType type)
 void ItemsContainerDesignInft::arrangeSubItems(RenderPass pass, DataSourceManager* dataManager,
                                                ArrangeType type)
 {
-    bool needArrage = (type == Force);
+    bool needArrange = (type == Force);
 
     foreach (PItemSortContainer item, m_containerItems) {
         if (item->m_item->isNeedUpdateSize(pass)) {
             item->m_item->updateItemSize(dataManager, pass);
-            needArrage = true;
+            needArrange = true;
         }
     }
 
-    if (needArrage) {
+    if (needArrange) {
         for (int i = 0; i < m_containerItems.count(); i++) {
             for (int j = i; j < m_containerItems.count(); j++) {
                 if ((i != j)
@@ -94,7 +94,7 @@ void ItemsContainerDesignInft::arrangeSubItems(RenderPass pass, DataSourceManage
         }
     }
 
-    if (needArrage || pass == FirstPass) {
+    if (needArrange || pass == FirstPass) {
         int maxBottom = findMaxBottom();
         foreach (BaseDesignIntf* item, childBaseItems()) {
             ItemDesignIntf* childItem = dynamic_cast<ItemDesignIntf*>(item);
