@@ -1,5 +1,5 @@
 
-# LimeReport v1.7.5 [![Build status](https://ci.appveyor.com/api/projects/status/wna5429pix7ilcmo/branch/master?svg=true)](https://ci.appveyor.com/project/fralx/limereport/branch/master)![Cmake Build Status](https://github.com/fralx/limereport/actions/workflows/cmake.yml/badge.svg)
+# LimeReport v1.7.5 [![Build status](https://ci.appveyor.com/api/projects/status/wna5429pix7ilcmo/branch/master?svg=true)](https://ci.appveyor.com/project/fralx/limereport/branch/master) ![Cmake Build Status](https://github.com/fralx/limereport/actions/workflows/cmake.yml/badge.svg)
 
 ## Official LimeReport web site [http://limereport.ru](http://limereport.ru)
 
