@@ -3,7 +3,7 @@ find_package(Git)
 if(GIT_EXECUTABLE)
   # Generate a git-describe version string from Git repository tags
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} describe --tags --dirty
+    COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     OUTPUT_VARIABLE GIT_DESCRIBE_VERSION
     RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
