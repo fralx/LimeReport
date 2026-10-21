@@ -32,7 +32,7 @@
 
 #include "lrobjectitemmodel.h"
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QObject>
 #include <QStyledItemDelegate>
 #include <QTreeView>
@@ -40,7 +40,7 @@
 namespace LimeReport {
 
 class ObjectInspectorTreeView;
-// class PropertyDelegate : public QItemDelegate
+// class PropertyDelegate : public QStyledItemDelegate
 class PropertyDelegate: public QStyledItemDelegate {
     Q_OBJECT
 public:

@@ -112,7 +112,7 @@ private:
     DataNode* m_rootNode;
 };
 
-class DataSourceManager:
+class LIMEREPORT_EXPORT DataSourceManager:
     public QObject,
     public ICollectionContainer,
     public IVariablesContainer,

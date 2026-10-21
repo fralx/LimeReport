@@ -367,13 +367,13 @@ bool TextItem::isNeedExpandContent() const
 {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 1))
     QRegExp rx("$*\\{[^{]*\\}");
+    return content().contains(rx) || isContentBackedUp();
 #else
     bool result = false;
     QRegularExpression rx("\\$*\\{[^{]*\\}");
     result = content().contains(rx) || isContentBackedUp();
     return result;
 #endif
-    return content().contains(rx) || isContentBackedUp();
 }
 
 QString TextItem::replaceBR(QString text) const { return text.replace("<br/>", "\n"); }

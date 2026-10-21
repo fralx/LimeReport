@@ -47,8 +47,17 @@ const char* passPhrase = "HjccbzHjlbyfCkjy";
 
 WORD P = 0xb7e15163, Q = 0x9e3779b9;
 
-#define ROTL(x, y) (((x) << (y & (w - 1))) | ((x) >> (w - (y & (w - 1)))))
-#define ROTR(x, y) (((x) >> (y & (w - 1))) | ((x) << (w - (y & (w - 1)))))
+static constexpr WORD rotateLeft(WORD value, WORD amount)
+{
+    amount &= w - 1;
+    return amount == 0 ? value : (value << amount) | (value >> (w - amount));
+}
+
+static constexpr WORD rotateRight(WORD value, WORD amount)
+{
+    amount &= w - 1;
+    return amount == 0 ? value : (value >> amount) | (value << (w - amount));
+}
 
 union WTB {
     WORD word[2];
@@ -83,14 +92,14 @@ private:
 
 void ChipperPrivate::RC5_SETUP(const char* K)
 {
-    WORD i, j, k, u = w / 8, A, B, L[c];
+    WORD i, j, k, u = w / 8, A, B, L[c] {};
     for (i = b, L[c - 1] = 0; i != 0; i--)
         L[(i - 1) / u] = (L[(i - 1) / u] << 8) + K[i - 1];
     for (S[0] = P, i = 1; i < t; i++)
         S[i] = S[i - 1] + Q;
     for (A = B = i = j = k = 0; k < 3 * t; k++, i = (i + 1) % t, j = (j + 1) % c) { /* 3*t > 3*c */
-        A = S[i] = ROTL(S[i] + (A + B), 3);
-        B = L[j] = ROTL(L[j] + (A + B), (A + B));
+        A = S[i] = rotateLeft(S[i] + (A + B), 3);
+        B = L[j] = rotateLeft(L[j] + (A + B), (A + B));
     }
     m_prepared = true;
 }
@@ -99,8 +108,8 @@ void ChipperPrivate::RC5_ENCRYPT(WORD* pt, WORD* ct)
 {
     WORD i, A = pt[0] + S[0], B = pt[1] + S[1];
     for (i = 1; i <= r; i++) {
-        A = ROTL(A ^ B, B) + S[2 * i];
-        B = ROTL(B ^ A, A) + S[2 * i + 1];
+        A = rotateLeft(A ^ B, B) + S[2 * i];
+        B = rotateLeft(B ^ A, A) + S[2 * i + 1];
     }
     ct[0] = A;
     ct[1] = B;
@@ -110,8 +119,8 @@ void ChipperPrivate::RC5_DECRYPT(WORD* ct, WORD* pt)
 {
     WORD i, B = ct[1], A = ct[0];
     for (i = r; i > 0; i--) {
-        B = ROTR(B - S[2 * i + 1], A) ^ A;
-        A = ROTR(A - S[2 * i], B) ^ B;
+        B = rotateRight(B - S[2 * i + 1], A) ^ A;
+        A = rotateRight(A - S[2 * i], B) ^ B;
     }
     pt[1] = B - S[1];
     pt[0] = A - S[0];
