@@ -4346,38 +4346,45 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/bands/lrdataband.cpp" line="-124"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+185"/>
         <source>Data</source>
         <translation>Данные</translation>
     </message>
     <message>
         <location line="+4"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>DataHeader</source>
         <translation>Заголовок данных</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>DataFooter</source>
         <translation>Завершение данных</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrgroupbands.cpp" line="-109"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>GroupHeader</source>
         <translation>Заголовок группы</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>GroupFooter</source>
         <translation>Завершение группы</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrpagefooter.cpp" line="-40"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+0"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Page Footer</source>
         <translation>Нижний колонтитул</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrpageheader.cpp" line="-11"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Page Header</source>
         <translation>Верхний колонтитул</translation>
     </message>
@@ -4396,31 +4403,37 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/bands/lrsubdetailband.cpp" line="-61"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+2"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>SubDetail</source>
         <translation>Подчиненные данные</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>SubDetailHeader</source>
         <translation>Заголовок подчиненных данных</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>SubDetailFooter</source>
         <translation>Завершение подчиненных данных</translation>
     </message>
     <message>
         <location filename="../limereport/items/lralignpropitem.cpp" line="-38"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+235"/>
         <source>alignment</source>
         <translation>Выравнивание объекта</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbarcodeitem.cpp" line="+45"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-291"/>
         <source>Barcode Item</source>
         <translation>Штрих код</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrhorizontallayout.cpp" line="+49"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>HLayout</source>
         <translation>Горизонтальная компоновка</translation>
     </message>
@@ -4431,21 +4444,25 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitem.cpp" line="-126"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>Image Item</source>
         <translation>Элемент изображение</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrshapeitem.cpp" line="+46"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+8"/>
         <source>Shape Item</source>
         <translation>Элемент фигура</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="-11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+279"/>
         <source>itemLocation</source>
         <translation>Расположение объекта</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitem.cpp" line="-103"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-298"/>
         <source>Text Item</source>
         <translation>Текстовый элемент</translation>
     </message>
@@ -4493,6 +4510,9 @@ This preview is no longer valid.</source>
         <location line="+10"/>
         <location line="+5"/>
         <location line="+10"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+249"/>
+        <location line="+2"/>
+        <location line="+6"/>
         <source>datasource</source>
         <translation>источник данных</translation>
     </message>
@@ -4501,21 +4521,27 @@ This preview is no longer valid.</source>
         <location line="+15"/>
         <location line="+10"/>
         <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="+49"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-3"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>field</source>
         <translation>Поле</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="-112"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-7"/>
         <source>enum</source>
         <translation>Перечисление</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="-93"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>flags</source>
         <translation>Флаги</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-113"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+24"/>
         <source>geometry</source>
         <translation>Геометрия</translation>
     </message>
@@ -4534,6 +4560,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrcontentpropitem.cpp" line="+21"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-44"/>
         <source>content</source>
         <translation>содержимое</translation>
     </message>
@@ -4544,47 +4571,57 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrboolpropitem.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-4"/>
         <source>bool</source>
         <translation>Логическое</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrcolorpropitem.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QColor</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="-20"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+24"/>
         <source>QFont</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+46"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>QImage</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrintpropitem.cpp" line="+47"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+7"/>
         <source>int</source>
         <translation>Целое</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="+48"/>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
+        <location line="+2"/>
         <source>qreal</source>
         <translation>Дробь</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-286"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QRect</source>
         <translation></translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QRectF</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrstringpropitem.cpp" line="+51"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>QString</source>
         <translation></translation>
     </message>
@@ -4600,6 +4637,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/bands/lrtearoffband.cpp" line="-9"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-229"/>
         <source>Tear-off Band</source>
         <translation>Полоса отрыва</translation>
     </message>
@@ -4620,6 +4658,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitem.cpp" line="+28"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-42"/>
         <source>Chart Item</source>
         <translation>Диаграмма</translation>
     </message>
@@ -4645,6 +4684,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/exporters/lrpdfexporter.cpp" line="+16"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+370"/>
         <source>Export to PDF</source>
         <translation>Экспортировать в PDF</translation>
     </message>
@@ -4696,6 +4736,7 @@ This preview is no longer valid.</source>
         <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+12"/>
         <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="+16"/>
         <location line="+10"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-116"/>
         <source>image</source>
         <translation>Изображение</translation>
     </message>
@@ -4711,6 +4752,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="-35"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-260"/>
         <source>SVG Item</source>
         <translation>Элемент SVG избражение</translation>
     </message>

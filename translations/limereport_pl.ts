@@ -4355,38 +4355,45 @@ Ten podgląd nie jest już prawidłowy.</translation>
     <message>
         <location filename="../limereport/bands/lrdataband.cpp" line="-124"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+185"/>
         <source>Data</source>
         <translation>Dane</translation>
     </message>
     <message>
         <location line="+4"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>DataHeader</source>
         <translation>Nagłówek danych</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>DataFooter</source>
         <translation>Stopka danych</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrgroupbands.cpp" line="-109"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>GroupHeader</source>
         <translation>Nagłówek grupujący</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>GroupFooter</source>
         <translation>Stopka grupująca</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrpagefooter.cpp" line="-40"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+0"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Page Footer</source>
         <translation>Stopka strony</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrpageheader.cpp" line="-11"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Page Header</source>
         <translation>Nagłówek strony</translation>
     </message>
@@ -4405,56 +4412,67 @@ Ten podgląd nie jest już prawidłowy.</translation>
     <message>
         <location filename="../limereport/bands/lrsubdetailband.cpp" line="-61"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+2"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>SubDetail</source>
         <translation>Pod szczegóły</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>SubDetailHeader</source>
         <translation>Nagłówek pod szczegółów</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>SubDetailFooter</source>
         <translation>Stopka pod szczegółów</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrtearoffband.cpp" line="-9"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Tear-off Band</source>
         <translation>Sekcja zrywające</translation>
     </message>
     <message>
         <location filename="../limereport/items/lralignpropitem.cpp" line="-38"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+231"/>
         <source>alignment</source>
         <translation>wyrównanie</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbarcodeitem.cpp" line="+45"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-291"/>
         <source>Barcode Item</source>
         <translation>Kod kreskowy</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrhorizontallayout.cpp" line="+49"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>HLayout</source>
         <translation>Układ poziomy</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitem.cpp" line="-326"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>Image Item</source>
         <translation>Element obrazu</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrshapeitem.cpp" line="+46"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+8"/>
         <source>Shape Item</source>
         <translation>Kształt elementu</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="-11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+279"/>
         <source>itemLocation</source>
         <translation>Lokalizacja elementu</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitem.cpp" line="-606"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-298"/>
         <source>Text Item</source>
         <translation>Element tekstowy</translation>
     </message>
@@ -4491,16 +4509,19 @@ Ten podgląd nie jest już prawidłowy.</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrboolpropitem.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+241"/>
         <source>bool</source>
         <translation>Wartość logiczna</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrcolorpropitem.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QColor</source>
         <translation>Color</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrcontentpropitem.cpp" line="+21"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>content</source>
         <translation>Zawrtość</translation>
     </message>
@@ -4510,6 +4531,9 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <location line="+10"/>
         <location line="+5"/>
         <location line="+10"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
+        <location line="+2"/>
+        <location line="+6"/>
         <source>datasource</source>
         <translation>Źródło danych</translation>
     </message>
@@ -4518,26 +4542,33 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <location line="+15"/>
         <location line="+10"/>
         <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="+49"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-3"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>field</source>
         <translation>Pole</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="-112"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-7"/>
         <source>enum</source>
         <translation>wyliczenie</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="-94"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>flags</source>
         <translation>Falgi</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="-20"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QFont</source>
         <translation>Czcionka</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+46"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>QImage</source>
         <translation>Obraz</translation>
     </message>
@@ -4545,37 +4576,45 @@ Ten podgląd nie jest już prawidłowy.</translation>
         <location line="+12"/>
         <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="+16"/>
         <location line="+10"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>image</source>
         <translation type="unfinished">Obraz</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrintpropitem.cpp" line="+47"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>int</source>
         <translation>Liczba całkowita</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="+48"/>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
+        <location line="+2"/>
         <source>qreal</source>
         <translation>Liczba</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-119"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QRect</source>
         <translation>QRect</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QRectF</source>
         <translation>QRectF</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>geometry</source>
         <translation>geometria</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrstringpropitem.cpp" line="+51"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>QString</source>
         <translation>Ciąg znaków</translation>
     </message>
@@ -4652,11 +4691,13 @@ Ten podgląd nie jest już prawidłowy.</translation>
     </message>
     <message>
         <location filename="../limereport/exporters/lrpdfexporter.cpp" line="+16"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+99"/>
         <source>Export to PDF</source>
         <translation>Eksport do PDF</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitem.cpp" line="+28"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-370"/>
         <source>Chart Item</source>
         <translation>Element wykresu</translation>
     </message>
@@ -4710,6 +4751,7 @@ Ten podgląd nie jest już prawidłowy.</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="-51"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-6"/>
         <source>SVG Item</source>
         <translation type="unfinished"></translation>
     </message>

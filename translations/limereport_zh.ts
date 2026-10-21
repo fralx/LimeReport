@@ -4355,38 +4355,45 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/bands/lrdataband.cpp" line="-124"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+185"/>
         <source>Data</source>
         <translation>数据带</translation>
     </message>
     <message>
         <location line="+4"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>DataHeader</source>
         <translation>数据带头</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>DataFooter</source>
         <translation>数据带脚</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrgroupbands.cpp" line="-109"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>GroupHeader</source>
         <translation>组带头</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>GroupFooter</source>
         <translation>组带脚</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrpagefooter.cpp" line="-40"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+0"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Page Footer</source>
         <translation>页脚</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrpageheader.cpp" line="-11"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="-1"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Page Header</source>
         <translation>页眉</translation>
     </message>
@@ -4405,56 +4412,67 @@ This preview is no longer valid.</source>
     <message>
         <location filename="../limereport/bands/lrsubdetailband.cpp" line="-61"/>
         <location filename="../limereport/lrbandsmanager.cpp" line="+2"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>SubDetail</source>
         <translation>子细节</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>SubDetailHeader</source>
         <translation>子细节头</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>SubDetailFooter</source>
         <translation>子细节带脚</translation>
     </message>
     <message>
         <location filename="../limereport/bands/lrtearoffband.cpp" line="-9"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
         <source>Tear-off Band</source>
         <translation>分离带</translation>
     </message>
     <message>
         <location filename="../limereport/items/lralignpropitem.cpp" line="-38"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+231"/>
         <source>alignment</source>
         <translation>对齐</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrbarcodeitem.cpp" line="+45"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-291"/>
         <source>Barcode Item</source>
         <translation>条码组件</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrhorizontallayout.cpp" line="+49"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>HLayout</source>
         <translation>水平布局</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrimageitem.cpp" line="-126"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>Image Item</source>
         <translation>图像组件</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrshapeitem.cpp" line="+46"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+8"/>
         <source>Shape Item</source>
         <translation>图形组件</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrsubitemparentpropitem.cpp" line="-11"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+279"/>
         <source>itemLocation</source>
         <translation>组件位置</translation>
     </message>
     <message>
         <location filename="../limereport/items/lrtextitem.cpp" line="-103"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-298"/>
         <source>Text Item</source>
         <translation>文本组件</translation>
     </message>
@@ -4491,16 +4509,19 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrboolpropitem.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+241"/>
         <source>bool</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrcolorpropitem.cpp" line="+50"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QColor</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrcontentpropitem.cpp" line="+21"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>content</source>
         <translation>内容</translation>
     </message>
@@ -4510,6 +4531,9 @@ This preview is no longer valid.</source>
         <location line="+10"/>
         <location line="+5"/>
         <location line="+10"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+4"/>
+        <location line="+2"/>
+        <location line="+6"/>
         <source>datasource</source>
         <translation>数据源</translation>
     </message>
@@ -4518,57 +4542,71 @@ This preview is no longer valid.</source>
         <location line="+15"/>
         <location line="+10"/>
         <location filename="../limereport/objectinspector/propertyItems/lrgroupfieldpropitem.cpp" line="+49"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-3"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>field</source>
         <translation>字段映射</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrenumpropitem.cpp" line="-136"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-7"/>
         <source>enum</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrflagspropitem.cpp" line="-94"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>flags</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrfontpropitem.cpp" line="-20"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QFont</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+46"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+5"/>
         <source>QImage</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrintpropitem.cpp" line="+47"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+7"/>
         <source>int</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrqrealpropitem.cpp" line="+48"/>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
+        <location line="+2"/>
         <source>qreal</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrrectproptem.cpp" line="-119"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QRect</source>
         <translation></translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>QRectF</source>
         <translation></translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+2"/>
         <source>geometry</source>
         <translation>形状</translation>
     </message>
     <message>
         <location filename="../limereport/objectinspector/propertyItems/lrstringpropitem.cpp" line="+51"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+3"/>
         <source>QString</source>
         <translation></translation>
     </message>
@@ -4624,6 +4662,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/items/lrchartitem.cpp" line="+28"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-271"/>
         <source>Chart Item</source>
         <translation>图表组件</translation>
     </message>
@@ -4649,6 +4688,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/exporters/lrpdfexporter.cpp" line="+16"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+370"/>
         <source>Export to PDF</source>
         <translation>导出为PDF文件</translation>
     </message>
@@ -4703,6 +4743,7 @@ This preview is no longer valid.</source>
     </message>
     <message>
         <location filename="../limereport/items/lrsvgitem.cpp" line="-51"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="-376"/>
         <source>SVG Item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4710,6 +4751,7 @@ This preview is no longer valid.</source>
         <location filename="../limereport/objectinspector/propertyItems/lrimagepropitem.cpp" line="+12"/>
         <location filename="../limereport/objectinspector/propertyItems/lrsvgpropitem.cpp" line="+16"/>
         <location line="+10"/>
+        <location filename="../limereport/lrfactoryinitializer.cpp" line="+260"/>
         <source>image</source>
         <translation type="unfinished">图像</translation>
     </message>
