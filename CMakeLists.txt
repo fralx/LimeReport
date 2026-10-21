@@ -344,8 +344,7 @@ ${PROJECT_NAME}/scriptbrowser/lrscriptbrowser.qrc
 ${PROJECT_NAME}/translationeditor/translationeditor.qrc
 )
 
-if(ENABLE_DIALOG_DESIGNER)
-    set(DIALOG_DESIGNER_SOURCES
+set(DIALOG_DESIGNER_SOURCES
         ${PROJECT_NAME}/dialogdesigner/lrdialogdesigner.h
         ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/namespace_global.h
         ${PROJECT_NAME}/dialogdesigner/3rdparty/qtcreator/designerintegrationv2/formresizer.h
@@ -361,20 +360,33 @@ if(ENABLE_DIALOG_DESIGNER)
         ${PROJECT_NAME}/dialogdesigner/templates/Dialog.ui
         ${PROJECT_NAME}/dialogdesigner/dialogdesigner.qrc)
 
+if(ENABLE_DIALOG_DESIGNER)
     message(STATUS "DesignerComponents found")
     list( APPEND LIMEREPORT_SOURCES ${DIALOG_DESIGNER_SOURCES} )
 
 endif()
 
+set(BARCODE_SOURCES
+    ${PROJECT_NAME}/items/lrbarcodeitem.cpp
+    ${PROJECT_NAME}/items/lrbarcodeitem.h)
 if (ENABLE_ZINT)
-    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/items/lrbarcodeitem.cpp)
-    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/items/lrbarcodeitem.h)
+    list(APPEND LIMEREPORT_SOURCES ${BARCODE_SOURCES})
 endif(ENABLE_ZINT)
 
+set(STATIC_FACTORY_SOURCES
+    ${PROJECT_NAME}/lrfactoryinitializer.cpp
+    ${PROJECT_NAME}/lrfactoryinitializer.h)
 if (LIMEREPORT_STATIC)
-    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/lrfactoryinitializer.cpp)
-    list(APPEND LIMEREPORT_SOURCES ${PROJECT_NAME}/lrfactoryinitializer.h)
+    list(APPEND LIMEREPORT_SOURCES ${STATIC_FACTORY_SOURCES})
 endif(LIMEREPORT_STATIC)
+
+# Scan optional features even when disabled; -noobsolete must not remove their translations.
+set(LIMEREPORT_TRANSLATION_SOURCES
+    ${LIMEREPORT_SOURCES}
+    ${DIALOG_DESIGNER_SOURCES}
+    ${BARCODE_SOURCES}
+    ${STATIC_FACTORY_SOURCES})
+list(REMOVE_DUPLICATES LIMEREPORT_TRANSLATION_SOURCES)
 
 
 set(EXTRA_FILES
@@ -499,7 +511,7 @@ if (${QT_VERSION} GREATER_EQUAL 6.7.0)
     if (UPDATE_TRANSLATIONS)
         qt_add_lupdate(
             TS_FILES ${TS_FILES}
-            SOURCES ${LIMEREPORT_SOURCES}
+            SOURCES ${LIMEREPORT_TRANSLATION_SOURCES}
             LUPDATE_TARGET ${PROJECT_NAME}_lupdate
             OPTIONS -noobsolete
         )
@@ -518,7 +530,7 @@ elseif (${QT_VERSION} GREATER_EQUAL 6.2.0)
         qt_add_lupdate(
             ${PROJECT_NAME}
             TS_FILES ${TS_FILES}
-            SOURCES ${LIMEREPORT_SOURCES}
+            SOURCES ${LIMEREPORT_TRANSLATION_SOURCES}
             OPTIONS -noobsolete
         )
         add_dependencies(${PROJECT_NAME}_lrelease ${PROJECT_NAME}_lupdate)
@@ -529,7 +541,7 @@ else()
     if (UPDATE_TRANSLATIONS)
         qt5_create_translation(
             QM_FILES
-            ${LIMEREPORT_SOURCES}
+            ${LIMEREPORT_TRANSLATION_SOURCES}
             ${TS_FILES}
             OPTIONS -noobsolete -locations relative
         )
